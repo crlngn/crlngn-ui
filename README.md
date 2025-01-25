@@ -9,15 +9,15 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 
 **Carolingian UI** is free to use and distribute. If you reuse my code, please add mention to the original repo. 
 
-![screenshot-1.webp](https://github.com/crlngn/crlngn-ui/blob/main/demo/screenshot-1.webp?raw=true)
+<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/screenshot-1.webp?raw=true" width="auto" height="200px" />
 
-![right-panel-settings.webp](https://github.com/crlngn/crlngn-ui/blob/main/demo/right-panel-settings.webp?raw=true)
+<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/right-panel-settings.webp?raw=true" width="200px" height="auto" />
 
-![toolbar-1.webp](https://github.com/crlngn/crlngn-ui/blob/main/demo/toolbar-1.webp?raw=true)
+<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/toolbar-1.webp?raw=true" width="200px" height="auto" />
 
-![top-nav-1.webp](https://github.com/crlngn/crlngn-ui/blob/main/demo/top-nav-1.webp?raw=true)
+<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/top-nav-1.webp?raw=true" width="300px" height="auto" />
 
-![players-list-1.webp](https://github.com/crlngn/crlngn-ui/blob/main/demo/players-list-1.webp?raw=true)
+<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/players-list-1.webp?raw=true" width="300px" height="auto" />
 
 ### FEATURES:
 - Chat messages for DnD5e 4.x have more compact usage buttons for saving some space;
