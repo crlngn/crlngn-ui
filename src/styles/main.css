@@ -54,16 +54,18 @@ body.crlngn-regular {
 body.crlngn-large {
   --font-size: 15px;
 }
+
+/*
 body.crlngn-ui  {
-  --font-size-10: 8px;
+  --font-size-10: 9px;
   --font-size-12: 11px;
   --font-size-14: 13px;
   --font-size-15: 14px;
   --font-size-16: 15px;
   --font-size-20: 18px;
-  --font-size-46: 38px;
+  --font-size-46: 40px;
 }
-/*
+
 body.crlngn-small  {
   --font-size-10: 8px;
   --font-size-12: 11px;

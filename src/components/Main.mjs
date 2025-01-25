@@ -1,23 +1,22 @@
-import { HOOKS_CORE } from "../constants/Hooks.mjs";
-import { LogUtil } from "./LogUtil.mjs";
-import { SettingsUtil } from "./SettingsUtil.mjs";
-import { TopNavigation } from "./TopNavUtil.mjs";
+import { HOOKS_CORE } from "../constants/Hooks.mjs"; 
+import { LogUtil } from "./LogUtil.mjs"; 
+import { SettingsUtil } from "./SettingsUtil.mjs"; 
+import { TopNavigation } from "./TopNavUtil.mjs"; 
 
 export class Main {
 
   static init(){
-    Hooks.once(HOOKS_CORE.INIT, ()=>{
-      const coreFontSettings = game.settings.settings.get("core.fontSize");
-      game.settings.settings.set("core.fontSize", {
-        ...coreFontSettings,
-        default: 3
-      });
+
+    Hooks.once(HOOKS_CORE.INIT, () => { 
+
       LogUtil.log("Initiating module", [], true); 
-      // Main.setupKeyListeners();
+      // Main.setupKeyListeners(); 
+      SettingsUtil.registerSettings();
+
     });
 
     Hooks.once(HOOKS_CORE.READY, () => {
-      SettingsUtil.registerSettings();
+      
       TopNavigation.init(); 
 
       var isDebugOn = SettingsUtil.get('debug-mode');

@@ -30,6 +30,10 @@ export class SettingsUtil {
         if(SettingsUtil.get(setting.tag)===undefined){
           SettingsUtil.set(setting.tag, setting.default);
         }
+
+        if(SettingsUtil.get(SETTINGS.enableChatStyles.tag)){ 
+          document.querySelector("body").classList.add("crlngn-chat"); 
+        }
         LogUtil.log("registerSettings",[setting.tag, SettingsUtil.get(setting.tag)]);
       });
       
@@ -77,13 +81,11 @@ export class SettingsUtil {
         const world = game.settings.storage.get("world");
         selectedSetting = world.getSetting(`${moduleName}.${settingName}`);
       } 
+      LogUtil.log("Setting",[settingName, selectedSetting]);
 
       try{
-        if(selectedSetting){
-          // game.settings.set(moduleName, settingName, newValue);
-          selectedSetting.update({value: newValue});
-        }
-        LogUtil.log("Able to change setting",[settingName, selectedSetting]);
+        game.settings.set(moduleName, settingName, newValue);
+        // selectedSetting.update({value: newValue});
       }catch(e){
         LogUtil.log("Unable to change setting",[settingName, selectedSetting]);
       }
@@ -92,7 +94,7 @@ export class SettingsUtil {
     }
 
     /**
-     * Apply current setting for Text Size
+     * Apply current settings
      */
     static apply(settingTag, value=undefined){
 
@@ -101,14 +103,6 @@ export class SettingsUtil {
       }
       LogUtil.log("SettingsUtil.apply",[settingTag, value, SettingsUtil.get(settingTag)]); 
       switch(settingTag){
-        case SETTINGS.sceneNavState.tag: 
-          if(value){ 
-            ui.nav.collapse();
-            // document.querySelector("#interface #ui-top #navigation").classList.add("collapsed");
-          }else{
-            ui.nav.expand();
-          }
-          break;
         default:
           // do nothing
       }

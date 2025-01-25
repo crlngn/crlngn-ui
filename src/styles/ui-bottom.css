@@ -2,7 +2,7 @@
   margin: 0 0 0 64px;
   z-index: 999;
   --macro-size: 40px;
-  --hotbar-width: 'auto';
+  --hotbar-width: 40px;
   --hotbar-height: 40px;
 
   #hotbar{
@@ -17,7 +17,7 @@
       border: none;
       
       @media (max-width: 1120px) {
-        grid-template-columns: repeat(5, --hotbar-width);
+        grid-template-columns: repeat(5, var(--hotbar-width));
       }
     }
     #hotbar-directory-controls {

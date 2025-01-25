@@ -7,6 +7,8 @@ export const SETTING_SCOPE = {
   world: "world"
 }
 
+
+
 export const SETTINGS = { 
   /*
   textSize: { 
@@ -25,7 +27,18 @@ export const SETTINGS = {
     scope: SETTING_SCOPE.world,
     config: true
   },
-  */
+  */ 
+
+  enableChatStyles: { 
+    tag: "enable-chat-styles", 
+    label: "Enable styles for chat messages", 
+    hint: "Adds small modifications of style for chat cards. When dark mode is selected on Foundry, makes chat cards dark as well.", 
+    propType: Boolean, 
+    inputType: SETTING_INPUT.checkbox, 
+    default: true, 
+    scope: SETTING_SCOPE.client, 
+    config: true 
+  }, 
 
   debugMode: { 
     tag: "debug-mode", 
@@ -38,15 +51,26 @@ export const SETTINGS = {
     config: true
   },
 
-  sceneNavState: { 
+  sceneNavCollapsed: { 
     tag: "scene-nav-collapsed", 
     label: "Scene Navigation Collapsed", 
-    hint: "Current state of the scene navigation toggle", 
+    hint: "Current state of the scene navigation toggle. Is it collapsed?", 
     propType: Boolean, 
     inputType: SETTING_INPUT.checkbox, 
     default: true, 
     scope: SETTING_SCOPE.client, 
     config: false 
-  }
+  },
+
+  sceneNavPos: { 
+    tag: "scene-nav-pos", 
+    label: "Scene Navigation Position", 
+    hint: "Stores current position of navigation for reset when it's re-rendered", 
+    propType: Number, 
+    inputType: SETTING_INPUT.number, 
+    default: 0, 
+    scope: SETTING_SCOPE.client, 
+    config: false 
+  },
 
 }
