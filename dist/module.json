@@ -1,13 +1,18 @@
 {
     "id": "crlngn-ui",
     "title": "Carolingian UI",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Style changes and tweaks to improve Foundry UI",
+    "url": "https://github.com/crlngn/crlngn-ui",
+    "manifest": "https://raw.githubusercontent.com/crlngn/crlngn-ui/main/dist/module.json",
+    "download": "https://github.com/crlngn/crlngn-ui/archive/refs/tags/v1.0.1.zip",
+    "bugs": "https://github.com/crlngn/crlngn-ui/issues",
+    "readme": "https://github.com/crlngn/crlngn-ui/main/README.md",
+    "license": "https://mit-license.org/",
     "compatibility": {
-      "minimum": "11",
+      "minimum": "12.328",
       "verified": "12.331"
     },
-    "author": "Carolingian",
     "authors": [
       {
         "name": "Carolingian",
@@ -22,7 +27,7 @@
           "manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json",
           "compatibility": {
             "minimum": "4.0.3",
-            "verified": "4.1.2"
+            "verified": "4.2.2"
           }
         }
       ],
@@ -32,7 +37,7 @@
 
       ]
     },
-    "socket": true,
+    "socket": false,
     "esmodules": ["scripts/module.js"],
     "styles": [
       "styles/module.css"
