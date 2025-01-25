@@ -1,0 +1,30 @@
+{
+  "name": "crlngn-ui",
+  "version": "0.1.0",
+  "description": "Tweaks and style adjustments to improve UI on Foundry",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "watch": "watch 'npm run build' ./src",
+    "createSymlinks": "node ./tools/create-symlinks.mjs",
+    "postinstall": "npm run createSymlinks",
+    "tsc": "tsc"
+  },
+  "devDependencies": {
+    "@league-of-foundry-developers/foundry-vtt-types": "^9.280.1",
+    "@types/node": "^22.7.5",
+    "autoprefixer": "^10.4.20",
+    "cssnano": "^7.0.6",
+    "js-yaml": "^4.1.0",
+    "jsdoc": "^4.0.3",
+    "postcss": "^8.4.47",
+    "postcss-cli": "^11.0.0",
+    "postcss-preset-env": "^10.0.6",
+    "rollup-plugin-copy": "^3.5.0",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.8",
+    "watch": "^1.0.2"
+  }
+}

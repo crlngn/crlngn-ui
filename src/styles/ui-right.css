@@ -1,0 +1,147 @@
+:root{
+  --right-control-item-size: 36px;
+  --sidebar-tab-height: 48px;
+}
+
+#interface #ui-right {
+  
+  #sidebar{
+    margin: 0 0 0 0;
+    border-radius: 0;
+    border: 0;
+    backdrop-filter: blur(3px);
+
+    &.collapsed{
+      width: var(--right-control-item-size);
+      min-width: var(--right-control-item-size);
+    }
+
+    #sidebar-tabs{
+      margin: 2px 0 0 0;
+      --sidebar-tab-height: 36px;
+
+      > .item{
+        border-radius: 0;
+        height: var(--right-control-item-size);
+      }
+
+      > [data-tab] > * {
+        font-size: 0.7rem;
+      }
+    }
+    
+  }
+}
+
+#ui-right .sidebar-tab,
+.sidebar-popout .sidebar-tab {
+  line-height: 1.5;
+  font-size: var(--font-size-12);
+
+  .dnd5e2.sidebar-heading{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  > ul, 
+  > div:not(.sidebar-heading) > h2, 
+  > div > ul:not(.links){
+    padding: 4px 14px;
+  }
+
+  h2{
+    border: 0;
+    color: #fff;
+    font-size: var(--font-size-12);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin: 14px 0 6px;
+  }
+
+  button:not(.dice-tray button, .chat-message button) {
+    padding: 6px;
+    border-radius: 0;
+    background: rgba(0,0,0,0.15);
+    border: 1px solid rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: #dcdcdc;
+    font-weight: 500;
+    box-shadow: 0 0 10px inset rgb(0, 0, 0, 0.3);
+    transition: all ease-in-out 0.25s;
+    position: relative;
+    min-height: 36px;
+    font-size: var(--font-size-12);
+    font-weight: 600;
+
+    &:hover{
+      color: #fff;
+      box-shadow: 0 0 8px inset rgb(0, 0, 0, 0.25);
+      background: rgba(50, 50, 80, 0.7);
+    }
+    &:active{
+      color: #fff;
+      box-shadow: 0 0 8px inset rgb(0, 0, 0, 0.25);
+      background: rgba(30, 30, 50, 0.7);
+    }
+    > i {
+      font-size: var(--font-size-10);
+      margin: 0 5px 0 0;
+    }
+  }
+
+  .directory-header {
+    margin: 5px;
+  }
+
+/*
+  button:not(.dice-tray button, .chat-message button){
+    background: rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 300;
+    box-shadow: 0 0 14px inset rgb(141, 158, 167, 0.5);
+    transition: all ease-in-out 0.25s;
+    position: relative;
+    min-height: 40px;
+    margin: 0;
+  }
+  button:not(.dice-tray button):hover {
+    background: var(--color-button-bg);
+  }
+*/
+
+  li.folder > .folder-header h3,
+  li.directory-item.compendium h3,
+  li.directory-item h3{
+    font-size: var(--font-size-12);
+    font-weight: 600;
+
+    a{
+      background: rgba(0, 0, 0, .85);
+      padding: 4px 14px;
+      border-radius: 6px;
+      border: 1px solid #000;
+
+      > i {
+        font-size: var(--font-size-10);
+        margin: 0 5px 0 0;
+      }
+    }
+  }
+
+  .dnd5e2.sidebar-heading ul.links{
+      margin: 10px 0 0 0;
+
+      a{
+        text-decoration: none;
+      }
+  }
+
+}
+

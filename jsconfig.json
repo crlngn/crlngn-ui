@@ -1,0 +1,5 @@
+{
+  "compilerOptions": {
+    "types": ["@league-of-foundry-developers/foundry-vtt-types/index-lenient"]
+  }
+}

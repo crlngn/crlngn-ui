@@ -1,0 +1,236 @@
+:root{
+  --top-nav-height: 38px;
+}
+
+#interface #ui-top{
+  flex-grow: 1;
+  min-width: 0;
+  margin: 0 !important;
+  opacity: 1;
+  transition: opacity, margin 0.2s ease-out 0.2s;
+
+  &.offset {
+    /* margin: 0 0 0 -60px; */
+    height: var(--top-nav-height);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &:has(.collapsed){
+    opacity: 1;
+  }
+  &:hover{
+    opacity: 1;
+  }
+
+  &:before{
+    content: '';
+    display: block;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.85);
+    width: 100vw;
+    height: var(--top-nav-height);
+    backdrop-filter: blur(3px);
+    margin: 0;
+    transition: opacity, margin 0.2s ease-out;
+  }
+  &:has(.collapsed):before{
+    margin: -30px 0 0 0;
+    opacity: 0.25;
+  }
+
+  &:after{
+    content: '';
+    display: block;
+    position: absolute;
+    box-shadow: inset 0 4px 4px -8px rgba(0,0,0,0.5);
+    width: 100vw;
+    height: 10px;
+    margin-bottom: -12px;
+  }
+
+  &:has(.collapsed) #navigation #scene-list {
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+  }
+
+  .crlngn.ui-nav-left,
+  .crlngn.ui-nav-right{
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    color: #fff;
+    border: none;
+    border-radius: 0;
+    z-index: 1;
+  }
+
+  #navigation {
+    margin: 1px 0;
+    height: 37px;
+    flex-wrap: nowrap;
+    overflow: visible;
+    pointer-events: all;
+
+    #nav-toggle {
+      background: rgba(0, 0, 0, 0.75);
+      flex: 0 0 36px;
+      height: 37px;
+      text-align: center;
+      z-index: 1;
+      border: 0;
+      border-radius: 0;
+
+      i:before{
+        content: "\f279";
+        display: inline-block;
+        font-size: var(--font-size-10);
+      }
+    }
+
+    #scene-list{
+      display: flex;
+      flex-wrap: nowrap;
+      overflow: visible;
+      pointer-events: all;
+      min-width: 0;
+/*
+      &::before, 
+      &::after{ 
+        content: "<"; 
+        display: flex; 
+        width: 36px; 
+        height: 36px; 
+        text-align: center; 
+        align-items: center; 
+        justify-content: center; 
+        z-index: 10; 
+        cursor: pointer; 
+      }
+
+      &::after{
+        content: ">"
+      }
+     */
+    }
+
+    #scene-list > li.nav-item:not(.is-root) {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-size-12);
+      background: transparent;
+      margin: 0 -1px 0 0;
+      border: 1px solid transparent;
+      border-right: 1px solid #000;
+      border-left: 1px solid #000;
+      font-weight: 600;
+      border-radius: 0;
+      background: rgba(0, 0, 0, 0.5);
+      transition: margin-left 0.35s ease-in-out;
+
+      > a{
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 130px;
+      }
+
+      &.scene.gm{
+        border: 1px solid rgba(60, 60, 70, 1);
+        opacity: 0.8;
+      }
+
+      &.scene.active{
+        border: 1px solid rgba(70,70,95,1);
+        background: rgba(50, 50, 70, 1);
+        opacity: 1;
+      }
+    }
+
+    /* Compact Scene Navigation compatibility */
+    #scene-list > li.nav-item.is-root{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-size-14);
+      margin: 0 -1px 0 0;
+      background: rgba(0, 0, 0, 0.5);
+    }
+    ol.context-items li{
+      line-height: 1.4;
+      padding: 6px;
+      border-bottom: 1px solid #000;
+    }
+
+    li.scene > ul.scene-players {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      position: absolute;
+      display: inline-flex;
+      right: 0;
+      top: auto;
+      left: auto;
+      height: 100%;
+
+      li.scene-player{
+        height: calc(100% - 4px);
+        width: 2px;
+        margin: 2px;
+        line-height: 1;
+        font-size: 0;
+        text-align: center;
+        color: #000;
+        font-weight: 600;
+        background: #97dff4;
+        border: 1px solid transparent;
+        border-radius: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    button.crlngn.ui-nav-left,
+    button.crlngn.ui-nav-right {
+      width: 36px;
+      height: 36px;
+      background: rgba(0,0,0,0.7);
+      box-shadow: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      flex: 0 0 36px;
+
+      &:active,
+      &:hover, 
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    > * {
+      visibility: visible;
+    }
+
+    &:has(.collapsed) >*:not(#nav-toggle){
+      visibility: hidden;
+    }
+  }
+
+  &:has(.collapsed) #navigation button.crlngn.ui-nav-left,
+  &:has(.collapsed) #navigation button.crlngn.ui-nav-right {
+    display: none;
+  }
+  
+}
+
+/* fix for hide player ui changes */
+.hide-player-ui-players #ui-top{
+  margin-left: -60px !important;
+}

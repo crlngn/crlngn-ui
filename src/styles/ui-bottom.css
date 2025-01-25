@@ -1,0 +1,54 @@
+#interface #ui-bottom {
+  margin: 0 0 0 64px;
+  z-index: 999;
+  --macro-size: 40px;
+  --hotbar-width: 'auto';
+  --hotbar-height: 40px;
+
+  #hotbar{
+    margin-bottom: 0;
+
+    > *,
+    > nav > div {
+      border-radius: 0;
+    }
+
+    #macro-list {
+      border: none;
+      
+      @media (max-width: 1120px) {
+        grid-template-columns: repeat(5, --hotbar-width);
+      }
+    }
+    #hotbar-directory-controls {
+      line-height: 14px;
+
+      a{
+        height: 20px;
+        line-height: 14px;
+        font-size: var(--font-size-10);
+      }
+    }
+
+    i {
+      font-size: var(--font-size-10);
+    }
+
+    .macro {
+      border-radius: 0;
+      .macro-key{
+        font-size: var(--font-size-10);
+      }
+    }
+
+    .bar-controls span.page-number {
+      font-size: var(--font-size-12);
+      line-height: 1.2;
+    }
+    .bar-controls a.page-control {
+      font-size: var(--font-size-12);
+      line-height: 1;
+      height: 12px;
+    }
+  }
+}
