@@ -20,7 +20,7 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 - Reduced size of macro bar
   
 
-<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/screenshot-1.webp?raw=true" width="auto" height="200px" />
+<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/screenshot-1.webp?raw=true" width="auto" height="400px" />
 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/right-panel-settings.webp?raw=true" width="200px" height="auto" />
 
