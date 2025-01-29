@@ -22,8 +22,6 @@ export class Main {
       var isDebugOn = SettingsUtil.get('debug-mode');
       if(isDebugOn){CONFIG.debug.hooks = true};
       LogUtil.log("Core Ready", []);
-
-      // SettingsUtil.applySettings();
     })
   }
 

@@ -8,31 +8,12 @@ export const SETTING_SCOPE = {
 }
 
 
-
 export const SETTINGS = { 
-  /*
-  textSize: { 
-    tag: "font-size", 
-    label: "Default Text Size",
-    hint: "Increase or decrese the default font size across Foundry clients. Clients can still change the font size in their Foundry Core settings",
-    propType: new foundry.data.fields.StringField({
-      choices: {
-        "small": "small",
-        "regular": "medium",
-        "large": "large"
-      }
-    }),
-    inputType: SETTING_INPUT.select,
-    default: "small",
-    scope: SETTING_SCOPE.world,
-    config: true
-  },
-  */ 
 
   enableChatStyles: { 
     tag: "enable-chat-styles", 
-    label: "Enable styles for chat messages", 
-    hint: "Adds small modifications of style for chat cards. When dark mode is selected on Foundry, makes chat cards dark as well.", 
+    label: "Enable styles for chat messages (DnD5e only)", 
+    hint: "Adds style modifications to chat cards. When dark mode is selected on Foundry, makes chat cards dark as well.", 
     propType: Boolean, 
     inputType: SETTING_INPUT.checkbox, 
     default: true, 

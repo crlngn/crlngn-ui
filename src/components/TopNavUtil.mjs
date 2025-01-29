@@ -9,7 +9,6 @@ export class TopNavigation {
   static #navTimeout;
 
   static init(){
-    LogUtil.log("TopNavigation", [ ui, ui.nav.collapse ]);
 
     Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, (a, b, c) => { 
       TopNavigation.addListeners()
@@ -81,10 +80,7 @@ export class TopNavigation {
     arrowRight.classList.add("fa-chevron-right"); 
     btnNext.append(arrowRight); 
     btnNext.addEventListener("click", this.#onNavNext);
-    // navElem.append(btnLast); 
-    // navElem.append(btnNext); 
 
-    // this.#navElem.insertBefore(btnLast, this.#scenesList);
     this.#navElem.appendChild(btnLast);
     this.#navElem.appendChild(btnNext);
   }

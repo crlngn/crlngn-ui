@@ -214,16 +214,6 @@ div#camera-views h3.player-name{
   color: #ddd !important;
 }
 
-/* div#camera-views .camera-container{
-  visibility: visible;
-  opacity: 1;
-}
-
-div#camera-views .camera-container.cam-hidden{
-  visibility: hidden;
-  opacity: 0;
-} */
-
 div#camera-views .camera-view .shadow{
 	box-shadow: inset 0 0 60px 20px rgba(0, 0, 0, 0.3);
   transition: all 1.5s ease-out;
