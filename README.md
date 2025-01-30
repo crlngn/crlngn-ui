@@ -20,13 +20,15 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 - Chat messages are shown in dark mode if the selected Foundry theme is Dark (only DnD5e 4.x);
   
 
-<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/screenshot-1.webp?raw=true" width="auto" height="400px" />
+<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/screenshot-1.webp?raw=true" width="100%" height="auto" />
 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/right-panel-settings.webp?raw=true" width="200px" height="auto" />
 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/toolbar-1.webp?raw=true" width="200px" height="auto" />
 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/top-nav-1.webp?raw=true" width="300px" height="auto" />
+
+<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/slider-controls.webp?raw=true" width="300px" height="auto" />
 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/players-list-1.webp?raw=true" width="300px" height="auto" />
 

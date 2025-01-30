@@ -23,8 +23,8 @@ export const SETTINGS = {
 
   customFont: { 
     tag: "custom-font", 
-    label: "Enable custom fonts", 
-    hint: "If you have a custom font loaded on Foundry core, you can type the name here and it will be use throughout the interface. If the custom font doesn't load you haven't typed the right name. Default value: "+`"Work Sans", Arial, sans-serif`, 
+    label: "Custom fonts", 
+    hint: "You can type the name of custom fonts loaded on Foundry core and they will be used throughout the interface. Names with spaces must be written with double quotes (\"Font Name\"). If the font doesn't load you haven't typed the name correctly, or the font was not found. Default value: "+`"Work Sans", Arial, sans-serif`, 
     propType: String, 
     inputType: SETTING_INPUT.text, 
     default: `"Work Sans", Arial, sans-serif`, 
