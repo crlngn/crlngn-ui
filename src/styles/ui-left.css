@@ -1,38 +1,96 @@
 :root{
   --left-control-item-size: 34px;
+  --left-control-main-bg: rgba(20, 20, 20, 0.85); 
+  --left-control-secondary-bg: rgba(50, 50, 70, 0.75);
 }
 /* -----------------
   LEFT CONTROLS BAR
 ----------------- */
 #interface #ui-left{
-  width: 60px;
-  min-width: 60px;
+  width: calc(var(--left-control-item-size) * 2);
+  min-width: calc(var(--left-control-item-size) * 2);
   overflow: visible;
-  justify-content: flex-start;
+  /*justify-content: flex-start;*/
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 
   &:hover{
     z-index: 11;
   }
 
+  > *:not(#players, #controls, #logo){
+    margin: 0;
+    width: var(--left-control-item-size);
+    height: var(--left-control-item-size);
+    overflow: hidden;
+    background: var(--left-control-main-bg);
+    border: 1px solid transparent;
+    border-radius: 0;
+    position: relative;
+
+    &.dnd5e2#bastion-turn{
+      display: block;
+      white-space: nowrap;
+      width: var(--left-control-item-size);
+      height: var(--left-control-item-size);
+      padding: 0 6px 0 0;
+      margin: 0;
+      overflow: hidden;
+      text-align: left;
+      border-bottom: 1px solid #555;
+
+      > * {
+        flex: 0 0 auto;
+      }
+
+      >i{
+        display: inline-block;
+        line-height: var(--left-control-item-size);
+        width: var(--left-control-item-size);
+        height: var(--left-control-item-size);
+        vertical-align: middle;
+        text-align: center;
+      }
+      >span{
+        display: inline-block;
+        white-space: nowrap;
+        background: transparent;
+        font-size: var(--font-size-12);
+        font-weight: 600;
+      }
+
+      &:hover{
+        width: max-content;
+        max-width: max-content;
+        overflow: hidden; 
+      }
+    }
+
+  }
+
   aside#players { 
+    position: relative;
     border-radius: 0; 
     background: rgba(20, 20, 20, 0.85); 
     box-shadow: none;
-    transition: width 0.3s ease-in-out; 
-    margin: auto 0 0 0; 
-    width: 36px; 
+    margin: 0; 
+    width: var(--left-control-item-size);
     overflow: hidden; 
     border: none; 
-    padding: 4px 0 6px 0; 
+    padding: 4px 6px 6px 0; 
+    white-space: nowrap; 
+    flex: 0 0 auto;
 
-    #context-menu{
+    #context-menu{ 
       display: none;
     }
 
     &:hover{ 
-      width: 150px;
-      overflow: visible; 
+      width: max-content;
+      max-width: max-content;
+      overflow: hidden; 
 
       #context-menu{
         display: block;
@@ -40,8 +98,8 @@
     } 
 
     h3 { 
-      margin: 0 0 4px 0; 
-      padding: 6px 0 0 36px; 
+      margin: 0; 
+      padding: 6px 0 0 var(--left-control-item-size); 
       border-bottom: none; 
       white-space: nowrap; 
       display: flex; 
@@ -54,35 +112,53 @@
       color: transparent; 
       line-height: 2.1;
 
+      &:first-of-type{
+        pointer-events: none;
+      }
+
       > * {
         flex: 0 0 100%;
         width: 100%;
         opacity: 0;
+        display: flex;
+      }
+      > div {
+        display: flex;
+        opacity: 1;
       }
 
-      i {
+      i{
+        pointer-events: all;
+      }
+
+
+      i:first-child {
         align-items: center;
         display: flex;
-        flex: 0 0 36px;
+        flex: 0 0 var(--left-control-item-size);
         justify-content: center;
-        margin: 6px 0 0 -36px;
-        width: 36px;
+        margin: 6px 0 0 calc(var(--left-control-item-size) * -1);
+        width: var(--left-control-item-size);
         height: 16px;
         font-size: var(--font-size-12);
         color: #fff;
         opacity: 1;
+        cursor: pointer;
+      }
 
-        &.players-mode{
-          width: 100%;
-          height: 16px;
-          flex: 0 0 100%;
-          justify-content: flex-start;
-          font-size: var(--font-size-12);
+      i.players-mode{
+        width: auto;
+        height: auto;
+        flex: 0 0 auto;
+        font-size: var(--font-size-12);
+        display: flex;
+        opacity: 1;
+        align-self: center; 
+        pointer-events: none;
 
-          &:before{
-            width: 36px;
-            text-align: center;
-          }
+        &:before{
+          width: var(--left-control-item-size);
+          text-align: center;
         }
       }
     }
@@ -113,11 +189,11 @@
         }
 
         span.player-name {
-          width: 36px;
+          width: var(--left-control-item-size);
           overflow: visible;
           background: transparent;
-          padding: 1px 3px 1px 36px;
-          margin-left: -36px;
+          padding: 1px 3px 1px var(--left-control-item-size);
+          margin-left: calc(var(--left-control-item-size) * -1);
           opacity: 0;
           transition: opacity 0.15s ease-in-out;
         }
@@ -126,6 +202,10 @@
 
     &:hover ol li span.player-name {
       opacity: 1;
+      overflow: hidden;
+      width: 100%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
   }
@@ -139,24 +219,28 @@
   width: 68px; 
   margin: 0; 
   pointer-events: none;
+  visibility: hidden;
 } 
 
 #ui-left #controls {
   display: flex;
+  flex-direction: row;
   flex: 0 0 auto;
   height: auto;
   flex-wrap: nowrap;
-  width: 72px;
-  min-width: 72px;
-  max-width: 72px;
+  width: calc(var(--left-control-item-size) * 2.25);
+  min-width: calc(var(--left-control-item-size) * 2.25);
+  /*max-width: 72px;*/
   padding: 0;
   overflow: auto;
   justify-items: flex-start;
   pointer-events: all;
+  margin: 0 0 auto 0; 
 
   > *{
     flex: 0 0 auto;
   }
+
 
   ol.control-tools.main-controls{
     margin-right: 0;
@@ -165,6 +249,7 @@
   ol:not(.main-controls) {
     opacity: 0;
     display: none;
+    visibility: hidden;
   }
 }
 
@@ -185,6 +270,7 @@
   ol:not(.main-controls).active {
     opacity: 1;
     display: flex;
+    visibility: visible;
   }
 }
 
@@ -196,7 +282,7 @@
   font-size: 14px;
   box-shadow: none;
   /*0 0 6px var(--color-shadow-highlight);*/
-  background: rgba(20, 20, 20, 0.85); 
+  background: var(--left-control-main-bg);
   border: 1px solid transparent; 
   z-index: 0;
 
@@ -224,7 +310,7 @@
   margin: 0 0 0 0;
   font-size: 14px;
   box-shadow: none;
-  background: rgba(50, 50, 70, 0.75);
+  background: var(--left-control-secondary-bg);
   border: 1px solid transparent;
   z-index: 1;
 
@@ -239,63 +325,3 @@
     border: 1px solid rgba(180,180,190,0.35);
   }
 }
-
-/*
-#ui-left #controls {
-  padding: 0 0 0 35px;
-  overflow: visible;
-  display: 
-  flex; align-items: flex-start;
-}
-
-#ui-left #controls ol.main-controls {
-  display: block;
-  position: relative;
-}
-  
-#ui-left #controls ol.control-tools > li {
-  position: relative;
-  width: 24px;
-  height: 24px;
-  border-radius: 3px;
-  margin: 0 0 6px 0;
-  font-size: 14px;
-  box-shadow: 0 0 6px var(--color-shadow-highlight);
-  background: rgba(0, 0, 0, 0.75);
-  z-index: 1;
-}
-
-#ui-left #controls ol.control-tools > li.active {
-  border: 1px solid var(--color-border-highlight-alt);
-}
-
-#ui-left #controls ol.sub-controls {
-  opacity: 0;
-  transition: opacity 0.6s ease-out 0s;
-}
-
-#ui-left #controls ol.sub-control {
-  opacity: 0;
-}
-
-#ui-left #controls ol.control-tools:before {
-  content: '';
-  display: block;
-  position: absolute;
-  width: 30px;
-  height: 100%;
-  top: 0;
-  left: 0;
-  pointer-events: all;
-}
-
-#ui-left #controls:has(.main-controls:hover) .sub-controls.active,
-#ui-left #controls .sub-controls.active:hover {
-  opacity: 1;
-  transition: opacity 0.6s ease-out 0s;
-  position: relative;
-}
-#ui-left #controls #wall-ctrls{
-  position: fixed;
-}
-    */

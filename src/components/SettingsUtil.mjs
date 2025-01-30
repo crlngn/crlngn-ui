@@ -24,6 +24,7 @@ export class SettingsUtil {
           type: setting.propType,
           scope: setting.scope,
           config: setting.config,
+          requiresReload: setting.requiresReload || false,
           onChange: value => SettingsUtil.apply(setting.tag, value)
         });
 
@@ -33,6 +34,12 @@ export class SettingsUtil {
 
         if(SettingsUtil.get(SETTINGS.enableChatStyles.tag)){ 
           document.querySelector("body").classList.add("crlngn-chat"); 
+        }
+
+        const customFont = SettingsUtil.get(SETTINGS.customFont.tag);
+        if(customFont){
+          const root = document.querySelector("body.crlngn-ui");
+          root.style.setProperty('--crlngn-font-family', customFont);
         }
         LogUtil.log("registerSettings",[setting.tag, SettingsUtil.get(setting.tag)]);
       });

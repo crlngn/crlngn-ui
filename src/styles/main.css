@@ -1,8 +1,14 @@
 /*@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');*/
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+
+body.crlngn-ui{
+  --crlngn-font-family: var(--font-body);
+}
+
 body *{
   box-sizing: border-box;
-  font-family: "Work Sans", "Roboto", Arial, sans-serif;
+  font-family: var(--crlngn-font-family);
 }
 
 /*************
@@ -35,14 +41,15 @@ General Colors
 	--dnd5e-color-parchment: #f4efed;
 
   /* fonts */
-  --font-primary: "Work Sans", "Roboto", Arial, Arial, sans-serif;
-	--mej-font-family: "Work Sans", "Roboto", Arial, Arial, sans-serif;
-	--dnd5e-font-roboto-slab:  "Work Sans", "Roboto", Arial, sans-serif;
+  --font-primary: var(--crlngn-font-family);
+	--mej-font-family: var(--crlngn-font-family);
+	--dnd5e-font-roboto-slab: var(--crlngn-font-family);
 	--dnd5e-font-modesto:  "Roboto Condensed", Arial, sans-serif;
 }
 
 body.crlngn-ui  {
   #tooltip {
+    font-family: var(--crlngn-font-family);
     box-shadow: 0 1px 6px rgba(40,40,65,0.7);
   }
 }
@@ -98,7 +105,7 @@ body.crlngn-large {
 }*/
 
 * {
-	font-family: "Work Sans", "Roboto", Arial, sans-serif;
+	font-family: var(--crlngn-font-family), "Roboto", Arial, sans-serif;
 }
 
 h1, h2 {
@@ -198,7 +205,7 @@ ol#notifications {
 #chat-controls .roll-type-select,
 #sidebar textarea,
 #chat-form textarea {
-  font-family: "Work Sans", "Roboto", Arial, sans-serif;
+  font-family: var(--crlngn-font-family), "Roboto", Arial, sans-serif;
   background: var(--color-input-bg);
   border: 1px solid rgba(0, 0, 0, 0.5);
   color: var(--color-text-light-highlight);

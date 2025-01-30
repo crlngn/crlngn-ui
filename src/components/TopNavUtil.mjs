@@ -56,7 +56,7 @@ export class TopNavigation {
         clearTimeout(this.#navTimeout);
         this.#navTimeout = null;
         ui.nav.collapse();
-      }, 500);
+      }, 700);
     });
 
   }

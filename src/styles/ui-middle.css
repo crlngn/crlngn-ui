@@ -1,6 +1,6 @@
 #interface #ui-middle {
   flex-grow: 1;
   min-width: 0;
-  margin-left: -60px;
+  margin-left: -72px;
   z-index: 10;
 }
