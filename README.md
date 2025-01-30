@@ -1,4 +1,4 @@
-**Latest Version:** 1.1.0
+**Latest Version:** 1.1.1
 
 **Compatibility:** 
 - Foundry VTT version 12.328+

@@ -90,7 +90,7 @@
     &:hover{ 
       width: max-content;
       max-width: max-content;
-      overflow: hidden; 
+      overflow: visible; 
 
       #context-menu{
         display: block;
@@ -175,9 +175,9 @@
         padding: 1px 0;
         flex-wrap: nowrap;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         overflow: visible; 
-        width: 150px;
+        width: auto;
         font-size: var(--font-size-12);
 
         span.player-active {
@@ -202,10 +202,13 @@
 
     &:hover ol li span.player-name {
       opacity: 1;
+      overflow: auto;
+      flex: 0 0 auto;
+      width: auto;
+      /*
       overflow: hidden;
-      width: 100%;
       white-space: nowrap;
-      text-overflow: ellipsis;
+      text-overflow: ellipsis;*/
     }
 
   }
@@ -232,7 +235,7 @@
   min-width: calc(var(--left-control-item-size) * 2.25);
   /*max-width: 72px;*/
   padding: 0;
-  overflow: auto;
+  overflow: visible;
   justify-items: flex-start;
   pointer-events: all;
   margin: 0 0 auto 0; 
@@ -244,12 +247,15 @@
 
   ol.control-tools.main-controls{
     margin-right: 0;
+    flex-wrap: wrap;
+    max-height: calc(100vh - (var(--left-control-item-size) * 5));
   }
 
   ol:not(.main-controls) {
     opacity: 0;
     display: none;
     visibility: hidden;
+    max-height: calc(100vh - (var(--left-control-item-size) * 5));
   }
 }
 
