@@ -1,3 +1,4 @@
+import { SETTINGS } from "../constants/Settings.mjs";
 import "../styles/chat.css"
 import { SettingsUtil } from "./SettingsUtil.mjs";
 
