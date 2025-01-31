@@ -67,7 +67,6 @@
         overflow: hidden; 
       }
     }
-
   }
 
   aside#players { 
@@ -242,6 +241,20 @@
 
   > *{
     flex: 0 0 auto;
+
+    &#touch-vtt-controls {
+      height: var(--left-control-item-size);
+      margin-bottom: 10px;
+      button#touch-vtt-togglepause {
+        width: var(--left-control-item-size);
+        height: var(--left-control-item-size);
+        background: var(--left-control-main-bg);
+        border: 0;
+        border-radius: 0;
+        color: #fff;
+        font-size: var(--font-size-12);
+      }
+    }
   }
 
 

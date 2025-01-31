@@ -2,7 +2,6 @@
 
 **Compatibility:** 
 - Foundry VTT version 12.328+
-- DnD5e 4.x (for dark style chat messages)
 
 ## Carolingian UI
 A light module that provides a sleek minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12. Most changes are made through CSS styling and should not break other modules. The exception is the Top Navigation, where some simple JS code is added to provide horizontal scroll functionality. 
