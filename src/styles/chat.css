@@ -2,12 +2,12 @@
 Chat card layout - start 
 ******************/
 body.crlngn-ui {
-  /*.dnd5e2 .pill-lg{
+  .dnd5e2 .pill-lg{
     border: none !important;
   }
   .dnd5e2 .pills .pill {
     border: none !important;
-  }*/
+  }
   .dnd5e2.chat-card .pills{
     gap: 0.15em;
   }
@@ -437,6 +437,10 @@ body.crlngn-ui {
     border: 0;
     padding: 0.5rem 0;
   }
+  &.crlngn-chat[data-theme=dark] .dnd5e2.chat-card .description.rsr-section-attack,
+  &.crlngn-chat[data-theme=dark] .dnd5e2.chat-card .description.rsr-section-damage{
+    background: transparent;
+  }
   &.crlngn-chat[data-theme=dark] .dnd5e2.crlngn.chat-card .description .details,
   &.crlngn-chat[data-ddb-custom-style=dark] .dnd5e2.crlngn.chat-card .description .details,
   &.crlngn-chat[data-theme=dark] .dnd5e2.crlngn.chat-card .message-content .description .details p,
@@ -506,7 +510,7 @@ body.crlngn-ui {
   &.crlngn-chat[data-theme=dark] :is(.chat-popout, #chat-log) .message .dnd5e2.evaluation .target.success,
   &.crlngn-chat[data-ddb-custom-style=dark] :is(.chat-popout, #chat-log) .message .dnd5e2.evaluation .target.hit,
   &.crlngn-chat[data-ddb-custom-style=dark] :is(.chat-popout, #chat-log) .message .dnd5e2.evaluation .target.success {
-    background-color:rgb(128, 170, 101, 0.6);
+    /*background-color:rgb(128, 170, 101, 0.6);*/
     border: 0;
   }
 
@@ -514,7 +518,7 @@ body.crlngn-ui {
   &.crlngn-chat[data-theme=dark] :is(.chat-popout, #chat-log) .message .dnd5e2.evaluation .target.failure,
   &.crlngn-chat[data-ddb-custom-style=dark] :is(.chat-popout, #chat-log) .message .dnd5e2.evaluation .target.miss,
   &.crlngn-chat[data-ddb-custom-style=dark] :is(.chat-popout, #chat-log) .message .dnd5e2.evaluation .target.failure {
-    background-color:rgba(217, 116, 116, 0.6);
+    /*background-color:rgba(217, 116, 116, 0.6);*/
     border: 0;
   } 
 
