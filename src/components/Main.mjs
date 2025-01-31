@@ -2,6 +2,7 @@ import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { LogUtil } from "./LogUtil.mjs"; 
 import { SettingsUtil } from "./SettingsUtil.mjs"; 
 import { TopNavigation } from "./TopNavUtil.mjs"; 
+import { ChatUtil } from "./ChatUtil.mjs";
 
 export class Main {
 
@@ -12,7 +13,7 @@ export class Main {
       LogUtil.log("Initiating module", [], true); 
       // Main.setupKeyListeners(); 
       SettingsUtil.registerSettings();
-
+      Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
     });
 
     Hooks.once(HOOKS_CORE.READY, () => {
@@ -22,7 +23,10 @@ export class Main {
       var isDebugOn = SettingsUtil.get('debug-mode');
       if(isDebugOn){CONFIG.debug.hooks = true};
       LogUtil.log("Core Ready", []);
+
     })
+
+    
   }
 
   static setupKeyListeners(){
@@ -47,6 +51,12 @@ export class Main {
       }
       LogUtil.log("Keyup", [Main.keysPressed]); 
     });
+  }
+
+  static #onRenderChatMessage = (chatMessage, html) => { 
+    LogUtil.log(HOOKS_CORE.RENDER_CHAT_MESSAGE,[chatMessage, html]);
+  
+    ChatUtil.enrichCard(chatMessage, html);
   }
 
 }

@@ -18,7 +18,8 @@ export const SETTINGS = {
     inputType: SETTING_INPUT.checkbox, 
     default: true, 
     scope: SETTING_SCOPE.client, 
-    config: true 
+    config: true, 
+    requiresReload: true 
   }, 
 
   customFont: { 
