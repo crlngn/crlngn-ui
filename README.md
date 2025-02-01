@@ -1,4 +1,4 @@
-**Latest Version:** 1.1.3
+**Latest Version:** 1.1.4
 
 **Compatibility:** 
 - Foundry VTT version 12.328+
@@ -15,11 +15,11 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 - Top Navigation can be horizontally scrolled; player and GM markers are turned into simple lines with the color of each player;
 - Compact Player list - it opens on hover;
 - Reduced size of macro bar;
-- Chat messages have more compact usage buttons for saving some space (only DnD5e 4.x);
-- Chat messages are shown in dark mode if the selected Foundry theme is Dark (only DnD5e 4.x);
+- Chat messages have more compact usage buttons for saving some space (tested on DnD5e 4.x, partial support for other systems);
+- Chat messages are shown in dark mode if the selected Foundry theme is Dark (tested on DnD5e 4.x, partial support for other systems);
   
 
-<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/screenshot-1.webp?raw=true" width="100%" height="auto" />
+<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/screenshot-2.webp?raw=true" width="100%" height="auto" />
 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/right-panel-settings.webp?raw=true" width="200px" height="auto" />
 
@@ -33,9 +33,9 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 
 
 ### IMPORTANT:
-- The module was tested mostly on Foundry v12 and DnD 4.x. The overall UI styles are system agnostic, but chat card styles are specific to DnD5e. If you would like to request support for a different system, please add a feature request on Github issue tracker (subject to popularity of the request);
+- The module was tested mostly on Foundry v12 and DnD 4.x. The overall UI styles are system agnostic, but chat card styles are mostly for DnD5e - I've done some basic tests for PF2e. If you would like to request support for a different system (and help with info and screenshots), please add a feature request on Github issue tracker (subject to evaluation);
 - The module is currently compatible with **"Compact Scene Navigation"**, but you might want to disable the auto-hide setting on that module as my module also implements auto-hide; 
-- Feel free to report compatibility status with other modules (support subject to popularity of the module);
+- Feel free to report compatibility status with other modules (subject to evaluation);
 
 ### BUGS AND FEATURE REQUESTS:
 - Please use the issue tracker to report any bugs and requests for enhancements using the appropriate labels.

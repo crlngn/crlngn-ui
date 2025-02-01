@@ -1,12 +1,19 @@
 /*****************
 Chat card layout - start 
 ******************/
+
 body.crlngn-chat {
+  --color-pf-alternate: #526b7870;
+
+
   .pill-lg{
     border: none !important;
   }
-  .pills .pill {
+  .chat-card .pills .pill {
     border: none !important;
+    color: rgba(255, 255, 255, 0.35);
+    font-weight: 500;
+    background-color: #202f3a80;
   }
   .chat-card .pills{
     gap: 0.15em;
@@ -28,44 +35,45 @@ body.crlngn-chat {
     border-radius: 3px;
   }
   
+  /* DND5e */
   /* border - roll type */
-  :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.roll),
-  :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.custom) {
+  &.system-dnd5e :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.roll),
+  &.system-dnd5e :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.custom) {
     border: 2px solid #f5a623;
   }
-  :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.attack) {
+  &.system-dnd5e :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.attack) {
     border: 2px solid #1b9af0 !important;
   }
-  :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.damage) {
+  &.system-dnd5e :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.damage) {
     border: 2px solid #df7b7b;
   }
-  :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.check),
-  :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.skill),
-  :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.ability),
-  :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.tool) {
+  &.system-dnd5e :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.check),
+  &.system-dnd5e :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.skill),
+  &.system-dnd5e :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.ability),
+  &.system-dnd5e :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.tool) {
     border: 2px solid #b55dff !important;
   }
-  :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.heal), 
-  :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.healing),
-  :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.save) {
+  &.system-dnd5e :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.heal), 
+  &.system-dnd5e :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.healing),
+  &.system-dnd5e :is(.chat-popout, #chat-log, .chat-log) li.message:last-child:is(.save) {
     border: 2px solid #6cbf5b;
   }
   
   /* flavor text - roll type */
-  :is(.chat-popout, #chat-log, .chat-log) .chat-message.crlngn span.roll {
+  &.system-dnd5e :is(.chat-popout, #chat-log, .chat-log) .chat-message.crlngn span.roll {
     color: #f5a623;
   }
-  :is(.chat-popout, #chat-log, .chat-log) .chat-message.crlngn span.tohit {
+  &.system-dnd5e :is(.chat-popout, #chat-log, .chat-log) .chat-message.crlngn span.tohit {
     color: #1b9af0;
   }
-  :is(.chat-popout, #chat-log, .chat-log) .chat-message.crlngn span.damage {
+  &.system-dnd5e :is(.chat-popout, #chat-log, .chat-log) .chat-message.crlngn span.damage {
     color: #df7b7b;
   }
-  :is(.chat-popout, #chat-log, .chat-log) .chat-message.crlngn span.check {
+  &.system-dnd5e :is(.chat-popout, #chat-log, .chat-log) .chat-message.crlngn span.check {
     color: #b55dff;
   }
-  :is(.chat-popout, #chat-log, .chat-log) .chat-message.crlngn span.heal, 
-  :is(.chat-popout, #chat-log, .chat-log) .chat-message.crlngn span.save {
+  &.system-dnd5e :is(.chat-popout, #chat-log, .chat-log) .chat-message.crlngn span.heal, 
+  &.system-dnd5e :is(.chat-popout, #chat-log, .chat-log) .chat-message.crlngn span.save {
     color: #6cbf5b;
   }
   
@@ -202,36 +210,40 @@ body.crlngn-chat {
     display: flex;
     font-size: 0.65rem;
   }
+
+  &.system-dnd5e .chat-card .card-buttons > button[data-action=placeSummons] span:before {
+    content: "summons";
+  }
   
-  .chat-card .card-buttons > button[data-action=rollAttack] span:before {
+  &.system-dnd5e .chat-card .card-buttons > button[data-action=rollAttack] span:before {
     content: "attack";
   }
   
-  .chat-card .card-buttons > button[data-action=rollHealing] span:before {
+  &.system-dnd5e .chat-card .card-buttons > button[data-action=rollHealing] span:before {
     content: "healing";
   }
   
-  .chat-card .card-buttons > button[data-action=rollDamage] span:before {
+  &.system-dnd5e .chat-card .card-buttons > button[data-action=rollDamage] span:before {
     content: "damage";
   }
   
-  .chat-card .card-buttons > button[data-action=placeTemplate] span:before {
+  &.system-dnd5e .chat-card .card-buttons > button[data-action=placeTemplate] span:before {
     content: "template";
   }
   
-  .chat-card .card-buttons > button[data-action=consumeResource] span:before {
+  &.system-dnd5e .chat-card .card-buttons > button[data-action=consumeResource] span:before {
     content: "consume";
   }
   
-  .chat-card .card-buttons > button[data-action=refundResource] span:before {
+  &.system-dnd5e .chat-card .card-buttons > button[data-action=refundResource] span:before {
     content: "refund";
   }
   
-  .chat-card .card-buttons > button[data-action=executeMacro] span:before {
+  &.system-dnd5e .chat-card .card-buttons > button[data-action=executeMacro] span:before {
     content: "macro";
   }
   
-  .chat-card .card-buttons > button[data-action=rollSave]:after {
+  &.system-dnd5e .chat-card .card-buttons > button[data-action=rollSave]:after {
     content: attr(data-ability) " save DC " attr(data-dc);
     text-transform: uppercase;
   }
@@ -300,7 +312,12 @@ body.crlngn-chat {
   }
   /* Chat card layout - end */
 
-
+  /*********
+  * PF2E 
+  **********/
+  &.theme-dark.system-pf2e .chat-message .flavor-text > * {
+    margin: 0.5em 0;
+  }
 
   /*********
   DARK MODE 
@@ -319,6 +336,7 @@ body.crlngn-chat {
   &.theme-dark .chat-message.whisper,
   &[data-ddb-custom-style=dark] .chat-message.whisper {
     border: 2px dotted #182026;
+    background: repeating-linear-gradient( -45deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 1px, rgba(60,60,80,1) 2px, rgba(60,60,80,1) 3px);
   }
   &.theme-dark .chat-message:before,
   &[data-ddb-custom-style=dark] .chat-message:before {
@@ -373,6 +391,7 @@ body.crlngn-chat {
     border: 0;
     box-shadow: none;
     background: rgb(32, 47, 58, 0.5); 
+    color: #fff;
   }
 
   &.theme-dark .dice-result .dice-total::before,
@@ -581,10 +600,121 @@ body.crlngn-chat {
     color: white;
     filter: brightness(100);
   }
+  &.theme-dark .message-metadata {
+    color: rgba(255,255,255,0.4);
+    font-size: var(--font-size-10);
+    font-weight: 600;
+  }
 
-  /* PF2E */
-  &.theme-dark .chat-message .message-header .flavor-text .modifiers .tag {
-    background: rgb(32, 47, 58, 0.5); 
-    color: #fff;
+  /*******
+   PF2e 
+  *******/
+  :root &.theme-dark.system-pf2e .damage {
+    --color-border-physical: rgb(255, 255, 255, 0.5);
+    --color-text-dark-secondary: rgb(255, 255, 255, 0.75); 
+    --color-text-physical: rgb(255, 255, 255, 0.75); 
+    --color-text-acid: rgb(59, 114, 59);
+    --color-text-bleed: rgb(97, 64, 70);
+    --color-text-chaotic: rgb(109, 80, 109);
+    --color-text-cold: rgb(79, 79, 110);
+    --color-text-electricity: rgb(127, 118, 97);
+    --color-text-evil: rgb(84, 71, 94);
+    --color-text-fire: rgb(105, 84, 76);
+    --color-text-force: rgb(107, 85, 123);
+    --color-text-good: rgb(119, 109, 85);
+    --color-text-lawful: rgb(77, 77, 77);
+    --color-text-mental: rgb(58, 58, 76);
+    --color-text-physical: rgb(186, 186, 186); 
+    --color-text-poison: rgb(151, 175, 113);
+    --color-text-sonic: rgb(70, 112, 112); 
+    --color-text-spirit: rgb(92, 87, 128);  
+    --color-text-vitality: rgb(193, 193, 141);
+    --color-text-void:rgb(111, 107, 132);
+  }
+  :root &.theme-dark.system-pf2e  {
+    --visibility-gm-bg: rgba(255,255,255,0.1)
+    --visibility-owner-bg: rgba(235,235,235,0.1)
+  }
+
+  &.theme-dark.system-pf2e .chat-message .message-header .tag {
+    color: rgba(255,255,255,0.6);
+    font-size: var(--font-size-10);
+    padding: 1px 3px;
+  }
+  &.theme-dark.system-pf2e .chat-message .message-header .flavor-text .modifiers {
+    margin: 1em 0;
+    .tag {
+      background: rgb(32, 47, 58, 0.5); 
+      color: rgba(255,255,255,0.6);
+    }
+  }
+  &.theme-dark.system-pf2e .chat-message .message-sender {
+    font-weight: 600;
+  }
+  &.theme-dark.system-pf2e .chat-message > .message-header .flavor-text .degree-of-success .success {
+    color: rgb(105 177 231);
+  }
+  &.theme-dark.system-pf2e .chat-message i.fa-solid {
+    color: rgb(255,255,255) !important;
+  }
+  &.theme-dark.system-pf2e .chat-message .message-content {
+    font-size: var(--font-size-12);
+  }
+  &.theme-dark.system-pf2e .chat-message .dice-tooltip .part-header {
+    line-height: 1.5em;
+    border-bottom: 1px solid var(--color-text-dark-1);
+  }
+  &.theme-dark.system-pf2e .chat-message .dice-tooltip .part-header .part-total {
+    border: 1px solid var(--color-text-dark-1);
+  }
+  &.theme-dark.system-pf2e .chat-message .message-content .damage-application button.half-damage i.fa-heart-broken {
+    background-image: linear-gradient(to right, var(--color-text-light-1) 50%, var(--color-text-light-6) 50%);
+  }
+  &.theme-dark.system-pf2e .chat-message .message-content .damage-application button > img {
+    filter: invert(1);
+  }
+  &.theme-dark.system-pf2e .chat-message .message-content button > img {
+    height: var(--font-size-16);
+  }
+  &.theme-dark.system-pf2e .message-content .dice-result .dice-formula {
+    color: var(--color-text-light-2);
+  }
+  &.theme-dark.system-pf2e .chat-message .message-content button {
+    font-size: var(--font-size-12);
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0.15em 0;
+  }
+  &.theme-dark.system-pf2e .chat-message .message-content .damage-application button {
+    font-size: var(--font-size-16);
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0.25em 0;
+    height: auto;
+
+    label{
+      font-size: var(--font-size-14);
+      font-weight: 600;
+    }
+  }
+
+  &.theme-dark.system-pf2e .chat-message > .message-content .dice-roll .dice-tooltip {
+    background: rgba(0,0,0,0.5);
+    border: none;
+    padding: 0;
+  }
+  &.theme-dark.system-pf2e  .chat-message>.message-content .dice-roll .dice-tooltip{
+    background: transparent;
+    color: var(--color-text-light-2);
+    font-size: var(--font-size-11);
+  }
+  &.theme-dark.system-pf2e .chat-message .message-content .dice-result .dice-tooltip .instance {
+    border: none;
+    border-width: 0;
+    border-radius: 0;
+    color: var(--color-text-light-2);
+    > *{
+      color: var(--color-text-light-2);
+    }
   }
 }

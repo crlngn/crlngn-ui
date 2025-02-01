@@ -7,6 +7,7 @@ import "./styles/ui-bottom.css";
 import "./styles/ui-left.css";
 import "./styles/camera.css";
 import "./styles/chat.css";
+import "./styles/other-modules.css";
 
 import { Main } from "./components/Main.mjs";
 

@@ -22,8 +22,8 @@ export default defineConfig({
         dir: "dist/",
         entryFileNames:"scripts/module.js",
         assetFileNames: (assetInfo) => {
-          const isImgType = assetInfo.names?.filter(n=>/\.(gif|jpe?g|png|svg)$/.test(n)).length > 0;
-          const isStyleType = assetInfo.names?.filter(n=>/\.css$/.test(n)).length > 0;
+          const isImgType = /\.(gif|jpe?g|png|svg)$/.test(assetInfo.name);
+          const isStyleType = /\.css$/.test(assetInfo.name);
 
           if (isImgType){
             return 'assets/[name][extname]';

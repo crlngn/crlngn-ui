@@ -40,6 +40,7 @@
       overflow: hidden;
       text-align: left;
       border-bottom: 1px solid #555;
+      flex: 0 0 var(--left-control-item-size);
 
       > * {
         flex: 0 0 auto;
@@ -167,10 +168,11 @@
       color: #fff;
     }
 
-    ol {
+    & > ol {
+      max-height: 10vh;
 
       li.player {
-        line-height: 20px;
+        line-height: 1.2em;
         padding: 1px 0;
         flex-wrap: nowrap;
         align-items: center;
@@ -181,10 +183,11 @@
 
         span.player-active {
           display: flex;
-          width: 10px;
-          height: 10px;
-          flex: 0 0 10px;
+          width: 8px;
+          height: 8px;
+          flex: 0 0 8px;
           margin: 0 13px;
+          border: 1px solid rgba(255,255,255,0.5);
         }
 
         span.player-name {
@@ -215,7 +218,7 @@
 
 #interface #ui-left #logo {
   cursor: pointer; 
-  height: 38px; 
+  height: 37px; 
   opacity: 0; 
   position: relative; 
   width: 68px; 
@@ -244,15 +247,21 @@
 
     &#touch-vtt-controls {
       height: var(--left-control-item-size);
-      margin-bottom: 10px;
+
       button#touch-vtt-togglepause {
         width: var(--left-control-item-size);
-        height: var(--left-control-item-size);
+        height: 30px;
         background: var(--left-control-main-bg);
-        border: 0;
+        border: 1px solid transparent;
         border-radius: 0;
         color: #fff;
         font-size: var(--font-size-12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
     }
   }
@@ -304,6 +313,7 @@
   background: var(--left-control-main-bg);
   border: 1px solid transparent; 
   z-index: 0;
+  box-sizing: border-box;
 
   *{
     pointer-events: none;
@@ -332,15 +342,19 @@
   background: var(--left-control-secondary-bg);
   border: 1px solid transparent;
   z-index: 1;
+  box-sizing: border-box;
 
 
   &:hover{
     border: 1px solid transparent;
     background: rgba(50, 50, 70, 1);
-    border: 1px solid rgba(180,180,190,0.35);
+    border: 1px solid rgba(180,180,205,0.35);
   }
   &.active{
-    background: rgba(50, 50, 70, 1);
-    border: 1px solid rgba(180,180,190,0.35);
+    background: rgba(80, 80, 105, 1);
+    border: 1px solid rgba(80, 80, 105, 1);
+    &:hover{
+      border: 1px solid rgba(180,180,205,0.35);
+    }
   }
 }

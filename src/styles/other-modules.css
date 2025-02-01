@@ -1,0 +1,4 @@
+/* MONK'S COMMON DISPLAY */
+#common-display-toolbar .common-button-group .header {
+  font-size: var(--font-size-10);
+}

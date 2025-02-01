@@ -1,5 +1,5 @@
 :root{
-  --top-nav-height: 38px;
+  --top-nav-height: 37px;
   --left-control-item-size: 34px;
 }
 
@@ -28,16 +28,17 @@
     content: '';
     display: block;
     position: absolute;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.75);
     width: 100vw;
     height: var(--top-nav-height);
     backdrop-filter: blur(3px);
     margin: 0;
     transition: opacity, margin 0.2s ease-out;
+    box-shadow: 0 2px 6px rgb(39 62 84 / 40%);
   }
   &:has(.collapsed):before{
     margin: -30px 0 0 0;
-    opacity: 0.25;
+    opacity: 0.3;
   }
 
   &:after{
@@ -67,21 +68,23 @@
   }
 
   #navigation {
-    margin: 1px 0;
+    margin: 0;
     height: 37px;
     flex-wrap: nowrap;
     overflow: visible;
-    pointer-events: all;
+    pointer-events: all; 
 
     #nav-toggle {
       background: rgba(0, 0, 0, 0.75);
-      width: calc(var(--left-control-item-size) + 4px);
-      flex: 0 0 calc(var(--left-control-item-size) + 4px);
+      width: var(--left-control-item-size);
+      flex: 0 0 var(--left-control-item-size);
       height: 37px;
       text-align: center;
       z-index: 1;
       border: 1px solid transparent;
       border-radius: 0;
+      margin: 0;
+      box-sizing: border-box;
 
       i:before{
         content: "\f279";
@@ -96,6 +99,8 @@
       overflow: visible;
       pointer-events: all;
       min-width: 0;
+      margin: 0;
+      backdrop-filter: blur(3px);
     }
 
     #scene-list > li.nav-item:not(.is-root) {
@@ -104,15 +109,14 @@
       align-items: center;
       justify-content: center;
       font-size: var(--font-size-12);
-      background: transparent;
-      margin: 0 -1px 0 0;
+      margin: 0;
       border: 1px solid transparent;
       border-right: 1px solid #000;
       border-left: 1px solid #000;
       font-weight: 600;
       border-radius: 0;
-      background: rgba(0, 0, 0, 0.5);
       transition: margin-left 0.35s ease-in-out;
+      background-color: transparent;
 
       > a{
         display: block;
@@ -124,13 +128,29 @@
       }
 
       &.scene.gm{
-        border: 1px solid rgba(65, 65, 80, 1);
+        /*border: 1px solid rgba(65, 65, 80, 1);*/
         opacity: 0.8;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          /*
+          background-image: url('/ui/denim.png');
+          background-repeat: repeat;
+          background-size: auto;*/
+          background: repeating-linear-gradient( -45deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 1px, rgba(60,60,80,1) 2px, rgba(60,60,80,1) 3px);
+          opacity: 0.65; 
+          z-index: -1; 
+        }
       }
 
       &.scene.active{
-        border: 1px solid rgba(80,80,110,1);
-        background: rgba(50, 50, 70, 1);
+        background: rgba(50, 50, 70, 0.9);
+        box-shadow: 0;
         opacity: 1;
       }
 
@@ -190,14 +210,14 @@
     button.crlngn.ui-nav-left,
     button.crlngn.ui-nav-right {
       width: var(--left-control-item-size);
-      height: var(--left-control-item-size);
-      background: rgba(0,0,0,0.7);
+      height: 37px;
+      background: rgba(0,0,0,0.8);
       box-shadow: none;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0;
-      flex: 0 0 36px;
+      flex: 0 0 var(--left-control-item-size);
 
       &:active,
       &:hover, 

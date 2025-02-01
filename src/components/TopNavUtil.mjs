@@ -17,6 +17,7 @@ export class TopNavigation {
       TopNavigation.setNavPosition();
       TopNavigation.placeNavButtons(); 
 
+      
       if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
         ui.nav.collapse();
       }else{
@@ -107,7 +108,7 @@ export class TopNavigation {
     const itemWidth = firstElem.offsetWidth;
     const itemsPerPage = Math.floor(this.#scenesList?.offsetWidth/itemWidth);
     const currScrollPos = parseInt(firstElem.style.marginLeft || 0); 
-    let newPos = 0;
+    let newPos = currScrollPos;
     LogUtil.log("onNavNext", [firstElem.style.marginLeft, currScrollPos]);
 
     if(this.#scenesList?.scrollWidth + currScrollPos > this.#scenesList?.offsetWidth ){

@@ -24,7 +24,7 @@ if (fs.existsSync("foundry-config.yaml")) {
   }
 
   // Javascript files
-  for (const p of ["client", "client-esm", "common"]) {
+  for (const p of ["client", "client-esm", "common", "public"]) {
     try {
       await fs.promises.symlink(path.join(fileRoot, p), path.join("foundry", p));
     } catch (e) {
