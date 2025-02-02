@@ -1,7 +1,8 @@
-**Latest Version:** 1.2.0
+**Latest Version:** 1.2.1
 
 **Compatibility:** 
 - Foundry VTT version 12.328+
+- Mostly tested with DnD5e 4.x. Should work with other systems, but modules for those systems remain untested. 
 
 ## Carolingian UI
 A light module that provides a sleek minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12. Most changes are made through CSS styling and should not break other modules. The exception is the Top Navigation, where some simple JS code is added to provide horizontal scroll functionality. 
@@ -32,6 +33,18 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/players-list-1.webp?raw=true" width="300px" height="auto" />
 
+### VERIFIED MODULE COMPATIBILITY (A-Z):
+- Break Time 12.0.x
+- Compact Scene Navigation 1.0.x (please disable auto hide setting on that module)
+- Hide Player UI 1.7.x
+- Midi-QOL 12.4.x
+- Mobile Improvements 1.3.x
+- Monk's Hotbar Expansion 11.0.x
+- Ready Set Roll 5e 3.4.x
+- Taskbar 4.1.x
+- Touch VTT 2.2.x
+
+I have also verified PF2e HUD, but I do not play PF2e so there might be issues I haven't noticed.
 
 ### IMPORTANT:
 - The module was tested mostly on Foundry v12 and DnD 4.x. The overall UI styles are system agnostic, but chat card styles are mostly for DnD5e - I've done some basic tests for PF2e. If you would like to request support for a different system (and help with info and screenshots), please add a feature request on Github issue tracker (subject to evaluation);
