@@ -17,13 +17,11 @@ export class Main {
     });
 
     Hooks.once(HOOKS_CORE.READY, () => {
-      
       TopNavigation.init(); 
 
       var isDebugOn = SettingsUtil.get('debug-mode');
       if(isDebugOn){CONFIG.debug.hooks = true};
       LogUtil.log("Core Ready", []);
-
     })
 
     

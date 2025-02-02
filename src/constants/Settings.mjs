@@ -13,7 +13,7 @@ export const SETTINGS = {
   enableChatStyles: { 
     tag: "enable-chat-styles", 
     label: "Enable styles for chat messages", 
-    hint: "(DnD5e only) Adds style modifications to chat cards. When dark mode is selected on Foundry, makes chat cards dark as well.", 
+    hint: "Adds style modifications to chat cards. When dark mode is selected on Foundry, makes chat cards dark as well. <b>Mostly for DnD5e</b> - only partial support for other systems.", 
     propType: Boolean, 
     inputType: SETTING_INPUT.checkbox, 
     default: true, 
@@ -65,6 +65,42 @@ export const SETTINGS = {
     default: 0, 
     scope: SETTING_SCOPE.client, 
     config: false 
+  },
+
+  enableMacroLayout: { 
+    tag: "enable-macro-layout", 
+    label: "Enable macro resize", 
+    hint: "The module reduces the size of macro slots on the hotbar, and enlarges the numbers. Disable this setting to use default Foundry layout.", 
+    propType: Boolean,
+    inputType: SETTING_INPUT.checkbox,
+    default: true, 
+    scope: SETTING_SCOPE.client, 
+    config: true, 
+    requiresReload: false 
+  },
+
+  showSceneNavOnHover: { 
+    tag: "show-scene-nav-on-hover", 
+    label: "Show scene list on hover", 
+    hint: "If the scene navigation is collapsed, you can show it by hovering the mouse over the top of screen.", 
+    propType: Boolean,
+    inputType: SETTING_INPUT.checkbox,
+    default: true, 
+    scope: SETTING_SCOPE.client, 
+    config: true, 
+    requiresReload: false 
+  },
+
+  autoHideLeftControls: { 
+    tag: "auto-hide-secondary-controls", 
+    label: "Auto hide secondary controls", 
+    hint: "Enable to auto-hide the secondary bar on the left controls, unless the mouse is not over that area", 
+    propType: Boolean,
+    inputType: SETTING_INPUT.checkbox,
+    default: true, 
+    scope: SETTING_SCOPE.client, 
+    config: true, 
+    requiresReload: false 
   },
 
 }
