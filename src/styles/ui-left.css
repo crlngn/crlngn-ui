@@ -20,7 +20,7 @@
     z-index: 11; 
   }
 
-  &.dnd5e2#bastion-turn{
+  .dnd5e2#bastion-turn{
     background: var(--left-control-main-bg);
     border: 1px solid transparent;
     border-radius: 0;
