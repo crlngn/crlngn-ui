@@ -34,22 +34,24 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish to FoundryVTT
+      - name: Publish to FoundryVTT and Capture Response
         env:
           FOUNDRY_PACKAGE_API_KEY: ${{ secrets.FOUNDRY_PACKAGE_API_KEY }}
         run: |
-          curl -X POST "https://api.foundryvtt.com/_api/packages/release_version/" \
-          -H "Content-Type: application/json" \
-          -H "Authorization: Bearer $FOUNDRY_PACKAGE_API_KEY" \
-          -d '{
-            "id": "crlngn-ui",
-            "release": {
-              "version": "${{ github.event.release.tag_name }}",
-              "manifest": "https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.json",
-              "notes": "https://github.com/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }}",
-              "compatibility": {
-                "minimum": "12.328",
-                "verified": "12.331"
+          echo "Sending release data to FoundryVTT API..."
+          API_RESPONSE=$(curl -s -X POST "https://api.foundryvtt.com/_api/packages/release_version/" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $FOUNDRY_PACKAGE_API_KEY" \
+            -d '{
+              "id": "crlngn-ui",
+              "release": {
+                "version": "${{ github.event.release.tag_name }}",
+                "manifest": "https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.json",
+                "notes": "https://github.com/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }}",
+                "compatibility": {
+                  "minimum": "12.328",
+                  "verified": "12.331"
+                }
               }
-            }
-          }'
+            }')
+          echo "API Response: $API_RESPONSE"
