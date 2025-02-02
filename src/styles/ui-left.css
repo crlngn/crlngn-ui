@@ -7,66 +7,60 @@
   LEFT CONTROLS BAR
 ----------------- */
 #interface #ui-left{
+  
   width: calc(var(--left-control-item-size) * 2);
   min-width: calc(var(--left-control-item-size) * 2);
   overflow: visible;
-  /*justify-content: flex-start;*/
   z-index: 1;
   display: flex;
   flex-direction: column;
   position: relative;
 
   &:hover{
-    z-index: 11;
+    z-index: 11; 
   }
 
-  > *:not(#players, #controls, #logo){
-    margin: 0;
-    width: var(--left-control-item-size);
-    height: var(--left-control-item-size);
-    overflow: hidden;
+  &.dnd5e2#bastion-turn{
     background: var(--left-control-main-bg);
     border: 1px solid transparent;
     border-radius: 0;
     position: relative;
 
-    &.dnd5e2#bastion-turn{
-      display: block;
-      white-space: nowrap;
+    display: block;
+    white-space: nowrap;
+    width: var(--left-control-item-size);
+    height: var(--left-control-item-size);
+    padding: 0 6px 0 0;
+    margin: 0;
+    overflow: hidden;
+    text-align: left;
+    border-bottom: 1px solid #555;
+    flex: 0 0 var(--left-control-item-size);
+
+    > * {
+      flex: 0 0 auto;
+    }
+
+    >i{
+      display: inline-block;
+      line-height: var(--left-control-item-size);
       width: var(--left-control-item-size);
       height: var(--left-control-item-size);
-      padding: 0 6px 0 0;
-      margin: 0;
-      overflow: hidden;
-      text-align: left;
-      border-bottom: 1px solid #555;
-      flex: 0 0 var(--left-control-item-size);
+      vertical-align: middle;
+      text-align: center;
+    }
+    >span{
+      display: inline-block;
+      white-space: nowrap;
+      background: transparent;
+      font-size: var(--font-size-12);
+      font-weight: 600;
+    }
 
-      > * {
-        flex: 0 0 auto;
-      }
-
-      >i{
-        display: inline-block;
-        line-height: var(--left-control-item-size);
-        width: var(--left-control-item-size);
-        height: var(--left-control-item-size);
-        vertical-align: middle;
-        text-align: center;
-      }
-      >span{
-        display: inline-block;
-        white-space: nowrap;
-        background: transparent;
-        font-size: var(--font-size-12);
-        font-weight: 600;
-      }
-
-      &:hover{
-        width: max-content;
-        max-width: max-content;
-        overflow: hidden; 
-      }
+    &:hover{
+      width: max-content;
+      max-width: max-content;
+      overflow: hidden; 
     }
   }
 
@@ -359,4 +353,24 @@
       border: 1px solid rgba(180,180,205,0.35);
     }
   }
+}
+
+/****************
+PF2e HUD support
+****************/
+#interface #ui-left {
+
+  #pf2e-hud-persistent {
+    margin: 10px 0 0 0;
+
+    div {
+      border-radius: 0;
+    }
+  }
+
+  #pf2e-hud-persistent-menu {
+    min-width: var(--left-control-item-size);
+    padding: 6px 0;
+  }
+
 }
