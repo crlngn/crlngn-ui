@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} # Allows pushing changes back to repo
 
       - name: Extract Repository Name and Version
         run: |
@@ -25,6 +27,22 @@ jobs:
       - name: Update module.json with the Release Version
         run: |
           jq --arg version "$VERSION" '.version = $version' dist/module.json > temp.json && mv temp.json dist/module.json
+
+      - name: Update README.md with the Latest Version
+        run: |
+          sed -i "1s/\*\*Latest Version:\*\* .*/\*\*Latest Version:\*\* $VERSION/" README.md
+
+      - name: Update package.json with the Latest Version
+        run: |
+          jq --arg version "$VERSION" '.version = $version' package.json > temp.json && mv temp.json package.json
+
+      - name: Commit and Push Version Updates
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add README.md package.json
+          git commit -m "Update README and package.json to version $VERSION" || echo "No changes to commit"
+          git push
 
       - name: Prepare Release Artifacts
         run: |
@@ -41,11 +59,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish to FoundryVTT and Capture Response
+      - name: Publish Latest Release to FoundryVTT
         env:
           FOUNDRY_PACKAGE_API_KEY: ${{ secrets.FOUNDRY_PACKAGE_API_KEY }}
         run: |
-          echo "Sending release data to FoundryVTT API..."
+          echo "Publishing latest release ($VERSION) to FoundryVTT..."
           API_RESPONSE=$(curl -s -X POST "https://api.foundryvtt.com/_api/packages/release_version/" \
             -H "Content-Type: application/json" \
             -H "Authorization: $FOUNDRY_PACKAGE_API_KEY" \
@@ -54,11 +72,48 @@ jobs:
               "release": {
                 "version": "'"$VERSION"'",
                 "manifest": "https://github.com/${{ github.repository }}/releases/latest/download/module.json",
-                "notes": "https://github.com/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }}",
+                "notes": "https://github.com/${{ github.repository }}/releases/tag/v$VERSION",
                 "compatibility": {
                   "minimum": "12.328",
                   "verified": "12.331"
                 }
               }
             }')
-          echo "API Response: $API_RESPONSE"
+          echo "Latest Release API Response: $API_RESPONSE"
+
+      - name: Update Previous Release on FoundryVTT
+        env:
+          FOUNDRY_PACKAGE_API_KEY: ${{ secrets.FOUNDRY_PACKAGE_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Fetching previous release from GitHub..."
+          PREV_RELEASE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/releases" | jq -r '[.[] | select(.tag_name != "v$VERSION")] | sort_by(.created_at) | reverse | .[0].tag_name')
+
+          if [ -z "$PREV_RELEASE" ]; then
+            echo "No previous release found. Skipping update."
+            exit 0
+          fi
+
+          CLEAN_VERSION="${PREV_RELEASE#v}"
+          echo "Previous release found: $CLEAN_VERSION"
+
+          echo "Updating FoundryVTT release for previous version $CLEAN_VERSION..."
+
+          API_RESPONSE=$(curl -s -X POST "https://api.foundryvtt.com/_api/packages/release_version/" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: $FOUNDRY_PACKAGE_API_KEY" \
+            -d '{
+              "id": "'"$REPO_NAME"'",
+              "release": {
+                "version": "'"$CLEAN_VERSION"'",
+                "manifest": "https://github.com/${{ github.repository }}/releases/download/'"$PREV_RELEASE"'/module.json",
+                "notes": "https://github.com/${{ github.repository }}/releases/tag/'"$PREV_RELEASE"'",
+                "compatibility": {
+                  "minimum": "12.328",
+                  "verified": "12.331"
+                }
+              }
+            }')
+
+          echo "Updated previous release $CLEAN_VERSION - Response: $API_RESPONSE"
