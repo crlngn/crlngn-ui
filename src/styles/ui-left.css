@@ -266,7 +266,6 @@
     }
   }
 
-
   ol.control-tools.main-controls{
     margin-right: 0;
     flex-wrap: wrap;
@@ -274,11 +273,14 @@
   }
 
   ol:not(.main-controls) {
-    opacity: 0;
-    display: none;
-    visibility: hidden;
     max-height: calc(100vh - (var(--left-control-item-size) * 5));
   }
+}
+
+#ui-left.auto-hide #controls ol:not(.main-controls) {
+  opacity: 0;
+  display: none;
+  visibility: hidden;
 }
 
 /*

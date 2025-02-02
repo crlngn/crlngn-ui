@@ -3,12 +3,12 @@
 
 /***/
 body.crlngn-ui{
-  --crlngn-font-family: var(--font-body);
+  --crlngn-font-family: var(--font-body); 
 }
 
 body *{
   box-sizing: border-box;
-  font-family: var(--crlngn-font-family);
+  font-family: var(--crlngn-font-family); 
 }
 
 /*************

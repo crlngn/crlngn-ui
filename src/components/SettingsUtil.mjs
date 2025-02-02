@@ -1,4 +1,5 @@
 import { MODULE_ID, MODULE_SHORT } from "../constants/General.mjs";
+import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { SETTINGS } from "../constants/Settings.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 
@@ -17,7 +18,7 @@ export class SettingsUtil {
         const setting = entry[1]; 
         LogUtil.log("Registering... ",[entry]);
 
-        await game.settings.register(MODULE_ID, setting.tag, { 
+        const settingObj = { 
           name: setting.label,
           hint: setting.hint,
           default: setting.default,
@@ -26,24 +27,31 @@ export class SettingsUtil {
           config: setting.config,
           requiresReload: setting.requiresReload || false,
           onChange: value => SettingsUtil.apply(setting.tag, value)
-        });
+        }
+
+        await game.settings.register(MODULE_ID, setting.tag, settingObj);
 
         if(SettingsUtil.get(setting.tag)===undefined){
           SettingsUtil.set(setting.tag, setting.default);
         }
 
-        if(SettingsUtil.get(SETTINGS.enableChatStyles.tag)){ 
-          document.querySelector("body").classList.add("crlngn-chat"); 
-        }
-
-        const customFont = SettingsUtil.get(SETTINGS.customFont.tag);
-        if(customFont){
-          const root = document.querySelector("body.crlngn-ui");
-          root.style.setProperty('--crlngn-font-family', customFont);
-        }
         LogUtil.log("registerSettings",[setting.tag, SettingsUtil.get(setting.tag)]);
+        SettingsUtil.applyLeftControlsSettings();
       });
+
+      Hooks.on(HOOKS_CORE.RENDER_HOTBAR, SettingsUtil.applyHotBarSettings);
       
+      // apply chat style settings
+      if(SettingsUtil.get(SETTINGS.enableChatStyles.tag)){ 
+        document.querySelector("body").classList.add("crlngn-chat"); 
+      }
+
+      // apply custom font settings
+      const customFont = SettingsUtil.get(SETTINGS.customFont.tag);
+      if(customFont){
+        const root = document.querySelector("body.crlngn-ui");
+        root.style.setProperty('--crlngn-font-family', customFont);
+      }
     }
 
     /**
@@ -110,6 +118,10 @@ export class SettingsUtil {
       }
       LogUtil.log("SettingsUtil.apply",[settingTag, value, SettingsUtil.get(settingTag)]); 
       switch(settingTag){
+        case SETTINGS.enableMacroLayout.tag:
+          SettingsUtil.applyHotBarSettings(); break;
+        case SETTINGS.autoHideLeftControls.tag:
+          SettingsUtil.applyLeftControlsSettings(); break;
         default:
           // do nothing
       }
@@ -118,12 +130,34 @@ export class SettingsUtil {
 
 
     static applySettings(){
-      const settingsList = Object.entries(SETTINGS);
-      settingsList.forEach((entry) => {
-        const setting = entry[1]; 
-        let currSetting = SettingsUtil.get(setting.tag);
-        SettingsUtil.apply(setting.tag, currSetting);
-      });
+      // const settingsList = Object.entries(SETTINGS);
+      // settingsList.forEach((entry) => {
+      //   const setting = entry[1]; 
+      //   let currSetting = SettingsUtil.get(setting.tag);
+      //   SettingsUtil.apply(setting.tag, currSetting);
+      // });
+    }
+
+    static applyHotBarSettings(){
+      const macroSizeOption = SettingsUtil.get(SETTINGS.enableMacroLayout.tag);
+      const uiBottom = document.querySelector("#hotbar");
+
+      if(!macroSizeOption){
+        uiBottom.classList.add("foundry-default");
+      }else{
+        uiBottom.classList.remove("foundry-default");
+      }
+    }
+
+    static applyLeftControlsSettings(){
+      const controlsAutoHide = SettingsUtil.get(SETTINGS.autoHideLeftControls.tag);
+      const controls = document.querySelector("#ui-left");
+
+      if(controlsAutoHide){
+        controls.classList.add("auto-hide");
+      }else{
+        controls.classList.remove("auto-hide");
+      }
     }
 }
 

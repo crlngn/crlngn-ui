@@ -15,8 +15,7 @@ export class TopNavigation {
 
       LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)]); 
       TopNavigation.setNavPosition();
-      TopNavigation.placeNavButtons(); 
-
+      TopNavigation.placeNavButtons();
       
       if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
         ui.nav.collapse();
@@ -44,11 +43,24 @@ export class TopNavigation {
     this.#scenesList = document.querySelector("#scene-list"); 
 
     this.#navElem.addEventListener("mouseenter", ()=>{
+      if( !SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag) ||
+          !SettingsUtil.get(SETTINGS.showSceneNavOnHover.tag) ){ 
+            return;
+      }
       clearTimeout(this.#navTimeout);
-      ui.nav.expand();
+      /*ui.nav.expand();*/
+
+      const list = document.querySelector("#scene-list");
+      list.style.display = "flex";
+      const navigation = document.querySelector("#navigation");
+      navigation.classList.remove("collapsed");
     });
 
     this.#navElem.addEventListener("mouseleave", (e)=>{
+      if( !SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag) ||
+          !SettingsUtil.get(SETTINGS.showSceneNavOnHover.tag) ){ 
+            return;
+      }
       if (!e) var e = window.event;
       e.cancelBubble = true;
       if (e.stopPropagation) e.stopPropagation();
@@ -56,7 +68,11 @@ export class TopNavigation {
       this.#navTimeout = setTimeout(()=>{
         clearTimeout(this.#navTimeout);
         this.#navTimeout = null;
-        ui.nav.collapse();
+        /*ui.nav.collapse();*/
+        const list = document.querySelector("#scene-list");
+        list.style.display = "none";
+        const navigation = document.querySelector("#navigation");
+        navigation.classList.add("collapsed");
       }, 700);
     });
 
