@@ -1,0 +1,51 @@
+name: Release to FoundryVTT
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Extract Version from Git Tag
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Ensure dist folder exists
+        run: mkdir -p dist
+
+      - name: Prepare Package Manifest
+        run: |
+          jq '.version = env.VERSION' dist/module.json > temp.json && mv temp.json dist/module.json
+          jq '.download = "https://github.com/${{ github.repository }}/releases/download/${{ env.VERSION }}/module.zip"' dist/module.json > temp.json && mv temp.json dist/module.json
+
+      - name: Rename dist/ to crlngn-ui/ and Zip
+        run: |
+          mv dist crlngn-ui
+          zip -r module.zip crlngn-ui
+          mv crlngn-ui dist  # Rename it back to prevent issues later
+
+      - name: Upload Release Artifacts
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            module.zip
+            dist/module.json
+
+      - name: Publish to Foundry VTT API
+        env:
+          FOUNDRY_PACKAGE_API_KEY: ${{ secrets.FOUNDRY_PACKAGE_API_KEY }}
+        run: |
+          curl -X POST "https://api.foundryvtt.com/_api/package/release" \
+          -H "Content-Type: application/json" \
+          -H "Authorization: Bearer $FOUNDRY_PACKAGE_API_KEY" \
+          -d '{
+            "type": "module",
+            "manifest": "https://github.com/${{ github.repository }}/releases/download/${{ env.VERSION }}/module.json",
+            "version": "'${{ env.VERSION }}'",
+            "notes": "https://github.com/${{ github.repository }}/releases/tag/${{ env.VERSION }}"
+          }'
