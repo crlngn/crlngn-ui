@@ -40,9 +40,19 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
+          
+          git fetch --all
+
+          # Detect the default branch
+          DEFAULT_BRANCH=$(git remote show origin | awk '/HEAD branch/ {print $NF}')
+          echo "Default branch detected: $DEFAULT_BRANCH"
+
+          # Switch to the default branch before committing
+          git checkout $DEFAULT_BRANCH || git checkout -b $DEFAULT_BRANCH
+
           git add README.md package.json
           git commit -m "Update README and package.json to version $VERSION" || echo "No changes to commit"
-          git push
+          git push origin $DEFAULT_BRANCH
 
       - name: Prepare Release Artifacts
         run: |
@@ -86,11 +96,14 @@ jobs:
           FOUNDRY_PACKAGE_API_KEY: ${{ secrets.FOUNDRY_PACKAGE_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Fetching previous release from GitHub..."
-          PREV_RELEASE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-            "https://api.github.com/repos/${{ github.repository }}/releases" | jq -r '[.[] | select(.tag_name != "v$VERSION")] | sort_by(.created_at) | reverse | .[0].tag_name')
+          echo "Fetching second latest release from GitHub..."
+          RELEASES=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/releases" | jq -r 'map(.tag_name) | sort_by(.) | reverse')
 
-          if [ -z "$PREV_RELEASE" ]; then
+          # Extract the second latest release (previous release)
+          PREV_RELEASE=$(echo "$RELEASES" | jq -r '.[1]')
+
+          if [ -z "$PREV_RELEASE" ] || [ "$PREV_RELEASE" == "null" ]; then
             echo "No previous release found. Skipping update."
             exit 0
           fi
