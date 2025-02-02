@@ -41,7 +41,7 @@ jobs:
           echo "Sending release data to FoundryVTT API..."
           API_RESPONSE=$(curl -s -X POST "https://api.foundryvtt.com/_api/packages/release_version/" \
             -H "Content-Type: application/json" \
-            -H "Authorization: Bearer $FOUNDRY_PACKAGE_API_KEY" \
+            -H "Authorization: $FOUNDRY_PACKAGE_API_KEY" \
             -d '{
               "id": "crlngn-ui",
               "release": {
