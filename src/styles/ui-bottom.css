@@ -8,7 +8,7 @@
 /***************************************/
 :root{
   --macro-size: 50px;
-  --hotbar-height: auto;
+  --hotbar-height: var(--macro-size);
   --hotbar-width: calc((var(--macro-size)*11) + 64px);
 }
 
@@ -45,7 +45,7 @@
 
   &:not(.foundry-default) {
     --macro-size: 42px;
-    --hotbar-height: auto;
+    --hotbar-height: var(--macro-size);
 
     .bar-controls {
       min-height: var(--macro-size);
@@ -73,6 +73,7 @@
     }
 
     @media (max-width: 1120px) {
+      --hotbar-height: var(--macro-size);
       #macro-list, #hotbar-page .macro-list {
           grid-template-columns: repeat(5, var(--macro-size));
       }
