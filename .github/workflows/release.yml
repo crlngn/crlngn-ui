@@ -4,62 +4,52 @@ on:
   release:
     types: [published]
 
-permissions: 
-  contents: write  # ✅ Grants permission to upload assets to the release
+permissions:
+  contents: write  # Grants permission to upload assets to the release
 
 jobs:
   release:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Extract Version from Git Tag
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-
-      - name: Ensure dist folder exists
-        run: mkdir -p dist
-
-      - name: Verify module.json Exists
+      - name: Update module.json with the Release Version
         run: |
-          if [ ! -f "dist/module.json" ]; then
-            echo "❌ ERROR: dist/module.json not found! Exiting..."
-            exit 1
-          fi
+          jq --arg version "${{ github.event.release.tag_name }}" '.version = $version' dist/module.json > temp.json && mv temp.json dist/module.json
 
-      - name: Prepare Package Manifest
-        run: |
-          jq '.version = env.VERSION' dist/module.json > temp.json && mv temp.json dist/module.json
-          jq '.download = "https://raw.githubusercontent.com/${{ github.repository }}/main/dist/module.zip"' dist/module.json > temp.json && mv temp.json dist/module.json
-
-      - name: Rename dist/ to crlngn-ui/ and Zip
+      - name: Prepare Release Artifacts
         run: |
           mv dist crlngn-ui
           zip -r module.zip crlngn-ui
           mv crlngn-ui dist  # Rename back to prevent issues later
 
-      - name: Debug - List Files Before Upload
-        run: ls -l module.zip dist/module.json
-
-      - name: Upload Release Artifacts
+      - name: Upload Release Assets
         uses: softprops/action-gh-release@v1
         with:
           files: |
             module.zip
             dist/module.json
-          token: ${{ secrets.GITHUB_TOKEN }} # Required to upload assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish to Foundry VTT API
+      - name: Publish to FoundryVTT
         env:
           FOUNDRY_PACKAGE_API_KEY: ${{ secrets.FOUNDRY_PACKAGE_API_KEY }}
         run: |
-          curl -X POST "https://api.foundryvtt.com/_api/package/release" \
+          curl -X POST "https://api.foundryvtt.com/_api/packages/release_version/" \
           -H "Content-Type: application/json" \
           -H "Authorization: Bearer $FOUNDRY_PACKAGE_API_KEY" \
           -d '{
-            "type": "module",
-            "manifest": "https://raw.githubusercontent.com/${{ github.repository }}/main/dist/module.json",
-            "version": "'${{ env.VERSION }}'",
-            "notes": "https://github.com/${{ github.repository }}/releases/tag/${{ env.VERSION }}"
+            "id": "crlngn-ui",
+            "release": {
+              "version": "${{ github.event.release.tag_name }}",
+              "manifest": "https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.json",
+              "notes": "https://github.com/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }}",
+              "compatibility": {
+                "minimum": "12.328",
+                "verified": "12.331"
+              }
+            }
           }'
