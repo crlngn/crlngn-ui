@@ -15,9 +15,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Extract Version Without "v" Prefix
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
       - name: Update module.json with the Release Version
         run: |
-          jq --arg version "${{ github.event.release.tag_name }}" '.version = $version' dist/module.json > temp.json && mv temp.json dist/module.json
+          jq --arg version "$VERSION" '.version = $version' dist/module.json > temp.json && mv temp.json dist/module.json
 
       - name: Prepare Release Artifacts
         run: |
@@ -45,7 +50,7 @@ jobs:
             -d '{
               "id": "crlngn-ui",
               "release": {
-                "version": "${{ github.event.release.tag_name }}",
+                "version": "'"$VERSION"'",
                 "manifest": "https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.json",
                 "notes": "https://github.com/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }}",
                 "compatibility": {
