@@ -15,9 +15,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Extract Version Without "v" Prefix
+      - name: Extract Repository Name and Version
         run: |
+          REPO_NAME=$(basename $GITHUB_REPOSITORY)
           VERSION="${GITHUB_REF#refs/tags/v}"
+          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Update module.json with the Release Version
@@ -26,9 +28,9 @@ jobs:
 
       - name: Prepare Release Artifacts
         run: |
-          mv dist crlngn-ui
-          zip -r module.zip crlngn-ui
-          mv crlngn-ui dist  # Rename back to prevent issues later
+          mv dist "$REPO_NAME"
+          zip -r module.zip "$REPO_NAME"
+          mv "$REPO_NAME" dist  # Rename back to prevent issues later
 
       - name: Upload Release Assets
         uses: softprops/action-gh-release@v1
@@ -48,10 +50,10 @@ jobs:
             -H "Content-Type: application/json" \
             -H "Authorization: $FOUNDRY_PACKAGE_API_KEY" \
             -d '{
-              "id": "crlngn-ui",
+              "id": "'"$REPO_NAME"'",
               "release": {
                 "version": "'"$VERSION"'",
-                "manifest": "https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.json",
+                "manifest": "https://github.com/${{ github.repository }}/releases/latest/download/module.json",
                 "notes": "https://github.com/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }}",
                 "compatibility": {
                   "minimum": "12.328",
