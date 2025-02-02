@@ -4,6 +4,9 @@ on:
   release:
     types: [published]
 
+permissions: 
+  contents: write  # ✅ Grants permission to upload assets to the release
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -18,16 +21,26 @@ jobs:
       - name: Ensure dist folder exists
         run: mkdir -p dist
 
+      - name: Verify module.json Exists
+        run: |
+          if [ ! -f "dist/module.json" ]; then
+            echo "❌ ERROR: dist/module.json not found! Exiting..."
+            exit 1
+          fi
+
       - name: Prepare Package Manifest
         run: |
           jq '.version = env.VERSION' dist/module.json > temp.json && mv temp.json dist/module.json
-          jq '.download = "https://github.com/${{ github.repository }}/releases/download/${{ env.VERSION }}/module.zip"' dist/module.json > temp.json && mv temp.json dist/module.json
+          jq '.download = "https://raw.githubusercontent.com/${{ github.repository }}/main/dist/module.zip"' dist/module.json > temp.json && mv temp.json dist/module.json
 
       - name: Rename dist/ to crlngn-ui/ and Zip
         run: |
           mv dist crlngn-ui
           zip -r module.zip crlngn-ui
-          mv crlngn-ui dist  # Rename it back to prevent issues later
+          mv crlngn-ui dist  # Rename back to prevent issues later
+
+      - name: Debug - List Files Before Upload
+        run: ls -l module.zip dist/module.json
 
       - name: Upload Release Artifacts
         uses: softprops/action-gh-release@v1
@@ -35,6 +48,7 @@ jobs:
           files: |
             module.zip
             dist/module.json
+          token: ${{ secrets.GITHUB_TOKEN }} # Required to upload assets
 
       - name: Publish to Foundry VTT API
         env:
@@ -45,7 +59,7 @@ jobs:
           -H "Authorization: Bearer $FOUNDRY_PACKAGE_API_KEY" \
           -d '{
             "type": "module",
-            "manifest": "https://github.com/${{ github.repository }}/releases/download/${{ env.VERSION }}/module.json",
+            "manifest": "https://raw.githubusercontent.com/${{ github.repository }}/main/dist/module.json",
             "version": "'${{ env.VERSION }}'",
             "notes": "https://github.com/${{ github.repository }}/releases/tag/${{ env.VERSION }}"
           }'
