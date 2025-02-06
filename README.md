@@ -5,7 +5,7 @@
 - Mostly tested with DnD5e 4.x. Should work with other systems, but modules for those systems remain untested. 
 
 ## Carolingian UI
-A light module that provides a sleek minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12. Most changes are made through CSS styling and should not break other modules. The exception is the Top Navigation, where some simple JS code is added to provide horizontal scroll functionality. 
+A light module that provides a sleek minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12. Most changes are made through CSS styling and should work with the majority of other modules. The exception is the Top Navigation, where some simple JS code is added to provide horizontal scroll functionality. 
 
 **Carolingian UI** is free to use and distribute. If you reuse my code, please add mention to the original repo. 
 
