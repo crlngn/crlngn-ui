@@ -1,7 +1,7 @@
 {
   "id": "crlngn-ui",
   "title": "Carolingian UI",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Style changes and tweaks to improve look and feel of Foundry UI",
   "url": "https://github.com/crlngn/crlngn-ui",
   "manifest": "https://github.com/crlngn/crlngn-ui/releases/latest/download/module.json",
@@ -9,7 +9,7 @@
   "bugs": "https://github.com/crlngn/crlngn-ui/issues",
   "readme": "https://github.com/crlngn/crlngn-ui/main/README.md",
   "license": "https://mit-license.org/",
-  "compatibility": { 
+  "compatibility": {
     "minimum": "12.328",
     "verified": "12.331"
   },
@@ -25,6 +25,10 @@
     "recommends": []
   },
   "socket": false,
-  "esmodules": ["scripts/module.js"],
-  "styles": ["styles/module.css"]
+  "esmodules": [
+    "scripts/module.js"
+  ],
+  "styles": [
+    "styles/module.css"
+  ]
 }

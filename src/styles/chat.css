@@ -11,9 +11,11 @@ body.crlngn-chat {
   }
   .chat-card .pills .pill {
     border: none !important;
-    color: rgba(255, 255, 255, 0.35);
+    color: var(--color-text-dark-1);
+    font-size: var(--font-size-10);
     font-weight: 500;
-    background-color: #202f3a80;
+    background-color: rgb(32, 47, 58, 0.15);
+    padding: 4px;
   }
   .chat-card .pills{
     gap: 0.15em;
@@ -125,6 +127,25 @@ body.crlngn-chat {
     font-family: "Roboto", Arial, sans-serif;
     /*display: none !important;*/
   }
+
+  .chat-message a.content-link, 
+  .chat-message a.inline-roll {
+    background: rgb(32, 47, 58, 0.2); 
+    padding: 2px 6px;
+    line-height: 1.6;
+    border: none;
+    border-radius: 3px;
+    white-space: nowrap;
+    word-break: break-all; 
+  }
+
+  .chat-message .cards-notification{
+    margin: 1rem 0;
+    img{
+      border: none;
+    }
+
+  }
   /*.crlngn .chat-card .card-header.description:not(.collapsible){
     display: none;
   }*/
@@ -134,10 +155,12 @@ body.crlngn-chat {
   :is(.chat-popout, #chat-log, .chat-log) .message-content {
     line-height: 1.25;
   }
+
   .chat-card .description {
     background: transparent;
     border: none;
   }
+
   .chat-card .description{
     background: rgba(255,255,255,0.7);
     border: none;
@@ -342,6 +365,12 @@ body.crlngn-chat {
   &[data-ddb-custom-style=dark] .chat-message:before {
     opacity: 0.2;
   }
+  &.theme-dark .chat-message a.content-link, 
+  &.theme-dark .chat-message a.inline-roll {
+    background: rgb(32, 47, 58, 1); 
+    color: var(--color-text-light-5);
+    opacity: 0.7;
+  }
   &.theme-dark .chat-message .message-content,
   &[data-ddb-custom-style=dark] .chat-message .message-content {
     color: #989fa5;
@@ -412,14 +441,10 @@ body.crlngn-chat {
   &[data-ddb-custom-style=dark] .dice-result .dice-tooltip .tooltip-part {
       border-bottom: 1px solid var(--color-border-dark-1);
   }
-  &.theme-dark .crlngn.chat-card .pills .pill,
+  &.theme-dark .chat-message .pills .pill,
   &[data-ddb-custom-style=dark] .crlngn.chat-card .pills .pill {
-    background: #202f3a;
-    color: #999;
-    font-size: .7em;
-    padding: .3em .4em .2em;
-    font-weight: 300;
-    letter-spacing: 0.03em;
+    background: rgb(32, 47, 58, 1);
+    color: rgba(255, 255, 255, 0.5);
   }
 
   &.theme-dark .chat-message .message-content,
@@ -583,21 +608,8 @@ body.crlngn-chat {
   &.theme-dark .dnd5e2-journal .roll-link a>i, 
   &.theme-dark .dnd5e2-journal a.content-link>i, 
   &.theme-dark .dnd5e2-journal a.inline-roll>i,
-  &[data-ddb-custom-style=dark] :is(.dnd5e2, .dnd5e2-journal) a:is(.content-link, .inline-roll) > i, 
-  &[data-ddb-custom-style=dark] :is(.dnd5e2, .dnd5e2-journal) :is(.roll-link, .reference-link) a > i,
-  &[data-ddb-custom-style=dark] .roll-link a i,
-  &[data-ddb-custom-style=dark] .reference-link a>i, 
-  &[data-ddb-custom-style=dark] .roll-link a i, 
-  &[data-ddb-custom-style=dark] .roll-link a>i, 
-  &[data-ddb-custom-style=dark] a.content-link>i, 
-  &[data-ddb-custom-style=dark] a.inline-roll>i, 
-  &[data-ddb-custom-style=dark] .dnd5e2-journal .reference-link a>i, 
-  &[data-ddb-custom-style=dark] .dnd5e2-journal .roll-link a>i, 
-  &[data-ddb-custom-style=dark] .dnd5e2-journal a.content-link>i, 
-  &[data-ddb-custom-style=dark] .dnd5e2-journal a.inline-roll>i,
-  &.theme-dark :is(.dnd5e2, .dnd5e2-journal) .message a > i,
-  &[data-ddb-custom-style=dark] :is(.dnd5e2, .dnd5e2-journal) .message a > i { 
-    color: white;
+  &.theme-dark :is(.dnd5e2, .dnd5e2-journal) .message a > i { 
+    color: var(--color-text-light-1);
     filter: brightness(100);
   }
   &.theme-dark .message-metadata {

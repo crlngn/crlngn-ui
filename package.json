@@ -1,15 +1,18 @@
 {
   "name": "crlngn-ui",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Tweaks and style adjustments to improve UI on Foundry",
   "license": "MIT",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "watch": "watch 'npm run build' ./src",
+    "watch": "WATCH_MODE=true watch 'npm run build' ./src",
     "createSymlinks": "node ./tools/create-symlinks.mjs",
     "postinstall": "npm run createSymlinks",
+    "bump": "npm version patch --no-git-tag-version && git add package.json ./src/module.json README.md && npm run build",
+    "bump:minor": "npm version minor --no-git-tag-version && git add package.json ./src/module.json README.md && npm run build",
+    "bump:major": "npm version major --no-git-tag-version && git add package.json ./src/module.json README.md && npm run build",
     "tsc": "tsc"
   },
   "devDependencies": {

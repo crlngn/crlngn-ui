@@ -1,5 +1,6 @@
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { SETTINGS } from "../constants/Settings.mjs";
+import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 
@@ -114,7 +115,7 @@ export class TopNavigation {
       newPos = (newMargin < 0 ? newMargin : 0);
     }
     SettingsUtil.set(SETTINGS.sceneNavPos.tag, newPos);
-    TopNavigation.setNavPosition(newPos);
+    TopNavigation.setNavPosition(newPos); 
     
     LogUtil.log("onNavLast", [itemsPerPage, itemWidth, currScrollPos, newPos]);
   }
@@ -124,10 +125,11 @@ export class TopNavigation {
     const itemWidth = firstElem.offsetWidth;
     const itemsPerPage = Math.floor(this.#scenesList?.offsetWidth/itemWidth);
     const currScrollPos = parseInt(firstElem.style.marginLeft || 0); 
+
     let newPos = currScrollPos;
     LogUtil.log("onNavNext", [firstElem.style.marginLeft, currScrollPos]);
 
-    if(this.#scenesList?.scrollWidth + currScrollPos > this.#scenesList?.offsetWidth ){
+    if(this.#scenesList?.scrollWidth + currScrollPos > this.#scenesList?.offsetWidth){
       const newMargin = Number(currScrollPos - (itemWidth*itemsPerPage));
       const minMargin = -(this.#scenesList?.offsetWidth - itemWidth);
       newPos = (newMargin > minMargin ? newMargin : minMargin);

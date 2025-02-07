@@ -58,33 +58,35 @@
   }
 
   button:not(.dice-tray button, .chat-message button) {
-    padding: 6px;
-    border-radius: 0;
-    background: rgba(0,0,0,0.15);
-    border: 1px solid rgba(0,0,0,0.5);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    color: #dcdcdc;
-    font-weight: 500;
-    box-shadow: 0 0 10px inset rgb(0, 0, 0, 0.3);
-    transition: all ease-in-out 0.25s;
-    position: relative;
-    min-height: 36px;
-    font-size: var(--font-size-12);
-    font-weight: 600;
+    padding: 6px; 
+    border-radius: 0; 
+    background: rgba(0,0,0,0.15); 
+    border: 1px solid rgba(0,0,0,0.5); 
+    display: flex; 
+    flex-direction: row; 
+    align-items: center; 
+    justify-content: center; 
+    color: #dcdcdc; 
+    font-weight: 500; 
+    box-shadow: 0 0 10px inset rgb(0, 0, 0, 0.3); 
+    transition: all ease-in-out 0.25s; 
+    position: relative; 
+    min-height: 36px; 
+    font-size: var(--font-size-12); 
+    font-weight: 600; 
 
     &:hover{
-      color: #fff;
-      box-shadow: 0 0 8px inset rgb(0, 0, 0, 0.25);
-      background: rgba(50, 50, 80, 0.7);
+      color: #fff; 
+      box-shadow: 0 0 8px inset rgb(0, 0, 0, 0.25); 
+      background: rgba(50, 50, 70, 0.8); 
     }
+
     &:active{
       color: #fff;
       box-shadow: 0 0 8px inset rgb(0, 0, 0, 0.25);
       background: rgba(30, 30, 50, 0.7);
     }
+
     > i {
       font-size: var(--font-size-10);
       margin: 0 5px 0 0;
@@ -95,18 +97,40 @@
     margin: 5px;
   }
 
-  li.folder > .folder-header h3,
-  li.directory-item.compendium h3,
-  li.directory-item h3.compendium-name,
-  li.directory-item h3.document-name{
+  li.folder > .folder-header h3 {
     font-size: var(--font-size-12);
     font-weight: 600;
 
     a{
-      background: rgba(0, 0, 0, .85);
-      padding: 4px 14px;
-      border-radius: 6px;
+      background: rgba(0, 0, 0, .6);
+      padding: 4px 10px;
+      border-radius: 4px;
       border: 1px solid #000;
+
+      > i {
+        font-size: var(--font-size-10);
+        margin: 0 5px 0 0;
+      }
+    }
+  }
+
+  li.directory-item.compendium h3,
+  li.directory-item h3.document-name {
+    font-size: var(--font-size-12);
+    font-weight: 600;
+    line-height: 1.35;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.compendium-name, a {
+      background: rgba(0, 0, 0, .6);
+      padding: 3px 10px;
+      border-radius: 4px;
+      border: none;
+      display: inline-flex;
+      white-space: normal;
+      max-width: 80%;
 
       > i {
         font-size: var(--font-size-10);
