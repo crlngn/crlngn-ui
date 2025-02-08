@@ -35,7 +35,7 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 
 ### VERIFIED MODULE COMPATIBILITY (A-Z):
 - Break Time 12.0.x
-- Compact Scene Navigation 1.0.x (please disable auto hide setting on that module)
+- Compact Scene Navigation 1.0.x (avoid using auto hide setting in both modules)
 - Hide Player UI 1.7.x
 - Midi-QOL 12.4.x
 - Mobile Improvements 1.3.x
