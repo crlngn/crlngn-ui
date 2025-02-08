@@ -11,14 +11,14 @@ body.crlngn-chat {
   }
   .chat-card .pills .pill {
     border: none !important;
-    color: var(--color-text-dark-1);
-    font-size: var(--font-size-10);
+    color: #a8b4bc;
+    font-size: 0.72em;
     font-weight: 500;
     background-color: rgb(32, 47, 58, 0.15);
-    padding: 4px;
+    padding: 3px 5px;
   }
   .chat-card .pills{
-    gap: 0.15em;
+    gap: 0.2em;
   }
   :is(.chat-popout, #chat-log) .chat-message .ddb-game-log-chat-card .ddb-card-content a.inline-roll {
     border-radius: 6px;
@@ -121,7 +121,7 @@ body.crlngn-chat {
   }
   
   :is(.chat-popout, #chat-log, .chat-log) .message:not(.ddbgl) .message-header .flavor-text {
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     letter-spacing: 0.02em;
     font-size: var(--font-size-10);
     font-family: "Roboto", Arial, sans-serif;
@@ -208,8 +208,8 @@ body.crlngn-chat {
   
   /* card button layout */
   .chat-card .card-buttons:not(.midi-buttons) {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: row; 
+    flex-wrap: wrap; 
   }
   .chat-card .card-buttons:not(.midi-buttons) > * {
     flex: 1 1 calc((100% - 10px) / 2);
@@ -221,12 +221,48 @@ body.crlngn-chat {
   .crlngn.ddbgl .chat-card .card-buttons:not(.midi-buttons) > button[data-action=rollDamage]{
     display: none;
   }
+
+  .chat-card .card-buttons > button {
+    &[data-action=placeSummons],
+    &[data-action=rollAttack],
+    &[data-action=rollHealing],
+    &[data-action=rollDamage],
+    &[data-action=placeTemplate],
+    &[data-action=consumeResource],
+    &[data-action=refundResource],
+    &[data-action=executeMacro],
+    &[data-action=rollSave] {
+      span{
+        font-size: 0;
+        align-self: center;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      span:before {
+        content: "";
+        display: flex;
+      }
+    }
+
+    span:not(.hidden-dc) {
+      display: flex;
+      align-items: center;
+
+      > i {
+        margin-right: 0.25rem;
+      }
+    }
+  }
   
+  /*
   .chat-card .card-buttons > button span {
+    
     font-size: 0;
     align-self: center;
     display: inline-flex;
   }
+  */
   
   .chat-card .card-buttons > button span:before {
     content: "";
@@ -321,7 +357,7 @@ body.crlngn-chat {
   }
 
   .chat-card .card-buttons > * span {
-    font-size: 0.9em;
+    font-size: var(--font-size-11);
   }
 
   section.card-header.description.rsr-section-attack,

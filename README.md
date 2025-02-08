@@ -1,4 +1,4 @@
-**Latest Version:** 1.2.5
+**Latest Version:** 1.2.6
 
 **Compatibility:** 
 - Foundry VTT version 12.328+
@@ -45,6 +45,8 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 - Touch VTT 2.2.x
 
 I have also verified PF2e HUD, but I do not play PF2e so there might be issues I haven't noticed.
+
+This is not an extensive list - I've only included modules that might be particularly affected by changes in the UI.
 
 ### IMPORTANT:
 - The module was tested mostly on Foundry v12 and DnD 4.x. The overall UI styles are system agnostic, but chat card styles are mostly for DnD5e - I've done some basic tests for PF2e. If you would like to request support for a different system (and help with info and screenshots), please add a feature request on Github issue tracker (subject to evaluation);

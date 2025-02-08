@@ -3,7 +3,11 @@
   --left-control-item-size: 34px;
 }
 
-#interface #ui-top{
+#ui-top.offset, #ui-top:has(#navigation .monks-scene-navigation){
+  margin-left: 10px;
+}
+
+#interface #ui-middle.crlngn-ui #ui-top{
   flex-grow: 1;
   min-width: 0;
   margin: 0 !important;
@@ -51,7 +55,7 @@
     margin-bottom: -12px;
   }
 
-  &:has(.collapsed) #navigation #scene-list {
+  &:has(.collapsed) #navigation > #scene-list {
     opacity: 0;
     transition: opacity 0.2s ease-out;
   }
@@ -94,7 +98,7 @@
       }*/
     }
 
-    #scene-list{
+    > #scene-list{
       display: flex;
       flex-wrap: nowrap;
       overflow: visible;
@@ -102,76 +106,76 @@
       min-width: 0;
       margin: 0;
       backdrop-filter: blur(3px);
-    }
+      > li.nav-item:not(.is-root) {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--font-size-12);
+        margin: 0;
+        border: 1px solid transparent;
+        border-right: 1px solid #000;
+        border-left: 1px solid #000;
+        font-weight: 600;
+        border-radius: 0;
+        transition: margin-left 0.35s ease-in-out;
+        background-color: transparent;
 
-    #scene-list > li.nav-item:not(.is-root) {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      font-size: var(--font-size-12);
-      margin: 0;
-      border: 1px solid transparent;
-      border-right: 1px solid #000;
-      border-left: 1px solid #000;
-      font-weight: 600;
-      border-radius: 0;
-      transition: margin-left 0.35s ease-in-out;
-      background-color: transparent;
-
-      > a{
-        display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        min-width: 130px;
-        width: 130px;
-      }
-
-      &.scene.gm{
-        /*border: 1px solid rgba(65, 65, 80, 1);*/
-        opacity: 0.8;
-
-        &::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          /*
-          background-image: url('/ui/denim.png');
-          background-repeat: repeat;
-          background-size: auto;*/
-          background: repeating-linear-gradient( -45deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 1px, rgba(60,60,80,1) 2px, rgba(60,60,80,1) 3px);
-          opacity: 0.65; 
-          z-index: -1; 
-        }
-      }
-
-      &.scene.active{
-        background: rgba(50, 50, 70, 0.9);
-        box-shadow: 0;
-        opacity: 1;
-      }
-
-      &:hover{
         > a{
-          overflow: auto;
-          width: auto;
+          display: block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          min-width: 130px;
+          width: 130px;
+        }
+
+        &.scene.gm{
+          /*border: 1px solid rgba(65, 65, 80, 1);*/
+          opacity: 0.8;
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /*
+            background-image: url('/ui/denim.png');
+            background-repeat: repeat;
+            background-size: auto;*/
+            background: repeating-linear-gradient( -45deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 1px, rgba(60,60,80,1) 2px, rgba(60,60,80,1) 3px);
+            opacity: 0.65; 
+            z-index: -1; 
+          }
+        }
+
+        &.scene.active{
+          background: rgba(50, 50, 70, 0.9);
+          box-shadow: 0;
+          opacity: 1;
+        }
+
+        &:hover{
+          > a{
+            overflow: auto;
+            width: auto;
+          }
         }
       }
-    }
 
-    /* Compact Scene Navigation compatibility */
-    #scene-list > li.nav-item.is-root{
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      font-size: var(--font-size-14);
-      margin: 0 -1px 0 0;
-      background: rgba(0, 0, 0, 0.75);
+      /* Compact Scene Navigation compatibility */
+      > li.nav-item.is-root{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--font-size-14);
+        margin: 0 -1px 0 0;
+        background: rgba(0, 0, 0, 0.75);
+      }
+
     }
     ol.context-items li{
       line-height: 1.4;

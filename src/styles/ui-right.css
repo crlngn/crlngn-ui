@@ -131,6 +131,9 @@
       display: inline-flex;
       white-space: normal;
       max-width: 80%;
+      line-height: 1.5;
+      height: auto;
+      align-items: center;
 
       > i {
         font-size: var(--font-size-10);

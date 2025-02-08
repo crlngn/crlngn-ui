@@ -10,6 +10,13 @@ export class TopNavigation {
   static #navTimeout;
 
   static init(){
+    // if user disabled Scene Navigation Styles,
+    // skip everything
+    if(SettingsUtil.get(SETTINGS.sceneNavDisabled.tag)){
+      return;
+    }else{
+      document.querySelector("#ui-middle")?.classList.add("crlngn-ui");
+    }
 
     Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, (a, b, c) => { 
       TopNavigation.addListeners()

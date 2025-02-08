@@ -56,6 +56,18 @@ export const SETTINGS = {
     config: false 
   },
 
+  sceneNavDisabled: { 
+    tag: "scene-nav-disabled", 
+    label: "Disable Scene Nav Styles", 
+    hint: "If you are having layout issues with a non-compatible module, you can disable my custom styles for Scene Navigation. This will also affect positioning of the macro bar", 
+    propType: Boolean, 
+    inputType: SETTING_INPUT.checkbox, 
+    default: false, 
+    scope: SETTING_SCOPE.client, 
+    config: true, 
+    requiresReload: true 
+  },
+
   sceneNavPos: { 
     tag: "scene-nav-pos", 
     label: "Scene Navigation Position", 
