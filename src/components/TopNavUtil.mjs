@@ -9,6 +9,7 @@ export class TopNavigation {
   static #scenesList;
   static #navTimeout;
   static #navExtras;
+  static #navToggle;
 
   static init(){
     // if user disabled Scene Navigation Styles,
@@ -23,7 +24,7 @@ export class TopNavigation {
     TopNavigation.addListeners(); 
 
     LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)]); 
-    // TopNavigation.setNavPosition(0);
+    TopNavigation.setNavPosition(0);
     
     TopNavigation.placeNavButtons(); 
     if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
@@ -36,7 +37,7 @@ export class TopNavigation {
       TopNavigation.addListeners(); 
 
       LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)]); 
-      // TopNavigation.setNavPosition(0);
+      TopNavigation.setNavPosition();
       
       TopNavigation.placeNavButtons(); 
       if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
@@ -44,6 +45,10 @@ export class TopNavigation {
       }else{
         ui.nav.expand();
       }
+    }); 
+
+    Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, (value) => { 
+      TopNavigation.placeNavButtons(); 
     }); 
 
     Hooks.on(HOOKS_CORE.COLLAPSE_SCENE_NAV, (nav, value) => {
@@ -64,6 +69,7 @@ export class TopNavigation {
     this.#navElem = document.querySelector("#navigation"); 
     this.#scenesList = document.querySelector("#scene-list"); 
     this.#navExtras = document.querySelector("#navigation .nav-item.is-root"); 
+    this.#navToggle = document.querySelector("#nav-toggle"); 
 
     this.#navElem?.addEventListener("mouseenter", ()=>{
       if( !SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag) ||
@@ -71,7 +77,6 @@ export class TopNavigation {
             return;
       }
       clearTimeout(this.#navTimeout);
-      /*ui.nav.expand();*/
 
       const list = document.querySelector("#scene-list");
       list.style.display = "flex";
@@ -91,7 +96,6 @@ export class TopNavigation {
       this.#navTimeout = setTimeout(()=>{
         clearTimeout(this.#navTimeout);
         this.#navTimeout = null;
-        /*ui.nav.collapse();*/
         const list = document.querySelector("#scene-list");
         list.style.display = "none";
         const navigation = document.querySelector("#navigation");
@@ -102,13 +106,15 @@ export class TopNavigation {
   }
 
   static placeNavButtons(){ 
-    const isNavOverflowing = this.#scenesList?.scrollWidth >= this.#navElem?.offsetWidth;//this.#navElem?.scrollWidth >= this.#navElem?.offsetWidth;
-    LogUtil.log("placeNavButtons", [ isNavOverflowing, this.#scenesList?.scrollWidth, this.#navElem?.offsetWidth]);
-    if(!isNavOverflowing){
+    const existingButtons = this.#navElem?.querySelectorAll("button.crlngn-nav");
+    const isNavOverflowing = this.#scenesList?.scrollWidth >= this.#navElem?.offsetWidth;
+    LogUtil.log("placeNavButtons", [ isNavOverflowing, existingButtons, this.#scenesList?.scrollWidth, this.#navElem?.offsetWidth]);
+    if(!isNavOverflowing || existingButtons.length > 0){
       return;
     }
+
     const btnLast = document.createElement("button"); 
-    btnLast.classList.add("crlngn"); 
+    btnLast.classList.add("crlngn-nav"); 
     btnLast.classList.add("ui-nav-left"); 
     const arrowLeft = document.createElement("i"); 
     arrowLeft.classList.add("fa"); 
@@ -117,7 +123,7 @@ export class TopNavigation {
     btnLast.append(arrowLeft); 
 
     const btnNext = document.createElement("button"); 
-    btnNext.classList.add("crlngn"); 
+    btnNext.classList.add("crlngn-nav"); 
     btnNext.classList.add("ui-nav-right"); 
     const arrowRight = document.createElement("i"); 
     arrowRight.classList.add("fa"); 
@@ -129,54 +135,57 @@ export class TopNavigation {
     this.#navElem?.appendChild(btnNext);
   }
 
-  static #onNavLast = (e) => {
-    const extrasWidth = GeneralUtil.isModuleOn("compact-scene-navigation") ? this.#navExtras?.offsetWidth : 0;
-    const firstElem = this.#scenesList?.querySelector("li:first-child");
-    const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root):first-of-type");
-    const itemWidth = firstElem.offsetWidth;
-    const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - extrasWidth)/itemWidth);
-    const currScrollPos = parseInt(firstElem.style.marginLeft || 0); 
-    let newMargin = 0;
-    let newPos = 0;
 
-    if(currScrollPos < 0){
-      newMargin = Number(currScrollPos + (itemWidth*itemsPerPage) + extrasWidth);
-      newPos = (newMargin < 0 ? newMargin : 0);
-    }
-    SettingsUtil.set(SETTINGS.sceneNavPos.tag, newPos);
+  static #onNavLast = (e) => {
+    const toggleWidth = this.#navToggle?.offsetWidth;
+    const extrasWidth = GeneralUtil.isModuleOn("compact-scene-navigation") ? this.#navExtras?.offsetWidth : 0;
+    const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
+    const scenes = this.#scenesList?.querySelectorAll("li.nav-item") || [];
+    const itemWidth = firstScene.offsetWidth;
+    const currPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag) || 0;
+    const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? extrasWidth : 0) - (toggleWidth*2))/itemWidth);
+
+    LogUtil.log("onNavLast", ["currPos", currPos, itemsPerPage]);
+
+    let newPos = currPos - itemsPerPage;
+    newPos = newPos < 0 ? 0 : newPos;
+
+    LogUtil.log("onNavLast", ["sceneCount", scenes.length, currPos, newPos]);
     TopNavigation.setNavPosition(newPos); 
     
-    LogUtil.log("onNavLast", [itemsPerPage, newPos]);
+    // LogUtil.log("onNavLast", [itemsPerPage, newPos]);
   }
 
   static #onNavNext = (e) => {
+    const toggleWidth = this.#navToggle?.offsetWidth;
     const extrasWidth = GeneralUtil.isModuleOn("compact-scene-navigation") ? this.#navExtras?.offsetWidth : 0;
-    const firstElem = this.#scenesList?.querySelector("li:first-child");
     const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
+    const scenes = this.#scenesList?.querySelectorAll("li.nav-item:not(.is-root)") || [];
     const itemWidth = firstScene.offsetWidth;
-    const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - extrasWidth)/itemWidth);
-    const currScrollPos = parseInt(firstElem.style.marginLeft || 0); 
-    let newMargin, minMargin = 0;
-    let newPos = currScrollPos;
-    LogUtil.log("onNavNext a", [itemWidth, itemsPerPage]);
+    const currPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag) || 0;
+    const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? extrasWidth : 0) - (toggleWidth*2))/itemWidth);
+
+    LogUtil.log("onNavLast", ["currPos", currPos, itemsPerPage]);
+
+    let newPos = currPos + itemsPerPage;
+    newPos = newPos > scenes.length ? scenes.length : newPos;
+
+    TopNavigation.setNavPosition(newPos); 
     
-    let diff = this.#scenesList?.scrollWidth - this.#navElem?.offsetWidth;
-    // if(this.#scenesList?.offsetWidth + currScrollPos + 70 > this.#navElem?.offsetWidth){
-    if(diff > -70){
-      newMargin = currScrollPos - (itemWidth*itemsPerPage) + extrasWidth;
-      minMargin = currScrollPos - this.#scenesList?.scrollWidth + itemWidth + extrasWidth;
-      newPos = (newMargin > minMargin ? newMargin : minMargin);
-    }
-    SettingsUtil.set(SETTINGS.sceneNavPos.tag, newPos);
-    TopNavigation.setNavPosition(newPos);
-    LogUtil.log("onNavNext b", [this.#scenesList?.scrollWidth, this.#navElem?.offsetWidth, newMargin, minMargin, currScrollPos]);
-    LogUtil.log("onNavNext c", [itemsPerPage, newPos]);
+
+    
   }
 
   static setNavPosition(pos){
-    const position = pos || SettingsUtil.get(SETTINGS.sceneNavPos.tag);
-    const firstElem = this.#scenesList?.querySelector("li:first-child");
-    firstElem.style.marginLeft = position + 'px';
+    const position = pos !== undefined ? pos : SettingsUtil.get(SETTINGS.sceneNavPos.tag);
+    const scenes = this.#scenesList?.querySelectorAll("li.nav-item") || [];
+
+    const newMargin = scenes[position]?.offsetLeft * -1;
+    this.#scenesList.style.marginLeft = newMargin + 'px';
+
+    SettingsUtil.set(SETTINGS.sceneNavPos.tag, position);
+
+    LogUtil.log("setNavPosition", [pos, position, scenes[position], newMargin]);
   }
 }
 

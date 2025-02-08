@@ -41,6 +41,7 @@ export class SettingsUtil {
       Hooks.on(HOOKS_CORE.RENDER_SCENE_CONTROLS, SettingsUtil.applyLeftControlsSettings);
       Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, SettingsUtil.applyPlayersListSettings); 
       Hooks.on(HOOKS_CORE.RENDER_HOTBAR, SettingsUtil.applyHotBarSettings);
+      SettingsUtil.applySceneNavSettings();
       
       // apply chat style settings
       if(SettingsUtil.get(SETTINGS.enableChatStyles.tag)){ 
@@ -170,6 +171,10 @@ export class SettingsUtil {
       }else{
         document.querySelector("#ui-left aside#players")?.classList.remove("auto-hide");
       }
+    }
+
+    static applySceneNavSettings(){
+      SettingsUtil.set(SETTINGS.sceneNavPos.tag, 0);
     }
 }
 

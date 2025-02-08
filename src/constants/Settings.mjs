@@ -13,7 +13,7 @@ export const SETTINGS = {
   enableChatStyles: { 
     tag: "enable-chat-styles", 
     label: "Enable styles for chat messages", 
-    hint: "Adds style modifications to chat cards. When dark mode is selected on Foundry, makes chat cards dark as well. <b>Mostly for DnD5e</b> - only partial support for other systems.", 
+    hint: "Adds style modifications to chat cards. When dark mode is selected on Foundry, makes chat cards dark as well. MOSTLY FOR DND5E - only partial support for other systems.", 
     propType: Boolean, 
     inputType: SETTING_INPUT.checkbox, 
     default: true, 
@@ -106,7 +106,7 @@ export const SETTINGS = {
   autoHideLeftControls: { 
     tag: "auto-hide-secondary-controls", 
     label: "Auto hide secondary controls", 
-    hint: "Enable to auto-hide the secondary bar on the left controls, unless the mouse is not over that area", 
+    hint: "Enable to keep the secondary bar on the left controls hidden unless you hover on the region or click on an item", 
     propType: Boolean,
     inputType: SETTING_INPUT.checkbox,
     default: true, 
@@ -118,7 +118,7 @@ export const SETTINGS = {
   autoHidePlayerList: { 
     tag: "auto-hide-player-list", 
     label: "Auto hide player list", 
-    hint: "Enable to keep player list on the bottom left minimized unless hovered", 
+    hint: "Enable to keep the bottom left players list minimized, except when hovered", 
     propType: Boolean,
     inputType: SETTING_INPUT.checkbox,
     default: true, 

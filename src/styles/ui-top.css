@@ -72,8 +72,8 @@
     transition: opacity 0.2s ease-out;
   }
 
-  .crlngn.ui-nav-left,
-  .crlngn.ui-nav-right{
+  .crlngn-nav.ui-nav-left,
+  .crlngn-nav.ui-nav-right{
     width: var(--left-control-item-size);
     height: var(--left-control-item-size);
     background: transparent;
@@ -122,6 +122,7 @@
       flex: 0 0 auto;
       width: max-content;
       max-width: max-content;
+      transition: margin-left 0.5s ease-in-out;
 
       > li.nav-item:not(.is-root) {
         display: flex;
@@ -163,7 +164,8 @@
             /*
             background-image: url('/ui/denim.png');
             background-repeat: repeat;
-            background-size: auto;*/
+            background-size: auto;
+            */
             background: repeating-linear-gradient( -45deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 1px, rgba(60,60,80,1) 2px, rgba(60,60,80,1) 3px);
             opacity: 0.65; 
             z-index: -1; 
@@ -240,8 +242,8 @@
       }
     }
 
-    button.crlngn.ui-nav-left,
-    button.crlngn.ui-nav-right {
+    button.crlngn-nav.ui-nav-left,
+    button.crlngn-nav.ui-nav-right {
       width: var(--left-control-item-size);
       height: 37px;
       background: rgba(0,0,0,0.8);
@@ -253,8 +255,9 @@
       right: 0;
       margin: 0;
       flex: 0 0 var(--left-control-item-size);
+      font-size: var(--font-size-12);
 
-      &.crlngn.ui-nav-left{
+      &.crlngn-nav.ui-nav-left{
         right: var(--left-control-item-size);
       }
 
@@ -274,8 +277,8 @@
     }
   }
 
-  &:has(.collapsed) #navigation button.crlngn.ui-nav-left,
-  &:has(.collapsed) #navigation button.crlngn.ui-nav-right {
+  &:has(.collapsed) #navigation button.crlngn-nav.ui-nav-left,
+  &:has(.collapsed) #navigation button.crlngn-nav.ui-nav-right {
     display: none;
   }
   

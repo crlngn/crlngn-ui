@@ -6,10 +6,11 @@
 #interface #ui-right {
   
   #sidebar{
+    --ft-height: var(--ft-height, 0px);
     margin: 0 0 0 0;
     border-radius: 0;
     border: 0;
-    height: 100%;
+    height: calc(100% - var(--ft-height, 0px));
     padding-bottom: 10px;
 
     &.collapsed{

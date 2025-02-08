@@ -14,6 +14,10 @@
   flex-direction: column;
   position: relative;
 
+  &:has(aside#players.auto-hide){
+    max-width: calc(var(--left-control-item-size) * 2);
+  }
+
   &:hover{
     z-index: 11; 
   }
