@@ -9,7 +9,7 @@ export class Main {
   static init(){
 
     Hooks.once(HOOKS_CORE.INIT, () => { 
-
+      document.querySelector("#ui-middle")?.classList.add("crlngn-ui");
       LogUtil.log("Initiating module", [], true); 
       // Main.setupKeyListeners(); 
       SettingsUtil.registerSettings();
@@ -17,13 +17,13 @@ export class Main {
     });
 
     Hooks.once(HOOKS_CORE.READY, () => {
-      TopNavigation.init(); 
 
       var isDebugOn = SettingsUtil.get('debug-mode');
       if(isDebugOn){CONFIG.debug.hooks = true};
       LogUtil.log("Core Ready", []);
-    })
 
+      TopNavigation.init(); 
+    })
     
   }
 

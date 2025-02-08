@@ -8,23 +8,37 @@ export class TopNavigation {
   static #navElem;
   static #scenesList;
   static #navTimeout;
+  static #navExtras;
 
   static init(){
     // if user disabled Scene Navigation Styles,
     // skip everything
     if(SettingsUtil.get(SETTINGS.sceneNavDisabled.tag)){
+      document.querySelector("#ui-middle")?.classList.remove("crlngn-ui");
       return;
     }else{
       document.querySelector("#ui-middle")?.classList.add("crlngn-ui");
     }
 
-    Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, (a, b, c) => { 
-      TopNavigation.addListeners()
+    TopNavigation.addListeners(); 
+
+    LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)]); 
+    // TopNavigation.setNavPosition(0);
+    
+    TopNavigation.placeNavButtons(); 
+    if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
+      ui.nav.collapse();
+    }else{
+      ui.nav.expand();
+    }
+
+    Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, () => { 
+      TopNavigation.addListeners(); 
 
       LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)]); 
-      TopNavigation.setNavPosition();
-      TopNavigation.placeNavButtons();
+      // TopNavigation.setNavPosition(0);
       
+      TopNavigation.placeNavButtons(); 
       if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
         ui.nav.collapse();
       }else{
@@ -49,8 +63,9 @@ export class TopNavigation {
   static addListeners(){
     this.#navElem = document.querySelector("#navigation"); 
     this.#scenesList = document.querySelector("#scene-list"); 
+    this.#navExtras = document.querySelector("#navigation .nav-item.is-root"); 
 
-    this.#navElem.addEventListener("mouseenter", ()=>{
+    this.#navElem?.addEventListener("mouseenter", ()=>{
       if( !SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag) ||
           !SettingsUtil.get(SETTINGS.showSceneNavOnHover.tag) ){ 
             return;
@@ -64,7 +79,7 @@ export class TopNavigation {
       navigation.classList.remove("collapsed");
     });
 
-    this.#navElem.addEventListener("mouseleave", (e)=>{
+    this.#navElem?.addEventListener("mouseleave", (e)=>{
       if( !SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag) ||
           !SettingsUtil.get(SETTINGS.showSceneNavOnHover.tag) ){ 
             return;
@@ -87,7 +102,11 @@ export class TopNavigation {
   }
 
   static placeNavButtons(){ 
-
+    const isNavOverflowing = this.#scenesList?.scrollWidth >= this.#navElem?.offsetWidth;//this.#navElem?.scrollWidth >= this.#navElem?.offsetWidth;
+    LogUtil.log("placeNavButtons", [ isNavOverflowing, this.#scenesList?.scrollWidth, this.#navElem?.offsetWidth]);
+    if(!isNavOverflowing){
+      return;
+    }
     const btnLast = document.createElement("button"); 
     btnLast.classList.add("crlngn"); 
     btnLast.classList.add("ui-nav-left"); 
@@ -106,45 +125,52 @@ export class TopNavigation {
     btnNext.append(arrowRight); 
     btnNext.addEventListener("click", this.#onNavNext);
 
-    this.#navElem.appendChild(btnLast);
-    this.#navElem.appendChild(btnNext);
+    this.#navElem?.appendChild(btnLast);
+    this.#navElem?.appendChild(btnNext);
   }
 
   static #onNavLast = (e) => {
+    const extrasWidth = GeneralUtil.isModuleOn("compact-scene-navigation") ? this.#navExtras?.offsetWidth : 0;
     const firstElem = this.#scenesList?.querySelector("li:first-child");
+    const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root):first-of-type");
     const itemWidth = firstElem.offsetWidth;
-    const itemsPerPage = Math.floor(this.#scenesList?.offsetWidth/itemWidth);
+    const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - extrasWidth)/itemWidth);
     const currScrollPos = parseInt(firstElem.style.marginLeft || 0); 
+    let newMargin = 0;
     let newPos = 0;
 
     if(currScrollPos < 0){
-      const newMargin = Number(currScrollPos + (itemWidth*itemsPerPage));
+      newMargin = Number(currScrollPos + (itemWidth*itemsPerPage) + extrasWidth);
       newPos = (newMargin < 0 ? newMargin : 0);
     }
     SettingsUtil.set(SETTINGS.sceneNavPos.tag, newPos);
     TopNavigation.setNavPosition(newPos); 
     
-    LogUtil.log("onNavLast", [itemsPerPage, itemWidth, currScrollPos, newPos]);
+    LogUtil.log("onNavLast", [itemsPerPage, newPos]);
   }
 
   static #onNavNext = (e) => {
+    const extrasWidth = GeneralUtil.isModuleOn("compact-scene-navigation") ? this.#navExtras?.offsetWidth : 0;
     const firstElem = this.#scenesList?.querySelector("li:first-child");
-    const itemWidth = firstElem.offsetWidth;
-    const itemsPerPage = Math.floor(this.#scenesList?.offsetWidth/itemWidth);
+    const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
+    const itemWidth = firstScene.offsetWidth;
+    const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - extrasWidth)/itemWidth);
     const currScrollPos = parseInt(firstElem.style.marginLeft || 0); 
-
+    let newMargin, minMargin = 0;
     let newPos = currScrollPos;
-    LogUtil.log("onNavNext", [firstElem.style.marginLeft, currScrollPos]);
-
-    if(this.#scenesList?.scrollWidth + currScrollPos > this.#scenesList?.offsetWidth){
-      const newMargin = Number(currScrollPos - (itemWidth*itemsPerPage));
-      const minMargin = -(this.#scenesList?.offsetWidth - itemWidth);
+    LogUtil.log("onNavNext a", [itemWidth, itemsPerPage]);
+    
+    let diff = this.#scenesList?.scrollWidth - this.#navElem?.offsetWidth;
+    // if(this.#scenesList?.offsetWidth + currScrollPos + 70 > this.#navElem?.offsetWidth){
+    if(diff > -70){
+      newMargin = currScrollPos - (itemWidth*itemsPerPage) + extrasWidth;
+      minMargin = currScrollPos - this.#scenesList?.scrollWidth + itemWidth + extrasWidth;
       newPos = (newMargin > minMargin ? newMargin : minMargin);
     }
     SettingsUtil.set(SETTINGS.sceneNavPos.tag, newPos);
     TopNavigation.setNavPosition(newPos);
-    
-    LogUtil.log("onNavNext", [itemsPerPage, itemWidth, currScrollPos, newPos, this.#scenesList?.offsetWidth]);
+    LogUtil.log("onNavNext b", [this.#scenesList?.scrollWidth, this.#navElem?.offsetWidth, newMargin, minMargin, currScrollPos]);
+    LogUtil.log("onNavNext c", [itemsPerPage, newPos]);
   }
 
   static setNavPosition(pos){

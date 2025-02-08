@@ -11,7 +11,6 @@ body.crlngn-chat {
   }
   .chat-card .pills .pill {
     border: none !important;
-    color: #a8b4bc;
     font-size: 0.72em;
     font-weight: 500;
     background-color: rgb(32, 47, 58, 0.15);
@@ -107,7 +106,6 @@ body.crlngn-chat {
   
   :is(.chat-popout, #chat-log, .chat-log) .crlngn.ddbgl  .message-header {
     font-size: var(--font-size-12);
-    font-family: "Roboto", Arial, sans-serif;
   }
   
   :is(.chat-popout, #chat-log, .chat-log) .crlngn .message-header .subtitle {
@@ -117,14 +115,12 @@ body.crlngn-chat {
     letter-spacing: 0.02em;
     margin-top:3px;
     font-size: var(--font-size-10);
-    font-family: "Roboto", Arial, sans-serif;
   }
   
   :is(.chat-popout, #chat-log, .chat-log) .message:not(.ddbgl) .message-header .flavor-text {
     /*text-transform: uppercase;*/
     letter-spacing: 0.02em;
     font-size: var(--font-size-10);
-    font-family: "Roboto", Arial, sans-serif;
     /*display: none !important;*/
   }
 
@@ -217,9 +213,22 @@ body.crlngn-chat {
     width: 100%;
   }
   
+  /*
   .crlngn.ddbgl .chat-card .card-buttons:not(.midi-buttons) > button[data-action=rollAttack],
   .crlngn.ddbgl .chat-card .card-buttons:not(.midi-buttons) > button[data-action=rollDamage]{
     display: none;
+  }
+  */
+
+  .chat-card .card-buttons > button[data-action=rollAttack] {
+    *:first-child {
+      display: none;
+    }
+    &:before{
+      content: '\2694';
+      font-size: var(--font-size-16);
+      color: var(--color-text-dark-1);
+    }
   }
 
   .chat-card .card-buttons > button {
@@ -480,7 +489,7 @@ body.crlngn-chat {
   &.theme-dark .chat-message .pills .pill,
   &[data-ddb-custom-style=dark] .crlngn.chat-card .pills .pill {
     background: rgb(32, 47, 58, 1);
-    color: rgba(255, 255, 255, 0.5);
+    color: #a8b4bc;
   }
 
   &.theme-dark .chat-message .message-content,
@@ -626,10 +635,13 @@ body.crlngn-chat {
   &[data-ddb-custom-style=dark] :is(.card-tray, .effects-tray) button:hover {
     box-shadow: none;
   }
-  &.theme-dark :is(.card-tray, .effects-tray) .targets .target .change-source > dnd5e-icon,
-  &[data-ddb-custom-style=dark] :is(.card-tray, .effects-tray) .targets .target .change-source > dnd5e-icon {
-    filter: invert(1);
+  &.theme-dark .chat-card .card-buttons > button[data-action=rollAttack],
+  &[data-ddb-custom-style=dark] .chat-card .card-buttons > button[data-action=rollAttack] {
+    &:before{
+      color: var(--color-text-light-1);
+    }
   }
+
 
   /* inline rolls  */
   &.theme-dark :is(.dnd5e2, .dnd5e2-journal) a:is(.content-link, .inline-roll) > i, 
@@ -644,11 +656,26 @@ body.crlngn-chat {
   &.theme-dark .dnd5e2-journal .roll-link a>i, 
   &.theme-dark .dnd5e2-journal a.content-link>i, 
   &.theme-dark .dnd5e2-journal a.inline-roll>i,
-  &.theme-dark :is(.dnd5e2, .dnd5e2-journal) .message a > i { 
+  &.theme-dark :is(.dnd5e2, .dnd5e2-journal) .message a > i,
+  &[data-ddb-custom-style=dark] :is(.dnd5e2, .dnd5e2-journal) a:is(.content-link, .inline-roll) > i, 
+  &[data-ddb-custom-style=dark] :is(.dnd5e2, .dnd5e2-journal) :is(.roll-link, .reference-link) a > i,
+  &[data-ddb-custom-style=dark] .roll-link a i,
+  &[data-ddb-custom-style=dark] .reference-link a>i, 
+  &[data-ddb-custom-style=dark] .roll-link a i, 
+  &[data-ddb-custom-style=dark] .roll-link a>i, 
+  &[data-ddb-custom-style=dark] a.content-link>i, 
+  &[data-ddb-custom-style=dark] a.inline-roll>i, 
+  &[data-ddb-custom-style=dark] .dnd5e2-journal .reference-link a>i, 
+  &[data-ddb-custom-style=dark] .dnd5e2-journal .roll-link a>i, 
+  &[data-ddb-custom-style=dark] .dnd5e2-journal a.content-link>i, 
+  &[data-ddb-custom-style=dark] .dnd5e2-journal a.inline-roll>i,
+  &[data-ddb-custom-style=dark] :is(.dnd5e2, .dnd5e2-journal) .message a > i { 
     color: var(--color-text-light-1);
     filter: brightness(100);
   }
-  &.theme-dark .message-metadata {
+
+  &.theme-dark .message-metadata,
+  &[data-ddb-custom-style=dark] .message-metadata {
     color: rgba(255,255,255,0.4);
     font-size: var(--font-size-10);
     font-weight: 600;

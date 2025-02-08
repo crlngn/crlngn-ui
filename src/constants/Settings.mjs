@@ -28,7 +28,7 @@ export const SETTINGS = {
     hint: "You can type the name of custom fonts loaded on Foundry core and they will be used throughout the interface. Names with spaces must be written with double quotes (\"Font Name\"). If the font doesn't load you haven't typed the name correctly, or the font was not found. Default value: "+`"Work Sans", Arial, sans-serif`, 
     propType: String, 
     inputType: SETTING_INPUT.text, 
-    default: `"Work Sans", Arial, sans-serif`, 
+    default: `"Work Sans", "Roboto", Arial, sans-serif`, 
     scope: SETTING_SCOPE.client, 
     config: true, 
     requiresReload: true 
@@ -107,6 +107,18 @@ export const SETTINGS = {
     tag: "auto-hide-secondary-controls", 
     label: "Auto hide secondary controls", 
     hint: "Enable to auto-hide the secondary bar on the left controls, unless the mouse is not over that area", 
+    propType: Boolean,
+    inputType: SETTING_INPUT.checkbox,
+    default: true, 
+    scope: SETTING_SCOPE.client, 
+    config: true, 
+    requiresReload: false 
+  },
+
+  autoHidePlayerList: { 
+    tag: "auto-hide-player-list", 
+    label: "Auto hide player list", 
+    hint: "Enable to keep player list on the bottom left minimized unless hovered", 
     propType: Boolean,
     inputType: SETTING_INPUT.checkbox,
     default: true, 

@@ -36,9 +36,10 @@ export class SettingsUtil {
         }
 
         LogUtil.log("registerSettings",[setting.tag, SettingsUtil.get(setting.tag)]);
-        SettingsUtil.applyLeftControlsSettings();
       });
 
+      Hooks.on(HOOKS_CORE.RENDER_SCENE_CONTROLS, SettingsUtil.applyLeftControlsSettings);
+      Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, SettingsUtil.applyPlayersListSettings); 
       Hooks.on(HOOKS_CORE.RENDER_HOTBAR, SettingsUtil.applyHotBarSettings);
       
       // apply chat style settings
@@ -122,6 +123,8 @@ export class SettingsUtil {
           SettingsUtil.applyHotBarSettings(); break;
         case SETTINGS.autoHideLeftControls.tag:
           SettingsUtil.applyLeftControlsSettings(); break;
+        case SETTINGS.autoHidePlayerList.tag:
+          SettingsUtil.applyPlayersListSettings(); break;
         default:
           // do nothing
       }
@@ -157,6 +160,15 @@ export class SettingsUtil {
         controls.classList.add("auto-hide");
       }else{
         controls.classList.remove("auto-hide");
+      }
+    }
+
+    static applyPlayersListSettings(){
+      LogUtil.log("applyPlayersListSettings",[document.querySelector("#ui-left aside#players"), document.querySelector("aside#players"), SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)]); 
+      if(SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)){
+        document.querySelector("#ui-left aside#players")?.classList.add("auto-hide");
+      }else{
+        document.querySelector("#ui-left aside#players")?.classList.remove("auto-hide");
       }
     }
 }

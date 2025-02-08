@@ -14,7 +14,9 @@ export const HOOKS_CORE = {
   REFRESH_MEASURED_TEMPLATE: "refreshMeasuredTemplate",
   GET_SCENE_CONTROLS: "getSceneControlButtons",
   RENDER_SCENE_NAV: "renderSceneNavigation",
+  RENDER_SCENE_CONTROLS: "renderSceneControls",
   RENDER_HOTBAR: "renderHotbar",
+  RENDER_PLAYERS_LIST: "renderPlayerList",
   COLLAPSE_SCENE_NAV: "collapseSceneNavigation",
   EXPAND_SCENE_NAV: "expandSceneNavigation"
 }

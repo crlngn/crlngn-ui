@@ -2,3 +2,14 @@
 #common-display-toolbar .common-button-group .header {
   font-size: var(--font-size-10);
 }
+
+/* DFREDS EFFECTS PANEL  */
+#effects-panel {
+  transform: translateY(45px);
+}
+
+/* VISUAL ACTIVE EFFECTS */
+.visual-active-effects.panel {
+  --visual-active-effects-icon-size: var(--left-control-item-size);
+  --visual-active-effects-top-offset: 45px;
+}
