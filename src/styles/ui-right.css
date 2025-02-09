@@ -6,16 +6,17 @@
 #interface #ui-right {
   
   #sidebar{
-    --ft-height: var(--ft-height, 0px);
-    margin: 0 0 0 0;
-    border-radius: 0;
-    border: 0;
-    height: calc(100% - var(--ft-height, 0px));
-    padding-bottom: 10px;
+    --ft-height: var(--ft-height, 0px); 
+    margin: 0; 
+    border-radius: 0; 
+    border: 0; 
+    height: calc(100% - var(--ft-height, 0px)); 
+    padding-bottom: 10px; 
 
     &.collapsed{
       width: var(--right-control-item-size);
       min-width: var(--right-control-item-size);
+      height: auto; 
     }
 
     #sidebar-tabs{
@@ -29,9 +30,12 @@
 
       > [data-tab] > * {
         font-size: 0.7rem;
-      }
+      } 
     }
-    
+  }
+
+  aside#players{
+    margin-top: auto;
   }
 }
 

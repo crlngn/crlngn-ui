@@ -59,7 +59,7 @@ export const SETTINGS = {
   sceneNavDisabled: { 
     tag: "scene-nav-disabled", 
     label: "Disable Scene Nav Styles", 
-    hint: "If you are having layout issues with a non-compatible module, you can disable my custom styles for Scene Navigation. This will also affect positioning of the macro bar", 
+    hint: "If you are having layout issues with a non-compatible module, you can disable my custom styles for Scene Navigation.", 
     propType: Boolean, 
     inputType: SETTING_INPUT.checkbox, 
     default: false, 
@@ -127,4 +127,15 @@ export const SETTINGS = {
     requiresReload: false 
   },
 
+  enableCameraStyles: {
+    tag: "enable-camera-styles", 
+    label: "Enable camera styles", 
+    hint: "Apply UI styling for video players when Video sharing is enabled on Foundry", 
+    propType: Boolean,
+    inputType: SETTING_INPUT.checkbox,
+    default: true, 
+    scope: SETTING_SCOPE.world, 
+    config: true, 
+    requiresReload: true 
+  } 
 }

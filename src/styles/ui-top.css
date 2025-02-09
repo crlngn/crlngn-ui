@@ -16,12 +16,13 @@
 }
 
 #interface #ui-middle.crlngn-ui #ui-top{
+  --margin-left: calc((var(--left-control-item-size) * 2));
   flex-grow: 1;
-  width: calc(100vw - var(--current-sidebar-width));
+  left: calc(var(--margin-left) * -1);
+  width: calc(100% + var(--margin-left));/* var(--current-sidebar-width) */
   min-width: 0;
-  position: fixed;
+  position: absolute;
   top: 0;
-  left: 0;
   margin: 0 0 0 0 !important;
   opacity: 1;
   transition: opacity, margin 0.2s ease-out 0.2s;

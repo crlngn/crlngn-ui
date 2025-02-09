@@ -25,4 +25,7 @@ export const HOOKS_CORE = {
 
   /* Macros */
   RENDER_HOTBAR: "renderHotbar",
+
+  /* Camera Views */
+  RENDER_CAMERA_VIEWS: "renderCameraViews"
 }

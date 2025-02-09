@@ -3,6 +3,7 @@ import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs"; 
 import { TopNavigation } from "./TopNavUtil.mjs"; 
 import { ChatUtil } from "./ChatUtil.mjs";
+import { CameraUtil } from "./CameraUtil.mjs";
 
 export class Main {
 
@@ -23,6 +24,7 @@ export class Main {
       LogUtil.log("Core Ready", []);
 
       TopNavigation.init(); 
+      CameraUtil.init(); 
     })
     
   }

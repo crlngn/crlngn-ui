@@ -165,11 +165,11 @@ export class SettingsUtil {
     }
 
     static applyPlayersListSettings(){
-      LogUtil.log("applyPlayersListSettings",[document.querySelector("#ui-left aside#players"), document.querySelector("aside#players"), SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)]); 
+      LogUtil.log("applyPlayersListSettings",[document.querySelector("#players"), SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)]); 
       if(SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)){
-        document.querySelector("#ui-left aside#players")?.classList.add("auto-hide");
+        document.querySelector("#players")?.classList.add("auto-hide");
       }else{
-        document.querySelector("#ui-left aside#players")?.classList.remove("auto-hide");
+        document.querySelector("#players")?.classList.remove("auto-hide");
       }
     }
 
