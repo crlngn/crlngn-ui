@@ -51,6 +51,86 @@ body.crlngn-ui  {
     font-family: var(--crlngn-font-family);
     box-shadow: 0 1px 6px rgba(40,40,65,0.7);
   }
+
+
+  /******************
+  * INPUT AND RANGE
+  *******************/
+
+  #sidebar input:not(input[type="range"]),
+  .app.sidebar-popout input:not(input[type="range"]),
+  #sidebar select,
+  .app.sidebar-popout select,
+  #chat-controls .roll-type-select,
+  #sidebar textarea,
+  #chat-form textarea {
+    font-family: var(--crlngn-font-family);
+    background: var(--color-input-bg);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    color: var(--color-text-light-highlight);
+  }
+    
+
+  input[type=range],
+  .sidebar-tab input[type=range],
+  .sidebar-popout input[type=range],
+  .package-configuration input[type=range] {
+    -webkit-appearance: none;
+    appearance: none; 
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+    border-radius: 10px;
+    height: 10px;
+  }
+
+  input[type=range]::-webkit-slider-runnable-track,
+  .sidebar-tab input[type=range]::-webkit-slider-runnable-track,
+  .sidebar-popout input[type=range]::-webkit-slider-runnable-track,
+  .package-configuration input[type=range]::-webkit-slider-runnable-track {
+    height: 10px;
+    background: #ccc;
+    border-radius: 10px;
+    border: 0;
+  }
+
+  input[type=range]::-moz-range-track,
+  .sidebar-tab input[type=range]::-moz-range-track,
+  .sidebar-popout input[type=range]::-moz-range-track,
+  .package-configuration input[type=range]::-moz-range-track {
+    height: 10px;
+    background: #ccc;
+    border-radius: 10px;
+  }
+
+  input[type=range]::-webkit-slider-thumb,
+  .sidebar-tab input[type=range]::-webkit-slider-thumb,
+  .sidebar-popout input[type=range]::-webkit-slider-thumb,
+  .package-configuration input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none; 
+    height: 10px;
+    width: 10px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 0;
+    box-shadow: -204px 0 0 200px var(--color-highlight-alt);
+    margin-top: 0;
+  }
+
+  input[type=range]::-moz-range-thumb,
+  .sidebar-tab input[type=range]::-moz-range-thumb,
+  .sidebar-popout input[type=range]::-moz-range-thumb,
+  .package-configuration input[type=range]::-moz-range-thumb {
+    height: 10px;
+    width: 10px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1px solid var(--color-highlight-alt);
+    box-shadow: -204px 0 0 200px var(--color-highlight-alt);
+  }
+
 }
 
 body.crlngn-regular {
@@ -191,93 +271,4 @@ ol#notifications {
       border: 1px solid rgba(0,0,0);
     } 
   }
-}
-
-/******************
-* INPUT AND RANGE
-*******************/
-
-#sidebar input:not(input[type="range"]),
-.app.sidebar-popout input:not(input[type="range"]),
-#sidebar select,
-.app.sidebar-popout select,
-#chat-controls .roll-type-select,
-#sidebar textarea,
-#chat-form textarea {
-  font-family: var(--crlngn-font-family);
-  background: var(--color-input-bg);
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  color: var(--color-text-light-highlight);
-  /*
-  color: #fff;
-  padding: 6px;
-  min-height: 30px;
-  line-height: 1.6em;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
-  margin: 4px 2px;
-  */
-}
-  
-
-input[type=range],
-.sidebar-tab input[type=range],
-.sidebar-popout input[type=range],
-.package-configuration input[type=range] {
-  -webkit-appearance: none;
-  appearance: none; 
-  width: 100%;
-  cursor: pointer;
-  outline: none;
-  overflow: hidden;
-  border-radius: 10px;
-  height: 10px;
-}
-
-input[type=range]::-webkit-slider-runnable-track,
-.sidebar-tab input[type=range]::-webkit-slider-runnable-track,
-.sidebar-popout input[type=range]::-webkit-slider-runnable-track,
-.package-configuration input[type=range]::-webkit-slider-runnable-track {
-  height: 10px;
-  background: #ccc;
-  border-radius: 10px;
-  border: 0;
-}
-
-input[type=range]::-moz-range-track,
-.sidebar-tab input[type=range]::-moz-range-track,
-.sidebar-popout input[type=range]::-moz-range-track,
-.package-configuration input[type=range]::-moz-range-track {
-  height: 10px;
-  background: #ccc;
-  border-radius: 10px;
-}
-
-input[type=range]::-webkit-slider-thumb,
-.sidebar-tab input[type=range]::-webkit-slider-thumb,
-.sidebar-popout input[type=range]::-webkit-slider-thumb,
-.package-configuration input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none; 
-  height: 10px;
-  width: 10px;
-  background-color: #fff;
-  border-radius: 50%;
-  border: 0;
-  box-shadow: -204px 0 0 200px var(--color-highlight-alt);
-  margin-top: 0;
-}
-
-input[type=range]::-moz-range-thumb,
-.sidebar-tab input[type=range]::-moz-range-thumb,
-.sidebar-popout input[type=range]::-moz-range-thumb,
-.package-configuration input[type=range]::-moz-range-thumb {
-  height: 10px;
-  width: 10px;
-  background-color: #fff;
-  border-radius: 50%;
-  border: 1px solid var(--color-highlight-alt);
-  box-shadow: -204px 0 0 200px var(--color-highlight-alt);
 }
