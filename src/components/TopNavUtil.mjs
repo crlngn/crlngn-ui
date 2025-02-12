@@ -14,11 +14,12 @@ export class TopNavigation {
   static init(){
     // if user disabled Scene Navigation Styles,
     // skip everything
-    if(SettingsUtil.get(SETTINGS.sceneNavDisabled.tag)){
-      document.querySelector("#ui-middle")?.classList.remove("crlngn-ui");
+    const uiMiddle = document.querySelector("#ui-middle");
+    if(SettingsUtil.get(SETTINGS.sceneNavEnabled.tag) && uiMiddle){
+      uiMiddle.classList.add("crlngn-ui");
+    }else if(uiMiddle){
+      uiMiddle.classList.remove("crlngn-ui");
       return;
-    }else{
-      document.querySelector("#ui-middle")?.classList.add("crlngn-ui");
     }
 
     TopNavigation.addListeners(); 

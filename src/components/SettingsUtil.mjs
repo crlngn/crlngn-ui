@@ -1,6 +1,7 @@
 import { MODULE_ID, MODULE_SHORT } from "../constants/General.mjs";
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { SETTINGS } from "../constants/Settings.mjs";
+import { CameraUtil } from "./CameraUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 
 export class SettingsUtil {
@@ -40,7 +41,10 @@ export class SettingsUtil {
 
       Hooks.on(HOOKS_CORE.RENDER_SCENE_CONTROLS, SettingsUtil.applyLeftControlsSettings);
       Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, SettingsUtil.applyPlayersListSettings); 
-      Hooks.on(HOOKS_CORE.RENDER_HOTBAR, SettingsUtil.applyHotBarSettings);
+      Hooks.on(HOOKS_CORE.RENDER_HOTBAR, () => {
+        SettingsUtil.applyHotBarSettings();
+        SettingsUtil.applyHotBarCollapse();
+      });
       SettingsUtil.applySceneNavSettings();
       
       // apply chat style settings
@@ -120,12 +124,18 @@ export class SettingsUtil {
       }
       LogUtil.log("SettingsUtil.apply",[settingTag, value, SettingsUtil.get(settingTag)]); 
       switch(settingTag){
-        case SETTINGS.enableMacroLayout.tag:
-          SettingsUtil.applyHotBarSettings(); break;
-        case SETTINGS.autoHideLeftControls.tag:
-          SettingsUtil.applyLeftControlsSettings(); break;
-        case SETTINGS.autoHidePlayerList.tag:
-          SettingsUtil.applyPlayersListSettings(); break;
+        case SETTINGS.enableMacroLayout.tag: 
+          SettingsUtil.applyHotBarSettings(); break; 
+        case SETTINGS.collapseMacroBar.tag:
+          SettingsUtil.applyHotBarCollapse(); break; 
+        case SETTINGS.autoHideLeftControls.tag: 
+          SettingsUtil.applyLeftControlsSettings(); break; 
+        case SETTINGS.autoHidePlayerList.tag: 
+          SettingsUtil.applyPlayersListSettings(); break; 
+        case SETTINGS.cameraDockPosX: 
+          SettingsUtil.applyCameraPos(); break; 
+        case SETTINGS.cameraDockPosY: 
+          SettingsUtil.applyCameraPos(); break; 
         default:
           // do nothing
       }
@@ -144,12 +154,19 @@ export class SettingsUtil {
 
     static applyHotBarSettings(){
       const macroSizeOption = SettingsUtil.get(SETTINGS.enableMacroLayout.tag);
-      const uiBottom = document.querySelector("#hotbar");
+      const hotbar = document.querySelector("#hotbar");
 
-      if(!macroSizeOption){
-        uiBottom.classList.add("foundry-default");
-      }else{
-        uiBottom.classList.remove("foundry-default");
+      if(!macroSizeOption && hotbar){
+        hotbar.classList.add("foundry-default");
+      }else if(hotbar){
+        hotbar.classList.remove("foundry-default");
+      }
+    }
+    static applyHotBarCollapse(){
+      const macroCollapseOption = SettingsUtil.get(SETTINGS.collapseMacroBar.tag);
+
+      if(macroCollapseOption){
+        ui.hotbar.collapse();
       }
     }
 
@@ -175,6 +192,12 @@ export class SettingsUtil {
 
     static applySceneNavSettings(){
       SettingsUtil.set(SETTINGS.sceneNavPos.tag, 0);
+    }
+
+    static applyCameraPos(){
+      const xPos = SettingsUtil.get(SETTINGS.cameraDockPosX.tag); 
+      const yPos = SettingsUtil.get(SETTINGS.cameraDockPosY.tag); 
+      CameraUtil.resetPosition({ x: xPos, y: yPos });
     }
 }
 

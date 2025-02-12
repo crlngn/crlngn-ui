@@ -1,4 +1,18 @@
 body.crlngn-ui{
+
+  #camera-views,
+  #camera-views.camera-position-bottom,
+  #camera-views.camera-position-top,
+  #camera-views.camera-position-left,
+  #camera-views.camera-position-right{
+    position: fixed;
+    top: -200vh;
+
+    &.visible{
+      position: relative;
+      top: auto;
+    }
+  }
   
   #camera-views.crlngn-ui {
     --av-width: 150px;
@@ -6,6 +20,8 @@ body.crlngn-ui{
     --camera-bar-max-height: 0; 
     --av-frame-border-width: 1px;  
     --av-minimized-icon-size: 34px;
+    display: flex;
+    margin-top: 0;
     min-width: 0;
     max-width: max-content;
     max-height: 100%;
@@ -15,9 +31,10 @@ body.crlngn-ui{
     position: fixed;
     left: 0;
     bottom: 0;
+    top: auto;
     justify-content: flex-end;
     pointer-events:none;
-    z-index: 99;
+    z-index:101;
     padding: 0;
     flex-direction: column;
 
@@ -43,10 +60,13 @@ body.crlngn-ui{
 
     /*************************/
     /* NOT MINIMIZED */
-    .camera-container {
+    &.camera-position-bottom .camera-container,
+    &.camera-position-top .camera-container,
+    &.camera-position-left .camera-container,
+    &.camera-position-right .camera-container {
       display: flex;
       min-width: max-content;
-      max-width: calc(var(--av-width) * 6);
+      max-width: calc(100vw - var(--sidebar-width) - 50px);
       flex-direction: column;
       justify-content: flex-end;
       align-items: flex-start;
@@ -55,10 +75,10 @@ body.crlngn-ui{
       position: absolute;
       cursor: move;
       cursor: grab;
-      background: var(--left-control-main-bg);
+      background:rgba(0, 0, 0, 0.2);
       border-radius: 4px;
       pointer-events: all;
-      padding: 2px;
+      padding: 0 8px 8px 8px;
 
       &:not(.visible){
         display: none;
@@ -69,28 +89,31 @@ body.crlngn-ui{
         flex: 0 0 auto;
         position: relative;
         font-size: var(--font-size-12);
-        gap: 4px;
+        gap: 2px;
         align-items: center;
         text-align: center;
-        padding: 0;
         margin: auto 0 0 0;
-        background: rgba(20, 20, 20, 0.85); 
+        background: rgba(20, 20, 20, 0); 
+        border-radius: 4px;
         border: 0;
         pointer-events: all;
         width: auto;
+        padding: 2px 0;
         /*min-width: var(--max-players-width);*/
 
         .crlngn-video-toggle{
-          width: 20px; /* var(--left-control-item-size); */
-          height: 20px; /* var(--left-control-item-size); */
+          width: 22px; /* var(--left-control-item-size); */
+          height: 22px; /* var(--left-control-item-size); */
           font-family: var(--font-awesome);
-          background: rgba(20, 20, 20, 0.85); 
+          background: rgba(20, 20, 20, 0); 
           box-shadow: none;
           border: 1px solid transparent;
           color: var(--color-text-light-1);
           border-radius: 0;
           margin: 0;
           padding: 0;
+          line-height: 1;
+          opacity: 0.6;
 
           &:focus, &:hover{
             box-shadow: none;
@@ -103,17 +126,25 @@ body.crlngn-ui{
           font-size: var(--font-size-12);
         }
 
-
         .control-bar {
-          gap: 6px;
+          gap: 0;
+          flex-direction: row;
+          justify-content: flex-start;
           align-items: flex-start;
           flex-wrap: nowrap;
           width: auto;
           display: none;
           margin-right: 6px;
-          > * {
+          > a {
             align-content: center; 
             min-width: 20px;
+
+            &:hover{
+              color: var(--color-text-light-1);
+            }
+          }
+          > .volume-bar {
+            display: none;
           }
           > *[data-action=toggle-players]{
             visibility: hidden;
@@ -127,6 +158,19 @@ body.crlngn-ui{
           }
         }
       }
+
+      &:hover{
+        background:rgba(0, 0, 0, 0.8);
+
+        .user-controls {
+          background:rgba(20, 20, 20, 0.8);
+        }
+
+        .crlngn-video-toggle {
+          background:rgba(20, 20, 20, 0.8);
+          opacity: 1;
+        }
+      }
     }
 
     .camera-view{
@@ -134,7 +178,7 @@ body.crlngn-ui{
       min-width: var(--av-width);
       
       &.camera-box-popout{
-        min-width: calc(var(--av-width) * 1.4);
+        min-width: calc(var(--av-width) * 1.2);
       }
 
       .av-control{
@@ -183,7 +227,7 @@ body.crlngn-ui{
         border: 0;
         background: rgba(0, 0, 0, 0.3);
         justify-content: flex-start;
-        gap: 2px;
+        gap: 0;
 
         a.av-control{
           display: flex;
@@ -217,6 +261,13 @@ body.crlngn-ui{
           padding: 0;
           font-size: var(--font-size-10); 
           justify-content: center;
+          background: rgba(0, 0, 0, 0.2);
+          border-radius: 2px;
+          margin: 1px;
+
+          &:hover{
+            color: var(--color-text-light-1);
+          }
         } 
 
         .volume-bar {
@@ -224,11 +275,20 @@ body.crlngn-ui{
           gap: 4px;
           height: 22px;
           order: 100;
+          min-width: 100px;
+          background: rgba(0, 0, 0, 0.2);
+          border-radius: 2px;
+          margin: 1px;
+
 
           * {
             display: flex !important;
             color: var(--color-text-light-1);
             justify-content: center;
+
+            &:hover{
+              color: var(--color-text-light-1);
+            }
           }
         }
       }   
@@ -245,7 +305,7 @@ body.crlngn-ui{
         background-color: var(--color-highlight-alt);
         border-radius: 50%;
         border: 0;
-        margin-top: 0;
+        margin-top: -4px;
       }
 
       
@@ -283,7 +343,7 @@ body.crlngn-ui{
       display: grid;
       justify-content: start;
       grid-template-columns: repeat(auto-fit, minmax(var(--av-width), 1fr));
-      max-width: calc(6px + var(--av-width) * 6);
+      max-width: calc(100vw - var(--sidebar-width) - 60px);
       padding: 0;
 
     }
@@ -295,11 +355,12 @@ body.crlngn-ui{
     /*************************/
     /* MINIMIZED TO BAR */
     &.webrtc-dock-minimized {
+      --av-width: 34px;
       --av-minimized-icon-size: 34px;
 
       .camera-view:not(.camera-box-popout) {
-        width: 0;
-        height: 0;
+        width: var(--av-minimized-icon-size);
+        height: var(--av-minimized-icon-size);
         padding: 0;
         margin: 0;
         min-width: 0;

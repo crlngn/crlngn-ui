@@ -10,16 +10,22 @@ export class CameraUtil {
   static isDragging = false;
   static cameraContainer;
 
-  static init(){
+  static init(){ 
     if(SettingsUtil.get(SETTINGS.enableCameraStyles.tag)){ 
-
-      Hooks.on(HOOKS_CORE.RENDER_CAMERA_VIEWS, CameraUtil.onRender);
+      Hooks.on(HOOKS_CORE.RENDER_CAMERA_VIEWS, CameraUtil.onRenderFloating);
       LogUtil.log("CameraUtil", [SettingsUtil.get(SETTINGS.enableCameraStyles.tag)]);
-      // CameraUtil.onRender();
-    }    
+      CameraUtil.onRenderFloating();
+    }else{ 
+      Hooks.on(HOOKS_CORE.RENDER_CAMERA_VIEWS, CameraUtil.onRenderPlain);
+      CameraUtil.onRenderPlain();
+    } 
   }
 
-  static onRender(){
+  static onRenderPlain(){
+    document.querySelector('#camera-views')?.classList.add('visible');
+  }
+
+  static onRenderFloating(){
     document.querySelector('#camera-views')?.classList.add('crlngn-ui');
     CameraUtil.cameraContainer = document.querySelector('#camera-views .camera-container');
 
@@ -32,7 +38,7 @@ export class CameraUtil {
     CameraUtil.placeControlsToggle();
 
     if(CameraUtil.cameraContainer && cameraGrid && controlsElem){
-      CameraUtil.cameraContainer.insertBefore(controlsElem, cameraGrid);
+      CameraUtil.cameraContainer?.insertBefore(controlsElem, cameraGrid);
       document.querySelector('#camera-views .camera-container')?.classList.add('visible');
     }
     CameraUtil.makeDraggable();
@@ -56,45 +62,62 @@ export class CameraUtil {
   }
 
   static makeDraggable(){
-    // const dragHandle = CameraUtil.cameraContainer.querySelector("drag-handle");
-    const body = document.querySelector("body.crlngn-ui");
-    CameraUtil.cameraContainer.addEventListener("mousedown", (e) => {
+    CameraUtil.cameraContainer?.addEventListener("mousedown", (e) => {
+      const body = document.querySelector("body.crlngn-ui");
+      LogUtil.log("mousedown", [ e.target ]);
+      if(e.target.parentNode.classList.contains('volume-bar')){
+        return;
+      }
+      body?.addEventListener("mousemove", CameraUtil.#onMouseMove);
+      body?.addEventListener("mouseup", CameraUtil.#onMouseUp); 
+
       const offsetBottom = GeneralUtil.getOffsetBottom(CameraUtil.cameraContainer);
       CameraUtil.isDragging = true;
-      CameraUtil.#offsetX = e.clientX - CameraUtil.cameraContainer.offsetLeft;
+      CameraUtil.#offsetX = e.clientX - CameraUtil.cameraContainer?.offsetLeft;
       CameraUtil.#offsetY = (window.innerHeight - e.clientY) - offsetBottom;
-      CameraUtil.cameraContainer.style.zIndex = "1001";
+      // CameraUtil.cameraContainer.style.zIndex = "101"; 
 
       e.stopPropagation();
-    });
+    }); 
 
-    body.addEventListener("mousemove", (e) => {
-      if (!CameraUtil.isDragging) return; 
-      const offsetBottom = GeneralUtil.getOffsetBottom(CameraUtil.cameraContainer);
-      LogUtil.log("mousemove", [ offsetBottom, e.clientX - CameraUtil.#offsetX, (window.innerHeight - e.clientY) - CameraUtil.#offsetY ]);
+  }
 
+  static resetPosition({x, y} = { x: null, y: null }){
+    const savedPosX = x || SettingsUtil.get(SETTINGS.cameraDockPosX.tag);
+    const savedPosY = y || SettingsUtil.get(SETTINGS.cameraDockPosY.tag);
+
+    if(!savedPosX || !savedPosY){ return; }
+    if(CameraUtil.cameraContainer){
+      CameraUtil.cameraContainer.style.left = `${savedPosX}px`;
+      CameraUtil.cameraContainer.style.bottom = `${savedPosY}px`;
+    }
+  }
+
+  static #onMouseUp(e){
+    if(CameraUtil.isDragging){
+      const body = document.querySelector("body.crlngn-ui");
+      SettingsUtil.set(SETTINGS.cameraDockPosX.tag, parseInt(CameraUtil.cameraContainer?.style.left));
+      SettingsUtil.set(SETTINGS.cameraDockPosY.tag, parseInt(CameraUtil.cameraContainer?.style.bottom));
+      
+      body?.removeEventListener("mousemove", CameraUtil.#onMouseMove); 
+      body?.removeEventListener("mouseup", CameraUtil.#onMouseUp); 
+  
+      CameraUtil.isDragging = false; 
+      e.stopPropagation(); 
+    }
+    
+  } 
+
+  static #onMouseMove(e){ 
+    if (!CameraUtil.isDragging) return; 
+    
+    LogUtil.log("mousemove", [ e.target.parentNode ]);
+    
+    if(CameraUtil.cameraContainer){
       CameraUtil.cameraContainer.style.left = `${e.clientX - CameraUtil.#offsetX}px`;
       CameraUtil.cameraContainer.style.bottom = `${(window.innerHeight - e.clientY) -  CameraUtil.#offsetY}px`;
-      // e.stopPropagation();
-    });
-
-    body.addEventListener("mouseup", (e) => {
-      CameraUtil.isDragging = false; 
-      SettingsUtil.set(SETTINGS.cameraDockPosX.tag, parseInt(CameraUtil.cameraContainer.style.left));
-      SettingsUtil.set(SETTINGS.cameraDockPosY.tag, parseInt(CameraUtil.cameraContainer.style.bottom));
-      LogUtil.log("mouseup", [ GeneralUtil.getOffsetBottom(CameraUtil.cameraContainer), CameraUtil.#offsetX, CameraUtil.#offsetY ]);
-
-      e.stopPropagation();
-    });
-  }
-
-  static resetPosition(){
-    const savedPosX = SettingsUtil.get(SETTINGS.cameraDockPosX.tag);
-    const savedPosY = SettingsUtil.get(SETTINGS.cameraDockPosY.tag);
-
-    if(!savedPosX || !savedPosY){return;}
-    CameraUtil.cameraContainer.style.left = `${savedPosX}px`;
-    CameraUtil.cameraContainer.style.bottom = `${savedPosY}px`;
-  }
+    }
+    // e.stopPropagation(); 
+  } 
 
 }

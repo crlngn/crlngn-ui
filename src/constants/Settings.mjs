@@ -57,13 +57,13 @@ export const SETTINGS = {
     config: false 
   },
 
-  sceneNavDisabled: { 
-    tag: "scene-nav-disabled", 
-    label: "Disable Scene Nav Styles", 
+  sceneNavEnabled: { 
+    tag: "scene-nav-enabled", 
+    label: "Enable Scene Nav Styles", 
     hint: "If you are having layout issues with a non-compatible module, you can disable my custom styles for Scene Navigation.", 
     propType: Boolean, 
     inputType: SETTING_INPUT.checkbox, 
-    default: false, 
+    default: true, 
     scope: SETTING_SCOPE.client, 
     config: true, 
     requiresReload: true 
@@ -128,10 +128,22 @@ export const SETTINGS = {
     requiresReload: false 
   },
 
+ collapseMacroBar: { 
+    tag: "collapse-macro-bar", 
+    label: "Collapse Macro Bar", 
+    hint: "Enable to have the macro hotbar start minimized by default on world load.", 
+    propType: Boolean,
+    inputType: SETTING_INPUT.checkbox,
+    default: true, 
+    scope: SETTING_SCOPE.client, 
+    config: true, 
+    requiresReload: false 
+  },
+
   enableCameraStyles: {
     tag: "enable-camera-styles", 
-    label: "Enable camera styles", 
-    hint: "Apply UI styling for video players when Video sharing is enabled on Foundry", 
+    label: "Enable floating camera dock", 
+    hint: "Apply styles to camera dock, so video players are floating and can be placed anywhere on screen. You may still pop out individual videos and move them independently", 
     propType: Boolean,
     inputType: SETTING_INPUT.checkbox,
     default: true, 
@@ -148,7 +160,7 @@ export const SETTINGS = {
     inputType: SETTING_INPUT.number, 
     default: 0, 
     scope: SETTING_SCOPE.client, 
-    config: false 
+    config: true 
   },
 
   cameraDockPosY: { 
@@ -159,6 +171,6 @@ export const SETTINGS = {
     inputType: SETTING_INPUT.number, 
     default: 100, 
     scope: SETTING_SCOPE.client, 
-    config: false 
+    config: true 
   },
 }
