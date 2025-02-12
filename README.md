@@ -41,15 +41,15 @@ https://github.com/user-attachments/assets/819011c7-5ab7-44e6-8af7-372f7097ff62
 ### VERIFIED MODULE COMPATIBILITY (A-Z):
 - Break Time 12.0.x
 - Compact Scene Navigation 1.0.x (avoid using auto hide setting in both modules)
+- Force Client Settings 2.5.x
 - Hide Player UI 1.7.x
+- LiveKit AV Client 0.5.x
 - Midi-QOL 12.4.x
 - Mobile Improvements 1.3.x
 - Monk's Hotbar Expansion 11.0.x
 - Ready Set Roll 5e 3.4.x
 - Taskbar 4.1.x
 - Touch VTT 2.2.x
-- Force Client Settings 2.5.x
-- LiveKit AV Client 0.5.x
 
 I have also verified PF2e HUD, but I do not play PF2e so there might be issues I haven't noticed.
 
