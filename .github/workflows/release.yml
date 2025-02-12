@@ -82,7 +82,7 @@ jobs:
               "release": {
                 "version": "'"$VERSION"'",
                 "manifest": "https://github.com/${{ github.repository }}/releases/latest/download/module.json",
-                "notes": "https://github.com/${{ github.repository }}/releases/tag/v$VERSION",
+                "notes": "https://github.com/${{ github.repository }}/releases/tag/v'"$VERSION"'",
                 "compatibility": {
                   "minimum": "12.328",
                   "verified": "12.331"
@@ -90,43 +90,3 @@ jobs:
               }
             }')
           echo "Latest Release API Response: $API_RESPONSE"
-
-      - name: Update Previous Release on FoundryVTT
-        env:
-          FOUNDRY_PACKAGE_API_KEY: ${{ secrets.FOUNDRY_PACKAGE_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Fetching second latest release from GitHub..."
-          RELEASES=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-            "https://api.github.com/repos/${{ github.repository }}/releases" | jq -r 'map(.tag_name) | sort_by(.) | reverse')
-
-          # Extract the second latest release (previous release)
-          PREV_RELEASE=$(echo "$RELEASES" | jq -r '.[1]')
-
-          if [ -z "$PREV_RELEASE" ] || [ "$PREV_RELEASE" == "null" ]; then
-            echo "No previous release found. Skipping update."
-            exit 0
-          fi
-
-          CLEAN_VERSION="${PREV_RELEASE#v}"
-          echo "Previous release found: $CLEAN_VERSION"
-
-          echo "Updating FoundryVTT release for previous version $CLEAN_VERSION..."
-
-          API_RESPONSE=$(curl -s -X POST "https://api.foundryvtt.com/_api/packages/release_version/" \
-            -H "Content-Type: application/json" \
-            -H "Authorization: $FOUNDRY_PACKAGE_API_KEY" \
-            -d '{
-              "id": "'"$REPO_NAME"'",
-              "release": {
-                "version": "'"$CLEAN_VERSION"'",
-                "manifest": "https://github.com/${{ github.repository }}/releases/download/'"$PREV_RELEASE"'/module.json",
-                "notes": "https://github.com/${{ github.repository }}/releases/tag/'"$PREV_RELEASE"'",
-                "compatibility": {
-                  "minimum": "12.328",
-                  "verified": "12.331"
-                }
-              }
-            }')
-
-          echo "Updated previous release $CLEAN_VERSION - Response: $API_RESPONSE"
