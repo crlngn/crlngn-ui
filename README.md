@@ -9,6 +9,10 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 
 **Carolingian UI** is free to use and distribute. If you reuse my code, please add mention to the original repo. 
 
+
+https://github.com/user-attachments/assets/819011c7-5ab7-44e6-8af7-372f7097ff62
+
+
 ### FEATURES:
 - Compact left controls: the icons are smaller and the secondary bars are hidden until an item is hovered or clicked (configurable); 
 - Right panel buttons, sliders and headers have modified styles for a more uniform feel;
