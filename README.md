@@ -50,7 +50,6 @@ https://github.com/user-attachments/assets/819011c7-5ab7-44e6-8af7-372f7097ff62
 - Touch VTT 2.2.x
 - Force Client Settings 2.5.x
 - LiveKit AV Client 0.5.x
--
 
 I have also verified PF2e HUD, but I do not play PF2e so there might be issues I haven't noticed.
 
