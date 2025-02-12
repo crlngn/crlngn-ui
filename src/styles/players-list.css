@@ -1,5 +1,6 @@
 body.crlngn-ui {
   --max-players-width: 180px;
+
   aside#players { 
     position: relative;
     border-radius: 0; 
@@ -33,6 +34,11 @@ body.crlngn-ui {
       }
     } 
 
+    #context-menu li.context-item {
+      display: hidden;
+      text-overflow: ellipsis;
+    }
+
     h3 { 
       margin: 0; 
       padding: 6px 0 0 var(--left-control-item-size); 
@@ -48,8 +54,8 @@ body.crlngn-ui {
       color: transparent; 
       line-height: 2.1;
 
-      &:first-of-type{
-        pointer-events: none;
+      &[aria-label="Players"]{
+        pointer-events: all;
       }
 
       > * {

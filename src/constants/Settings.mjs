@@ -1,7 +1,8 @@
 export const SETTING_INPUT = {
   select: "select", 
   checkbox: "checkbox",
-  text: "text"
+  text: "text",
+  number: "number"
 }
 export const SETTING_SCOPE = {
   client: "client",
@@ -137,5 +138,27 @@ export const SETTINGS = {
     scope: SETTING_SCOPE.world, 
     config: true, 
     requiresReload: true 
-  } 
+  },
+
+  cameraDockPosX: { 
+    tag: "camera-dock-pos-x", 
+    label: "Horizontal position of camera dock", 
+    hint: "Position of camera dock on X axis when not minimized, from left. In absolute pixels. ", 
+    propType: Number, 
+    inputType: SETTING_INPUT.number, 
+    default: 0, 
+    scope: SETTING_SCOPE.client, 
+    config: false 
+  },
+
+  cameraDockPosY: { 
+    tag: "camera-dock-pos-y", 
+    label: "Vertical position of camera dock", 
+    hint: "Position of camera dock on Y axis when not minimized, from bottom. In absolute pixels. ", 
+    propType: Number, 
+    inputType: SETTING_INPUT.number, 
+    default: 100, 
+    scope: SETTING_SCOPE.client, 
+    config: false 
+  },
 }

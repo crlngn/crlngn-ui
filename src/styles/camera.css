@@ -1,7 +1,7 @@
 body.crlngn-ui{
   
-  #camera-views {
-    --av-width: 170px;
+  #camera-views.crlngn-ui {
+    --av-width: 150px;
     --camera-bar-max-width: 34px; 
     --camera-bar-max-height: 0; 
     --av-frame-border-width: 1px;  
@@ -9,42 +9,56 @@ body.crlngn-ui{
     min-width: 0;
     max-width: max-content;
     max-height: 100%;
+    min-height: 100%;
     background: transparent;
     overflow: visible;
     position: fixed;
-    z-index: 100;
     left: 0;
     bottom: 0;
     justify-content: flex-end;
     pointer-events:none;
+    z-index: 99;
+    padding: 0;
+    flex-direction: column;
 
-    aside#players, .user-controls {
-      margin-top: auto;
-      width: var(--left-control-item-size);
-      /*width: auto;
-      flex: 0 0 auto;*/
-      background: rgba(20, 20, 20, 0.85); 
-      border-top: 0;
-      pointer-events: all;
-
-      .control-bar{
-        width: auto;
-        flex: 0 0 auto;
+    &:not(.crlngn-ui) {
+      .user-controls{
+        display: none;
       }
     }
-    .user-controls {
-      display: none;
+    
+    &.crlngn-ui {
+      .user-controls{
+        display: flex;
+      }
     }
 
+    aside#players {
+      margin-top: auto;
+      width: var(--left-control-item-size);
+      background: var(--left-control-main-bg);
+      border-top: 0;
+      pointer-events: all;
+    }
 
     /*************************/
     /* NOT MINIMIZED */
     .camera-container {
-      margin-top: auto;
       display: flex;
-      flex-direction: row;
-      align-items: flex-end;
-      overflow: visible;
+      min-width: max-content;
+      max-width: calc(var(--av-width) * 6);
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-start;
+      margin-top: auto;
+      overflow: hidden;
+      position: absolute;
+      cursor: move;
+      cursor: grab;
+      background: var(--left-control-main-bg);
+      border-radius: 4px;
+      pointer-events: all;
+      padding: 2px;
 
       &:not(.visible){
         display: none;
@@ -52,44 +66,210 @@ body.crlngn-ui{
 
       .user-controls {
         display: flex;
-        width: auto;
         flex: 0 0 auto;
-        position: absolute;
+        position: relative;
+        font-size: var(--font-size-12);
+        gap: 4px;
+        align-items: center;
+        text-align: center;
+        padding: 0;
+        margin: auto 0 0 0;
+        background: rgba(20, 20, 20, 0.85); 
+        border: 0;
+        pointer-events: all;
+        width: auto;
+        /*min-width: var(--max-players-width);*/
 
+        .crlngn-video-toggle{
+          width: 20px; /* var(--left-control-item-size); */
+          height: 20px; /* var(--left-control-item-size); */
+          font-family: var(--font-awesome);
+          background: rgba(20, 20, 20, 0.85); 
+          box-shadow: none;
+          border: 1px solid transparent;
+          color: var(--color-text-light-1);
+          border-radius: 0;
+          margin: 0;
+          padding: 0;
+
+          &:focus, &:hover{
+            box-shadow: none;
+            border: 1px solid  var(--color-shadow-highlight);
+          }
+
+        }
+
+        i{
+          font-size: var(--font-size-12);
+        }
+
+
+        .control-bar {
+          gap: 6px;
+          align-items: flex-start;
+          flex-wrap: nowrap;
+          width: auto;
+          display: none;
+          margin-right: 6px;
+          > * {
+            align-content: center; 
+            min-width: 20px;
+          }
+          > *[data-action=toggle-players]{
+            visibility: hidden;
+            display: none !important;
+          }
+        }
+
+        &:hover{
+          .control-bar {
+            display: flex;
+          }
+        }
       }
     }
 
     .camera-view{
       pointer-events: all;
+      min-width: var(--av-width);
+      
+      &.camera-box-popout{
+        min-width: calc(var(--av-width) * 1.4);
+      }
 
-      .connection-quality-indicator {
-        bottom: 0;
-        left: 0;
-        height: 2px;
-        width: 100%;
-        border: 0;
+      .av-control{
+        display: flex;
+        flex: 0 0 auto;
+        padding: 0;
+        font-size: var(--font-size-10);
+
+        i{
+          color: #fff;
+          font-size: var(--font-size-10);
+        }
+      }
+
+      .control-bar.left,
+      .control-bar.bottom,
+      .control-bar.hidden,
+      .notification-bar,
+      .notification-bar.hidden {
+        /*display: flex !important;*/
         border-radius: 0;
-      }
-      .control-bar.bottom{
-        bottom: 0px;
-        padding-left: 25px;
-        width: auto;
-        height: auto;
-        background: rgba(0,0,0,0.2);
-        border: none;
-      }
-      .av-control i{
-        font-size: var(--font-size-12);
-        color: #fff;
-      }
-      .control-bar.left{
-        background: rgba(0,0,0,0.2);
-        border: none;
-        display: none;
+        border: 0;
+        font-size: var(--font-size-10);
       }
       
-      a.av-control[data-action=configure] {
+      .control-bar.hidden,
+      .notification-bar.hidden {
         display: none;
+        border-radius: 0;
+        border: 0;
+        font-size: var(--font-size-10);
+      }
+
+      .control-bar.left{
+        flex-direction: column;
+        justify-content: flex-start;
+        max-width: 26px;
+        overflow: hidden;
+        margin: 0;
+        top: 0;
+        left: 0;
+        width: 26px;
+        height: 100%;
+        padding: 2px 3px;
+        border-radius: 0;
+        border: 0;
+        background: rgba(0, 0, 0, 0.3);
+        justify-content: flex-start;
+        gap: 2px;
+
+        a.av-control{
+          display: flex;
+          flex: 0 0 auto;
+          height: auto;
+          width: 100%;
+          padding: 0;
+          font-size: var(--font-size-10);
+          justify-content: center;
+        }
+      }
+
+      .control-bar.bottom {
+        background: transparent;
+        bottom:2px;
+        right: 20px;
+        left: 26px;
+        height: auto;
+        width: calc(100% - 46px);
+        /*display: none;*/
+        flex-wrap: wrap; 
+        justify-content: center;
+        padding-right: 2px;
+
+        a.av-control{
+          display: flex;
+          flex: 0 0 auto;
+          width: auto;
+          min-width: 20px;
+          height: auto;
+          padding: 0;
+          font-size: var(--font-size-10); 
+          justify-content: center;
+        } 
+
+        .volume-bar {
+          display: flex;
+          gap: 4px;
+          height: 22px;
+          order: 100;
+
+          * {
+            display: flex !important;
+            color: var(--color-text-light-1);
+            justify-content: center;
+          }
+        }
+      }   
+      
+      input[type=range]{
+        border-radius: 4px;
+        height: 4px;
+      }
+      input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none; 
+        height: 10px;
+        width: 10px;
+        background-color: var(--color-highlight-alt);
+        border-radius: 50%;
+        border: 0;
+        margin-top: 0;
+      }
+
+      
+
+      &:hover .control-bar.bottom{
+        display: flex;
+      }  
+
+      .connection-quality-indicator,
+        .connection-quality-indicator.is-version-10-av.no-nameplate {
+          top: auto;
+          right: auto;
+          height: 2px;
+          z-index: 1;
+          width: calc(100% - 8px);
+          bottom: 0;
+          left: 4px;
+          border-radius: 0;
+          border: 0;
+      }
+
+      /* camera view control bars */
+      .camera-view .control-bar.hidden, .camera-view .notification-bar.hidden {
+        display: flex !important;
       }
     }
 
@@ -99,41 +279,37 @@ body.crlngn-ui{
     }
 
     .camera-grid{
-      gap: 6px;
+      gap: 2px;
       display: grid;
       justify-content: start;
       grid-template-columns: repeat(auto-fit, minmax(var(--av-width), 1fr));
-      max-width: calc(var(--av-width) * 4);
-      padding: 0 0 34px 0;
-    }
+      max-width: calc(6px + var(--av-width) * 6);
+      padding: 0;
 
+    }
     .camera-view {
       padding: 0;
       pointer-events: all;
-
-      .connection-quality-indicator {
-        bottom: 0;
-        left: 0;
-        height: 3px;
-        width: 100%;
-        border: 0;
-        border-radius: 0;
-
-        &.is-version-10-av.no-nameplate {
-          bottom: 0;
-          left: 0;
-        }
-      }
     } 
 
     /*************************/
     /* MINIMIZED TO BAR */
     &.webrtc-dock-minimized {
       --av-minimized-icon-size: 34px;
+
+      .camera-view:not(.camera-box-popout) {
+        width: 0;
+        height: 0;
+        padding: 0;
+        margin: 0;
+        min-width: 0;
+        border: 0;
+      }
       .camera-grid{
         padding: 0 !important;
         align-items: flex-start;
         justify-content: flex-end;
+        gap:0;
       }
 
       .video-container:not(.camera-container-popout) img.user-avatar {
@@ -156,34 +332,24 @@ body.crlngn-ui{
       &.camera-position-left,
       &.camera-position-right {
         --camera-bar-max-width: 34px;
-        width: calc(var(--av-minimized-icon-size));
+        width: var(--av-minimized-icon-size);
         height: 100%;
         border: 0;
 
-        .user-controls .control-bar {
-          grid-template-columns: repeat(auto-fit, minmax(16px, 1fr));
-          opacity: 0.7;
-        }
         .camera-grid{
           align-items: flex-start;
           justify-content: flex-end;
         }
       }
 
-      &.camera-position-bottom,
+      &.camera-position-bottom, 
       &.camera-position-top {
         --camera-bar-max-height: 34px; 
-
-        .user-controls .control-bar {
-          opacity: 0.7;
-          grid-auto-columns: 32px;
-          grid-auto-flow: column;
-        }
       }
 
       &.camera-position-bottom {
         width: auto;
-        height: calc(var(--av-minimized-icon-size));
+        height: var(--av-minimized-icon-size);
         bottom: 20px;
       }
       
@@ -193,22 +359,42 @@ body.crlngn-ui{
         top: 0;
       }
 
+      .camera-container{
+        /* margin-bottom: var(--players-list-height, 100px); */ 
+      }
+
       .camera-view:not(.camera-box-popout) {
         border-radius: 0;
       }
+
+      .camera-view{
+        .control-bar, video, .volume-bar, .notification-bar{
+          visibility: hidden;
+          display: none;
+        }
+        .control-bar.bottom {
+          right: 0;
+          a.av-control{
+            min-width: auto;
+          }
+        }
+        
+        .connection-quality-indicator,
+        .connection-quality-indicator.is-version-10-av.no-nameplate {
+          top: auto;
+          right: auto;
+          height: 2px;
+          z-index: 2;
+          width: 100%;
+          bottom: 0;
+          left: 0;
+          border-radius: 0;
+          border: 0;
+        }
+      }
+
       .video-container{
         border-radius: 0;
-      }
-      .camera-view .control-bar {
-        visibility: hidden;
-      }
-      .camera-view .av-control {
-        flex: 0 0 24px;
-        width: 24px;
-        padding: 0;
-      }
-      a.av-control.toggle.livekit-control {
-        display: none;
       }
       
     }
@@ -216,30 +402,16 @@ body.crlngn-ui{
     /*-------------------------------------*/
     /* VIDEO CAMERA AND CONTROLS         
     /*-------------------------------------*/
-    .camera-view.no-audio .control-bar{
-      opacity: 0.5;
-    }
     .user-controls {
-      background: rgba(0,0,0,0.2);
+      background: rgba(0,0,0,0.5);
       border-top: 0;
       pointer-events: all;
-    }
-    .user-controls .control-bar a {
-      font-size: 0.7em;
-      color: #fff;
+      padding: 8px 0;
+      font-family: var(--font-size-12);
+      width: 100%;
     }
     .camera-view .volume-bar input {
       margin-top: 6px;
-    }
-
-    .user-controls {
-      padding: 8px 0;
-      .control-bar > * {
-        font-size: var(--font-size-12);
-        color: #fff;
-        width: 100%;
-        padding: 3px;
-      }
     }
 
     .camera-view {
@@ -248,13 +420,18 @@ body.crlngn-ui{
         transition: all 1.5s ease-out;
       }
       .status-hidden.hidden {
-        display: block;
+        display: none;
+      }
+
+      &.speaking{
+        background: #333;
+        border: 2px solid #333;
+        padding: 0;
       }
     }
 
     video{
-      filter: brightness(125%) saturate(65%) blur(0.25px) contrast(90%);
-      transition: all 1.5s ease-out;
+      filter: brightness(130%) saturate(65%) blur(0.3px) contrast(90%);
     }
 
     video:not(.local-camera) {
@@ -274,8 +451,20 @@ body.crlngn-ui{
       line-height: 1.8em;
       z-index: 1000;
     }
+    h3.player-name{
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      color: #ddd !important;
+    }
+
+    .camera-view-popout.user-hidden{
+      opacity: 0.2;
+    }
 
   }
-  
+
 
 }

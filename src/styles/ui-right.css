@@ -121,6 +121,13 @@
     }
   }
 
+  li.directory {
+    .compendium-footer .source {
+      font-size: var(--font-size-10);
+      opacity: 0.5;
+    }
+  }
+
   li.directory-item.compendium h3,
   li.directory-item h3.document-name {
     font-size: var(--font-size-12);

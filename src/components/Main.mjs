@@ -4,6 +4,7 @@ import { SettingsUtil } from "./SettingsUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs"; 
 import { ChatUtil } from "./ChatUtil.mjs";
 import { CameraUtil } from "./CameraUtil.mjs";
+import { PlayersListUtil } from "./PlayersListUtil.mjs";
 
 export class Main {
 
@@ -18,13 +19,13 @@ export class Main {
     });
 
     Hooks.once(HOOKS_CORE.READY, () => {
-
       var isDebugOn = SettingsUtil.get('debug-mode');
       if(isDebugOn){CONFIG.debug.hooks = true};
       LogUtil.log("Core Ready", []);
 
       TopNavigation.init(); 
       CameraUtil.init(); 
+      PlayersListUtil.init(); 
     })
     
   }

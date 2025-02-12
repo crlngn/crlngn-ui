@@ -22,4 +22,13 @@ export class GeneralUtil {
     }
     return element.offsetWidth;
   }
+
+  static getOffsetBottom(element) {
+    const offsetTop = element.offsetTop;
+    const elementHeight = element.offsetHeight;
+    const offsetParent = element.offsetParent;
+    const parentHeight = offsetParent ? offsetParent.clientHeight : window.innerHeight;
+  
+    return parentHeight - (offsetTop + elementHeight);
+  }
 }

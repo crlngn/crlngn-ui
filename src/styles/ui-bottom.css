@@ -15,9 +15,15 @@
 }
 
 body.crlngn-ui{
+  --macro-bar-left: calc(180px - (var(--left-control-item-size) * 2));
+
+  &:has(#players.auto-hide){
+    --macro-bar-left: 0px;
+  }
+
   #hotbar {
     margin-bottom: 0;
-    margin-left: var(--max-players-width);
+    margin-left: var(--macro-bar-left);
   
     .bar-controls, 
     .macro,
