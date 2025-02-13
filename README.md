@@ -1,4 +1,4 @@
-**Latest Version:** 1.3.0
+**Latest Version:** 1.3.1
 
 **Compatibility:** 
 - Foundry VTT version 12.328+
@@ -16,7 +16,7 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 - Top Navigation can be horizontally scrolled; player and GM markers are turned into simple lines with the color of each player;
 - Compact Player list that opens on hover;
 - Reduced size of macro bar;
-- New styles for camera dock - the whole camera dock floats so you can drag and position anywhere on screen
+- Floating styles for camera dock - drag, resize and position anywhere on screen;
 - Settings for macro bar layout, collapse macro bar on load, auto-hide left controls and scene navigation;
 - Chat messages have more compact usage buttons for saving some space (tested on DnD5e 4.x, partial support for other systems);
 - Chat messages are shown in dark mode if the selected Foundry theme is Dark (tested on DnD5e 4.x, partial support for other systems); 
@@ -36,17 +36,18 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 
 ### VERIFIED MODULE COMPATIBILITY (A-Z):
 - Break Time 12.0.x
+- Carousel Combat Tracker 3.1.x
 - Compact Scene Navigation 1.0.x (avoid using auto hide setting in both modules)
+- Force Client Settings 2.5.x
 - Hide Player UI 1.7.x
+- LiveKit AV Client 0.5.x
 - Midi-QOL 12.4.x
 - Mobile Improvements 1.3.x
 - Monk's Hotbar Expansion 11.0.x
 - Ready Set Roll 5e 3.4.x
 - Taskbar 4.1.x
 - Touch VTT 2.2.x
-- Force Client Settings 2.5.x
-- LiveKit AV Client 0.5.x
--
+
 
 I have also verified PF2e HUD, but I do not play PF2e so there might be issues I haven't noticed.
 

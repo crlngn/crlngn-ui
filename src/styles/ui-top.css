@@ -15,6 +15,16 @@
   }
 }
 
+body.crlngn-ui{
+  &:has(#ui-middle.crlngn-ui){
+    --ui-top-padding: 37px;
+
+    &:has(#navigation.collapsed){
+      --ui-top-padding: 0;
+    }
+  }
+}
+
 #interface #ui-middle.crlngn-ui #ui-top{
   --margin-left: calc((var(--left-control-item-size) * 2));
   flex-grow: 1;

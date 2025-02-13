@@ -15,7 +15,7 @@ body.crlngn-ui{
   }
   
   #camera-views.crlngn-ui {
-    --av-width: 150px;
+    --av-width: 160px;
     --camera-bar-max-width: 34px; 
     --camera-bar-max-height: 0; 
     --av-frame-border-width: 1px;  
@@ -65,20 +65,22 @@ body.crlngn-ui{
     &.camera-position-left .camera-container,
     &.camera-position-right .camera-container {
       display: flex;
-      min-width: max-content;
-      max-width: calc(100vw - var(--sidebar-width) - 50px);
+      min-width: min-content;
+      width: auto;
+      white-space: nowrap;
+      /*max-width: calc(100vw - var(--sidebar-width) - 50px);*/
       flex-direction: column;
-      justify-content: flex-end;
+      justify-content: flex-start;
       align-items: flex-start;
       margin-top: auto;
-      overflow: hidden;
+      overflow: auto;
       position: absolute;
       cursor: move;
       cursor: grab;
-      background:rgba(0, 0, 0, 0.2);
+      background:rgba(0, 0, 0, 0.25);
       border-radius: 4px;
       pointer-events: all;
-      padding: 0 8px 8px 8px;
+      padding: 0 4px 4px 4px;
 
       &:not(.visible){
         display: none;
@@ -92,7 +94,7 @@ body.crlngn-ui{
         gap: 2px;
         align-items: center;
         text-align: center;
-        margin: auto 0 0 0;
+        margin: 0;
         background: rgba(20, 20, 20, 0); 
         border-radius: 4px;
         border: 0;
@@ -104,6 +106,7 @@ body.crlngn-ui{
         .crlngn-video-toggle{
           width: 22px; /* var(--left-control-item-size); */
           height: 22px; /* var(--left-control-item-size); */
+          flex: 0 0 22px;
           font-family: var(--font-awesome);
           background: rgba(20, 20, 20, 0); 
           box-shadow: none;
@@ -176,6 +179,8 @@ body.crlngn-ui{
     .camera-view{
       pointer-events: all;
       min-width: var(--av-width);
+      position: relative;
+      padding: 0;
       
       &.camera-box-popout{
         min-width: calc(var(--av-width) * 1.2);
@@ -333,6 +338,20 @@ body.crlngn-ui{
       }
     }
 
+    .resize-handle {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      bottom: 0;
+      right: 0;
+      border-left: 7px solid transparent;
+      border-top: 7px solid transparent;
+      border-right: 7px solid rgba(240, 240, 255, 0.3);
+      border-bottom: 7px solid rgba(240, 240, 255, 0.3);
+      cursor: nwse-resize;
+      z-index: 1000;
+    }
+
     .camera-view-width-control {
       z-index: 0;
       display: none;
@@ -342,21 +361,44 @@ body.crlngn-ui{
       gap: 2px;
       display: grid;
       justify-content: start;
-      grid-template-columns: repeat(auto-fit, minmax(var(--av-width), 1fr));
-      max-width: calc(100vw - var(--sidebar-width) - 60px);
+      grid-template-columns: repeat(auto-fill, var(--av-width));
+      /* max-width: calc(100vw - var(--sidebar-width) - 60px); */
+      width: 100%;
+      max-width: 100%;
+      height: auto;
       padding: 0;
-
     }
-    .camera-view {
-      padding: 0;
-      pointer-events: all;
-    } 
+
+    .camera-box-popout .window-resizable-handle {
+      cursor: nwse-resize;
+    }
+
 
     /*************************/
     /* MINIMIZED TO BAR */
     &.webrtc-dock-minimized {
       --av-width: 34px;
       --av-minimized-icon-size: 34px;
+
+      &.camera-position-bottom .camera-container,
+      &.camera-position-top .camera-container,
+      &.camera-position-left .camera-container,
+      &.camera-position-right .camera-container {
+        overflow: visible;
+        height: auto;
+        width: var(--av-minimized-icon-size);
+        max-width: var(--av-minimized-icon-size);
+
+        .resize-handle{
+          display: none;
+        }
+
+        .user-controls{
+          max-width: var(--av-minimized-icon-size);
+          overflow: visible;
+          background: var(--left-control-main-bg);
+        }
+      }
 
       .camera-view:not(.camera-box-popout) {
         width: var(--av-minimized-icon-size);

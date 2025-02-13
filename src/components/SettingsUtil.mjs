@@ -132,10 +132,14 @@ export class SettingsUtil {
           SettingsUtil.applyLeftControlsSettings(); break; 
         case SETTINGS.autoHidePlayerList.tag: 
           SettingsUtil.applyPlayersListSettings(); break; 
-        case SETTINGS.cameraDockPosX: 
-          SettingsUtil.applyCameraPos(); break; 
-        case SETTINGS.cameraDockPosY: 
-          SettingsUtil.applyCameraPos(); break; 
+        case SETTINGS.cameraDockPosX.tag: 
+          SettingsUtil.applyCameraPosX(value); break; 
+        case SETTINGS.cameraDockPosY.tag: 
+          SettingsUtil.applyCameraPosY(value); break; 
+        case SETTINGS.cameraDockWidth.tag:
+          SettingsUtil.applyCameraWidth(value); break;
+        case SETTINGS.cameraDockHeight.tag:
+          SettingsUtil.applyCameraHeight(value); break;
         default:
           // do nothing
       }
@@ -194,10 +198,22 @@ export class SettingsUtil {
       SettingsUtil.set(SETTINGS.sceneNavPos.tag, 0);
     }
 
-    static applyCameraPos(){
-      const xPos = SettingsUtil.get(SETTINGS.cameraDockPosX.tag); 
-      const yPos = SettingsUtil.get(SETTINGS.cameraDockPosY.tag); 
-      CameraUtil.resetPosition({ x: xPos, y: yPos });
+    static applyCameraPosX(pos){
+      const xPos = pos || SettingsUtil.get(SETTINGS.cameraDockPosX.tag); 
+      CameraUtil.resetPositionAndSize({ x: xPos });
+    }
+    static applyCameraPosY(pos){
+      const yPos = pos || SettingsUtil.get(SETTINGS.cameraDockPosY.tag); 
+      CameraUtil.resetPositionAndSize({ y: yPos });
+    }
+
+    static applyCameraWidth(value){
+      const width = value || SettingsUtil.get(SETTINGS.cameraDockWidth.tag);
+      CameraUtil.resetPositionAndSize({ w: width });
+    }
+    static applyCameraHeight(value){
+      const height = value || SettingsUtil.get(SETTINGS.cameraDockHeight.tag); 
+      CameraUtil.resetPositionAndSize({ h: height });
     }
 }
 

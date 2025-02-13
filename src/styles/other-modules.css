@@ -34,6 +34,23 @@ body.crlngn-ui{
     }
   }
 
+  /* CAROUSEL COMBAT TRACKER */
+
+  #combat-dock {
+    top: var(--ui-top-padding, 0px);
+
+    .buttons-container {
+      justify-content: flex-start;
+      gap: 1px;
+  
+      i{
+        border: none;
+        border-radius: 0; 
+      }
+      
+    }
+  }
+
 
   /* DFREDS EFFECTS PANEL  */
   #effects-panel {
@@ -44,5 +61,9 @@ body.crlngn-ui{
   .visual-active-effects.panel {
     --visual-active-effects-icon-size: var(--left-control-item-size);
     --visual-active-effects-top-offset: 45px;
+  }
+
+  #taskbar{
+    z-index: 1001;
   }
 }
