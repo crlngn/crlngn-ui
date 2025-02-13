@@ -48,9 +48,7 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 - Taskbar 4.1.x
 - Touch VTT 2.2.x
 
-
 I have also verified PF2e HUD, but I do not play PF2e so there might be issues I haven't noticed.
-
 This is not an extensive list - I've only included modules that might be particularly affected by changes in the UI.
 
 ### IMPORTANT:
