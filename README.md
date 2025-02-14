@@ -1,4 +1,4 @@
-**Latest Version:** 1.3.1
+**Latest Version:** 1.3.2
 
 **Compatibility:** 
 - Foundry VTT version 12.328+
@@ -46,6 +46,7 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 - Monk's Hotbar Expansion 11.0.x
 - Ready Set Roll 5e 3.4.x
 - Taskbar 4.1.x
+- TheRipper93's Module Hub 4.1.x
 - Touch VTT 2.2.x
 
 I have also verified PF2e HUD, but I do not play PF2e so there might be issues I haven't noticed.

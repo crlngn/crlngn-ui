@@ -28,7 +28,7 @@ body.crlngn-ui{
     ol.context-items li.context-item {
       width: 100%;
       padding: 0 6px;
-      font-size: var(--font-size-11);
+      font-size: var(--font-size-12);
       line-height: var(--font-size-24);
       text-align: left;
     }
@@ -59,11 +59,33 @@ body.crlngn-ui{
 
   /* VISUAL ACTIVE EFFECTS */
   .visual-active-effects.panel {
-    --visual-active-effects-icon-size: var(--left-control-item-size);
-    --visual-active-effects-top-offset: 45px;
+    /*--visual-active-effects-icon-size: calc(var(--left-control-item-size) * 1.5);*/
+    --visual-active-effects-top-offset: calc(var(--left-control-item-size) * 1.5);
   }
 
   #taskbar{
     z-index: 1001;
   }
+
+  /* RIPPER93 MODULE HUB */
+  button.dice-tray-button{
+    box-shadow: none;
+    &[data-button=adv],
+    &[data-button=dis]{
+      font-weight: 600;
+      background: var(--left-control-main-bg);
+      border-radius: 2px;
+
+      &:hover{
+        box-shadow: none;
+      }
+    }
+  }
+
+  /* MIDI-QOL */
+  :is(.chat-popout, #chat-log) .message .dnd5e2.evaluation .midi-qol.target > img {
+    border: none !important;
+    border-radius: 0 !important;
+  }
+  
 }

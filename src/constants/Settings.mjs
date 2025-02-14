@@ -194,5 +194,21 @@ export const SETTINGS = {
     default: 120, 
     scope: SETTING_SCOPE.client, 
     config: true 
+  } ,
+
+  controlIconSize: { 
+    tag: "conrol-icon-size", 
+    label: "Size of control icons", 
+    hint: "If you use a very large screen, you may want to change the size of the icons on left controls. This may affect some other UI elements", 
+    propType: Number, 
+    choices: {
+      1: "small",
+      2: "normal"
+    },
+    inputType: SETTING_INPUT.number, 
+    default: 1, 
+    scope: SETTING_SCOPE.client, 
+    config: true 
   } 
+
 }

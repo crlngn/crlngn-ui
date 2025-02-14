@@ -42,7 +42,7 @@
 #ui-right .sidebar-tab,
 .sidebar-popout .sidebar-tab {
   line-height: 1.5;
-  font-size: var(--font-size-12);
+  font-size: var(--font-size-13);
 
   .dnd5e2.sidebar-heading{
     display: flex;
@@ -54,7 +54,7 @@
     padding: 4px 14px;
   }
 
-  h2{
+  h2 {
     border: 0;
     color: #fff;
     font-size: var(--font-size-12);
@@ -63,7 +63,12 @@
     margin: 14px 0 6px;
   }
 
-  button:not(.dice-tray button, .chat-message button) {
+  button#chat-form--send {
+    display: none;
+  }
+
+
+  button:not(.dice-tray button, .chat-message button, .dice-tray-container button) {
     padding: 6px; 
     border-radius: 0; 
     background: rgba(0,0,0,0.15); 
@@ -77,8 +82,8 @@
     box-shadow: 0 0 10px inset rgb(0, 0, 0, 0.3); 
     transition: all ease-in-out 0.25s; 
     position: relative; 
-    min-height: 36px; 
-    font-size: var(--font-size-12); 
+    min-height: 34px;
+    font-size: var(--font-size-13); 
     font-weight: 600; 
     margin: 2px 0;
 
@@ -105,7 +110,7 @@
   }
 
   li.folder > .folder-header h3 {
-    font-size: var(--font-size-12);
+    font-size: var(--font-size-14);
     font-weight: 600;
 
     a{

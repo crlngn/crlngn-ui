@@ -56,7 +56,7 @@ export class CameraUtil {
     const existingButtons = camControls?.querySelectorAll(".crlngn-video-toggle");
     LogUtil.log("placeControlsToggle", [camControls, existingButtons]);
 
-    if(existingButtons.length > 0){
+    if(existingButtons?.length > 0){
       return; 
     }
 
@@ -72,7 +72,7 @@ export class CameraUtil {
     CameraUtil.cameraContainer?.addEventListener("mousedown", (e) => {
       const body = document.querySelector("body.crlngn-ui");
       LogUtil.log("mousedown", [ e.target ]);
-      if(e.target.parentNode.classList.contains('volume-bar')){
+      if(e.target.parentNode?.classList.contains('volume-bar')){
         return;
       }
       body?.addEventListener("mousemove", CameraUtil.#onDragMove);

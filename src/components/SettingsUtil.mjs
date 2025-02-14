@@ -29,6 +29,9 @@ export class SettingsUtil {
           requiresReload: setting.requiresReload || false,
           onChange: value => SettingsUtil.apply(setting.tag, value)
         }
+        if(setting.choices){
+          settingObj.choices = setting.choices
+        }
 
         await game.settings.register(MODULE_ID, setting.tag, settingObj);
 
@@ -58,6 +61,10 @@ export class SettingsUtil {
         const root = document.querySelector("body.crlngn-ui");
         root.style.setProperty('--crlngn-font-family', customFont);
       }
+
+      // apply icon size setting
+      const iconSizeOption = SettingsUtil.get(SETTINGS.controlIconSize.tag);
+      if(iconSizeOption) SettingsUtil.applyControlIconSize(iconSizeOption);
     }
 
     /**
@@ -140,6 +147,8 @@ export class SettingsUtil {
           SettingsUtil.applyCameraWidth(value); break;
         case SETTINGS.cameraDockHeight.tag:
           SettingsUtil.applyCameraHeight(value); break;
+        case SETTINGS.controlIconSize.tag:
+          SettingsUtil.applyControlIconSize(value); break;
         default:
           // do nothing
       }
@@ -211,9 +220,17 @@ export class SettingsUtil {
       const width = value || SettingsUtil.get(SETTINGS.cameraDockWidth.tag);
       CameraUtil.resetPositionAndSize({ w: width });
     }
+
     static applyCameraHeight(value){
       const height = value || SettingsUtil.get(SETTINGS.cameraDockHeight.tag); 
       CameraUtil.resetPositionAndSize({ h: height });
+    }
+
+    static applyControlIconSize(value){
+      const root = document.querySelector("body.crlngn-ui");
+      const size = value == 1 ? '36px' : '42px';
+
+      root.style.setProperty('--left-control-item-size', size);
     }
 }
 
