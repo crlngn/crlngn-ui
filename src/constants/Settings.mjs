@@ -23,28 +23,20 @@ export const SETTINGS = {
     requiresReload: true 
   }, 
 
-  customFont: { 
-    tag: "custom-font", 
-    label: "Custom fonts", 
-    hint: "You can type the name of custom fonts loaded on Foundry core and they will be used throughout the interface. Names with spaces must be written with double quotes (\"Font Name\"). If the font doesn't load you haven't typed the name correctly, or the font was not found. Default value: "+`"Work Sans", Arial, sans-serif`, 
-    propType: String, 
-    inputType: SETTING_INPUT.text, 
-    default: `"Work Sans", "Roboto", Arial, sans-serif`, 
+  controlIconSize: { 
+    tag: "conrol-icon-size", 
+    label: "Size of control icons", 
+    hint: "If you use a very large screen, you may want to change the size of the icons on left controls. This may affect some other UI elements", 
+    propType: Number, 
+    choices: {
+      1: "small",
+      2: "normal"
+    },
+    inputType: SETTING_INPUT.number, 
+    default: 1, 
     scope: SETTING_SCOPE.client, 
-    config: true, 
-    requiresReload: true 
-  }, 
-
-  debugMode: { 
-    tag: "debug-mode", 
-    label: "Debug Mode",
-    hint: "Enable or disable debug messages on browser console",
-    propType: Boolean,
-    inputType: SETTING_INPUT.checkbox,
-    default: false,
-    scope: SETTING_SCOPE.client,
-    config: true
-  },
+    config: true 
+  } ,
 
   sceneNavCollapsed: { 
     tag: "scene-nav-collapsed", 
@@ -140,6 +132,18 @@ export const SETTINGS = {
     requiresReload: false 
   },
 
+  customFont: { 
+    tag: "custom-font", 
+    label: "Custom fonts", 
+    hint: "You can type the name of custom fonts loaded on Foundry core and they will be used throughout the interface. Names with spaces must be written with double quotes (\"Font Name\"). If the font doesn't load you haven't typed the name correctly, or the font was not found. Default value: "+`"Work Sans", Arial, sans-serif`, 
+    propType: String, 
+    inputType: SETTING_INPUT.text, 
+    default: `"Work Sans", "Roboto", Arial, sans-serif`, 
+    scope: SETTING_SCOPE.client, 
+    config: true, 
+    requiresReload: true 
+  }, 
+
   enableCameraStyles: {
     tag: "enable-camera-styles", 
     label: "Enable floating camera dock", 
@@ -196,19 +200,15 @@ export const SETTINGS = {
     config: true 
   } ,
 
-  controlIconSize: { 
-    tag: "conrol-icon-size", 
-    label: "Size of control icons", 
-    hint: "If you use a very large screen, you may want to change the size of the icons on left controls. This may affect some other UI elements", 
-    propType: Number, 
-    choices: {
-      1: "small",
-      2: "normal"
-    },
-    inputType: SETTING_INPUT.number, 
-    default: 1, 
-    scope: SETTING_SCOPE.client, 
-    config: true 
-  } 
+  debugMode: { 
+    tag: "debug-mode", 
+    label: "Debug Mode",
+    hint: "Enable or disable debug messages on browser console",
+    propType: Boolean,
+    inputType: SETTING_INPUT.checkbox,
+    default: false,
+    scope: SETTING_SCOPE.client,
+    config: true
+  },
 
 }
