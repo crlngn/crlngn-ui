@@ -55,7 +55,8 @@ export default defineConfig({
   copy({
     targets: [
       { src: "src/module.json", dest: "dist" },
-      { src: "src/templates", dest: "dist" }
+      { src: "src/templates", dest: "dist" },
+      { src: "src/lang", dest: "dist" }
     ],
     hook: "writeBundle",
   })

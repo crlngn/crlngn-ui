@@ -5,14 +5,17 @@ import { TopNavigation } from "./TopNavUtil.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
 import { CameraUtil } from "./CameraUtil.mjs";
 import { PlayersListUtil } from "./PlayersListUtil.mjs";
+import { getSettings } from "../constants/Settings.mjs";
 
 export class Main {
+  static SETTINGS;
 
   static init(){
-
     Hooks.once(HOOKS_CORE.INIT, () => { 
+      Main.SETTINGS = getSettings();
       document.querySelector("#ui-middle")?.classList.add("crlngn-ui");
       LogUtil.log("Initiating module", [], true); 
+
       // Main.setupKeyListeners(); 
       SettingsUtil.registerSettings();
       Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
@@ -21,7 +24,11 @@ export class Main {
     Hooks.once(HOOKS_CORE.READY, () => {
       var isDebugOn = SettingsUtil.get('debug-mode');
       if(isDebugOn){CONFIG.debug.hooks = true};
-      LogUtil.log("Core Ready", []);
+
+      const testTemplate = loadTemplates(["modules/crlngn-ui/templates/custom-fonts-settings.hbs"]).then((a)=>{
+        LogUtil.log("Loaded template", [a]);
+      });
+      LogUtil.log("Core Ready", [testTemplate]);
 
       TopNavigation.init(); 
       CameraUtil.init(); 

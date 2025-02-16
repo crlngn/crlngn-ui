@@ -9,206 +9,218 @@ export const SETTING_SCOPE = {
   world: "world"
 }
 
-export const SETTINGS = { 
+export const ICON_SIZES = {
+  small: { name: 'small', size: '36px'},
+  regular: { name: 'regular', size: '42px'},
+}
 
-  enableChatStyles: { 
-    tag: "enable-chat-styles", 
-    label: "Enable styles for chat messages", 
-    hint: "Adds style modifications to chat cards. When dark mode is selected on Foundry, makes chat cards dark as well. MOSTLY FOR DND5E - only partial support for other systems.", 
-    propType: Boolean, 
-    inputType: SETTING_INPUT.checkbox, 
-    default: true, 
-    scope: SETTING_SCOPE.client, 
-    config: true, 
-    requiresReload: true 
-  }, 
+export function getSettings() { 
+  return {
 
-  controlIconSize: { 
-    tag: "conrol-icon-size", 
-    label: "Size of control icons", 
-    hint: "If you use a very large screen, you may want to change the size of the icons on left controls. This may affect some other UI elements", 
-    propType: Number, 
-    choices: {
-      1: "small",
-      2: "normal"
+    customFontsMenu: {
+      tag: "custom-font-families", 
+      label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.hint"),
+      propType: Object,
+      inputType: SETTING_INPUT.button,
+      default: {
+        uiFont: `"Work Sans", Arial, sans-serif`,
+        journalBodyFont: `"Roboto Condensed", Arial, sans-serif`, 
+        journalTitleFont: `"Roboto Condensed", Arial, sans-serif`
+      },
+      scope: SETTING_SCOPE.world,
+      config: false, 
+      requiresReload: false 
     },
-    inputType: SETTING_INPUT.number, 
-    default: 1, 
-    scope: SETTING_SCOPE.client, 
-    config: true 
-  } ,
 
-  sceneNavCollapsed: { 
-    tag: "scene-nav-collapsed", 
-    label: "Scene Navigation Collapsed", 
-    hint: "Current state of the scene navigation toggle. Is it collapsed?", 
-    propType: Boolean, 
-    inputType: SETTING_INPUT.checkbox, 
-    default: true, 
-    scope: SETTING_SCOPE.client, 
-    config: false 
-  },
+    leftControlsMenu: {
+      tag: "left-controls-menu", 
+      label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.hint"),
+      propType: Object,
+      inputType: SETTING_INPUT.button,
+      fields: {
+        iconSize: {
+          tag: "control-icon-size",
+          label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.label"),
+          hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.hint"),
+          inputType: SETTING_INPUT.select, 
+          options: {
+            small: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.options.small"), 
+            regular: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.options.regular")
+          }
+        },
+        autoHideSecondary: { 
+          tag: "auto-hide-secondary-controls", 
+          label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.autoHideSecondary.label"), 
+          hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.autoHideSecondary.hint"), 
+          inputType: SETTING_INPUT.checkbox
+        }
+      },
+      default: {
+        iconSize: ICON_SIZES.small.name,
+        autoHideSecondary: false
+      },
+      scope: SETTING_SCOPE.client,
+      config: false, 
+      requiresReload: false 
+    },
 
-  sceneNavEnabled: { 
-    tag: "scene-nav-enabled", 
-    label: "Enable Scene Nav Styles", 
-    hint: "If you are having layout issues with a non-compatible module, you can disable my custom styles for Scene Navigation.", 
-    propType: Boolean, 
-    inputType: SETTING_INPUT.checkbox, 
-    default: true, 
-    scope: SETTING_SCOPE.client, 
-    config: true, 
-    requiresReload: true 
-  },
+    cameraDockMenu: {
+      tag: "camera-dock-menu", 
+      label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.hint"),
+      propType: Object,
+      inputType: SETTING_INPUT.button,
+      fields: {
+        enableFloatingDock: { 
+          tag: "enable-floating-camera-dock", 
+          label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.enableFloatingDock.label"), 
+          hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.enableFloatingDock.hint"), 
+          inputType: SETTING_INPUT.checkbox
+        },
+        dockPosX: {
+          tag: "camera-dock-x",
+          label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockPosX.label"),
+          hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockPosX.hint"),
+          inputType: SETTING_INPUT.number
+        },
+        dockPosY: {
+          tag: "camera-dock-y",
+          label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockPosY.label"),
+          hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockPosY.hint"),
+          inputType: SETTING_INPUT.number
+        },
+        dockWidth: {
+          tag: "camera-dock-width",
+          label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockWidth.label"),
+          hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockWidth.hint"),
+          inputType: SETTING_INPUT.number
+        },
+        dockHeight: {
+          tag: "camera-dock-height",
+          label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockHeight.label"),
+          hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockHeight.hint"),
+          inputType: SETTING_INPUT.number
+        }
+      },
+      default: {
+        enableFloatingDock: true,
+        dockPosX: 0,
+        dockPosY: 120,
+        dockWidth: 140,
+        dockHeight: 140
+      },
+      scope: SETTING_SCOPE.client,
+      config: false, 
+      requiresReload: false 
+    },
+    
+    enableChatStyles: { 
+      tag: "enable-chat-styles", 
+      label: game.i18n.localize("CRLNGN_UI.settings.enableChatStyles.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.enableChatStyles.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox, 
+      default: true, 
+      scope: SETTING_SCOPE.client, 
+      config: true, 
+      requiresReload: true 
+    }, 
 
-  sceneNavPos: { 
-    tag: "scene-nav-pos", 
-    label: "Scene Navigation Position", 
-    hint: "Stores current position of navigation for reset when it's re-rendered", 
-    propType: Number, 
-    inputType: SETTING_INPUT.number, 
-    default: 0, 
-    scope: SETTING_SCOPE.client, 
-    config: false 
-  },
+    sceneNavCollapsed: { 
+      tag: "scene-nav-collapsed", 
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavCollapsed.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavCollapsed.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox, 
+      default: true, 
+      scope: SETTING_SCOPE.client, 
+      config: false 
+    },
 
-  enableMacroLayout: { 
-    tag: "enable-macro-layout", 
-    label: "Enable macro resize", 
-    hint: "The module reduces the size of macro slots on the hotbar, and enlarges the numbers. Disable this setting to use default Foundry layout.", 
-    propType: Boolean,
-    inputType: SETTING_INPUT.checkbox,
-    default: true, 
-    scope: SETTING_SCOPE.client, 
-    config: true, 
-    requiresReload: false 
-  },
+    sceneNavEnabled: { 
+      tag: "scene-nav-enabled", 
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavEnabled.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavEnabled.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox, 
+      default: true, 
+      scope: SETTING_SCOPE.client, 
+      config: true, 
+      requiresReload: true 
+    },
 
-  showSceneNavOnHover: { 
-    tag: "show-scene-nav-on-hover", 
-    label: "Show scene list on hover", 
-    hint: "If the scene navigation is collapsed, you can show it by hovering the mouse over the top of screen.", 
-    propType: Boolean,
-    inputType: SETTING_INPUT.checkbox,
-    default: true, 
-    scope: SETTING_SCOPE.client, 
-    config: true, 
-    requiresReload: false 
-  },
+    showSceneNavOnHover: { 
+      tag: "show-scene-nav-on-hover", 
+      label: game.i18n.localize("CRLNGN_UI.settings.showSceneNavOnHover.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.showSceneNavOnHover.hint"), 
+      propType: Boolean,
+      inputType: SETTING_INPUT.checkbox,
+      default: true, 
+      scope: SETTING_SCOPE.client, 
+      config: true, 
+      requiresReload: false 
+    },
 
-  autoHideLeftControls: { 
-    tag: "auto-hide-secondary-controls", 
-    label: "Auto hide secondary controls", 
-    hint: "Enable to keep the secondary bar on the left controls hidden unless you hover on the region or click on an item", 
-    propType: Boolean,
-    inputType: SETTING_INPUT.checkbox,
-    default: true, 
-    scope: SETTING_SCOPE.client, 
-    config: true, 
-    requiresReload: false 
-  },
+    sceneNavPos: { 
+      tag: "scene-nav-pos", 
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavPos.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavPos.hint"), 
+      propType: Number, 
+      inputType: SETTING_INPUT.number, 
+      default: 0, 
+      scope: SETTING_SCOPE.client, 
+      config: false 
+    },
 
-  autoHidePlayerList: { 
-    tag: "auto-hide-player-list", 
-    label: "Auto hide player list", 
-    hint: "Enable to keep the bottom left players list minimized, except when hovered", 
-    propType: Boolean,
-    inputType: SETTING_INPUT.checkbox,
-    default: true, 
-    scope: SETTING_SCOPE.client, 
-    config: true, 
-    requiresReload: false 
-  },
+    enableMacroLayout: { 
+      tag: "enable-macro-layout", 
+      label: game.i18n.localize("CRLNGN_UI.settings.enableMacroLayout.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.enableMacroLayout.hint"), 
+      propType: Boolean,
+      inputType: SETTING_INPUT.checkbox,
+      default: true, 
+      scope: SETTING_SCOPE.client, 
+      config: true, 
+      requiresReload: false 
+    },
 
- collapseMacroBar: { 
-    tag: "collapse-macro-bar", 
-    label: "Collapse Macro Bar", 
-    hint: "Enable to have the macro hotbar start minimized by default on world load.", 
-    propType: Boolean,
-    inputType: SETTING_INPUT.checkbox,
-    default: true, 
-    scope: SETTING_SCOPE.client, 
-    config: true, 
-    requiresReload: false 
-  },
+    collapseMacroBar: { 
+      tag: "collapse-macro-bar", 
+      label: game.i18n.localize("CRLNGN_UI.settings.collapseMacroBar.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.collapseMacroBar.hint"), 
+      propType: Boolean,
+      inputType: SETTING_INPUT.checkbox,
+      default: true, 
+      scope: SETTING_SCOPE.client, 
+      config: true, 
+      requiresReload: false 
+    },
 
-  customFont: { 
-    tag: "custom-font", 
-    label: "Custom fonts", 
-    hint: "You can type the name of custom fonts loaded on Foundry core and they will be used throughout the interface. Names with spaces must be written with double quotes (\"Font Name\"). If the font doesn't load you haven't typed the name correctly, or the font was not found. Default value: "+`"Work Sans", Arial, sans-serif`, 
-    propType: String, 
-    inputType: SETTING_INPUT.text, 
-    default: `"Work Sans", "Roboto", Arial, sans-serif`, 
-    scope: SETTING_SCOPE.client, 
-    config: true, 
-    requiresReload: true 
-  }, 
+    autoHidePlayerList: { 
+      tag: "auto-hide-player-list", 
+      label: game.i18n.localize("CRLNGN_UI.settings.autoHidePlayersList.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.autoHidePlayersList.hint"), 
+      propType: Boolean,
+      inputType: SETTING_INPUT.checkbox,
+      default: true, 
+      scope: SETTING_SCOPE.client, 
+      config: true, 
+      requiresReload: false 
+    },
 
-  enableCameraStyles: {
-    tag: "enable-camera-styles", 
-    label: "Enable floating camera dock", 
-    hint: "Apply styles to camera dock, so video players are floating and can be placed anywhere on screen. You may still pop out individual videos and move them independently", 
-    propType: Boolean,
-    inputType: SETTING_INPUT.checkbox,
-    default: true, 
-    scope: SETTING_SCOPE.world, 
-    config: true, 
-    requiresReload: true 
-  },
+    debugMode: { 
+      tag: "debug-mode", 
+      label: game.i18n.localize("CRLNGN_UI.settings.debugMode.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.debugMode.hint"), 
+      propType: Boolean,
+      inputType: SETTING_INPUT.checkbox,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: true
+    },
 
-  cameraDockPosX: { 
-    tag: "camera-dock-pos-x", 
-    label: "X position of camera dock", 
-    hint: "Position of camera dock on X axis, from left. In absolute pixels. ", 
-    propType: Number, 
-    inputType: SETTING_INPUT.number, 
-    default: 0, 
-    scope: SETTING_SCOPE.client, 
-    config: true 
-  },
-
-  cameraDockPosY: { 
-    tag: "camera-dock-pos-y", 
-    label: "Y position of camera dock", 
-    hint: "Position of camera dock on Y axis, from bottom. In absolute pixels. ", 
-    propType: Number, 
-    inputType: SETTING_INPUT.number, 
-    default: 100, 
-    scope: SETTING_SCOPE.client, 
-    config: true 
-  },
-
-  cameraDockWidth: { 
-    tag: "camera-dock-width", 
-    label: "Width of camera dock", 
-    hint: "Width of camera dock when not minimized, in absolute pixels. ", 
-    propType: Number, 
-    inputType: SETTING_INPUT.number, 
-    default: 120, 
-    scope: SETTING_SCOPE.client, 
-    config: true 
-  },
-
-  cameraDockHeight: { 
-    tag: "camera-dock-height", 
-    label: "Height of camera dock", 
-    hint: "Height of camera dock when not minimized, in absolute pixels. ", 
-    propType: Number, 
-    inputType: SETTING_INPUT.number, 
-    default: 120, 
-    scope: SETTING_SCOPE.client, 
-    config: true 
-  } ,
-
-  debugMode: { 
-    tag: "debug-mode", 
-    label: "Debug Mode",
-    hint: "Enable or disable debug messages on browser console",
-    propType: Boolean,
-    inputType: SETTING_INPUT.checkbox,
-    default: false,
-    scope: SETTING_SCOPE.client,
-    config: true
-  },
+  }
 
 }

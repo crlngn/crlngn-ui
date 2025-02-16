@@ -1,8 +1,9 @@
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
-import { SETTINGS } from "../constants/Settings.mjs";
+import { getSettings } from "../constants/Settings.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
+import { Main } from "./Main.mjs";
 
 export class CameraUtil {
   static #offsetX = 0;
@@ -17,10 +18,13 @@ export class CameraUtil {
   static #startHeight = 0;
   static #startBottom = 0;
 
-  static init(){ 
-    if(SettingsUtil.get(SETTINGS.enableCameraStyles.tag)){ 
+  static init(){
+    const SETTINGS = getSettings();
+    const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
+
+    if(cameraSettings.enableFloatingDock){ 
       Hooks.on(HOOKS_CORE.RENDER_CAMERA_VIEWS, CameraUtil.onRenderFloating);
-      LogUtil.log("CameraUtil", [SettingsUtil.get(SETTINGS.enableCameraStyles.tag)]);
+      LogUtil.log("CameraUtil", [cameraSettings]);
       CameraUtil.onRenderFloating();
     }else{ 
       Hooks.on(HOOKS_CORE.RENDER_CAMERA_VIEWS, CameraUtil.onRenderPlain);
@@ -33,13 +37,16 @@ export class CameraUtil {
   }
 
   static onRenderFloating(){
+    const SETTINGS = getSettings();
+    const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
+
     document.querySelector('#camera-views')?.classList.add('crlngn-ui');
     CameraUtil.cameraContainer = document.querySelector('#camera-views .camera-container');
 
     const controlsElem = document.querySelector('#camera-views .user-controls');
     const cameraGrid = document.querySelector('#camera-views .camera-grid');
 
-    LogUtil.log("CameraUtil.onRender", [ SettingsUtil.get(SETTINGS.cameraDockPosX.tag), SettingsUtil.get(SETTINGS.cameraDockPosY.tag) ]);
+    LogUtil.log("CameraUtil.onRender", [ cameraSettings.dockPosX, cameraSettings.dockPosY ]);
 
     if(CameraUtil.cameraContainer && cameraGrid && controlsElem){
       CameraUtil.cameraContainer?.insertBefore(controlsElem, cameraGrid);
@@ -115,37 +122,47 @@ export class CameraUtil {
   }
 
   static resetPositionAndSize({x, y, w, h} = { x: null, y: null, w: null, h: null }){
-    if(!CameraUtil.cameraContainer){ return }
+    const SETTINGS = getSettings();
+    const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
+
+    if(!cameraSettings.enableFloatingDock || !CameraUtil.cameraContainer){ return }
     if(!x && !y && !w && !h){
-      const savedPosX = SettingsUtil.get(SETTINGS.cameraDockPosX.tag) || 0;
-      const savedPosY = SettingsUtil.get(SETTINGS.cameraDockPosY.tag) || 0;
-      const savedWidth = SettingsUtil.get(SETTINGS.cameraDockWidth.tag) || 0;
-      const savedHeight = SettingsUtil.get(SETTINGS.cameraDockHeight.tag) || 0;
+      const savedPosX = cameraSettings.dockPosX || 0;
+      const savedPosY = cameraSettings.dockPosY || 0;
+      const savedWidth = cameraSettings.dockWidth || 0;
+      const savedHeight = cameraSettings.dockHeight || 0;
+
       CameraUtil.cameraContainer.style.left = `${savedPosX}px`;
       CameraUtil.cameraContainer.style.bottom = `${savedPosY}px`;
       CameraUtil.cameraContainer.style.width = `${savedWidth}px`;
       CameraUtil.cameraContainer.style.height = `${savedHeight}px`;
+    }else{
+      if(x){
+        CameraUtil.cameraContainer.style.left = `${x}px`;
+      }
+      if(y){
+        CameraUtil.cameraContainer.style.bottom = `${y}px`;
+      }
+      if(w){
+        CameraUtil.cameraContainer.style.width = `${w}px`;
+      }
+      if(h){
+        CameraUtil.cameraContainer.style.height = `${h}px`;
+      }
     }
-    if(x){
-      CameraUtil.cameraContainer.style.left = `${x}px`;
-    }
-    if(y){
-      CameraUtil.cameraContainer.style.bottom = `${y}px`;
-    }
-    if(w){
-      CameraUtil.cameraContainer.style.width = `${w}px`;
-    }
-    if(h){
-      CameraUtil.cameraContainer.style.height = `${h}px`;
-    }
+    
   }
 
   // when user releases element
   static #onDragRelease(e){
+    const SETTINGS = getSettings();
+    const cameraSettings = {...SettingsUtil.get(SETTINGS.cameraDockMenu.tag)};
+
     if(CameraUtil.isDragging){
       const body = document.querySelector("body.crlngn-ui");
-      SettingsUtil.set(SETTINGS.cameraDockPosX.tag, parseInt(CameraUtil.cameraContainer?.style.left) || 0);
-      SettingsUtil.set(SETTINGS.cameraDockPosY.tag, parseInt(CameraUtil.cameraContainer?.style.bottom) || 0);
+      cameraSettings.dockPosX = parseInt(CameraUtil.cameraContainer?.style.left) || 0;
+      cameraSettings.dockPosY = parseInt(CameraUtil.cameraContainer?.style.bottom) || 0;
+      SettingsUtil.set(SETTINGS.cameraDockMenu.tag, cameraSettings);
       
       body?.removeEventListener("mousemove", CameraUtil.#onDragMove); 
       body?.removeEventListener("mouseup", CameraUtil.#onDragRelease); 
@@ -193,16 +210,21 @@ export class CameraUtil {
 
   // when user releases the resize handle
   static #onStopResize() {
+    const SETTINGS = getSettings();
+    const cameraSettings = {...SettingsUtil.get(SETTINGS.cameraDockMenu.tag)};
+
     const body = document.querySelector("body.crlngn-ui");
     CameraUtil.isResizing = false;
     body?.removeEventListener("mousemove", CameraUtil.#onResize);
     body?.removeEventListener("mouseup", CameraUtil.#onStopResize);
 
-    LogUtil.log("onStopResize", [CameraUtil.cameraContainer?.style.width, CameraUtil.cameraContainer?.style.height, CameraUtil.cameraContainer?.style.bottom])
-    SettingsUtil.set(SETTINGS.cameraDockWidth.tag, parseInt(CameraUtil.cameraContainer?.style.width || 0));
-    SettingsUtil.set(SETTINGS.cameraDockHeight.tag, parseInt(CameraUtil.cameraContainer?.style.height || 0));
-    SettingsUtil.set(SETTINGS.cameraDockPosY.tag, parseInt(CameraUtil.cameraContainer?.style.bottom) || 0);
+    LogUtil.log("onStopResize", [CameraUtil.cameraContainer?.style.width, CameraUtil.cameraContainer?.style.height, CameraUtil.cameraContainer?.style.bottom]);
 
+    cameraSettings.dockWidth = parseInt(CameraUtil.cameraContainer?.style.width || 0);
+    cameraSettings.dockHeight = parseInt(CameraUtil.cameraContainer?.style.height || 0);
+    cameraSettings.dockPosY = parseInt(CameraUtil.cameraContainer?.style.bottom || 0);
+
+    SettingsUtil.set(Main.SETTINGS.cameraDockMenu.tag, cameraSettings);
   }
 
 }

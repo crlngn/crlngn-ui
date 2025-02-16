@@ -1,7 +1,4 @@
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
-import { SETTINGS } from "../constants/Settings.mjs";
-import { LogUtil } from "./LogUtil.mjs";
-import { SettingsUtil } from "./SettingsUtil.mjs";
 
 export class PlayersListUtil {
 

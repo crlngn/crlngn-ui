@@ -1,16 +1,6 @@
 /*@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');*/
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300..800;1,300..800&display=swap'); 
 
-/***/
-body.crlngn-ui{
-  --crlngn-font-family: var(--font-body); 
-}
-
-body *{
-  box-sizing: border-box;
-  font-family: var(--crlngn-font-family); 
-}
-
 /*************
 General Colors
 *************/
@@ -39,11 +29,63 @@ General Colors
 	--dnd5e-border-groove: 1px solid rgba(0,0,0,0.35);
 	--dnd5e-color-parchment: #f4efed;
 
-  /* fonts */
+  /* crlngn-fonts */
+  --crlngn-font-family: var(--font-body);
+  --crlngn-font-journal-body: var(--dnd5e-font-roboto-condensed, var(--crlngn-font-family));
+  --crlngn-font-journal-title: var(--dnd5e-font-modesto, var(--crlngn-font-family));
+}
+
+/* FONT CONFIG */
+body.crlngn-ui {
+  /* crlngn fonts */
+  --crlngn-font-family: var(--font-body);
+  --crlngn-font-journal-body: var(--dnd5e-font-roboto-condensed, var(--crlngn-font-family));
+  --crlngn-font-journal-title: var(--dnd5e-font-modesto, var(--crlngn-font-family));
+
+  /* other fonts */
+  --font-blockquote: var(--crlngn-font-family);
+	--dnd5e-font-roboto-slab: var(--crlngn-font-family);
+  --dnd5e-font-roboto-condensed: var(--crlngn-font-journal-body);
+	--dnd5e-font-modesto:  var(--crlngn-font-journal-title);
   --font-primary: var(--crlngn-font-family);
 	--mej-font-family: var(--crlngn-font-family);
-	--dnd5e-font-roboto-slab: var(--crlngn-font-family);
-	--dnd5e-font-modesto:  "Roboto Condensed", Arial, sans-serif;
+
+  --font-h1: var(--crlngn-font-journal-title);
+  --font-h2: var(--crlngn-font-journal-title);
+  --font-h3: var(--crlngn-font-family);
+  --font-h4: var(--crlngn-font-family);
+  --font-h5: var(--crlngn-font-family);
+  --font-h6: var(--crlngn-font-family);
+
+  --font-size-10: 0.625rem;
+  --font-size-11: 0.6875rem;
+  --font-size-12: 0.75rem;
+  --font-size-13: 0.8125rem;
+  --font-size-14: 0.875rem;
+  --font-size-15: 0.9375rem;
+  --font-size-16: 1rem;
+  --font-size-18: 1.125rem;
+  --font-size-20: 1.25rem;
+  --font-size-24: 1.5rem;
+  --font-size-28: 1.75rem;
+  --font-size-32: 2rem;
+  --font-size-36: 2.25rem;
+  --font-size-48: 3rem;
+  --font-size-64: 3.6rem;
+  --font-size-80: 4.2rem;
+  /*
+  --font-h1-size: var(--font-size-48);
+  --font-h2-size: var(--font-size-32);
+  --font-h3-size: var(--font-size-24);
+  --font-h4-size: var(--font-size-24);
+  --font-h5-size: var(--font-size-20);
+  --font-h6-size: var(--font-size-24);
+  */
+}
+
+body *{
+  box-sizing: border-box;
+  /* font-family: var(--crlngn-font-family, var(--font-body));  */
 }
 
 body.crlngn-ui  {
@@ -183,9 +225,10 @@ body.crlngn-large {
   --font-size-46: 46px;
 }*/
 
+/* 
 * {
-	font-family: var(--crlngn-font-family);
-}
+ 	font-family: var(--crlngn-font-family);
+}*/
 
 h1, h2 {
 	border-bottom: 0;
@@ -271,4 +314,25 @@ ol#notifications {
       border: 1px solid rgba(0,0,0);
     } 
   }
+}
+
+
+/*******
+* FORMS
+*******/
+.standard-form.crlngn {
+  .form-group {
+    margin: 2em 0;
+    /*align-items: flex-end;*/
+    
+    label {
+      min-width: 50%;
+      line-height: 1.5;
+    }
+
+    .hint{
+      margin: 0.25em 0;
+    }
+  }
+
 }

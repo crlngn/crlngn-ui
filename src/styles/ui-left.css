@@ -173,16 +173,16 @@
   height: var(--left-control-item-size);
   border-radius: 0;
   margin: 0 0 0 0;
-  font-size: 14px;
+  font-size: var(--font-size-14);
   box-shadow: none;
-  /*0 0 6px var(--color-shadow-highlight);*/
   background: var(--left-control-main-bg);
   border: 1px solid transparent; 
   z-index: 0;
   box-sizing: border-box;
+  line-height: 1.5;
 
   *{
-    pointer-events: none;
+    pointer-events: all;
   }
 
   &:hover{

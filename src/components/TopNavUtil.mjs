@@ -1,7 +1,7 @@
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
-import { SETTINGS } from "../constants/Settings.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
+import { Main } from "./Main.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 
 export class TopNavigation {
@@ -15,7 +15,7 @@ export class TopNavigation {
     // if user disabled Scene Navigation Styles,
     // skip everything
     const uiMiddle = document.querySelector("#ui-middle");
-    if(SettingsUtil.get(SETTINGS.sceneNavEnabled.tag) && uiMiddle){
+    if(SettingsUtil.get(Main.SETTINGS.sceneNavEnabled.tag) && uiMiddle){
       uiMiddle.classList.add("crlngn-ui");
     }else if(uiMiddle){
       uiMiddle.classList.remove("crlngn-ui");
@@ -24,11 +24,11 @@ export class TopNavigation {
 
     TopNavigation.addListeners(); 
 
-    LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)]); 
+    LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag)]); 
     TopNavigation.setNavPosition(0);
     
     TopNavigation.placeNavButtons(); 
-    if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
+    if(SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag)){ 
       ui.nav.collapse();
     }else{
       ui.nav.expand();
@@ -37,11 +37,11 @@ export class TopNavigation {
     Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, () => { 
       TopNavigation.addListeners(); 
 
-      LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)]); 
+      LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag)]); 
       TopNavigation.setNavPosition();
       
       TopNavigation.placeNavButtons(); 
-      if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
+      if(SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag)){ 
         ui.nav.collapse();
       }else{
         ui.nav.expand();
@@ -53,16 +53,16 @@ export class TopNavigation {
     }); 
 
     Hooks.on(HOOKS_CORE.COLLAPSE_SCENE_NAV, (nav, value) => {
-      SettingsUtil.set(SETTINGS.sceneNavCollapsed.tag, value); 
+      SettingsUtil.set(Main.SETTINGS.sceneNavCollapsed.tag, value); 
       LogUtil.log("NAV toggle", [nav, value]); 
     }); 
 
     Hooks.on(HOOKS_CORE.EXPAND_SCENE_NAV, (nav, value) => {
-      SettingsUtil.set(SETTINGS.sceneNavCollapsed.tag, false); 
+      SettingsUtil.set(Main.SETTINGS.sceneNavCollapsed.tag, false); 
       LogUtil.log("NAV expand", [nav, false]); 
     }); 
 
-    SettingsUtil.apply(SETTINGS.sceneNavCollapsed.tag); 
+    SettingsUtil.apply(Main.SETTINGS.sceneNavCollapsed.tag); 
     
   } 
 
@@ -73,8 +73,8 @@ export class TopNavigation {
     this.#navToggle = document.querySelector("#nav-toggle"); 
 
     this.#navElem?.addEventListener("mouseenter", ()=>{
-      if( !SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag) ||
-          !SettingsUtil.get(SETTINGS.showSceneNavOnHover.tag) ){ 
+      if( !SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag) ||
+          !SettingsUtil.get(Main.SETTINGS.showSceneNavOnHover.tag) ){ 
             return;
       }
       clearTimeout(this.#navTimeout);
@@ -86,8 +86,8 @@ export class TopNavigation {
     });
 
     this.#navElem?.addEventListener("mouseleave", (e)=>{
-      if( !SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag) ||
-          !SettingsUtil.get(SETTINGS.showSceneNavOnHover.tag) ){ 
+      if( !SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag) ||
+          !SettingsUtil.get(Main.SETTINGS.showSceneNavOnHover.tag) ){ 
             return;
       }
       if (!e) var e = window.event;
@@ -143,7 +143,7 @@ export class TopNavigation {
     const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
     const scenes = this.#scenesList?.querySelectorAll("li.nav-item") || [];
     const itemWidth = firstScene.offsetWidth;
-    const currPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag) || 0;
+    const currPos = SettingsUtil.get(Main.SETTINGS.sceneNavPos.tag) || 0;
     const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? extrasWidth : 0) - (toggleWidth*2))/itemWidth);
 
     LogUtil.log("onNavLast", ["currPos", currPos, itemsPerPage]);
@@ -153,8 +153,6 @@ export class TopNavigation {
 
     LogUtil.log("onNavLast", ["sceneCount", scenes.length, currPos, newPos]);
     TopNavigation.setNavPosition(newPos); 
-    
-    // LogUtil.log("onNavLast", [itemsPerPage, newPos]);
   }
 
   static #onNavNext = (e) => {
@@ -163,7 +161,7 @@ export class TopNavigation {
     const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
     const scenes = this.#scenesList?.querySelectorAll("li.nav-item:not(.is-root)") || [];
     const itemWidth = firstScene.offsetWidth;
-    const currPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag) || 0;
+    const currPos = SettingsUtil.get(Main.SETTINGS.sceneNavPos.tag) || 0;
     const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? extrasWidth : 0) - (toggleWidth*2))/itemWidth);
 
     LogUtil.log("onNavLast", ["currPos", currPos, itemsPerPage]);
@@ -172,19 +170,16 @@ export class TopNavigation {
     newPos = newPos > scenes.length ? scenes.length : newPos;
 
     TopNavigation.setNavPosition(newPos); 
-    
-
-    
   }
 
   static setNavPosition(pos){
-    const position = pos !== undefined ? pos : SettingsUtil.get(SETTINGS.sceneNavPos.tag);
+    const position = pos !== undefined ? pos : SettingsUtil.get(Main.SETTINGS.sceneNavPos.tag);
     const scenes = this.#scenesList?.querySelectorAll("li.nav-item") || [];
 
     const newMargin = scenes[position]?.offsetLeft * -1;
     this.#scenesList.style.marginLeft = newMargin + 'px';
 
-    SettingsUtil.set(SETTINGS.sceneNavPos.tag, position);
+    SettingsUtil.set(Main.SETTINGS.sceneNavPos.tag, position);
 
     LogUtil.log("setNavPosition", [pos, position, scenes[position], newMargin]);
   }

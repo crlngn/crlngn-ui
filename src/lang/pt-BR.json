@@ -1,0 +1,140 @@
+{
+  "CRLNGN_UI": { 
+    "ui": { 
+      "notifications": {
+        "settingsUpdated": "Configurações atualizadas"
+      }
+    },
+    "settings": {
+      "customFontsMenu": {
+        "title": "Fontes Personalizadas",
+        "hint": "Configure as famílias de fontes usadas na interface"
+      },
+      "customFontsDialog": {
+        "label": "Fontes Personalizadas",
+        "title": "Configurar",
+        "hint": "Digite o nome de uma fonte personalizada, se já estiver carregada no núcleo do Foundry. Nomes com espaços devem ser escritos entre aspas duplas (\"Nome da Fonte\").",
+        "fields": {
+          "ui": "Fonte da Interface",
+          "journalBody": "Corpo do Diário",
+          "journalTitle": "Títulos do Diário"
+        },
+        "postHint": "Se a fonte não carregar, você pode ter digitado o nome incorretamente ou a fonte não foi encontrada.",
+        "reset": "Redefinir",
+        "save": "Salvar"
+      },
+      "leftControlsMenu": {
+        "label": "Ícones de Controle",
+        "title": "Configurar",
+        "hint": "Essas configurações modificam a aparência e o comportamento dos botões de controle de cena, no lado esquerdo da tela",
+        "fields": {
+          "iconSize": {
+            "label": "Tamanho dos ícones de controle",
+            "hint": "Configure o tamanho dos botões na barra de controle esquerdo. Alguns outros elementos da interface seguirão esse tamanho para alinhamento.",
+            "options": {
+              "small": "pequeno",
+              "regular": "regular"
+            }
+          }, 
+          "autoHideSecondary": {
+            "label": "Ocultar automaticamente os controles secundários",
+            "hint": "Ative para manter a barra secundária oculta até passar o mouse sobre a região ou clicar em um item."
+          }
+        },
+        "reset": "Redefinir",
+        "save": "Salvar"
+      },
+      "cameraDockMenu": {
+        "label": "Câmera",
+        "title": "Configurar Dock de Câmeras",
+        "hint": "Ative o dock de câmeras flutuante, que pode ser posicionado em qualquer lugar e redimensionado",
+        "fields": {
+          "enableFloatingDock": {
+            "label": "Ativar dock flutuante",
+            "hint": "<b>[Requer recarregamento]</b> Permite que o grupo de vídeo seja arrastado e colocado em qualquer lugar da tela"
+          }, 
+          "dockPosX": {
+            "label": "Posição horizontal",
+            "hint": "Posição do dock da câmera quando configurado para flutuar. A partir do canto inferior esquerdo da tela, em pixels"
+          }, 
+          "dockPosY": {
+            "label": "Posição vertical",
+            "hint": "Posição do dock da câmera quando configurado para flutuar. A partir do canto inferior esquerdo da tela, em pixels"
+          }, 
+          "dockWidth": {
+            "label": "Largura do grupo de câmeras",
+            "hint": "Dimensões do dock da câmera quando configurado para flutuar, em pixels"
+          }, 
+          "dockHeight": {
+            "label": "Altura do grupo de câmeras",
+            "hint": "Dimensões do dock da câmera quando configurado para flutuar, em pixels"
+          }
+        },
+        "reset": "Redefinir",
+        "save": "Salvar"
+      },
+      "enableChatStyles": {
+        "label": "Ativar estilos no chat",
+        "hint": "Adiciona modificações de estilo às cartas do chat. Quando o modo escuro for ativado no Foundry, as cartas do chat também ficarão escuras. PRINCIPALMENTE PARA DND5E - suporte parcial para outros sistemas."
+      },
+      "controlIconSize": {
+        "label": "Tamanho dos ícones de controle",
+        "hint": "Se você usa uma tela muito grande, pode querer alterar o tamanho dos ícones nos controles à esquerda. Isso pode afetar alguns outros elementos da interface",
+        "choices": {
+          "small": "Pequeno",
+          "normal": "Normal"
+        }
+      },
+      "sceneNavCollapsed": {
+        "label": "Estado da Navegação de Cena",
+        "hint": "Estado atual do botão de navegação de cena. Está recolhido?"
+      },
+      "sceneNavEnabled": {
+        "label": "Ativar Navegação de Cenas",
+        "hint": "Se você estiver enfrentando problemas de layout com um módulo incompatível, pode desativar meus estilos personalizados para Navegação de Cenas."
+      },
+      "sceneNavPos": {
+        "label": "Posição da Navegação de Cena",
+        "hint": "Armazena a posição atual da navegação para redefinição ao ser renderizada novamente"
+      },
+      "enableMacroLayout": {
+        "label": "Ativar layout de macros",
+        "hint": "O módulo reduz o tamanho dos slots de macro na barra de atalhos e aumenta os números. Desative essa configuração para usar o layout padrão do Foundry."
+      },
+      "showSceneNavOnHover": {
+        "label": "Alternar visibilidade da lista de cenas",
+        "hint": "Se a navegação de cenas estiver recolhida, você pode exibi-la passando o mouse sobre a parte superior da tela."
+      },
+      "autoHideLeftControls": {
+        "label": "Ocultar os controles secundários",
+        "hint": "Ative para manter a barra secundária nos controles à esquerda oculta, a menos que você passe o mouse sobre a região ou clique em um item."
+      },
+      "autoHidePlayersList": {
+        "label": "Ocultar a lista de jogadores",
+        "hint": "Ative para manter a lista de jogadores no canto inferior esquerdo minimizada, exceto quando passar o mouse sobre ela."
+      },
+      "collapseMacroBar": {
+        "label": "Recolher Barra de Macros",
+        "hint": "Ative para que a barra de macros inicie minimizada por padrão ao carregar o mundo."
+      },
+      "debugMode": {
+        "label": "Modo de Depuração",
+        "hint": "Ative ou desative mensagens de depuração no console do navegador."
+      }
+    },
+    "dnd5e": {
+      "chatCard": {
+        "buttons": {
+          "summons": "Invocações",
+          "attack": "Ataque",
+          "healing": "Cura",
+          "damage": "Dano",
+          "template": "Modelo",
+          "consume": "Consumir",
+          "refund": "Reembolso",
+          "macro": "Macro"
+        }
+      }
+    }
+  }
+}
