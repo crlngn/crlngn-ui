@@ -10,17 +10,17 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 **Carolingian UI** is free to use and distribute. If you reuse my code, please add mention to the original repo. 
 
 ### FEATURES:
-- Compact left controls: the icons are smaller and the secondary bars are hidden until an item is hovered or clicked (configurable); 
-- Right panel buttons, sliders and headers have modified styles for a more uniform feel;
-- Secondary controls bar has a different background color to make it clearer;
-- Top Navigation can be horizontally scrolled; player and GM markers are turned into simple lines with the color of each player;
-- Compact Player list that opens on hover;
-- Reduced size of macro bar;
-- Floating styles for camera dock - drag, resize and position anywhere on screen;
-- Settings for macro bar layout, collapse macro bar on load, auto-hide left controls and scene navigation;
-- Chat messages have more compact usage buttons for saving some space (tested on DnD5e 4.x, partial support for other systems);
-- Chat messages are shown in dark mode if the selected Foundry theme is Dark (tested on DnD5e 4.x, partial support for other systems); 
-  
+- **Compact left controls:** small or regular sized icons; secondary bars can be hidden until an item is hovered or clicked; 
+- **Secondary controls bar** has different styles to make it clearer;
+- **Top Navigation** can be horizontally scrolled; player and GM markers are simple lines with the color of each player;
+- **Compact Player List**, can be auto-hidden and opened on hover;
+- **Macro hotbar** with optional resizing and styles;
+- **Floating camera dock** - drag, resize and position anywhere on screen;
+- **Custom Fonts** for UI and journal;
+- **Right panel** buttons, sliders and headers have modified dark styles for a more uniform feel;
+- **Settings** allow you to configure macro bar, left controls, camera dock and scene navigation;
+- **Dark style for chat messages** if the selected Foundry theme is Dark (tested on DnD5e 4.x, partial support for other systems); 
+- **Compact chat messages** (DnD5e) compact usage buttons to save some space on chat log;
 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/screenshot-2.webp?raw=true" width="100%" height="auto" />
 
@@ -35,9 +35,13 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/players-list-1.webp?raw=true" width="300px" height="auto" />
 
 ### VERIFIED MODULE COMPATIBILITY (A-Z):
+**Note:** This is not an extensive list - I've only included modules that I personally checked and which might be particularly affected by changes in the UI.
 - Break Time 12.0.x
 - Carousel Combat Tracker 3.1.x
 - Compact Scene Navigation 1.0.x (avoid using auto hide setting in both modules)
+- Dice Tray 2.2.x
+- Dungeon Draw 3.0.x
+- Epic Rolls 5e 4.2.x
 - Force Client Settings 2.5.x
 - Hide Player UI 1.7.x
 - LiveKit AV Client 0.5.x
@@ -50,7 +54,7 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 - Touch VTT 2.2.x
 
 I have also verified PF2e HUD, but I do not play PF2e so there might be issues I haven't noticed.
-This is not an extensive list - I've only included modules that might be particularly affected by changes in the UI.
+
 
 ### IMPORTANT:
 - The module was tested mostly on Foundry v12 and DnD 4.x. The overall UI styles are system agnostic, but chat card styles are mostly for DnD5e - I've done some basic tests for PF2e. If you would like to request support for a different system (and help with info and screenshots), please add a feature request on Github issue tracker (subject to evaluation);

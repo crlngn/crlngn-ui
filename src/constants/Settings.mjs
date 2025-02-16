@@ -25,7 +25,7 @@ export function getSettings() {
       inputType: SETTING_INPUT.button,
       default: {
         uiFont: `"Work Sans", Arial, sans-serif`,
-        journalBodyFont: `"Roboto Condensed", Arial, sans-serif`, 
+        journalBodyFont: `"Work Sans", Arial, sans-serif`, 
         journalTitleFont: `"Roboto Condensed", Arial, sans-serif`
       },
       scope: SETTING_SCOPE.world,
