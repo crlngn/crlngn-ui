@@ -3,20 +3,21 @@
 **Compatibility:** 
 - Foundry VTT version 12.328+
 - Mostly tested with DnD5e 4.x. Should work with other systems, but modules for those systems remain untested. 
+- Localization: English and Brazilian Portuguese
 
 ## Carolingian UI
-A light module that provides a sleek minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12. Most changes are made through CSS styling and should work with the majority of other modules. The exception is the Top Navigation, where some simple JS code is added to provide horizontal scroll functionality. 
+A light module that provides a sleek minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12. Most changes are made through CSS styling and should work with the majority of other modules, unless they specifically modify the UI. 
 
-**Carolingian UI** is free to use and distribute. If you reuse my code, please add mention to the original repo. 
+**Carolingian UI** is free to use and distribute under MIT License. If you reuse my code, please add mention to the original repo. 
 
 ### FEATURES:
+- **Custom Fonts** for UI and journal;
 - **Compact left controls:** small or regular sized icons; secondary bars can be hidden until an item is hovered or clicked; 
 - **Secondary controls bar** has different styles to make it clearer;
 - **Top Navigation** can be horizontally scrolled; player and GM markers are simple lines with the color of each player;
 - **Compact Player List**, can be auto-hidden and opened on hover;
 - **Macro hotbar** with optional resizing and styles;
 - **Floating camera dock** - drag, resize and position anywhere on screen;
-- **Custom Fonts** for UI and journal;
 - **Right panel** buttons, sliders and headers have modified dark styles for a more uniform feel;
 - **Settings** allow you to configure macro bar, left controls, camera dock and scene navigation;
 - **Dark style for chat messages** if the selected Foundry theme is Dark (tested on DnD5e 4.x, partial support for other systems); 
