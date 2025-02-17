@@ -26,6 +26,8 @@
       > .item{
         border-radius: 0;
         height: var(--right-control-item-size);
+        width: 100%;
+        flex: 1 1 100%;
       }
 
       > [data-tab] > * {

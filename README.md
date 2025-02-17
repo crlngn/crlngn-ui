@@ -36,6 +36,7 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 
 ### VERIFIED MODULE COMPATIBILITY (A-Z):
 **Note:** This is not an extensive list - I've only included modules that I personally checked and which might be particularly affected by changes in the UI.
+- Are You Focused? 1.2.x
 - Break Time 12.0.x
 - Carousel Combat Tracker 3.1.x
 - Compact Scene Navigation 1.0.x (avoid using auto hide setting in both modules)
