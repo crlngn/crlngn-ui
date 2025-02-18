@@ -63,11 +63,11 @@
           }, 
           "dockWidth": {
             "label": "Width of camera group",
-            "hint": "Dimensions of the camera dock when set to float, in pixels"
+            "hint": "Dimensions of the non-minimized camera dock when set to float, in pixels"
           }, 
           "dockHeight": {
             "label": "Height of camera group",
-            "hint": "Dimensions of the camera dock when set to float, in pixels"
+            "hint": "Dimensions of the non-minimized camera dock when set to float, in pixels"
           }
         },
         "reset": "Reset",

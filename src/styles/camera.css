@@ -80,7 +80,7 @@ body.crlngn-ui{
       background:rgba(0, 0, 0, 0.0);
       border-radius: 4px;
       pointer-events: all;
-      padding: 0 4px 4px 4px;
+      padding: 0 2px 2px;
 
       &:not(.visible){
         display: none;
@@ -94,8 +94,8 @@ body.crlngn-ui{
         right: 0;
         border-left: 7px solid transparent;
         border-top: 7px solid transparent;
-        border-right: 7px solid rgba(50, 50, 70, 0.5);
-        border-bottom: 7px solid rgba(50, 50, 70, 0.5);
+        border-right: 7px solid rgba(60, 60, 80, 1);
+        border-bottom: 7px solid rgba(60, 60, 80, 1);
         cursor: nwse-resize;
         z-index: 1000;
         opacity: 0;
@@ -115,7 +115,7 @@ body.crlngn-ui{
         border: 0;
         pointer-events: all;
         width: auto;
-        padding: 2px 0;
+        padding: 1px;
         opacity: 0;
         /*min-width: var(--max-players-width);*/
 
@@ -334,9 +334,7 @@ body.crlngn-ui{
         border: 0;
         margin-top: -4px;
       }
-
       
-
       &:hover .control-bar.bottom{
         display: flex;
       }  
@@ -397,6 +395,7 @@ body.crlngn-ui{
         height: auto;
         width: var(--av-minimized-icon-size);
         max-width: var(--av-minimized-icon-size);
+        background: var(--left-control-main-bg);
 
         .resize-handle{
           display: none;
@@ -406,6 +405,10 @@ body.crlngn-ui{
           max-width: var(--av-minimized-icon-size);
           overflow: visible;
           background: var(--left-control-main-bg);
+
+          >*{
+            background: var(--left-control-main-bg);
+          }
         }
       }
 

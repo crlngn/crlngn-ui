@@ -63,11 +63,11 @@
           }, 
           "dockWidth": {
             "label": "Largura do grupo de câmeras",
-            "hint": "Dimensões do dock da câmera quando configurado para flutuar, em pixels"
+            "hint": "Dimensões do dock da câmera quando configurado para flutuar, se não minimizado. Em pixels"
           }, 
           "dockHeight": {
             "label": "Altura do grupo de câmeras",
-            "hint": "Dimensões do dock da câmera quando configurado para flutuar, em pixels"
+            "hint": "Dimensões do dock da câmera quando configurado para flutuar, se não minimizado. Em pixels"
           }
         },
         "reset": "Redefinir",
