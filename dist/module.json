@@ -38,6 +38,11 @@
       "path": "lang/en.json"
     },
     {
+      "lang": "cn",
+      "name": "中文",
+      "path": "lang/cn.json"
+    },
+    {
       "lang": "pt-BR",
       "name": "Portuguese (Brazil)",
       "path": "lang/pt-BR.json"
