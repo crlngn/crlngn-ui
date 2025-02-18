@@ -389,7 +389,7 @@ body.crlngn-chat {
   &.theme-dark,
   &[data-ddb-custom-style=dark] {
     --dnd5e-color-success-background: rgba(71, 160, 71, 0.35);
-    --dnd5e-color-failure-background: rgba(151, 67, 67, 0.35); 
+    --dnd5e-color-failure-background: rgba(243, 78, 78, 0.35); 
   }
 
   /*********
@@ -550,11 +550,26 @@ body.crlngn-chat {
   } 
 
   &.theme-dark .chat-message .dice-result .dice-total.success,
-  &.theme-dark .chat-message.ddb-game-log-message .dice-result .dice-total.critical
+  &.theme-dark .chat-message.ddb-game-log-message .dice-result .dice-total.success
   &[data-ddb-custom-style=dark] .chat-message .dice-result .dice-total.success,
-  &[data-ddb-custom-style=dark] .chat-message.ddb-game-log-message .dice-result .dice-total.critical {
-    color: #d9ffbd;
+  &[data-ddb-custom-style=dark] .chat-message.ddb-game-log-message .dice-result .dice-total.success {
+    color: #c1e6a7;
   }
+
+  &.theme-dark .chat-message .dice-result .dice-total .die-icon,
+  &.theme-dark .chat-message.ddb-game-log-message .dice-result .dice-total .die-icon
+  &[data-ddb-custom-style=dark] .chat-message .dice-result .dice-total .die-icon,
+  &[data-ddb-custom-style=dark] .chat-message.ddb-game-log-message .dice-result .dice-total .die-icon {
+    color: #000; 
+  }
+
+  &.theme-dark .chat-message .dice-result .dice-total.failure,
+  &.theme-dark .chat-message.ddb-game-log-message .dice-result .dice-total.failure
+  &[data-ddb-custom-style=dark] .chat-message .dice-result .dice-total.failure,
+  &[data-ddb-custom-style=dark] .chat-message.ddb-game-log-message .dice-result .dice-total.failure {
+    color: #d8aeae; 
+  }
+  
   /* bold highlights */
   &.theme-dark .chat-card p.supplement > strong,
   &[data-ddb-custom-style=dark] .chat-card p.supplement > strong {
@@ -685,33 +700,33 @@ body.crlngn-chat {
     }
   }
 
-  /* inline rolls  */
-  &.theme-dark :is(.dnd5e2, .dnd5e2-journal) a:is(.content-link, .inline-roll) > i, 
-  &.theme-dark :is(.dnd5e2, .dnd5e2-journal) :is(.roll-link, .reference-link) a > i,
-  &.theme-dark .roll-link a i,
-  &.theme-dark .reference-link a>i, 
-  &.theme-dark .roll-link a i, 
-  &.theme-dark .roll-link a>i, 
-  &.theme-dark a.content-link>i, 
-  &.theme-dark a.inline-roll>i, 
-  &.theme-dark .dnd5e2-journal .reference-link a>i, 
+  /* inline rolls  */ 
+  &.theme-dark :is(.dnd5e2) a:is(.content-link, .inline-roll) > i, 
+  &.theme-dark :is(.dnd5e2) :is(.roll-link, .reference-link) a > i,
+  &.theme-dark :is(.dnd5e2) :is(.roll-link-group, .reference-link) a > i,
+  &.theme-dark :is(.card-tray, .effects-tray) .roll-link a i,
+  &.theme-dark :is(.card-tray, .effects-tray) .reference-link a>i, 
+  &.theme-dark :is(.card-tray, .effects-tray) .roll-link a i, 
+  &.theme-dark :is(.card-tray, .effects-tray) .roll-link a>i, 
+  &.theme-dark :is(.card-tray, .effects-tray) a.content-link>i, 
+  &.theme-dark :is(.card-tray, .effects-tray) a.inline-roll>i, 
+  /*&.theme-dark .dnd5e2-journal .reference-link a>i, 
   &.theme-dark .dnd5e2-journal .roll-link a>i, 
   &.theme-dark .dnd5e2-journal a.content-link>i, 
-  &.theme-dark .dnd5e2-journal a.inline-roll>i,
-  &.theme-dark :is(.dnd5e2, .dnd5e2-journal) .message a > i,
-  &[data-ddb-custom-style=dark] :is(.dnd5e2, .dnd5e2-journal) a:is(.content-link, .inline-roll) > i, 
-  &[data-ddb-custom-style=dark] :is(.dnd5e2, .dnd5e2-journal) :is(.roll-link, .reference-link) a > i,
-  &[data-ddb-custom-style=dark] .roll-link a i,
-  &[data-ddb-custom-style=dark] .reference-link a>i, 
-  &[data-ddb-custom-style=dark] .roll-link a i, 
-  &[data-ddb-custom-style=dark] .roll-link a>i, 
-  &[data-ddb-custom-style=dark] a.content-link>i, 
-  &[data-ddb-custom-style=dark] a.inline-roll>i, 
-  &[data-ddb-custom-style=dark] .dnd5e2-journal .reference-link a>i, 
-  &[data-ddb-custom-style=dark] .dnd5e2-journal .roll-link a>i, 
-  &[data-ddb-custom-style=dark] .dnd5e2-journal a.content-link>i, 
-  &[data-ddb-custom-style=dark] .dnd5e2-journal a.inline-roll>i,
-  &[data-ddb-custom-style=dark] :is(.dnd5e2, .dnd5e2-journal) .message a > i { 
+  &.theme-dark .dnd5e2-journal a.inline-roll>i,*/
+  &.theme-dark :is(.dnd5e2) .message a > i,
+  &[data-ddb-custom-style=dark] :is(.dnd5e2) a:is(.content-link, .inline-roll) > i, 
+  &[data-ddb-custom-style=dark] :is(.dnd5e2) :is(.roll-link, .reference-link) a > i,
+  &[data-ddb-custom-style=dark] :is(.dnd5e2) :is(.roll-link-group, .reference-link) a > i,
+  &[data-ddb-custom-style=dark] :is(.card-tray, .effects-tray) .roll-link a i,
+  &[data-ddb-custom-style=dark] :is(.card-tray, .effects-tray) .reference-link a>i, 
+  &[data-ddb-custom-style=dark] :is(.card-tray, .effects-tray) .roll-link a i, 
+  &[data-ddb-custom-style=dark] :is(.card-tray, .effects-tray) .roll-link a>i, 
+  &[data-ddb-custom-style=dark] :is(.card-tray, .effects-tray) a.content-link>i, 
+  &[data-ddb-custom-style=dark] :is(.card-tray, .effects-tray) a.inline-roll>i {
+    background: transparent;
+    border: none;
+    text-underline-offset: 2px;
     color: var(--color-text-light-1);
     filter: brightness(100);
   }

@@ -63,6 +63,9 @@ export class TopNavigation {
     }); 
 
     SettingsUtil.apply(Main.SETTINGS.sceneNavCollapsed.tag); 
+    window.addEventListener('resize', ()=>{
+      TopNavigation.placeNavButtons();
+    })
     
   } 
 

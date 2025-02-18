@@ -167,4 +167,27 @@ body.crlngn-ui{
     }
   
   }
+
+  #ui-bottom {
+    width: 100%;
+
+    #fps {
+      border: 0;
+      border-radius: 0;
+      padding: 0;
+      margin: 0;
+      opacity: 0.6;
+      transform: scale(0.75);
+      transform-origin: bottom right;
+      transition: opacity, transform 0.2s ease-out;
+      pointer-events: all;
+
+      &:hover {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    
+  }
 }

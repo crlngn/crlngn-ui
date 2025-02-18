@@ -1,7 +1,7 @@
 {
   "id": "crlngn-ui",
   "title": "Carolingian UI",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Style changes and tweaks to improve look and feel of Foundry UI",
   "url": "https://github.com/crlngn/crlngn-ui",
   "manifest": "https://github.com/crlngn/crlngn-ui/releases/latest/download/module.json",
@@ -38,8 +38,13 @@
       "path": "lang/en.json"
     },
     {
+      "lang": "cn",
+      "name": "中文",
+      "path": "lang/cn.json"
+    },
+    {
       "lang": "pt-BR",
-      "name": "Portuguese (Brazil)",
+      "name": "Português (BR)",
       "path": "lang/pt-BR.json"
     }
   ]

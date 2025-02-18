@@ -7,6 +7,7 @@ import { LogUtil } from "./LogUtil.mjs";
 import { Main } from "./Main.mjs";
 
 export class SettingsUtil {
+  static firstLoad = true;
   /**
    * Registers settings for this module
    */
@@ -63,8 +64,11 @@ export class SettingsUtil {
     Hooks.on(HOOKS_CORE.RENDER_SCENE_CONTROLS, SettingsUtil.applyLeftControlsSettings);
     Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, SettingsUtil.applyPlayersListSettings); 
     Hooks.on(HOOKS_CORE.RENDER_HOTBAR, () => {
+      if(SettingsUtil.firstLoad){
+        SettingsUtil.firstLoad = false;
+        SettingsUtil.applyHotBarCollapse();
+      }
       SettingsUtil.applyHotBarSettings();
-      SettingsUtil.applyHotBarCollapse();
     });
     SettingsUtil.applySceneNavSettings();
     

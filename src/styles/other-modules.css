@@ -85,7 +85,7 @@ body.crlngn-ui{
   /* MIDI-QOL */
   :is(.chat-popout, #chat-log) .message .dnd5e2.evaluation .midi-qol.target > img {
     border: none !important;
-    border-radius: 0 !important;
+    /*border-radius: 0 !important;*/
   }
   
 }

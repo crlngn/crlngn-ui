@@ -11,9 +11,9 @@ General Colors
 	--color-input-border: rgba(90,120,150, 0.5);
 	--color-border-highlight: rgba(68, 147, 173, 1);
   --color-shadow-highlight: rgba(90,120,150, 0.5);
-	--color-shadow-primary: rgba(121, 166, 212, 0.8);
+	--color-shadow-primary: rgba(87, 183, 214, 0.8);
 	--color-sidebar-font: rgba(213, 221, 230, 0.8);
-  --color-border-highlight-alt: rgba(68, 147, 173, 0.9);
+  --color-border-highlight-alt: rgba(68, 147, 173, 0.9); 
   --color-highlight-alt: rgba(68, 147, 173, 1);
   --color-border-light-primary: rgba(90,120,150, 0.5);
   --color-border-light-highlight: rgba(68, 147, 173, 1);
@@ -173,6 +173,10 @@ body.crlngn-ui  {
     box-shadow: -204px 0 0 200px var(--color-highlight-alt);
   }
 
+  .dnd5e2 button:hover:not(:disabled), .dnd5e2 button:focus {
+    box-shadow: 0 0 4px var(--color-shadow-primary);
+  }
+
 }
 
 body.crlngn-regular {
@@ -251,7 +255,16 @@ body[inline-roll-styling="true"] a.content-link {
 	background: rgba(0,0,0,0.05);
 	text-decoration: none;
 	border-radius: 8px;
+  color: var(--color-text-dark-1);
+  filter: brightness(0);
 }
+
+body .journal-entry-content a.inline-roll > i,
+body .journal-entry-content a.content-link > i {
+  color: var(--color-text-dark-1);
+  filter: brightness(0);
+}
+
 
 #tooltip, #tooltip > * {
 	font-size: var(--font-size-12) !important;
@@ -315,7 +328,6 @@ ol#notifications {
     } 
   }
 }
-
 
 /*******
 * FORMS
