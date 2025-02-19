@@ -256,7 +256,7 @@ body[inline-roll-styling="true"] a.content-link {
 	text-decoration: none;
 	border-radius: 8px;
   color: var(--color-text-dark-1);
-  filter: brightness(0);
+  /*filter: brightness(0);*/
 }
 
 body .journal-entry-content a.inline-roll > i,

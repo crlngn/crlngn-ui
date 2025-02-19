@@ -70,7 +70,7 @@ export class SettingsUtil {
       }
       SettingsUtil.applyHotBarSettings();
     });
-    SettingsUtil.applySceneNavSettings();
+    SettingsUtil.applySceneNavPos();
     
     // apply chat style settings
     if(SettingsUtil.get(Main.SETTINGS.enableChatStyles.tag)){ 
@@ -177,12 +177,7 @@ export class SettingsUtil {
 
 
   static applySettings(){
-    // const settingsList = Object.entries(Main.SETTINGS);
-    // settingsList.forEach((entry) => {
-    //   const setting = entry[1]; 
-    //   let currSetting = SettingsUtil.get(setting.tag);
-    //   SettingsUtil.apply(setting.tag, currSetting);
-    // });
+    
   }
 
   static applyHotBarSettings(){
@@ -238,7 +233,7 @@ export class SettingsUtil {
     }
   }
 
-  static applySceneNavSettings(){
+  static applySceneNavPos(){
     SettingsUtil.set(Main.SETTINGS.sceneNavPos.tag, 0);
   }
 

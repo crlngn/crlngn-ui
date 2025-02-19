@@ -8,17 +8,17 @@ import { SettingsUtil } from "../SettingsUtil.mjs";
  */
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
-export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2) {
+export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   static get DEFAULT_OPTIONS() {
     const SETTINGS = getSettings();
     return {
-      id: SETTINGS.cameraDockMenu.tag,
+      id: SETTINGS.sceneNavMenu.tag,
       actions: {
-        redefine: CameraDockSettings.#onReset,
+        redefine: SceneNavSettings.#onReset,
       },
       // classes: ["standard-form"],
       form: {
-        handler: CameraDockSettings.#onSubmit,
+        handler: SceneNavSettings.#onSubmit,
         closeOnSubmit: true,
       },
       position: {
@@ -27,8 +27,8 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
       },
       tag: "form",
       window: {
-        icon: "fas fa-camera",
-        title: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.title"),
+        icon: "fas fa-cog",
+        title: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.title"),
         contentClasses: ["standard-form", "crlngn"],
         resizable: false
       }
@@ -38,7 +38,7 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
   // Define template parts
   static PARTS = {
     content: {
-      template: "modules/crlngn-ui/templates/camera-dock-settings.hbs",
+      template: "modules/crlngn-ui/templates/scene-nav-settings.hbs",
     },
     footer: {
       template: "templates/generic/form-footer.hbs"
@@ -47,7 +47,7 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
   };
   
   get title() {
-    return game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.title");
+    return game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.title");
     // return `My Module: ${game.i18n.localize(this.options.window.title)}`;
   }
 
@@ -57,23 +57,23 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
    * Uses `foundry.utils.expandObject()` to parse form data.
    */
   static async #onSubmit(event, form, formData) {
-    const SETTINGS = getSettings();
-    let controlSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
-    let isFloating = controlSettings.enableFloatingDock;
+    const SETTINGS = getSettings(); 
+    let menuSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag); 
+    let navEnabled = menuSettings.sceneNavEnabled; 
     event.preventDefault();
     event.stopPropagation();
 
     // Convert FormData into an object with proper keys
     const settings = foundry.utils.expandObject(formData.object);
 
-    await SettingsUtil.set(SETTINGS.cameraDockMenu.tag, settings);
-    controlSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
+    await SettingsUtil.set(SETTINGS.sceneNavMenu.tag, settings);
+    menuSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
 
-    LogUtil.log("Saving settings:", [SETTINGS.cameraDockMenu.tag, form, formData.object, settings, controlSettings]); // Debugging
+    LogUtil.log("Saving settings...", [SETTINGS.sceneNavMenu.tag, form, formData.object, settings, menuSettings]); // Debugging
 
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
 
-    if(controlSettings.enableFloatingDock != isFloating){
+    if(menuSettings.sceneNavEnabled != navEnabled){
       location.reload();
     }
   }
@@ -82,7 +82,7 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
     const SETTINGS = getSettings();
     const html = this.element;
     const inputs = html.querySelectorAll("input, select");
-    const defaults = SETTINGS.cameraDockMenu.default;
+    const defaults = SETTINGS.sceneNavMenu.default;
 
     inputs.forEach(inputField => {
       inputField.value = defaults[inputField.name];
@@ -91,7 +91,7 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
       }
     })
 
-    LogUtil.log("#onReset", [a, b, SETTINGS.cameraDockMenu.default]);
+    LogUtil.log("#onReset", [a, b, SETTINGS.sceneNavMenu.default]);
   }
 
   /**
@@ -102,14 +102,14 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
   _prepareContext(options) {
     const SETTINGS = getSettings();
     const setting = {
-      ...SettingsUtil.get(SETTINGS.cameraDockMenu.tag),
+      ...SettingsUtil.get(SETTINGS.sceneNavMenu.tag),
       default: {
-        ...SETTINGS.cameraDockMenu.default
+        ...SETTINGS.sceneNavMenu.default
       },
-      fields: { ...SETTINGS.cameraDockMenu.fields },
+      fields: { ...SETTINGS.sceneNavMenu.fields },
       buttons: [ 
-        { type: "button", icon: "", label: "CRLNGN_UI.settings.cameraDockMenu.reset", action: 'redefine' },
-        { type: "submit", icon: "", label: "CRLNGN_UI.settings.cameraDockMenu.save" }
+        { type: "button", icon: "", label: "CRLNGN_UI.settings.sceneNavMenu.reset", action: 'redefine' },
+        { type: "submit", icon: "", label: "CRLNGN_UI.settings.sceneNavMenu.save" }
       ]
     }
     // game.settings.get("foo", "config");
@@ -137,10 +137,7 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
   }
 
   _onRender(context, options) {
-    // const SETTINGS = getSettings();
-    // const controlSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
-
-    LogUtil.log("_onRender", [context, options, controlSettings]);
+    LogUtil.log("_onRender", [context, options]);
   }
 
 

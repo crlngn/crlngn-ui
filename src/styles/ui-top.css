@@ -78,7 +78,8 @@ body.crlngn-ui{
     margin-bottom: -12px;
   }
 
-  &:has(.collapsed) #navigation > #scene-list {
+  &:has(.collapsed) #navigation > #scene-list,
+  &:has(.collapsed) #navigation .monks-scene-navigation > #scene-list  {
     opacity: 0;
     transition: opacity 0.2s ease-out;
   }
@@ -122,7 +123,7 @@ body.crlngn-ui{
       }*/
     }
 
-    > #scene-list{
+    > #scene-list {
       display: flex;
       flex-wrap: nowrap;
       overflow: visible;

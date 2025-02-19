@@ -24,9 +24,9 @@
         "save": "Save"
       },
       "leftControlsMenu": {
-        "label": "Left Controls",
+        "label": "Left Control Bar",
         "title": "Configure Controls",
-        "hint": "These settings will modify the look and behavior of scene control buttons, on the left side of screen",
+        "hint": "Modify the look and behavior of scene control buttons, on the left side of screen",
         "fields": {
           "iconSize": {
             "label": "Size of control icons",
@@ -46,7 +46,7 @@
       },
       "cameraDockMenu": {
         "label": "Camera",
-        "title": "Configure Camera Dock",
+        "title": "Configure Dock",
         "hint": "Enable a floating camera dock that you can position anywhere",
         "fields": {
           "enableFloatingDock": {
@@ -73,6 +73,23 @@
         "reset": "Reset",
         "save": "Save"
       },
+      "sceneNavMenu": {
+        "label": "Scene Navigation",
+        "title": "Configure",
+        "hint": "Change options for the scene navigation menu, on the top bar",
+        "fields": {
+          "sceneNavEnabled": {
+            "label": "Enable Custom Scene Navigation",
+            "hint": "<b>[Requires reload]</b> If you are having layout issues with a non-compatible module, you can disable my custom styles for Scene Navigation."
+          }, 
+          "showNavOnHover": {
+            "label": "Show scene list on hover",
+            "hint": "If the scene navigation is collapsed, you can show it by hovering the mouse over the top of the screen."
+          }
+        },
+        "reset": "Reset",
+        "save": "Save"
+      },
       "enableChatStyles": {
         "label": "Enable styles for chat messages",
         "hint": "Adds style modifications to chat cards. When dark mode is selected on Foundry, chat cards will be dark as well. MOSTLY FOR DND5E - only partial support for other systems."
@@ -89,10 +106,6 @@
         "label": "Scene Navigation Collapsed",
         "hint": "Current state of the scene navigation toggle. Is it collapsed?"
       },
-      "sceneNavEnabled": {
-        "label": "Enable Custom Scene Navigation",
-        "hint": "If you are having layout issues with a non-compatible module, you can disable my custom styles for Scene Navigation."
-      },
       "sceneNavPos": {
         "label": "Scene Navigation Position",
         "hint": "Stores current position of navigation for reset when it's re-rendered"
@@ -100,10 +113,6 @@
       "enableMacroLayout": {
         "label": "Enable macro resize",
         "hint": "The module reduces the size of macro slots on the hotbar, and enlarges the numbers. Disable this setting to use default Foundry layout."
-      },
-      "showSceneNavOnHover": {
-        "label": "Show scene list on hover",
-        "hint": "If the scene navigation is collapsed, you can show it by hovering the mouse over the top of the screen."
       },
       "autoHideLeftControls": {
         "label": "Auto hide secondary controls",

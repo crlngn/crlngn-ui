@@ -115,18 +115,35 @@ export function getSettings() {
       config: false, 
       requiresReload: false 
     },
-    
-    enableChatStyles: { 
-      tag: "enable-chat-styles", 
-      label: game.i18n.localize("CRLNGN_UI.settings.enableChatStyles.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.enableChatStyles.hint"), 
-      propType: Boolean, 
-      inputType: SETTING_INPUT.checkbox, 
-      default: true, 
-      scope: SETTING_SCOPE.client, 
-      config: true, 
+
+    sceneNavMenu: {
+      tag: "scene-nav-menu", 
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.hint"),
+      propType: Object,
+      inputType: SETTING_INPUT.button,
+      fields: {
+        sceneNavEnabled: { 
+          tag: "scene-nav-enabled", 
+          label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavEnabled.label"), 
+          hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavEnabled.hint"), 
+          inputType: SETTING_INPUT.checkbox
+        },
+        showNavOnHover: {
+          tag: "show-nav-on-hover", 
+          label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showNavOnHover.label"), 
+          hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showNavOnHover.hint"), 
+          inputType: SETTING_INPUT.checkbox
+        }
+      },
+      default: {
+        sceneNavEnabled: true,
+        showNavOnHover: false
+      },
+      scope: SETTING_SCOPE.client,
+      config: false, 
       requiresReload: true 
-    }, 
+    },
 
     sceneNavCollapsed: { 
       tag: "scene-nav-collapsed", 
@@ -137,31 +154,7 @@ export function getSettings() {
       default: true, 
       scope: SETTING_SCOPE.client, 
       config: false 
-    },
-
-    sceneNavEnabled: { 
-      tag: "scene-nav-enabled", 
-      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavEnabled.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavEnabled.hint"), 
-      propType: Boolean, 
-      inputType: SETTING_INPUT.checkbox, 
-      default: true, 
-      scope: SETTING_SCOPE.client, 
-      config: true, 
-      requiresReload: true 
-    },
-
-    showSceneNavOnHover: { 
-      tag: "show-scene-nav-on-hover", 
-      label: game.i18n.localize("CRLNGN_UI.settings.showSceneNavOnHover.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.showSceneNavOnHover.hint"), 
-      propType: Boolean,
-      inputType: SETTING_INPUT.checkbox,
-      default: true, 
-      scope: SETTING_SCOPE.client, 
-      config: true, 
-      requiresReload: false 
-    },
+    },  
 
     sceneNavPos: { 
       tag: "scene-nav-pos", 
@@ -173,6 +166,18 @@ export function getSettings() {
       scope: SETTING_SCOPE.client, 
       config: false 
     },
+
+    enableChatStyles: { 
+      tag: "enable-chat-styles", 
+      label: game.i18n.localize("CRLNGN_UI.settings.enableChatStyles.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.enableChatStyles.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox, 
+      default: true, 
+      scope: SETTING_SCOPE.client, 
+      config: true, 
+      requiresReload: true 
+    },   
 
     enableMacroLayout: { 
       tag: "enable-macro-layout", 

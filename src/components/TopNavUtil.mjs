@@ -15,7 +15,8 @@ export class TopNavigation {
     // if user disabled Scene Navigation Styles,
     // skip everything
     const uiMiddle = document.querySelector("#ui-middle");
-    if(SettingsUtil.get(Main.SETTINGS.sceneNavEnabled.tag) && uiMiddle){
+    const navSettings = SettingsUtil.get(Main.SETTINGS.sceneNavMenu.tag)
+    if(navSettings.sceneNavEnabled && uiMiddle){
       uiMiddle.classList.add("crlngn-ui");
     }else if(uiMiddle){
       uiMiddle.classList.remove("crlngn-ui");
@@ -76,8 +77,9 @@ export class TopNavigation {
     this.#navToggle = document.querySelector("#nav-toggle"); 
 
     this.#navElem?.addEventListener("mouseenter", ()=>{
+      const sceneNavSettings = SettingsUtil.get(Main.SETTINGS.sceneNavMenu.tag);
       if( !SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag) ||
-          !SettingsUtil.get(Main.SETTINGS.showSceneNavOnHover.tag) ){ 
+          !sceneNavSettings?.showNavOnHover ){ 
             return;
       }
       clearTimeout(this.#navTimeout);
@@ -89,8 +91,9 @@ export class TopNavigation {
     });
 
     this.#navElem?.addEventListener("mouseleave", (e)=>{
+      const sceneNavSettings = SettingsUtil.get(Main.SETTINGS.sceneNavMenu.tag);
       if( !SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag) ||
-          !SettingsUtil.get(Main.SETTINGS.showSceneNavOnHover.tag) ){ 
+      !sceneNavSettings?.showNavOnHover ){ 
             return;
       }
       if (!e) var e = window.event;

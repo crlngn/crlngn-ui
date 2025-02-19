@@ -33,6 +33,9 @@ export class Main {
       TopNavigation.init(); 
       CameraUtil.init(); 
       PlayersListUtil.init(); 
+
+
+      LogUtil.log("GAME", [game.collections.find(c=>c.key=="Scene"),game.collections.get("Scene"), ui]); 
     })
     
   }

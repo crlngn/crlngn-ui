@@ -2,6 +2,7 @@
 import { CameraDockSettings } from '../components/settings-dialogs/CameraDockSettings.mjs';
 import { CustomFontsSettings } from '../components/settings-dialogs/CustomFontSettings.mjs';
 import { LeftControlsSettings } from '../components/settings-dialogs/LeftControlsSettings.mjs';
+import { SceneNavSettings } from '../components/settings-dialogs/SceneNavSettings.mjs';
 // import * as lang from '../lang/en.json' assert { type: "json" };
 
 export function getSettingMenus() {
@@ -31,6 +32,15 @@ export function getSettingMenus() {
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.hint"),
       icon: "fas fa-camera",  
       propType: CameraDockSettings,
+      restricted: false 
+    },
+    sceneNavMenu: {
+      tag: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.label"),
+      name: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.title"),
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.title"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.hint"),
+      icon: "fas fa-camera",  
+      propType: SceneNavSettings,
       restricted: false 
     }
   };

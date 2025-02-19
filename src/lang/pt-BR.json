@@ -73,6 +73,23 @@
         "reset": "Redefinir",
         "save": "Salvar"
       },
+      "sceneNavMenu": {
+        "label": "Navegação Entre Cenas",
+        "title": "Configurar",
+        "hint": "Altere as opções para a barra de navegação entre cenas, no topo",
+        "fields": {
+          "sceneNavEnabled": {
+            "label": "Ativar Navegação de Cenas",
+            "hint": "Se você estiver enfrentando problemas de layout com um módulo incompatível, pode desativar meus estilos personalizados para Navegação de Cenas."
+          }, 
+          "showNavOnHover": {
+            "label": "Alternar visibilidades",
+            "hint": "Se a navegação de cenas estiver recolhida, você pode exibi-la passando o mouse sobre a parte superior da tela."
+          }
+        },
+        "reset": "Reset", 
+        "save": "Save" 
+      },
       "enableChatStyles": {
         "label": "Ativar estilos no chat",
         "hint": "Adiciona modificações de estilo às cartas do chat. Quando o modo escuro for ativado no Foundry, as cartas do chat também ficarão escuras. PRINCIPALMENTE PARA DND5E - suporte parcial para outros sistemas."
@@ -89,10 +106,6 @@
         "label": "Estado da Navegação de Cena",
         "hint": "Estado atual do botão de navegação de cena. Está recolhido?"
       },
-      "sceneNavEnabled": {
-        "label": "Ativar Navegação de Cenas",
-        "hint": "Se você estiver enfrentando problemas de layout com um módulo incompatível, pode desativar meus estilos personalizados para Navegação de Cenas."
-      },
       "sceneNavPos": {
         "label": "Posição da Navegação de Cena",
         "hint": "Armazena a posição atual da navegação para redefinição ao ser renderizada novamente"
@@ -100,10 +113,6 @@
       "enableMacroLayout": {
         "label": "Ativar layout de macros",
         "hint": "O módulo reduz o tamanho dos slots de macro na barra de atalhos e aumenta os números. Desative essa configuração para usar o layout padrão do Foundry."
-      },
-      "showSceneNavOnHover": {
-        "label": "Alternar visibilidade da lista de cenas",
-        "hint": "Se a navegação de cenas estiver recolhida, você pode exibi-la passando o mouse sobre a parte superior da tela."
       },
       "autoHideLeftControls": {
         "label": "Ocultar os controles secundários",
