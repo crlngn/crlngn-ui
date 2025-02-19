@@ -444,8 +444,10 @@ body.crlngn-chat {
     opacity: 0.8;
   }
   &.theme-dark .chat-message .message-content,
-  &[data-ddb-custom-style=dark] .chat-message .message-content {
-    color: #989fa5;
+  &[data-ddb-custom-style=dark] .chat-message .message-content,
+  &.theme-dark .chat-message .message-content > *,
+  &[data-ddb-custom-style=dark] .chat-message .message-content > * {
+    color: var(--color-text-light-2);
   }
   &.theme-dark .chat-message.ddb-game-log-message .message-content .ddb-card-content a,
   &[data-ddb-custom-style=dark] .chat-message.ddb-game-log-message .message-content .ddb-card-content a {
