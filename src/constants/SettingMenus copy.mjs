@@ -14,9 +14,8 @@ export function getSettingMenus() {
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.hint"),
       icon: "fas fa-text",  
       propType: CustomFontsSettings,
-      restricted: true 
+      restricted: false 
     },
-    /*
     leftControls: {
       tag: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.label"),
       name: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.title"),
@@ -44,6 +43,5 @@ export function getSettingMenus() {
       propType: SceneNavSettings,
       restricted: false 
     }
-    */
   };
 }

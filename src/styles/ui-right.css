@@ -1,189 +1,227 @@
+/*
 :root{
   --right-control-item-size: 36px;
   --sidebar-tab-height: 48px;
 }
+*/
 
-#interface #ui-right {
+body.crlngn-ui{
+
+  /*#interface #ui-right {*/
+
+    .sidebar-tab{
+      background: var(--color-dark-bg-90);
+      /*backdrop-filter:blur(3px);*/
+
+      .action-buttons button,
+      button:not(.token-initiative button, .dice-tray button, .chat-message button, .dice-tray-container button, .icon, .inline-control) {
+        /*--button-background-color: var(--color-dark-bg-85);*/
+        border: 1px solid var(--color-secondary-25);
+        padding: 0.35em 0.35em;
+        color: var(--color-light-1);
+        border-radius: 2px;
+        background: var(--color-secondary-50); 
+        display: flex; 
+        flex-direction: row; 
+        align-items: center; 
+        justify-content: center; 
+        color: #dcdcdc; 
+        font-weight: 600; 
+        letter-spacing: 0.03em;
+        box-shadow: 0 0 14px inset var(--color-secondary-50); 
+        transition: opacity ease-in-out 0.25s; 
+        min-height: 2.8em; 
+        font-size: var(--font-size-13); 
+        line-height: 1.5;
   
-  #sidebar{
-    --ft-height: var(--ft-height, 0px); 
-    margin: 0; 
-    border-radius: 0; 
-    border: 0; 
-    height: calc(100% - var(--ft-height, 0px)); 
-    padding-bottom: 10px; 
+        &:hover{
+          background: var(--color-secondary-90);
+          border: 1px solid var(--color-secondary-90);
+          box-shadow: none; 
+        }
+    
+        &:active, &:focus{
+          background: var(--color-secondary-25); 
+          border: 1px solid var(--color-secondary-75);
+        }
+  
+        &:has(span, label){
+          i{
+            display: none;
+          }
+        }
 
-    &.collapsed{
-      width: var(--right-control-item-size);
-      min-width: var(--right-control-item-size);
-      height: auto; 
+        
+      }
+
+      .header-actions.action-buttons button{
+        flex: 1 0 auto;
+        gap: 4px;
+      }
+      
     }
 
-    #sidebar-tabs{
-      margin: 2px 0 0 0;
-      --sidebar-tab-height: 36px;
+    #settings,
+    #settings-popout {
 
-      > .item{
-        border-radius: 0;
-        height: var(--right-control-item-size);
+      .info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25em;
+        .title {
+          font-size: var(--font-size-20);
+          flex: 1 1 100%;
+        }
+        .subtitle {
+          margin: 0.15em 0 1em 0;
+          flex: 1 1 100%;
+        }
+      }
+
+      /*
+      h1.divider,
+      h2.divider,
+      h3.divider,
+      h4.divider {
+        justify-content: flex-start;
+        letter-spacing: 0.01em;
+      }
+
+      
+      h1.divider::before, 
+      h2.divider::before, 
+      h3.divider::before, 
+      h4.divider::before{
+        max-width: 0;
+        margin-right: 0;
+      } */
+
+      h4.divider{
+        margin: 0.65em 0 0.35em 0;
+        opacity: 0.95;
+        font-weight: 600;
+      }
+
+      section {
+        gap: 0.3rem;
+
+        button{
+          i{
+            display: none;
+          }
+        }
+        
+      }
+      button:not(.dice-tray button, .chat-message button, .dice-tray-container button) {
+        min-height: 3.4em;
+        background: var(--color-secondary-15);
+        &:hover{
+          background: var(--color-secondary-90);
+        }
+    
+        &:active, &:focus{
+          background: var(--color-secondary-25); 
+        }
+      }
+    }
+
+    #sidebar-tabs {
+      padding: 0;
+
+      > menu {
+        gap: 0;
+  
+        li{
+  
+          button.ui-control {
+            border-radius: 0;
+
+            &:last-child{
+              border-bottom-left-radius: 10px;
+            }
+          }
+        }
+      }
+    } 
+
+    #sidebar-content #chat{
+      width: auto;
+    }
+
+    .directory-item {
+
+      header, ol {
         width: 100%;
-        flex: 1 1 100%;
+        position: relative;
+
+        .folder-name{
+          font-size: var(--font-size-15);
+          font-weight: 600;
+          letter-spacing: 0.02em;  
+        }
       }
 
-      > [data-tab] > * {
-        font-size: 0.7rem;
-      } 
-    }
-  }
+      > * {
+        /*position: absolute;*/
+        z-index: 2;
+      }
 
-  aside#players{
-    margin-top: auto;
-  }
-}
+      > img{
+        z-index:0;
+      }
 
-#ui-right .sidebar-tab,
-.sidebar-popout .sidebar-tab {
-  line-height: 1.5;
-  font-size: var(--font-size-13);
+      img.compendium-banner {
+        opacity: 0.25;
+        filter:saturate(0.25);
+      }
+      .compendium-footer {
+        opacity: 0.4;
+        font-size: var(--font-size-11);
+        border: 0;
+      }
 
-  #chat-controls {
-    align-items: center;
-    margin-bottom: 3px;
+      &:hover {
+        img.compendium-banner {
+          opacity: 0.75;
+          filter:saturate(0.75);
+        }
 
-    label {
-      min-width: 24px;
-      text-align: center;
-    }
-    i{
-      font-size: var(--font-size-16);
-      margin: 0;
-    }
-  }
+        .compendium-footer {
+          opacity: 0.8;
+        }
 
-  .dnd5e2.sidebar-heading{
-    display: flex;
-    flex-wrap: wrap;
-  }
-  > ul, 
-  > div:not(.sidebar-heading) > h2, 
-  > div > ul:not(.links){
-    padding: 4px 14px;
-  }
+      }
+      
+      .entry-name{
+        font-size: var(--font-size-15);
+        font-weight: 600;
+        letter-spacing: 0.02em;   
+        background: var(--color-dark-bg-25);
 
-  h2 {
-    border: 0;
-    color: #fff;
-    font-size: var(--font-size-12);
-    text-transform: uppercase;
-    font-weight: 500;
-    margin: 14px 0 6px;
-  }
+        strong{
+          font-size: 1em;
+          font-weight: 600; 
+          letter-spacing: 0.03em;
+        }
+      }
 
-  button#chat-form--send {
-    display: none;
-  }
-
-
-  button:not(.dice-tray button, .chat-message button, .dice-tray-container button) {
-    padding: 6px; 
-    border-radius: 0; 
-    background: rgba(0,0,0,0.15); 
-    border: 1px solid rgba(0,0,0,0.5); 
-    display: flex; 
-    flex-direction: row; 
-    align-items: center; 
-    justify-content: center; 
-    color: #dcdcdc; 
-    font-weight: 500; 
-    box-shadow: 0 0 10px inset rgb(0, 0, 0, 0.3); 
-    transition: all ease-in-out 0.25s; 
-    position: relative; 
-    min-height: 34px;
-    font-size: var(--font-size-13); 
-    font-weight: 600; 
-    margin: 2px 0;
-
-    &:hover{
-      color: #fff; 
-      box-shadow: 0 0 8px inset rgb(0, 0, 0, 0.25); 
-      background: rgba(50, 50, 70, 0.8); 
-    }
-
-    &:active{
-      color: #fff;
-      box-shadow: 0 0 8px inset rgb(0, 0, 0, 0.25);
-      background: rgba(30, 30, 50, 0.7);
-    }
-
-    > i {
-      font-size: var(--font-size-10);
-      margin: 0 5px 0 0;
-    }
-  }
-
-  .directory-header {
-    margin: 5px;
-  }
-
-  li.folder > .folder-header h3 {
-    font-size: var(--font-size-14);
-    font-weight: 600;
-
-    a{
-      background: rgba(0, 0, 0, .6);
-      padding: 4px 10px;
-      border-radius: 4px;
-      border: 1px solid #000;
-
-      > i {
-        font-size: var(--font-size-10);
-        margin: 0 5px 0 0;
+      &.actor .entry-name {
+        font-size: var(--font-size-14);
       }
     }
+
+  .combat-sidebar .combat-tracker .token-initiative button {
+    filter: none;
   }
+    
+  /*}*/
 
-  li.directory {
-    .compendium-footer .source {
-      font-size: var(--font-size-10);
-      opacity: 0.5;
-    }
-  }
-
-  li.directory-item.compendium h3,
-  li.directory-item h3.document-name {
-    font-size: var(--font-size-12);
-    font-weight: 600;
-    line-height: 1.35;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &.compendium-name, a {
-      background: rgba(0, 0, 0, .6);
-      padding: 3px 10px;
-      border-radius: 4px;
-      border: none;
-      display: inline-flex;
-      white-space: normal;
-      max-width: 80%;
-      line-height: 1.5;
-      height: auto;
-      align-items: center;
-
-      > i {
-        font-size: var(--font-size-10);
-        margin: 0 5px 0 0;
-      }
-    }
-  }
-
-  .dnd5e2.sidebar-heading ul.links{
-      margin: 10px 0 0 0;
-
-      a{
-        text-decoration: none;
-      }
+  /* DnD5e */
+  .dnd5e2.sidebar-heading ul.links a, 
+  .dnd5e2.sidebar-info ul.links a {
+    text-decoration: none;
   }
 
 }
+
 

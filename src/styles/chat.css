@@ -2,7 +2,8 @@
 Chat card layout - start 
 ******************/
 
-body.crlngn-chat {
+body.crlngn-chat,
+body.crlngn-ui {
   --color-pf-alternate: #526b7870;
 
 
@@ -89,7 +90,7 @@ body.crlngn-chat {
   /* card headers */
   .chat-message .message-header .name-stacked .title {
     letter-spacing: 0.025em;
-    font-weight: 500;
+    font-weight: 600;
   }
   .crlngn.ddbgl .chat-card .card-header.collapsed{
     max-height: 0px;

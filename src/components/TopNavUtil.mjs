@@ -179,6 +179,7 @@ export class TopNavigation {
   }
 
   static setNavPosition(pos){
+    if(!this.#scenesList){ return }
     const position = pos !== undefined ? pos : SettingsUtil.get(Main.SETTINGS.sceneNavPos.tag);
     const scenes = this.#scenesList?.querySelectorAll("li.nav-item") || [];
 

@@ -48,7 +48,6 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
   
   get title() {
     return game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.title");
-    // return `My Module: ${game.i18n.localize(this.options.window.title)}`;
   }
 
 
