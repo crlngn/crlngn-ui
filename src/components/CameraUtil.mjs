@@ -3,7 +3,7 @@ import { getSettings } from "../constants/Settings.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
-import { Main } from "./Main.mjs";
+import { Main } from "./Main.mjs"; 
 
 export class CameraUtil {
   static #offsetX = 0;
@@ -113,7 +113,6 @@ export class CameraUtil {
         CameraUtil.#startBottom = parseInt(getComputedStyle(CameraUtil.cameraContainer).bottom) || 0;
         CameraUtil.#startWidth = CameraUtil.cameraContainer.offsetWidth;
         CameraUtil.#startHeight = CameraUtil.cameraContainer.offsetHeight;
-
     
         body?.addEventListener("mousemove", CameraUtil.#onResize);
         body?.addEventListener("mouseup", CameraUtil.#onStopResize);
@@ -158,10 +157,12 @@ export class CameraUtil {
     const SETTINGS = getSettings();
     const cameraSettings = {...SettingsUtil.get(SETTINGS.cameraDockMenu.tag)};
 
-    if(CameraUtil.isDragging){
-      const body = document.querySelector("body.crlngn-ui");
-      cameraSettings.dockPosX = parseInt(CameraUtil.cameraContainer?.style.left) || 0;
-      cameraSettings.dockPosY = parseInt(CameraUtil.cameraContainer?.style.bottom) || 0;
+    if(CameraUtil.isDragging){ 
+      const body = document.querySelector("body.crlngn-ui"); 
+      cameraSettings.dockPosX = parseInt(CameraUtil.cameraContainer?.style.left) || 0; 
+      cameraSettings.dockPosY = parseInt(CameraUtil.cameraContainer?.style.bottom) || 0; 
+
+      if(cameraSettings.dockPosY <= 0){ cameraSettings.dockPosY = 0 }
       SettingsUtil.set(SETTINGS.cameraDockMenu.tag, cameraSettings);
       
       body?.removeEventListener("mousemove", CameraUtil.#onDragMove); 
