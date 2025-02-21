@@ -75,7 +75,7 @@
       },
       "sceneNavMenu": {
         "label": "Scene Navigation",
-        "title": "Configure",
+        "title": "Configure Navigation",
         "hint": "Change options for the scene navigation menu, on the top bar",
         "fields": {
           "sceneNavEnabled": {

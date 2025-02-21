@@ -75,7 +75,7 @@
       },
       "sceneNavMenu": {
         "label": "Navegação Entre Cenas",
-        "title": "Configurar",
+        "title": "Configurar Navegação",
         "hint": "Altere as opções para a barra de navegação entre cenas, no topo",
         "fields": {
           "sceneNavEnabled": {

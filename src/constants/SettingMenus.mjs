@@ -14,7 +14,7 @@ export function getSettingMenus() {
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.hint"),
       icon: "fas fa-text",  
       propType: CustomFontsSettings,
-      restricted: false 
+      restricted: true 
     },
     leftControls: {
       tag: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.label"),
@@ -32,14 +32,14 @@ export function getSettingMenus() {
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.hint"),
       icon: "fas fa-camera",  
       propType: CameraDockSettings,
-      restricted: false 
+      restricted: true 
     },
     sceneNavMenu: {
       tag: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.label"),
       name: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.title"),
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.title"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.hint"),
-      icon: "fas fa-camera",  
+      icon: "fas fa-cog",  
       propType: SceneNavSettings,
       restricted: false 
     }
