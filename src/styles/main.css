@@ -105,14 +105,16 @@ body.crlngn-ui  {
   .app.sidebar-popout select,
   #chat-controls .roll-type-select,
   #sidebar textarea,
-  #chat-form textarea,
-  #sidebar select option {
+  #chat-form textarea {
     font-family: var(--crlngn-font-family);
     background: var(--color-input-bg);
     border: 1px solid rgba(0, 0, 0, 0.5);
     color: var(--color-text-light-highlight);
   }
-    
+
+  #sidebar select option {
+    font-family: var(--crlngn-font-family);
+  }
 
   /*input[type=range],*/
   .sidebar-tab input[type=range],
