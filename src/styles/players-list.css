@@ -179,11 +179,28 @@ body.crlngn-ui {
         }
       } 
 
-      ol li.context-item{
-        i{
-          margin-right: 5px;
+      #context-menu ol.context-items, 
+      #context-menu li.context-group > ol {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        max-width: 100%;
+
+        li{
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          display: hidden;
+          overflow: hidden;
+
+          i{
+            margin-right: 5px;
+          }
         }
-      } 
+
+        
+      }
 
       button {
         background: transparent;
