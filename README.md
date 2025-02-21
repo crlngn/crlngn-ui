@@ -52,6 +52,7 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 - Monk's Hotbar Expansion 11.0.x
 - Ready Set Roll 5e 3.4.x
 - Taskbar 4.1.x
+- Tidy 5e 9.1.x
 - TheRipper93's Module Hub 4.1.x
 - Touch VTT 2.2.x
 
