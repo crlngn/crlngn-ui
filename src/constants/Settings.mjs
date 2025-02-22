@@ -52,7 +52,7 @@ export function getSettings() {
       },
       default: {
         uiFont: `"Work Sans", Arial, sans-serif`,
-        uiTitles: `"Work Sans", Arial, sans-serif`,
+        uiTitles: `"Roboto Slab", Arial, sans-serif`,
         journalBody: `"Work Sans", Arial, sans-serif`, 
         journalTitles: `"Roboto Condensed", Arial, sans-serif`
       },
