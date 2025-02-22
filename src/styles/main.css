@@ -2,30 +2,6 @@
 General Colors
 *************/
 :root {
-  /* colors */
-	--color-button-bg: rgba(90,120,150,0.5);
-	--color-input-bg: rgba(0,0,0,0.5);
-	--color-input-border: rgba(90,120,150, 0.5);
-	--color-border-highlight: rgba(68, 147, 173, 1);
-  --color-shadow-highlight: rgba(90,120,150, 0.5);
-	--color-shadow-primary: rgba(87, 183, 214, 0.8);
-	--color-sidebar-font: rgba(213, 221, 230, 0.8);
-  --color-border-highlight-alt: rgba(68, 147, 173, 0.9); 
-  --color-highlight-alt: rgba(68, 147, 173, 1);
-  --color-border-light-primary: rgba(90,120,150, 0.5);
-  --color-border-light-highlight: rgba(68, 147, 173, 1);
-  --color-border-dark-5: rgba(80, 80, 80, 1);
-  --color-underline-header: rgba(68, 147, 173, 1);
-  --color-underline-active: rgba(68, 147, 173, 1);
-
-	--dnd5e-color-beige: rgba(0,0,0,0.2);
-	--color-text-dark: rgba(235,235,235,1);
-	--color-text-dark-op: rgba(235,235,235,0.6);
-	--color-text-hyperlink: #00aaaa;
-	--color-control-bg: rgba(255,255,255,0.35);
-	--dnd5e-border-groove: 1px solid rgba(0,0,0,0.35);
-	--dnd5e-color-parchment: #f4efed;
-
   /* crlngn-fonts */
   --crlngn-font-family: var(--font-body);
   --crlngn-font-journal-body: var(--dnd5e-font-roboto-condensed, var(--crlngn-font-family));
@@ -34,16 +10,6 @@ General Colors
 
 /* FONT CONFIG */
 body.crlngn-ui {
-  --color-warm-1: #7ab6c4;
-  --color-warm-2: #5e9eb2;
-  --color-warm-3: #44778d;
-  --color-cool-3: #505070;
-  --color-cool-4: #3c3c50;
-  --color-cool-5: rgb(15, 10, 25);
-  --color-cool-5-25: rgba(11, 10, 19, 0.25);
-  --color-cool-5-50: rgba(11, 10, 19, 0.5);
-  --color-cool-5-75: rgba(11, 10, 19, 0.75);
-  --color-cool-5-90: rgba(11, 10, 19, 0.9);
   /* crlngn fonts */
   --crlngn-font-family: var(--font-body);
   --crlngn-font-titles: var(--dnd5e-font-modesto, var(--crlngn-font-family));
@@ -101,9 +67,25 @@ body *{
 body.crlngn-ui  {
   font-size: var(--font-size-13);
 
-  h1, h1, h3, h4, h5, h6 {
+  h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
   }
+  h1, h2, h3 {
+    font-family: var(--crlngn-font-titles);
+  }
+  h4, h5, h6 {
+    font-family: var(--crlngn-font-family);
+  }
+
+  #sidebar {
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      font-family: var(--crlngn-font-family);
+    }
+  }
+
+  
   #tooltip {
     font-family: var(--crlngn-font-family);
     box-shadow: 0 1px 6px rgba(40,40,65,0.7);
@@ -201,6 +183,7 @@ body.crlngn-ui  {
 
   .dnd5e2 button:hover:not(:disabled), .dnd5e2 button:focus {
     box-shadow: 0 0 4px var(--color-shadow-primary);
+    border: 1px solid var(--color-highlight-alt);
   }
 
 }
@@ -388,10 +371,10 @@ body.crlngn-ui {
       top: 100%;
       left: 0;
       right: 0;
-      background: var(--input-background-color);
+      background: var(--input-background-alt);
       border: none;
       border-radius: 3px;
-      max-height: 200px;
+      max-height: 120px;
       overflow-y: auto;
       z-index: 1000;
       display: none;
@@ -408,13 +391,23 @@ body.crlngn-ui {
     }
   
     .dropdown-option:hover {
-      background-color: var(--color-cool-3);
+      background-color: var(--input-background-alt);
     }
   
     input[type="text"] {
       width: 100%;
       padding: 5px;
     }
+  }
+
+  /* Dialogs for DnD5e */
+  .dialog .dialog-buttons button.default {
+    border: 2px solid var(--color-shadow-primary);
+    box-shadow: 0 0 4px rgba(0,0,0,0.5);
+  }
+
+  &.theme-dark .dialog .dialog-buttons button {
+    border: 2px groove var(--color-border-light-1);
   }
   
 }

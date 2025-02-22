@@ -48,7 +48,7 @@
 
   #chat-controls {
     align-items: center;
-    margin-bottom: 3px;
+    padding: 0.25em 0;
 
     label {
       min-width: 24px;
@@ -77,6 +77,10 @@
     text-transform: uppercase;
     font-weight: 500;
     margin: 14px 0 6px;
+  }
+
+  #chat-form textarea {
+    margin: 4px 0;
   }
 
   button#chat-form--send {

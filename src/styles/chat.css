@@ -4,7 +4,8 @@ Chat card layout - start
 
 body.crlngn-chat {
   --color-pf-alternate: #526b7870;
-
+  --crlngn-chat-button-bg-50: rgba(32, 47, 58, 0.5);
+  --crlngn-chat-button-bg-15: rgba(32, 47, 58, 0.15);
 
   .pill-lg{
     border: none;
@@ -13,7 +14,7 @@ body.crlngn-chat {
     border: none;
     font-size: 0.72em;
     font-weight: 500;
-    background-color: rgb(32, 47, 58, 0.15);
+    background-color: var(--crlngn-chat-button-bg-15);
     padding: 3px 5px;
   }
   .chat-card .pills{
@@ -22,7 +23,7 @@ body.crlngn-chat {
   :is(.chat-popout, #chat-log) .chat-message .ddb-game-log-chat-card .ddb-card-content a.inline-roll {
     border-radius: 6px;
     border: none;
-    color: #4d97c9; 
+    color: var(--color-highlights); 
   }
   .chat-message, .chat-message.whisper {
     border-radius: 6px;
@@ -35,6 +36,20 @@ body.crlngn-chat {
     border: 0;
     border-radius: 3px;
   }
+  .chat-message.crlngn h1, 
+  .chat-message.crlngn h2, 
+  .chat-message.crlngn h3{
+    font-family: var(--crlngn-font-titles);
+  }
+
+  .chat-message.crlngn, 
+  .chat-message.crlngn h4, 
+  .chat-message.crlngn h5,
+  .chat-message.crlngn h6,
+  .chat-message.crlngn .card-header {
+    font-family: var(--crlngn-font-family);
+  }
+
   
   /* DND5e */
   /* use colors per roll type */
@@ -92,7 +107,7 @@ body.crlngn-chat {
     letter-spacing: 0.025em;
     font-weight: 500;
   }
-  
+
   .crlngn.ddbgl .chat-card .card-header.collapsed{
     max-height: 0px;
     padding: 0;
@@ -123,7 +138,7 @@ body.crlngn-chat {
   }
   
   :is(.chat-popout, #chat-log, .chat-log) .message:not(.ddbgl) .message-header .flavor-text {
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     letter-spacing: 0.02em;
     font-size: var(--font-size-11);
     line-height: 1.4;
@@ -396,8 +411,23 @@ body.crlngn-chat {
     --dnd5e-color-failure-background: rgba(243, 78, 78, 0.35); 
   }
 
-  /*********
-  * DND5e */
+  &.theme-dark{
+    .chat-message.crlngn h1, 
+    .chat-message.crlngn h2, 
+    .chat-message.crlngn h3{
+      color: var(--color-text-light-1);
+      font-family: var(--crlngn-font-titles);
+    }
+  
+    .chat-message.crlngn, 
+    .chat-message.crlngn h4, 
+    .chat-message.crlngn h5,
+    .chat-message.crlngn h6,
+    .chat-message.crlngn .card-header {
+      color: var(--color-text-light-1);
+      font-family: var(--crlngn-font-family);
+    }
+  }
 
   /* CHAT MESSAGE CARD */
   &.theme-dark :is(.chat-popout, #chat-log, .chat-log) .chat-message,
@@ -441,7 +471,7 @@ body.crlngn-chat {
   &.theme-dark .chat-message a.inline-roll,
   &[data-ddb-custom-style=dark]  .chat-message a.content-link,
   &[data-ddb-custom-style=dark]  .chat-message a.inline-roll {
-    background: rgb(32, 47, 58, 0.5); 
+    background: var(--crlngn-chat-button-bg-50);
     color: var(--color-text-light-5);
     opacity: 0.8;
   }
@@ -496,7 +526,7 @@ body.crlngn-chat {
   &[data-ddb-custom-style=dark] .chat-message.ddb-game-log-message .dice-result .dice-total {
     border: 0;
     box-shadow: none;
-    background: rgb(32, 47, 58, 0.5); 
+    background: var(--crlngn-chat-button-bg-50);
     color: #fff;
   }
 
@@ -684,7 +714,7 @@ body.crlngn-chat {
   &.theme-dark .chat-message .message-content button:not(.unbutton),
   &[data-ddb-custom-style=dark] :is(.card-tray, .effects-tray) button:not(.unbutton),
   &[data-ddb-custom-style=dark] .chat-card button:not(.unbutton){
-    background: rgb(32, 47, 58, 0.5); 
+    background: var(--crlngn-chat-button-bg-50);
     border: 1px solid rgba(0,0,0,0.35); 
     color: var(--color-text-dark); 
   }
@@ -708,15 +738,6 @@ body.crlngn-chat {
   &[data-ddb-custom-style=dark] .dnd5e2.card-tray .targets .target .change-source > *,
   &[data-ddb-custom-style=dark] .dnd5e2 :is(.card-tray, .effects-tray) .targets .target .change-source > * {
     filter: invert(1);
-  }
-
-  /* DnD5e 3.x */
-  &.theme-dark .dialog .dialog-buttons button {
-    border: 2px groove var(--color-border-light-1);
-  }
-  &.theme-dark .dialog .dialog-buttons button.default {
-    border: 2px solid var(--color-shadow-primary);
-    box-shadow: 0 0 4px rgba(0,0,0,0.5);
   }
 
   /* inline rolls  */ 
@@ -797,7 +818,7 @@ body.crlngn-chat {
   &.theme-dark.system-pf2e .chat-message .message-header .flavor-text .modifiers {
     margin: 1em 0;
     .tag {
-      background: rgb(32, 47, 58, 0.5); 
+      background: var(--crlngn-chat-button-bg-50);
       color: rgba(255,255,255,0.6);
     }
   }

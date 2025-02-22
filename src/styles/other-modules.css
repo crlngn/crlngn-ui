@@ -1,5 +1,8 @@
 body.crlngn-ui{
-
+  /* DDB Gamelog */
+  .ddb-game-log-fixHeader .message-sender:hover {
+    text-shadow: none;
+  }
   /* MONK'S COMMON DISPLAY */
   #common-display-toolbar {
     .common-button-group .header {
@@ -33,6 +36,57 @@ body.crlngn-ui{
       text-align: left;
     }
   }
+
+  /* MONK'S TOKEN BAR */
+  .monks-tokenbar.chat-card .card-header {
+    padding: 3px 0;
+    border-top: 1px groove var(--input-background-color);
+    border-bottom: 1px groove var(--input-background-color);
+  }
+  .monks-tokenbar.chat-card .card-header h3:hover {
+    text-shadow: none;
+  }
+  .monks-tokenbar.chat-card .sheet .items-list {
+    padding: 0;
+  }
+  .monks-tokenbar .sheet .items-list .items-header {
+    border: 1px groove var(--input-background-color);
+  }
+  .monks-tokenbar .sheet .items-list .item {
+    border-bottom: 1px groove var(--input-background-color);
+  }
+  .monks-tokenbar .sheet .items-list .items-header h3 {
+    font-family: var(--crlngn-font-titles);
+  }
+
+  .monks-tokenbar .contested-roll header .request-name {
+    &:first-child{
+      text-align: left;
+      padding-right: 1.5em;
+
+      &:after{
+        font-size: var(--font-size-14);
+      }
+    }
+    &:last-child{
+      text-align: right;
+      padding-left: 1.5em;
+    }
+  }
+
+
+  .monks-tokenbar.chat-card .card-footer {
+    border-top: none;
+    gap: 4px;
+  }
+  .monks-tokenbar.chat-card .card-header h3 {
+    font-size: var(--font-size-16);
+  }
+  &.theme-dark .monks-tokenbar .sheet .items-list .items-header {
+    background: var(--crlngn-chat-button-bg-15);
+  }
+
+
 
   /* CAROUSEL COMBAT TRACKER */
 
@@ -190,5 +244,49 @@ body.crlngn-ui{
     max-width: 100%;
   }
   
-  
+  /* POLYGLOT */
+  .polyglot.polyglot-lang-select span.select2-selection,
+  .select2-container .select2-dropdown,
+  .select2-results__option,
+  .select2-selection__rendered,
+  .select2-container--default .select2-search--dropdown .select2-search__field,
+  .polyglot.polyglot-lang-select .select2-container--default .select2-selection--single .select2-selection__rendered {
+    border: 1px solid var(--color-dark-bg-90);
+    color: var(--color-text-light-highlight);
+  }
+  .polyglot.polyglot-lang-select .select2-container--default .select2-selection--single .select2-selection__arrow {
+    color: var(--color-text-light-highlight);
+  }
+  .polyglot.polyglot-lang-select span.select2-selection {
+    background: var(--color-input-bg);
+  }
+  .select2-container .select2-dropdown {
+    background: var(--color-dark-bg);
+  }
+  .polyglot.polyglot-user-list div {
+    width: 6px;
+    height: 6px;
+  }
+
+  .polyglot input:not(:checked),
+  .polyglot.polyglot-lang-select input:checked {
+    accent-color: var(--color-dark-bg);
+    color: var(--color-text-light-highlight);
+  }
+
+  .select2-container--default .select2-results__option .select2-results__option {
+    padding: 0.5em;
+  }
+
+  .select2-container--default .select2-results__option--selected {
+    background: var(--color-highlights-25);
+  }
+
+  .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+    background: var(--color-highlights-50);
+  }
+
+  .polyglot.polyglot-lang-select .select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: var(--color-text-light-highlight) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+  }
 }
