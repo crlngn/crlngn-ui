@@ -1,4 +1,5 @@
 import { getSettings } from "../../constants/Settings.mjs";
+import { GeneralUtil } from "../GeneralUtil.mjs";
 import { LogUtil } from "../LogUtil.mjs";
 import { Main } from "../Main.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
@@ -9,6 +10,7 @@ import { SettingsUtil } from "../SettingsUtil.mjs";
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV2) {
+  static #element;
   static get DEFAULT_OPTIONS() {
     const SETTINGS = getSettings();
 
@@ -17,7 +19,6 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
       actions: {
         redefine: CustomFontsSettings.#onReset,
       },
-      // classes: ["standard-form"],
       form: {
         handler: CustomFontsSettings.#onSubmit,
         closeOnSubmit: true,
@@ -30,7 +31,8 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
       window: {
         icon: "fas fa-text",
         title: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.title"),
-        contentClasses: ["standard-form"],
+        // Add datalists to your content classes
+        contentClasses: ["standard-form", "datalists"],
         resizable: false
       }
     }
@@ -85,6 +87,7 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
       default: {
         ...SETTINGS.customFontsMenu.default
       },
+      fontList: GeneralUtil.getAllFonts(),
       fields: { 
         ...SETTINGS.customFontsMenu.fields
       },
@@ -113,13 +116,68 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
    */
   async _preparePartContext(partId, context) {
     context.partId = `${partId}-${this.id}`;
-    LogUtil.log("_preparePartContext",[partId, context]);
+    // LogUtil.log("_preparePartContext",[partId, context]);
     return context;
   }
 
   _onRender(context, options) {
-    LogUtil.log("_onRender", [context, options]);
+    CustomFontsSettings.#element = this.element;
+    
+    // Handle input focus and blur
+    const inputs = CustomFontsSettings.#element.querySelectorAll('input[type="text"]');
+    inputs.forEach(input => {
+      const wrapper = input.closest('.dropdown-wrapper');
+      const dropdown = wrapper?.querySelector('.dropdown-options');
+      
+      if (!wrapper || !dropdown) return;
+  
+      // Show dropdown on input focus
+      const onFocus = () => {
+        CustomFontsSettings.#closeAllDropdowns();
+        dropdown.classList.add('active');
+      };
+      input.addEventListener('focus', onFocus);
+      input.addEventListener('click', onFocus);
+
+      // Handle clicking outside
+      document.addEventListener('click', (e) => {
+        if (!wrapper.contains(e.target)) {
+          dropdown.classList.remove('active');
+        }
+      });
+    });
+  
+    // Handle option selection
+    const dropOptions = CustomFontsSettings.#element.querySelectorAll('.dropdown-option');
+    dropOptions.forEach(option => {
+      option.addEventListener('click', (e) => {
+
+        const input = option.closest('.dropdown-wrapper').querySelector('input');
+        // Get the value and handle potential quote escaping
+        let value = option.dataset.value;
+        LogUtil.log("Option clicked:", [value, option.dataset]); // Debug log
+        
+        // If the value contains spaces but doesn't have quotes, add them
+        if (value.includes(' ') && !value.startsWith('"')) {
+          value = `"${value}"`;
+        }
+        // If the value is already properly quoted, use it as is
+        else if (value.startsWith('&quot;')) {
+          value = value.replace(/&quot;/g, '"');
+        }
+        
+        input.value = value;
+        option.closest('.dropdown-options').classList.remove('active');
+      });
+    });
   }
+  
+  static #closeAllDropdowns() {
+    CustomFontsSettings.#element.querySelectorAll('.dropdown-options').forEach(dropdown => {
+      dropdown.classList.remove('active');
+    });
+  }
+  
 
   static async #onReset(a, b){
     const SETTINGS = getSettings();
@@ -133,5 +191,7 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
     
     LogUtil.log("#onReset", [a, b, SETTINGS.customFontsMenu.default]);
   }
+
+  
 
 }

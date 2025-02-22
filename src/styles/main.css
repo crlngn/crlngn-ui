@@ -1,6 +1,3 @@
-/*@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');*/
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300..800;1,300..800&display=swap'); 
-
 /*************
 General Colors
 *************/
@@ -112,7 +109,11 @@ body.crlngn-ui  {
     box-shadow: 0 1px 6px rgba(40,40,65,0.7);
   }
 
-  
+  /*****
+  * JOURNAL */
+  .sheet.journal-entry .journal-entry-page p {
+    font-size: var(--font-size-14);
+  }
 
 
   /******************
@@ -354,22 +355,67 @@ ol#notifications {
   }
 }
 
-/*******
-* FORMS
-*******/
-.standard-form.crlngn {
-  .form-group {
-    margin: 2em 0;
-    /*align-items: flex-end;*/
-    
-    label {
-      min-width: 50%;
-      line-height: 1.5;
-    }
 
-    .hint{
-      margin: 0.25em 0;
+
+body.crlngn-ui {
+  /*******
+  * FORMS
+  *******/
+  .standard-form.crlngn {
+    .form-group {
+      margin: 2em 0;
+      /*align-items: flex-end;*/
+      
+      label {
+        min-width: 50%;
+        line-height: 1.5;
+      }
+
+      .hint{
+        margin: 0.25em 0;
+      }
     }
   }
 
+  .standard-form.datalists {
+    .dropdown-wrapper {
+      position: relative;
+      width: 100%;
+    }
+  
+    .dropdown-options {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--input-background-color);
+      border: none;
+      border-radius: 3px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 1000;
+      display: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+  
+    .dropdown-options.active {
+      display: block;
+    }
+  
+    .dropdown-option {
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+  
+    .dropdown-option:hover {
+      background-color: var(--color-cool-3);
+    }
+  
+    input[type="text"] {
+      width: 100%;
+      padding: 5px;
+    }
+  }
+  
 }
+

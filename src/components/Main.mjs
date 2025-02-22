@@ -25,15 +25,18 @@ export class Main {
       var isDebugOn = SettingsUtil.get('debug-mode');
       if(isDebugOn){CONFIG.debug.hooks = true};
 
-      const testTemplate = loadTemplates(["modules/crlngn-ui/templates/custom-fonts-settings.hbs"]).then((a)=>{
-        LogUtil.log("Loaded template", [a]);
-      });
-      LogUtil.log("Core Ready", [testTemplate]);
+      // Get the array of available font families
+      const availableFonts = CONFIG.fontFamilies || [];
+
+
+      // If you need the complete font settings including URLs
+      const fontSettings = SettingsUtil.get("fonts", "core");
+
+      LogUtil.log("Core Ready", [CONFIG, availableFonts, fontSettings]);
 
       TopNavigation.init(); 
       CameraUtil.init(); 
       PlayersListUtil.init(); 
-
 
       LogUtil.log("GAME", [game.collections.find(c=>c.key=="Scene"),game.collections.get("Scene"), ui]); 
     })

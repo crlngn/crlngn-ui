@@ -10,7 +10,7 @@
         "label": "Custom Fonts",
         "title": "Configure Fonts",
         "hint": "Configure the font families used throughout the interface",
-        "description": "Type the name of a custom font, if already loaded on Foundry core. Names with spaces must be written with double quotes (\"Font Name\").",
+        "description": "Select or type the name of a custom font, if already loaded on Foundry core.",
         "fields": {
           "uiFont": {
             "label": "UI Font"
@@ -25,7 +25,7 @@
             "label": "Journal Titles"
           }
         },
-        "postDescription": "If the font doesn't load, you either haven't typed the name correctly, or the font was not found.",
+        "postDescription": "If the font doesn't load, double check that the name is written correctly.",
         "reset": "Reset",
         "save": "Save"
       },

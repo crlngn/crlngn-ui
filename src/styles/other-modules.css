@@ -37,7 +37,8 @@ body.crlngn-ui{
   /* CAROUSEL COMBAT TRACKER */
 
   #combat-dock {
-    top: var(--ui-top-padding, 0px);
+    top: var(--ui-top-padding, var(--left-control-item-size, 37px));
+    margin-top: calc(var(--crlngn-top-offset, 0px) - 37px);
 
     .buttons-container {
       justify-content: flex-start;
@@ -48,6 +49,10 @@ body.crlngn-ui{
         border-radius: 0; 
       }
       
+    }
+
+    .combatant-wrapper {
+      z-index: 0;
     }
   }
 

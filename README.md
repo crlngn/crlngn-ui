@@ -1,4 +1,4 @@
-**Latest Version:** 1.6.0
+**Latest Version:** 1.6.1
 
 **Compatibility:** 
 - Foundry VTT version 12.328+
@@ -41,6 +41,7 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 - Break Time 12.0.x
 - Carousel Combat Tracker 3.1.x
 - Compact Scene Navigation 1.0.x (avoid using auto hide setting in both modules)
+- CRUX 1.2.x
 - Dice Tray 2.2.x
 - Dungeon Draw 3.0.x
 - Epic Rolls 5e 4.2.x
@@ -50,6 +51,7 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 - Midi-QOL 12.4.x
 - Mobile Improvements 1.3.x
 - Monk's Hotbar Expansion 11.0.x
+- Party Resources 1.7.x
 - Ready Set Roll 5e 3.4.x
 - Taskbar 4.1.x
 - Tidy 5e 9.1.x
@@ -57,7 +59,6 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 - Touch VTT 2.2.x
 
 I have also verified PF2e HUD, but I do not play PF2e so there might be issues I haven't noticed.
-
 
 ### IMPORTANT:
 - The module was tested mostly on Foundry v12 and DnD 4.x. The overall UI styles are system agnostic, but chat card styles are mostly for DnD5e - I've done some basic tests for PF2e. If you would like to request support for a different system (and help with info and screenshots), please add a feature request on Github issue tracker (subject to evaluation);
