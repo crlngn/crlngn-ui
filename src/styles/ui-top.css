@@ -44,30 +44,6 @@ body.crlngn-ui{
     z-index: 0;
   }
 
-  &:has(.collapsed){
-    opacity: 1;
-  }
-  &:hover{
-    opacity: 1;
-  }
-
-  &:before{
-    content: '';
-    display: block;
-    position: absolute;
-    background: rgba(0, 0, 0, 0.75);
-    width: 100vw;
-    height: var(--top-nav-height);
-    backdrop-filter: blur(3px);
-    margin: 0;
-    /*transition: opacity, margin 0.2s ease-out;*/
-    box-shadow: 0 2px 6px rgb(39 62 84 / 40%);
-  }
-  &:has(.collapsed):before{
-    margin: -30px 0 0 0;
-    opacity: 0.3;
-  }
-
   &:after{
     content: '';
     display: block;
@@ -77,7 +53,11 @@ body.crlngn-ui{
     height: 10px;
     margin-bottom: -12px;
   }
-
+  
+  &:has(.collapsed) #navigation:before{
+    margin: 0 0 0 0;
+    opacity: 0;
+  }
   &:has(.collapsed) #navigation > #scene-list,
   &:has(.collapsed) #navigation .monks-scene-navigation > #scene-list  {
     opacity: 0;
@@ -102,6 +82,19 @@ body.crlngn-ui{
     overflow: visible;
     pointer-events: all; 
     width: auto;
+
+    &:before{
+      content: '';
+      display: block;
+      position: absolute;
+      background: rgba(0, 0, 0, 0.75);
+      width: 100vw;
+      height: var(--top-nav-height);
+      backdrop-filter: blur(3px);
+      margin: 0;
+      /*transition: opacity, margin 0.2s ease-out;*/
+      box-shadow: 0 2px 6px rgb(39 62 84 / 40%);
+    }
 
     #nav-toggle {
       background: rgba(0, 0, 0, 0.75);

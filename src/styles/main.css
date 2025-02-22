@@ -37,22 +37,33 @@ General Colors
 
 /* FONT CONFIG */
 body.crlngn-ui {
+  --color-warm-1: #7ab6c4;
+  --color-warm-2: #5e9eb2;
+  --color-warm-3: #44778d;
+  --color-cool-3: #505070;
+  --color-cool-4: #3c3c50;
+  --color-cool-5: rgb(15, 10, 25);
+  --color-cool-5-25: rgba(11, 10, 19, 0.25);
+  --color-cool-5-50: rgba(11, 10, 19, 0.5);
+  --color-cool-5-75: rgba(11, 10, 19, 0.75);
+  --color-cool-5-90: rgba(11, 10, 19, 0.9);
   /* crlngn fonts */
   --crlngn-font-family: var(--font-body);
+  --crlngn-font-titles: var(--dnd5e-font-modesto, var(--crlngn-font-family));
   --crlngn-font-journal-body: var(--dnd5e-font-roboto-condensed, var(--crlngn-font-family));
   --crlngn-font-journal-title: var(--dnd5e-font-modesto, var(--crlngn-font-family));
 
   /* other fonts */
   --font-blockquote: var(--crlngn-font-family);
-	--dnd5e-font-roboto-slab: var(--crlngn-font-family);
+	--dnd5e-font-roboto-slab: var(--crlngn-font-titles);
   --dnd5e-font-roboto-condensed: var(--crlngn-font-journal-body);
 	--dnd5e-font-modesto:  var(--crlngn-font-journal-title);
   --font-primary: var(--crlngn-font-family);
 	--mej-font-family: var(--crlngn-font-family);
 
-  --font-h1: var(--crlngn-font-journal-title);
-  --font-h2: var(--crlngn-font-journal-title);
-  --font-h3: var(--crlngn-font-family);
+  --font-h1: var(--crlngn-font-titles);
+  --font-h2: var(--crlngn-font-titles);
+  --font-h3: var(--crlngn-font-titles);
   --font-h4: var(--crlngn-font-family);
   --font-h5: var(--crlngn-font-family);
   --font-h6: var(--crlngn-font-family);
@@ -81,6 +92,8 @@ body.crlngn-ui {
   --font-h5-size: var(--font-size-20);
   --font-h6-size: var(--font-size-24);
   */
+
+  --color-scrollbar: rgba(68, 147, 173, 0.7);
 }
 
 body *{
@@ -89,10 +102,17 @@ body *{
 }
 
 body.crlngn-ui  {
+  font-size: var(--font-size-13);
+
+  h1, h1, h3, h4, h5, h6 {
+    font-weight: 600;
+  }
   #tooltip {
     font-family: var(--crlngn-font-family);
     box-shadow: 0 1px 6px rgba(40,40,65,0.7);
   }
+
+  
 
 
   /******************
@@ -101,9 +121,9 @@ body.crlngn-ui  {
 
   #sidebar input:not(input[type="range"]),
   .app.sidebar-popout input:not(input[type="range"]),
-  #sidebar select,
-  .app.sidebar-popout select,
-  #chat-controls .roll-type-select,
+  #sidebar select, 
+  .app.sidebar-popout select, 
+  #chat-controls .roll-type-select, 
   #sidebar textarea,
   #chat-form textarea {
     font-family: var(--crlngn-font-family);
@@ -112,8 +132,10 @@ body.crlngn-ui  {
     color: var(--color-text-light-highlight);
   }
 
-  #sidebar select option {
+  #sidebar select option,
+  #chat-controls option {
     font-family: var(--crlngn-font-family);
+    color: var(--color-text-dark-1);
   }
 
   /*input[type=range],*/

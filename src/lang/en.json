@@ -7,19 +7,25 @@
     },
     "settings": {
       "customFontsMenu": {
-        "title": "Custom Fonts",
-        "hint": "Configure the font families used throughout the interface"
-      },
-      "customFontsDialog": {
         "label": "Custom Fonts",
         "title": "Configure Fonts",
-        "hint": "Type the name of a custom font, if already loaded on Foundry core. Names with spaces must be written with double quotes (\"Font Name\").",
+        "hint": "Configure the font families used throughout the interface",
+        "description": "Type the name of a custom font, if already loaded on Foundry core. Names with spaces must be written with double quotes (\"Font Name\").",
         "fields": {
-          "ui": "UI Font",
-          "journalBody": "Journal Body",
-          "journalTitle": "Journal Titles"
+          "uiFont": {
+            "label": "UI Font"
+          },
+          "uiTitles": {
+            "label": "UI Titles"
+          },
+          "journalBody": {
+            "label": "Journal Body"
+          },
+          "journalTitles": {
+            "label": "Journal Titles"
+          }
         },
-        "postHint": "If the font doesn't load, you either haven't typed the name correctly, or the font was not found.",
+        "postDescription": "If the font doesn't load, you either haven't typed the name correctly, or the font was not found.",
         "reset": "Reset",
         "save": "Save"
       },

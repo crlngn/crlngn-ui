@@ -7,19 +7,25 @@
     },
     "settings": {
       "customFontsMenu": {
-        "title": "Fontes Personalizadas",
-        "hint": "Configure as famílias de fontes usadas na interface"
-      },
-      "customFontsDialog": {
         "label": "Fontes Personalizadas",
-        "title": "Configurar",
-        "hint": "Digite o nome de uma fonte personalizada, se já estiver carregada no núcleo do Foundry. Nomes com espaços devem ser escritos entre aspas duplas (\"Nome da Fonte\").",
+        "title": "Configurar Fontes",
+        "hint": "Configure as famílias de fontes usadas na interface",
+        "description": "Digite o nome de uma fonte personalizada, se já estiver carregada no núcleo do Foundry. Nomes com espaços devem ser escritos entre aspas duplas (\"Nome da Fonte\").",
         "fields": {
-          "ui": "Fonte da Interface",
-          "journalBody": "Corpo do Diário",
-          "journalTitle": "Títulos do Diário"
+          "uiFont": {
+            "label": "Fonte da Interface"
+          },
+          "uiTitles": {
+            "label": "Títulos da Interface"
+          },
+          "journalBody": {
+            "label": "Corpo do Diário"
+          },
+          "journalTitles": {
+            "label": "Títulos do Diário"
+          }
         },
-        "postHint": "Se a fonte não carregar, você pode ter digitado o nome incorretamente ou a fonte não foi encontrada.",
+        "postDescription": "Se a fonte não carregar, você pode ter digitado o nome incorretamente ou a fonte não foi encontrada.",
         "reset": "Redefinir",
         "save": "Salvar"
       },

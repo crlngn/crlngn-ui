@@ -264,20 +264,16 @@ export class SettingsUtil {
 
 
   static applyCustomFonts(){
-    const customFonts = SettingsUtil.get(Main.SETTINGS.customFontsMenu.tag);
+    const SETTINGS = getSettings();
+    const customFonts = SettingsUtil.get(SETTINGS.customFontsMenu.tag);
     LogUtil.log("applyCustomFonts", [customFonts]);
 
     if(customFonts){
       const root = document.querySelector("body.crlngn-ui");
-      if(customFonts.uiFont!==undefined){
-        root.style.setProperty('--crlngn-font-family', customFonts.uiFont || '');
-      }
-      if(customFonts.journalBodyFont!==undefined){
-        root.style.setProperty('--crlngn-font-journal-body', customFonts.journalBodyFont || '');
-      }
-      if(customFonts.journalTitleFont!==undefined){
-        root.style.setProperty('--crlngn-font-journal-title', customFonts.journalTitleFont || '');
-      }
+      root.style.setProperty('--crlngn-font-family', customFonts.uiFont || SETTINGS.customFontsMenu.default.uiFont || '');
+      root.style.setProperty('--crlngn-font-titles', customFonts.uiTitles || SETTINGS.customFontsMenu.default.uiTitles || '');
+      root.style.setProperty('--crlngn-font-journal-body', customFonts.journalBody || customFonts.journalBodyFont || SETTINGS.customFontsMenu.default.journalBody || '');
+      root.style.setProperty('--crlngn-font-journal-title', customFonts.journalTitles || customFonts.journalTitleFont || SETTINGS.customFontsMenu.default.journalTitles || '');
     }
   }
 }

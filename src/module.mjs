@@ -1,4 +1,4 @@
-
+import "./styles/vars.css";
 import "./styles/main.css";
 import "./styles/ui-middle.css";
 import "./styles/ui-top.css";

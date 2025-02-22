@@ -16,17 +16,45 @@ export const ICON_SIZES = {
 
 export function getSettings() { 
   return {
-
     customFontsMenu: {
       tag: "custom-font-families", 
       label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.label"),
+      title: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.title"),
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.hint"),
+      description: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.description"),
       propType: Object,
       inputType: SETTING_INPUT.button,
+      fields: {
+        uiFont: {
+          tag: "ui-font",
+          label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiFont.label"),
+          hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiFont.hint"),
+          inputType: SETTING_INPUT.text
+        },
+        uiTitles: {
+          tag: "ui-titles",
+          label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiTitles.label"),
+          hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiTitles.hint"),
+          inputType: SETTING_INPUT.text
+        },
+        journalBody: {
+          tag: "journal-body",
+          label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalBody.label"),
+          hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalBody.hint"),
+          inputType: SETTING_INPUT.text
+        }, 
+        journalTitles: {
+          tag: "journal-title",
+          label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalTitles.label"),
+          hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalTitles.hint"),
+          inputType: SETTING_INPUT.text
+        }
+      },
       default: {
         uiFont: `"Work Sans", Arial, sans-serif`,
-        journalBodyFont: `"Work Sans", Arial, sans-serif`, 
-        journalTitleFont: `"Roboto Condensed", Arial, sans-serif`
+        uiTitles: `"Work Sans", Arial, sans-serif`,
+        journalBody: `"Work Sans", Arial, sans-serif`, 
+        journalTitles: `"Roboto Condensed", Arial, sans-serif`
       },
       scope: SETTING_SCOPE.world,
       config: false, 

@@ -1,29 +1,36 @@
 <div>
-  {{!-- <h2>{{localize "CRLNGN_UI.settings.customFontsDialog.label"}}</h2> --}}
+  {{!-- <h2>{{localize "CRLNGN_UI.settings.customFontsMenu.label"}}</h2> --}}
   <div class="form-group">
-    <p class="hint">{{localize "CRLNGN_UI.settings.customFontsDialog.hint"}}</p>
+    <p class="hint">{{localize "CRLNGN_UI.settings.customFontsMenu.description"}}</p>
   </div>
   <p>&nbsp;</p> 
 
   <div class="form-group">
-    <label for="uiFont">{{localize "CRLNGN_UI.settings.customFontsDialog.fields.ui"}}</label>
+    <label for="uiFont">{{fields.uiFont.label}}</label>
     <input type="text" name="uiFont" value="{{uiFont}}" />
     <p class="hint">&nbsp;</p> 
   </div>
-  
+
   <div class="form-group">
-    <label for="journalBodyFont">{{localize "CRLNGN_UI.settings.customFontsDialog.fields.journalBody"}}</label>
-    <input type="text" name="journalBodyFont" value="{{journalBodyFont}}" />
+    <label for="uiTitles">{{fields.uiTitles.label}}</label>
+    <input type="text" name="uiTitles" value="{{uiTitles}}" />
     <p class="hint">&nbsp;</p> 
   </div>
   
   <div class="form-group">
-    <label for="journalTitleFont">{{localize "CRLNGN_UI.settings.customFontsDialog.fields.journalTitle"}}</label>
-    <input type="text" name="journalTitleFont" value="{{journalTitleFont}}" />
+    <label for="journalBody">{{fields.journalBody.label}}</label>
+    <input type="text" name="journalBody" value="{{journalBody}}" />
+    <p class="hint">&nbsp;</p> 
+  </div>
+  
+  <div class="form-group">
+    <label for="journalTitles">{{fields.journalTitles.label}}</label>
+    <input type="text" name="journalTitles" value="{{journalTitles}}" />
     {{!-- <p class="hint">&nbsp;</p>  --}}
   </div>
+
   <p>&nbsp;</p>
-  <p class="hint">{{localize "CRLNGN_UI.settings.customFontsDialog.postHint"}}</p> 
+  <p class="hint">{{ localize "CRLNGN_UI.settings.customFontsMenu.postDescription" }}</p> 
   <p>&nbsp;</p> 
 
 </div>

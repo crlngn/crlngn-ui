@@ -68,6 +68,7 @@ export class TopNavigation {
       TopNavigation.placeNavButtons();
     })
     
+    TopNavigation.observeNavOffset();
   } 
 
   static addListeners(){
@@ -189,5 +190,33 @@ export class TopNavigation {
 
     LogUtil.log("setNavPosition", [pos, position, scenes[position], newMargin]);
   }
+
+  static observeNavOffset(){
+    function updateCSSVars() {
+      if(!TopNavigation.#navElem){ return; }
+      let topOffset = 37 + TopNavigation.#navElem.offsetTop;
+      const root = document.querySelector("body.crlngn-ui");
+      root?.style.setProperty('--crlngn-top-offset', topOffset+'px');
+  
+      LogUtil.log("updateCSSVars", [topOffset]);
+    }
+    // Create a MutationObserver to watch for changes
+    const observer = new MutationObserver(updateCSSVars);
+
+    // Configure the observer to watch for:
+    // - changes to the element's attributes
+    // - changes to its children
+    // - changes to its descendants
+    observer.observe(TopNavigation.#navElem.parentNode, {
+        attributes: true,
+        childList: true,
+        // subtree: true,
+        characterData: true
+    });
+
+    updateCSSVars();
+  }
+
+  
 }
 

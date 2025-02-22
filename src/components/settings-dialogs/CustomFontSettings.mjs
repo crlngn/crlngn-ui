@@ -1,3 +1,4 @@
+import { getSettings } from "../../constants/Settings.mjs";
 import { LogUtil } from "../LogUtil.mjs";
 import { Main } from "../Main.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
@@ -9,8 +10,10 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   static get DEFAULT_OPTIONS() {
+    const SETTINGS = getSettings();
+
     return {
-      id: Main.SETTINGS.customFontsMenu.tag,
+      id: SETTINGS.customFontsMenu.tag,
       actions: {
         redefine: CustomFontsSettings.#onReset,
       },
@@ -26,7 +29,7 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
       tag: "form",
       window: {
         icon: "fas fa-text",
-        title: game.i18n.localize("CRLNGN_UI.settings.customFontsDialog.title"),
+        title: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.title"),
         contentClasses: ["standard-form"],
         resizable: false
       }
@@ -45,45 +48,23 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
   };
   
   get title() {
-    return game.i18n.localize("CRLNGN_UI.settings.customFontsDialog.title");
-    // return `My Module: ${game.i18n.localize(this.options.window.title)}`;
+    return game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.title");
   }
-
-  // static async #onSubmit(event, form, formData) {
-  //   const settings = foundry.utils.expandObject(formData.object);
-  //   await Promise(SettingsUtil.set(customFontSetting.tag, settings));
-  //   /*
-  //   await Promise.all(
-  //       Object.entries(settings)
-  //           .map(([key, value]) => game.settings.set("foo", key, value))
-  //   )
-  //   */
-  // }
-
 
   /** 
    * Handles form submission and updates FoundryVTT settings.
    * Uses `foundry.utils.expandObject()` to parse form data.
    */
   static async #onSubmit(event, form, formData) {
+    const SETTINGS = getSettings();
     event.preventDefault();
     event.stopPropagation();
 
     // Convert FormData into an object with proper keys
     const settings = foundry.utils.expandObject(formData.object);
     LogUtil.log("Saving settings:", [settings]); // Debugging
-    // const customFontsSettings = SettingsUtil.get(Main.SETTINGS.customFontsMenu.tag);
 
-    SettingsUtil.set(Main.SETTINGS.customFontsMenu.tag, settings);
-    // // Store each setting in FoundryVTT settings
-    // await Promise.all(
-    //   Object.entries(settings).map(([key, value]) =>
-    //     SettingsUtil.set(Main.SETTINGS.customFontsMenu.tag, {
-    //       // ...customFontsSettings,
-    //       [key]: value
-    //     })
-    //   )
-    // );
+    SettingsUtil.set(SETTINGS.customFontsMenu.tag, settings);
 
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
   }
@@ -94,14 +75,22 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
    * @returns 
    */
   _prepareContext(options) {
+    const SETTINGS = getSettings();
+    const current = SettingsUtil.get(SETTINGS.customFontsMenu.tag);
     const setting = {
-      ...SettingsUtil.get(Main.SETTINGS.customFontsMenu.tag),
+      uiFont: current.uiFont || SETTINGS.customFontsMenu.default.uiFont,
+      uiTitles: current.uiTitles || SETTINGS.customFontsMenu.default.uiTitles,
+      journalBody: current.journalBody || current.journalBodyFont || SETTINGS.customFontsMenu.default.journalBody,
+      journalTitles: current.journalTitles || current.journalTitleFont || SETTINGS.customFontsMenu.default.journalTitles,
       default: {
-        ...Main.SETTINGS.customFontsMenu.default
+        ...SETTINGS.customFontsMenu.default
+      },
+      fields: { 
+        ...SETTINGS.customFontsMenu.fields
       },
       buttons: [
-        { type: "button", icon: "", label: "CRLNGN_UI.settings.customFontsDialog.reset", action: 'redefine' },
-        { type: "submit", icon: "", label: "CRLNGN_UI.settings.customFontsDialog.save" }
+        { type: "button", icon: "", label: "CRLNGN_UI.settings.customFontsMenu.reset", action: 'redefine' },
+        { type: "submit", icon: "", label: "CRLNGN_UI.settings.customFontsMenu.save" }
       ]
     }
     // game.settings.get("foo", "config");
@@ -129,25 +118,20 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
   }
 
   _onRender(context, options) {
-    // const html = this.element;
-    // html.querySelector("button[type=reset]").addEventListener("click", CustomFontsSettings.#onReset);
-
     LogUtil.log("_onRender", [context, options]);
   }
 
   static async #onReset(a, b){
+    const SETTINGS = getSettings();
     const html = this.element;
     const inputs = html.querySelectorAll("input[type=text]");
-    const defaults = Main.SETTINGS.customFontsMenu.default;
+    const defaults = SETTINGS.customFontsMenu.default;
 
     inputs.forEach(inputField => {
       inputField.value = defaults[inputField.name];
     })
-    // html.querySelector("button[type=reset]").addEventListener("click", CustomFontsSettings.#onReset);
-    // event.preventDefault();
-    LogUtil.log("#onReset", [a, b, Main.SETTINGS.customFontsMenu.default]);
-
-    // await SettingsUtil.set(Main.SETTINGS.customFontsMenu.tag, Main.SETTINGS.customFontsMenu.default);
+    
+    LogUtil.log("#onReset", [a, b, SETTINGS.customFontsMenu.default]);
   }
 
 }

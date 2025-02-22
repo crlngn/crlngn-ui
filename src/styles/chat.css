@@ -87,10 +87,12 @@ body.crlngn-chat {
   }
   
   /* card headers */
-  .chat-message .message-header .name-stacked .title {
+  .chat-message .message-header .name-stacked .title,
+  &.system-dnd5e .chat-message .name-stacked .title {
     letter-spacing: 0.025em;
     font-weight: 500;
   }
+  
   .crlngn.ddbgl .chat-card .card-header.collapsed{
     max-height: 0px;
     padding: 0;
@@ -203,7 +205,7 @@ body.crlngn-chat {
   }
   .chat-message .message-content .dice-formula, 
   .chat-message.ddb-game-log-message .dice-formula{
-    font-size: var(--font-size-11);
+    font-size: var(--font-size-12);
   }
   
   /* card button layout */
@@ -459,6 +461,7 @@ body.crlngn-chat {
   &.theme-dark :is(.chat-popout, #chat-log, .chat-log) .chat-message .message-header h4.message-sender ,
   &[data-ddb-custom-style=dark] :is(.chat-popout, #chat-log, .chat-log) .chat-message .message-header .title{
     color: #a8b4bc;
+    font-size: var(--font-size-17);
   }
   &.theme-dark :is(.chat-popout, #chat-log, .chat-log) .message .message-header .subtitle,
   &.theme-dark :is(.chat-popout, #chat-log, .chat-log) .message .flavor-text, 

@@ -8,9 +8,9 @@ import { SceneNavSettings } from '../components/settings-dialogs/SceneNavSetting
 export function getSettingMenus() {
   return {
     customFonts: {
-      tag: game.i18n.localize("CRLNGN_UI.settings.customFontsDialog.label"),
-      name: game.i18n.localize("CRLNGN_UI.settings.customFontsDialog.title"),
-      label: game.i18n.localize("CRLNGN_UI.settings.customFontsDialog.title"), 
+      tag: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.label"),
+      name: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.title"),
+      label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.title"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.hint"),
       icon: "fas fa-text",  
       propType: CustomFontsSettings,
