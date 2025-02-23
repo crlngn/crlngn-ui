@@ -63,6 +63,9 @@ A sleek and minimalist UI overhaul, focusing on saving space on screen and impro
 
 I have also verified PF2e HUD, but I do not play PF2e so there might be issues I haven't noticed.
 
+**Note:**
+If you want to use **Monk's Scene Navigation** you need to disable my horizontal navigation, as Monk's is not compatible with it. You'll find the option in settings.
+
 ### NOTES:
 - The module was tested mostly on Foundry v12 and DnD 4.x. The overall UI styles are system agnostic, but chat card styles are mostly for DnD5e - I've done some basic tests for PF2e. If you would like to request support for a different system (and help with info and screenshots), please add a feature request on Github issue tracker (subject to evaluation);
 - The module is currently compatible with **"Compact Scene Navigation"**, but you might want to disable the auto-hide setting on that module as my module also implements auto-hide; 
