@@ -91,11 +91,11 @@ body.crlngn-ui {
     --color-warm-3: rgb(68, 119, 141);
     --color-cool-3: rgb(42, 42, 52); 
     --color-cool-4: rgb(26, 26, 36); 
-    --color-cool-5: rgb(14, 14, 20);  
-    --color-cool-5-25: rgba(14, 14, 22, 0.25);
-    --color-cool-5-50: rgba(14, 14, 22, 0.5);
-    --color-cool-5-75: rgba(14, 14, 22, 0.75);
-    --color-cool-5-90: rgba(14, 14, 22, 0.9);
+    --color-cool-5: rgb(11, 10, 19);  
+    --color-cool-5-25: rgba(11, 10, 19, 0.25);
+    --color-cool-5-50: rgba(11, 10, 19, 0.5);
+    --color-cool-5-75: rgba(11, 10, 19, 0.75);
+    --color-cool-5-90: rgba(11, 10, 19, 0.9);
   }
 
   --color-light-1: #f7f4f8; 
