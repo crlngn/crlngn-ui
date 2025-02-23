@@ -10,7 +10,7 @@
   opacity: 0;
 }
 body.crlngn-ui{
-  ----crlngn-top-offset: 37px;
+  --crlngn-top-offset: 0px;
 
   #interface #ui-left{
     min-width: calc(var(--left-control-item-size) * 2);
