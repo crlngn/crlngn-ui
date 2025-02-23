@@ -12,7 +12,8 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 
 ### FEATURES:
 - **Custom Fonts** for UI and journal;
-- **Compact left controls:** small or regular sized icons; secondary bars can be hidden until an item is hovered or clicked; 
+- **Compact left controls:** small or regular sized icons; secondary bars can be hidden until hovered;
+- **Wrapping control icons** set a safe area at the bottom and the left controls will wrap to avoid it - great if you have lots of modules that add icons to left bar; 
 - **Secondary controls bar** has different styles to make it clearer;
 - **Top Navigation** can be horizontally scrolled; player and GM markers are simple lines with the color of each player;
 - **Compact Player List**, can be auto-hidden and opened on hover;
@@ -48,7 +49,7 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 - Force Client Settings 2.5.x
 - Hide Player UI 1.7.x
 - LiveKit AV Client 0.5.x
-- Midi-QOL 12.4.x
+- Midi-QoL 12.4.x (probably works in v11)
 - Mobile Improvements 1.3.x
 - Monk's Hotbar Expansion 11.0.x
 - Party Resources 1.7.x
@@ -57,14 +58,16 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 - Tidy 5e 9.1.x
 - TheRipper93's Module Hub 4.1.x
 - Touch VTT 2.2.x
+- YouTube Player Widget 2.1.x
 
 I have also verified PF2e HUD, but I do not play PF2e so there might be issues I haven't noticed.
 
-### IMPORTANT:
+### NOTES:
 - The module was tested mostly on Foundry v12 and DnD 4.x. The overall UI styles are system agnostic, but chat card styles are mostly for DnD5e - I've done some basic tests for PF2e. If you would like to request support for a different system (and help with info and screenshots), please add a feature request on Github issue tracker (subject to evaluation);
 - The module is currently compatible with **"Compact Scene Navigation"**, but you might want to disable the auto-hide setting on that module as my module also implements auto-hide; 
 - Feel free to report compatibility status with other modules (subject to evaluation);
-- If you use a non-compatible module, play with the settings and disable the parts that might be affecting it. 
+- If you use a non-compatible module, play with the settings and disable the parts that might be affecting it.
+- If you would like to contribute with translation to your language please send a PR or copy the en language file, then translate.
 
 ### BUGS AND FEATURE REQUESTS:
 - Please use the issue tracker to report any bugs and requests for enhancements using the appropriate labels.
