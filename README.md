@@ -6,9 +6,7 @@
 - Localization: English and Brazilian Portuguese
 
 ## Carolingian UI
-A light module that provides a sleek minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12. Most changes are made through CSS styling and should work with the majority of other modules, unless they specifically modify the UI. 
-
-**Carolingian UI** is free to use and distribute under MIT License. If you reuse my code, please add mention to the original repo. 
+A sleek and minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12, but also offering many quality of life features to the ui panels. 
 
 ### FEATURES:
 - **Custom Fonts** for UI and journal;
@@ -35,6 +33,9 @@ A light module that provides a sleek minimalist UI overhaul, focusing on saving 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/slider-controls.webp?raw=true" width="300px" height="auto" />
 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/players-list-1.webp?raw=true" width="300px" height="auto" />
+
+
+**Carolingian UI** is free to use and distribute under MIT License. If you reuse my code, please add mention to the original repo. 
 
 ### VERIFIED MODULE COMPATIBILITY (A-Z):
 **Note:** This is not an extensive list - I've only included modules that I personally checked and which might be particularly affected by changes in the UI.
