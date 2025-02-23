@@ -212,13 +212,16 @@ body.crlngn-ui {
         font-size: var(--font-size-12);
         font-weight: 600;
         margin: 2px 0;
+        width: var(--left-control-item-size);
+        min-width: var(--left-control-item-size);
+        flex: 1 1 var(--left-control-item-size);
 
         i:first-child{
           flex: 0 0 var(--left-control-item-size);
           width: var(--left-control-item-size);
           height: 16px;
           justify-content: center;
-          margin: 0;
+          margin: 0; 
         }
       }
   
