@@ -34,6 +34,10 @@
         "title": "Configurar",
         "hint": "Essas configurações modificam a aparência e o comportamento dos botões de controle de cena, no lado esquerdo da tela",
         "fields": {
+          "bottomBuffer": {
+            "label": "Margem inferior",
+            "hint": "Se você tiver muitos ícones na barra de controles à esquerda, pode definir uma altura máxima para a barra de controles configurando um buffer inferior, em pixels. Se os ícones excederem essa área segura, eles serão empurrados para a próxima coluna. Use 0 para nenhuma margem."
+          },
           "iconSize": {
             "label": "Tamanho dos ícones de controle",
             "hint": "Configure o tamanho dos botões na barra de controle esquerdo. Alguns outros elementos da interface seguirão esse tamanho para alinhamento.",

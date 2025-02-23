@@ -86,24 +86,24 @@ body.crlngn-ui {
   --color-warm-3: #44778d;
   
   &.theme-dark{
-    --color-warm-1: #7ab6c4;
-    --color-warm-2: #5e9eb2;
-    --color-warm-3: #44778d;
-    --color-cool-3: #202f3a;
-    --color-cool-4: #1a2630;
-    --color-cool-5: #141c23;
-    --color-cool-5-25: rgba(20, 28, 35, 0.25);
-    --color-cool-5-50: rgba(20, 28, 35, 0.5);
-    --color-cool-5-75: rgba(20, 28, 35, 0.75);
-    --color-cool-5-90: rgba(20, 28, 35, 0.9);
+    --color-warm-1: rgb(122, 182, 196); 
+    --color-warm-2: rgb(94, 158, 178); 
+    --color-warm-3: rgb(68, 119, 141);
+    --color-cool-3: rgb(42, 42, 52); 
+    --color-cool-4: rgb(26, 26, 36); 
+    --color-cool-5: rgb(14, 14, 20);  
+    --color-cool-5-25: rgba(14, 14, 22, 0.25);
+    --color-cool-5-50: rgba(14, 14, 22, 0.5);
+    --color-cool-5-75: rgba(14, 14, 22, 0.75);
+    --color-cool-5-90: rgba(14, 14, 22, 0.9);
   }
 
-  --color-light-1: #f0edf2;
-  --color-light-2: #dedee8; 
-  --color-light-3: #d3d3e0;
-  --color-light-4: #a6a6b8;  
-  --color-light-5: #7c7c8f;
-  --color-light-6: #636374; 
+  --color-light-1: #f7f4f8; 
+  --color-light-2: #e6e6ef;
+  --color-light-3: #dcdce8;
+  --color-light-4: #bbbbca;  
+  --color-light-5: #a0a0b5;
+  --color-light-6: #7e7e92;
   --color-dark-1: #111;
   --color-dark-2: #222;
   --color-dark-3: #444;
@@ -114,6 +114,7 @@ body.crlngn-ui {
   /* Rest of the CSS remains the same */
   --control-active-border-color: var(--color-highlights);
   --control-active-icon-color: var(--color-light-1);
+  --color-text-light-highlight: var(--color-light-1);
   --color-text-accent: var(--color-highlights);
   --color-level-error: #ce0707;
   --color-level-error-bg: rgba(105, 0, 8, 0.8);

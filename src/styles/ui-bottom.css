@@ -15,10 +15,10 @@
 }
 
 body.crlngn-ui{
-  --macro-bar-left: calc(180px - (var(--left-control-item-size) * 2));
+  --macro-bar-left: calc(var(--max-players-width) - (var(--left-control-item-size) * 2));
 
   &:has(#players.auto-hide){
-    --macro-bar-left: 0px;
+    --macro-bar-left: calc(-1 * var(--left-control-item-size));
   }
 
   #hotbar {

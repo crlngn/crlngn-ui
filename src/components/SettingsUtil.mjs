@@ -84,6 +84,7 @@ export class SettingsUtil {
     // apply left controls settings
     SettingsUtil.applyLeftControlsSettings(); 
     SettingsUtil.applyControlIconSize();
+    SettingsUtil.applyControlsBuffer();
   }
 
   /**
@@ -162,6 +163,7 @@ export class SettingsUtil {
       case SETTINGS.leftControlsMenu.tag:
         SettingsUtil.applyLeftControlsSettings(); 
         SettingsUtil.applyControlIconSize();
+        SettingsUtil.applyControlsBuffer();
         break;
       case SETTINGS.cameraDockMenu.tag: 
         SettingsUtil.applyCameraPosX();
@@ -222,6 +224,16 @@ export class SettingsUtil {
     const size = leftControls.iconSize == ICON_SIZES.small.name ? ICON_SIZES.small.size : ICON_SIZES.regular.size;
 
     root.style.setProperty('--left-control-item-size', size);
+  }
+
+  /**
+   * Apply bottom buffer to left controls 
+   */
+  static applyControlsBuffer(){
+    const SETTINGS = getSettings();
+    const leftControls = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
+    const root = document.querySelector("body.crlngn-ui");
+    root.style.setProperty('--controls-bottom-buffer', `${leftControls.bottomBuffer || SETTINGS.leftControlsMenu.default.bottomBuffer || 0}px`);
   }
 
   static applyPlayersListSettings(){

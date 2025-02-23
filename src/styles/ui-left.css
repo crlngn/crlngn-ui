@@ -20,6 +20,7 @@ body.crlngn-ui{
     display: flex;
     flex-direction: column;
     position: relative;
+    justify-content: flex-end;
   
     &:has(aside#players.auto-hide){
       max-width: calc(var(--left-control-item-size) * 2);
@@ -100,10 +101,10 @@ body.crlngn-ui{
   #ui-left #controls {
     display: flex;
     flex-direction: row;
-    flex: 0 0 auto;
-    height: auto;
+    flex: 1 1 auto;
+    height: 100%;
     flex-wrap: nowrap;
-    width: calc(var(--left-control-item-size) * 2.25);
+    width: auto;/*calc(var(--left-control-item-size) * 2.25);*/
     min-width: calc(var(--left-control-item-size) * 2.25);
     /*max-width: 72px;*/
     padding: 0;
@@ -111,6 +112,10 @@ body.crlngn-ui{
     justify-items: flex-start;
     pointer-events: all;
     margin: 0 0 auto 0; 
+    position: absolute;
+    top: var(--crlngn-top-offset);
+    max-height:  calc(100vh - (var(--controls-bottom-buffer)));
+    min-height: calc(var(--left-control-item-size) * 2);
   
     > *{
       flex: 0 0 auto;
@@ -139,11 +144,11 @@ body.crlngn-ui{
     ol.control-tools.main-controls{
       margin-right: 0;
       flex-wrap: wrap;
-      max-height: calc(100vh - (var(--left-control-item-size) * 5));
+      max-height: 100%;
     }
   
     ol:not(.main-controls) {
-      max-height: calc(100vh - (var(--left-control-item-size) * 5));
+      max-height: 100%;
     }
   }
   
@@ -166,7 +171,7 @@ body.crlngn-ui{
   #ui-left #controls:active,
   #ui-left #controls:focus-within,
   #ui-left #controls:has(ol:hover){
-    max-width: 120px;
+    max-width: auto;
     ol:not(.main-controls).active {
       opacity: 1;
       display: flex;

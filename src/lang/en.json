@@ -34,6 +34,10 @@
         "title": "Configure Controls",
         "hint": "Modify the look and behavior of scene control buttons, on the left side of screen",
         "fields": {
+          "bottomBuffer": {
+            "label": "Bottom Safe Area",
+            "hint": "If you have too many icons on the left controls bar, you can define a maximum-height for the controls bar by defining a bottom buffer, in pixels. If icons overflow that safe area, they are pushed to the next column. Use 0 for no buffer."
+          },
           "iconSize": {
             "label": "Size of control icons",
             "hint": "Configure the size of buttons on the left control bar. Some other UI elements will match this size for alignment.",

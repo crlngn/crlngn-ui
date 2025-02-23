@@ -10,6 +10,7 @@ General Colors
 
 /* FONT CONFIG */
 body.crlngn-ui {
+  --controls-bottom-buffer: 200px;
   /* crlngn fonts */
   --crlngn-font-family: var(--font-body);
   --crlngn-font-titles: var(--dnd5e-font-modesto, var(--crlngn-font-family));
@@ -77,7 +78,7 @@ body.crlngn-ui  {
     font-family: var(--crlngn-font-family);
   }
 
-  #sidebar {
+  #sidebar, #players {
     h1, h2, h3, h4, h5, h6 {
       font-weight: 600;
       letter-spacing: 0.02em;
@@ -375,6 +376,7 @@ body.crlngn-ui {
       border: none;
       border-radius: 3px;
       max-height: 120px;
+      margin-top: 2px;
       overflow-y: auto;
       z-index: 1000;
       display: none;

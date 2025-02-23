@@ -64,6 +64,9 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
     // Convert FormData into an object with proper keys
     const settings = foundry.utils.expandObject(formData.object);
 
+    if(settings.bottomBuffer===undefined || settings.bottomBuffer===''){
+      settings.bottomBuffer = SETTINGS.leftControlsMenu.default.bottomBuffer;
+    }
     await SettingsUtil.set(SETTINGS.leftControlsMenu.tag, settings);
     const controlSettings = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
 

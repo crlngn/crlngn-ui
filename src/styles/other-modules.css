@@ -126,6 +126,16 @@ body.crlngn-ui{
     z-index: 1001;
   }
 
+  /* RIPPER93 youtube widget */
+  #sidebar-video-player {
+    margin: 0 0 10px 0;
+    border-radius: 0;
+  }
+  #sidebar-video-player .inner-resize-container {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
   /* RIPPER93 MODULE HUB */
   .dice-tray-container {
     align-items: center;

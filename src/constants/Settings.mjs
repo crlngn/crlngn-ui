@@ -68,6 +68,12 @@ export function getSettings() {
       propType: Object,
       inputType: SETTING_INPUT.button,
       fields: {
+        bottomBuffer:{
+          tag: "control-bottom-buffer",
+          label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.bottomBuffer.label"),
+          hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.bottomBuffer.hint"),
+          inputType: SETTING_INPUT.number
+        },
         iconSize: {
           tag: "control-icon-size",
           label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.label"),
@@ -86,6 +92,7 @@ export function getSettings() {
         }
       },
       default: {
+        bottomBuffer: 200,
         iconSize: ICON_SIZES.small.name,
         autoHideSecondary: false
       },
