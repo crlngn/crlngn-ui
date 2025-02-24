@@ -25,6 +25,7 @@ body.crlngn-ui{
     position: relative;
     justify-content: flex-end;
     z-index: 1;
+    min-width: var(--max-players-width);
     /*
     min-width: calc(var(--left-control-item-size) * 2);
     max-width: calc(var(--left-control-item-size) * 2);
