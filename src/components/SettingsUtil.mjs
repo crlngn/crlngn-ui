@@ -12,10 +12,11 @@ export class SettingsUtil {
    * Registers settings for this module
    */
   static registerSettings(){
-    document.querySelector("body").classList.add(MODULE_SHORT); 
+    document.querySelector("body").classList.add(MODULE_ID); 
     /**
      * Register each of the settings defined in the SETTINGS constant 
      */
+    
     const settingsList = Object.entries(Main.SETTINGS);
     settingsList.forEach(async(entry) => {
       const setting = entry[1]; 
@@ -207,11 +208,18 @@ export class SettingsUtil {
     const SETTINGS = getSettings();
     const leftControls = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
     const controls = document.querySelector("#ui-left");
+    const logo = document.querySelector("#ui-left #logo");
 
     if(leftControls.autoHideSecondary){ 
       controls.classList.add("auto-hide"); 
     }else{
       controls.classList.remove("auto-hide"); 
+    }
+
+    if(leftControls.hideFoundryLogo===undefined || leftControls.hideFoundryLogo===true){ 
+      logo.classList.remove("visible"); 
+    }else{
+      logo.classList.add("visible"); 
     }
   }
   /**
@@ -233,7 +241,8 @@ export class SettingsUtil {
     const SETTINGS = getSettings();
     const leftControls = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
     const root = document.querySelector("body.crlngn-ui");
-    root.style.setProperty('--controls-bottom-buffer', `${leftControls.bottomBuffer || SETTINGS.leftControlsMenu.default.bottomBuffer || 0}px`);
+    const buffer = isNaN(leftControls.bottomBuffer) ? SETTINGS.leftControlsMenu.default.bottomBuffer : leftControls.bottomBuffer;
+    root.style.setProperty('--controls-bottom-buffer', `${buffer || 0}px`);
   }
 
   static applyPlayersListSettings(){

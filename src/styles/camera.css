@@ -17,7 +17,7 @@ body.crlngn-ui{
   #camera-views.crlngn-ui {
     --av-width: 160px;
     --camera-bar-max-width: 34px; 
-    --camera-bar-max-height: 0; 
+    --camera-bar-max-height: 0px; 
     --av-frame-border-width: 1px;  
     --av-minimized-icon-size: 34px;
     display: flex;

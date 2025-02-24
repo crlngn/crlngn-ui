@@ -281,10 +281,6 @@ body .journal-entry-content a.content-link > i {
 	padding: 6px !important;
 }
 
-#logo {
-	width: 60px;
-	height: 60px;
-}
 
 #loading {
   padding: 5px 10px 10px 10px;
@@ -340,8 +336,14 @@ ol#notifications {
 }
 
 
-
+#interface{
+  opacity: 0;
+}
 body.crlngn-ui {
+  #interface{
+    opacity: 1;
+  }
+
   /*******
   * FORMS
   *******/

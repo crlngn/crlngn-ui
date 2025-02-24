@@ -49,6 +49,10 @@
           "autoHideSecondary": {
             "label": "自动隐藏次要控件",
             "hint": "启用后，鼠标悬停在区域上或单击项目时才会显示左侧控件中的次级栏。"
+          },
+          "hideFoundryLogo": {
+            "label": "隐藏Foundry标志",
+            "hint": "保持启用此选项以隐藏左上角的Foundry标志"
           }
         },
         "reset": "重置",

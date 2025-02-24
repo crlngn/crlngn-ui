@@ -49,6 +49,10 @@
           "autoHideSecondary": {
             "label": "Auto hide secondary controls",
             "hint": "Enable to keep the secondary bar on the left controls hidden until you hover on the region or click on an item."
+          },
+          "hideFoundryLogo": {
+            "label": "Hide Foundry Logo",
+            "hint": "Keep this enabled to hide the Foundry Logo on the top left"
           }
         },
         "reset": "Reset",
@@ -89,11 +93,11 @@
         "hint": "Change options for the scene navigation menu, on the top bar",
         "fields": {
           "sceneNavEnabled": {
-            "label": "Enable Custom Scene Navigation",
-            "hint": "<b>[Requires reload]</b> If you are having layout issues with a non-compatible module, you can disable my custom styles for Scene Navigation."
+            "label": "Enable Horizontal Scene Navigation",
+            "hint": "[Requires reload] If you are having layout issues with a non-compatible module, you can try to disable my custom styles for Scene Navigation."
           }, 
           "showNavOnHover": {
-            "label": "Show scene list on hover",
+            "label": "Toggle scene nav on hover",
             "hint": "If the scene navigation is collapsed, you can show it by hovering the mouse over the top of the screen."
           }
         },

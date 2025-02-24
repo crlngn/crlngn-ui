@@ -67,19 +67,14 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
     if(settings.bottomBuffer===undefined || settings.bottomBuffer===''){
       settings.bottomBuffer = SETTINGS.leftControlsMenu.default.bottomBuffer;
     }
+    const currSettings = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
+    if(currSettings.hideFoundryLogo === undefined){
+      settings.hideFoundryLogo = SETTINGS.leftControlsMenu.default.hideFoundryLogo;
+    }
     await SettingsUtil.set(SETTINGS.leftControlsMenu.tag, settings);
     const controlSettings = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
 
-    LogUtil.log("Saving settings:", [SETTINGS.leftControlsMenu.tag, form, formData.object, settings, controlSettings]); // Debugging
-    // // Store each setting in FoundryVTT settings
-    // await Promise.all(
-    //   Object.entries(settings).map(([key, value]) =>
-    //     SettingsUtil.set(SETTINGS.leftControlsMenu.tag, {
-    //       // ...customFontsSettings,
-    //       [key]: value
-    //     })
-    //   )
-    // );
+    LogUtil.log("Saving settings:", [currSettings, settings, controlSettings]); // Debugging
 
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
   }
