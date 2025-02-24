@@ -49,6 +49,10 @@
           "autoHideSecondary": {
             "label": "Ocultar automaticamente os controles secundários",
             "hint": "Ative para manter a barra secundária oculta até passar o mouse sobre a região ou clicar em um item."
+          },
+          "hideFoundryLogo": {
+            "label": "Ocultar logo do Foundry",
+            "hint": "Deixe esta opção marcada para esconer o logo do Foundry na UI"
           }
         },
         "reset": "Redefinir",

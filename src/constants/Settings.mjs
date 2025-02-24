@@ -73,7 +73,7 @@ export function getSettings() {
           label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.bottomBuffer.label"),
           hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.bottomBuffer.hint"),
           inputType: SETTING_INPUT.number
-        },
+        }, 
         iconSize: {
           tag: "control-icon-size",
           label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.label"),
@@ -89,16 +89,23 @@ export function getSettings() {
           label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.autoHideSecondary.label"), 
           hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.autoHideSecondary.hint"), 
           inputType: SETTING_INPUT.checkbox
+        },
+        hideFoundryLogo: { 
+          tag: "hide-foundry-logo", 
+          label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.hideFoundryLogo.label"), 
+          hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.hideFoundryLogo.hint"), 
+          inputType: SETTING_INPUT.checkbox
         }
       },
-      default: {
+      default: { 
         bottomBuffer: 200,
         iconSize: ICON_SIZES.small.name,
-        autoHideSecondary: false
+        autoHideSecondary: false,
+        hideFoundryLogo: true
       },
       scope: SETTING_SCOPE.client,
-      config: false, 
-      requiresReload: false 
+      config: false,
+      requiresReload: false
     },
 
     cameraDockMenu: {

@@ -6,6 +6,8 @@ import { ChatUtil } from "./ChatUtil.mjs";
 import { CameraUtil } from "./CameraUtil.mjs";
 import { PlayersListUtil } from "./PlayersListUtil.mjs";
 import { getSettings } from "../constants/Settings.mjs";
+import { LeftControls } from "./LeftControlsUtil.mjs";
+import { MODULE_ID } from "../constants/General.mjs";
 
 export class Main {
   static SETTINGS;
@@ -13,7 +15,7 @@ export class Main {
   static init(){
     Hooks.once(HOOKS_CORE.INIT, () => { 
       Main.SETTINGS = getSettings();
-      document.querySelector("#ui-middle")?.classList.add("crlngn-ui");
+      document.querySelector("#ui-middle")?.classList.add(MODULE_ID);
       LogUtil.log("Initiating module", [], true); 
 
       // Main.setupKeyListeners(); 
@@ -37,6 +39,7 @@ export class Main {
       TopNavigation.init(); 
       CameraUtil.init(); 
       PlayersListUtil.init(); 
+      LeftControls.init();
 
       LogUtil.log("GAME", [game.collections.find(c=>c.key=="Scene"),game.collections.get("Scene"), ui]); 
     })

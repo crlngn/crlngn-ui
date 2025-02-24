@@ -15,10 +15,10 @@
 }
 
 body.crlngn-ui{
-  --macro-bar-left: calc(var(--max-players-width) - (var(--left-control-item-size) * 2));
+  --macro-bar-left: 0;/*calc(var(--max-players-width) - (var(--left-control-item-size) * 2));*/
 
   &:has(#players.auto-hide){
-    --macro-bar-left: calc(-1 * var(--left-control-item-size));
+    --macro-bar-left: calc(var(--left-control-item-size) - var(--max-players-width));
   }
 
   #hotbar {
@@ -170,12 +170,14 @@ body.crlngn-ui{
 
   #ui-bottom {
     width: 100%;
+    margin-top: auto;
 
     #fps {
       border: 0;
       border-radius: 0;
       padding: 0;
-      margin: 0;
+      margin: 6px 6px 6px auto;
+
       opacity: 0.6;
       transform: scale(0.75);
       transform-origin: bottom right;

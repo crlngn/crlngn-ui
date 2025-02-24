@@ -104,8 +104,9 @@ body.crlngn-chat {
   /* card headers */
   .chat-message .message-header .name-stacked .title,
   &.system-dnd5e .chat-message .name-stacked .title {
-    letter-spacing: 0.025em;
+    letter-spacing: 0.015em;
     font-weight: 500;
+    font-family: var(--crlngn-font-family);
   }
 
   .crlngn.ddbgl .chat-card .card-header.collapsed{
