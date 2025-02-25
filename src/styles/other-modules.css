@@ -88,6 +88,12 @@ body.crlngn-ui{
     background: var(--crlngn-chat-button-bg-15);
   }
 
+  /* MONK'S SCENE NAVIGATION 
+  #interface #ui-middle #ui-top.offset:has() {
+    margin-left: -90px;
+    width: 100%;
+  }*/
+
 
   /* CAROUSEL COMBAT TRACKER */
 
@@ -253,8 +259,7 @@ body.crlngn-ui{
     h1{
       font-family: var(--crlngn-font-titles);
       font-size: var(--font-size-24);
-
-      hyphens: auto;
+      line-height: 1.15;
     }
   }
 
@@ -372,20 +377,10 @@ body.crlngn-ui{
 
   /* VISUAL ACTIVE EFFECTS */
   #visual-active-effects {
-    --vae-border-color-temporary: rgba(158, 192, 255, 0.705);
-    --vae-border-color-passive: rgba(255, 242, 167, 0.664);
-    --vae-border-color-disabled: rgba(194, 0, 0, 0.61);
-    --vae-dropshadow: drop-shadow(3px 3px 4px rgb(83, 83, 83));
     --vae-backdrop-color: var(--color-dark-bg-75);
-    --vae-button-color-font: rgba(255, 255, 255, 0.664);
     --vae-button-color-backdrop: var(--color-dark-bg-75);
     --vae-name-color: rgb(255, 255, 255);
-    --vae-name-border: 1px dashed rgba(133, 133, 133, 0.582);
     --vae-name-font: var(--crlngn-font-family);
-    --vae-tag-border: 1px solid rgb(197, 197, 197);
-    --vae-tag-color-duration: rgba(100, 100, 255, 0.5);
-    --vae-tag-color-disabled: rgba(255, 100, 100, 0.5);
-    --vae-tag-color-source: rgba(255, 100, 255, 0.5);
     --visual-active-effects-icon-size: 46px;
 
     &.panel{
@@ -441,4 +436,61 @@ body.crlngn-ui{
       font-weight: 500;
     }
   }
+
+  /* ITEM PILES */
+  .sidebar-tab{
+    .item-piles-chat-card {
+      padding: 0;
+      p, ul, ol, li, a, b, strong, h3, h4, h5, h6 {
+        font-family: var(--crlngn-font-family);
+      }
+    }
+  }
+  &.theme-dark {
+    .sidebar-tab{
+      .item-piles-chat-card {
+        p, ul, ol, li, a, b, strong {
+          background: var(--color-dark-bg-25);
+        }
+      }
+    }
+  }
+  
+  /* ANONYMOUS */
+  .anonymous-replaced {
+    padding: 0 4px;    
+    border-radius: 3px;   
+    opacity: 0.8; 
+  }
+  .sidebar-tab .chat-message .message-content span.anonymous-replaced,
+  .sidebar-tab .chat-message .message-content *.anonymous-replaced {
+    font-weight: 500;
+    padding: 0 4px;
+    border-radius: 3px;  
+    opacity: 0.8; 
+  }
+  &.theme-dark {
+    .anonymous-replaced {
+      background: var(--color-dark-bg-75);
+    }
+    .sidebar-tab .chat-message .message-content span.anonymous-replaced,
+    .sidebar-tab .chat-message .message-content *.anonymous-replaced {
+      background: var(--color-dark-bg-50);
+    }
+
+  }
+}
+
+
+/* ITEM PILES */
+html:has(body.theme-dark){
+  --item-piles-inactive: rgb(106, 147, 188) !important;
+  --item-piles-minor-inactive: rgb(112, 112, 103) !important;
+  --item-piles-shadow-primary: rgb(124, 77, 77) !important;
+  --item-piles-even-color: rgb(103, 103, 81) !important;
+  --item-piles-odd-color: rgba(0, 0, 0, 0) !important;
+  --item-piles-border-dark-primary: rgba(25, 24, 19, 1) !important;
+  --item-piles-border-light-primary: rgba(181, 179, 164, 1) !important;
+  --item-piles-text-light-highlight: rgba(11, 10, 19, .5);
+  --item-piles-text-important: rgb(161, 105, 68) !important;
 }

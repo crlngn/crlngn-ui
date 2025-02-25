@@ -78,7 +78,7 @@ body.crlngn-ui  {
     font-family: var(--crlngn-font-family);
   }
 
-  #sidebar, #players {
+  .sidebar-tab, #players {
     h1, h2, h3, h4, h5, h6 {
       font-weight: 600;
       letter-spacing: 0.02em;
@@ -103,12 +103,12 @@ body.crlngn-ui  {
   * INPUT AND RANGE
   *******************/
 
-  #sidebar input:not(input[type="range"]),
+  .sidebar-tab input:not(input[type="range"]),
   .app.sidebar-popout input:not(input[type="range"]),
-  #sidebar select, 
+  .sidebar-tab select, 
   .app.sidebar-popout select, 
   #chat-controls .roll-type-select, 
-  #sidebar textarea,
+  .sidebar-tab textarea,
   #chat-form textarea {
     font-family: var(--crlngn-font-family);
     background: var(--color-input-bg);
@@ -116,7 +116,7 @@ body.crlngn-ui  {
     color: var(--color-text-light-highlight);
   }
 
-  #sidebar select option,
+  .sidebar-tab select option,
   #chat-controls option {
     font-family: var(--crlngn-font-family);
     color: var(--color-text-dark-1);
@@ -405,13 +405,17 @@ body.crlngn-ui {
   }
 
   /* Dialogs for DnD5e */
-  .dialog .dialog-buttons button.default {
+  &.theme-dark .dialog .dialog-buttons button.default {
     border: 2px solid var(--color-shadow-primary);
     box-shadow: 0 0 4px rgba(0,0,0,0.5);
   }
 
   &.theme-dark .dialog .dialog-buttons button {
     border: 2px groove var(--color-border-light-1);
+  }
+
+  aside.application:has(.window-header) {
+    transform: translateX(calc(var(--ui-controls-margin-left) * -1));
   }
   
 }

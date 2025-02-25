@@ -136,7 +136,8 @@ body.crlngn-ui {
   --color-shadow-primary: var(--color-highlights);
   --toggle-active-bg-color: var(--color-secondary);
   --toggle-active-border-color: var(--color-secondary);
-  --input-background-color: var(--color-input-bg);
+  /*--input-background-color: var(--color-input-bg);*/
+  --input-background-color: var(--color-cool-4);
   --input-background-alt: var(--color-light-bg);
   --input-border-color: transparent;
   --input-focus-outline-color: var(--color-cool-3);

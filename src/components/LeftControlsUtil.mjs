@@ -5,6 +5,7 @@ export class LeftControls {
   static #navElem;
   static #leftControls;
   static #uiMiddle;
+  static #uiLeft;
   static #resizeObserver;
   static #lastWidth;
 
@@ -19,6 +20,7 @@ export class LeftControls {
     LeftControls.#navElem = document.querySelector("#ui-top #navigation"); 
     LeftControls.#leftControls = document.querySelector("#ui-left #controls"); 
     LeftControls.#uiMiddle = document.querySelector("#ui-middle"); 
+    LeftControls.#uiLeft = document.querySelector("#ui-left"); 
   }
 
   static initSceneControls(){
@@ -50,7 +52,8 @@ export class LeftControls {
         //   clientWidth: entry.target.clientWidth,
         //   boundingWidth: entry.target.getBoundingClientRect().width
         // }]);
-        throttle(() => LeftControls.updateCSSVars(), 100);
+        LeftControls.updateCSSVars()
+        /*throttle(() => LeftControls.updateCSSVars(), 100);*/
       //}
     }, {
       box: 'border-box'
@@ -64,9 +67,8 @@ export class LeftControls {
   static updateCSSVars() {
     // LogUtil.log("updateCSSVars", [LeftControls.#leftControls]);
     if(!LeftControls.#leftControls){ return; }
-    
 
-    let leftOffset = Number(LeftControls.#uiMiddle.offsetLeft); 
+    let leftOffset = Number(LeftControls.#uiLeft.offsetWidth); 
     let controlsWidth = Number(LeftControls.#leftControls.offsetWidth); 
     let controlsMarginLeft = -leftOffset + controlsWidth + 16;
     LogUtil.log("updateCSSVars", [controlsWidth, leftOffset]);

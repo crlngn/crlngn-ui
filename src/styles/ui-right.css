@@ -19,7 +19,7 @@
       height: auto; 
     }
 
-    #sidebar-tabs{
+    #sidebar-tabs{ 
       margin: 2px 0 0 0;
       --sidebar-tab-height: 36px;
 
@@ -41,154 +41,157 @@
   }
 }
 
-#ui-right .sidebar-tab,
-.sidebar-popout {
-  line-height: 1.5;
-  font-size: var(--font-size-13);
 
-  #chat-controls {
-    align-items: center;
-    padding: 0.25em 0;
+body.crlngn-ui {
+  #ui-right .sidebar-tab,
+  .sidebar-popout {
+    line-height: 1.5;
+    font-size: var(--font-size-13);
 
-    label {
-      min-width: 24px;
-      text-align: center;
-    }
-    i{
-      font-size: var(--font-size-16);
-      margin: 0;
-    }
-  }
-
-  .dnd5e2.sidebar-heading{
-    display: flex;
-    flex-wrap: wrap;
-  }
-  > ul, 
-  > div:not(.sidebar-heading) > h2, 
-  > div > ul:not(.links){
-    padding: 4px 14px;
-  }
-
-  h2 {
-    border: 0;
-    color: #fff;
-    font-size: var(--font-size-12);
-    text-transform: uppercase;
-    font-weight: 500;
-    margin: 14px 0 6px;
-  }
-
-  #chat-form textarea {
-    margin: 4px 0;
-  }
-
-  button#chat-form--send {
-    display: none;
-  }
-
-
-  button:not(.dice-tray button, .chat-message button, .dice-tray-container button) {
-    padding: 6px; 
-    border-radius: 0; 
-    background: rgba(0,0,0,0.15); 
-    border: 1px solid rgba(0,0,0,0.5); 
-    display: flex; 
-    flex-direction: row; 
-    align-items: center; 
-    justify-content: center; 
-    color: #dcdcdc; 
-    font-weight: 500; 
-    box-shadow: 0 0 10px inset rgb(0, 0, 0, 0.3); 
-    transition: all ease-in-out 0.25s; 
-    position: relative; 
-    min-height: 34px;
-    font-size: var(--font-size-13); 
-    font-weight: 600; 
-    margin: 2px 0;
-
-    &:hover{
-      color: #fff; 
-      box-shadow: 0 0 8px inset rgb(0, 0, 0, 0.25); 
-      background: var(--color-highlights-50); 
-      border: 1px solid var(--color-highlights-50); 
-    }
-
-    &:active{
-      color: #fff;
-      box-shadow: 0 0 8px inset rgb(0, 0, 0, 0.25);
-      background: var(--color-highlights-25); 
-    }
-
-    > i {
-      font-size: var(--font-size-10);
-      margin: 0 5px 0 0;
-    }
-  }
-
-  .directory-header {
-    margin: 5px;
-  }
-
-  li.folder > .folder-header h3 {
-    font-size: var(--font-size-14);
-    font-weight: 600;
-
-    a{
-      background: rgba(0, 0, 0, .6);
-      padding: 4px 10px;
-      border-radius: 4px;
-      border: 1px solid #000;
-
-      > i {
-        font-size: var(--font-size-10);
-        margin: 0 5px 0 0;
-      }
-    }
-  }
-
-  li.directory {
-    .compendium-footer .source {
-      font-size: var(--font-size-10);
-      opacity: 0.5;
-    }
-  }
-
-  li.directory-item.compendium h3,
-  li.directory-item h3.document-name {
-    font-size: var(--font-size-12);
-    font-weight: 600;
-    line-height: 1.35;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &.compendium-name, a {
-      background: rgba(0, 0, 0, .6);
-      padding: 3px 10px;
-      border-radius: 4px;
-      border: none;
-      display: inline-flex;
-      white-space: normal;
-      max-width: 80%;
-      line-height: 1.5;
-      height: auto;
+    #chat-controls {
       align-items: center;
+      padding: 0.25em 0;
+
+      label {
+        min-width: 24px;
+        text-align: center;
+      }
+      i{
+        font-size: var(--font-size-16);
+        margin: 0;
+      }
+    }
+
+    .dnd5e2.sidebar-heading{
+      display: flex;
+      flex-wrap: wrap;
+    }
+    > ul, 
+    > div:not(.sidebar-heading) > h2, 
+    > div > ul:not(.links){
+      padding: 4px 14px;
+    }
+
+    h2 {
+      border: 0;
+      color: #fff;
+      font-size: var(--font-size-12);
+      text-transform: uppercase;
+      font-weight: 500;
+      margin: 14px 0 6px;
+    }
+
+    #chat-form textarea {
+      margin: 4px 0;
+    }
+
+    button#chat-form--send {
+      display: none;
+    }
+
+
+    button:not(.dice-tray button, .chat-message button, .dice-tray-container button) {
+      padding: 6px; 
+      border-radius: 0; 
+      background: rgba(0,0,0,0.15); 
+      border: 1px solid rgba(0,0,0,0.5); 
+      display: flex; 
+      flex-direction: row; 
+      align-items: center; 
+      justify-content: center; 
+      color: #dcdcdc; 
+      font-weight: 500; 
+      box-shadow: 0 0 10px inset rgb(0, 0, 0, 0.3); 
+      transition: all ease-in-out 0.25s; 
+      position: relative; 
+      min-height: 34px;
+      font-size: var(--font-size-13); 
+      font-weight: 600; 
+      margin: 2px 0;
+
+      &:hover{
+        color: #fff; 
+        box-shadow: 0 0 8px inset rgb(0, 0, 0, 0.25); 
+        background: var(--color-highlights-50); 
+        border: 1px solid var(--color-highlights-50); 
+      }
+
+      &:active{
+        color: #fff;
+        box-shadow: 0 0 8px inset rgb(0, 0, 0, 0.25);
+        background: var(--color-highlights-25); 
+      }
 
       > i {
         font-size: var(--font-size-10);
         margin: 0 5px 0 0;
       }
     }
-  }
 
-  .dnd5e2.sidebar-heading ul.links{
-      margin: 10px 0 0 0;
+    .directory-header {
+      margin: 5px;
+    }
+
+    li.folder > .folder-header h3 {
+      font-size: var(--font-size-14);
+      font-weight: 600;
 
       a{
-        text-decoration: none;
-      }
-  }
+        background: rgba(0, 0, 0, .6);
+        padding: 4px 10px;
+        border-radius: 4px;
+        border: 1px solid #000;
 
+        > i {
+          font-size: var(--font-size-10);
+          margin: 0 5px 0 0;
+        }
+      }
+    }
+
+    li.directory {
+      .compendium-footer .source {
+        font-size: var(--font-size-10);
+        opacity: 0.5;
+      }
+    }
+
+    li.directory-item.compendium h3,
+    li.directory-item h3.document-name {
+      font-size: var(--font-size-12);
+      font-weight: 600;
+      line-height: 1.35;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &.compendium-name, a {
+        background: rgba(0, 0, 0, .6);
+        padding: 3px 10px;
+        border-radius: 4px;
+        border: none;
+        display: inline-flex;
+        white-space: normal;
+        max-width: 80%;
+        line-height: 1.5;
+        height: auto;
+        align-items: center;
+
+        > i {
+          font-size: var(--font-size-10);
+          margin: 0 5px 0 0;
+        }
+      }
+    }
+
+    .dnd5e2.sidebar-heading ul.links{
+        margin: 10px 0 0 0;
+
+        a{
+          text-decoration: none;
+        }
+    }
+
+  }
 }
 

@@ -26,6 +26,14 @@ body.crlngn-ui {
   }
 }
 
+body.crlngn-ui{
+
+  #interface #ui-middle{
+    margin-left: var(--ui-controls-margin-left);
+    width: calc(100% - var(--ui-controls-margin-left));
+  }
+}
+
 #interface #ui-middle {
   position: relative;
   
@@ -38,6 +46,7 @@ body.crlngn-ui {
     position: absolute;
     width: 100%;
 
+
     #navigation {
       position: relative;
       z-index:101;
@@ -48,25 +57,30 @@ body.crlngn-ui {
         */
     }
 
-    > * {
+    > *:not(#loading) {
       /*margin-top: var(--ui-top-padding, 0px);*/
       margin-top: var(--crlngn-top-offset, 0px);
       transition: margin-top 0.15s ease-in-out;
     }
+    #loading {
+
+    }
     
     &.offset {
-      /* margin-left: -90px; */
-      left: 0;
-      margin-left: var(--ui-controls-margin-left);
-      height: var(--top-nav-height);
-      width: calc(100% - var(--ui-controls-margin-left));
-      z-index: 0;
+      /*
+      
+      */
+
+      margin-left: 0; /*calc(-1 * var(--max-players-width));*/
+      /* margin-left: var(--ui-controls-margin-left); */
+      width: calc(100%);/* + var(--max-players-width));*/
     }
 
-    &:has(.collapsed) #navigation :not(.monks-scene-navigation) > #scene-list,
-    &:has(.collapsed) #navigation .monks-scene-navigation > #scene-list { 
+    &:has(.collapsed) #scene-list,
+    &:has(.collapsed) .monks-scene-navigation #scene-list { 
       opacity: 0;
       transition: opacity 0.2s ease-out;
+      display: none;
     }
 
   }
@@ -74,13 +88,26 @@ body.crlngn-ui {
 
 body.crlngn-ui{
   &:has(#sidebar.collapsed){
-    #interface #ui-middle.crlngn-ui #ui-top #navigation:not(:has(.monks-scene-navigation)) {
-      width: calc(100% - var(--right-control-item-size));
+    #interface #ui-middle.crlngn-ui #navigation:not(:has(.monks-scene-navigation)) {
+
+      /*width: calc(100% - var(--right-control-item-size));*/
+      /*width: calc(100% - var(--right-control-item-size) - var(--ui-controls-margin-left));*/
     }
   }
 }
 #interface #ui-middle.crlngn-ui {
   position: relative;
+
+  #ui-top:not(:has(.monks-scene-navigation)).offset {
+    /* margin-left: var(--ui-controls-margin-left); */
+    /*width: calc(100% + var(--max-players-width));*/
+
+    #navigation {
+      margin-left: calc(-1 * var(--max-players-width));
+      margin-left: calc((var(--ui-controls-margin-left) * -1) - var(--max-players-width));
+      width: calc(100% - var(--ui-controls-margin-left));
+    }
+  }
   
   #ui-top { 
 
@@ -115,8 +142,9 @@ body.crlngn-ui{
       flex-wrap: nowrap;
       overflow: visible;
       pointer-events: all; 
-      width: calc(100% - var(--sidebar-width));
-      position: fixed;
+      width: 100%;
+      /*calc(100% - var(--sidebar-width));*/
+      position: absolute;
       left: 0;
       top: 0;
 
@@ -153,8 +181,11 @@ body.crlngn-ui{
         }*/
       }
 
-      > #scene-list {
+      &:not(.collapsed) #scene-list {
         display: flex;
+      }
+
+      #scene-list {
         flex-wrap: nowrap;
         overflow: visible;
         pointer-events: all;

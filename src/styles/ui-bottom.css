@@ -18,7 +18,8 @@ body.crlngn-ui{
   --macro-bar-left: 0;/*calc(var(--max-players-width) - (var(--left-control-item-size) * 2));*/
 
   &:has(#players.auto-hide){
-    --macro-bar-left: calc(var(--left-control-item-size) - var(--max-players-width));
+    /*--macro-bar-left: calc(0px - var(--left-control-item-size));*/
+    --macro-bar-left: calc((var(--ui-controls-margin-left) * -1) - var(--max-players-width) + var(--left-control-item-size));
   }
 
   #hotbar {

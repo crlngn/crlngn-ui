@@ -7,6 +7,22 @@ body.crlngn-chat {
   --crlngn-chat-button-bg-50: rgba(32, 47, 58, 0.5);
   --crlngn-chat-button-bg-15: rgba(32, 47, 58, 0.15);
 
+  .sidebar-tab{
+    .chat-message .message-content:not(.dnd5e2) {
+      p, ul, ol, li, span, a, b, strong {
+        background: transparent;
+        font-family: var(--crlngn-font-family);
+      }
+      h3, h4, h5, h6 {
+        font-family: var(--crlngn-font-family);
+      }
+      
+      h1, h2{
+        font-family: var(--crlngn-font-titles);
+      }
+    }
+  }
+
   .pill-lg{
     border: none;
   }
@@ -184,12 +200,19 @@ body.crlngn-chat {
     border: none;
     line-height: 1.35;
     padding: 0.5rem 0;
+
+    > *:not(header){
+      margin: 2px 0;
+    }
+    header {
+      margin: 0 0 6px 0;
+    }
   }
 
   .chat-card .description .details, 
   .chat-card .description .details p {
-    line-height: 1.15rem; 
-    font-size: var(--font-size-11); 
+    line-height: 1.35rem; 
+    font-size: var(--font-size-12); 
   }
 
   .chat-card .description .details > .wrapper {
@@ -405,6 +428,14 @@ body.crlngn-chat {
   /*********
   DARK MODE 
   **********/
+
+  &.theme-dark .sidebar-tab{
+    .chat-message .message-content:not(.dnd5e2) {
+      p, ul, ol, li, a, b, strong, h3, h4, h5, h6 {
+        background: transparent;
+      }
+    }
+  }
 
   &.theme-dark,
   &[data-ddb-custom-style=dark] {
@@ -629,9 +660,9 @@ body.crlngn-chat {
     color: #555;
   }
   &.theme-dark .chat-message .ddb-game-log-chat-card .ddb-item-name,
-  &.theme-dark #sidebar .chat-message hr,
+  &.theme-dark .sidebar-tab .chat-message hr,
   &[data-ddb-custom-style=dark] .chat-message .ddb-game-log-chat-card .ddb-item-name,
-  &[data-ddb-custom-style=dark] #sidebar .chat-message hr{
+  &[data-ddb-custom-style=dark] .sidebar-tab .chat-message hr{
     border-color: rgba(0,0,0,0.5);
   }
 

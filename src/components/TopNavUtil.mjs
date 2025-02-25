@@ -46,16 +46,14 @@ export class TopNavigation {
     Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, () => { 
       const isMonksScenenNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
       LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ isMonksScenenNavOn ]);
-
-      TopNavigation.resetLocalVars();
       
       if(!isMonksScenenNavOn){
-        TopNavigation.addListeners();
 
         LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag)]); 
         
-        TopNavigation.setNavPosition();
         TopNavigation.placeNavButtons();
+        TopNavigation.setNavPosition();
+        TopNavigation.addListeners();
       }
         
       if(SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag)){ 
@@ -63,7 +61,6 @@ export class TopNavigation {
       }else{
         ui.nav.expand();
       }
-      
     }); 
 
     Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, (value) => { 
@@ -150,6 +147,7 @@ export class TopNavigation {
 
   static placeNavButtons(){ 
     TopNavigation.resetLocalVars();
+
     const existingButtons = this.#navElem?.querySelectorAll("button.crlngn-nav");
     const isNavOverflowing = this.#scenesList?.scrollWidth >= this.#navElem?.offsetWidth;
     LogUtil.log("placeNavButtons", [ isNavOverflowing, existingButtons, this.#scenesList?.scrollWidth, this.#navElem?.offsetWidth]);
