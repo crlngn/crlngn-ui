@@ -37,6 +37,8 @@ A sleek and minimalist UI overhaul, focusing on saving space on screen and impro
 
 **Carolingian UI** is free to use and distribute under MIT License. If you reuse my code, please add mention to the original repo. 
 
+I am very opinionated about this module's look and feel, as it was created for my own use, and I overwrite some other modules' fonts and colors to look more uniform with mine. My setup of modules is relatively lean, with only 35-40 quality of life modules. If the aesthetics are too off or the module is too niche, I might not be interested in working on compatibility for it. That being said, I've specifically tested some modules by user request, and adapted their styling.
+
 ### VERIFIED MODULE COMPATIBILITY (A-Z):
 **Note:** This is not an extensive list - I've only included modules that I personally checked and which might be particularly affected by changes in the UI.
 - Are You Focused? 1.2.x
@@ -59,6 +61,7 @@ A sleek and minimalist UI overhaul, focusing on saving space on screen and impro
 - Tidy 5e 9.1.x
 - TheRipper93's Module Hub 4.1.x
 - Touch VTT 2.2.x
+- Visual Active Effects
 - YouTube Player Widget 2.1.x
 
 I have also verified PF2e HUD, but I do not play PF2e so there might be issues I haven't noticed.
@@ -75,4 +78,4 @@ If you want to use **Monk's Scene Navigation** you need to disable my horizontal
 
 ### BUGS AND FEATURE REQUESTS:
 - Please use the issue tracker to report any bugs and requests for enhancements using the appropriate labels.
-- When reporting bugs, please first try to disable all other modules. Take screenshots of any errors and provide as much information as possible on your issue (Foundry version, game system, active modules). 
+- When reporting bugs, please first try to disable unrelated modules. Disable modules one by one to see which one might cause the issue. Take screenshots of any errors and provide as much information as possible on your issue (Foundry version, game system, active modules). 
