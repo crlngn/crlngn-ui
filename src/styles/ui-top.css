@@ -63,7 +63,7 @@ body.crlngn-ui{
       transition: margin-top 0.15s ease-in-out;
     }
     #loading {
-
+      margin-top: 80px;
     }
     
     &.offset {
@@ -99,13 +99,12 @@ body.crlngn-ui{
   position: relative;
 
   #ui-top:not(:has(.monks-scene-navigation)).offset {
-    /* margin-left: var(--ui-controls-margin-left); */
-    /*width: calc(100% + var(--max-players-width));*/
 
     #navigation {
-      margin-left: calc(-1 * var(--max-players-width));
+      /*margin-left: calc(-1 * var(--max-players-width));*/
       margin-left: calc((var(--ui-controls-margin-left) * -1) - var(--max-players-width));
-      width: calc(100% - var(--ui-controls-margin-left));
+      /*width: calc(100% - var(--ui-controls-margin-left));*/
+      width: calc(100% + var(--max-players-width) + var(--ui-controls-margin-left))
     }
   }
   

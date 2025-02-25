@@ -10,7 +10,6 @@ body.crlngn-chat {
   .sidebar-tab{
     .chat-message .message-content:not(.dnd5e2) {
       p, ul, ol, li, span, a, b, strong {
-        background: transparent;
         font-family: var(--crlngn-font-family);
       }
       h3, h4, h5, h6 {
@@ -191,7 +190,7 @@ body.crlngn-chat {
   }
 
   .chat-card .description {
-    background: transparent;
+    background-color: transparent;
     border: none;
   }
 
@@ -417,7 +416,6 @@ body.crlngn-chat {
   section.card-header.description.rsr-section-attack,
   section.card-header.description.rsr-section-damage {
     padding: 0;
-    /*background: transparent;*/
   }
 
   .chat-message .message-content .midi-results{
@@ -431,8 +429,8 @@ body.crlngn-chat {
 
   &.theme-dark .sidebar-tab{
     .chat-message .message-content:not(.dnd5e2) {
-      p, ul, ol, li, a, b, strong, h3, h4, h5, h6 {
-        background: transparent;
+      p, ul, ol, li, a, b, strong {
+        background-color: transparent;
       }
     }
   }
@@ -645,14 +643,6 @@ body.crlngn-chat {
     padding: 0.5rem 0;
   }
 
-  /*
-  &.theme-dark .chat-card .description.rsr-section-attack,
-  &.theme-dark .chat-card .description.rsr-section-damage,
-  &[data-ddb-custom-style=dark] .chat-card .description.rsr-section-attack,
-  &[data-ddb-custom-style=dark] .chat-card .description.rsr-section-damage{
-    background: transparent;
-  }*/
-
   &.theme-dark .crlngn.chat-card .description .details,
   &[data-ddb-custom-style=dark] .crlngn.chat-card .description .details,
   &.theme-dark .crlngn.chat-card .message-content .description .details p,
@@ -722,7 +712,6 @@ body.crlngn-chat {
   &[data-ddb-custom-style=dark] :is(.chat-popout, #chat-log) .message .evaluation .target {
     color: #fff;
     padding: 6px 8px;
-    /*background: transparent;*/
   }
   &.theme-dark :is(.chat-popout, #chat-log) .message .evaluation .target.hit,
   &.theme-dark :is(.chat-popout, #chat-log) .message .evaluation .target.success,
@@ -910,7 +899,7 @@ body.crlngn-chat {
     padding: 0;
   }
   &.theme-dark.system-pf2e  .chat-message>.message-content .dice-roll .dice-tooltip{
-    background: transparent;
+    background-color: transparent;
     color: var(--color-text-light-2);
     font-size: var(--font-size-11);
   }

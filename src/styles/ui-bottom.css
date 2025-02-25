@@ -15,11 +15,16 @@
 }
 
 body.crlngn-ui{
-  --macro-bar-left: 0;/*calc(var(--max-players-width) - (var(--left-control-item-size) * 2));*/
+  --macro-bar-left: 0px;
+  /*calc(var(--max-players-width) - (var(--left-control-item-size) * 2));*/
 
+  &:has(#players){
+    --macro-bar-left: calc(-1 * var(--ui-controls-margin-left, 0px))
+  }
+  
   &:has(#players.auto-hide){
     /*--macro-bar-left: calc(0px - var(--left-control-item-size));*/
-    --macro-bar-left: calc((var(--ui-controls-margin-left) * -1) - var(--max-players-width) + var(--left-control-item-size));
+    --macro-bar-left: calc((var(--ui-controls-margin-left, 0px) * -1) - var(--max-players-width, 0px) + var(--left-control-item-size, 0px));
   }
 
   #hotbar {

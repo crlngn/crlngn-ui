@@ -145,7 +145,7 @@ body.crlngn-ui{
     top: var(--ui-top-padding);
     /*padding-bottom: var(--controls-bottom-buffer);*/
     max-height:  calc(100% - var(--ui-top-padding) - (var(--controls-bottom-buffer)));
-    min-height: calc(var(--left-control-item-size) * 4);
+    min-height: calc(var(--left-control-item-size) * 6);
   
     > *{
       flex: 0 0 auto;
