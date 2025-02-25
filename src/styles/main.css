@@ -374,7 +374,7 @@ body.crlngn-ui {
       top: 100%;
       left: 0;
       right: 0;
-      background: var(--input-background-alt);
+      background: var(--color-cool-4);
       border: none;
       border-radius: 3px;
       max-height: 120px;
@@ -394,7 +394,7 @@ body.crlngn-ui {
       cursor: pointer;
     }
   
-    .dropdown-option:hover {
+    .dropdown-option:hover, .dropdown-option.highlighted {
       background-color: var(--input-background-alt);
     }
   

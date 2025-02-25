@@ -136,8 +136,7 @@ body.crlngn-ui {
   --color-shadow-primary: var(--color-highlights);
   --toggle-active-bg-color: var(--color-secondary);
   --toggle-active-border-color: var(--color-secondary);
-  /*--input-background-color: var(--color-input-bg);*/
-  --input-background-color: var(--color-cool-4);
+  --input-background-color: var(--color-input-bg);
   --input-background-alt: var(--color-light-bg);
   --input-border-color: transparent;
   --input-focus-outline-color: var(--color-cool-3);
@@ -161,7 +160,7 @@ body.crlngn-ui {
     --input-border-color: var(--color-secondary-25);
     --input-focus-outline-color: var(--color-highlights);
     --input-background-color: var(--color-input-bg);
-    --input-background-alt: var(--color-dark-bg);
+    --input-background-alt: var(--color-cool-5);
     --input-text-color: var(--color-light-3);
     --input-placeholder-color: var(--color-light-4);
 
@@ -170,8 +169,9 @@ body.crlngn-ui {
     code-mirror {
       --input-border-color: var(--color-secondary-25);
       --input-focus-outline-color: var(--color-highlights);
-      --input-background-color: var(--color-dark-bg);
-      --input-background-alt: var(--color-cool-3);
+      /*--input-background-color: var(--color-dark-bg);*/
+      --input-background-color: var(--color-cool-4);
+      --input-background-alt: var(--color-cool-5);
       --input-text-color: var(--color-light-3);
       --input-placeholder-color: var(--color-light-4);
     }

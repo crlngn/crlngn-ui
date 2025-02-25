@@ -139,6 +139,55 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
       input.addEventListener('focus', onFocus);
       input.addEventListener('click', onFocus);
 
+      // Add keyboard navigation
+      input.addEventListener('keydown', (e) => {
+        const isActive = dropdown.classList.contains('active');
+        const options = Array.from(dropdown.querySelectorAll('.dropdown-option'));
+        let currentIndex = options.findIndex(opt => opt.classList.contains('highlighted'));
+        
+        // Handle arrow down/up
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          e.preventDefault(); // Prevent cursor movement in input
+          
+          if (!isActive) {
+            dropdown.classList.add('active');
+          }
+          
+          // Remove current highlight
+          options.forEach(opt => opt.classList.remove('highlighted'));
+          
+          // Calculate new index
+          if (currentIndex === -1) {
+            currentIndex = e.key === 'ArrowDown' ? 0 : options.length - 1;
+          } else {
+            currentIndex = e.key === 'ArrowDown' 
+              ? (currentIndex + 1) % options.length 
+              : (currentIndex - 1 + options.length) % options.length;
+          }
+          
+          // Add highlight to new option and scroll into view
+          if (options[currentIndex]) {
+            options[currentIndex].classList.add('highlighted');
+            options[currentIndex].scrollIntoView({ block: 'nearest' });
+          }
+        }
+        
+        // Handle Enter key
+        else if (e.key === 'Enter') {
+          e.preventDefault();
+          
+          if (isActive && currentIndex !== -1 && options[currentIndex]) {
+            // Simulate click on the highlighted option
+            options[currentIndex].click();
+          }
+        }
+        
+        // Handle Escape key
+        else if (e.key === 'Escape') {
+          dropdown.classList.remove('active');
+        }
+      });
+
       // Handle clicking outside
       document.addEventListener('click', (e) => {
         if (!wrapper.contains(e.target)) {
@@ -150,8 +199,17 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
     // Handle option selection
     const dropOptions = CustomFontsSettings.#element.querySelectorAll('.dropdown-option');
     dropOptions.forEach(option => {
+      // Add mouse hover effect that syncs with keyboard highlighting
+      option.addEventListener('mouseenter', () => {
+        // Remove highlight from all options
+        const allOptions = option.closest('.dropdown-options').querySelectorAll('.dropdown-option');
+        allOptions.forEach(opt => opt.classList.remove('highlighted'));
+        
+        // Add highlight to current option
+        option.classList.add('highlighted');
+      });
+      
       option.addEventListener('click', (e) => {
-
         const input = option.closest('.dropdown-wrapper').querySelector('input');
         // Get the value and handle potential quote escaping
         let value = option.dataset.value;
@@ -168,6 +226,9 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
         
         input.value = value;
         option.closest('.dropdown-options').classList.remove('active');
+        
+        // Return focus to input after selection
+        input.focus();
       });
     });
   }
