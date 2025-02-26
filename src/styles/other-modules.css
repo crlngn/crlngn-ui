@@ -98,18 +98,24 @@ body.crlngn-ui{
   /* CAROUSEL COMBAT TRACKER */
 
   #combat-dock {
-    /*top: var(--ui-top-padding, var(--left-control-item-size, 0px));*/
     margin-top: var(--crlngn-top-offset, 0px);
     z-index:1;
+    margin-left: 0;
+    padding-left: 0;
 
     #combatants{
+      display: flex;
       pointer-events: all;
       padding: 0;
+      width:auto;
+      margin: 0;
+      justify-content: center;
     }
+    
 
     &:has(#combatants:hover),
     &:has(.buttons-container:hover){
-      z-index:100;
+      z-index:1001;
     }
 
     .buttons-container {
@@ -131,6 +137,7 @@ body.crlngn-ui{
     }
     
   }
+
   #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper {
     font-family: var(--crlngn-font-family);
     font-size: var(--font-size-12);
@@ -146,33 +153,49 @@ body.crlngn-ui{
     border: 0;
     background: var(--color-dark-bg-90);
     box-shadow: none;
-    max-width: 240px;
+    max-width: 280px;
     margin-top: 40px;
     transform-origin: top center;
-    transform: scale(0.85);
   }
   #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper {
     padding: 0;
     border: 0;
     box-shadow: none;
   }
-  #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper ul {
+  #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper > ul {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 14px;
 
-    li{ 
-      width: calc((100% - 14px) / 2);
-      max-width: calc((100% - 14px) / 2);
+    > li{ 
+      min-width: calc((100% - 14px) / 2);
+      max-width: 100%;
       flex: 1 1 calc((100% - 14px) / 2);
       background: var(--color-dark-bg-75);
       outline: 5px solid var(--color-dark-bg-75);
       padding: 0;
       margin: 0;
+      line-height: 1.35;
     }
   }
+  #tooltip.combat-dock-tooltip .effect-description {
+    background: transparent;
+    font-size: var(--font-sze-11);
+    padding: 0;
+    line-height: 1.35;
 
+    ul{
+      padding: 0;
+
+      li{
+        display: block;
+      }
+    }
+  }
+  #tooltip.combat-dock-tooltip a.content-link {
+    display: inline-flex;
+  }
 
   /* DFREDS EFFECTS PANEL  */
   #effects-panel {
@@ -376,7 +399,8 @@ body.crlngn-ui{
   }
 
   /* VISUAL ACTIVE EFFECTS */
-  #visual-active-effects {
+  #visual-active-effects,
+  #effects-panel {
     --vae-backdrop-color: var(--color-dark-bg-75);
     --vae-button-color-backdrop: var(--color-dark-bg-75);
     --vae-name-color: rgb(255, 255, 255);
@@ -476,6 +500,47 @@ body.crlngn-ui{
     .sidebar-tab .chat-message .message-content span.anonymous-replaced,
     .sidebar-tab .chat-message .message-content *.anonymous-replaced {
       background: var(--color-dark-bg-50);
+    }
+
+  }
+
+  /* MONK'S WALL ENHANCEMENTS */
+  #ui-left #wall-ctrls {
+    position: absolute;
+    width: 0;
+    height: auto;
+    margin-left: -11px;
+    z-index: 100;
+
+    ol.control-tools {
+      li.control-tool {
+        width: var(--left-control-item-size);
+        height: var(--left-control-item-size);
+        /*
+        border-radius: 0;
+        margin: 0;
+        font-size: var(--font-size-14);
+        box-shadow: none;
+        background: var(--left-control-secondary-bg);
+        border: 1px solid transparent;
+        z-index: 1;
+        box-sizing: border-box;
+      
+      
+        &:hover{
+          border: 1px solid transparent;
+          background: rgba(50, 50, 70, 1);
+          border: 1px solid rgba(180,180,205,0.35);
+        }
+        &.active{
+          background: rgba(80, 80, 105, 1);
+          border: 1px solid rgba(80, 80, 105, 1);
+          &:hover{
+            border: 1px solid rgba(180,180,205,0.35);
+          }
+        }
+        */
+      }
     }
 
   }

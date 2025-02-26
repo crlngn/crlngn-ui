@@ -13,7 +13,7 @@
 
 body.crlngn-ui { 
   --left-control-item-size: 36px;
-  --top-nav-height:  calc(var(--left-control-item-size) + 1px);
+  --top-nav-height:  calc(var(--left-control-item-size));
   --ui-top-padding: 0px;
   --ui-controls-margin-left: -100px;
 
@@ -43,18 +43,16 @@ body.crlngn-ui{
     margin: 0;
     opacity: 1;
     pointer-events: none;
-    position: absolute;
+    position: relative;
     width: 100%;
 
 
     #navigation {
       position: relative;
-      z-index:101;
-      /*
+      
       &:hover{
-        z-index: 100000;
+        z-index: 1001;
       }
-        */
     }
 
     > *:not(#loading) {
@@ -124,6 +122,7 @@ body.crlngn-ui{
       margin: 0 0 0 0;
       opacity: 0;
     } 
+    
     .crlngn-nav.ui-nav-left,
     .crlngn-nav.ui-nav-right{
       width: var(--left-control-item-size);
@@ -153,7 +152,7 @@ body.crlngn-ui{
         position: absolute; 
         background: rgba(0, 0, 0, 0.75);
         width: 100vw;
-        height: var(--top-nav-height);
+        height: calc(var(--top-nav-height) + 1px);
         backdrop-filter: blur(3px);
         margin: 0;
         /*transition: opacity, margin 0.2s ease-out;*/
@@ -164,7 +163,7 @@ body.crlngn-ui{
         background: rgba(0, 0, 0, 0.75);
         width: var(--left-control-item-size);
         flex: 0 0 var(--left-control-item-size);
-        height: var(--top-nav-height);
+        height: calc(var(--top-nav-height) + 1px);
         text-align: center;
         z-index: 1;
         border: 1px solid transparent;
@@ -198,7 +197,7 @@ body.crlngn-ui{
         transition: margin-left 0.5s ease-in-out;
 
         li.nav-item {
-          line-height: var(--left-control-item-size);
+          line-height: calc(var(--left-control-item-size) - 1px);
         }
 
         > li.nav-item:not(.is-root) {

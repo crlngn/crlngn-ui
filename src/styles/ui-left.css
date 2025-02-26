@@ -26,6 +26,7 @@ body.crlngn-ui{
     justify-content: flex-end;
     z-index: 1;
     min-width: var(--max-players-width);
+    margin-top: 1px;
     /*
     min-width: calc(var(--left-control-item-size) * 2);
     max-width: calc(var(--left-control-item-size) * 2);
@@ -236,12 +237,13 @@ body.crlngn-ui{
     height: var(--left-control-item-size);
     border-radius: 0;
     margin: 0 0 0 0;
-    font-size: 14px;
+    font-size: var(--font-size-14);
     box-shadow: none;
     background: var(--left-control-secondary-bg);
     border: 1px solid transparent;
     z-index: 1;
     box-sizing: border-box;
+    z-index: 0;
   
   
     &:hover{

@@ -25,10 +25,11 @@ export class TopNavigation {
       uiMiddle.classList.remove("crlngn-ui");
       return;
     }
-
+    TopNavigation.resetLocalVars();
     const isMonksScenenNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
     LogUtil.log("TopNavigation - init", [ isMonksScenenNavOn ]);
     if(!isMonksScenenNavOn){
+      TopNavigation.resetLocalVars();
       TopNavigation.addListeners(); 
 
       LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag)]); 
@@ -48,7 +49,7 @@ export class TopNavigation {
       LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ isMonksScenenNavOn ]);
       
       if(!isMonksScenenNavOn){
-
+        TopNavigation.resetLocalVars();
         LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag)]); 
         
         TopNavigation.placeNavButtons();
@@ -73,7 +74,7 @@ export class TopNavigation {
 
     Hooks.on(HOOKS_CORE.COLLAPSE_SCENE_NAV, (nav, value) => {
       SettingsUtil.set(Main.SETTINGS.sceneNavCollapsed.tag, value); 
-      // LogUtil.log("NAV toggle", [nav, value]); 
+      LogUtil.log("NAV toggle", [nav, value]); 
     }); 
 
     Hooks.on(HOOKS_CORE.EXPAND_SCENE_NAV, (nav, value) => {
@@ -92,7 +93,7 @@ export class TopNavigation {
 
 
     LogUtil.log("TopNavigation - init", [navSettings.sceneNavEnabled])
-    TopNavigation.resetLocalVars();
+    
     if(navSettings.sceneNavEnabled){ 
       TopNavigation.observeNavOffset(); 
     } 
@@ -228,9 +229,12 @@ export class TopNavigation {
   }
 
   static observeNavOffset(){
-    LogUtil.log("observeNavOffset", []);
+    LogUtil.log("observeNavOffset A", []);
     if(!TopNavigation.#navElem || !TopNavigation.#leftControls){ return; }
-    const monksScenenNav = document.querySelector("#ui-top .monks-scene-navigation"); 
+    const monksScenenNav = GeneralUtil.isModuleOn('monks-scene-navigation'); 
+    // document.querySelector("#ui-top .monks-scene-navigation"); 
+
+    LogUtil.log("observeNavOffset B", []);
 
     function updateCSSVars() {
 
@@ -241,11 +245,12 @@ export class TopNavigation {
       const navHeight = isNavCollapsed ? 0 : TopNavigation.#navElem.offsetHeight;
 
       let topOffset = monksScenenNav ? 0 : navHeight + TopNavigation.#navElem.offsetTop;
+      // let topOffset = navHeight + TopNavigation.#navElem.offsetTop;
 
       const root = document.querySelector("body.crlngn-ui");
       root?.style.setProperty('--crlngn-top-offset', topOffset + 'px');
   
-      LogUtil.log("updateCSSVars", [topOffset, TopNavigation.#navElem.offsetTop]);
+      LogUtil.log("TopNavigation updateCSSVars", [monksScenenNav, isNavCollapsed, topOffset, TopNavigation.#navElem.offsetTop, TopNavigation.#navElem.offsetHeight]);
     }
 
     // Create a MutationObserver to watch for changes
