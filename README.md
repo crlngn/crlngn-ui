@@ -43,7 +43,7 @@ I am very opinionated about this module's look and feel, as it was created for m
 **Note:** This is not an extensive list - I've only included modules that I personally checked and which might be particularly affected by changes in the UI.
 - Are You Focused? 1.2.x
 - Break Time 12.0.x
-- Carousel Combat Tracker 3.1.x
+- Carousel Combat Tracker 3.1.x (please do not use "No Carousel" option as there is a known bug) 
 - Compact Scene Navigation 1.0.x (avoid using auto hide setting in both modules)
 - CRUX 1.2.x
 - Dice Tray 2.2.x
@@ -71,10 +71,11 @@ If you want to use **Monk's Scene Navigation** you need to disable my horizontal
 
 ### NOTES:
 - The module was tested mostly on Foundry v12 and DnD 4.x. The overall UI styles are system agnostic, but chat card styles are mostly for DnD5e - I've done some basic tests for PF2e. If you would like to request support for a different system (and help with info and screenshots), please add a feature request on Github issue tracker (subject to evaluation);
-- The module is currently compatible with **"Compact Scene Navigation"**, but you might want to disable the auto-hide setting on that module as my module also implements auto-hide; 
+- Carolingian UI works best for DMs with a somewhat lean list of active modules. Modules which heavily modify the UI are likely to have conflicts.
+- The module is currently compatible with **"Compact Scene Navigation"**, but you might want to disable the auto-hide setting in one of the modules; 
 - Feel free to report compatibility status with other modules (subject to evaluation);
-- If you use a non-compatible module, play with the settings and disable the parts that might be affecting it.
-- If you would like to contribute with translation to your language please send a PR or copy the en language file, then translate.
+- If you use a non-compatible module, play with the settings and disable the parts that might be affecting it before reporting.
+- If you would like to contribute with translation to your language please send a PR or copy the en language file, translate and post as enhancement.
 
 ### BUGS AND FEATURE REQUESTS:
 - Please use the issue tracker to report any bugs and requests for enhancements using the appropriate labels.
