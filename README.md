@@ -3,7 +3,7 @@
 **Compatibility:** 
 - Foundry VTT version 12.328+
 - Mostly tested with DnD5e 4.x. Should work with other systems, but modules for those systems remain untested. 
-- Localization: English and Brazilian Portuguese
+- Localization: English and Brazilian Portuguese (me), Chinese by [yyzitai](https://github.com/yyzitai)
 
 ## Carolingian UI
 A sleek and minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12, but also offering many quality of life features to the ui panels. 
