@@ -3,29 +3,16 @@
 /*************
 Main Theme
 *************/
+:root {
+  /* crlngn-fonts */
+  --crlngn-font-family: var(--font-body);
+  --crlngn-font-journal-body: var(--dnd5e-font-roboto-condensed, var(--crlngn-font-family));
+  --crlngn-font-journal-title: var(--dnd5e-font-modesto, var(--crlngn-font-family));
+}
 /* ---------------------------------------- */
 /*  Colors                                  */
 /* ---------------------------------------- */
-body.crlngn-ui {
-  /* Original colors preserved for reference 
-  --color-warm-1: #ee9b3a;
-  --color-warm-2: #c9593f;
-  --color-warm-3: #5d142b;
-  
-  --color-light-1: #f7f3e8;
-  --color-light-2: #efe6d8;
-  --color-light-3: #e7d1b1;
-  --color-light-4: #d0b8a3;
-  --color-light-5: #9f8475;
-  --color-light-6: #816b66;
-  --color-dark-1: #111;
-  --color-dark-2: #222;
-  --color-dark-3: #444;
-  --color-dark-4: #555;
-  --color-dark-5: #666;
-  --color-dark-6: #777;
-  */
-
+body.crlngn-chat {
    /* colors */ 
 	--color-button-bg: rgba(90,120,150,0.5);
 	--color-input-bg: rgba(0,0,0,0.5); 
@@ -184,7 +171,7 @@ body.crlngn-ui {
 }
 
 /* Typography section remains unchanged */
-body.crlngn-ui {
+body.crlngn-chat {
   --crlngn-font-family: "Work Sans", Arial, sans-serif;
   --crlngn-font-titles: "Roboto Condensed", Arial, sans-serif;
   --crlngn-font-journal-body: "Work Sans", Arial, sans-serif;
@@ -209,4 +196,56 @@ body.crlngn-ui {
   --font-h6-size: var(--font-size-14);
   --dnd5e-font-roboto-slab: var(--crlngn-font-titles);
   --dnd5e-font-roboto: var(--crlngn-font-family);
+}
+
+/* FONT CONFIG */
+body.crlngn-chat {
+  --controls-bottom-buffer: 200px;
+  /* crlngn fonts */
+  --crlngn-font-family: var(--font-body);
+  --crlngn-font-titles: var(--dnd5e-font-modesto, var(--crlngn-font-family));
+  --crlngn-font-journal-body: var(--dnd5e-font-roboto-condensed, var(--crlngn-font-family));
+  --crlngn-font-journal-title: var(--dnd5e-font-modesto, var(--crlngn-font-family));
+
+  /* other fonts */
+  --font-blockquote: var(--crlngn-font-family);
+	--dnd5e-font-roboto-slab: var(--crlngn-font-titles);
+  --dnd5e-font-roboto-condensed: var(--crlngn-font-journal-body);
+	--dnd5e-font-modesto:  var(--crlngn-font-journal-title);
+  --font-primary: var(--crlngn-font-family);
+	--mej-font-family: var(--crlngn-font-family);
+
+  --font-h1: var(--crlngn-font-titles);
+  --font-h2: var(--crlngn-font-titles);
+  --font-h3: var(--crlngn-font-titles);
+  --font-h4: var(--crlngn-font-family);
+  --font-h5: var(--crlngn-font-family);
+  --font-h6: var(--crlngn-font-family);
+
+  --font-size-10: 0.625rem;
+  --font-size-11: 0.6875rem;
+  --font-size-12: 0.75rem;
+  --font-size-13: 0.8125rem;
+  --font-size-14: 0.875rem;
+  --font-size-15: 0.9375rem;
+  --font-size-16: 1rem;
+  --font-size-18: 1.125rem;
+  --font-size-20: 1.25rem;
+  --font-size-24: 1.5rem;
+  --font-size-28: 1.75rem;
+  --font-size-32: 2rem;
+  --font-size-36: 2.25rem;
+  --font-size-48: 3rem;
+  --font-size-64: 3.6rem;
+  --font-size-80: 4.2rem;
+  /*
+  --font-h1-size: var(--font-size-48);
+  --font-h2-size: var(--font-size-32);
+  --font-h3-size: var(--font-size-24);
+  --font-h4-size: var(--font-size-24);
+  --font-h5-size: var(--font-size-20);
+  --font-h6-size: var(--font-size-24);
+  */ 
+
+  --color-scrollbar: rgba(68, 147, 173, 0.7);
 }
