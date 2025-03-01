@@ -99,9 +99,7 @@ body.crlngn-ui{
   #ui-top:not(:has(.monks-scene-navigation)).offset {
 
     #navigation {
-      /*margin-left: calc(-1 * var(--max-players-width));*/
       margin-left: calc((var(--ui-controls-margin-left) * -1) - var(--max-players-width));
-      /*width: calc(100% - var(--ui-controls-margin-left));*/
       width: calc(100% + var(--max-players-width) + var(--ui-controls-margin-left))
     }
   }
@@ -117,7 +115,7 @@ body.crlngn-ui{
       height: 10px;
       margin-bottom: -12px;
     }
-    
+   
     &:has(.collapsed) #navigation:before{
       margin: 0 0 0 0;
       opacity: 0;
@@ -141,7 +139,6 @@ body.crlngn-ui{
       overflow: visible;
       pointer-events: all; 
       width: 100%;
-      /*calc(100% - var(--sidebar-width));*/
       position: absolute;
       left: 0;
       top: 0;
@@ -155,7 +152,6 @@ body.crlngn-ui{
         height: calc(var(--top-nav-height) + 1px);
         backdrop-filter: blur(3px);
         margin: 0;
-        /*transition: opacity, margin 0.2s ease-out;*/
         box-shadow: 0 2px 6px rgb(39 62 84 / 40%);
       }
 
@@ -170,13 +166,6 @@ body.crlngn-ui{
         border-radius: 0;
         margin: 0;
         box-sizing: border-box;
-
-        /*
-        i:before{
-          content: "\f279";
-          display: inline-block;
-          font-size: var(--font-size-10);
-        }*/
       }
 
       &:not(.collapsed) #scene-list {
