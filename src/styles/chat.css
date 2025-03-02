@@ -176,6 +176,10 @@ body.crlngn-chat {
     line-height: 1.4;
     margin: 0.5em 0;
   }
+  :is(.chat-popout, #chat-log, .chat-log) .message .message-header .message-sender img {
+    background: var(--color-dark-bg-25);
+    box-shadow: 0 0 4px var(--color-dark-bg-50);
+  }
 
   .chat-message a.content-link, 
   .chat-message a.inline-roll {
@@ -280,7 +284,11 @@ body.crlngn-chat {
   }
   */
 
-  .chat-card .card-buttons > button[data-action=rollAttack] {
+  .rsr-section-attack .rsr-title dnd5e-icon {
+    display: none;
+  }
+  .chat-card .card-buttons > button[data-action=rollAttack],
+  .chat-card .rsr-section-attack .rsr-title {
     *:first-child {
       display: none;
     }
@@ -702,7 +710,8 @@ body.crlngn-chat {
     :is(.card-tray, .effects-tray) button:hover {
       box-shadow: none;
     }
-    .chat-card .card-buttons > button[data-action=rollAttack] {
+    .chat-card .card-buttons > button[data-action=rollAttack],
+    .chat-card .rsr-section-attack .rsr-title {
       &:before{
         color: var(--color-text-light-1);
       }
