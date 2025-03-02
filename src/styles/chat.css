@@ -284,11 +284,11 @@ body.crlngn-chat {
   }
   */
 
-  .rsr-section-attack .rsr-title dnd5e-icon {
+  .chat-message .rsr-title dnd5e-icon {
     display: none;
   }
   .chat-card .card-buttons > button[data-action=rollAttack],
-  .chat-card .rsr-section-attack .rsr-title {
+  .chat-message.attack .rsr-title {
     *:first-child {
       display: none;
     }
@@ -298,6 +298,20 @@ body.crlngn-chat {
       color: var(--color-text-dark-1);
     }
   }
+
+  .chat-message.heal .rsr-title {
+    *:first-child {
+      display: none;
+    }
+    &:before{
+      content: '\2695';
+      /*font-family: var(--font-awesome);*/
+      font-size: var(--font-size-16);
+      color: var(--color-text-dark-1);
+    }
+  }
+
+  
 
   .chat-card .card-buttons > button {
     &[data-action=placeSummons],
@@ -711,7 +725,7 @@ body.crlngn-chat {
       box-shadow: none;
     }
     .chat-card .card-buttons > button[data-action=rollAttack],
-    .chat-card .rsr-section-attack .rsr-title {
+    .chat-message .chat-card .rsr-title {
       &:before{
         color: var(--color-text-light-1);
       }

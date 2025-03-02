@@ -112,7 +112,6 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
         { type: "submit", icon: "", label: "CRLNGN_UI.settings.cameraDockMenu.save" }
       ]
     }
-    // game.settings.get("foo", "config");
 
     LogUtil.log("_prepareContext", [setting, options]);
     return setting;
@@ -137,10 +136,7 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
   }
 
   _onRender(context, options) {
-    // const SETTINGS = getSettings();
-    // const controlSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
-
-    LogUtil.log("_onRender", [context, options, controlSettings]);
+    LogUtil.log("_onRender", [context, options]);
   }
 
 

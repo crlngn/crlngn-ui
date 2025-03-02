@@ -12,7 +12,6 @@ export class TopNavigation {
   static #navToggle;
   static #leftControls;
   static #observer;
-  static #timeout;
 
   static init(){
     // if user disabled Scene Navigation Styles,

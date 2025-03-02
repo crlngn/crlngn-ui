@@ -32,7 +32,7 @@ export function getSettingMenus() {
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.hint"),
       icon: "fas fa-camera",  
       propType: CameraDockSettings,
-      restricted: true 
+      restricted: false 
     },
     sceneNavMenu: {
       tag: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.label"),

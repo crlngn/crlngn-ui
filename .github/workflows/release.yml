@@ -81,7 +81,7 @@ jobs:
               "id": "'"$REPO_NAME"'",
               "release": {
                 "version": "'"$VERSION"'",
-                "manifest": "https://github.com/${{ github.repository }}/releases/latest/download/module.json",
+                "manifest": "https://github.com/${{ github.repository }}/releases/download/v'"$VERSION"'"/module.json",
                 "notes": "https://github.com/${{ github.repository }}/releases/tag/v'"$VERSION"'",
                 "compatibility": {
                   "minimum": "12.328",
@@ -90,3 +90,40 @@ jobs:
               }
             }')
           echo "Latest Release API Response: $API_RESPONSE"
+
+  # New job for Discord notification
+  notify_discord:
+    runs-on: ubuntu-latest
+    needs: release  # This ensures Discord notification runs after the release job completes
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        
+      - name: Get Release Info
+        id: get_release
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const release = await github.rest.repos.getRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: context.payload.release.id
+            });
+            return release.data;
+          result-encoding: string
+
+      - name: Send Discord Notification
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: |
+            **New Module Release!**
+            
+            **Module:** ${{ github.repository }}
+            **Version:** ${{ github.ref_name }}
+            
+            ${{ fromJson(steps.get_release.outputs.result).body }}
+            
+            **Release:** https://github.com/${{ github.repository }}/releases/tag/v${{ github.ref_name }}
+            **Manifest URL:** https://github.com/${{ github.repository }}/releases/download/v${{ github.ref_name }}/module.json
