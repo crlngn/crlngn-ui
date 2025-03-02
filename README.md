@@ -1,4 +1,12 @@
-**Latest Version:** 1.8.7
+**Latest Version:** 1.8.7 
+
+I have just created a Discord channel for users of my module to discuss it and seek help. It's pretty empty so far as I've just created it, but feel free to join:
+
+[![alt-text](https://img.shields.io/badge/-Discord-%235662f6?style=for-the-badge)](https://discord.gg/cAuTaTYda3) 
+![GitHub Downloads (specific asset, all releases)](https://img.shields.io/github/downloads/crlngn/crlngn-ui/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge)
+
+
+
 
 **Compatibility:** 
 - Foundry VTT version 12.328+
