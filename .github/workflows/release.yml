@@ -91,7 +91,7 @@ jobs:
             }')
           echo "Latest Release API Response: $API_RESPONSE"
 
-  # New job for Discord notification
+  # Job for Discord notification
   notify_discord:
     runs-on: ubuntu-latest
     needs: release  # This ensures Discord notification runs after the release job completes
@@ -109,7 +109,10 @@ jobs:
               repo: context.repo.repo,
               release_id: context.payload.release.id
             });
-            return release.data;
+            const releaseData = {
+              body: release.data.body || "No release notes provided"
+            };
+            return JSON.stringify(releaseData);
           result-encoding: string
 
       - name: Send Discord Notification
