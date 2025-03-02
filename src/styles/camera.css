@@ -94,8 +94,8 @@ body.crlngn-ui{
         right: 0;
         border-left: 7px solid transparent;
         border-top: 7px solid transparent;
-        border-right: 7px solid rgba(60, 60, 80, 1);
-        border-bottom: 7px solid rgba(60, 60, 80, 1);
+        border-right: 7px solid var(--color-warm-2);
+        border-bottom: 7px solid var(--color-warm-2);
         cursor: nwse-resize;
         z-index: 1000;
         opacity: 0;
@@ -373,6 +373,8 @@ body.crlngn-ui{
       width: 100%;
       max-width: 100%;
       height: auto;
+      max-height: 100%;
+      overflow: auto;
       padding: 0;
     }
 
