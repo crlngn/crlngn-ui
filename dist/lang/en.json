@@ -1,0 +1,164 @@
+{
+  "CRLNGN_UI": { 
+    "ui": { 
+      "notifications": {
+        "settingsUpdated": "Settings updated",
+        "monksScenesNotSupported": "Carolingian UI's Scene Navigation will conflict with Monk's Scene Navigation. This functionality of Carolingian UI has been disabled."
+      }
+    },
+    "settings": {
+      "customFontsMenu": {
+        "label": "Custom Fonts",
+        "title": "Configure Fonts",
+        "hint": "Configure the font families used throughout the interface",
+        "description": "Select or type the name of a custom font, if already loaded on Foundry core.",
+        "fields": {
+          "uiFont": {
+            "label": "UI Font"
+          },
+          "uiTitles": {
+            "label": "UI Titles"
+          },
+          "journalBody": {
+            "label": "Journal Body"
+          },
+          "journalTitles": {
+            "label": "Journal Titles"
+          }
+        },
+        "postDescription": "If the font doesn't load, double check that the name is written correctly.",
+        "reset": "Reset",
+        "save": "Save"
+      },
+      "leftControlsMenu": {
+        "label": "Left Control Bar",
+        "title": "Configure Controls",
+        "hint": "Modify the look and behavior of scene control buttons, on the left side of screen",
+        "fields": {
+          "bottomBuffer": {
+            "label": "Bottom Safe Area",
+            "hint": "If you have too many icons on the left controls bar, you can define a maximum-height for the controls bar by defining a bottom buffer, in pixels. If icons overflow that safe area, they are pushed to the next column. Use 0 for no buffer."
+          },
+          "iconSize": {
+            "label": "Size of control icons",
+            "hint": "Configure the size of buttons on the left control bar. Some other UI elements will match this size for alignment.",
+            "options": {
+              "small": "small",
+              "regular": "regular"
+            }
+          }, 
+          "autoHideSecondary": {
+            "label": "Auto hide secondary controls",
+            "hint": "Enable to keep the secondary bar on the left controls hidden until you hover on the region or click on an item."
+          },
+          "hideFoundryLogo": {
+            "label": "Hide Foundry Logo",
+            "hint": "Keep this enabled to hide the Foundry Logo on the top left"
+          }
+        },
+        "reset": "Reset",
+        "save": "Save"
+      },
+      "cameraDockMenu": {
+        "label": "Camera",
+        "title": "Configure Dock",
+        "hint": "Enable a floating camera dock that you can position anywhere",
+        "fields": {
+          "enableFloatingDock": {
+            "label": "Enable floating camera dock",
+            "hint": "<b>[Requires reload]</b> Allows video player group to be dragged and placed anywhere on screen"
+          }, 
+          "dockPosX": {
+            "label": "Horizontal position",
+            "hint": "Position of camera dock when set to float. From bottom left of screen, in pixels"
+          }, 
+          "dockPosY": {
+            "label": "Vertical position",
+            "hint": "Position of camera dock when set to float. From bottom left of screen, in pixels"
+          }, 
+          "dockWidth": {
+            "label": "Width of camera group",
+            "hint": "Dimensions of the non-minimized camera dock when set to float, in pixels"
+          }, 
+          "dockHeight": {
+            "label": "Height of camera group",
+            "hint": "Dimensions of the non-minimized camera dock when set to float, in pixels"
+          }
+        },
+        "reset": "Reset",
+        "save": "Save"
+      },
+      "sceneNavMenu": {
+        "label": "Scene Navigation",
+        "title": "Configure Navigation",
+        "hint": "Change options for the scene navigation menu, on the top bar",
+        "fields": {
+          "sceneNavEnabled": {
+            "label": "Enable Horizontal Scene Navigation",
+            "hint": "[Requires reload] If you are having layout issues with a non-compatible module, you can try to disable my custom styles for Scene Navigation."
+          }, 
+          "showNavOnHover": {
+            "label": "Toggle scene nav on hover",
+            "hint": "If the scene navigation is collapsed, you can show it by hovering the mouse over the top of the screen."
+          }
+        },
+        "reset": "Reset",
+        "save": "Save"
+      },
+      "enableChatStyles": {
+        "label": "Enable styles for chat messages",
+        "hint": "Adds style modifications to chat cards. When dark mode is selected on Foundry, chat cards will be dark as well. MOSTLY FOR DND5E - only partial support for other systems."
+      },
+      "controlIconSize": {
+        "label": "Size of control icons",
+        "hint": "If you use a very large screen, you may want to change the size of the icons on left controls. This may affect some other UI elements",
+        "choices": {
+          "small": "Small",
+          "normal": "Normal"
+        }
+      },
+      "sceneNavCollapsed": {
+        "label": "Scene Navigation Collapsed",
+        "hint": "Current state of the scene navigation toggle. Is it collapsed?"
+      },
+      "sceneNavPos": {
+        "label": "Scene Navigation Position",
+        "hint": "Stores current position of navigation for reset when it's re-rendered"
+      },
+      "enableMacroLayout": {
+        "label": "Enable macro resize",
+        "hint": "The module reduces the size of macro slots on the hotbar, and enlarges the numbers. Disable this setting to use default Foundry layout."
+      },
+      "autoHideLeftControls": {
+        "label": "Auto hide secondary controls",
+        "hint": "Enable to keep the secondary bar on the left controls hidden unless you hover on the region or click on an item."
+      },
+      "autoHidePlayersList": {
+        "label": "Auto hide player list",
+        "hint": "Enable to keep the bottom left players list minimized, except when hovered."
+      },
+      "collapseMacroBar": {
+        "label": "Collapse Macro Bar",
+        "hint": "Enable to have the macro hotbar start minimized by default on world load."
+      },
+      "debugMode": {
+        "label": "Debug Mode",
+        "hint": "Enable or disable debug messages on browser console."
+      }
+    },
+    "dnd5e": {
+      "chatCard": {
+        "buttons": {
+          "summons": "Summons",
+          "attack": "Attack",
+          "healing": "Healing",
+          "damage": "Damage",
+          "template": "Template",
+          "consume": "Consume",
+          "refund": "Refund",
+          "macro": "Macro"
+        }
+      }
+    }
+  }
+}

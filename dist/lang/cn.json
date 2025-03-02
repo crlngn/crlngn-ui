@@ -1,0 +1,164 @@
+{
+  "CRLNGN_UI": { 
+    "ui": { 
+      "notifications": {
+        "settingsUpdated": "设置已更新",
+        "monksScenesNotSupported": "卡罗林风格UI的水平场景导航将无法与Monk的场景导航一起使用，因此此功能已被禁用。"
+      }
+    },
+    "settings": {
+      "customFontsMenu": {
+        "label": "自定义字体",
+        "title": "配置字体",
+        "hint": "配置界面中使用的字体",
+        "description": "选择或输入已在 Foundry 核心中加载的自定义字体名称。",
+        "fields": {
+          "uiFont": {
+            "label": "界面字体"
+          },
+          "uiTitles": {
+            "label": "界面标题"
+          },
+          "journalBody": {
+            "label": "日志正文"
+          },
+          "journalTitles": {
+            "label": "日志标题"
+          }
+        },
+        "postDescription": "如果字体未加载，请仔细检查名称是否正确。",
+        "reset": "重置",
+        "save": "保存"
+      },
+      "leftControlsMenu": {
+        "label": "左侧控制栏",
+        "title": "配置控件",
+        "hint": "修改场景控制按钮的外观和行为，位于屏幕左侧",
+        "fields": {
+          "bottomBuffer": {
+            "label": "底部安全区域",
+            "hint": "如果左侧控制栏上的图标过多，可以通过定义底部缓冲区（以像素为单位）来设置控制栏的最大高度。如果图标超出该安全区域，它们将被推到下一列。使用 0 表示无缓冲区。"
+          },
+          "iconSize": {
+            "label": "控制图标大小",
+            "hint": "配置左侧控制栏上按钮的大小。其他一些 UI 元素将匹配此大小以保持对齐。",
+            "options": {
+              "small": "小",
+              "regular": "常规"
+            }
+          }, 
+          "autoHideSecondary": {
+            "label": "自动隐藏次要控件",
+            "hint": "启用后，左侧的次要控制栏将保持隐藏，直到您将鼠标悬停在该区域或单击某个项目。"
+          },
+          "hideFoundryLogo": {
+            "label": "隐藏 Foundry 徽标",
+            "hint": "启用此选项以隐藏左上角的 Foundry 徽标"
+          }
+        },
+        "reset": "重置",
+        "save": "保存"
+      },
+      "cameraDockMenu": {
+        "label": "摄像头",
+        "title": "配置停靠栏",
+        "hint": "启用可放置在任意位置的浮动摄像头停靠栏",
+        "fields": {
+          "enableFloatingDock": {
+            "label": "启用浮动摄像头停靠栏",
+            "hint": "<b>[需要重新加载]</b> 允许视频播放器组被拖动并放置在屏幕上的任何位置"
+          }, 
+          "dockPosX": {
+            "label": "水平位置",
+            "hint": "设置为浮动时摄像头停靠栏的位置。从屏幕左下角开始，单位为像素"
+          }, 
+          "dockPosY": {
+            "label": "垂直位置",
+            "hint": "设置为浮动时摄像头停靠栏的位置。从屏幕左下角开始，单位为像素"
+          }, 
+          "dockWidth": {
+            "label": "摄像头组宽度",
+            "hint": "设置为浮动时非最小化摄像头停靠栏的尺寸，单位为像素"
+          }, 
+          "dockHeight": {
+            "label": "摄像头组高度",
+            "hint": "设置为浮动时非最小化摄像头停靠栏的尺寸，单位为像素"
+          }
+        },
+        "reset": "重置",
+        "save": "保存"
+      },
+      "sceneNavMenu": {
+        "label": "场景导航",
+        "title": "配置导航",
+        "hint": "更改顶部栏中场景导航菜单的选项",
+        "fields": {
+          "sceneNavEnabled": {
+            "label": "启用水平场景导航",
+            "hint": "[需要重新加载] 如果您与非兼容模块存在布局问题，可以尝试禁用我对场景导航的自定义样式。"
+          }, 
+          "showNavOnHover": {
+            "label": "悬停时显示导航",
+            "hint": "如果场景导航已折叠，您可以通过将鼠标悬停在屏幕顶部来显示它。"
+          }
+        },
+        "reset": "重置",
+        "save": "保存"
+      },
+      "enableChatStyles": {
+        "label": "启用聊天消息样式",
+        "hint": "为聊天卡片添加样式修改。当 Foundry 选择暗模式时，聊天卡片也将变为暗色。主要适用于 DND5E - 对其他系统的支持有限。"
+      },
+      "controlIconSize": {
+        "label": "控制图标大小",
+        "hint": "如果您使用非常大的屏幕，您可能希望更改左侧控制栏上图标的大小。这可能会影响其他一些 UI 元素。",
+        "choices": {
+          "small": "小",
+          "normal": "正常"
+        }
+      },
+      "sceneNavCollapsed": {
+        "label": "场景导航已折叠",
+        "hint": "场景导航切换的当前状态。是否已折叠？"
+      },
+      "sceneNavPos": {
+        "label": "场景导航位置",
+        "hint": "存储导航的当前位置，以便在重新渲染时重置"
+      },
+      "enableMacroLayout": {
+        "label": "启用宏调整大小",
+        "hint": "该模块减小了快捷栏上宏槽的大小，并放大了数字。禁用此设置以使用默认的 Foundry 布局。"
+      },
+      "autoHideLeftControls": {
+        "label": "自动隐藏左侧次要控件",
+        "hint": "启用后，左侧的次要控制栏将保持隐藏，除非您将鼠标悬停在该区域或单击某个项目。"
+      },
+      "autoHidePlayersList": {
+        "label": "自动隐藏玩家列表",
+        "hint": "启用后，左下角的玩家列表将保持最小化，除非悬停。"
+      },
+      "collapseMacroBar": {
+        "label": "折叠宏快捷栏",
+        "hint": "启用后，宏快捷栏将在世界加载时默认最小化。"
+      },
+      "debugMode": {
+        "label": "调试模式",
+        "hint": "启用或禁用浏览器控制台上的调试消息。"
+      }
+    },
+    "dnd5e": {
+      "chatCard": {
+        "buttons": {
+          "summons": "召唤",
+          "attack": "攻击",
+          "healing": "治疗",
+          "damage": "伤害",
+          "template": "模板",
+          "consume": "消耗",
+          "refund": "退还",
+          "macro": "宏"
+        }
+      }
+    }
+  }
+}

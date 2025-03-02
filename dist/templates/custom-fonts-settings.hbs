@@ -1,0 +1,85 @@
+<div>
+  <div class="form-group">
+    <p class="hint">{{localize "CRLNGN_UI.settings.customFontsMenu.description"}}</p>
+  </div>
+  <p>&nbsp;</p>
+
+  <div class="form-group">
+    <label for="uiFont">{{fields.uiFont.label}}</label>
+    <div class="dropdown-wrapper">
+      <input type="text" name="uiFont" value="{{uiFont}}" 
+        autocomplete="off" 
+        onfocus="this.select()" />
+      <div class="dropdown-options">
+        {{#each fontList}}
+          <div class="dropdown-option" 
+            style="font-family:{{this}}" 
+            data-value="{{this}}">
+            {{this}}
+          </div>
+        {{/each}}
+      </div>
+    </div>
+    <p class="hint">&nbsp;</p>
+  </div>
+
+  <div class="form-group">
+    <label for="uiTitles">{{fields.uiTitles.label}}</label>
+    <div class="dropdown-wrapper">
+      <input type="text" name="uiTitles" value="{{uiTitles}}" 
+        autocomplete="off" 
+        onfocus="this.select()" />
+      <div class="dropdown-options">
+        {{#each fontList}}
+          <div class="dropdown-option" 
+            style="font-family:{{this}}" 
+            data-value="{{this}}">
+            {{this}}
+          </div>
+        {{/each}}
+      </div>
+    </div>
+    <p class="hint">&nbsp;</p>
+  </div>
+
+  <div class="form-group">
+    <label for="journalBody">{{fields.journalBody.label}}</label>
+    <div class="dropdown-wrapper">
+      <input type="text" name="journalBody" value="{{journalBody}}" 
+        autocomplete="off" 
+        onfocus="this.select()" />
+      <div class="dropdown-options">
+        {{#each fontList}}
+          <div class="dropdown-option" 
+            style="font-family:{{this}}" 
+            data-value="{{this}}">
+            {{this}}
+          </div>
+        {{/each}}
+      </div>
+    </div>
+    <p class="hint">&nbsp;</p>
+  </div>
+
+  <div class="form-group">
+    <label for="journalTitles">{{fields.journalTitles.label}}</label>
+    <div class="dropdown-wrapper">
+      <input type="text" name="journalTitles" value="{{journalTitles}}" 
+        autocomplete="off" 
+        onfocus="this.select()" />
+      <div class="dropdown-options">
+        {{#each fontList}}
+          <div class="dropdown-option" 
+            style="font-family:{{this}}" 
+            data-value="{{this}}">
+            {{this}}
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  <p>&nbsp;</p>
+  <p class="hint">{{ localize "CRLNGN_UI.settings.customFontsMenu.postDescription" }}</p>
+  <p>&nbsp;</p>
+</div>

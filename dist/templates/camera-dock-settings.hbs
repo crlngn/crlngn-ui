@@ -1,0 +1,28 @@
+<div>
+
+  <div class="form-group">
+    <label for="enableFloatingDock">{{fields.enableFloatingDock.label}}</label>
+    <input type="checkbox" name="enableFloatingDock" {{#if enableFloatingDock}}checked{{/if}} />
+    <p class="hint">{{{fields.enableFloatingDock.hint}}}</p> 
+  </div>
+  
+
+  <div class="form-group">
+    <label for="dockPosX">{{fields.dockPosX.label}}</label>
+    <input type="number" name="dockPosX" value="{{dockPosX}}" />
+    
+    <label for="dockPosY">{{fields.dockPosY.label}}</label>
+    <input type="number" name="dockPosY" value="{{dockPosY}}" />
+    <p class="hint">{{fields.dockPosY.hint}}</p> 
+  </div>
+
+  <div class="form-group">
+    <label for="dockWidth">{{fields.dockWidth.label}}</label>
+    <input type="number" name="dockWidth" value="{{dockWidth}}" />
+    
+    <label for="dockHeight">{{fields.dockHeight.label}}</label>
+    <input type="number" name="dockHeight" value="{{dockHeight}}" />
+    <p class="hint">{{fields.dockHeight.hint}}</p> 
+  </div>
+
+</div>
