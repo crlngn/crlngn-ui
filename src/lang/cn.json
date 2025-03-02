@@ -2,7 +2,8 @@
   "CRLNGN_UI": { 
     "ui": { 
       "notifications": {
-        "settingsUpdated": "设置已更新"
+        "settingsUpdated": "设置已更新",
+        "monksScenesNotSupported": "卡罗林风格UI的水平场景导航将无法与Monk的场景导航一起使用，因此此功能已被禁用。"
       }
     },
     "settings": {

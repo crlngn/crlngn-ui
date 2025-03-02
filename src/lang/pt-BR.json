@@ -2,7 +2,8 @@
   "CRLNGN_UI": { 
     "ui": { 
       "notifications": {
-        "settingsUpdated": "Configurações atualizadas"
+        "settingsUpdated": "Configurações atualizadas",
+        "monksScenesNotSupported": "A Navegação Horizontal do módulo Carolingian UI foi desabilitada, pois terá conflitos com Monk's Scene Navigation."
       }
     },
     "settings": {

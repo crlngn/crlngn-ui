@@ -357,6 +357,11 @@ body.crlngn-ui {
   aside.application:has(.window-header) {
     transform: translateX(calc(var(--ui-controls-margin-left) * -1));
   }
+
+  .notification.warning {
+    background: var(--color-level-warning-bg);
+    border: 1px solid var(--color-level-warning);
+  }
   
 }
 

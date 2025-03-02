@@ -18,16 +18,31 @@ export class TopNavigation {
     // if user disabled Scene Navigation Styles,
     // skip everything
     const uiMiddle = document.querySelector("#ui-middle");
-    const navSettings = SettingsUtil.get(Main.SETTINGS.sceneNavMenu.tag)
+    let navSettings = SettingsUtil.get(Main.SETTINGS.sceneNavMenu.tag);
+    TopNavigation.resetLocalVars();
+
+    // If Monk's Scene Navigation is enabled, disable Carolingian UI Top Navigation
+    const isMonksScenenNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
+    if(isMonksScenenNavOn && navSettings.sceneNavEnabled){
+      if(game.user.isGM){
+        ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.monksScenesNotSupported"), {permanent: true});
+      }
+      uiMiddle.classList.remove("crlngn-ui");
+      SettingsUtil.set(Main.SETTINGS.sceneNavMenu.tag, {
+        ...navSettings,
+        sceneNavEnabled: false
+      });
+    }
+
+    navSettings = SettingsUtil.get(Main.SETTINGS.sceneNavMenu.tag);
     if(navSettings.sceneNavEnabled && uiMiddle){
       uiMiddle.classList.add("crlngn-ui");
     }else if(uiMiddle){
       uiMiddle.classList.remove("crlngn-ui");
       return;
     }
-    TopNavigation.resetLocalVars();
-    const isMonksScenenNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
     LogUtil.log("TopNavigation - init", [ isMonksScenenNavOn ]);
+
     if(!isMonksScenenNavOn){
       TopNavigation.resetLocalVars();
       TopNavigation.addListeners(); 
@@ -37,11 +52,12 @@ export class TopNavigation {
       TopNavigation.setNavPosition(0);
       TopNavigation.placeNavButtons(); 
 
+      /*
       if(SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag)){ 
         ui.nav.collapse();
       }else{
         ui.nav.expand();
-      }
+      }*/
     }
 
     Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, () => { 
@@ -57,11 +73,13 @@ export class TopNavigation {
         TopNavigation.addListeners();
       }
         
+      /*
       if(SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag)){ 
         ui.nav.collapse();
       }else{
         ui.nav.expand();
       }
+        */
     }); 
 
     Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, (value) => { 
@@ -109,7 +127,6 @@ export class TopNavigation {
   }
 
   static addListeners(){
-
     TopNavigation.#navElem?.addEventListener("mouseenter", ()=>{
       const sceneNavSettings = SettingsUtil.get(Main.SETTINGS.sceneNavMenu.tag);
       if( !SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag) ||
@@ -143,7 +160,6 @@ export class TopNavigation {
         navigation.classList.add("collapsed");
       }, 700);
     });
-
   }
 
   static placeNavButtons(){ 
@@ -244,8 +260,8 @@ export class TopNavigation {
       const isNavCollapsed = SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag); 
       const navHeight = isNavCollapsed ? 0 : TopNavigation.#navElem.offsetHeight;
 
-      let topOffset = monksScenenNav ? 0 : navHeight + TopNavigation.#navElem.offsetTop;
-      // let topOffset = navHeight + TopNavigation.#navElem.offsetTop;
+      // let topOffset = monksScenenNav ? 0 : navHeight + TopNavigation.#navElem.offsetTop;
+      let topOffset = monksScenenNav ? 0 : TopNavigation.#navElem.offsetTop;
 
       const root = document.querySelector("body.crlngn-ui");
       root?.style.setProperty('--crlngn-top-offset', topOffset + 'px');

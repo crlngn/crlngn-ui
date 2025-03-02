@@ -70,7 +70,7 @@ export class LeftControls {
 
     let leftOffset = Number(LeftControls.#uiLeft.offsetWidth); 
     let controlsWidth = Number(LeftControls.#leftControls.offsetWidth); 
-    let controlsMarginLeft = -leftOffset + controlsWidth + 16;
+    let controlsMarginLeft = -leftOffset + controlsWidth + 24;
     LogUtil.log("updateCSSVars", [controlsWidth, leftOffset]);
 
     if(!isNaN(controlsWidth) && !isNaN(leftOffset)){

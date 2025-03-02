@@ -2,7 +2,8 @@
   "CRLNGN_UI": { 
     "ui": { 
       "notifications": {
-        "settingsUpdated": "Settings updated"
+        "settingsUpdated": "Settings updated",
+        "monksScenesNotSupported": "Carolingian UI's Scene Navigation will conflict with Monk's Scene Navigation. This functionality of Carolingian UI has been disabled."
       }
     },
     "settings": {

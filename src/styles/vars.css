@@ -112,8 +112,8 @@ body.crlngn-chat {
   --color-level-success: #26b231;
   --color-level-success-bg: rgba(26, 107, 34, 0.8);
   --color-level-success-border: #1b8f23;
-  --color-level-warning: #ee9b3a;
-  --color-level-warning-bg: rgba(214, 150, 0, 0.8);
+  --color-level-warning: rgb(190, 140, 46);
+  --color-level-warning-bg: rgba(79, 58, 10, 0.8);
   --color-level-warning-border: #b18404;
   --color-scrollbar: var(--color-secondary-75);
   --color-scrollbar-track: transparent;

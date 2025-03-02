@@ -89,29 +89,36 @@ body.crlngn-ui{
   }
 
   /* MONK'S SCENE NAVIGATION 
-  #interface #ui-middle #ui-top.offset:has() {
-    margin-left: -90px;
-    width: 100%;
-  }*/
 
 
   /* CAROUSEL COMBAT TRACKER */
+  /* if crlngn scene nav is enabled, adjust width */
+  #combat-dock {
+    width: calc(100% - 40px);
+  }
+  &:has(#ui-middle.crlngn-ui){
+    
+    &:has(#navigation.collapsed) {
+      /* if scene nav is collapsed */
+      #combat-dock {
+        margin-top: 0;
+      }
+    }
+
+    &:not(:has(.monks-scene-navigation)){
+      #combat-dock {
+        margin-top: calc(var(--crlngn-top-offset, 0px) + var(--left-control-item-size, 0px));
+        transition: margin-top 0.2s linear;
+      }
+  
+    }
+  }
 
   #combat-dock {
-    margin-top: var(--crlngn-top-offset, 0px);
-    z-index:1;
-    margin-left: 0;
-    padding-left: 0;
-
-    #combatants{
-      display: flex;
-      pointer-events: all;
-      padding: 0;
-      width:auto;
-      margin: 0;
-      justify-content: center;
-    }
     
+    #combatants{
+      pointer-events: all;
+    }
 
     &:has(#combatants:hover),
     &:has(.buttons-container:hover){
@@ -131,9 +138,6 @@ body.crlngn-ui{
 
     .combatant-wrapper {
       z-index: 0;
-    }
-    .combat-dock-tooltip h2{
-      font-family: var(--crlngn-font-titles);
     }
     
   }
@@ -181,7 +185,7 @@ body.crlngn-ui{
   }
   #tooltip.combat-dock-tooltip .effect-description {
     background: transparent;
-    font-size: var(--font-sze-11);
+    font-size: var(--font-size-11);
     padding: 0;
     line-height: 1.35;
 
@@ -200,6 +204,9 @@ body.crlngn-ui{
   /* DFREDS EFFECTS PANEL  */
   #effects-panel {
     transform: translateY(45px);
+  }
+  .effect-info h1 {
+    font-size: var(--font-size-h1);
   }
 
   /* VISUAL ACTIVE EFFECTS */
@@ -257,14 +264,20 @@ body.crlngn-ui{
   }
   
   /* PARTY RESOURCES */
-  #fvtt-party-resources-status-bar{
+  &:has(#ui-middle.crlngn-ui){
+    &:has(#navigation.collapsed) {
+      /* if scene nav is collapsed, push down the bar */
+      #fvtt-party-resources-status-bar {
+        margin-top: 0;
+      }
+    }
+  }
+
+  #fvtt-party-resources-status-bar {
+    margin-top: calc(var(--crlngn-top-offset, 0px) + var(--left-control-item-size));
     position: relative;
     width: 100%;
     z-index:0;
-
-    #combatants{
-      pointer-events: all;
-    }
 
     &:hover {
       z-index:100;
@@ -273,6 +286,10 @@ body.crlngn-ui{
       font-size: var(--font-size-13);
     }
   }
+  footer #fvtt-party-resources-status-bar {
+    margin-top: 0;
+  }
+
 
   /* CRUX */
   #crux .crux__container {
@@ -411,7 +428,7 @@ body.crlngn-ui{
       gap: calc(var(--visual-active-effects-icon-size) / 3);
     }
 
-    *:not(i, .effect-icon) {
+    *:not(i, .effect-icon, h1, h2) {
       border: 0;
       font-family: var(--crlngn-font-family);
       font-size: var(--font-size-13);
