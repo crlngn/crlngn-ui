@@ -287,8 +287,8 @@ body.crlngn-chat {
   .chat-message .rsr-title dnd5e-icon {
     display: none;
   }
-  .chat-card .card-buttons > button[data-action=rollAttack],
-  .chat-message.attack .rsr-title {
+  .chat-message.attack .card-buttons > button[data-action=rollAttack],
+  .chat-message.attack .rsr-section-attack .rsr-title {
     *:first-child {
       display: none;
     }

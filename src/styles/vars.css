@@ -68,9 +68,11 @@ body.crlngn-chat {
   --color-light-bg-90: rgba(233, 233, 226, 0.9);
   --color-light-bg: rgba(233, 233, 226, 1);
 
-  --color-warm-1: #7ab6c4;
-  --color-warm-2: #5e9eb2;
-  --color-warm-3: #44778d;
+  
+  --color-warm-3: #7ab6c4;
+  --color-warm-2: #6fa9bb;
+  --color-warm-1: #4b90ad;
+  
   
   &.theme-dark{
     --color-warm-1: rgb(122, 182, 196); 

@@ -61,6 +61,9 @@ body.crlngn-ui {
         margin: 0;
       }
     }
+    .playlist-sounds li h4 {
+      font-weight: 500;
+    }
 
     .dnd5e2.sidebar-heading{
       display: flex;
