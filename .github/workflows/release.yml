@@ -128,5 +128,5 @@ jobs:
             
             ${{ fromJson(steps.get_release.outputs.result).body }}
             
-            **Release:** https://github.com/${{ github.repository }}/releases/tag/v${{ github.ref_name }}
-            **Manifest URL:** https://github.com/${{ github.repository }}/releases/download/v${{ github.ref_name }}/module.json
+            **Release:** https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}
+            **Manifest URL:** https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/module.json
