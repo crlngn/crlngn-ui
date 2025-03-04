@@ -69,7 +69,6 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
       settings.bottomBuffer = SETTINGS.chatMessagesMenu.default.bottomBuffer;
     }
     const currSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
-    const currBorderColor = currSettings.borderColor;
     if(settings.enforceDarkMode === undefined){
       delete settings.enforceDarkMode;
     }
@@ -86,11 +85,6 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
     await SettingsUtil.set(SETTINGS.chatMessagesMenu.tag, settings);
     await SettingsUtil.set(SETTINGS.enforceDarkMode.tag, settings.enforceDarkMode);
     const controlSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
-
-    if(controlSettings.borderColor !== currBorderColor){
-    //   location.reload();
-    }
-
 
     LogUtil.log("Saving settings:", [currSettings, settings, controlSettings]); // Debugging
 

@@ -340,15 +340,13 @@ export class SettingsUtil {
   static resetFoundryThemeSettings(){
     const SETTINGS = getSettings();
 
-    const foundryColorScheme = game.settings.storage.get("world").getSetting("colorScheme");
-    // const foundrycolorScheme = SettingsUtil.get("colorScheme", "core");
+    const foundryColorScheme = game.settings.get('core','colorScheme');//SettingsUtil.get("colorScheme", "");
     const forceDarkModeOn = SettingsUtil.get(SETTINGS.enforceDarkMode.tag);
 
     LogUtil.log("resetFoundryThemeSettings", [foundryColorScheme, forceDarkModeOn])
 
     if(!foundryColorScheme && forceDarkModeOn){
-      SettingsUtil.set("colorScheme", 'dark', "core");
-      // game.settings.set('core', 'colorScheme', true);
+      game.settings.set('core','colorScheme','dark');
     }
   }
 }

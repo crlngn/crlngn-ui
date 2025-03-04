@@ -1,4 +1,4 @@
-**Latest Version:** 1.9.0
+**Latest Version:** 1.9.1
 
 I have just created a Discord channel for users of my module to discuss it and seek help. It's pretty empty so far as I've just created it, but feel free to join:
 
@@ -22,13 +22,14 @@ A sleek and minimalist UI overhaul, focusing on saving space on screen and impro
 - **Wrapping control icons** set a safe area at the bottom and the left controls will wrap to avoid it - great if you have lots of modules that add icons to left bar; 
 - **Secondary controls bar** has different styles to make it clearer;
 - **Top Navigation** can be horizontally scrolled; player and GM markers are simple lines with the color of each player;
-- **Compact Player List**, can be auto-hidden and opened on hover;
+- **Compact Player List** - can be auto-hidden and opened on hover;
 - **Macro hotbar** with optional resizing and styles;
-- **Floating camera dock** - drag, resize and position anywhere on screen;
+- **Floating camera dock** - drag, resize and position it anywhere on screen;
 - **Right panel** buttons, sliders and headers have modified dark styles for a more uniform feel;
 - **Settings** allow you to configure macro bar, left controls, camera dock and scene navigation;
 - **Dark style for chat messages** if the selected Foundry theme is Dark (tested on DnD5e 4.x, partial support for other systems); 
 - **Compact chat messages** (DnD5e) compact usage buttons to save some space on chat log;
+- **Chat Border Colors** - Select if you want the borders to show player color, roll type, or none;
 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/screenshot-2.webp?raw=true" width="100%" height="auto" />
 

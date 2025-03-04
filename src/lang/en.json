@@ -50,7 +50,7 @@
           }, 
           "enforceDarkMode": {
             "label": "Enforce Dark Mode",
-            "hint": "Sets Foundry UI theme on player's client to Dark. If you use any module such as 'Force Client Settings', you might want to turn this off."
+            "hint": "Sets Foundry UI theme on player's client to Dark if player has it set to 'Browser Default'. If they specifically set it to 'Light', their choice will still be respected."
           }
         },
         "reset": "Reset",

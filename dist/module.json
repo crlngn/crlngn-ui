@@ -1,7 +1,7 @@
 {
   "id": "crlngn-ui",
   "title": "Carolingian UI",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "description": "Style changes and tweaks to improve look and feel of Foundry UI",
   "url": "https://github.com/crlngn/crlngn-ui",
   "manifest": "https://github.com/crlngn/crlngn-ui/releases/latest/download/module.json",
