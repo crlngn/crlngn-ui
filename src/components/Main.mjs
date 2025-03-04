@@ -14,18 +14,16 @@ export class Main {
 
   static init(){
     Hooks.once(HOOKS_CORE.INIT, () => { 
-      Main.SETTINGS = getSettings();
       document.querySelector("#ui-middle")?.classList.add(MODULE_ID);
       LogUtil.log("Initiating module", [], true); 
 
       // Main.setupKeyListeners(); 
       SettingsUtil.registerSettings();
       Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
-
-      Main.addCSSLocalization();
     });
 
     Hooks.once(HOOKS_CORE.READY, () => {
+      const SETTINGS = getSettings();
       var isDebugOn = SettingsUtil.get('debug-mode');
       if(isDebugOn){CONFIG.debug.hooks = true};
 
@@ -41,6 +39,12 @@ export class Main {
       CameraUtil.init(); 
       PlayersListUtil.init(); 
       LeftControls.init();
+
+      const chatMsgSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
+      if(chatMsgSettings.enableChatStyles){ 
+        Main.addCSSLocalization();
+      }
+      SettingsUtil.resetFoundryThemeSettings();
     })
   }
 

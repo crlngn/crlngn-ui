@@ -11,11 +11,15 @@
 body.crlngn-ui{
   --crlngn-top-offset: 0px;
 
-  &:has(#logo.visible):has(#ui-middle.crlngn-ui){
-    --ui-top-padding: calc(72px + var(--left-control-item-size));
+  &:has(#logo.visible){
+    --ui-top-padding: 72px;
 
-    #logo.visible{
-      margin-top: var(--left-control-item-size);
+    :has(#ui-middle.crlngn-ui){
+      --ui-top-padding: calc(72px + var(--left-control-item-size));
+  
+      #logo.visible{
+        margin-top: var(--left-control-item-size);
+      }
     }
   }
 

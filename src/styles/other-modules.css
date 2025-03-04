@@ -561,6 +561,21 @@ body.crlngn-ui{
     }
 
   }
+
+  /* DICE TRAY */
+  .dice-tray {
+    button, input{
+      box-shadow: 0 0 6px inset var(--color-dark-bg-90);
+    }
+
+    button:hover, input:hover,
+    button:focus, input:focus {
+      color: var(--color-light-1);
+      border-color: var(--color-warm-3);
+      box-shadow: 0 0 6px inset var(--color-warm-3);
+      background: transparent;
+    }
+  }
 }
 
 
@@ -576,3 +591,4 @@ html:has(body.theme-dark){
   --item-piles-text-light-highlight: rgba(11, 10, 19, .5);
   --item-piles-text-important: rgb(161, 105, 68) !important;
 }
+

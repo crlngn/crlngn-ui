@@ -30,6 +30,32 @@
         "reset": "重置",
         "save": "保存"
       },
+      "chatMessagesMenu": {
+        "label": "聊天消息选项",
+        "title": "配置聊天",
+        "hint": "修改右侧面板上聊天消息卡片的外观和行为",
+        "fields": {
+          "enableChatStyles": {
+            "label": "启用聊天消息样式",
+            "hint": "为聊天卡片添加样式修改。当 Foundry 选择暗模式时，聊天卡片也将变为暗色。主要适用于 DND5E - 对其他系统的支持有限。"
+          },
+          "borderColor": {
+            "label": "聊天卡片边框颜色",
+            "hint": "这可能会被其他模块覆盖。<b>玩家颜色</b>：使用玩家在Foundry上的颜色；<b>骰子类型</b>：为攻击、豁免、技能检定等使用颜色编码。<b>无</b>：完全没有边框。",
+            "options": {
+              "playerColor": "玩家颜色",
+              "rollType": "骰子类型",
+              "none": "无"
+            }
+          }, 
+          "enforceDarkMode": {
+            "label": "强制暗色模式",
+            "hint": "在玩家客户端上将Foundry UI主题设置为暗色。如果你使用任何模块如'强制客户端设置'，你可能需要关闭此选项。"
+          }
+        },
+        "reset": "重置",
+        "save": "保存"
+      },
       "leftControlsMenu": {
         "label": "左侧控制栏",
         "title": "配置控件",
@@ -105,10 +131,6 @@
         "reset": "重置",
         "save": "保存"
       },
-      "enableChatStyles": {
-        "label": "启用聊天消息样式",
-        "hint": "为聊天卡片添加样式修改。当 Foundry 选择暗模式时，聊天卡片也将变为暗色。主要适用于 DND5E - 对其他系统的支持有限。"
-      },
       "controlIconSize": {
         "label": "控制图标大小",
         "hint": "如果您使用非常大的屏幕，您可能希望更改左侧控制栏上图标的大小。这可能会影响其他一些 UI 元素。",
@@ -156,7 +178,8 @@
           "template": "模板",
           "consume": "消耗",
           "refund": "退还",
-          "macro": "宏"
+          "macro": "宏",
+          "savedc": "Save DC"
         }
       }
     }

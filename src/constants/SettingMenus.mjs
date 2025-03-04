@@ -1,5 +1,6 @@
 // import * as lang from '../lang/en.json';
 import { CameraDockSettings } from '../components/settings-dialogs/CameraDockSettings.mjs';
+import { ChatMessagesSettings } from '../components/settings-dialogs/ChatMessagesSettings.mjs';
 import { CustomFontsSettings } from '../components/settings-dialogs/CustomFontSettings.mjs';
 import { LeftControlsSettings } from '../components/settings-dialogs/LeftControlsSettings.mjs';
 import { SceneNavSettings } from '../components/settings-dialogs/SceneNavSettings.mjs';
@@ -15,6 +16,15 @@ export function getSettingMenus() {
       icon: "fas fa-text",  
       propType: CustomFontsSettings,
       restricted: true 
+    },
+    chatMessagesMenu: {
+      tag: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.label"),
+      name: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.title"),
+      label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.title"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.hint"),
+      icon: "fas fa-cog",
+      propType: ChatMessagesSettings,
+      restricted: false 
     },
     leftControls: {
       tag: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.label"),

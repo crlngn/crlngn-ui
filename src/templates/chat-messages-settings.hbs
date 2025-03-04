@@ -1,0 +1,31 @@
+<div>
+  {{!-- <h2>{{localize "CRLNGN_UI.settings.customFontsDialog.label"}}</h2> --}}
+  <p class="hint">{{localize "CRLNGN_UI.settings.leftControlsMenu.hint"}}</p>
+
+  <div class="form-group">
+    <label for="enableChatStyles">{{fields.enableChatStyles.label}}</label>
+    <input type="checkbox" name="enableChatStyles" {{#if enableChatStyles}}checked{{/if}} />
+    <p class="hint">{{fields.enableChatStyles.hint}}</p> 
+  </div>
+  
+  <div class="form-group">
+    <label for="borderColor">{{fields.borderColor.label}}</label>
+    <select name="borderColor">
+      {{#each fields.borderColor.options}}
+      <option value="{{@key}}" {{#if (eq @key ../borderColor)}}selected{{/if}}>
+        {{this}}
+      </option>
+      {{/each}}
+    </select>
+    <p class="hint">{{{fields.borderColor.hint}}}</p> 
+  </div>
+
+  {{#if isGM}}
+  <div class="form-group">
+    <label for="enforceDarkMode">{{fields.enforceDarkMode.label}}</label>
+    <input type="checkbox" name="enforceDarkMode" {{#if enforceDarkMode}}checked{{/if}} />
+    <p class="hint">{{fields.enforceDarkMode.hint}}</p> 
+  </div>
+  {{/if}}
+
+</div>

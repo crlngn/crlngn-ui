@@ -221,7 +221,6 @@ body .journal-entry-content a.content-link > i {
 	padding: 6px !important;
 }
 
-
 #loading {
   padding: 5px 10px 10px 10px;
   margin: 12px auto;
@@ -280,6 +279,10 @@ ol#notifications {
   opacity: 0;
 }
 body.crlngn-ui {
+  .window-app{
+    max-height: calc(100vh - 60px);
+  }
+
   #interface{
     opacity: 1;
   }
@@ -299,6 +302,7 @@ body.crlngn-ui {
 
       .hint{
         margin: 0.25em 0;
+        font-size: var(--font-size-12);
       }
     }
   }

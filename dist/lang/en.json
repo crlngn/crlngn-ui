@@ -30,6 +30,32 @@
         "reset": "Reset",
         "save": "Save"
       },
+      "chatMessagesMenu": {
+        "label": "Chat Message Options",
+        "title": "Configure Chat",
+        "hint": "Modify the look and behavior of the chat message cards on right side panel",
+        "fields": {
+          "enableChatStyles": {
+            "label": "Enable styles for chat messages",
+            "hint": "Adds style modifications to chat cards. When dark mode is selected on Foundry, chat cards will be dark as well. MOSTLY FOR DND5E - only partial support for other systems."
+          },
+          "borderColor": {
+            "label": "Color of chat card border",
+            "hint": "This may be overriden by other modules. <b>Player color</b>: uses the player's color on Foundry; <b>Roll Type</b>: uses color coding for attack, save, skill check, etc. <b>None:</b> no border at all (will allow borders set by other modules).",
+            "options": {
+              "playerColor": "Player Color",
+              "rollType": "Roll Type",
+              "none": "None"
+            }
+          }, 
+          "enforceDarkMode": {
+            "label": "Enforce Dark Mode",
+            "hint": "Sets Foundry UI theme on player's client to Dark. If you use any module such as 'Force Client Settings', you might want to turn this off."
+          }
+        },
+        "reset": "Reset",
+        "save": "Save"
+      },
       "leftControlsMenu": {
         "label": "Left Control Bar",
         "title": "Configure Controls",
@@ -105,10 +131,6 @@
         "reset": "Reset",
         "save": "Save"
       },
-      "enableChatStyles": {
-        "label": "Enable styles for chat messages",
-        "hint": "Adds style modifications to chat cards. When dark mode is selected on Foundry, chat cards will be dark as well. MOSTLY FOR DND5E - only partial support for other systems."
-      },
       "controlIconSize": {
         "label": "Size of control icons",
         "hint": "If you use a very large screen, you may want to change the size of the icons on left controls. This may affect some other UI elements",
@@ -156,7 +178,8 @@
           "template": "Template",
           "consume": "Consume",
           "refund": "Refund",
-          "macro": "Macro"
+          "macro": "Macro",
+          "savedc": "Save DC"
         }
       }
     }

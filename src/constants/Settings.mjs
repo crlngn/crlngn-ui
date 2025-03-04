@@ -14,6 +14,14 @@ export const ICON_SIZES = {
   regular: { name: 'regular', size: '42px'},
 }
 
+export const BORDER_COLOR_TYPES = {
+  playerColor: { name: 'playerColor'},
+  rollType: { name: 'rollType'},
+  none: {
+    name: 'none'
+  }
+}
+
 export function getSettings() { 
   return {
     customFontsMenu: {
@@ -59,6 +67,49 @@ export function getSettings() {
       scope: SETTING_SCOPE.world,
       config: false, 
       requiresReload: false 
+    },
+
+    chatMessagesMenu: {
+      tag: "chat-messages-menu", 
+      label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.hint"),
+      propType: Object,
+      inputType: SETTING_INPUT.button,
+      fields: {
+        enableChatStyles:{
+          tag: "enable-chat-styles", 
+          label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enableChatStyles.label"), 
+          hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enableChatStyles.hint"), 
+          propType: Boolean, 
+          inputType: SETTING_INPUT.checkbox,
+        }, 
+        borderColor: {
+          tag: "border-color",
+          label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.label"),
+          hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.hint"),
+          inputType: SETTING_INPUT.select, 
+          options: {
+            playerColor: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.options.playerColor"), 
+            rollType: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.options.rollType"), 
+            none: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.options.none")
+          }
+        },
+        enforceDarkMode: {
+          restricted: true,
+          tag: "enforce-dark-mode", 
+          label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enforceDarkMode.label"), 
+          hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enforceDarkMode.hint"), 
+          propType: Boolean, 
+          inputType: SETTING_INPUT.checkbox
+        }
+      },
+      default: { 
+        enableChatStyles: true,
+        borderColor: BORDER_COLOR_TYPES.playerColor.name
+      },
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
     },
 
     leftControlsMenu: {
@@ -209,6 +260,9 @@ export function getSettings() {
       config: false 
     },
 
+
+
+    /*
     enableChatStyles: { 
       tag: "enable-chat-styles", 
       label: game.i18n.localize("CRLNGN_UI.settings.enableChatStyles.label"), 
@@ -219,7 +273,8 @@ export function getSettings() {
       scope: SETTING_SCOPE.client, 
       config: true, 
       requiresReload: true 
-    },   
+    },
+    */
 
     enableMacroLayout: { 
       tag: "enable-macro-layout", 
@@ -267,6 +322,18 @@ export function getSettings() {
       scope: SETTING_SCOPE.client,
       config: true
     },
+
+    /* non-config settings */
+    enforceDarkMode: { 
+      tag: "enforce-dark-mode", 
+      label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enforceDarkMode.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enforceDarkMode.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox, 
+      default: true, 
+      scope: SETTING_SCOPE.world, 
+      config: false 
+    },  
 
   }
 

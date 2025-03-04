@@ -1,7 +1,7 @@
 import { MODULE_ID, MODULE_SHORT } from "../constants/General.mjs";
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { getSettingMenus } from "../constants/SettingMenus.mjs";
-import { getSettings, ICON_SIZES } from "../constants/Settings.mjs";
+import { BORDER_COLOR_TYPES, getSettings, ICON_SIZES } from "../constants/Settings.mjs";
 import { CameraUtil } from "./CameraUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { Main } from "./Main.mjs";
@@ -12,12 +12,13 @@ export class SettingsUtil {
    * Registers settings for this module
    */
   static registerSettings(){
+    const SETTINGS = getSettings();
     document.querySelector("body").classList.add(MODULE_ID); 
     /**
      * Register each of the settings defined in the SETTINGS constant 
      */
     
-    const settingsList = Object.entries(Main.SETTINGS);
+    const settingsList = Object.entries(SETTINGS);
     settingsList.forEach(async(entry) => {
       const setting = entry[1]; 
       LogUtil.log("Registering... ",[entry]);
@@ -74,18 +75,20 @@ export class SettingsUtil {
     SettingsUtil.applySceneNavPos();
     
     // apply chat style settings
-    if(SettingsUtil.get(Main.SETTINGS.enableChatStyles.tag)){ 
-      document.querySelector("body").classList.add("crlngn-chat"); 
-    }
+    SettingsUtil.applyChatStyles();
+    // aply border colors
+    SettingsUtil.applyBorderColors();
 
     // apply custom font settings
     SettingsUtil.applyCustomFonts();
-    
 
     // apply left controls settings
     SettingsUtil.applyLeftControlsSettings(); 
     SettingsUtil.applyControlIconSize();
     SettingsUtil.applyControlsBuffer();
+
+    //apply dark mode settings
+    // SettingsUtil.resetFoundryThemeSettings();
   }
 
   /**
@@ -160,7 +163,7 @@ export class SettingsUtil {
       case SETTINGS.autoHidePlayerList.tag: 
         SettingsUtil.applyPlayersListSettings(); break;
       case SETTINGS.customFontsMenu.tag:
-        SettingsUtil.applyCustomFonts(value);
+        SettingsUtil.applyCustomFonts(value); break;
       case SETTINGS.leftControlsMenu.tag:
         SettingsUtil.applyLeftControlsSettings(); 
         SettingsUtil.applyControlIconSize();
@@ -172,19 +175,48 @@ export class SettingsUtil {
         SettingsUtil.applyCameraWidth();
         SettingsUtil.applyCameraHeight();
         break;
+      case SETTINGS.chatMessagesMenu.tag:
+        SettingsUtil.applyBorderColors();
+        SettingsUtil.applyChatStyles();
+        break;
+      case SETTINGS.enforceDarkMode.tag:
+        SettingsUtil.resetFoundryThemeSettings();
+        break;
       default:
         // do nothing
     }
     
   }
 
+  static applyBorderColors(){
+    const SETTINGS = getSettings();
+    const chatMsgSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
+    if(chatMsgSettings.borderColor===BORDER_COLOR_TYPES.playerColor.name){ 
+      document.querySelector("body").classList.add("player-chat-borders");
+      document.querySelector("body").classList.remove("roll-chat-borders"); 
+      // document.querySelector("body").classList.remove("crlngn-disabled-borders"); 
+    }else if(chatMsgSettings.borderColor===BORDER_COLOR_TYPES.rollType.name){
+      document.querySelector("body").classList.add("roll-chat-borders"); 
+      document.querySelector("body").classList.remove("player-chat-borders");
+      // document.querySelector("body").classList.remove("crlngn-disabled-borders"); 
+    }else{
+      document.querySelector("body").classList.remove("player-chat-borders");
+      document.querySelector("body").classList.remove("roll-chat-borders"); 
+      // document.querySelector("body").classList.add("crlngn-disabled-borders"); 
+    }
+  }
 
-  static applySettings(){
-    
+  static applyChatStyles(){
+    const SETTINGS = getSettings();
+    const chatMsgSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
+    if(chatMsgSettings.enableChatStyles){ 
+      document.querySelector("body").classList.add("crlngn-chat"); 
+    }
   }
 
   static applyHotBarSettings(){
-    const macroSizeOption = SettingsUtil.get(Main.SETTINGS.enableMacroLayout.tag);
+    const SETTINGS = getSettings();
+    const macroSizeOption = SettingsUtil.get(SETTINGS.enableMacroLayout.tag);
     const hotbar = document.querySelector("#hotbar");
 
     if(!macroSizeOption && hotbar){
@@ -194,7 +226,8 @@ export class SettingsUtil {
     }
   }
   static applyHotBarCollapse(){
-    const macroCollapseOption = SettingsUtil.get(Main.SETTINGS.collapseMacroBar.tag);
+    const SETTINGS = getSettings();
+    const macroCollapseOption = SettingsUtil.get(SETTINGS.collapseMacroBar.tag);
 
     if(macroCollapseOption){
       ui.hotbar.collapse();
@@ -246,8 +279,9 @@ export class SettingsUtil {
   }
 
   static applyPlayersListSettings(){
-    LogUtil.log("applyPlayersListSettings",[document.querySelector("#players"), SettingsUtil.get(Main.SETTINGS.autoHidePlayerList.tag)]); 
-    if(SettingsUtil.get(Main.SETTINGS.autoHidePlayerList.tag)){
+    const SETTINGS = getSettings();
+    LogUtil.log("applyPlayersListSettings",[document.querySelector("#players"), SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)]); 
+    if(SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)){
       document.querySelector("#players")?.classList.add("auto-hide");
     }else{
       document.querySelector("#players")?.classList.remove("auto-hide");
@@ -255,29 +289,34 @@ export class SettingsUtil {
   }
 
   static applySceneNavPos(){
-    SettingsUtil.set(Main.SETTINGS.sceneNavPos.tag, 0);
+    const SETTINGS = getSettings();
+    SettingsUtil.set(SETTINGS.sceneNavPos.tag, 0);
   }
 
   /**
    * Apply Camera dock settings
    */
   static applyCameraPosX(pos){
-    const cameraSettings = SettingsUtil.get(Main.SETTINGS.cameraDockMenu.tag);
+    const SETTINGS = getSettings();
+    const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
     const xPos = pos || cameraSettings.dockPosX; 
     CameraUtil.resetPositionAndSize({ x: xPos });
   }
   static applyCameraPosY(pos){
-    const cameraSettings = SettingsUtil.get(Main.SETTINGS.cameraDockMenu.tag);
+    const SETTINGS = getSettings();
+    const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
     const yPos = pos || cameraSettings.dockPosY;
     CameraUtil.resetPositionAndSize({ y: yPos });
   }
   static applyCameraWidth(value){
-    const cameraSettings = SettingsUtil.get(Main.SETTINGS.cameraDockMenu.tag);
+    const SETTINGS = getSettings();
+    const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
     const width = value || cameraSettings.dockWidth;
     CameraUtil.resetPositionAndSize({ w: width });
   }
   static applyCameraHeight(value){
-    const cameraSettings = SettingsUtil.get(Main.SETTINGS.cameraDockMenu.tag);
+    const SETTINGS = getSettings();
+    const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
     const height = value || cameraSettings.dockHeight;
     CameraUtil.resetPositionAndSize({ h: height });
   }
@@ -295,6 +334,21 @@ export class SettingsUtil {
       root.style.setProperty('--crlngn-font-titles', customFonts.uiTitles || SETTINGS.customFontsMenu.default.uiTitles || '');
       root.style.setProperty('--crlngn-font-journal-body', customFonts.journalBody || customFonts.journalBodyFont || SETTINGS.customFontsMenu.default.journalBody || '');
       root.style.setProperty('--crlngn-font-journal-title', customFonts.journalTitles || customFonts.journalTitleFont || SETTINGS.customFontsMenu.default.journalTitles || '');
+    }
+  }
+
+  static resetFoundryThemeSettings(){
+    const SETTINGS = getSettings();
+
+    const foundryColorScheme = game.settings.storage.get("world").getSetting("colorScheme");
+    // const foundrycolorScheme = SettingsUtil.get("colorScheme", "core");
+    const forceDarkModeOn = SettingsUtil.get(SETTINGS.enforceDarkMode.tag);
+
+    LogUtil.log("resetFoundryThemeSettings", [foundryColorScheme, forceDarkModeOn])
+
+    if(!foundryColorScheme && forceDarkModeOn){
+      SettingsUtil.set("colorScheme", 'dark', "core");
+      // game.settings.set('core', 'colorScheme', true);
     }
   }
 }

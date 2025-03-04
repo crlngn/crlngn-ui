@@ -1,4 +1,5 @@
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
+import { getSettings } from "../constants/Settings.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { Main } from "./Main.mjs";
@@ -14,10 +15,11 @@ export class TopNavigation {
   static #observer;
 
   static init(){
+    const SETTINGS = getSettings();
     // if user disabled Scene Navigation Styles,
     // skip everything
     const uiMiddle = document.querySelector("#ui-middle");
-    let navSettings = SettingsUtil.get(Main.SETTINGS.sceneNavMenu.tag);
+    let navSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
     TopNavigation.resetLocalVars();
 
     // If Monk's Scene Navigation is enabled, disable Carolingian UI Top Navigation
@@ -27,13 +29,13 @@ export class TopNavigation {
         ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.monksScenesNotSupported"), {permanent: true});
       }
       uiMiddle.classList.remove("crlngn-ui");
-      SettingsUtil.set(Main.SETTINGS.sceneNavMenu.tag, {
+      SettingsUtil.set(SETTINGS.sceneNavMenu.tag, {
         ...navSettings,
         sceneNavEnabled: false
       });
     }
 
-    navSettings = SettingsUtil.get(Main.SETTINGS.sceneNavMenu.tag);
+    navSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
     if(navSettings.sceneNavEnabled && uiMiddle){
       uiMiddle.classList.add("crlngn-ui");
     }else if(uiMiddle){
@@ -46,13 +48,13 @@ export class TopNavigation {
       TopNavigation.resetLocalVars();
       TopNavigation.addListeners(); 
 
-      LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag)]); 
+      LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)]); 
       
       TopNavigation.setNavPosition(0);
       TopNavigation.placeNavButtons(); 
 
       /*
-      if(SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag)){ 
+      if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
         ui.nav.collapse();
       }else{
         ui.nav.expand();
@@ -65,7 +67,7 @@ export class TopNavigation {
       
       if(!isMonksScenenNavOn){
         TopNavigation.resetLocalVars();
-        LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag)]); 
+        LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)]); 
         
         TopNavigation.placeNavButtons();
         TopNavigation.setNavPosition();
@@ -73,7 +75,7 @@ export class TopNavigation {
       }
         
       /*
-      if(SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag)){ 
+      if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
         ui.nav.collapse();
       }else{
         ui.nav.expand();
@@ -90,16 +92,16 @@ export class TopNavigation {
     }); 
 
     Hooks.on(HOOKS_CORE.COLLAPSE_SCENE_NAV, (nav, value) => {
-      SettingsUtil.set(Main.SETTINGS.sceneNavCollapsed.tag, value); 
+      SettingsUtil.set(SETTINGS.sceneNavCollapsed.tag, value); 
       LogUtil.log("NAV toggle", [nav, value]); 
     }); 
 
     Hooks.on(HOOKS_CORE.EXPAND_SCENE_NAV, (nav, value) => {
-      SettingsUtil.set(Main.SETTINGS.sceneNavCollapsed.tag, false); 
+      SettingsUtil.set(SETTINGS.sceneNavCollapsed.tag, false); 
       LogUtil.log("NAV expand", [nav, false]); 
     }); 
 
-    SettingsUtil.apply(Main.SETTINGS.sceneNavCollapsed.tag); 
+    SettingsUtil.apply(SETTINGS.sceneNavCollapsed.tag); 
     window.addEventListener('resize', ()=>{
       const isMonksScenenNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
       if(!isMonksScenenNavOn){
@@ -126,9 +128,10 @@ export class TopNavigation {
   }
 
   static addListeners(){
+    const SETTINGS = getSettings();
     TopNavigation.#navElem?.addEventListener("mouseenter", ()=>{
-      const sceneNavSettings = SettingsUtil.get(Main.SETTINGS.sceneNavMenu.tag);
-      if( !SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag) ||
+      const sceneNavSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
+      if( !SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag) ||
           !sceneNavSettings?.showNavOnHover ){ 
             return;
       }
@@ -141,8 +144,8 @@ export class TopNavigation {
     });
 
     this.#navElem?.addEventListener("mouseleave", (e)=>{
-      const sceneNavSettings = SettingsUtil.get(Main.SETTINGS.sceneNavMenu.tag);
-      if( !SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag) ||
+      const sceneNavSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
+      if( !SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag) ||
           !sceneNavSettings?.showNavOnHover ){ 
           return;
       }
@@ -196,12 +199,13 @@ export class TopNavigation {
 
 
   static #onNavLast = (e) => {
+    const SETTINGS = getSettings();
     const toggleWidth = this.#navToggle?.offsetWidth;
     const extrasWidth = GeneralUtil.isModuleOn("compact-scene-navigation") ? this.#navExtras?.offsetWidth : 0;
     const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
     const scenes = this.#scenesList?.querySelectorAll("li.nav-item") || [];
     const itemWidth = firstScene.offsetWidth;
-    const currPos = SettingsUtil.get(Main.SETTINGS.sceneNavPos.tag) || 0;
+    const currPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag) || 0;
     const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? extrasWidth : 0) - (toggleWidth*2))/itemWidth);
 
     LogUtil.log("onNavLast", ["currPos", currPos, itemsPerPage]);
@@ -214,12 +218,13 @@ export class TopNavigation {
   }
 
   static #onNavNext = (e) => {
+    const SETTINGS = getSettings();
     const toggleWidth = this.#navToggle?.offsetWidth;
     const extrasWidth = GeneralUtil.isModuleOn("compact-scene-navigation") ? this.#navExtras?.offsetWidth : 0;
     const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
     const scenes = this.#scenesList?.querySelectorAll("li.nav-item:not(.is-root)") || [];
     const itemWidth = firstScene.offsetWidth;
-    const currPos = SettingsUtil.get(Main.SETTINGS.sceneNavPos.tag) || 0;
+    const currPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag) || 0;
     const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? extrasWidth : 0) - (toggleWidth*2))/itemWidth);
 
     LogUtil.log("onNavLast", ["currPos", currPos, itemsPerPage]);
@@ -231,14 +236,15 @@ export class TopNavigation {
   }
 
   static setNavPosition(pos) { 
+    const SETTINGS = getSettings();
     if(!this.#scenesList){ return; }
-    const position = pos !== undefined ? pos : SettingsUtil.get(Main.SETTINGS.sceneNavPos.tag);
+    const position = pos !== undefined ? pos : SettingsUtil.get(SETTINGS.sceneNavPos.tag);
     const scenes = this.#scenesList?.querySelectorAll("li.nav-item") || [];
 
     const newMargin = scenes[position]?.offsetLeft * -1;
     this.#scenesList.style.marginLeft = newMargin + 'px';
 
-    SettingsUtil.set(Main.SETTINGS.sceneNavPos.tag, position);
+    SettingsUtil.set(SETTINGS.sceneNavPos.tag, position);
 
     LogUtil.log("setNavPosition", [pos, position, scenes[position], newMargin]);
   }
@@ -252,11 +258,11 @@ export class TopNavigation {
     LogUtil.log("observeNavOffset B", []);
 
     function updateCSSVars() {
-
+      const SETTINGS = getSettings();
       TopNavigation.#navElem = document.querySelector("#navigation"); 
       if(!TopNavigation.#navElem){ return; }
 
-      const isNavCollapsed = SettingsUtil.get(Main.SETTINGS.sceneNavCollapsed.tag); 
+      const isNavCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag); 
       const navHeight = isNavCollapsed ? 0 : TopNavigation.#navElem.offsetHeight;
 
       // let topOffset = monksScenenNav ? 0 : navHeight + TopNavigation.#navElem.offsetTop;

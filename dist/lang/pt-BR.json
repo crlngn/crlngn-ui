@@ -30,6 +30,32 @@
         "reset": "Redefinir",
         "save": "Salvar"
       },
+      "chatMessagesMenu": {
+        "label": "Opções de Mensagens de Chat",
+        "title": "Configurar Chat",
+        "hint": "Modificar a aparência e o comportamento dos cartões de mensagens de chat no painel lateral direito",
+        "fields": {
+          "enableChatStyles": {
+            "label": "Ativar estilos no chat",
+            "hint": "Adiciona modificações de estilo às cartas do chat. Quando o modo escuro for ativado no Foundry, as cartas do chat também ficarão escuras. PRINCIPALMENTE PARA DND5E - suporte parcial para outros sistemas."
+          },
+          "borderColor": {
+            "label": "Cor da borda do cartão de chat",
+            "hint": "Isso pode ser substituído por outros módulos. <b>Cor do jogador</b>: usa a cor do jogador no Foundry; <b>Tipo de Rolagem</b>: usa codificação de cores para ataque, salvaguarda, teste de habilidade, etc. <b>Nenhuma:</b> sem bordas (permite bordas de outros módulos).",
+            "options": {
+              "playerColor": "Cor do Jogador",
+              "rollType": "Tipo de Rolagem",
+              "none": "Nenhuma"
+            }
+          }, 
+          "enforceDarkMode": {
+            "label": "Forçar Modo Escuro",
+            "hint": "Define o tema da interface do Foundry no cliente do jogador como Escuro. Se você usa qualquer módulo como 'Force Client Settings', talvez queira desativar isso."
+          }
+        },
+        "reset": "Redefinir",
+        "save": "Salvar"
+      },
       "leftControlsMenu": {
         "label": "Ícones de Controle",
         "title": "Configurar",
@@ -105,10 +131,6 @@
         "reset": "Reset", 
         "save": "Save" 
       },
-      "enableChatStyles": {
-        "label": "Ativar estilos no chat",
-        "hint": "Adiciona modificações de estilo às cartas do chat. Quando o modo escuro for ativado no Foundry, as cartas do chat também ficarão escuras. PRINCIPALMENTE PARA DND5E - suporte parcial para outros sistemas."
-      },
       "controlIconSize": {
         "label": "Tamanho dos ícones de controle",
         "hint": "Se você usa uma tela muito grande, pode querer alterar o tamanho dos ícones nos controles à esquerda. Isso pode afetar alguns outros elementos da interface",
@@ -156,7 +178,8 @@
           "template": "Modelo",
           "consume": "Consumir",
           "refund": "Reembolso",
-          "macro": "Macro"
+          "macro": "Macro",
+          "savedc": "DC"
         }
       }
     }
