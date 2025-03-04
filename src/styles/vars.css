@@ -141,7 +141,6 @@ body.crlngn-chat {
   }
 
   * {
-    /*scrollbar-width: thin;*/
     scrollbar-color: var(--color-highlights-75) var(--color-scrollbar-track);
   }
 
