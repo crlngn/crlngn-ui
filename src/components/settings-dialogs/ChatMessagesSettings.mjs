@@ -31,7 +31,7 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
         icon: "fas fa-cog",
         title: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.title"),
         contentClasses: ["standard-form", "crlngn"],
-        resizable: true
+        resizable: false
       }
     }
   }
