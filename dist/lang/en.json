@@ -41,7 +41,7 @@
           },
           "borderColor": {
             "label": "Color of chat card border",
-            "hint": "This may be overriden by other modules. <b>Player color</b>: uses the player's color on Foundry; <b>Roll Type</b>: uses color coding for attack, save, skill check, etc. <b>None:</b> no border at all (will allow borders set by other modules).",
+            "hint": "[Requires reload] <b>Player color</b>: uses the player's color on Foundry; <b>Roll Type</b>: uses color coding for attack, save, skill check, etc. <b>None:</b> no border at all (will allow borders set by other modules).",
             "options": {
               "playerColor": "Player Color",
               "rollType": "Roll Type",

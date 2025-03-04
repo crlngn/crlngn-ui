@@ -31,7 +31,7 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
         icon: "fas fa-cog",
         title: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.title"),
         contentClasses: ["standard-form", "crlngn"],
-        resizable: false
+        resizable: true
       }
     }
   }
@@ -63,12 +63,13 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
 
     // Convert FormData into an object with proper keys
     const settings = foundry.utils.expandObject(formData.object);
-
     LogUtil.log("Saving settings:", [ settings ]);
+
     if(settings.bottomBuffer===undefined || settings.bottomBuffer===''){
       settings.bottomBuffer = SETTINGS.chatMessagesMenu.default.bottomBuffer;
     }
     const currSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
+    const currBorderColor = currSettings.borderColor;
     if(settings.enforceDarkMode === undefined){
       delete settings.enforceDarkMode;
     }
@@ -87,7 +88,9 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
     const controlSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
 
     LogUtil.log("Saving settings:", [currSettings, settings, controlSettings]); // Debugging
-
+    if(controlSettings.borderColor !== currBorderColor){
+      location.reload();
+    }
 
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
   }
@@ -134,6 +137,7 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
       ]
     }
     // game.settings.get("foo", "config");
+    
 
     LogUtil.log("_prepareContext", [setting, options]);
     return setting;
