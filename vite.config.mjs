@@ -28,7 +28,7 @@ export default defineConfig({
       input: "src/module.mjs",
       output: {
         dir: "dist/",
-        entryFileNames:"scripts/module.js",
+        entryFileNames:"scripts/crlngn-ui.js",
         assetFileNames: (assetInfo) => {
           const isImgType = /\.(gif|jpe?g|png|svg)$/.test(assetInfo.name);
           const isStyleType = /\.css$/.test(assetInfo.name);
@@ -38,10 +38,10 @@ export default defineConfig({
             // return '[name][extname]';
           }
           if (isStyleType) {
-            return 'styles/[name][extname]';   
+            return 'styles/crlngn-ui.css';   
           }
           if (assetInfo.originalFileNames?.includes("src/module.mjs")) {
-            return "scripts/module.js";
+            return "scripts/crlngn-ui.js";
           }
 
           return 'assets/[name][extname]';
