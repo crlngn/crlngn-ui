@@ -1,8 +1,5 @@
 #interface #ui-middle.crlngn-ui #ui-bottom {
-  margin: 0;
   z-index: 999;
-  position: absolute;
-  bottom: 0;
 }
 
 /***************************************/
