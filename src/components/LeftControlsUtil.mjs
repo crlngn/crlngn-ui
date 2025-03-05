@@ -52,8 +52,8 @@ export class LeftControls {
         //   clientWidth: entry.target.clientWidth,
         //   boundingWidth: entry.target.getBoundingClientRect().width
         // }]);
-        LeftControls.updateCSSVars()
-        /*throttle(() => LeftControls.updateCSSVars(), 100);*/
+        /*LeftControls.updateCSSVars();*/
+        throttle(() => LeftControls.updateCSSVars(), 250);
       //}
     }, {
       box: 'border-box'

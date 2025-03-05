@@ -560,7 +560,7 @@ body.crlngn-ui{
     }
 
     video{
-      filter: brightness(130%) saturate(65%) blur(0.3px) contrast(90%);
+      filter: brightness(130%) saturate(70%) blur(0.2px);
     }
 
     video:not(.local-camera) {

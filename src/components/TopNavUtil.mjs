@@ -259,6 +259,7 @@ export class TopNavigation {
 
     function updateCSSVars() {
       const SETTINGS = getSettings();
+
       TopNavigation.#navElem = document.querySelector("#navigation"); 
       if(!TopNavigation.#navElem){ return; }
 
@@ -275,7 +276,9 @@ export class TopNavigation {
     }
 
     // Create a MutationObserver to watch for changes
-    TopNavigation.#observer = new MutationObserver(updateCSSVars);
+    TopNavigation.#observer = new MutationObserver(()=>{
+      throttle(() => TopNavigation.updateCSSVars(), 100);
+    });
 
     if(!monksScenenNav){
       TopNavigation.#observer.observe(TopNavigation.#navElem.parentNode, {

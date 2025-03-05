@@ -26,10 +26,10 @@
   },
   "socket": false,
   "esmodules": [
-    "scripts/module.js"
+    "scripts/crlngn-ui.js"
   ],
   "styles": [
-    "styles/module.css"
+    "styles/crlngn-ui.css"
   ],
   "languages": [
     {
