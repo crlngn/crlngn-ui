@@ -81,6 +81,7 @@ body.crlngn-chat {
     --color-cool-3: rgb(83, 71, 107);
     --color-cool-4: rgb(54, 48, 59); 
     --color-cool-5: rgb(11, 10, 19);   
+    --color-cool-5-0: rgba(11, 10, 19, 0);
     --color-cool-5-25: rgba(11, 10, 19, 0.25);
     --color-cool-5-50: rgba(11, 10, 19, 0.5);
     --color-cool-5-75: rgba(11, 10, 19, 0.75);

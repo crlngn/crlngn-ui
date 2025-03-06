@@ -6,7 +6,7 @@ body *{
 }
 
 body.crlngn-ui  {
-  font-size: var(--font-size-13);
+  /*font-size: var(--font-size-13);*/
 
   h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
@@ -279,8 +279,12 @@ ol#notifications {
   opacity: 0;
 }
 body.crlngn-ui {
-  .window-app{
-    max-height: calc(100vh - 60px);
+  .window-app, .application {
+    max-height: calc(100% - 80px);
+  }
+  .window-app .window-content{
+    max-height: 100%;    
+    font-size: var(--font-size-13);
   }
 
   #interface{
@@ -291,6 +295,26 @@ body.crlngn-ui {
   * FORMS
   *******/
   .standard-form.crlngn {
+    &:after{
+      content: '';
+      width: 100%;
+      height: 120px;
+      position: absolute;
+      z-index: 1000;
+      pointer-events: none;
+      background-image: linear-gradient(var(--color-cool-5-0) 0%, var(--color-cool-5-90) 65%);
+      bottom: 0px;
+      left:0;
+    }
+
+    footer.form-footer{
+      z-index: 1001;
+    }
+
+    .content{
+      overflow: auto;
+      
+    }
     .form-group {
       margin: 2em 0;
       /*align-items: flex-end;*/
@@ -304,6 +328,9 @@ body.crlngn-ui {
         margin: 0.25em 0;
         font-size: var(--font-size-12);
       }
+    }
+    .hint{
+      line-height: 1.4;
     }
   }
 
