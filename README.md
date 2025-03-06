@@ -16,6 +16,11 @@ I have just created a Discord channel for users of my module to discuss it and s
 ## Carolingian UI
 A sleek and minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12, but also offering many quality of life features to the ui panels. 
 
+<div style="display: flex-direction: row;">
+  <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-2.webp?raw=true" width="100%" height="auto" />
+  <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-1.webp?raw=true" width="100%" height="auto" />
+</div>
+
 ### FEATURES:
 - **Custom Fonts** for UI and journal;
 - **Compact left controls:** small or regular sized icons; secondary bars can be hidden until hovered;
@@ -31,7 +36,6 @@ A sleek and minimalist UI overhaul, focusing on saving space on screen and impro
 - **Compact chat messages** (DnD5e) compact usage buttons to save some space on chat log;
 - **Chat Border Colors** - Select if you want the borders to show player color, roll type, or none;
 
-<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/screenshot-2.webp?raw=true" width="100%" height="auto" />
 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/right-panel-settings.webp?raw=true" width="200px" height="auto" />
 
