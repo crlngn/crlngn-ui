@@ -339,5 +339,14 @@ body{
       }
     }
   }
+
+  &.hide-player-ui-sceneList{
+    #ui-middle.crlngn-ui:not(:has(.monks-scene-navigation)) #ui-top.offset{
+      #navigation:before{
+        display: none;
+      }
+    }
+    
+  }
   
 }
