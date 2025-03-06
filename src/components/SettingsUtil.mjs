@@ -3,6 +3,8 @@ import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { getSettingMenus } from "../constants/SettingMenus.mjs";
 import { BORDER_COLOR_TYPES, getSettings, ICON_SIZES } from "../constants/Settings.mjs";
 import { CameraUtil } from "./CameraUtil.mjs";
+import { ChatUtil } from "./ChatUtil.mjs";
+import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { Main } from "./Main.mjs";
 
@@ -33,6 +35,7 @@ export class SettingsUtil {
         requiresReload: setting.requiresReload || false,
         onChange: value => SettingsUtil.apply(setting.tag, value)
       }
+
       if(setting.choices){
         settingObj.choices = setting.choices
       }
@@ -89,6 +92,10 @@ export class SettingsUtil {
 
     //apply dark mode settings
     // SettingsUtil.resetFoundryThemeSettings();
+
+    //apply debug Settings
+    SettingsUtil.applyDebugSettings();
+
   }
 
   /**
@@ -176,11 +183,15 @@ export class SettingsUtil {
         SettingsUtil.applyCameraHeight();
         break;
       case SETTINGS.chatMessagesMenu.tag:
+        ChatUtil.chatMsgSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
         SettingsUtil.applyBorderColors();
         SettingsUtil.applyChatStyles();
         break;
       case SETTINGS.enforceDarkMode.tag:
         SettingsUtil.resetFoundryThemeSettings();
+        break;
+      case SETTINGS.debugMode.tag:
+        SettingsUtil.applyDebugSettings();
         break;
       default:
         // do nothing
@@ -339,14 +350,33 @@ export class SettingsUtil {
 
   static resetFoundryThemeSettings(){
     const SETTINGS = getSettings();
-
-    const foundryColorScheme = game.settings.get('core','colorScheme');//SettingsUtil.get("colorScheme", "");
+    const isMonksSettingsOn = GeneralUtil.isModuleOn('monks-player-settings');
+    const isForceSettingsOn = GeneralUtil.isModuleOn('force-client-settings');
     const forceDarkModeOn = SettingsUtil.get(SETTINGS.enforceDarkMode.tag);
+    if(forceDarkModeOn && isMonksSettingsOn){
+      if(game.user.isGM) {
+        ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.monksPlayerSettingsConflict"), {permanent: true});
+      }
+      return;
+    }
+    if(forceDarkModeOn && isForceSettingsOn){
+      if(game.user.isGM) {
+        ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.forceClientSettingsConflict"), {permanent: true});
+      }
+      return;
+    }
+
+    const foundryColorScheme = game.settings.get('core','colorScheme');
 
     LogUtil.log("resetFoundryThemeSettings", [foundryColorScheme, forceDarkModeOn])
 
     if(!foundryColorScheme && forceDarkModeOn){
       game.settings.set('core','colorScheme','dark');
     }
+  }
+
+  static applyDebugSettings(value){
+    const SETTINGS = getSettings();
+    LogUtil.debugOn = value || SettingsUtil.get(SETTINGS.debugMode.tag);
   }
 }

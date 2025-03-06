@@ -4,24 +4,27 @@ import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 
 export class ChatUtil {
+  static chatMsgSettings;
+
+  static init(){
+    const SETTINGS = getSettings();
+    ChatUtil.chatMsgSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
+  }
 
   static enrichCard(chatMessage, html){
-    const SETTINGS = getSettings();
+    // const SETTINGS = getSettings();
+    const chatSettings = ChatUtil.chatMsgSettings;
 
-    // if(SettingsUtil.get(SETTINGS.enableChatStyles.tag)){ 
-    const chatMsgSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
-    if(chatMsgSettings.enableChatStyles){ 
+    if(chatSettings?.enableChatStyles){ 
       const rollType = chatMessage.flags?.dnd5e?.activity?.type || chatMessage.flags?.dnd5e?.roll?.type || "custom";
       let elem = html.get ? html.get(0) : html;
 
       // elem.classList.add('crlngn');
       elem.classList.add(rollType);
-      LogUtil.log("enrichCard", [chatMsgSettings.borderColor, BORDER_COLOR_TYPES.playerColor.name, chatMessage.author?.id]); 
+      LogUtil.log("enrichCard", [chatSettings.borderColor, BORDER_COLOR_TYPES.playerColor.name, chatMessage.author?.id]); 
 
-      if(chatMsgSettings.borderColor===BORDER_COLOR_TYPES.playerColor.name && chatMessage.author?.id){ 
+      if(chatSettings.borderColor===BORDER_COLOR_TYPES.playerColor.name && chatMessage.author?.id){ 
         elem.style.setProperty('border-color', `var(--user-color-${chatMessage.author.id})`);
-      }else if(chatMsgSettings.borderColor===BORDER_COLOR_TYPES.none.name){
-        // elem.style.setProperty('border-color', `transparent`);
       }
   
     }   

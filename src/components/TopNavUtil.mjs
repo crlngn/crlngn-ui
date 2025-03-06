@@ -11,15 +11,24 @@ export class TopNavigation {
   static #navTimeout;
   static #navExtras;
   static #navToggle;
-  static #leftControls;
-  static #observer;
+  static #settings;
+  static SETTINGS;
 
   static init(){
     const SETTINGS = getSettings();
+    TopNavigation.#settings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
+
     // if user disabled Scene Navigation Styles,
     // skip everything
     const uiMiddle = document.querySelector("#ui-middle");
-    let navSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
+    let navSettings = TopNavigation.#settings;
+    if(navSettings.sceneNavEnabled && uiMiddle){
+      uiMiddle.classList.add("crlngn-ui");
+    }else if(uiMiddle){
+      uiMiddle.classList.remove("crlngn-ui");
+      return;
+    }
+
     TopNavigation.resetLocalVars();
 
     // If Monk's Scene Navigation is enabled, disable Carolingian UI Top Navigation
@@ -34,53 +43,45 @@ export class TopNavigation {
         sceneNavEnabled: false
       });
     }
-
-    navSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
-    if(navSettings.sceneNavEnabled && uiMiddle){
-      uiMiddle.classList.add("crlngn-ui");
-    }else if(uiMiddle){
-      uiMiddle.classList.remove("crlngn-ui");
-      return;
-    }
+    
     LogUtil.log("TopNavigation - init", [ isMonksScenenNavOn ]);
 
     if(!isMonksScenenNavOn){
       TopNavigation.resetLocalVars();
       TopNavigation.addListeners(); 
 
-      LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)]); 
+      LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, []); 
       
       TopNavigation.setNavPosition(0);
       TopNavigation.placeNavButtons(); 
 
-      /*
-      if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
-        ui.nav.collapse();
-      }else{
-        ui.nav.expand();
-      }*/
+      // if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
+      //   ui.nav.collapse();
+      // }else{
+      //   ui.nav.expand();
+      // }
     }
 
     Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, () => { 
+      const SETTINGS = getSettings();
       const isMonksScenenNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
       LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ isMonksScenenNavOn ]);
       
       if(!isMonksScenenNavOn){
         TopNavigation.resetLocalVars();
-        LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ui.nav, SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)]); 
+        LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, []); 
         
         TopNavigation.placeNavButtons();
         TopNavigation.setNavPosition();
         TopNavigation.addListeners();
+        // TopNavigation.observeNavOffset();
       }
-        
-      /*
-      if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
-        ui.nav.collapse();
-      }else{
-        ui.nav.expand();
-      }
-        */
+      
+      // if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
+      //   ui.nav.collapse();
+      // }else{
+      //   ui.nav.expand();
+      // }
     }); 
 
     Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, (value) => { 
@@ -92,16 +93,18 @@ export class TopNavigation {
     }); 
 
     Hooks.on(HOOKS_CORE.COLLAPSE_SCENE_NAV, (nav, value) => {
-      SettingsUtil.set(SETTINGS.sceneNavCollapsed.tag, value); 
+      const SETTINGS = getSettings();
+      // SettingsUtil.set(SETTINGS.sceneNavCollapsed.tag, value); 
       LogUtil.log("NAV toggle", [nav, value]); 
     }); 
 
     Hooks.on(HOOKS_CORE.EXPAND_SCENE_NAV, (nav, value) => {
-      SettingsUtil.set(SETTINGS.sceneNavCollapsed.tag, false); 
+      const SETTINGS = getSettings();
+      // SettingsUtil.set(SETTINGS.sceneNavCollapsed.tag, false); 
       LogUtil.log("NAV expand", [nav, false]); 
     }); 
 
-    SettingsUtil.apply(SETTINGS.sceneNavCollapsed.tag); 
+    // SettingsUtil.apply(SETTINGS.sceneNavCollapsed.tag); 
     window.addEventListener('resize', ()=>{
       const isMonksScenenNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
       if(!isMonksScenenNavOn){
@@ -124,7 +127,7 @@ export class TopNavigation {
     TopNavigation.#scenesList = document.querySelector("#scene-list"); 
     TopNavigation.#navExtras = document.querySelector("#navigation .nav-item.is-root"); 
     TopNavigation.#navToggle = document.querySelector("#nav-toggle"); 
-    TopNavigation.#leftControls = document.querySelector("#ui-left #controls"); 
+    // TopNavigation.#leftControls = document.querySelector("#ui-left #controls"); 
   }
 
   static addListeners(){
@@ -249,21 +252,20 @@ export class TopNavigation {
     LogUtil.log("setNavPosition", [pos, position, scenes[position], newMargin]);
   }
 
+  /*
   static observeNavOffset(){
     LogUtil.log("observeNavOffset A", []);
     if(!TopNavigation.#navElem || !TopNavigation.#leftControls){ return; }
     const monksScenenNav = GeneralUtil.isModuleOn('monks-scene-navigation'); 
     // document.querySelector("#ui-top .monks-scene-navigation"); 
 
-    LogUtil.log("observeNavOffset B", []);
-
     function updateCSSVars() {
-      const SETTINGS = getSettings();
+      const TopNavigation.#settings = getSettings();
 
       TopNavigation.#navElem = document.querySelector("#navigation"); 
       if(!TopNavigation.#navElem){ return; }
 
-      const isNavCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag); 
+      const isNavCollapsed = SettingsUtil.get(TopNavigation.#settings.sceneNavCollapsed.tag); 
       // const navHeight = isNavCollapsed ? 0 : TopNavigation.#navElem.offsetHeight;
 
       // let topOffset = monksScenenNav ? 0 : navHeight + TopNavigation.#navElem.offsetTop;
@@ -277,20 +279,26 @@ export class TopNavigation {
 
     // Create a MutationObserver to watch for changes
     TopNavigation.#observer = new MutationObserver(()=>{
-      throttle(() => TopNavigation.updateCSSVars(), 100);
+      throttle(() => TopNavigation.updateCSSVars(), 250);
     });
 
     if(!monksScenenNav){
       TopNavigation.#observer.observe(TopNavigation.#navElem.parentNode, {
-        attributes: true,
-        childList: true,
-        subtree: true,
-        characterData: true
+        // attributes: true,
+        // childList: true,
+        // subtree: true,
+        // characterData: true
+        attributes: true,           // attribute changes
+        attributeFilter: ['style'], // Only style attribute changes 
+        childList: true,            // child changes
+        subtree: false,             // descendants
+        characterData: false        // text changes
       });
     }
 
     updateCSSVars();
   }
+  */
 
   
 }

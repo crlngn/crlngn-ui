@@ -3,7 +3,6 @@ import { getSettings } from "../constants/Settings.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
-import { Main } from "./Main.mjs"; 
 
 export class CameraUtil {
   static #offsetX = 0;
@@ -225,7 +224,7 @@ export class CameraUtil {
     cameraSettings.dockHeight = parseInt(CameraUtil.cameraContainer?.style.height || 0);
     cameraSettings.dockPosY = parseInt(CameraUtil.cameraContainer?.style.bottom || 0);
 
-    SettingsUtil.set(Main.SETTINGS.cameraDockMenu.tag, cameraSettings);
+    SettingsUtil.set(SETTINGS.cameraDockMenu.tag, cameraSettings);
   }
 
 }

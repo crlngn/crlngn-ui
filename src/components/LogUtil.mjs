@@ -1,17 +1,15 @@
 import { DEBUG_TAG } from "../constants/General.mjs";
-import { SettingsUtil } from "./SettingsUtil.mjs";
-import { getSettings } from "../constants/Settings.mjs";
 
 export class LogUtil {
+  static debugOn = false;
   /**
    * Outputs information on console, adding module name and reference
    * @param {string} ref - Reference information to log after module name
    * @param {any[]} data - data to log on console
    */
   static log(ref="", data=[], bypassSettings=false){
-    const SETTINGS = getSettings();
     try{
-      const debugSetting = SettingsUtil.get(SETTINGS.debugMode.tag);
+      const debugSetting = LogUtil.debugOn;
       const isDebugModeOn = bypassSettings || debugSetting;
       if(!isDebugModeOn){ return };
 
