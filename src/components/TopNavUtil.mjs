@@ -113,9 +113,9 @@ export class TopNavigation {
 
     LogUtil.log("TopNavigation - init", [navSettings.sceneNavEnabled])
     
-    if(navSettings.sceneNavEnabled){ 
-      TopNavigation.observeNavOffset(); 
-    } 
+    // if(navSettings.sceneNavEnabled){ 
+    //   // TopNavigation.observeNavOffset(); 
+    // } 
     
   } 
 
@@ -264,7 +264,7 @@ export class TopNavigation {
       if(!TopNavigation.#navElem){ return; }
 
       const isNavCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag); 
-      const navHeight = isNavCollapsed ? 0 : TopNavigation.#navElem.offsetHeight;
+      // const navHeight = isNavCollapsed ? 0 : TopNavigation.#navElem.offsetHeight;
 
       // let topOffset = monksScenenNav ? 0 : navHeight + TopNavigation.#navElem.offsetTop;
       let topOffset = monksScenenNav ? 0 : TopNavigation.#navElem.offsetTop;
@@ -272,7 +272,7 @@ export class TopNavigation {
       const root = document.querySelector("body.crlngn-ui");
       root?.style.setProperty('--crlngn-top-offset', topOffset + 'px');
   
-      LogUtil.log("TopNavigation updateCSSVars", [monksScenenNav, isNavCollapsed, topOffset, TopNavigation.#navElem.offsetTop, TopNavigation.#navElem.offsetHeight]);
+      LogUtil.log("TopNavigation updateCSSVars", [isNavCollapsed, topOffset, TopNavigation.#navElem.offsetTop, TopNavigation.#navElem.offsetHeight]);
     }
 
     // Create a MutationObserver to watch for changes

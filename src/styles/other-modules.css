@@ -110,7 +110,6 @@ body.crlngn-ui{
         margin-top: calc(var(--crlngn-top-offset, 0px) + var(--left-control-item-size, 0px));
         transition: margin-top 0.2s linear;
       }
-  
     }
   }
 
@@ -181,8 +180,25 @@ body.crlngn-ui{
       padding: 0;
       margin: 0;
       line-height: 1.35;
+      
+      &.effects-list {
+        flex-wrap: wrap;
+      }
+
+      span{
+        flex: 1 1 calc(100% - 2em);
+      }
+      span.tooltip-duration {
+        display: flex;
+        line-height: 1;
+        min-width: 100%;
+        padding-left: 1.8em;
+        margin-top: 0.5em;
+      }
+      
     }
   }
+  
   #tooltip.combat-dock-tooltip .effect-description {
     background: transparent;
     font-size: var(--font-size-11);
