@@ -596,6 +596,7 @@ body.crlngn-ui{
 
 
 /* ITEM PILES */
+/*
 html:has(body.theme-dark){
   --item-piles-inactive: rgb(106, 147, 188) !important;
   --item-piles-minor-inactive: rgb(112, 112, 103) !important;
@@ -607,4 +608,5 @@ html:has(body.theme-dark){
   --item-piles-text-light-highlight: rgba(11, 10, 19, .5);
   --item-piles-text-important: rgb(161, 105, 68) !important;
 }
+*/
 
