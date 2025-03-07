@@ -323,7 +323,7 @@ body.crlngn-chat {
   .chat-message .rsr-title dnd5e-icon {
     display: none;
   }
-  .chat-message.attack .card-buttons > button[data-action=rollAttack],
+  .chat-message .card-buttons > button[data-action=rollAttack]
   .chat-message.attack .rsr-section-attack .rsr-title {
     *:first-child {
       display: none;
@@ -335,6 +335,7 @@ body.crlngn-chat {
     }
   }
 
+  .chat-message .card-buttons > button[data-action=rollHealing],
   .chat-message.heal .rsr-title {
     *:first-child {
       display: none;
@@ -531,6 +532,10 @@ body.crlngn-chat {
     --dnd5e-text-color-success: #c1e6a7;
     --dnd5e-text-color-failure: #d8aeae;
 
+    .chat-message * {
+      color: var(--color-light-1);
+    }
+
     .sidebar-tab{
       .chat-message .message-content:not(.dnd5e2) {
         p, ul, ol, li, a, b, strong {
@@ -573,7 +578,7 @@ body.crlngn-chat {
     
     .chat-message .table-draw .table-results .table-result img.result-image {
       border: none;
-      filter: invert(1);
+      background-color: rgba(235, 235, 255, 0.4);
     }
   
   
@@ -717,11 +722,11 @@ body.crlngn-chat {
       color: var(--color-text-dark);
     }
   
-    .dnd5e2:not(.chat-card, .create-document) button:not(.pip):hover, 
     .dnd5e-theme-dark button:not(.pip):hover,
-    .chat-message .message-content button:hover {
-      border-color: var(--color-dark-1);
-      background: var(--color-dark-1);
+    .chat-message .message-content button:not(.unbutton):hover,
+    .chat-message .message-content button:not(.unbutton):focus {
+      border-color: var(--color-highlights);
+      /*background: var(--color-dark-1);*/
       color: var(--color-text-gray-blue);
     }
   
@@ -731,6 +736,7 @@ body.crlngn-chat {
     .card-tray .target-source-control button[aria-pressed="true"],
     .chat-message .message-content button:hover {
       background: var(--color-dark-bg-75);
+      border: 1px solid transparent;
       opacity: 1;
       color: var(--color-light-1);
     }
@@ -768,7 +774,9 @@ body.crlngn-chat {
     :is(.card-tray, .effects-tray) button:hover {
       box-shadow: none;
     }
-    .chat-card .card-buttons > button[data-action=rollAttack],
+
+    .chat-message .card-buttons > button[data-action=rollAttack],
+    .chat-message .card-buttons > button[data-action=rollHealing],
     .chat-message .chat-card .rsr-title {
       &:before{
         color: var(--color-text-light-1);
