@@ -89,6 +89,7 @@ body{
        
         width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width));
         max-width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width));
+        min-width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width));
 
         z-index:101;
 
