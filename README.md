@@ -56,13 +56,13 @@ I am very opinionated about this module's look and feel, as it was created for m
 **Note:** This is not an extensive list - I've only included modules that I personally checked and which might be particularly affected by changes in the UI.
 - Are You Focused? 1.2.x
 - Break Time 12.0.x
-- Carousel Combat Tracker 3.1.x (please do not use "No Carousel" option as there is a known bug) 
+- Carousel Combat Tracker 3.1.x
 - Compact Scene Navigation 1.0.x (avoid using auto hide setting in both modules)
 - CRUX 1.2.x
 - Dice Tray 2.2.x
 - Dungeon Draw 3.0.x
 - Epic Rolls 5e 4.2.x
-- Force Client Settings 2.5.x
+- Force Client Settings 2.5.x (please disable "Enforce Dark Mode")
 - Hide Player UI 1.7.x
 - LiveKit AV Client 0.5.x
 - Midi-QoL 12.4.x (probably works in v11)
