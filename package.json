@@ -1,6 +1,6 @@
 {
   "name": "crlngn-ui",
-  "version": "1.9.5",
+  "version": "1.9.6",
   "description": "Tweaks and style adjustments to improve UI on Foundry",
   "license": "MIT",
   "private": true,
@@ -29,5 +29,10 @@
     "typescript": "^5.6.3",
     "vite": "^5.4.8",
     "watch": "^1.0.2"
+  },
+  "dependencies": {
+    "postcss-custom-properties": "^14.0.4",
+    "postcss-discard-duplicates": "^7.0.1",
+    "postcss-nesting": "^13.0.1"
   }
 }

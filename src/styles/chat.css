@@ -18,32 +18,31 @@ body.crlngn-chat {
   --color-text-gray-blue-b: rgb(138, 155, 168, 1);
 
   .sidebar-tab{
-
     --dnd5e-color-gold: var(--color-warm-3);
     --checkbox-fill-color: var(--color-warm-3);
     --checkbox-border-color: var(--color-warm-3);
-
-    .chat-message .message-content:not(.dnd5e2) {
-      p, ul, ol, li, span, a, b, strong {
-        font-family: var(--crlngn-font-family);
-      }
-      h3, h4, h5, h6 {
-        font-family: var(--crlngn-font-family);
-      }
-      
-      h1, h2{
-        font-family: var(--crlngn-font-titles);
-      }
+  }
+  .chat-message .message-content:not(.dnd5e2) {
+    p, ul, ol, li, span, a, b, strong {
+      font-family: var(--crlngn-font-family);
     }
-
-    .chat-message .message-content:not(:has(div)){
-      margin: 1em 0;
+    h3, h4, h5, h6 {
+      font-family: var(--crlngn-font-family);
     }
-
-    .chat-message .message-content .gold-icon{
-      border: 1px solid var(--color-dark-bg-50);
+    
+    h1, h2{
+      font-family: var(--crlngn-font-titles);
     }
   }
+
+  .chat-message .message-content:not(:has(div)){
+    margin: 1em 0;
+  }
+
+  .chat-message .message-content .gold-icon{
+    border: 1px solid var(--color-dark-bg-50);
+  }
+  
   #chat-log{
     padding: 1em 0;
   }
@@ -312,13 +311,6 @@ body.crlngn-chat {
     min-width: calc((100% - 10px) / 2);
     width: 100%;
   }
-  
-  /*
-  .crlngn.ddbgl .chat-card .card-buttons:not(.midi-buttons) > button[data-action=rollAttack],
-  .crlngn.ddbgl .chat-card .card-buttons:not(.midi-buttons) > button[data-action=rollDamage]{
-    display: none;
-  }
-  */
 
   .chat-message .rsr-title dnd5e-icon {
     display: none;

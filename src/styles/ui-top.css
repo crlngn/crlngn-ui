@@ -50,7 +50,7 @@ body{
   #ui-middle.crlngn-ui:not(:has(.monks-scene-navigation)){
     margin-top: 0;
 
-    > *:not(#loading) {
+    > *:not(#loading, #ui-top) {
       margin-top: var(--crlngn-top-offset, 0px);
       transition: margin-top 0.15s ease-in-out;
     }
@@ -60,12 +60,15 @@ body{
 
 
     #ui-top, #ui-top.offset{
+      margin-left: 0;
+      /*
       position: relative;
       margin: 0;
       margin-left: 0;
       height: 100%;
       max-height: 100%;
       pointer-events: none;
+      */
 
       * {
         pointer-events: all;
@@ -78,18 +81,15 @@ body{
         margin-top: 0;
         display: flex;
         flex-wrap: nowrap;
-        height: 100%;
-        max-height: 100%;
+        height: max-content;
+        max-height: 50vh;
+        min-height: max(200px,50vh);
         pointer-events: none;
         overflow: hidden;
-        /*margin-left: calc((var(--max-players-width) * -1) - var(--ui-controls-margin-left));*/
         margin-left: calc((var(--ui-controls-margin-left, 0px) * -1) - var(--max-players-width, 0px));
-        /*width: calc(100% - var(--ui-controls-margin-left) + 10px);
-        max-width: calc(100% - var(--ui-controls-margin-left) + 90px);*/
-       
-        width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width));
-        max-width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width));
-        min-width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width));
+        width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width) + 10px);
+        max-width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width) + 10px);
+        min-width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width) + 10px);
 
         z-index:101;
 

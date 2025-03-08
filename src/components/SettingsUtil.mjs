@@ -356,12 +356,14 @@ export class SettingsUtil {
     if(forceDarkModeOn && isMonksSettingsOn){
       if(game.user.isGM) {
         ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.monksPlayerSettingsConflict"), {permanent: true});
+        SettingsUtil.set(SETTINGS.enforceDarkMode.tag, false);
       }
       return;
     }
     if(forceDarkModeOn && isForceSettingsOn){
       if(game.user.isGM) {
         ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.forceClientSettingsConflict"), {permanent: true});
+        SettingsUtil.set(SETTINGS.enforceDarkMode.tag, false);
       }
       return;
     }

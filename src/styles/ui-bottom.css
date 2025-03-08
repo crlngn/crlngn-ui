@@ -30,7 +30,7 @@ body.crlngn-ui{
   footer#ui-bottom > *{
     margin-top: 0;
     margin-left: var(--macro-bar-left, 0px);
-    max-width: calc(100% + var(--macro-bar-left, 0px));
+    max-width: calc(100% - var(--macro-bar-left, 0px));
   }
 
   #hotbar {
