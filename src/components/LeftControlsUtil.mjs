@@ -1,13 +1,11 @@
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
+import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 
 export class LeftControls {
-  static #navElem;
   static #leftControls;
-  static #uiMiddle;
   static #uiLeft;
   static #resizeObserver;
-  static #lastWidth;
 
   static init(){
     LogUtil.log("LeftControls - init", []);
@@ -17,9 +15,7 @@ export class LeftControls {
   } 
 
   static resetLocalVars(){
-    LeftControls.#navElem = document.querySelector("#ui-top #navigation"); 
     LeftControls.#leftControls = document.querySelector("#ui-left #controls"); 
-    LeftControls.#uiMiddle = document.querySelector("#ui-middle"); 
     LeftControls.#uiLeft = document.querySelector("#ui-left"); 
   }
 
@@ -77,9 +73,5 @@ export class LeftControls {
       const root = document.querySelector("body.crlngn-ui");
       root?.style.setProperty('--ui-controls-margin-left', controlsMarginLeft + 'px');
     }
-    LeftControls.#lastWidth = controlsWidth;
   }
-
-  
 }
-

@@ -2,7 +2,6 @@ import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { getSettings } from "../constants/Settings.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
-import { Main } from "./Main.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 
 export class TopNavigation {

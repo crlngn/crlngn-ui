@@ -170,4 +170,40 @@ export class GeneralUtil {
     const cleanName = fontName.replace(/['"`]/g, '');
     return cleanName.includes(' ') ? `"${cleanName}"` : cleanName;
   };
+
+  static addLoggingToClass(Class) {
+    // For static methods (properties of the constructor)
+    const staticMethodNames = Object.getOwnPropertyNames(Class)
+      .filter(prop => typeof Class[prop] === 'function' && 
+              prop !== 'constructor' && 
+              prop !== 'prototype' &&
+              prop !== 'addLoggingToClass');
+    
+    console.log(`TEST: Adding logging to ${Class.name} static methods:`, staticMethodNames);
+    
+    staticMethodNames.forEach(methodName => {
+      const originalMethod = Class[methodName];
+      
+      Class[methodName] = function(...args) {
+        console.log(`TEST: Executing: ${Class.name}.${methodName}`);
+        return originalMethod.apply(this, args);
+      };
+    });
+    
+    // For instance methods (properties of the prototype)
+    const protoMethodNames = Object.getOwnPropertyNames(Class.prototype)
+      .filter(prop => typeof Class.prototype[prop] === 'function' && 
+              prop !== 'constructor');
+    
+              console.log(`TEST: Adding logging to ${Class.name} prototype methods:`, protoMethodNames);
+    
+    protoMethodNames.forEach(methodName => {
+      const originalMethod = Class.prototype[methodName];
+      
+      Class.prototype[methodName] = function(...args) {
+        console.log(`TEST: Executing: ${Class.name}.${methodName}`);
+        return originalMethod.apply(this, args);
+      };
+    });
+  }
 }

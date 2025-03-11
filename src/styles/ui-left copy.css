@@ -10,11 +10,15 @@
 body.crlngn-ui{
   --crlngn-top-offset: 0px;
 
-  &.logo-visible{
+  &:has(#logo.visible){
+    --ui-top-padding: 72px;
 
-    #ui-left #logo.visible{
-      height: 72px;
-      margin-top: var(--top-nav-height);
+    :has(#ui-middle.crlngn-ui){
+      --ui-top-padding: calc(72px + var(--left-control-item-size));
+  
+      #logo.visible{
+        margin-top: var(--left-control-item-size);
+      }
     }
   }
 
@@ -26,13 +30,22 @@ body.crlngn-ui{
     z-index: 1;
     min-width: var(--max-players-width);
     margin-top: 1px;
-
+    /*
+    min-width: calc(var(--left-control-item-size) * 2);
+    max-width: calc(var(--left-control-item-size) * 2);
+    overflow: visible;
+    
+  
+    &:has(aside#players.auto-hide){
+      max-width: calc(var(--left-control-item-size) * 2);
+    }
+    */
+  
     &:hover{
       z-index: 100; 
     }
-  }
 
-  #ui-left{
+
     #logo {
       width: auto;
       height: 0;
@@ -43,6 +56,7 @@ body.crlngn-ui{
 
       &.visible{
         height: 72px;
+        /*background: var(--left-control-main-bg);*/
       }
     }
   
@@ -101,9 +115,22 @@ body.crlngn-ui{
         overflow: visible; 
       }
     }
-    
+  
   }
 
+  /*
+  #interface #ui-left #logo {
+    cursor: pointer; 
+    height: var(--crlngn-top-offset); 
+    opacity: 0; 
+    position: relative; 
+    width: 68px; 
+    margin: 0; 
+    pointer-events: none;
+    visibility: hidden;
+  } 
+  */
+  
   #ui-left #controls {
     display: flex;
     flex-direction: row;
@@ -119,8 +146,9 @@ body.crlngn-ui{
     pointer-events: all;
     margin: 0 0 auto 0; 
     position: absolute;
+    /* TEST
     top: var(--ui-top-padding);
-    max-height:  calc(100% - var(--ui-top-padding) - (var(--controls-bottom-buffer)));
+    max-height:  calc(100% - var(--ui-top-padding) - (var(--controls-bottom-buffer)));*/
     min-height: calc(var(--left-control-item-size) * 6);
   
     > *{

@@ -279,9 +279,9 @@ ol#notifications {
   opacity: 0;
 }
 body.crlngn-ui {
-  .window-app, .application {
+  /*.window-app, .application {
     max-height: calc(100% - 80px);
-  }
+  }*/
   .window-app .window-content{
     max-height: 100%;    
     font-size: var(--font-size-13);

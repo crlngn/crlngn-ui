@@ -1,15 +1,10 @@
 body{
   &.crlngn-ui { 
     --top-nav-height:  calc(var(--left-control-item-size));
-    --ui-top-padding: 0px;
     --ui-controls-margin-left: -100px;
-  
-    &:has(#ui-middle.crlngn-ui){
-      --ui-top-padding: var(--top-nav-height);
-  
-      &:has(#navigation.collapsed):has(#logo.visible){
-        --ui-top-padding: calc(72px + var(--top-nav-height));
-      }
+
+    &.logo-visible:has(#navigation.collapsed) {
+      --ui-top-padding: calc(72px + var(--top-nav-height));
     }
   }
 
@@ -92,7 +87,6 @@ body{
         min-width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width) + 10px);
 
         z-index:101;
-
 
         > *{
           position: relative;

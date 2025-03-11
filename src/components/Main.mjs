@@ -8,9 +8,9 @@ import { PlayersListUtil } from "./PlayersListUtil.mjs";
 import { getSettings } from "../constants/Settings.mjs";
 import { LeftControls } from "./LeftControlsUtil.mjs";
 import { MODULE_ID } from "../constants/General.mjs";
+import { GeneralUtil } from "./GeneralUtil.mjs";
 
 export class Main {
-  static SETTINGS;
 
   static init(){
     Hooks.once(HOOKS_CORE.INIT, () => { 
@@ -35,10 +35,12 @@ export class Main {
       LogUtil.log("Core Ready", [CONFIG, availableFonts, fontSettings]);
 
       TopNavigation.init(); 
+      /*
       CameraUtil.init(); 
       PlayersListUtil.init(); 
       LeftControls.init();
       ChatUtil.init();
+      */
 
       const chatMsgSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
       if(chatMsgSettings.enableChatStyles){ 
@@ -70,3 +72,5 @@ export class Main {
   }
 
 }
+GeneralUtil.addLoggingToClass(Main);
+console.log("Main class methods have been wrapped with logging", []);

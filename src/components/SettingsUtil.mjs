@@ -1,4 +1,4 @@
-import { MODULE_ID, MODULE_SHORT } from "../constants/General.mjs";
+import { MODULE_ID } from "../constants/General.mjs";
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { getSettingMenus } from "../constants/SettingMenus.mjs";
 import { BORDER_COLOR_TYPES, getSettings, ICON_SIZES } from "../constants/Settings.mjs";
@@ -6,7 +6,6 @@ import { CameraUtil } from "./CameraUtil.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
-import { Main } from "./Main.mjs";
 
 export class SettingsUtil {
   static firstLoad = true;
@@ -164,13 +163,17 @@ export class SettingsUtil {
     LogUtil.log("SettingsUtil.apply",[settingTag, value, SettingsUtil.get(settingTag)]); 
     switch(settingTag){
       case SETTINGS.enableMacroLayout.tag: 
-        SettingsUtil.applyHotBarSettings(); break; 
+        SettingsUtil.applyHotBarSettings(); 
+        break; 
       case SETTINGS.collapseMacroBar.tag:
-        SettingsUtil.applyHotBarCollapse(); break; 
+        SettingsUtil.applyHotBarCollapse(); 
+        break; 
       case SETTINGS.autoHidePlayerList.tag: 
-        SettingsUtil.applyPlayersListSettings(); break;
+        SettingsUtil.applyPlayersListSettings(); 
+        break;
       case SETTINGS.customFontsMenu.tag:
-        SettingsUtil.applyCustomFonts(value); break;
+        SettingsUtil.applyCustomFonts(value); 
+        break;
       case SETTINGS.leftControlsMenu.tag:
         SettingsUtil.applyLeftControlsSettings(); 
         SettingsUtil.applyControlIconSize();
@@ -251,6 +254,7 @@ export class SettingsUtil {
   static applyLeftControlsSettings(){
     const SETTINGS = getSettings();
     const leftControls = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
+    const sceneNavMenu = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
     const controls = document.querySelector("#ui-left");
     const logo = document.querySelector("#ui-left #logo");
 
@@ -260,10 +264,21 @@ export class SettingsUtil {
       controls.classList.remove("auto-hide"); 
     }
 
+    LogUtil.log("TEST!!!",[sceneNavMenu, leftControls.hideFoundryLogo]);
+
+    const body = document.querySelector('body');
     if(leftControls.hideFoundryLogo===undefined || leftControls.hideFoundryLogo===true){ 
-      logo.classList.remove("visible"); 
+      logo.classList.remove("visible");
+      body.style.setProperty('--ui-top-padding', 'var(--top-nav-height)');
+      document.querySelector("body").classList.remove('logo-visible');
     }else{
       logo.classList.add("visible"); 
+      if(sceneNavMenu.sceneNavEnabled){
+        body.style.setProperty('--ui-top-padding', 'calc(72px + var(--left-control-item-size)');
+        document.querySelector("body").classList.add('logo-visible');
+      }else{
+        body.style.setProperty('--ui-top-padding', '72px');
+      }
     }
   }
   /**

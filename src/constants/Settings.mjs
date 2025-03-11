@@ -195,7 +195,7 @@ export function getSettings() {
           label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockHeight.label"),
           hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockHeight.hint"),
           inputType: SETTING_INPUT.number
-        }
+        },
       },
       default: {
         enableFloatingDock: true,
