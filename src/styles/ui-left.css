@@ -1,7 +1,7 @@
 :root{
   --left-control-item-size: 36px;
   --left-control-main-bg: rgba(20, 20, 20, 0.85); 
-  --left-control-secondary-bg: rgba(50, 50, 70, 0.75);
+  --color-secondary-75: rgba(50, 50, 70, 0.75);
   --ui-top-padding: 0px;
 }
 /* -----------------
@@ -59,7 +59,7 @@ body.crlngn-ui{
       margin: 0;
       overflow: hidden;
       text-align: left;
-      border-bottom: 1px solid var(--left-control-secondary-bg);
+      border-bottom: 1px solid var(--color-secondary-75);
       flex: 0 0 var(--left-control-item-size);
   
       > * {
@@ -87,7 +87,7 @@ body.crlngn-ui{
         padding: 0 6px 0 0;
         margin: -1px 0 0 0;
         border: 1px solid transparent;
-        border-bottom: 1px solid var(--left-control-secondary-bg);
+        border-bottom: 1px solid var(--color-secondary-75);
         color: var(--color-text-light-1);
         line-height: calc(var(--left-control-item-size));
       }
@@ -211,10 +211,10 @@ body.crlngn-ui{
     width: var(--left-control-item-size);
     height: var(--left-control-item-size);
     border-radius: 0;
-    margin: 0 0 0 0;
+    margin: 0;
     font-size: var(--font-size-14);
     box-shadow: none;
-    background: var(--left-control-secondary-bg);
+    background: var(--color-secondary-75);
     border: 1px solid transparent;
     z-index: 1;
     box-sizing: border-box;
@@ -223,14 +223,15 @@ body.crlngn-ui{
   
     &:hover{
       border: 1px solid transparent;
-      background: rgba(50, 50, 70, 1);
-      border: 1px solid rgba(180,180,205,0.35);
+      background: var(--color-secondary-75);
+      border: 1px solid var(--color-secondary-bright);
     }
     &.active{
-      background: rgba(80, 80, 105, 1);
-      border: 1px solid rgba(80, 80, 105, 1);
+      background: var(--color-secondary-90);
+      border: 1px solid transparent;
       &:hover{
-        border: 1px solid rgba(180,180,205,0.35);
+        background: var(--color-secondary-90);
+        border: 1px solid var(--color-secondary-bright);
       }
     }
   }

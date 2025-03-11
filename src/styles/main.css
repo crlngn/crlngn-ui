@@ -226,9 +226,9 @@ body .journal-entry-content a.content-link > i {
   margin: 12px auto;
   max-width: 600px;
   height: auto;
-  background-color: rgba(50,50,80,0.8);
+  background-color: var(--color-secondary-75);
   border: 1px solid transparent;
-  box-shadow: 0 0 4px #7b7e88;
+  box-shadow: 0 0 4px var(--color-secondary-90);
 
   #loading-bar {
     background-color: rgba(240,240,240,1);
@@ -268,7 +268,7 @@ ol#notifications {
     padding: 8px 12px; 
 
     &.info {
-      background: rgba(80, 80, 110, 0.85);
+      background: var(--color-secondary-90);
       border: 1px solid rgba(0,0,0);
     } 
   }

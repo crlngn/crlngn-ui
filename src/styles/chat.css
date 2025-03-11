@@ -42,7 +42,7 @@ body.crlngn-chat {
   .chat-message .message-content .gold-icon{
     border: 1px solid var(--color-dark-bg-50);
   }
-  
+
   #chat-log{
     padding: 1em 0;
   }
@@ -366,7 +366,7 @@ body.crlngn-chat {
       }
     }
 
-    span:not(.hidden-dc) {
+    span:not(.hidden-dc, .visible-dc) {
       display: flex;
       align-items: center;
 
