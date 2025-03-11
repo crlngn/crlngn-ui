@@ -32,7 +32,7 @@ body.crlngn-ui{
     }
   }
 
-  #ui-left{
+  #interface #ui-left{
     #logo {
       width: auto;
       height: 0;

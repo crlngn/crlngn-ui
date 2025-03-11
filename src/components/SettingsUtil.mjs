@@ -264,17 +264,18 @@ export class SettingsUtil {
       controls.classList.remove("auto-hide"); 
     }
 
-    LogUtil.log("TEST!!!",[sceneNavMenu, leftControls.hideFoundryLogo]);
-
-    const body = document.querySelector('body');
+    const body = document.querySelector('body.crlngn-ui');
+    const bodyStyles = window.getComputedStyle(body);
+    const topPadding = parseFloat(bodyStyles.getPropertyValue('--top-nav-height'));
+    LogUtil.log("TEST!!!",[bodyStyles, topPadding]);
     if(leftControls.hideFoundryLogo===undefined || leftControls.hideFoundryLogo===true){ 
       logo.classList.remove("visible");
-      body.style.setProperty('--ui-top-padding', 'var(--top-nav-height)');
+      body.style.setProperty('--ui-top-padding', `${topPadding}px`);
       document.querySelector("body").classList.remove('logo-visible');
     }else{
       logo.classList.add("visible"); 
       if(sceneNavMenu.sceneNavEnabled){
-        body.style.setProperty('--ui-top-padding', 'calc(72px + var(--left-control-item-size)');
+        body.style.setProperty('--ui-top-padding',`${(72 + topPadding)}px`);
         document.querySelector("body").classList.add('logo-visible');
       }else{
         body.style.setProperty('--ui-top-padding', '72px');

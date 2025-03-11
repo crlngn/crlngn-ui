@@ -1,6 +1,6 @@
 body{
   &.crlngn-ui { 
-    --top-nav-height:  calc(var(--left-control-item-size));
+    --top-nav-height:  var(--left-control-item-size);
     --ui-controls-margin-left: -100px;
 
     &.logo-visible:has(#navigation.collapsed) {

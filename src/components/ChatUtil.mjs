@@ -1,6 +1,6 @@
 import { BORDER_COLOR_TYPES, getSettings } from "../constants/Settings.mjs";
 import "../styles/chat.css"
-import { GeneralUtil } from "./GeneralUtil.mjs";
+// import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 
