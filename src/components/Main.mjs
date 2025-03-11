@@ -35,12 +35,10 @@ export class Main {
       LogUtil.log("Core Ready", [CONFIG, availableFonts, fontSettings]);
 
       TopNavigation.init(); 
-      /*
       CameraUtil.init(); 
       PlayersListUtil.init(); 
       LeftControls.init();
       ChatUtil.init();
-      */
 
       const chatMsgSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
       if(chatMsgSettings.enableChatStyles){ 

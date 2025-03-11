@@ -3,6 +3,7 @@ import { getSettings } from "../constants/Settings.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
+import { Main } from "./Main.mjs"; 
 
 export class CameraUtil {
   static #offsetX = 0;

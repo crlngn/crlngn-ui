@@ -165,6 +165,12 @@ body.crlngn-ui{
     border: 0;
     box-shadow: none;
   }
+  #tooltip.combat-dock-tooltip{
+    .roll-link-group a, .roll-link a, .reference-link a {
+      background: var(--color-dark-bg-90);
+    }
+  }
+  
   #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper > ul {
     display: flex;
     flex-direction: row;

@@ -267,7 +267,7 @@ export class SettingsUtil {
     const body = document.querySelector('body.crlngn-ui');
     const bodyStyles = window.getComputedStyle(body);
     const topPadding = parseFloat(bodyStyles.getPropertyValue('--top-nav-height'));
-    LogUtil.log("TEST!!!",[bodyStyles, topPadding]);
+
     if(leftControls.hideFoundryLogo===undefined || leftControls.hideFoundryLogo===true){ 
       logo.classList.remove("visible");
       body.style.setProperty('--ui-top-padding', `${topPadding}px`);
