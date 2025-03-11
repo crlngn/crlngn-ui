@@ -70,5 +70,3 @@ export class Main {
   }
 
 }
-GeneralUtil.addLoggingToClass(Main);
-console.log("Main class methods have been wrapped with logging", []);
