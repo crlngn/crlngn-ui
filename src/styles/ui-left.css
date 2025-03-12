@@ -105,7 +105,6 @@ body.crlngn-ui{
   }
 
   #ui-left #controls {
-    contain: layout paint;
     display: flex;
     flex-direction: row;
     flex: 1 1 auto;
@@ -171,7 +170,6 @@ body.crlngn-ui{
   #ui-left #controls:focus-within
   {
     max-width: auto;
-    contain: layout paint;
     ol:not(.main-controls).active {
       opacity: 1;
       display: flex;

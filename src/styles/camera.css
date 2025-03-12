@@ -5,9 +5,8 @@ body.crlngn-ui{
   #camera-views.camera-position-top,
   #camera-views.camera-position-left,
   #camera-views.camera-position-right{
-    contain: layout paint;
     position: fixed;
-    top: -200vh;
+    /*top: -200vh;*/
 
     &.visible{
       position: relative;
@@ -16,7 +15,6 @@ body.crlngn-ui{
   }
   
   #camera-views.crlngn-ui {
-    contain: layout paint;
     --av-width: 160px;
     --camera-bar-max-width: 34px; 
     --camera-bar-max-height: 0px; 
@@ -25,7 +23,7 @@ body.crlngn-ui{
     display: flex;
     margin-top: 0;
     min-width: 0;
-    max-width: max-content;
+    /*max-width: max-content;*/
     max-height: 100%;
     min-height: 100%;
     background: transparent;
@@ -72,7 +70,6 @@ body.crlngn-ui{
     &.camera-position-top .camera-container,
     &.camera-position-left .camera-container,
     &.camera-position-right .camera-container {
-      contain: layout paint;
       display: flex;
       min-width: 160px;
       min-height: 140px;
@@ -494,7 +491,6 @@ body.crlngn-ui{
       }
 
       .camera-container{
-        contain: layout paint;
       }
 
       .camera-view:not(.camera-box-popout) {
