@@ -1,10 +1,4 @@
 #interface #ui-middle {
   z-index: 10;
 
-  &.crlngn-ui {
-    /*
-    flex-grow: 1;
-    min-width: 0;
-    */
-  }
 }

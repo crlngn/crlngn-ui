@@ -35,9 +35,11 @@ body.crlngn-chat {
     }
   }
 
+  /*
   .chat-message .message-content:not(:has(div)){
     margin: 1em 0;
   }
+  */
 
   .chat-message .message-content .gold-icon{
     border: 1px solid var(--color-dark-bg-50);
@@ -525,7 +527,12 @@ body.crlngn-chat {
     --dnd5e-text-color-success: #c1e6a7;
     --dnd5e-text-color-failure: #d8aeae;
 
-    .chat-message * {
+    .chat-message p,
+    .chat-message span,
+    .chat-message div,
+    .chat-message table,
+    .chat-message ul,
+    .chat-message ol {
       color: var(--color-light-1);
     }
 
@@ -613,6 +620,10 @@ body.crlngn-chat {
       opacity: 0.35;
     }
   
+    .dice-tooltip .dice-rolls .roll {
+      color: var(--color-dark-1);
+    }
+    
     .dice-tooltip .dice-rolls .roll.discarded, 
     .dice-tooltip .dice-rolls .roll.rerolled {
       color: var(--color-dark-3);

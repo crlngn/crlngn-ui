@@ -9,6 +9,7 @@ import { getSettings } from "../constants/Settings.mjs";
 import { LeftControls } from "./LeftControlsUtil.mjs";
 import { MODULE_ID } from "../constants/General.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
+import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
 
 export class Main {
 
@@ -19,6 +20,7 @@ export class Main {
 
       SettingsUtil.registerSettings();
       Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
+      Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, Main.checkPlayersList);
     });
 
     Hooks.once(HOOKS_CORE.READY, () => {
@@ -39,6 +41,7 @@ export class Main {
       PlayersListUtil.init(); 
       LeftControls.init();
       ChatUtil.init();
+      ModuleCompatUtil.init();
 
       const chatMsgSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
       if(chatMsgSettings.enableChatStyles){ 
@@ -67,6 +70,28 @@ export class Main {
     LogUtil.log(HOOKS_CORE.RENDER_CHAT_MESSAGE,[chatMessage, html]);
   
     ChatUtil.enrichCard(chatMessage, html);
+  }
+
+  static checkPlayersList = () => {
+    const body = document.querySelector('body');
+    const uiLeftPlayers = document.querySelector('#ui-left #players');
+    const isTaskbarOn = GeneralUtil.isModuleOn('foundry-taskbar');
+    const isPlayersDocked = isTaskbarOn ? game.settings.get('foundry-taskbar','dockPlayersList') : false;
+    LogUtil.log('checkPlayersList',[isPlayersDocked, isTaskbarOn, game.settings]);
+    
+    if(body.querySelector('#players.auto-hide')){
+      body.classList.add('with-players-hide');
+      body.classList.remove('with-players');
+      body.classList.remove('players-hidden');
+    }else if(isPlayersDocked){
+      body.classList.remove('with-players');
+      body.classList.remove('with-players-hide');
+      body.classList.add('players-hidden');
+    }else if(uiLeftPlayers){
+      body.classList.add('with-players');
+      body.classList.remove('with-players-hide');
+      body.classList.remove('players-hidden');
+    }
   }
 
 }

@@ -88,42 +88,30 @@ body.crlngn-ui{
     background: var(--crlngn-chat-button-bg-15);
   }
 
-  /* MONK'S SCENE NAVIGATION 
-
 
   /* CAROUSEL COMBAT TRACKER */
   /* if crlngn scene nav is enabled, adjust width */
   #combat-dock {
     width: calc(100% - 40px);
   }
-  &:has(#ui-middle.crlngn-ui){
-    
-    &:has(#navigation.collapsed) {
-      /* if scene nav is collapsed */
+
+  #ui-middle.crlngn-ui{
+    #combat-dock {
+      margin-top: calc(var(--crlngn-top-offset, 0px) + var(--left-control-item-size, 0px));
+      transition: margin-top 0.2s linear;
+    }
+    &.navigation-collapsed, &.with-monks-scene {
       #combat-dock {
         margin-top: 0;
-      }
-    }
-
-    &:not(:has(.monks-scene-navigation)){
-      #combat-dock {
-        margin-top: calc(var(--crlngn-top-offset, 0px) + var(--left-control-item-size, 0px));
-        transition: margin-top 0.2s linear;
       }
     }
   }
 
   #combat-dock {
-    
-    #combatants{
-      pointer-events: all;
+    z-index: 0;
+    :hover{
+      z-index: 100;
     }
-
-    &:has(#combatants:hover),
-    &:has(.buttons-container:hover){
-      z-index:1001;
-    }
-
     .buttons-container {
       justify-content: flex-start;
       gap: 1px;
@@ -134,10 +122,10 @@ body.crlngn-ui{
       }
       
     }
-
+/*
     .combatant-wrapper {
       z-index: 0;
-    }
+    }*/
     
   }
 
@@ -170,7 +158,7 @@ body.crlngn-ui{
       background: var(--color-dark-bg-90);
     }
   }
-  
+
   #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper > ul {
     display: flex;
     flex-direction: row;
@@ -237,10 +225,6 @@ body.crlngn-ui{
     --visual-active-effects-top-offset: calc(var(--left-control-item-size) * 1.5);
   }
 
-  #taskbar{
-    z-index: 1001;
-  }
-
   /* RIPPER93 youtube widget */
   #sidebar-video-player {
     margin: 0 0 10px 0;
@@ -286,13 +270,8 @@ body.crlngn-ui{
   }
   
   /* PARTY RESOURCES */
-  &:has(#ui-middle.crlngn-ui){
-    &:has(#navigation.collapsed) {
-      /* if scene nav is collapsed, push down the bar */
-      #fvtt-party-resources-status-bar {
-        margin-top: 0;
-      }
-    }
+  #ui-middle.navigation-collapsed #fvtt-party-resources-status-bar {
+    margin-top: 0;
   }
 
   #fvtt-party-resources-status-bar {
@@ -314,6 +293,7 @@ body.crlngn-ui{
 
 
   /* CRUX */
+  /*
   #crux .crux__container {
     border-right: 1px solid rgba(0,0,0,0.75);
     background-color: rgba(0,0,0,0.8);
@@ -390,6 +370,7 @@ body.crlngn-ui{
     display: block;
     max-width: 100%;
   }
+    */
   
   /* POLYGLOT */
   .polyglot.polyglot-lang-select span.select2-selection,
@@ -509,6 +490,7 @@ body.crlngn-ui{
       }
     }
   }
+
   &.theme-dark {
     .sidebar-tab{
       .item-piles-chat-card {
@@ -555,30 +537,6 @@ body.crlngn-ui{
       li.control-tool {
         width: var(--left-control-item-size);
         height: var(--left-control-item-size);
-        /*
-        border-radius: 0;
-        margin: 0;
-        font-size: var(--font-size-14);
-        box-shadow: none;
-        background: var(--left-control-secondary-bg);
-        border: 1px solid transparent;
-        z-index: 1;
-        box-sizing: border-box;
-      
-      
-        &:hover{
-          border: 1px solid transparent;
-          background: rgba(50, 50, 70, 1);
-          border: 1px solid rgba(180,180,205,0.35);
-        }
-        &.active{
-          background: rgba(80, 80, 105, 1);
-          border: 1px solid rgba(80, 80, 105, 1);
-          &:hover{
-            border: 1px solid rgba(180,180,205,0.35);
-          }
-        }
-        */
       }
     }
 
@@ -599,20 +557,4 @@ body.crlngn-ui{
     }
   }
 }
-
-
-/* ITEM PILES */
-/*
-html:has(body.theme-dark){
-  --item-piles-inactive: rgb(106, 147, 188) !important;
-  --item-piles-minor-inactive: rgb(112, 112, 103) !important;
-  --item-piles-shadow-primary: rgb(124, 77, 77) !important;
-  --item-piles-even-color: rgb(103, 103, 81) !important;
-  --item-piles-odd-color: rgba(0, 0, 0, 0) !important;
-  --item-piles-border-dark-primary: rgba(25, 24, 19, 1) !important;
-  --item-piles-border-light-primary: rgba(181, 179, 164, 1) !important;
-  --item-piles-text-light-highlight: rgba(11, 10, 19, .5);
-  --item-piles-text-important: rgb(161, 105, 68) !important;
-}
-*/
 

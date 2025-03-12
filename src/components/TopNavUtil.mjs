@@ -10,17 +10,22 @@ export class TopNavigation {
   static #navTimeout;
   static #navExtras;
   static #navToggle;
-  static #settings;
+  static #uiMiddle;
   static SETTINGS;
+  static navSettings;
+  static isCollapsed;
+  static navPos;
 
   static init(){
     const SETTINGS = getSettings();
-    TopNavigation.#settings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
+    TopNavigation.navSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
+    TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag);
+    TopNavigation.navPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
 
     // if user disabled Scene Navigation Styles,
     // skip everything
     const uiMiddle = document.querySelector("#ui-middle");
-    let navSettings = TopNavigation.#settings;
+    let navSettings = TopNavigation.navSettings;
     if(navSettings.sceneNavEnabled && uiMiddle){
       uiMiddle.classList.add("crlngn-ui");
     }else if(uiMiddle){
@@ -33,6 +38,7 @@ export class TopNavigation {
     // If Monk's Scene Navigation is enabled, disable Carolingian UI Top Navigation
     const isMonksScenenNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
     if(isMonksScenenNavOn && navSettings.sceneNavEnabled){
+      // &.navigation-collapsed, &.with-monks-scene
       if(game.user.isGM){
         ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.monksScenesNotSupported"), {permanent: true});
       }
@@ -59,6 +65,8 @@ export class TopNavigation {
       // }else{
       //   ui.nav.expand();
       // }
+    }else{
+      uiMiddle.classList.add('with-monks-scene');
     }
 
     Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, () => { 
@@ -93,13 +101,18 @@ export class TopNavigation {
 
     Hooks.on(HOOKS_CORE.COLLAPSE_SCENE_NAV, (nav, value) => {
       const SETTINGS = getSettings();
-      // SettingsUtil.set(SETTINGS.sceneNavCollapsed.tag, value); 
+      SettingsUtil.set(SETTINGS.sceneNavCollapsed.tag, value); 
       LogUtil.log("NAV toggle", [nav, value]); 
+      const uiMiddle = document.querySelector("#ui-middle");
+
+      if(value){
+        uiMiddle.classList.add('navigation-collapsed');
+      }else{
+        uiMiddle.classList.remove('navigation-collapsed');
+      }
     }); 
 
     Hooks.on(HOOKS_CORE.EXPAND_SCENE_NAV, (nav, value) => {
-      const SETTINGS = getSettings();
-      // SettingsUtil.set(SETTINGS.sceneNavCollapsed.tag, false); 
       LogUtil.log("NAV expand", [nav, false]); 
     }); 
 
@@ -111,14 +124,11 @@ export class TopNavigation {
       }
     });
 
-
-
     LogUtil.log("TopNavigation - init", [navSettings.sceneNavEnabled])
     
     // if(navSettings.sceneNavEnabled){ 
     //   // TopNavigation.observeNavOffset(); 
     // } 
-    
   } 
 
   static resetLocalVars(){
@@ -130,11 +140,11 @@ export class TopNavigation {
   }
 
   static addListeners(){
-    const SETTINGS = getSettings();
     TopNavigation.#navElem?.addEventListener("mouseenter", ()=>{
-      const sceneNavSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
-      if( !SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag) ||
-          !sceneNavSettings?.showNavOnHover ){ 
+      LogUtil.log("TopNavigation mouseenter", [ ]);
+    
+      if( !TopNavigation.isCollapsed ||
+          !TopNavigation.navSettings?.showNavOnHover ){ 
             return;
       }
       clearTimeout(this.#navTimeout);
@@ -146,9 +156,9 @@ export class TopNavigation {
     });
 
     this.#navElem?.addEventListener("mouseleave", (e)=>{
-      const sceneNavSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
-      if( !SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag) ||
-          !sceneNavSettings?.showNavOnHover ){ 
+      LogUtil.log("TopNavigation mouseleave", [ ]);
+      if( !TopNavigation.isCollapsed ||
+          !TopNavigation.navSettings?.showNavOnHover ){ 
           return;
       }
       if (!e) var e = window.event;
@@ -201,13 +211,12 @@ export class TopNavigation {
 
 
   static #onNavLast = (e) => {
-    const SETTINGS = getSettings();
     const toggleWidth = this.#navToggle?.offsetWidth;
     const extrasWidth = GeneralUtil.isModuleOn("compact-scene-navigation") ? this.#navExtras?.offsetWidth : 0;
     const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
     const scenes = this.#scenesList?.querySelectorAll("li.nav-item") || [];
     const itemWidth = firstScene.offsetWidth;
-    const currPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag) || 0;
+    const currPos = TopNavigation.navPos || 0;
     const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? extrasWidth : 0) - (toggleWidth*2))/itemWidth);
 
     LogUtil.log("onNavLast", ["currPos", currPos, itemsPerPage]);
@@ -226,7 +235,7 @@ export class TopNavigation {
     const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
     const scenes = this.#scenesList?.querySelectorAll("li.nav-item:not(.is-root)") || [];
     const itemWidth = firstScene.offsetWidth;
-    const currPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag) || 0;
+    const currPos = TopNavigation.navPos || 0;
     const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? extrasWidth : 0) - (toggleWidth*2))/itemWidth);
 
     LogUtil.log("onNavLast", ["currPos", currPos, itemsPerPage]);
@@ -240,7 +249,7 @@ export class TopNavigation {
   static setNavPosition(pos) { 
     const SETTINGS = getSettings();
     if(!this.#scenesList){ return; }
-    const position = pos !== undefined ? pos : SettingsUtil.get(SETTINGS.sceneNavPos.tag);
+    const position = pos !== undefined ? pos : TopNavigation.navPos || 0;
     const scenes = this.#scenesList?.querySelectorAll("li.nav-item") || [];
 
     const newMargin = scenes[position]?.offsetLeft * -1;
@@ -250,55 +259,6 @@ export class TopNavigation {
 
     LogUtil.log("setNavPosition", [pos, position, scenes[position], newMargin]);
   }
-
-  /*
-  static observeNavOffset(){
-    LogUtil.log("observeNavOffset A", []);
-    if(!TopNavigation.#navElem || !TopNavigation.#leftControls){ return; }
-    const monksScenenNav = GeneralUtil.isModuleOn('monks-scene-navigation'); 
-    // document.querySelector("#ui-top .monks-scene-navigation"); 
-
-    function updateCSSVars() {
-      const TopNavigation.#settings = getSettings();
-
-      TopNavigation.#navElem = document.querySelector("#navigation"); 
-      if(!TopNavigation.#navElem){ return; }
-
-      const isNavCollapsed = SettingsUtil.get(TopNavigation.#settings.sceneNavCollapsed.tag); 
-      // const navHeight = isNavCollapsed ? 0 : TopNavigation.#navElem.offsetHeight;
-
-      // let topOffset = monksScenenNav ? 0 : navHeight + TopNavigation.#navElem.offsetTop;
-      let topOffset = monksScenenNav ? 0 : TopNavigation.#navElem.offsetTop;
-
-      const root = document.querySelector("body.crlngn-ui");
-      root?.style.setProperty('--crlngn-top-offset', topOffset + 'px');
-  
-      LogUtil.log("TopNavigation updateCSSVars", [isNavCollapsed, topOffset, TopNavigation.#navElem.offsetTop, TopNavigation.#navElem.offsetHeight]);
-    }
-
-    // Create a MutationObserver to watch for changes
-    TopNavigation.#observer = new MutationObserver(()=>{
-      throttle(() => TopNavigation.updateCSSVars(), 250);
-    });
-
-    if(!monksScenenNav){
-      TopNavigation.#observer.observe(TopNavigation.#navElem.parentNode, {
-        // attributes: true,
-        // childList: true,
-        // subtree: true,
-        // characterData: true
-        attributes: true,           // attribute changes
-        attributeFilter: ['style'], // Only style attribute changes 
-        childList: true,            // child changes
-        subtree: false,             // descendants
-        characterData: false        // text changes
-      });
-    }
-
-    updateCSSVars();
-  }
-  */
-
   
 }
 

@@ -6,6 +6,8 @@ import { CameraUtil } from "./CameraUtil.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
+import { Main } from "./Main.mjs";
+import { TopNavigation } from "./TopNavUtil.mjs";
 
 export class SettingsUtil {
   static firstLoad = true;
@@ -169,7 +171,7 @@ export class SettingsUtil {
         SettingsUtil.applyHotBarCollapse(); 
         break; 
       case SETTINGS.autoHidePlayerList.tag: 
-        SettingsUtil.applyPlayersListSettings(); 
+        SettingsUtil.applyPlayersListSettings();
         break;
       case SETTINGS.customFontsMenu.tag:
         SettingsUtil.applyCustomFonts(value); 
@@ -195,6 +197,12 @@ export class SettingsUtil {
         break;
       case SETTINGS.debugMode.tag:
         SettingsUtil.applyDebugSettings();
+        break;
+      case SETTINGS.sceneNavMenu.tag:
+        TopNavigation.navSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
+        break;
+      case SETTINGS.sceneNavCollapsed.tag:
+        TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag);
         break;
       default:
         // do nothing
@@ -313,11 +321,13 @@ export class SettingsUtil {
     }else{
       document.querySelector("#players")?.classList.remove("auto-hide");
     }
+    Main.checkPlayersList();
   }
 
   static applySceneNavPos(){
     const SETTINGS = getSettings();
     SettingsUtil.set(SETTINGS.sceneNavPos.tag, 0);
+    TopNavigation.navPos = 0;
   }
 
   /**

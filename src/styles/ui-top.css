@@ -42,7 +42,7 @@ body{
 
   }
 
-  #ui-middle.crlngn-ui:not(:has(.monks-scene-navigation)){
+  #ui-middle.crlngn-ui{
     margin-top: 0;
 
     > *:not(#loading, #ui-top) {
@@ -70,6 +70,7 @@ body{
       }
 
       #navigation {
+        contain: layout paint;
         position: absolute;
         top: 0;
         left: 0;
@@ -94,6 +95,7 @@ body{
 
         &:before{
           content: '';
+          contain: layout paint;
           display: block;
           position: absolute; 
           background: rgba(0, 0, 0, 0.75);
@@ -106,6 +108,7 @@ body{
 
         &:after{
           content: '';
+          contain: layout paint;
           display: block;
           position: absolute;
           width: 100%;
@@ -129,6 +132,7 @@ body{
 
         button.crlngn-nav.ui-nav-left,
         button.crlngn-nav.ui-nav-right {
+          contain: layout paint;
           pointer-events: all;
           width: var(--left-control-item-size);
           background: transparent;
@@ -226,6 +230,7 @@ body{
 
             &::before {
               content: "";
+              contain: layout paint;
               position: absolute;
               top: 0;
               left: 0;
@@ -278,6 +283,7 @@ body{
         }
   
         li.scene > ul.scene-players {
+          contain: layout paint;
           list-style: none;
           margin: 0;
           padding: 0;
@@ -308,6 +314,7 @@ body{
   
         button.crlngn-nav.ui-nav-left,
         button.crlngn-nav.ui-nav-right {
+          contain: layout paint;
           width: var(--left-control-item-size);
           height: var(--top-nav-height);
           background: rgba(0,0,0,0.8);
@@ -336,7 +343,7 @@ body{
   }
 
   &.hide-player-ui-sceneList{
-    #ui-middle.crlngn-ui:not(:has(.monks-scene-navigation)) #ui-top.offset{
+    #ui-middle.crlngn-ui #ui-top.offset{
       #navigation:before{
         display: none;
       }

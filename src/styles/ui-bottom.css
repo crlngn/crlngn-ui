@@ -13,16 +13,16 @@
 
 body.crlngn-ui{
   --macro-bar-left: 0px;
-  /*calc(var(--max-players-width) - (var(--left-control-item-size) * 2));*/
 
-
-  &:has(#players){
+  &.with-players{
     --macro-bar-left: calc(-1 * var(--ui-controls-margin-left, 0px));
-    /*--macro-bar-left: calc(-1* var(--max-players-width) + var(--max-players-width, 0px));*/
   }
   
-  &:has(#players.auto-hide){
+  &.with-players-hide{
     --macro-bar-left: calc((var(--ui-controls-margin-left, 0px) * -1) - var(--max-players-width, 0px) + var(--left-control-item-size, 0px));
+  }
+  &.players-hidden{
+    --macro-bar-left: calc((var(--ui-controls-margin-left, 0px) * -1) - var(--max-players-width, 0px));
   }
 
 

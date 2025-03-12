@@ -1,9 +1,9 @@
 body.crlngn-ui {
   --max-players-width: 200px;
 
-  :not(#taskbar){
+  /*:not(#taskbar){*/
     aside#players { 
-      position: relative;
+      /*position: relative;*/
       border-radius: 0; 
       background: rgba(20, 20, 20, 0.85); 
       box-shadow: none;
@@ -226,6 +226,6 @@ body.crlngn-ui {
       }
   
     }
-  }
+  /*}*/
   
 }

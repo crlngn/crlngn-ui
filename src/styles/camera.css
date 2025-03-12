@@ -5,6 +5,7 @@ body.crlngn-ui{
   #camera-views.camera-position-top,
   #camera-views.camera-position-left,
   #camera-views.camera-position-right{
+    contain: layout paint;
     position: fixed;
     top: -200vh;
 
@@ -15,6 +16,7 @@ body.crlngn-ui{
   }
   
   #camera-views.crlngn-ui {
+    contain: layout paint;
     --av-width: 160px;
     --camera-bar-max-width: 34px; 
     --camera-bar-max-height: 0px; 
@@ -70,6 +72,7 @@ body.crlngn-ui{
     &.camera-position-top .camera-container,
     &.camera-position-left .camera-container,
     &.camera-position-right .camera-container {
+      contain: layout paint;
       display: flex;
       min-width: 160px;
       min-height: 140px;
@@ -491,7 +494,7 @@ body.crlngn-ui{
       }
 
       .camera-container{
-        /* margin-bottom: var(--players-list-height, 100px); */ 
+        contain: layout paint;
       }
 
       .camera-view:not(.camera-box-popout) {

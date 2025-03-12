@@ -316,7 +316,7 @@ body.crlngn-chat {
   --font-h4: var(--crlngn-font-family);
   --font-h5: var(--crlngn-font-family);
   --font-h6: var(--crlngn-font-family);
-
+/*
   --font-size-10: 0.625rem;
   --font-size-11: 0.6875rem;
   --font-size-12: 0.75rem;
@@ -333,14 +333,6 @@ body.crlngn-chat {
   --font-size-48: 3rem;
   --font-size-64: 3.6rem;
   --font-size-80: 4.2rem;
-  /*
-  --font-h1-size: var(--font-size-48);
-  --font-h2-size: var(--font-size-32);
-  --font-h3-size: var(--font-size-24);
-  --font-h4-size: var(--font-size-24);
-  --font-h5-size: var(--font-size-20);
-  --font-h6-size: var(--font-size-24);
-  */ 
-
+  */
   --color-scrollbar: rgba(68, 147, 173, 0.7);
 }
