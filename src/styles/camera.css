@@ -6,7 +6,7 @@ body.crlngn-ui{
   #camera-views.camera-position-left,
   #camera-views.camera-position-right{
     position: fixed;
-    /*top: -200vh;*/
+    top: -200vh;
 
     &.visible{
       position: relative;
@@ -405,10 +405,11 @@ body.crlngn-ui{
         overflow: visible;
         height: auto;
         width: var(--av-minimized-icon-size);
-        max-width: var(--av-minimized-icon-size);
+        /*max-width: var(--av-minimized-icon-size);*/
+        max-width: max-content;
         min-width: calc(var(--av-minimized-icon-size) + 4px);
         min-height: calc(var(--av-minimized-icon-size) + 24px);
-        max-height: 80px;
+        max-height: 100px;
         background: var(--left-control-main-bg);
 
         .resize-handle{
