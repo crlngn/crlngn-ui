@@ -4,6 +4,7 @@ export const SETTING_INPUT = {
   text: "text",
   number: "number"
 }
+
 export const SETTING_SCOPE = {
   client: "client",
   world: "world"
@@ -39,10 +40,10 @@ export function getSettings() {
         'journalFontTitles'
       ],
       default: {
-        uiFont: `"Work Sans", Arial, sans-serif`,
-        uiTitles: `"Roboto Slab", Arial, sans-serif`,
-        journalBody: `"Work Sans", Arial, sans-serif`, 
-        journalTitles: `"Roboto Slab", Arial, sans-serif`
+        uiFontBody: `"Work Sans", Arial, sans-serif`,
+        uiFontTitles: `"Roboto Slab", Arial, sans-serif`,
+        journalFontBody: `"Work Sans", Arial, sans-serif`, 
+        journalFontTitles: `"Roboto Slab", Arial, sans-serif`
       },
       scope: SETTING_SCOPE.world,
       config: false, 
@@ -55,37 +56,13 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.hint"),
       propType: Object,
       inputType: SETTING_INPUT.button,
-      fields: {
-        enableChatStyles:{
-          tag: "enable-chat-styles", 
-          label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enableChatStyles.label"), 
-          hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enableChatStyles.hint"), 
-          propType: Boolean, 
-          inputType: SETTING_INPUT.checkbox,
-        }, 
-        borderColor: {
-          tag: "border-color",
-          label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.label"),
-          hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.hint"),
-          inputType: SETTING_INPUT.select, 
-          options: {
-            playerColor: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.options.playerColor"), 
-            rollType: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.options.rollType"), 
-            none: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.options.none")
-          }
-        },
-        enforceDarkMode: {
-          restricted: true,
-          tag: "enforce-dark-mode", 
-          label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enforceDarkMode.label"), 
-          hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enforceDarkMode.hint"), 
-          propType: Boolean, 
-          inputType: SETTING_INPUT.checkbox
-        }
-      },
+      fields: [
+        "enableChatStyles",
+        "chatBorderColor"
+      ],
       default: { 
         enableChatStyles: true,
-        borderColor: BORDER_COLOR_TYPES.playerColor.name
+        chatBorderColor: BORDER_COLOR_TYPES.playerColor.name
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -240,8 +217,6 @@ export function getSettings() {
       config: false 
     },
 
-
-
     /*
     enableChatStyles: { 
       tag: "enable-chat-styles", 
@@ -312,7 +287,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiBody.hint"),
       inputType: SETTING_INPUT.text,
       propType: String,
-      default: "Work Sans",
+      default: `"Work Sans", Arial, sans-serif`,
       scope: SETTING_SCOPE.world,
       config: false
     },
@@ -323,7 +298,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiTitles.hint"),
       inputType: SETTING_INPUT.text,
       propType: String,
-      default: "Roboto Slab",
+      default: `"Roboto Slab", Arial, sans-serif`,
       scope: SETTING_SCOPE.world,
       config: false
     },
@@ -334,7 +309,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalBody.hint"),
       inputType: SETTING_INPUT.text,
       propType: String,
-      default: "Work Sans",
+      default: `"Work Sans", Arial, sans-serif`,
       scope: SETTING_SCOPE.world,
       config: false
     }, 
@@ -345,11 +320,12 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalTitles.hint"),
       inputType: SETTING_INPUT.text,
       propType: String,
-      default: "Roboto Slab",
+      default: `"Roboto Slab", Arial, sans-serif`,
       scope: SETTING_SCOPE.world,
       config: false
     },
 
+    // DARK MODE
     enforceDarkMode: { 
       tag: "enforce-dark-mode", 
       label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enforceDarkMode.label"), 
@@ -360,6 +336,36 @@ export function getSettings() {
       scope: SETTING_SCOPE.world, 
       config: false 
     },  
+
+    /* CHAT STYLES */
+    chatBorderColor: {
+      tag: "chat-border-color",
+      oldName: "borderColor",
+      label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.hint"),
+      options: {
+        playerColor: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.options.playerColor"), 
+        rollType: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.options.rollType"), 
+        none: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.options.none")
+      }, 
+      propType: String, 
+      inputType: SETTING_INPUT.text, 
+      default: BORDER_COLOR_TYPES.playerColor.name, 
+      scope: SETTING_SCOPE.client, 
+      config: false 
+    },
+    enableChatStyles:{
+      tag: "enable-chat-styles", 
+      oldName: "enableChatStyles",
+      label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enableChatStyles.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enableChatStyles.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox,
+      default: true, 
+      scope: SETTING_SCOPE.client, 
+      config: false,
+      requiresReload: true 
+    }
 
   }
 

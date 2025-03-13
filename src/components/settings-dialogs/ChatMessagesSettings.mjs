@@ -60,35 +60,29 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
     const SETTINGS = getSettings();
     event.preventDefault();
     event.stopPropagation();
+    const fieldNames = SETTINGS.chatMessagesMenu.fields;
 
     // Convert FormData into an object with proper keys
     const settings = foundry.utils.expandObject(formData.object);
-    LogUtil.log("Saving settings:", [ settings ]);
-
-    if(settings.bottomBuffer===undefined || settings.bottomBuffer===''){
-      settings.bottomBuffer = SETTINGS.chatMessagesMenu.default.bottomBuffer;
-    }
-    const currSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
-    const currBorderColor = currSettings.borderColor;
-    if(settings.enforceDarkMode === undefined){
-      delete settings.enforceDarkMode;
-    }
-
-    const menuSettings = [];
-    Object.entries(settings).forEach(s => {
-      LogUtil.log("menuSettings",[s]);
-      if(SETTINGS.chatMessagesMenu.default[s[0]]){
-        menuSettings.push(s[1]);
+    const currBorderSettings = SettingsUtil.get(SETTINGS.chatBorderColor.tag);
+    LogUtil.log("Compared settings:", [ settings.chatBorderColor, currBorderSettings ]);
+    
+    fieldNames.forEach((fieldName) => {
+      LogUtil.log("Saving setting >>", [SETTINGS[fieldName].tag, settings[fieldName]]);
+      if(settings[fieldName] !== undefined) {
+        SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
       }
-    })
-    LogUtil.log("menuSettings",[menuSettings]);
+    });
+    
+    // if(settings.enforceDarkMode === undefined){
+    //   delete settings.enforceDarkMode;
+    // }
 
     await SettingsUtil.set(SETTINGS.chatMessagesMenu.tag, settings);
-    await SettingsUtil.set(SETTINGS.enforceDarkMode.tag, settings.enforceDarkMode);
-    const controlSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
+    // await SettingsUtil.set(SETTINGS.enforceDarkMode.tag, settings.enforceDarkMode);
 
-    LogUtil.log("Saving settings:", [currSettings, settings, controlSettings]); // Debugging
-    if(controlSettings.borderColor !== currBorderColor){
+    const borderSettings = settings.chatBorderColor;
+    if(borderSettings !== currBorderSettings){
       location.reload();
     }
 
@@ -99,20 +93,21 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
     const SETTINGS = getSettings();
     const html = this.element;
     const inputs = html.querySelectorAll("input, select");
-    const defaults = {
-      ...SETTINGS.chatMessagesMenu.default,
-      enforceDarkMode: SETTINGS.enforceDarkMode.default
-    };
+    const fieldNames = SETTINGS.chatMessagesMenu.fields;
+
+    const fields = {};
+    const fieldDefaults = {};
+
+    fieldNames.forEach((fieldName) => {
+      if(SETTINGS[fieldName]) {
+        fields[fieldName] = SETTINGS[fieldName];
+        fieldDefaults[fieldName] = SETTINGS[fieldName].default;
+      }
+    });
 
     inputs.forEach(inputField => {
-      inputField.value = defaults[inputField.name];
-      if(inputField.type==='checkbox'){
-        inputField.checked = defaults[inputField.name];
-      }
+      inputField.value = fieldDefaults[inputField.name];
     })
-
-    LogUtil.log("#onReset", [defaults]);
-    // await SettingsUtil.set(SETTINGS.chatMessagesMenu.tag, SETTINGS.chatMessagesMenu.default);
   }
 
   /**
@@ -122,22 +117,35 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
    */
   _prepareContext(options) {
     const SETTINGS = getSettings();
+    // const menuValues = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
+    const fieldNames = SETTINGS.chatMessagesMenu.fields;
+    const fields = {};
+    const fieldValues = {};
+    const fieldDefaults = {};
+
+    fieldNames.forEach((fieldName) => {
+      LogUtil.log("_prepareContext a", [SETTINGS[fieldName].oldName]);
+      if(SETTINGS[fieldName]) {
+        const value = SettingsUtil.get(SETTINGS[fieldName].tag);
+        fields[fieldName] = SETTINGS[fieldName];
+        fieldValues[fieldName] = value!== undefined ? value : menuValues[SETTINGS[fieldName].oldName] || SETTINGS[fieldName].default;
+        fieldDefaults[fieldName] = SETTINGS[fieldName].default;
+      }
+    });
+
+    LogUtil.log("_prepareContext b", [fieldValues, fieldDefaults]);
+
     const setting = {
-      ...SettingsUtil.get(SETTINGS.chatMessagesMenu.tag),
-      enforceDarkMode: SettingsUtil.get(SETTINGS.enforceDarkMode.tag),
-      default: {
-        ...SETTINGS.chatMessagesMenu.default,
-        enforceDarkMode: SETTINGS.enforceDarkMode.default || null
-      },
+      ...fieldValues,
+      // enforceDarkMode: SettingsUtil.get(SETTINGS.enforceDarkMode.tag),
+      default: { ...fieldDefaults },
       isGM: game.user.isGM,
-      fields: { ...SETTINGS.chatMessagesMenu.fields },
+      fields: { ...fields },
       buttons: [ 
         { type: "button", icon: "", label: "CRLNGN_UI.settings.chatMessagesMenu.reset", action: 'redefine' },
         { type: "submit", icon: "", label: "CRLNGN_UI.settings.chatMessagesMenu.save" }
       ]
     }
-    // game.settings.get("foo", "config");
-    
 
     LogUtil.log("_prepareContext", [setting, options]);
     return setting;
@@ -167,7 +175,6 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
     // html.querySelector("button[type=reset]").addEventListener("click", ChatMessagesSettings.#onReset);
 
     const controlSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
-
     LogUtil.log("_onRender", [context, options, controlSettings]);
   }
 

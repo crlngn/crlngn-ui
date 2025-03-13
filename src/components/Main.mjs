@@ -16,25 +16,18 @@ export class Main {
   static init(){
     Hooks.once(HOOKS_CORE.INIT, () => { 
       document.querySelector("#ui-middle")?.classList.add(MODULE_ID);
-      LogUtil.log("Initiating module", [], true); 
+      LogUtil.log("Initiating module...", [], true); 
 
-      SettingsUtil.registerSettings();
       Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
       Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, Main.checkPlayersList);
+      SettingsUtil.registerSettings();
     });
 
     Hooks.once(HOOKS_CORE.READY, () => {
+      LogUtil.log("Core Ready", []);
       const SETTINGS = getSettings();
-      var isDebugOn = SettingsUtil.get('debug-mode');
+      var isDebugOn = SettingsUtil.get(SETTINGS.debugMode.tag);
       if(isDebugOn){CONFIG.debug.hooks = true};
-
-      // Get the array of available font families
-      const availableFonts = CONFIG.fontFamilies || [];
-
-      // If you need the complete font settings including URLs
-      const fontSettings = SettingsUtil.get("fonts", "core");
-
-      LogUtil.log("Core Ready", [CONFIG, availableFonts, fontSettings]);
 
       TopNavigation.init(); 
       CameraUtil.init(); 
@@ -43,8 +36,8 @@ export class Main {
       ChatUtil.init();
       ModuleCompatUtil.init();
 
-      const chatMsgSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
-      if(chatMsgSettings.enableChatStyles){ 
+      const chatStylesEnabled = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
+      if(chatStylesEnabled){ 
         Main.addCSSLocalization();
       }
       SettingsUtil.resetFoundryThemeSettings();
@@ -52,6 +45,7 @@ export class Main {
     })
   }
 
+  // Custom labels for DnD5e buttons, added via CSS
   static addCSSLocalization(){
     const body = document.querySelector('body');
     const locBtnPath = 'CRLNGN_UI.dnd5e.chatCard.buttons';
@@ -77,7 +71,7 @@ export class Main {
     const uiLeftPlayers = document.querySelector('#ui-left #players');
     const isTaskbarOn = GeneralUtil.isModuleOn('foundry-taskbar');
     const isPlayersDocked = isTaskbarOn ? game.settings.get('foundry-taskbar','dockPlayersList') : false;
-    LogUtil.log('checkPlayersList',[isPlayersDocked, isTaskbarOn, game.settings]);
+    // LogUtil.log('checkPlayersList',[isPlayersDocked, isTaskbarOn, game.settings]);
     
     if(body.querySelector('#players.auto-hide')){
       body.classList.add('with-players-hide');

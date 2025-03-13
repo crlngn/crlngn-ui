@@ -12,7 +12,7 @@ Main Theme
 /* ---------------------------------------- */
 /*  Colors                                  */
 /* ---------------------------------------- */
-body.crlngn-chat {
+body.crlngn-ui {
   /* colors - cyan */ 
 	--color-button-bg: rgba(90,120,150,0.5);
 	--color-input-bg: rgba(0,0,0,0.5); 
@@ -266,7 +266,7 @@ body.crlngn-chat {
 }
 
 /* Typography section remains unchanged */
-body.crlngn-chat {
+body.crlngn-ui {
   --crlngn-font-family: "Work Sans", Arial, sans-serif;
   --crlngn-font-titles: "Roboto Condensed", Arial, sans-serif;
   --crlngn-font-journal-body: "Work Sans", Arial, sans-serif;
@@ -294,7 +294,7 @@ body.crlngn-chat {
 }
 
 /* FONT CONFIG */
-body.crlngn-chat {
+body.crlngn-ui {
   --controls-bottom-buffer: 200px;
   /* crlngn fonts */
   --crlngn-font-family: var(--font-body);

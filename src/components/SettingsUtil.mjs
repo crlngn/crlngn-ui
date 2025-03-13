@@ -16,6 +16,7 @@ export class SettingsUtil {
    */
   static registerSettings(){
     const SETTINGS = getSettings();
+    LogUtil.log("registerSettings - test", [SETTINGS], true);
     document.querySelector("body").classList.add(MODULE_ID); 
     /**
      * Register each of the settings defined in the SETTINGS constant 
@@ -24,7 +25,7 @@ export class SettingsUtil {
     const settingsList = Object.entries(SETTINGS);
     settingsList.forEach(async(entry) => {
       const setting = entry[1]; 
-      LogUtil.log("Registering... ",[entry]);
+      LogUtil.log("Registering... ",[entry], true);
 
       const settingObj = { 
         name: setting.label,
@@ -47,7 +48,7 @@ export class SettingsUtil {
         SettingsUtil.set(setting.tag, setting.default);
       }
 
-      LogUtil.log("registerSettings",[setting.tag, SettingsUtil.get(setting.tag)]);
+      // LogUtil.log("registerSettings",[setting.tag, SettingsUtil.get(setting.tag)]);
     });
 
     /**
@@ -67,6 +68,7 @@ export class SettingsUtil {
       await game.settings.registerMenu(MODULE_ID, settingMenu.tag, settingMenuObj); 
     });
 
+
     Hooks.on(HOOKS_CORE.RENDER_SCENE_CONTROLS, SettingsUtil.applyLeftControlsSettings);
     Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, SettingsUtil.applyPlayersListSettings); 
     Hooks.on(HOOKS_CORE.RENDER_HOTBAR, () => {
@@ -76,8 +78,10 @@ export class SettingsUtil {
       }
       SettingsUtil.applyHotBarSettings();
     });
+    //apply debug Settings
+    SettingsUtil.applyDebugSettings();
+    //
     SettingsUtil.applySceneNavPos();
-    
     // apply chat style settings
     SettingsUtil.applyChatStyles();
     // aply border colors
@@ -85,7 +89,10 @@ export class SettingsUtil {
 
     // apply custom font settings
     const fields = SETTINGS.customFontsMenu.fields;
+
+    LogUtil.log('AAAAA', [fields], true);
     fields.forEach(fieldName => {
+      LogUtil.log('registerSettings', [SETTINGS[fieldName].tag]);
       SettingsUtil.applyCustomFonts(SETTINGS[fieldName].tag);
     });   
 
@@ -97,8 +104,6 @@ export class SettingsUtil {
     //apply dark mode settings
     // SettingsUtil.resetFoundryThemeSettings();
 
-    //apply debug Settings
-    SettingsUtil.applyDebugSettings();
 
   }
 
@@ -176,14 +181,10 @@ export class SettingsUtil {
       case SETTINGS.autoHidePlayerList.tag: 
         SettingsUtil.applyPlayersListSettings();
         break;
-      // case SETTINGS.customFontsMenu.tag:
-      //   SettingsUtil.applyCustomFonts(value); 
-      //   break;
       case SETTINGS.uiFontBody.tag:
       case SETTINGS.uiFontTitles.tag:
       case SETTINGS.journalFontBody.tag:
       case SETTINGS.journalFontTitles.tag:
-        LogUtil.log("SettingsUtil.apply",[settingTag]); 
         SettingsUtil.applyCustomFonts(settingTag, value); 
         break;
       case SETTINGS.leftControlsMenu.tag:
@@ -197,14 +198,24 @@ export class SettingsUtil {
         SettingsUtil.applyCameraWidth();
         SettingsUtil.applyCameraHeight();
         break;
-      case SETTINGS.chatMessagesMenu.tag:
-        ChatUtil.chatMsgSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
+      case SETTINGS.chatBorderColor.tag:
+        ChatUtil.chatBorderColor = SettingsUtil.get(SETTINGS.chatBorderColor.tag);
+        LogUtil.log("SettingsUtil.apply",[settingTag]); 
         SettingsUtil.applyBorderColors();
+        break;
+      case SETTINGS.enableChatStyles.tag:
+        ChatUtil.enableChatStyles = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
+        LogUtil.log("SettingsUtil.apply",[settingTag]); 
         SettingsUtil.applyChatStyles();
         break;
-      case SETTINGS.enforceDarkMode.tag:
-        SettingsUtil.resetFoundryThemeSettings();
-        break;
+      // case SETTINGS.chatMessagesMenu.tag:
+      //   // ChatUtil.chatMsgSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
+      //   SettingsUtil.applyBorderColors();
+      //   SettingsUtil.applyChatStyles();
+      //   break;
+      // case SETTINGS.enforceDarkMode.tag:
+      //   SettingsUtil.resetFoundryThemeSettings();
+      //   break;
       case SETTINGS.debugMode.tag:
         SettingsUtil.applyDebugSettings();
         break;
@@ -222,27 +233,32 @@ export class SettingsUtil {
 
   static applyBorderColors(){
     const SETTINGS = getSettings();
-    const chatMsgSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
-    if(chatMsgSettings.borderColor===BORDER_COLOR_TYPES.playerColor.name){ 
-      document.querySelector("body").classList.add("player-chat-borders");
-      document.querySelector("body").classList.remove("roll-chat-borders"); 
-      // document.querySelector("body").classList.remove("crlngn-disabled-borders"); 
-    }else if(chatMsgSettings.borderColor===BORDER_COLOR_TYPES.rollType.name){
-      document.querySelector("body").classList.add("roll-chat-borders"); 
-      document.querySelector("body").classList.remove("player-chat-borders");
-      // document.querySelector("body").classList.remove("crlngn-disabled-borders"); 
+    const borderColorSettings = SettingsUtil.get(SETTINGS.chatBorderColor.tag);
+    const body = document.querySelector("body");
+
+    if(borderColorSettings===BORDER_COLOR_TYPES.playerColor.name){ 
+     body.classList.add("player-chat-borders");
+     body.classList.remove("roll-chat-borders"); 
+    }else if(borderColorSettings===BORDER_COLOR_TYPES.rollType.name){
+     body.classList.add("roll-chat-borders"); 
+     body.classList.remove("player-chat-borders");
     }else{
-      document.querySelector("body").classList.remove("player-chat-borders");
-      document.querySelector("body").classList.remove("roll-chat-borders"); 
-      // document.querySelector("body").classList.add("crlngn-disabled-borders"); 
+     body.classList.remove("player-chat-borders");
+     body.classList.remove("roll-chat-borders"); 
     }
   }
 
   static applyChatStyles(){
     const SETTINGS = getSettings();
-    const chatMsgSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
-    if(chatMsgSettings.enableChatStyles){ 
-      document.querySelector("body").classList.add("crlngn-chat"); 
+    const chatMsgSettings = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
+    const body = document.querySelector("body");
+
+    LogUtil.log("applyChatStyles", [chatMsgSettings, SETTINGS]);
+
+    if(chatMsgSettings){ 
+      body.classList.add("crlngn-chat"); 
+    }else{
+      body.classList.remove("crlngn-chat"); 
     }
   }
 
@@ -374,11 +390,11 @@ export class SettingsUtil {
     const SETTINGS = getSettings();
     const fields = SETTINGS.customFontsMenu.fields;
     const customFonts = {};
+
+    LogUtil.log("applyCustomFonts", [tag, value]);
     fields.forEach(fieldName => {
       customFonts[fieldName] = SettingsUtil.get(SETTINGS[fieldName].tag);
     });
-
-    LogUtil.log("applyCustomFonts", [tag, value]);
 
     const body = document.querySelector("body.crlngn-ui");
     switch(tag){
@@ -396,11 +412,11 @@ export class SettingsUtil {
         break;
       default:
         //
-      
     }
   }
 
   static resetFoundryThemeSettings(){
+    /*
     const SETTINGS = getSettings();
     const isMonksSettingsOn = GeneralUtil.isModuleOn('monks-player-settings');
     const isForceSettingsOn = GeneralUtil.isModuleOn('force-client-settings');
@@ -427,6 +443,7 @@ export class SettingsUtil {
     if(!foundryColorScheme && forceDarkModeOn){
       game.settings.set('core','colorScheme','dark');
     }
+    */
   }
 
   static applyDebugSettings(value){

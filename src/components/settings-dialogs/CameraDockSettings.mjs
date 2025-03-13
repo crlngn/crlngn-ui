@@ -11,6 +11,7 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   static get DEFAULT_OPTIONS() {
     const SETTINGS = getSettings();
+    
     return {
       id: SETTINGS.cameraDockMenu.tag,
       actions: {

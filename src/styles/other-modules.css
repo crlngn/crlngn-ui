@@ -109,8 +109,9 @@ body.crlngn-ui{
 
   #combat-dock {
     z-index: 0;
-    :hover{
-      z-index: 100;
+    pointer-events: all;
+    &:hover{
+      z-index: 1001;
     }
     .buttons-container {
       justify-content: flex-start;

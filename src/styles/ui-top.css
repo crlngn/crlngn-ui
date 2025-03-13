@@ -109,10 +109,9 @@ body{
           display: block;
           position: absolute;
           width: 100%;
-          height: 16px;
+          height: 14px;
           pointer-events: all;
         }
-
 
         #nav-toggle {
           background: rgba(0, 0, 0, 0.75);

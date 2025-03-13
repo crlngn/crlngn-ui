@@ -61,19 +61,17 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
     const SETTINGS = getSettings();
     event.preventDefault();
     event.stopPropagation();
-    // const menuValues = SettingsUtil.get(SETTINGS.customFontsMenu.tag);
     const fieldNames = SETTINGS.customFontsMenu.fields;
 
     // Convert FormData into an object with proper keys
     const settings = foundry.utils.expandObject(formData.object);
-    
+
     fieldNames.forEach((fieldName) => {
-      if(settings[fieldName]) {
+      if(settings[fieldName] !== undefined) {
         LogUtil.log("Saving setting:", [settings[fieldName]]);
         SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
       }
     });
-
 
     // For compatibility - to be removed in future version
     SettingsUtil.set(SETTINGS.customFontsMenu.tag, settings);
@@ -94,25 +92,18 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
     const fields = {};
     const fieldValues = {};
     const fieldDefaults = {};
+
     fieldNames.forEach((fieldName) => {
-      LogUtil.log("_prepareContext", [SETTINGS[fieldName].oldName, menuValues]);
       if(SETTINGS[fieldName]) {
         const value = SettingsUtil.get(SETTINGS[fieldName].tag);
         fields[fieldName] = SETTINGS[fieldName];
-        fieldValues[fieldName] = value || menuValues[SETTINGS[fieldName].oldName] || SETTINGS[fieldName].default;
+        fieldValues[fieldName] = value!== undefined ? value : menuValues[SETTINGS[fieldName].oldName] || SETTINGS[fieldName].default;
         fieldDefaults[fieldName] = SETTINGS[fieldName].default;
-
       }
     });
 
     const setting = {
       ...fieldValues,
-      /*
-      uiFont: current.uiBody || SETTINGS.customFontsMenu.default.uiFont,
-      uiTitles: current.uiTitles || SETTINGS.customFontsMenu.default.uiTitles,
-      journalBody: current.journalBody || current.journalBodyFont || SETTINGS.customFontsMenu.default.journalBody,
-      journalTitles: current.journalTitles || current.journalTitleFont || SETTINGS.customFontsMenu.default.journalTitles,
-      */
       default: {...fieldDefaults},
       fontList: GeneralUtil.getAllFonts(),
       fields: { 
@@ -124,7 +115,6 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
       ]
     }
 
-    // LogUtil.log("_prepareContext", [setting, options]);
     return setting;
   }
 
@@ -270,7 +260,7 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
     const SETTINGS = getSettings();
     const html = this.element;
     const inputs = html.querySelectorAll("input[type=text]");
-    const menuValues = SettingsUtil.get(SETTINGS.customFontsMenu.tag);
+    // const menuValues = SettingsUtil.get(SETTINGS.customFontsMenu.tag);
     const fieldNames = SETTINGS.customFontsMenu.fields;
 
     const fields = {};
