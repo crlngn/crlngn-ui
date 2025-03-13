@@ -101,7 +101,7 @@ export class SettingsUtil {
     
 
     //apply dark mode settings
-    // SettingsUtil.resetFoundryThemeSettings();
+    SettingsUtil.resetFoundryThemeSettings();
 
 
   }
@@ -218,9 +218,9 @@ export class SettingsUtil {
       //   SettingsUtil.applyBorderColors();
       //   SettingsUtil.applyChatStyles();
       //   break;
-      // case SETTINGS.enforceDarkMode.tag:
-      //   SettingsUtil.resetFoundryThemeSettings();
-      //   break;
+      case SETTINGS.enforceDarkMode.tag:
+        SettingsUtil.resetFoundryThemeSettings();
+        break;
       case SETTINGS.debugMode.tag:
         SettingsUtil.applyDebugSettings();
         break;
@@ -438,7 +438,6 @@ export class SettingsUtil {
   }
 
   static resetFoundryThemeSettings(){
-    /*
     const SETTINGS = getSettings();
     const isMonksSettingsOn = GeneralUtil.isModuleOn('monks-player-settings');
     const isForceSettingsOn = GeneralUtil.isModuleOn('force-client-settings');
@@ -465,7 +464,6 @@ export class SettingsUtil {
     if(!foundryColorScheme && forceDarkModeOn){
       game.settings.set('core','colorScheme','dark');
     }
-    */
   }
 
   static applyDebugSettings(value){

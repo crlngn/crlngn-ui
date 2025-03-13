@@ -82,7 +82,7 @@ body.crlngn-ui  {
   .sidebar-tab input[type=range]::-webkit-slider-runnable-track,
   .package-configuration input[type=range]::-webkit-slider-runnable-track {
     height: 10px;
-    background: var(--color-cool-5);
+    background: var(--color-dark-bg-50);
     border-radius: 10px;
     border: 0;
   }
@@ -91,7 +91,7 @@ body.crlngn-ui  {
   .sidebar-tab input[type=range]::-moz-range-track,
   .package-configuration input[type=range]::-moz-range-track {
     height: 10px;
-    background: var(--color-input-bg);
+    background: var(--color-dark-bg-50);
     border-radius: 10px;
   }
 

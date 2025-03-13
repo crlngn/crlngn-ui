@@ -231,6 +231,18 @@ export function getSettings() {
       requiresReload: false 
     },
 
+    /* DARK MODE */
+    enforceDarkMode: { 
+      tag: "enforce-dark-mode", 
+      label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enforceDarkMode.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enforceDarkMode.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox, 
+      default: true, 
+      scope: SETTING_SCOPE.world, 
+      config: true 
+    },  
+
     autoHidePlayerList: { 
       tag: "auto-hide-player-list", 
       label: game.i18n.localize("CRLNGN_UI.settings.autoHidePlayersList.label"), 
@@ -300,18 +312,6 @@ export function getSettings() {
       scope: SETTING_SCOPE.world,
       config: false
     },
-
-    /* DARK MODE */
-    enforceDarkMode: { 
-      tag: "enforce-dark-mode", 
-      label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enforceDarkMode.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enforceDarkMode.hint"), 
-      propType: Boolean, 
-      inputType: SETTING_INPUT.checkbox, 
-      default: true, 
-      scope: SETTING_SCOPE.world, 
-      config: false 
-    },  
 
     /* CHAT STYLES */
     chatBorderColor: {

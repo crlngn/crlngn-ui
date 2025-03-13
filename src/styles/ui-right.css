@@ -16,6 +16,13 @@
       width: var(--right-control-item-size);
       min-width: var(--right-control-item-size);
       height: auto; 
+
+      > nav > .item{
+        order: 1;
+      }
+      > nav > .collapse{
+        order: 0;
+      }
     }
 
     #sidebar-tabs{ 
