@@ -88,18 +88,17 @@ export class SettingsUtil {
     SettingsUtil.applyBorderColors();
 
     // apply custom font settings
-    const fields = SETTINGS.customFontsMenu.fields;
-
-    LogUtil.log('AAAAA', [fields], true);
-    fields.forEach(fieldName => {
-      LogUtil.log('registerSettings', [SETTINGS[fieldName].tag]);
+    const fontFields = SETTINGS.customFontsMenu.fields;
+    fontFields.forEach(fieldName => {
       SettingsUtil.applyCustomFonts(SETTINGS[fieldName].tag);
     });   
 
     // apply left controls settings
-    SettingsUtil.applyLeftControlsSettings(); 
-    SettingsUtil.applyControlIconSize();
-    SettingsUtil.applyControlsBuffer();
+    const controlFields = SETTINGS.leftControlsMenu.fields;
+    controlFields.forEach(fieldName => {
+      SettingsUtil.applyLeftControlsSettings(SETTINGS[fieldName].tag);
+    }); 
+    
 
     //apply dark mode settings
     // SettingsUtil.resetFoundryThemeSettings();
@@ -172,26 +171,32 @@ export class SettingsUtil {
     }
     LogUtil.log("SettingsUtil.apply",[settingTag, value, SettingsUtil.get(settingTag)]); 
     switch(settingTag){
-      case SETTINGS.enableMacroLayout.tag: 
-        SettingsUtil.applyHotBarSettings(); 
-        break; 
+      case SETTINGS.enableMacroLayout.tag:
+        SettingsUtil.applyHotBarSettings();
+        break;
       case SETTINGS.collapseMacroBar.tag:
-        SettingsUtil.applyHotBarCollapse(); 
-        break; 
-      case SETTINGS.autoHidePlayerList.tag: 
+        SettingsUtil.applyHotBarCollapse();
+        break;
+      case SETTINGS.autoHidePlayerList.tag:
         SettingsUtil.applyPlayersListSettings();
         break;
       case SETTINGS.uiFontBody.tag:
       case SETTINGS.uiFontTitles.tag:
       case SETTINGS.journalFontBody.tag:
       case SETTINGS.journalFontTitles.tag:
-        SettingsUtil.applyCustomFonts(settingTag, value); 
+        SettingsUtil.applyCustomFonts(settingTag, value);
         break;
-      case SETTINGS.leftControlsMenu.tag:
-        SettingsUtil.applyLeftControlsSettings(); 
-        SettingsUtil.applyControlIconSize();
-        SettingsUtil.applyControlsBuffer();
+      case SETTINGS.controlsBottomBuffer.tag:
+      case SETTINGS.controlsIconSize.tag:
+      case SETTINGS.controlsAutoHide.tag:
+      case SETTINGS.hideFoundryLogo.tag:
+        SettingsUtil.applyLeftControlsSettings(settingTag, value);
         break;
+      // case SETTINGS.leftControlsMenu.tag:
+      //   SettingsUtil.applyLeftControlsSettings(); 
+      //   SettingsUtil.applyControlIconSize();
+      //   SettingsUtil.applyControlsBuffer();
+      //   break;
       case SETTINGS.cameraDockMenu.tag: 
         SettingsUtil.applyCameraPosX();
         SettingsUtil.applyCameraPosY();
@@ -205,7 +210,7 @@ export class SettingsUtil {
         break;
       case SETTINGS.enableChatStyles.tag:
         ChatUtil.enableChatStyles = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
-        LogUtil.log("SettingsUtil.apply",[settingTag]); 
+        LogUtil.log("SettingsUtil.apply",[settingTag]);
         SettingsUtil.applyChatStyles();
         break;
       // case SETTINGS.chatMessagesMenu.tag:
@@ -285,35 +290,51 @@ export class SettingsUtil {
   /**
    * Makes changes to left control auto-hide according to selected settings
    */
-  static applyLeftControlsSettings(){
+  static applyLeftControlsSettings(tag, value){
     const SETTINGS = getSettings();
-    const leftControls = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
     const sceneNavMenu = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
     const controls = document.querySelector("#ui-left");
     const logo = document.querySelector("#ui-left #logo");
-
-    if(leftControls.autoHideSecondary){ 
-      controls.classList.add("auto-hide"); 
-    }else{
-      controls.classList.remove("auto-hide"); 
-    }
-
     const body = document.querySelector('body.crlngn-ui');
-    const bodyStyles = window.getComputedStyle(body);
-    const topPadding = parseFloat(bodyStyles.getPropertyValue('--top-nav-height'));
 
-    if(leftControls.hideFoundryLogo===undefined || leftControls.hideFoundryLogo===true){ 
-      logo.classList.remove("visible");
-      body.style.setProperty('--ui-top-padding', `${topPadding}px`);
-      document.querySelector("body").classList.remove('logo-visible');
-    }else{
-      logo.classList.add("visible"); 
-      if(sceneNavMenu.sceneNavEnabled){
-        body.style.setProperty('--ui-top-padding',`${(72 + topPadding)}px`);
-        document.querySelector("body").classList.add('logo-visible');
-      }else{
-        body.style.setProperty('--ui-top-padding', '72px');
-      }
+    LogUtil.log("applyLeftControlsSettings", [tag]);
+
+    switch(tag){
+      case SETTINGS.controlsAutoHide.tag:
+        if(SettingsUtil.get(SETTINGS.controlsAutoHide.tag)){
+          controls.classList.add("auto-hide"); 
+        }else{
+          controls.classList.remove("auto-hide"); 
+        }
+        break;
+      case SETTINGS.hideFoundryLogo.tag:
+        const bodyStyles = window.getComputedStyle(body);
+        const topPadding = parseFloat(bodyStyles.getPropertyValue('--top-nav-height'));
+        const hideFoundryLogo = SettingsUtil.get(SETTINGS.hideFoundryLogo.tag);
+        LogUtil.log("applyLeftControlsSettings", [tag, topPadding]);
+
+        if(hideFoundryLogo===undefined || hideFoundryLogo===true){
+          logo.classList.remove("visible");
+          body.style.setProperty('--ui-top-padding', `${topPadding}px`);
+          document.querySelector("body").classList.remove('logo-visible');
+        } else {
+          logo.classList.add("visible");
+          if(sceneNavMenu.sceneNavEnabled){
+            body.style.setProperty('--ui-top-padding',`${(72 + topPadding)}px`);
+            document.querySelector("body").classList.add('logo-visible');
+          }else{
+            body.style.setProperty('--ui-top-padding', '72px');
+          }
+        }
+        break;
+      case SETTINGS.controlsBottomBuffer.tag:
+        SettingsUtil.applyControlsBuffer();
+        break;
+      case SETTINGS.controlsIconSize.tag:
+        SettingsUtil.applyControlIconSize();
+        break;
+      default:
+        //
     }
   }
   /**
@@ -321,11 +342,13 @@ export class SettingsUtil {
    */
   static applyControlIconSize(){
     const SETTINGS = getSettings();
-    const leftControls = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
-    const root = document.querySelector("body.crlngn-ui");
-    const size = leftControls.iconSize == ICON_SIZES.small.name ? ICON_SIZES.small.size : ICON_SIZES.regular.size;
+    const iconSize = SettingsUtil.get(SETTINGS.controlsIconSize.tag);
+    const body = document.querySelector("body");
+    const size = iconSize == ICON_SIZES.small.name ? ICON_SIZES.small.size : ICON_SIZES.regular.size;
 
-    root.style.setProperty('--left-control-item-size', size);
+    LogUtil.log("applyControlIconSize", [size]);
+    body.style.setProperty('--left-control-item-size', size);
+    SettingsUtil.applyLeftControlsSettings(SETTINGS.hideFoundryLogo.tag);
   }
 
   /**
@@ -384,7 +407,6 @@ export class SettingsUtil {
     CameraUtil.resetPositionAndSize({ h: height });
   }
   /*******/
-
 
   static applyCustomFonts(tag, value){
     const SETTINGS = getSettings();

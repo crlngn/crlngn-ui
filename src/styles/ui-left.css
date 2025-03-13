@@ -12,7 +12,7 @@ body.crlngn-ui{
 
   &.logo-visible{
 
-    #ui-left #logo.visible{
+    #interface #ui-left #logo.visible{
       height: 72px;
       margin-top: var(--top-nav-height);
     }

@@ -48,7 +48,6 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
   
   get title() {
     return game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.title");
-    // return `My Module: ${game.i18n.localize(this.options.window.title)}`;
   }
 
 
@@ -60,21 +59,20 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
     const SETTINGS = getSettings();
     event.preventDefault();
     event.stopPropagation();
-
+    const fieldNames = SETTINGS.leftControlsMenu.fields;
+    
     // Convert FormData into an object with proper keys
     const settings = foundry.utils.expandObject(formData.object);
 
-    if(settings.bottomBuffer===undefined || settings.bottomBuffer===''){
-      settings.bottomBuffer = SETTINGS.leftControlsMenu.default.bottomBuffer;
-    }
-    const currSettings = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
-    if(currSettings.hideFoundryLogo === undefined){
-      settings.hideFoundryLogo = SETTINGS.leftControlsMenu.default.hideFoundryLogo;
-    }
-    await SettingsUtil.set(SETTINGS.leftControlsMenu.tag, settings);
-    const controlSettings = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
+    fieldNames.forEach((fieldName) => {
+      if(settings[fieldName] !== undefined) {
+        LogUtil.log("Saving setting:", [settings[fieldName]]);
+        SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
+      }
+    });
 
-    LogUtil.log("Saving settings:", [currSettings, settings, controlSettings]); // Debugging
+    // For compatibility - to be removed in future version
+    await SettingsUtil.set(SETTINGS.leftControlsMenu.tag, settings);
 
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
   }
@@ -103,18 +101,32 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
    */
   _prepareContext(options) {
     const SETTINGS = getSettings();
+    const menuValues = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
+    const fieldNames = SETTINGS.leftControlsMenu.fields;
+    const fields = {};
+    const fieldValues = {};
+    const fieldDefaults = {};
+
+    fieldNames.forEach((fieldName) => {
+      if(SETTINGS[fieldName]) {
+        const value = SettingsUtil.get(SETTINGS[fieldName].tag);
+        fields[fieldName] = SETTINGS[fieldName];
+        fieldValues[fieldName] = value!== undefined ? value : menuValues[SETTINGS[fieldName].oldName] || SETTINGS[fieldName].default;
+        fieldDefaults[fieldName] = SETTINGS[fieldName].default;
+      }
+    });
+
     const setting = {
-      ...SettingsUtil.get(SETTINGS.leftControlsMenu.tag),
-      default: {
-        ...SETTINGS.leftControlsMenu.default
+      ...fieldValues,
+      default: {...fieldDefaults},
+      fields: { 
+        ...fields
       },
-      fields: { ...SETTINGS.leftControlsMenu.fields },
-      buttons: [ 
+      buttons: [
         { type: "button", icon: "", label: "CRLNGN_UI.settings.leftControlsMenu.reset", action: 'redefine' },
         { type: "submit", icon: "", label: "CRLNGN_UI.settings.leftControlsMenu.save" }
       ]
     }
-    // game.settings.get("foo", "config");
 
     LogUtil.log("_prepareContext", [setting, options]);
     return setting;

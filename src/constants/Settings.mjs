@@ -75,36 +75,12 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.hint"),
       propType: Object,
       inputType: SETTING_INPUT.button,
-      fields: {
-        bottomBuffer:{
-          tag: "control-bottom-buffer",
-          label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.bottomBuffer.label"),
-          hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.bottomBuffer.hint"),
-          inputType: SETTING_INPUT.number
-        }, 
-        iconSize: {
-          tag: "control-icon-size",
-          label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.label"),
-          hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.hint"),
-          inputType: SETTING_INPUT.select, 
-          options: {
-            small: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.options.small"), 
-            regular: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.options.regular")
-          }
-        },
-        autoHideSecondary: { 
-          tag: "auto-hide-secondary-controls", 
-          label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.autoHideSecondary.label"), 
-          hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.autoHideSecondary.hint"), 
-          inputType: SETTING_INPUT.checkbox
-        },
-        hideFoundryLogo: { 
-          tag: "hide-foundry-logo", 
-          label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.hideFoundryLogo.label"), 
-          hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.hideFoundryLogo.hint"), 
-          inputType: SETTING_INPUT.checkbox
-        }
-      },
+      fields: [
+        "controlsBottomBuffer",
+        "controlsIconSize",
+        "controlsAutoHide",
+        "hideFoundryLogo"
+      ],
       default: { 
         bottomBuffer: 200,
         iconSize: ICON_SIZES.small.name,
@@ -325,7 +301,7 @@ export function getSettings() {
       config: false
     },
 
-    // DARK MODE
+    /* DARK MODE */
     enforceDarkMode: { 
       tag: "enforce-dark-mode", 
       label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enforceDarkMode.label"), 
@@ -365,6 +341,56 @@ export function getSettings() {
       scope: SETTING_SCOPE.client, 
       config: false,
       requiresReload: true 
+    },
+
+    /* CONTROLS SETTINGS */
+    controlsBottomBuffer:{
+      tag: "control-bottom-buffer",
+      oldName: "bottomBuffer",
+      label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.bottomBuffer.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.bottomBuffer.hint"),
+      propType: Number,
+      inputType: SETTING_INPUT.number,
+      default: 200,
+      scope: SETTING_SCOPE.client,
+      config: false
+    }, 
+    controlsIconSize: {
+      tag: "control-icon-size",
+      oldName: "iconSize",
+      label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.hint"),
+      inputType: SETTING_INPUT.select, 
+      options: {
+        small: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.options.small"), 
+        regular: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.options.regular")
+      },
+      propType: String,
+      default: ICON_SIZES.small.name,
+      scope: SETTING_SCOPE.client,
+      config: false
+    },
+    controlsAutoHide: {
+      tag: "auto-hide-secondary-controls",
+      oldName: "autoHideSecondary",
+      label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.autoHideSecondary.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.autoHideSecondary.hint"), 
+      inputType: SETTING_INPUT.checkbox,
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false
+    },
+    hideFoundryLogo: {
+      tag: "hide-foundry-logo",
+      oldName: "hideFoundryLogo",
+      label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.hideFoundryLogo.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.hideFoundryLogo.hint"), 
+      inputType: SETTING_INPUT.checkbox,
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.client,
+      config: false
     }
 
   }

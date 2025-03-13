@@ -3,27 +3,27 @@
   <p class="hint">{{localize "CRLNGN_UI.settings.leftControlsMenu.hint"}}</p>
 
   <div class="form-group">
-    <label for="bottomBuffer">{{fields.bottomBuffer.label}}</label>
-    <input type="number" name="bottomBuffer" value="{{bottomBuffer}}" />
-    <p class="hint">{{{fields.bottomBuffer.hint}}}</p> 
+    <label for="controlsBottomBuffer">{{fields.controlsBottomBuffer.label}}</label>
+    <input type="number" name="controlsBottomBuffer" value="{{controlsBottomBuffer}}" />
+    <p class="hint">{{{fields.controlsBottomBuffer.hint}}}</p> 
   </div>
   
   <div class="form-group">
-    <label for="iconSize">{{fields.iconSize.label}}</label>
-    <select name="iconSize">
-      {{#each fields.iconSize.options}}
-      <option value="{{@key}}" {{#if (eq @key ../iconSize)}}selected{{/if}}>
+    <label for="controlsIconSize">{{fields.controlsIconSize.label}}</label>
+    <select name="controlsIconSize">
+      {{#each fields.controlsIconSize.options}}
+      <option value="{{@key}}" {{#if (eq @key ../controlsIconSize)}}selected{{/if}}>
         {{this}}
       </option>
       {{/each}}
     </select>
-    <p class="hint">{{fields.iconSize.hint}}</p> 
+    <p class="hint">{{fields.controlsIconSize.hint}}</p>
   </div>
 
   <div class="form-group">
-    <label for="autoHideSecondary">{{fields.autoHideSecondary.label}}</label>
-    <input type="checkbox" name="autoHideSecondary" {{#if autoHideSecondary}}checked{{/if}} />
-    <p class="hint">{{fields.autoHideSecondary.hint}}</p> 
+    <label for="controlsAutoHide">{{fields.controlsAutoHide.label}}</label>
+    <input type="checkbox" name="controlsAutoHide" {{#if controlsAutoHide}}checked{{/if}} />
+    <p class="hint">{{fields.controlsAutoHide.hint}}</p> 
   </div>
 
   <div class="form-group">

@@ -82,7 +82,7 @@ body.crlngn-ui  {
   .sidebar-tab input[type=range]::-webkit-slider-runnable-track,
   .package-configuration input[type=range]::-webkit-slider-runnable-track {
     height: 10px;
-    background: var(--color-cool-4);
+    background: var(--color-cool-5);
     border-radius: 10px;
     border: 0;
   }

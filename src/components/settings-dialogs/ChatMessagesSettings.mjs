@@ -117,14 +117,14 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
    */
   _prepareContext(options) {
     const SETTINGS = getSettings();
-    // const menuValues = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
+    const menuValues = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
     const fieldNames = SETTINGS.chatMessagesMenu.fields;
     const fields = {};
     const fieldValues = {};
     const fieldDefaults = {};
 
     fieldNames.forEach((fieldName) => {
-      LogUtil.log("_prepareContext a", [SETTINGS[fieldName].oldName]);
+      LogUtil.log("_prepareContext", [SETTINGS[fieldName].oldName]);
       if(SETTINGS[fieldName]) {
         const value = SettingsUtil.get(SETTINGS[fieldName].tag);
         fields[fieldName] = SETTINGS[fieldName];
@@ -133,7 +133,7 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
       }
     });
 
-    LogUtil.log("_prepareContext b", [fieldValues, fieldDefaults]);
+    LogUtil.log("_prepareContext", [fieldValues, fieldDefaults]);
 
     const setting = {
       ...fieldValues,
