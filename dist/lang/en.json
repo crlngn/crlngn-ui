@@ -15,7 +15,7 @@
         "hint": "Configure the font families used throughout the interface",
         "description": "Select or type the name of a custom font, if already loaded on Foundry core.",
         "fields": {
-          "uiFont": {
+          "uiBody": {
             "label": "UI Font"
           },
           "uiTitles": {

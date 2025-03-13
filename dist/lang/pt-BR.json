@@ -15,7 +15,7 @@
         "hint": "Configure as famílias de fontes usadas na interface",
         "description": "Selecione ou digite o nome de uma fonte personalizada, se já estiver carregada no Foundry.",
         "fields": {
-          "uiFont": {
+          "uiBody": {
             "label": "Fonte da Interface"
           },
           "uiTitles": {

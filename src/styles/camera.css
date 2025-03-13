@@ -409,7 +409,7 @@ body.crlngn-ui{
         max-width: max-content;
         min-width: calc(var(--av-minimized-icon-size) + 4px);
         min-height: calc(var(--av-minimized-icon-size) + 24px);
-        max-height: 100px;
+        max-height: 70px;
         background: var(--left-control-main-bg);
 
         .resize-handle{

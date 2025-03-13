@@ -61,11 +61,21 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
     const SETTINGS = getSettings();
     event.preventDefault();
     event.stopPropagation();
+    // const menuValues = SettingsUtil.get(SETTINGS.customFontsMenu.tag);
+    const fieldNames = SETTINGS.customFontsMenu.fields;
 
     // Convert FormData into an object with proper keys
     const settings = foundry.utils.expandObject(formData.object);
-    LogUtil.log("Saving settings:", [settings]); // Debugging
+    
+    fieldNames.forEach((fieldName) => {
+      if(settings[fieldName]) {
+        LogUtil.log("Saving setting:", [settings[fieldName]]);
+        SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
+      }
+    });
 
+
+    // For compatibility - to be removed in future version
     SettingsUtil.set(SETTINGS.customFontsMenu.tag, settings);
 
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
@@ -78,27 +88,43 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
    */
   _prepareContext(options) {
     const SETTINGS = getSettings();
-    const current = SettingsUtil.get(SETTINGS.customFontsMenu.tag);
+    const menuValues = SettingsUtil.get(SETTINGS.customFontsMenu.tag);
+    const fieldNames = SETTINGS.customFontsMenu.fields;
+
+    const fields = {};
+    const fieldValues = {};
+    const fieldDefaults = {};
+    fieldNames.forEach((fieldName) => {
+      LogUtil.log("_prepareContext", [SETTINGS[fieldName].oldName, menuValues]);
+      if(SETTINGS[fieldName]) {
+        const value = SettingsUtil.get(SETTINGS[fieldName].tag);
+        fields[fieldName] = SETTINGS[fieldName];
+        fieldValues[fieldName] = value || menuValues[SETTINGS[fieldName].oldName] || SETTINGS[fieldName].default;
+        fieldDefaults[fieldName] = SETTINGS[fieldName].default;
+
+      }
+    });
+
     const setting = {
-      uiFont: current.uiFont || SETTINGS.customFontsMenu.default.uiFont,
+      ...fieldValues,
+      /*
+      uiFont: current.uiBody || SETTINGS.customFontsMenu.default.uiFont,
       uiTitles: current.uiTitles || SETTINGS.customFontsMenu.default.uiTitles,
       journalBody: current.journalBody || current.journalBodyFont || SETTINGS.customFontsMenu.default.journalBody,
       journalTitles: current.journalTitles || current.journalTitleFont || SETTINGS.customFontsMenu.default.journalTitles,
-      default: {
-        ...SETTINGS.customFontsMenu.default
-      },
+      */
+      default: {...fieldDefaults},
       fontList: GeneralUtil.getAllFonts(),
       fields: { 
-        ...SETTINGS.customFontsMenu.fields
+        ...fields
       },
       buttons: [
         { type: "button", icon: "", label: "CRLNGN_UI.settings.customFontsMenu.reset", action: 'redefine' },
         { type: "submit", icon: "", label: "CRLNGN_UI.settings.customFontsMenu.save" }
       ]
     }
-    // game.settings.get("foo", "config");
 
-    LogUtil.log("_prepareContext", [setting, options]);
+    // LogUtil.log("_prepareContext", [setting, options]);
     return setting;
   }
 
@@ -213,7 +239,6 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
         const input = option.closest('.dropdown-wrapper').querySelector('input');
         // Get the value and handle potential quote escaping
         let value = option.dataset.value;
-        LogUtil.log("Option clicked:", [value, option.dataset]); // Debug log
         
         // If the value contains spaces but doesn't have quotes, add them
         if (value.includes(' ') && !value.startsWith('"')) {
@@ -225,10 +250,11 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
         }
         
         input.value = value;
-        option.closest('.dropdown-options').classList.remove('active');
+        const dropdown = option.closest('.dropdown-options');
+        dropdown.classList.remove('active');
         
         // Return focus to input after selection
-        input.focus();
+        // input.focus();
       });
     });
   }
@@ -244,13 +270,22 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
     const SETTINGS = getSettings();
     const html = this.element;
     const inputs = html.querySelectorAll("input[type=text]");
-    const defaults = SETTINGS.customFontsMenu.default;
+    const menuValues = SettingsUtil.get(SETTINGS.customFontsMenu.tag);
+    const fieldNames = SETTINGS.customFontsMenu.fields;
+
+    const fields = {};
+    const fieldDefaults = {};
+
+    fieldNames.forEach((fieldName) => {
+      if(SETTINGS[fieldName]) {
+        fields[fieldName] = SETTINGS[fieldName];
+        fieldDefaults[fieldName] = SETTINGS[fieldName].default;
+      }
+    });
 
     inputs.forEach(inputField => {
-      inputField.value = defaults[inputField.name];
+      inputField.value = fieldDefaults[inputField.name];
     })
-    
-    LogUtil.log("#onReset", [a, b, SETTINGS.customFontsMenu.default]);
   }
 
   

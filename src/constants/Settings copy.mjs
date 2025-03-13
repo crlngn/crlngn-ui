@@ -32,17 +32,37 @@ export function getSettings() {
       description: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.description"),
       propType: Object,
       inputType: SETTING_INPUT.button,
-      fields: [
-        'uiFontBody',
-        'uiFontTitles',
-        'journalFontBody',
-        'journalFontTitles'
-      ],
+      fields: {
+        uiFont: {
+          tag: "ui-font",
+          label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiFont.label"),
+          hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiFont.hint"),
+          inputType: SETTING_INPUT.text
+        },
+        uiTitles: {
+          tag: "ui-titles",
+          label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiTitles.label"),
+          hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiTitles.hint"),
+          inputType: SETTING_INPUT.text
+        },
+        journalBody: {
+          tag: "journal-body",
+          label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalBody.label"),
+          hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalBody.hint"),
+          inputType: SETTING_INPUT.text
+        }, 
+        journalTitles: {
+          tag: "journal-title",
+          label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalTitles.label"),
+          hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalTitles.hint"),
+          inputType: SETTING_INPUT.text
+        }
+      },
       default: {
         uiFont: `"Work Sans", Arial, sans-serif`,
         uiTitles: `"Roboto Slab", Arial, sans-serif`,
         journalBody: `"Work Sans", Arial, sans-serif`, 
-        journalTitles: `"Roboto Slab", Arial, sans-serif`
+        journalTitles: `"Roboto Condensed", Arial, sans-serif`
       },
       scope: SETTING_SCOPE.world,
       config: false, 
@@ -303,53 +323,7 @@ export function getSettings() {
       config: true
     },
 
-    /* NON-CONFIG SETTINGS */
-    /* FONTS */
-    uiFontBody: {
-      tag: "ui-font-body",
-      oldName: "uiFont",
-      label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiBody.label"),
-      hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiBody.hint"),
-      inputType: SETTING_INPUT.text,
-      propType: String,
-      default: "Work Sans",
-      scope: SETTING_SCOPE.world,
-      config: false
-    },
-    uiFontTitles: {
-      tag: "ui-font-titles",
-      oldName: "uiTitles",
-      label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiTitles.label"),
-      hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiTitles.hint"),
-      inputType: SETTING_INPUT.text,
-      propType: String,
-      default: "Roboto Slab",
-      scope: SETTING_SCOPE.world,
-      config: false
-    },
-    journalFontBody: {
-      tag: "journal-font-body",
-      oldName: "journalBody",
-      label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalBody.label"),
-      hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalBody.hint"),
-      inputType: SETTING_INPUT.text,
-      propType: String,
-      default: "Work Sans",
-      scope: SETTING_SCOPE.world,
-      config: false
-    }, 
-    journalFontTitles: {
-      tag: "journal-font-titles",
-      oldName: "journalTitles",
-      label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalTitles.label"),
-      hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalTitles.hint"),
-      inputType: SETTING_INPUT.text,
-      propType: String,
-      default: "Roboto Slab",
-      scope: SETTING_SCOPE.world,
-      config: false
-    },
-
+    /* non-config settings */
     enforceDarkMode: { 
       tag: "enforce-dark-mode", 
       label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enforceDarkMode.label"), 

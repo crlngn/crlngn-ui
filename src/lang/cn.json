@@ -15,7 +15,7 @@
         "hint": "配置界面中使用的字体",
         "description": "选择或输入已在 Foundry 核心中加载的自定义字体名称。",
         "fields": {
-          "uiFont": {
+          "uiBody": {
             "label": "界面字体"
           },
           "uiTitles": {

@@ -84,7 +84,10 @@ export class SettingsUtil {
     SettingsUtil.applyBorderColors();
 
     // apply custom font settings
-    SettingsUtil.applyCustomFonts();
+    const fields = SETTINGS.customFontsMenu.fields;
+    fields.forEach(fieldName => {
+      SettingsUtil.applyCustomFonts(SETTINGS[fieldName].tag);
+    });   
 
     // apply left controls settings
     SettingsUtil.applyLeftControlsSettings(); 
@@ -173,8 +176,15 @@ export class SettingsUtil {
       case SETTINGS.autoHidePlayerList.tag: 
         SettingsUtil.applyPlayersListSettings();
         break;
-      case SETTINGS.customFontsMenu.tag:
-        SettingsUtil.applyCustomFonts(value); 
+      // case SETTINGS.customFontsMenu.tag:
+      //   SettingsUtil.applyCustomFonts(value); 
+      //   break;
+      case SETTINGS.uiFontBody.tag:
+      case SETTINGS.uiFontTitles.tag:
+      case SETTINGS.journalFontBody.tag:
+      case SETTINGS.journalFontTitles.tag:
+        LogUtil.log("SettingsUtil.apply",[settingTag]); 
+        SettingsUtil.applyCustomFonts(settingTag, value); 
         break;
       case SETTINGS.leftControlsMenu.tag:
         SettingsUtil.applyLeftControlsSettings(); 
@@ -360,17 +370,33 @@ export class SettingsUtil {
   /*******/
 
 
-  static applyCustomFonts(){
+  static applyCustomFonts(tag, value){
     const SETTINGS = getSettings();
-    const customFonts = SettingsUtil.get(SETTINGS.customFontsMenu.tag);
-    LogUtil.log("applyCustomFonts", [customFonts]);
+    const fields = SETTINGS.customFontsMenu.fields;
+    const customFonts = {};
+    fields.forEach(fieldName => {
+      customFonts[fieldName] = SettingsUtil.get(SETTINGS[fieldName].tag);
+    });
 
-    if(customFonts){
-      const root = document.querySelector("body.crlngn-ui");
-      root.style.setProperty('--crlngn-font-family', customFonts.uiFont || SETTINGS.customFontsMenu.default.uiFont || '');
-      root.style.setProperty('--crlngn-font-titles', customFonts.uiTitles || SETTINGS.customFontsMenu.default.uiTitles || '');
-      root.style.setProperty('--crlngn-font-journal-body', customFonts.journalBody || customFonts.journalBodyFont || SETTINGS.customFontsMenu.default.journalBody || '');
-      root.style.setProperty('--crlngn-font-journal-title', customFonts.journalTitles || customFonts.journalTitleFont || SETTINGS.customFontsMenu.default.journalTitles || '');
+    LogUtil.log("applyCustomFonts", [tag, value]);
+
+    const body = document.querySelector("body.crlngn-ui");
+    switch(tag){
+      case SETTINGS.uiFontBody.tag:
+        body.style.setProperty('--crlngn-font-family', value || customFonts.uiFontBody || SETTINGS.uiFontBody.default.uiFont || '');
+        break;
+      case SETTINGS.uiFontTitles.tag:
+        body.style.setProperty('--crlngn-font-titles', value || customFonts.uiFontTitles || SETTINGS.uiFontTitles.default.uiTitles || '');
+        break;
+      case SETTINGS.journalFontBody.tag:
+        body.style.setProperty('--crlngn-font-journal-body', value || customFonts.journalFontBody || customFonts.journalFontBody || '');
+        break;
+      case SETTINGS.journalFontTitles:
+        body.style.setProperty('--crlngn-font-journal-title', value || customFonts.journalFontTitles || customFonts.journalFontTitles || '');
+        break;
+      default:
+        //
+      
     }
   }
 

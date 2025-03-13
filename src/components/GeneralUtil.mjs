@@ -39,12 +39,12 @@ export class GeneralUtil {
   static getAllFonts() {
     // Get Foundry built-in fonts
     const foundryFonts = new Set(Object.keys(CONFIG.fontDefinitions));
-    LogUtil.log('Foundry built-in fonts:', [Array.from(foundryFonts)]);
+    // LogUtil.log('Foundry built-in fonts:', [Array.from(foundryFonts)]);
     
     // Get custom fonts from settings
     const customFontsObj = game.settings.get("core", "fonts") || {};
     const customFonts = Object.entries(customFontsObj).map(([fontFamily]) => fontFamily);
-    LogUtil.log('Custom fonts from settings:', [customFonts]);
+    // LogUtil.log('Custom fonts from settings:', [customFonts]);
   
     // Get CSS imported fonts
     const cssImportedFonts = new Set();
@@ -67,12 +67,12 @@ export class GeneralUtil {
                 cssText = Array.from(rules).map(rule => rule.cssText).join('\n');
               }
             } catch (e) {
-              console.warn('Could not read stylesheet rules:', e);
+              LogUtil.warn('Could not read stylesheet rules:', [e]);
             }
           }
   
           // Log the found CSS text for debugging
-          LogUtil.log('Processing stylesheet text:', [cssText.slice(0, 200) + '...']);
+          // LogUtil.log('Processing stylesheet text:', [cssText.slice(0, 200) + '...']);
   
           // Extract URLs from @import statements
           const importUrlRegex = /@import\s+url\(['"]([^'"]+)['"]\)/g;
@@ -80,7 +80,7 @@ export class GeneralUtil {
           
           while ((match = importUrlRegex.exec(cssText)) !== null) {
             const url = match[1]; // This is the actual URL
-            LogUtil.log('Found import URL:', url);
+            // LogUtil.log('Found import URL:', [url]);
   
             if (url.includes('fonts.googleapis.com')) {
               // Extract font family names from Google Fonts URL
@@ -95,7 +95,7 @@ export class GeneralUtil {
                 
                 families.forEach(family => {
                   cssImportedFonts.add(family);
-                  LogUtil.log('Added Google Font family:', family);
+                  // LogUtil.log('Added Google Font family:', [family]);
                 });
               }
             } else {
@@ -111,13 +111,13 @@ export class GeneralUtil {
                       if (fontFamilyMatch) {
                         const fontFamily = fontFamilyMatch[1].trim();
                         cssImportedFonts.add(fontFamily);
-                        LogUtil.log('Added font family from @font-face:', fontFamily);
+                        // LogUtil.log('Added font family from @font-face:', fontFamily);
                       }
                     });
                   })
                   .catch(error => console.warn('Error loading imported CSS:', error));
               } catch (e) {
-                console.warn('Error processing imported CSS:', e);
+                LogUtil.warn('Error processing imported CSS:', [e]);
               }
             }
           }
@@ -133,15 +133,15 @@ export class GeneralUtil {
                   .replace(/['"`]/g, '')
                   .trim();
                 cssImportedFonts.add(fontFamily);
-                LogUtil.log('Found font-face rule for:', fontFamily);
+                // LogUtil.log('Found font-face rule for:', [fontFamily]);
               }
             }
           } catch (e) {
-            console.warn('Could not read stylesheet rules:', e);
+            LogUtil.warn('Could not read stylesheet rules:', [e]);
           }
         }
       } catch (e) {
-        console.warn('Error processing stylesheet:', e);
+        LogUtil.warn('Error processing stylesheet:', [e]);
       }
     }
   
