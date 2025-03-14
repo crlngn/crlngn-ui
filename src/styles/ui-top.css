@@ -47,7 +47,7 @@ body{
   #ui-middle.crlngn-ui{
     margin-top: 0;
 
-    > *:not(#loading, #ui-top) {
+    > *:not(#loading, #ui-top, #ui-bottom) {
       margin-top: var(--crlngn-top-offset, 0px);
       transition: margin-top 0.15s ease-in-out;
     }

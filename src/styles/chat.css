@@ -2,12 +2,13 @@
 Chat card layout - start 
 ******************/
 body.crlngn-chat {
-  --color-pf-alternate: #526b7870;
+  --color-pf-alternate: rgba(82, 107, 120, 0.44);
   --crlngn-chat-button-bg-15: rgba(32, 47, 58, 0.15);
   --crlngn-chat-button-bg-25: rgba(32, 47, 58, 0.25);
   --crlngn-chat-button-bg-50: rgba(32, 47, 58, 0.5);
   --crlngn-chat-button-bg-15: rgba(32, 47, 58, 0.15);
   --crlngn-dark-blue: rgba(24, 32, 38, 1); 
+  --crlngn-dark-blue-b: rgb(29, 36, 48, 1); 
   --crlngn-dark-bg: rgba(32, 47, 58, 1); 
   --crlngn-dark-bg-15: rgba(32, 47, 58, 0.15);
   --crlngn-dark-bg-25: rgba(32, 47, 58, 0.25);
@@ -267,7 +268,7 @@ body.crlngn-chat {
 
   .chat-card .description .details, 
   .chat-card .description .details p {
-    line-height: 1.35rem; 
+    line-height: 1.15rem; 
     font-size: var(--font-size-12); 
   }
 
@@ -526,6 +527,8 @@ body.crlngn-chat {
     --dnd5e-color-failure-background: rgba(209, 67, 67, 0.35);
     --dnd5e-text-color-success: #c1e6a7;
     --dnd5e-text-color-failure: #d8aeae;
+    --dnd5e-color-card: var(--crlngn-dark-blue);
+    --dnd5e-color-crimson: var(--color-highlights-75);
 
     .chat-message p,
     .chat-message span,
@@ -533,7 +536,11 @@ body.crlngn-chat {
     .chat-message table,
     .chat-message ul,
     .chat-message ol {
-      color: var(--color-light-1);
+      color: var(--color-text-light-3);
+    }
+    .chat-message .message-header .name-stacked .title,
+    &.system-dnd5e .chat-message .name-stacked .title {
+      color: var(--color-text-light-1);
     }
 
     .sidebar-tab{
@@ -544,11 +551,15 @@ body.crlngn-chat {
       }
     }
 
-    :is(.chat-popout, #chat-log) .chat-message,
-    :is(.chat-popout, #chat-log) .chat-message.whisper,
-    :is(.chat-popout, #chat-log) .chat-message.blind{
+    .chat-popout .chat-message,
+    #chat-log .chat-message,
+    .chat-popout .chat-message.whisper,
+    #chat-log .chat-message.whisper,
+    .chat-popout .chat-message.blind,
+    #chat-log .chat-message.blind {
       background: var(--crlngn-dark-blue); 
       color: var(--color-text-gray-blue-b);
+      /*border-color: transparent;*/
     }
     
     .chat-message.crlngn h1, 
@@ -583,7 +594,7 @@ body.crlngn-chat {
   
   
     .chat-message.whisper {
-      border: 2px dotted var(--crlngn-dark-blue);
+      border: 2px dotted var(--color-text-light-2);
       background: repeating-linear-gradient( -45deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 1px, rgba(60,60,80,1) 2px, rgba(60,60,80,1) 3px);
     }
     .chat-message:before {

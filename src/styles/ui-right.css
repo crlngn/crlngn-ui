@@ -9,13 +9,15 @@
     margin: 0; 
     border-radius: 0; 
     border: 0; 
+    /*var(--crlngn-taskbar-height, 0px);*/
     height: calc(100% - var(--crlngn-sidebar-bottom, 0px)); 
     padding-bottom: 10px; 
 
     &.collapsed{
       width: var(--right-control-item-size);
       min-width: var(--right-control-item-size);
-      height: auto; 
+      height: auto;
+      /*transition: height 0s;*/
 
       > nav > .item{
         order: 1;

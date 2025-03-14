@@ -27,5 +27,9 @@ export const HOOKS_CORE = {
   RENDER_HOTBAR: "renderHotbar",
 
   /* Camera Views */
-  RENDER_CAMERA_VIEWS: "renderCameraViews"
+  RENDER_CAMERA_VIEWS: "renderCameraViews",
+
+  /* Update user */
+  UPDATE_USER: "updateUser",
+  UPDATE_DOCUMENT: "updateDocument"
 }

@@ -19,7 +19,8 @@ export class Main {
       LogUtil.log("Initiating module...", [], true); 
 
       Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
-      Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, Main.checkPlayersList);
+      // Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, Main.checkPlayersList);
+      // Hooks.on(HOOKS_CORE.RENDER_HOTBAR, Main.checkPlayersList);
       SettingsUtil.registerSettings();
     });
 
@@ -64,28 +65,6 @@ export class Main {
     LogUtil.log(HOOKS_CORE.RENDER_CHAT_MESSAGE,[chatMessage, html]);
   
     ChatUtil.enrichCard(chatMessage, html);
-  }
-
-  static checkPlayersList = () => {
-    const body = document.querySelector('body');
-    const uiLeftPlayers = document.querySelector('#ui-left #players');
-    const isTaskbarOn = GeneralUtil.isModuleOn('foundry-taskbar');
-    const isPlayersDocked = isTaskbarOn ? game.settings.get('foundry-taskbar','dockPlayersList') : false;
-    // LogUtil.log('checkPlayersList',[isPlayersDocked, isTaskbarOn, game.settings]);
-    
-    if(body.querySelector('#players.auto-hide')){
-      body.classList.add('with-players-hide');
-      body.classList.remove('with-players');
-      body.classList.remove('players-hidden');
-    }else if(isPlayersDocked){
-      body.classList.remove('with-players');
-      body.classList.remove('with-players-hide');
-      body.classList.add('players-hidden');
-    }else if(uiLeftPlayers){
-      body.classList.add('with-players');
-      body.classList.remove('with-players-hide');
-      body.classList.remove('players-hidden');
-    }
   }
 
 }

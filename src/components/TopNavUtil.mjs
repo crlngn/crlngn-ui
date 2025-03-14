@@ -54,17 +54,15 @@ export class TopNavigation {
     if(!isMonksScenenNavOn){
       TopNavigation.resetLocalVars();
       TopNavigation.addListeners(); 
-
-      LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, []); 
       
       TopNavigation.setNavPosition(0);
       TopNavigation.placeNavButtons(); 
 
-      // if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
-      //   ui.nav.collapse();
-      // }else{
-      //   ui.nav.expand();
-      // }
+      if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
+        ui.nav.collapse();
+      }else{
+        ui.nav.expand();
+      }
     }else{
       uiMiddle.classList.add('with-monks-scene');
     }
@@ -84,11 +82,11 @@ export class TopNavigation {
         // TopNavigation.observeNavOffset();
       }
       
-      // if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
-      //   ui.nav.collapse();
-      // }else{
-      //   ui.nav.expand();
-      // }
+      if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
+        ui.nav.collapse();
+      }else{
+        ui.nav.expand();
+      }
     }); 
 
     Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, (value) => { 

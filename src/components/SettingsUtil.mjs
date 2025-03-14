@@ -7,9 +7,11 @@ import { ChatUtil } from "./ChatUtil.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { Main } from "./Main.mjs";
+import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
 
 export class SettingsUtil {
+  static #uiHidden = false;
   static firstLoad = true;
   /**
    * Registers settings for this module
@@ -47,6 +49,28 @@ export class SettingsUtil {
       if(SettingsUtil.get(setting.tag)===undefined){
         SettingsUtil.set(setting.tag, setting.default);
       }
+
+      game.keybindings.register(MODULE_ID, "hideInterface", {
+        name: "Toggle Hide/Show User Interface",
+        hint: "Hides or shows the UI. This will affect all elements inside the `#interface` html block",
+        // uneditable: [
+        //   {
+        //     key: "Digit1",
+        //     modifiers: ["Control"]
+        //   }
+        // ],
+        editable: [
+          {
+            key: "0",
+            modifiers: ["Control"]
+          }
+        ],
+        onDown: () => {  },
+        onUp: () => { SettingsUtil.hideInterface() },
+        restricted: false,             // Restrict this Keybinding to gamemaster only?
+        // reservedModifiers: ["Alt"],  // On ALT, the notification is permanent instead of temporary
+        // precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL
+      });
 
       // LogUtil.log("registerSettings",[setting.tag, SettingsUtil.get(setting.tag)]);
     });
@@ -98,10 +122,6 @@ export class SettingsUtil {
     controlFields.forEach(fieldName => {
       SettingsUtil.applyLeftControlsSettings(SETTINGS[fieldName].tag);
     }); 
-    
-
-    //apply dark mode settings
-    SettingsUtil.resetFoundryThemeSettings();
 
 
   }
@@ -370,7 +390,7 @@ export class SettingsUtil {
     }else{
       document.querySelector("#players")?.classList.remove("auto-hide");
     }
-    Main.checkPlayersList();
+    ModuleCompatUtil.checkPlayersList();
   }
 
   static applySceneNavPos(){
@@ -461,7 +481,7 @@ export class SettingsUtil {
 
     LogUtil.log("resetFoundryThemeSettings", [foundryColorScheme, forceDarkModeOn])
 
-    if(!foundryColorScheme && forceDarkModeOn){
+    if(foundryColorScheme===false && forceDarkModeOn){
       game.settings.set('core','colorScheme','dark');
     }
   }
@@ -469,5 +489,26 @@ export class SettingsUtil {
   static applyDebugSettings(value){
     const SETTINGS = getSettings();
     LogUtil.debugOn = value || SettingsUtil.get(SETTINGS.debugMode.tag);
+  }
+
+
+  static hideInterface = () => {
+    LogUtil.log('hideInterface');
+    const ui = document.querySelector("#interface");
+    const cameraViews = document.querySelector("#camera-views");
+    const taskbar = document.querySelector(".taskbar");
+    
+    if(SettingsUtil.#uiHidden){
+      if(ui) ui.style.removeProperty('visibility');
+      if(ui) cameraViews.style.removeProperty('visibility');
+      if(ui) taskbar.style.removeProperty('visibility');
+      SettingsUtil.#uiHidden = false;
+    }else{
+      if(ui) ui.style.setProperty('visibility', 'hidden');
+      if(cameraViews) cameraViews.style.setProperty('visibility', 'hidden');
+      if(taskbar) taskbar.style.setProperty('visibility', 'hidden');
+      SettingsUtil.#uiHidden = true;
+    }
+    
   }
 }

@@ -1,4 +1,6 @@
 body.crlngn-ui{
+  --crlngn-taskbar-height: 0px;
+  
   /* DDB Gamelog */
   .ddb-game-log-fixHeader .message-sender:hover {
     text-shadow: none;
