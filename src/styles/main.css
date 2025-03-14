@@ -37,6 +37,44 @@ body.crlngn-ui  {
   /******************
   * INPUT AND RANGE
   *******************/
+  .theme-color-preview {
+    display: flex;
+    flex-direction: row-reverse;
+    align-self: center;
+
+    span {
+      display: flex;
+      align-self: center;
+    }
+
+    span.theme-color {
+      flex: 0 0 16px;
+      width: 16px;
+      height: 16px;
+      margin-left: -1px;
+      border: 1px solid var(--color-light-bg-25);
+    }
+    span.theme-name{
+      flex: 1 1 auto;
+      background: transparent;
+      font-size: inherit;
+    }
+  }
+  .code-editor-wrapper{
+    min-width: 100%;
+    display: block;
+  }
+  .code-editor-wrapper textarea{
+    font-family: monospace;
+    white-space: pre;
+    /*tab-size: 2;*/
+    padding: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    color: var(--color-text-light-highlight);
+    box-shadow: none;
+    background: var(--color-cool-4);
+  }
+
   .sidebar-tab .header-search input,
   .sidebar-tab select, 
   .sidebar-tab textarea,
@@ -341,10 +379,17 @@ body.crlngn-ui {
 
   &.theme-dark form.application footer button,
   &.theme-dark .standard-form.crlngn button {
-    border: 1px solid var(--color-light-3);
+    border: 1px solid var(--color-light-bg-25);
   }
 
   
 }
 
 
+/*****
+PACKAGE CONFIG */
+.package-configuration aside.sidebar nav.tabs .category-tab:hover,
+.package-configuration aside.sidebar nav.tabs .category-tab.active {
+  text-shadow: none;
+  background: var(--color-highlights-15);
+}

@@ -1,12 +1,11 @@
 import { MODULE_ID } from "../constants/General.mjs";
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { getSettingMenus } from "../constants/SettingMenus.mjs";
-import { BORDER_COLOR_TYPES, getSettings, ICON_SIZES } from "../constants/Settings.mjs";
+import { BORDER_COLOR_TYPES, getSettings, ICON_SIZES, THEMES } from "../constants/Settings.mjs";
 import { CameraUtil } from "./CameraUtil.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
-import { Main } from "./Main.mjs";
 import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
 
@@ -20,6 +19,7 @@ export class SettingsUtil {
     const SETTINGS = getSettings();
     LogUtil.log("registerSettings - test", [SETTINGS], true);
     document.querySelector("body").classList.add(MODULE_ID); 
+    
     /**
      * Register each of the settings defined in the SETTINGS constant 
      */
@@ -74,6 +74,8 @@ export class SettingsUtil {
 
       // LogUtil.log("registerSettings",[setting.tag, SettingsUtil.get(setting.tag)]);
     });
+
+    SettingsUtil.applyThemeSettings();
 
     /**
      * Register subsetting menus
@@ -249,6 +251,9 @@ export class SettingsUtil {
         break;
       case SETTINGS.sceneNavCollapsed.tag:
         TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag);
+        break;
+      case SETTINGS.colorTheme.tag:
+        SettingsUtil.applyThemeSettings();
         break;
       default:
         // do nothing
@@ -489,6 +494,20 @@ export class SettingsUtil {
   static applyDebugSettings(value){
     const SETTINGS = getSettings();
     LogUtil.debugOn = value || SettingsUtil.get(SETTINGS.debugMode.tag);
+  }
+
+  static applyThemeSettings = (value) => {
+    const SETTINGS = getSettings();
+    const themeName = value || SettingsUtil.get(SETTINGS.colorTheme.tag) || "";
+    const body = document.querySelector("body");
+    
+    THEMES.forEach((theme)=>{
+      if(theme.className){
+        body.classList.remove(theme.className);
+      }
+    });
+
+    body.classList.add(themeName);
   }
 
 

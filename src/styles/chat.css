@@ -559,7 +559,7 @@ body.crlngn-chat {
     #chat-log .chat-message.blind {
       background: var(--crlngn-dark-blue); 
       color: var(--color-text-gray-blue-b);
-      /*border-color: transparent;*/
+      border-color: transparent;
     }
     
     .chat-message.crlngn h1, 

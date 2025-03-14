@@ -1,0 +1,35 @@
+<div>
+  <div class="form-group">
+    <label for="colorTheme">{{fields.colorTheme.label}}</label>
+    <div class="dropdown-wrapper">
+      <input type="text" name="colorTheme" value="{{colorTheme}}" 
+        autocomplete="off" 
+        onfocus="this.select()" />
+      <div class="dropdown-options">
+        {{#each themes}}
+          <div class="dropdown-option theme-color-preview" 
+            {{!-- style="font-family:{{this.className}}"  --}}
+            data-value="{{this.className}}"
+            >
+            {{#each colorPreview}}
+            <span class="theme-color" style="background:{{this}}"></span>
+            {{/each}}
+            <span class="theme-name">{{this.label}}</span>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+    <p class="hint">&nbsp;</p>
+  </div>
+
+  <div class="form-group">
+    <label for="customStyles">{{fields.customStyles.label}}</label>
+    <div class="code-editor-wrapper">
+      <textarea name="customStyles" class="code-editor" 
+      rows="10" cols="80" wrap="off" placeholder="Write your code here..." 
+      spellcheck="false">{{customStyles}}</textarea>
+    </div>
+    <p class="hint">&nbsp;</p>
+  </div>
+  <p>&nbsp;</p>
+</div>

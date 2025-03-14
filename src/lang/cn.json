@@ -32,6 +32,23 @@
         "reset": "重置",
         "save": "保存"
       },
+      "themeAndStylesMenu": {
+        "label": "Color Theme and Styles",
+        "title": "Configure Styles",
+        "hint": "Select a color theme for the UI, and add custom CSS styles",
+        "fields": {
+          "colorTheme": {
+            "label": "Color Theme",
+            "hint": ""
+          },
+          "customStyles": {
+            "label": "Custom CSS",
+            "hint": "These styles will be loaded the next time you load Foundry"
+          }
+        },
+        "reset": "Reset",
+        "save": "Save"
+      },
       "chatMessagesMenu": {
         "label": "聊天消息选项",
         "title": "配置聊天",

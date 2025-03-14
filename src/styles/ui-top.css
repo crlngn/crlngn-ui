@@ -247,7 +247,7 @@ body{
           }
 
           &.scene.active{
-            background: rgba(50, 50, 70, 0.75);
+            background: var(--color-secondary-75);
             box-shadow: 0;
             opacity: 1;
 

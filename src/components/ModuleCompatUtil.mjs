@@ -14,27 +14,6 @@ export class ModuleCompatUtil {
       Hooks.on(HOOKS_CORE.UPDATE_USER, ModuleCompatUtil.checkTaskbarLock);
     }
     ModuleCompatUtil.checkTaskbarLock();
-
-    /*
-    const bodyObserver = new MutationObserver((mutations) => {
-      console.log('Body element has been modified:', mutations);
-      // Your code to handle the re-render
-    });
-    
-    // Start observing the body with configuration options
-    bodyObserver.observe(document.body, {
-      childList: false,    // Watch for changes to direct children
-      subtree: false,      // Watch the entire subtree
-      attributes: true    // Watch for attribute changes
-    });
-    */
-
-    Hooks.on('renderApplication', (app, html, data) => {
-      if (html.closest('body').length) {
-        console.log('An application was rendered that affected the body');
-        // Your code here
-      }
-    });
   }
 
   static checkTaskbarLock = () => {

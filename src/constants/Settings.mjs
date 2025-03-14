@@ -23,6 +23,41 @@ export const BORDER_COLOR_TYPES = {
   }
 }
 
+export const THEMES = [
+  {
+    label: 'Carolingian',
+    className: '',
+    colorPreview: [
+      'rgb(62, 62, 88)',
+      'rgb(68, 147, 173)'
+    ]
+  },
+  {
+    label: 'Banana Dark Chocolate',
+    className: 'crlngn-theme-banana',
+    colorPreview: [
+      'rgb(30, 22, 15)',
+      'rgb(205, 175, 0)'
+    ]
+  },
+  {
+    label: 'Purple Sorcery',
+    className: 'crlngn-theme-purple-sorcery',
+    colorPreview: [
+      'rgb(58, 64, 94)',
+      'rgb(83, 67, 137)'
+    ]
+  },
+  {
+    label: 'Red Velvet',
+    className: 'crlngn-theme-red-velvet',
+    colorPreview: [
+      'rgb(45, 30, 25)',
+      'rgb(165, 28, 28)'
+    ]
+  }
+];
+
 export function getSettings() { 
   return {
     customFontsMenu: {
@@ -48,6 +83,24 @@ export function getSettings() {
       scope: SETTING_SCOPE.world,
       config: false, 
       requiresReload: false 
+    },
+
+    themeAndStylesMenu: {
+      tag: "theme-styles-menu", 
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.label"),
+      title: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.title"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.hint"),
+      propType: String,
+      fields: [
+        "colorTheme",
+        "customStyles"
+      ],
+      default: {
+        colorTheme: '',
+        customStyles: ''
+      },
+      scope: SETTING_SCOPE.world,
+      config: false
     },
 
     chatMessagesMenu: {
@@ -309,6 +362,28 @@ export function getSettings() {
       inputType: SETTING_INPUT.text,
       propType: String,
       default: `"Roboto Slab", Arial, sans-serif`,
+      scope: SETTING_SCOPE.world,
+      config: false
+    },
+
+    /* THEME AND STYLES */
+    colorTheme:{
+      tag: "color-theme",
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.colorTheme.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.colorTheme.hint"),
+      inputType: SETTING_INPUT.text,
+      propType: String,
+      default: "",
+      scope: SETTING_SCOPE.world,
+      config: false
+    },
+    customStyles:{
+      tag: "custom-styles",
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.customStyles.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.customStyles.hint"),
+      inputType: SETTING_INPUT.text,
+      propType: String,
+      default: "",
       scope: SETTING_SCOPE.world,
       config: false
     },

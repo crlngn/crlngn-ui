@@ -32,6 +32,23 @@
         "reset": "Redefinir",
         "save": "Salvar"
       },
+      "themeAndStylesMenu": {
+        "label": "Tema de Cores e CSS",
+        "title": "Configurar Estilos",
+        "hint": "Selecione um tema de cores para a interface, ou adicione CSS customizado",
+        "fields": {
+          "colorTheme": {
+            "label": "Tema de cores",
+            "hint": ""
+          },
+          "customStyles": {
+            "label": "Estilos CSS",
+            "hint": "Estilos digitados aqui serão incluídos na próxima vez que você carregar o Foundry"
+          }
+        },
+        "reset": "Redefinir",
+        "save": "Salvar"
+      },
       "chatMessagesMenu": {
         "label": "Opções de Mensagens de Chat",
         "title": "Configurar Chat",

@@ -4,6 +4,7 @@ import { ChatMessagesSettings } from '../components/settings-dialogs/ChatMessage
 import { CustomFontsSettings } from '../components/settings-dialogs/CustomFontSettings.mjs';
 import { LeftControlsSettings } from '../components/settings-dialogs/LeftControlsSettings.mjs';
 import { SceneNavSettings } from '../components/settings-dialogs/SceneNavSettings.mjs';
+import { ThemeAndStyleSettings } from '../components/settings-dialogs/ThemeAndStylesSettings.mjs';
 // import * as lang from '../lang/en.json' assert { type: "json" };
 
 export function getSettingMenus() {
@@ -15,6 +16,15 @@ export function getSettingMenus() {
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.hint"),
       icon: "fas fa-text",  
       propType: CustomFontsSettings,
+      restricted: true 
+    },
+    themeAndStylesMenu: {
+      tag: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.label"),
+      name: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.title"),
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.title"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.hint"),
+      icon: "fas fa-cog",
+      propType: ThemeAndStyleSettings,
       restricted: true 
     },
     chatMessagesMenu: {

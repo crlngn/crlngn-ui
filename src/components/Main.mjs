@@ -42,6 +42,7 @@ export class Main {
         Main.addCSSLocalization();
       }
       SettingsUtil.resetFoundryThemeSettings();
+      // SettingsUtil.applyThemeSettings();
       
     })
   }
