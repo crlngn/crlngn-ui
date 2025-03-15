@@ -1,5 +1,6 @@
 #interface #ui-middle.crlngn-ui #ui-bottom {
   z-index: 999;
+  margin-bottom: var(--crlngn-taskbar-height, 0px) !important;
 }
 
 /***************************************/
@@ -26,7 +27,7 @@ body.crlngn-ui{
 
   #ui-bottom {
     /*transition: margin 0.3s ease-out;*/
-    margin-bottom: var(--crlngn-taskbar-height, 0px);
+    margin-bottom: var(--crlngn-taskbar-height, 0px) !important;
   }
 
   footer#ui-bottom > *{
@@ -169,7 +170,6 @@ body.crlngn-ui{
           opacity: 0.6;
           background: transparent;
         }
-      
         &.inactive:hover .macro-key{
           opacity: 0.4;
         }
@@ -185,6 +185,7 @@ body.crlngn-ui{
   #ui-bottom {
     width: 100%;
     margin-top: auto;
+    margin-bottom: var(--crlngn-taskbar-height, 0px) !important;
 
     #fps {
       border: 0;

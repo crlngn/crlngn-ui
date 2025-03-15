@@ -1,4 +1,5 @@
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
+import { GeneralUtil } from "./GeneralUtil.mjs";
 
 export class PlayersListUtil {
 
@@ -11,8 +12,7 @@ export class PlayersListUtil {
     const playersTitle = document.querySelector(`aside#players h3[aria-label="Players"]`);
 
     const playersHeight = playersList.offsetHeight;
-    const root = document.querySelector("body.crlngn-ui");
-    root.style.setProperty('--players-list-height', playersHeight+'px');
+    GeneralUtil.addBodyVars('--players-list-height', playersHeight+'px');
 
     playersTitle.addEventListener('click', ()=>{
       if(playersList.classList.contains('expanded')){

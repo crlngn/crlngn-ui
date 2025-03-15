@@ -18,26 +18,26 @@ export class ModuleCompatUtil {
 
   static checkTaskbarLock = () => {
     const isTaskbarOn = GeneralUtil.isModuleOn('foundry-taskbar');
-    const body = document.querySelector('body.crlngn-ui');
+    // const body = document.querySelector('body.crlngn-ui');
+    // const bodyStyle = document.querySelector('#crlngn-ui-vars');
     const taskbarFlag = game.user.flags?.['foundry-taskbar'];
     LogUtil.log("checkTaskbarLock",[taskbarFlag]);
 
     if(!isTaskbarOn || !taskbarFlag){
-      // body.style.setProperty('--crlngn-taskbar-height', '0px');
       return;
     }
 
     const taskbarReduceSidebar = game.settings.get('foundry-taskbar','reduceSidebar');
     if(taskbarFlag.taskbarSettings?.locked){
-      body.style.setProperty('--crlngn-sidebar-bottom', taskbarReduceSidebar ? '50px' : '0px');
+      GeneralUtil.addBodyVars('--crlngn-sidebar-bottom', taskbarReduceSidebar ? '50px' : '0px');
     }else{
-      body.style.setProperty('--crlngn-sidebar-bottom', '0px');
+      GeneralUtil.addBodyVars('--crlngn-sidebar-bottom', '0px');
     }
 
     if(taskbarFlag.taskbarSettings?.locked){
-      body.style.setProperty('--crlngn-taskbar-height', '50px');
+      GeneralUtil.addBodyVars('--crlngn-taskbar-height', '50px');
     }else{
-      body.style.setProperty('--crlngn-taskbar-height', '10px');
+      GeneralUtil.addBodyVars('--crlngn-taskbar-height', '10px');
     }
     const ftMoveStyle = document.querySelector("#ft-move-players-macro");
     if(ftMoveStyle){ftMoveStyle.innerHTML = '';}
@@ -72,11 +72,9 @@ export class ModuleCompatUtil {
         if(body.querySelector('#players.auto-hide')){
           body.classList.add('with-players-hide');
           body.classList.remove('with-players');
-          // body.classList.remove('players-hidden');
         }else if(uiLeftPlayers){
           body.classList.add('with-players');
           body.classList.remove('with-players-hide');
-          // body.classList.remove('players-hidden');
         }
       }
       if(hotbar) hotbar.style.removeProperty('visibility');

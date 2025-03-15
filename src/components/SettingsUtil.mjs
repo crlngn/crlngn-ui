@@ -75,7 +75,9 @@ export class SettingsUtil {
       // LogUtil.log("registerSettings",[setting.tag, SettingsUtil.get(setting.tag)]);
     });
 
+    // Apply custom theme and CSS
     SettingsUtil.applyThemeSettings();
+    SettingsUtil.applyCustomCSS();
 
     /**
      * Register subsetting menus
@@ -124,6 +126,7 @@ export class SettingsUtil {
     controlFields.forEach(fieldName => {
       SettingsUtil.applyLeftControlsSettings(SETTINGS[fieldName].tag);
     }); 
+
 
 
   }
@@ -255,6 +258,9 @@ export class SettingsUtil {
       case SETTINGS.colorTheme.tag:
         SettingsUtil.applyThemeSettings();
         break;
+      case SETTINGS.customStyles.tag:
+        SettingsUtil.applyCustomCSS();
+        break;
       default:
         // do nothing
     }
@@ -321,6 +327,7 @@ export class SettingsUtil {
     const controls = document.querySelector("#ui-left");
     const logo = document.querySelector("#ui-left #logo");
     const body = document.querySelector('body.crlngn-ui');
+    const bodyStyleElem = document.querySelector('#crlngn-ui-vars');
 
     LogUtil.log("applyLeftControlsSettings", [tag]);
 
@@ -334,21 +341,22 @@ export class SettingsUtil {
         break;
       case SETTINGS.hideFoundryLogo.tag:
         const bodyStyles = window.getComputedStyle(body);
-        const topPadding = parseFloat(bodyStyles.getPropertyValue('--top-nav-height'));
+        const navHeight = bodyStyles.getPropertyValue('--top-nav-height') || '0px';
+        const topPadding = parseFloat(navHeight) || 0;
         const hideFoundryLogo = SettingsUtil.get(SETTINGS.hideFoundryLogo.tag);
-        LogUtil.log("applyLeftControlsSettings", [tag, topPadding]);
+        LogUtil.log("applyLeftControlsSettings", [tag, topPadding, navHeight]);
 
         if(hideFoundryLogo===undefined || hideFoundryLogo===true){
           logo.classList.remove("visible");
-          body.style.setProperty('--ui-top-padding', `${topPadding}px`);
+          GeneralUtil.addBodyVars('--ui-top-padding', `${topPadding}px`);
           document.querySelector("body").classList.remove('logo-visible');
         } else {
           logo.classList.add("visible");
           if(sceneNavMenu.sceneNavEnabled){
-            body.style.setProperty('--ui-top-padding',`${(72 + topPadding)}px`);
+            GeneralUtil.addBodyVars('--ui-top-padding',`${72 + topPadding}px`);
             document.querySelector("body").classList.add('logo-visible');
           }else{
-            body.style.setProperty('--ui-top-padding', '72px');
+            GeneralUtil.addBodyVars('--ui-top-padding','72px');
           }
         }
         break;
@@ -372,7 +380,7 @@ export class SettingsUtil {
     const size = iconSize == ICON_SIZES.small.name ? ICON_SIZES.small.size : ICON_SIZES.regular.size;
 
     LogUtil.log("applyControlIconSize", [size]);
-    body.style.setProperty('--left-control-item-size', size);
+    GeneralUtil.addBodyVars('--left-control-item-size', size);
     SettingsUtil.applyLeftControlsSettings(SETTINGS.hideFoundryLogo.tag);
   }
 
@@ -382,9 +390,9 @@ export class SettingsUtil {
   static applyControlsBuffer(){
     const SETTINGS = getSettings();
     const leftControls = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
-    const root = document.querySelector("body.crlngn-ui");
+    // const root = document.querySelector("body.crlngn-ui");
     const buffer = isNaN(leftControls.bottomBuffer) ? SETTINGS.leftControlsMenu.default.bottomBuffer : leftControls.bottomBuffer;
-    root.style.setProperty('--controls-bottom-buffer', `${buffer || 0}px`);
+    GeneralUtil.addBodyVars('--controls-bottom-buffer', `${buffer || 0}px`);
   }
 
   static applyPlayersListSettings(){
@@ -446,16 +454,16 @@ export class SettingsUtil {
     const body = document.querySelector("body.crlngn-ui");
     switch(tag){
       case SETTINGS.uiFontBody.tag:
-        body.style.setProperty('--crlngn-font-family', value || customFonts.uiFontBody || SETTINGS.uiFontBody.default.uiFont || '');
+        GeneralUtil.addBodyVars('--crlngn-font-family', value || customFonts.uiFontBody || SETTINGS.uiFontBody.default.uiFont || '');
         break;
       case SETTINGS.uiFontTitles.tag:
-        body.style.setProperty('--crlngn-font-titles', value || customFonts.uiFontTitles || SETTINGS.uiFontTitles.default.uiTitles || '');
+        GeneralUtil.addBodyVars('--crlngn-font-titles', value || customFonts.uiFontTitles || SETTINGS.uiFontTitles.default.uiTitles || '');
         break;
       case SETTINGS.journalFontBody.tag:
-        body.style.setProperty('--crlngn-font-journal-body', value || customFonts.journalFontBody || customFonts.journalFontBody || '');
+        GeneralUtil.addBodyVars('--crlngn-font-journal-body', value || customFonts.journalFontBody || customFonts.journalFontBody || '');
         break;
       case SETTINGS.journalFontTitles:
-        body.style.setProperty('--crlngn-font-journal-title', value || customFonts.journalFontTitles || customFonts.journalFontTitles || '');
+        GeneralUtil.addBodyVars('--crlngn-font-journal-title', value || customFonts.journalFontTitles || customFonts.journalFontTitles || '');
         break;
       default:
         //
@@ -500,6 +508,8 @@ export class SettingsUtil {
     const SETTINGS = getSettings();
     const themeName = value || SettingsUtil.get(SETTINGS.colorTheme.tag) || "";
     const body = document.querySelector("body");
+
+    LogUtil.log("applyThemeSettings", [value, themeName, SettingsUtil.get(SETTINGS.colorTheme.tag)]);
     
     THEMES.forEach((theme)=>{
       if(theme.className){
@@ -507,9 +517,17 @@ export class SettingsUtil {
       }
     });
 
-    body.classList.add(themeName);
+    if(themeName){
+      body.classList.add(themeName);
+    }
   }
 
+  static applyCustomCSS = (value) => {
+    const SETTINGS = getSettings();
+    const cssContent = value || SettingsUtil.get(SETTINGS.customStyles.tag) || "";
+
+    GeneralUtil.addCustomCSS(cssContent);
+  }
 
   static hideInterface = () => {
     LogUtil.log('hideInterface');

@@ -24,19 +24,56 @@ body.crlngn-ui  {
     box-shadow: 0 1px 6px rgba(40,40,65,0.7);
   }
 
+  .app {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
   .package-configuration .window-content {
     font-size: var(--font-size-13);
   }
+
+
 
   /*****
   * JOURNAL */
   .sheet.journal-entry .journal-entry-page p {
     font-size: var(--font-size-14);
   }
+  /******************
+  * BUTTONS
+  ******************/
+  .dialog-buttons button{
+    border: 1px solid var(--color-dark-1);
+    &.default {
+      border: 2px solid var(--color-shadow-primary);
+    }
+  }
 
   /******************
   * INPUT AND RANGE
   *******************/
+  span.selected-theme{
+    position: absolute;
+    display: inline-flex;
+    flex: 0 0 24px;
+    width: 24px;
+    height: 12px;
+    margin-right: -1px;
+    border: 1px solid var(--color-light-bg-25);
+    margin-left: auto;
+    z-index: 10;
+    right: 14px;
+    top: 10px;
+
+    &:last-of-type{
+      right: 38px;
+    }
+  }
+  .crlngn-theme-input{
+    display: flex;
+    position: relative;
+    
+  }
   .theme-color-preview {
     display: flex;
     flex-direction: row-reverse;
@@ -48,9 +85,9 @@ body.crlngn-ui  {
     }
 
     span.theme-color {
-      flex: 0 0 16px;
-      width: 16px;
-      height: 16px;
+      flex: 0 0 24px;
+      width: 24px;
+      height: 12px;
       margin-left: -1px;
       border: 1px solid var(--color-light-bg-25);
     }
@@ -63,16 +100,18 @@ body.crlngn-ui  {
   .code-editor-wrapper{
     min-width: 100%;
     display: block;
+    background: transparent;
   }
   .code-editor-wrapper textarea{
+    --color-text-selection-bg: var(--color-cool-5);
     font-family: monospace;
     white-space: pre;
     /*tab-size: 2;*/
     padding: 6px;
     border: 1px solid rgba(0, 0, 0, 0.5);
-    color: var(--color-text-light-highlight);
+    /*color: var(--color-text-light-highlight);*/
     box-shadow: none;
-    background: var(--color-cool-4);
+    background: var(--color-input-bg);
   }
 
   .sidebar-tab .header-search input,
@@ -143,7 +182,7 @@ body.crlngn-ui  {
     background-color: #fff;
     border-radius: 50%;
     border: 0;
-    box-shadow: -204px 0 0 200px var(--color-highlight-alt);
+    box-shadow: -204px 0 0 200px var(--color-highlights);
     margin-top: 0;
   }
 
@@ -154,13 +193,13 @@ body.crlngn-ui  {
     width: 10px;
     background-color: #fff;
     border-radius: 50%;
-    border: 1px solid var(--color-highlight-alt);
-    box-shadow: -204px 0 0 200px var(--color-highlight-alt);
+    border: 1px solid var(--color-highlights);
+    box-shadow: -204px 0 0 200px var(--color-highlights);
   }
 
   .dnd5e2 button:hover:not(:disabled), .dnd5e2 button:focus {
     box-shadow: 0 0 4px var(--color-shadow-primary);
-    border: 1px solid var(--color-highlight-alt);
+    border: 1px solid var(--color-highlights);
   }
 
 }
@@ -328,10 +367,10 @@ body.crlngn-ui {
       top: 100%;
       left: 0;
       right: 0;
-      background: var(--color-cool-4);
+      background: var(--color-bg-btn-minor-inactive);
       border: none;
       border-radius: 3px;
-      max-height: 120px;
+      max-height: 140px;
       margin-top: 2px;
       overflow-y: auto;
       z-index: 1000;
@@ -372,17 +411,17 @@ body.crlngn-ui {
   }
 
   /* Dialogs for DnD5e */
-  &.theme-dark .dialog-buttons button.default {
-    border: 2px solid var(--color-shadow-primary);
-    box-shadow: 0 0 4px rgba(0,0,0,0.5);
-  }
-
   &.theme-dark form.application footer button,
   &.theme-dark .standard-form.crlngn button {
     border: 1px solid var(--color-light-bg-25);
   }
 
-  
+  &.theme-dark {
+    .standard-form.datalists .dropdown-options, textarea  {
+      background: var(--color-cool-4);
+      color: var(--color-text-light-highlight);
+    }
+  }
 }
 
 

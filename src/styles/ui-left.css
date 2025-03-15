@@ -14,7 +14,7 @@ body.crlngn-ui{
 
     #interface #ui-left #logo.visible{
       height: 72px;
-      margin-top: var(--top-nav-height);
+      margin-top: var(--top-nav-height, 0px);
     }
   }
 
@@ -24,7 +24,7 @@ body.crlngn-ui{
     position: relative;
     justify-content: flex-end;
     z-index: 1;
-    min-width: var(--max-players-width);
+    min-width: var(--max-players-width, 200px);
     margin-top: 1px;
 
     &:hover{

@@ -40,11 +40,11 @@
         "fields": {
           "colorTheme": {
             "label": "Color Theme",
-            "hint": ""
+            "hint": "Select a theme for the color highlights and secondary color. Only affects highlights, inputs and buttons"
           },
           "customStyles": {
             "label": "Custom CSS",
-            "hint": "These styles will be loaded the next time you load Foundry"
+            "hint": "These styles will be loaded the next time you load Foundry. Remember to check your syntax."
           }
         },
         "reset": "Reset",

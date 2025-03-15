@@ -1,4 +1,4 @@
-**Latest Version:** 1.11.1
+**Latest Version:** 1.12.0
 
 I have just created a Discord channel for users of my module to discuss it and seek help. It's pretty empty so far as I've just created it, but feel free to join:
 
@@ -17,8 +17,9 @@ I have just created a Discord channel for users of my module to discuss it and s
 A sleek and minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12, but also offering many quality of life features to the ui panels. 
 
 <div style="display: flex-direction: row;">
-  <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-2.webp?raw=true" width="100%" height="auto" />
-  <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-1.webp?raw=true" width="100%" height="auto" />
+  <video src="https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-ui-color-themes.mp4?raw=true" width="100%" height="auto" />
+  <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-2.webp?raw=true" width="50%" height="auto" />
+  <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-1.webp?raw=true" width="50%" height="auto" />
 </div>
 
 ### FEATURES:

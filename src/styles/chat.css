@@ -18,6 +18,18 @@ body.crlngn-chat {
   --color-text-gray-blue: rgb(168, 180, 188, 1);
   --color-text-gray-blue-b: rgb(138, 155, 168, 1);
 
+  /* variables for the custom dnd5e card buttons */
+  --crlngn-i18n-attack: "attack";
+  --crlngn-i18n-healing: "healing";
+  --crlngn-i18n-damage: "damage";
+  --crlngn-i18n-template: "template";
+  --crlngn-i18n-consume: "consume";
+  --crlngn-i18n-summons: "summons";
+  --crlngn-i18n-refund: "refund";
+  --crlngn-i18n-macro: "macro";
+  --crlngn-i18n-save-dc: " save DC ";
+
+
   .sidebar-tab{
     --dnd5e-color-gold: var(--color-warm-3);
     --checkbox-fill-color: var(--color-warm-3);
@@ -390,7 +402,7 @@ body.crlngn-chat {
     display: flex;
     font-size: 0.65rem;
   }
-
+/*
   &.system-dnd5e .chat-card {
     --crlngn-i18n-attack: "attack";
     --crlngn-i18n-healing: "healing";
@@ -402,6 +414,7 @@ body.crlngn-chat {
     --crlngn-i18n-macro: "macro";
     --crlngn-i18n-save-dc: " save DC ";
   }
+    */
   &.system-dnd5e .chat-card .card-buttons > button[data-action=placeSummons] span:before {
     /*content: "summons";*/
     content: var(--crlngn-i18n-summons);
@@ -801,7 +814,7 @@ body.crlngn-chat {
     
     .dnd5e2:not(.chat-card, .create-document) button:not(.pip):focus, 
     .dnd5e2.dnd5e-theme-dark button:not(.pip):focus {
-      border: 1px solid var(--color-shadow-primary);
+      border: 1px solid var(--color-highlights);
     }
 
     .dnd5e2 :is(.card-tray, .effects-tray) .targets .target .change-source > * , 

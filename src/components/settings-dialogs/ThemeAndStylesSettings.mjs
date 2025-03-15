@@ -9,6 +9,7 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   static #element;
+
   static get DEFAULT_OPTIONS() {
     const SETTINGS = getSettings();
 
@@ -88,7 +89,6 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
     const SETTINGS = getSettings();
     const menuValues = SettingsUtil.get(SETTINGS.themeAndStylesMenu.tag);
     const fieldNames = SETTINGS.themeAndStylesMenu.fields;
-
     const fields = {};
     const fieldValues = {};
     const fieldDefaults = {};
@@ -102,7 +102,9 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
       }
     });
 
-    const selectedTheme = THEMES.find(theme => theme.label===fieldValues.colorTheme);
+    const selectedTheme = THEMES.find(theme => {
+      return theme.className===fieldValues.colorTheme
+    });
     fieldValues.colorTheme = selectedTheme?.label || THEMES[0].label;
 
     const setting = {
@@ -111,12 +113,16 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
       fields: { 
         ...fields
       },
+      selectedTheme: selectedTheme,
       themes: THEMES,
       buttons: [
         { type: "button", icon: "", label: "CRLNGN_UI.settings.themeAndStylesMenu.reset", action: 'redefine' },
         { type: "submit", icon: "", label: "CRLNGN_UI.settings.themeAndStylesMenu.save" }
       ]
     }
+
+    // Store the initial context for later updates
+    this._initialContext = { ...fieldValues };
 
     return setting;
   }
@@ -141,6 +147,9 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
 
   _onRender(context, options) {
     ThemeAndStyleSettings.#element = this.element;
+    
+    // Store reference to themes for later use
+    this._themes = THEMES;
     
     // Handle input focus and blur
     const inputs = ThemeAndStyleSettings.#element.querySelectorAll('input[type="text"]');
@@ -216,6 +225,8 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
   
     // Handle option selection
     const dropOptions = ThemeAndStyleSettings.#element.querySelectorAll('.dropdown-option');
+    const that = this; // Store reference to this for use in event handlers
+    
     dropOptions.forEach(option => {
       // Add mouse hover effect that syncs with keyboard highlighting
       option.addEventListener('mouseenter', () => {
@@ -227,16 +238,48 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
         option.classList.add('highlighted');
       });
       
-      option.addEventListener('click', (e) => {
+      option.addEventListener('click', function(e) {
         LogUtil.log('option', [option, option.querySelector('.theme-name')]);
         const input = option.closest('.dropdown-wrapper').querySelector('input');
-        let value = option.querySelector('.theme-name').innerHTML.toString(); //.dataset.value
+        let value = option.querySelector('.theme-name').innerHTML.toString();
         
-        
+        // Update the input value
         input.value = value;
+        
+        // Update the selectedTheme if this is the theme input
+        if (input.name === 'colorTheme') {
+          const selectedTheme = that._themes.find(theme => {
+            return theme.label === value;
+          });
+          
+          // Store the selected theme for form submission
+          that._selectedTheme = selectedTheme;
+          
+          // Update any UI elements that depend on selectedTheme
+          that._updateThemePreview(selectedTheme);
+        }
+        
         const dropdown = option.closest('.dropdown-options');
         dropdown.classList.remove('active');
       });
+    });
+  }
+
+  /**
+   * Update any UI elements that depend on the theme selection
+   * @param {Object} theme - The selected theme object
+   * @private
+   */
+  _updateThemePreview(theme) {
+    // Implement any preview updates here
+    LogUtil.log("Selected theme updated:", [theme]);
+    
+    if (!theme) return;
+    
+    const selectedThemeSpan = this.element.querySelectorAll('span.selected-theme');
+
+    selectedThemeSpan.forEach((span,i) => {
+      span.style.setProperty('background-color', theme.colorPreview[i]);
     });
   }
   

@@ -33,21 +33,21 @@
         "save": "保存"
       },
       "themeAndStylesMenu": {
-        "label": "Color Theme and Styles",
-        "title": "Configure Styles",
-        "hint": "Select a color theme for the UI, and add custom CSS styles",
+        "label": "颜色主题和样式",
+        "title": "配置样式",
+        "hint": "为用户界面选择颜色主题，并添加自定义CSS样式",
         "fields": {
           "colorTheme": {
-            "label": "Color Theme",
-            "hint": ""
+            "label": "颜色主题",
+            "hint": "为高亮显示和次要颜色选择主题。仅影响UI高亮和按钮"
           },
           "customStyles": {
-            "label": "Custom CSS",
-            "hint": "These styles will be loaded the next time you load Foundry"
+            "label": "自定义CSS",
+            "hint": "这些样式将在您下次加载Foundry时被载入"
           }
         },
-        "reset": "Reset",
-        "save": "Save"
+        "reset": "重置",
+        "save": "保存"
       },
       "chatMessagesMenu": {
         "label": "聊天消息选项",

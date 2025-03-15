@@ -33,27 +33,35 @@ export const THEMES = [
     ]
   },
   {
-    label: 'Banana Dark Chocolate',
-    className: 'crlngn-theme-banana',
+    label: "Gold and Chocolate",
+    className: 'crlngn-theme-gold-chocolate',
     colorPreview: [
-      'rgb(30, 22, 15)',
-      'rgb(205, 175, 0)'
+      'rgb(34, 25, 25)',
+      'rgb(164, 138, 51)'
     ]
   },
   {
-    label: 'Purple Sorcery',
-    className: 'crlngn-theme-purple-sorcery',
+    label: "Royal Blood",
+    className: 'crlngn-theme-royal-blood',
     colorPreview: [
-      'rgb(58, 64, 94)',
-      'rgb(83, 67, 137)'
+      'rgb(40, 31, 49)',
+      'rgb(127, 18, 36)'
     ]
   },
   {
-    label: 'Red Velvet',
-    className: 'crlngn-theme-red-velvet',
+    label: "Dark Sorcery",
+    className: 'crlngn-theme-dark-sorcery',
     colorPreview: [
-      'rgb(45, 30, 25)',
-      'rgb(165, 28, 28)'
+      'rgb(31, 47, 49)',
+      'rgb(94, 57, 127)'
+    ]
+  },
+  {
+    label: "Tangerine",
+    className: 'crlngn-theme-tangerine',
+    colorPreview: [
+      'rgb(40, 31, 49)',
+      'rgb(220, 120, 43)'
     ]
   }
 ];

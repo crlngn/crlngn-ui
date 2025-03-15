@@ -2,7 +2,10 @@
   <div class="form-group">
     <label for="colorTheme">{{fields.colorTheme.label}}</label>
     <div class="dropdown-wrapper">
-      <input type="text" name="colorTheme" value="{{colorTheme}}" 
+      {{#each selectedTheme.colorPreview}}
+        <span class="selected-theme" style="background-color:{{this}}"></span>
+      {{/each}}
+      <input type="text" name="colorTheme" value="{{colorTheme}}" class="crlngn-theme-input"
         autocomplete="off" 
         onfocus="this.select()" />
       <div class="dropdown-options">
@@ -19,8 +22,9 @@
         {{/each}}
       </div>
     </div>
-    <p class="hint">&nbsp;</p>
+    {{!-- <p class="hint">{{fields.colorTheme.hint}}</p> --}}
   </div>
+  <p>&nbsp;</p>
 
   <div class="form-group">
     <label for="customStyles">{{fields.customStyles.label}}</label>
@@ -29,7 +33,7 @@
       rows="10" cols="80" wrap="off" placeholder="Write your code here..." 
       spellcheck="false">{{customStyles}}</textarea>
     </div>
-    <p class="hint">&nbsp;</p>
+    <p class="hint">{{fields.customStyles.hint}}</p>
   </div>
   <p>&nbsp;</p>
 </div>

@@ -1,4 +1,5 @@
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
+import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 
 export class LeftControls {
@@ -39,28 +40,16 @@ export class LeftControls {
     };
   
     LeftControls.#resizeObserver = new ResizeObserver(entries => {
-      // for (const entry of entries) {
-        // LogUtil.log('ResizeObserver', [{
-        //   contentRectWidth: entry.contentRect.width,
-        //   borderBoxSize: entry.borderBoxSize?.[0]?.inlineSize,
-        //   offsetWidth: entry.target.offsetWidth,
-        //   clientWidth: entry.target.clientWidth,
-        //   boundingWidth: entry.target.getBoundingClientRect().width
-        // }]);
-        /*LeftControls.updateCSSVars();*/
-        throttle(() => LeftControls.updateCSSVars(), 250);
-      //}
+      throttle(() => LeftControls.updateCSSVars(), 250);
     }, {
       box: 'border-box'
     });
 
     LeftControls.#resizeObserver.observe(LeftControls.#leftControls);
-  
     LeftControls.updateCSSVars();
   }
 
   static updateCSSVars() {
-    // LogUtil.log("updateCSSVars", [LeftControls.#leftControls]);
     if(!LeftControls.#leftControls){ return; }
 
     let leftOffset = Number(LeftControls.#uiLeft.offsetWidth); 
@@ -69,8 +58,7 @@ export class LeftControls {
     LogUtil.log("updateCSSVars", [controlsWidth, leftOffset]);
 
     if(!isNaN(controlsWidth) && !isNaN(leftOffset)){
-      const root = document.querySelector("body.crlngn-ui");
-      root?.style.setProperty('--ui-controls-margin-left', controlsMarginLeft + 'px');
+      GeneralUtil.addBodyVars('--ui-controls-margin-left', controlsMarginLeft + 'px');
     }
   }
 }

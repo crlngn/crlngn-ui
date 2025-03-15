@@ -16,6 +16,7 @@ export class Main {
   static init(){
     Hooks.once(HOOKS_CORE.INIT, () => { 
       document.querySelector("#ui-middle")?.classList.add(MODULE_ID);
+
       LogUtil.log("Initiating module...", [], true); 
 
       Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
@@ -49,17 +50,18 @@ export class Main {
 
   // Custom labels for DnD5e buttons, added via CSS
   static addCSSLocalization(){
-    const body = document.querySelector('body');
     const locBtnPath = 'CRLNGN_UI.dnd5e.chatCard.buttons';
-    body.style.setProperty('--crlngn-i18n-attack', game.i18n.localize(`${locBtnPath}.attack`));
-    body.style.setProperty('--crlngn-i18n-damage', game.i18n.localize(`${locBtnPath}.damage`));
-    body.style.setProperty('--crlngn-i18n-summons', game.i18n.localize(`${locBtnPath}.summons`));
-    body.style.setProperty('--crlngn-i18n-healing', game.i18n.localize(`${locBtnPath}.healing`));
-    body.style.setProperty('--crlngn-i18n-template', game.i18n.localize(`${locBtnPath}.template`));
-    body.style.setProperty('--crlngn-i18n-consume', game.i18n.localize(`${locBtnPath}.consume`));
-    body.style.setProperty('--crlngn-i18n-refund', game.i18n.localize(`${locBtnPath}.refund`));
-    body.style.setProperty('--crlngn-i18n-macro', game.i18n.localize(`${locBtnPath}.macro`));
-    body.style.setProperty('--crlngn-i18n-save-dc', game.i18n.localize(`${locBtnPath}.savedc`));
+    
+    GeneralUtil.addBodyVars('--crlngn-i18n-attack', game.i18n.localize(`${locBtnPath}.attack`));
+    GeneralUtil.addBodyVars('--crlngn-i18n-attack', game.i18n.localize(`${locBtnPath}.attack`));
+    GeneralUtil.addBodyVars('--crlngn-i18n-damage', game.i18n.localize(`${locBtnPath}.damage`));
+    GeneralUtil.addBodyVars('--crlngn-i18n-summons', game.i18n.localize(`${locBtnPath}.summons`));
+    GeneralUtil.addBodyVars('--crlngn-i18n-healing', game.i18n.localize(`${locBtnPath}.healing`));
+    GeneralUtil.addBodyVars('--crlngn-i18n-template', game.i18n.localize(`${locBtnPath}.template`));
+    GeneralUtil.addBodyVars('--crlngn-i18n-consume', game.i18n.localize(`${locBtnPath}.consume`));
+    GeneralUtil.addBodyVars('--crlngn-i18n-refund', game.i18n.localize(`${locBtnPath}.refund`));
+    GeneralUtil.addBodyVars('--crlngn-i18n-macro', game.i18n.localize(`${locBtnPath}.macro`));
+    GeneralUtil.addBodyVars('--crlngn-i18n-save-dc', game.i18n.localize(`${locBtnPath}.savedc`));
   }
 
   static #onRenderChatMessage = (chatMessage, html) => { 
