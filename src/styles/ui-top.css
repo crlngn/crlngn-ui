@@ -67,9 +67,10 @@ body{
       pointer-events: none;
       */
 
-      * {
+      /*
+      > * {
         pointer-events: all;
-      }
+      }*/
 
       #navigation {
         position: absolute;

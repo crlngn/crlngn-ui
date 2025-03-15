@@ -1,6 +1,6 @@
 body.crlngn-ui{
   --crlngn-taskbar-height: 0px;
-  
+
   /* DDB Gamelog */
   .ddb-game-log-fixHeader .message-sender:hover {
     text-shadow: none;
@@ -95,6 +95,11 @@ body.crlngn-ui{
   /* if crlngn scene nav is enabled, adjust width */
   #combat-dock {
     width: calc(100% - 40px);
+    pointer-events: none;
+
+    > #combatants, .buttons-container {
+      pointer-events: all;
+    }
   }
 
   #ui-middle.crlngn-ui{
@@ -111,7 +116,6 @@ body.crlngn-ui{
 
   #combat-dock {
     z-index: 0;
-    pointer-events: all;
     &:hover{
       z-index: 1001;
     }
