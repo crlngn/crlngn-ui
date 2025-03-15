@@ -6,8 +6,6 @@ I have just created a Discord channel for users of my module to discuss it and s
 ![GitHub Downloads (specific asset, all releases)](https://img.shields.io/github/downloads/crlngn/crlngn-ui/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge)
 
 
-
-
 **Compatibility:** 
 - Foundry VTT version 12.328+
 - Mostly tested with DnD5e 4.x. Should work with other systems, but modules for those systems remain untested. 
@@ -16,10 +14,10 @@ I have just created a Discord channel for users of my module to discuss it and s
 ## Carolingian UI
 A sleek and minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12, but also offering many quality of life features to the ui panels. 
 
+[![Color Themes Video](https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-2.webp?raw=true)](https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-ui-color-themes.mp4?raw=true)
+
 <div style="display: flex-direction: row;">
-  <video src="https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-ui-color-themes.mp4?raw=true" width="100%" height="auto" />
-  <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-2.webp?raw=true" width="50%" height="auto" />
-  <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-1.webp?raw=true" width="50%" height="auto" />
+  <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-1.webp?raw=true" width="100%" height="auto" />
 </div>
 
 ### FEATURES:
