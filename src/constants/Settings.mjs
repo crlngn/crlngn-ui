@@ -25,7 +25,7 @@ export const BORDER_COLOR_TYPES = {
 
 export const THEMES = [
   {
-    label: 'Carolingian',
+    label: 'Carolingian Teal',
     className: '',
     colorPreview: [
       'rgb(62, 62, 88)',

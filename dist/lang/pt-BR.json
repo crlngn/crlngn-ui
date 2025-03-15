@@ -42,12 +42,12 @@
             "hint": "Selecione um tema de cores primária e secundária. Isto apenas afeta cores de destaques na interface e botões"
           },
           "adjustOtherModules": {
-            "label": "Enforce styles in other modules",
-            "hint": "Enable my style tweaks and custom fonts on other modules, like CRUX or Combat Carousel. If you would like support for a specific module, please request on Github issues"
+            "label": "Aplicar estilos a outros módulos",
+            "hint": "Habilite para aplicar meus ajustes de estilo e fontes customizadas a outros módulos, como Dice Tray, CRUX ou Combat Carousel. Para suporte a outros módulos, solicite no Github"
           },
           "customStyles": {
             "label": "Estilos CSS",
-            "hint": "Estilos digitados aqui serão incluídos na próxima vez que você carregar o Foundry"
+            "hint": "Estilos digitados aqui serão aplicados na próxima vez que você carregar o Foundry"
           }
         },
         "reset": "Redefinir",

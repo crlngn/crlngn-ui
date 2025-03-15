@@ -42,8 +42,8 @@
             "hint": "为高亮显示和次要颜色选择主题。仅影响UI高亮和按钮"
           },
           "adjustOtherModules": {
-            "label": "Enforce styles in other modules",
-            "hint": "Enable my style tweaks and custom fonts on other modules, like CRUX or Combat Carousel. If you would like support for a specific module, please request on Github issues"
+              "label": "在其他模块中应用样式",
+              "hint": "在其他模块上启用我的样式调整和自定义字体，例如CRUX或Combat Carousel。如果您需要支持特定模块，请在Github issues上提出请求"
           },
           "customStyles": {
             "label": "自定义CSS",
