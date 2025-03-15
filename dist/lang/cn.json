@@ -41,6 +41,10 @@
             "label": "颜色主题",
             "hint": "为高亮显示和次要颜色选择主题。仅影响UI高亮和按钮"
           },
+          "adjustOtherModules": {
+            "label": "Enforce styles in other modules",
+            "hint": "Enable my style tweaks and custom fonts on other modules, like CRUX or Combat Carousel. If you would like support for a specific module, please request on Github issues"
+          },
           "customStyles": {
             "label": "自定义CSS",
             "hint": "这些样式将在您下次加载Foundry时被载入"

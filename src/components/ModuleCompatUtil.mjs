@@ -29,15 +29,15 @@ export class ModuleCompatUtil {
 
     const taskbarReduceSidebar = game.settings.get('foundry-taskbar','reduceSidebar');
     if(taskbarFlag.taskbarSettings?.locked){
-      GeneralUtil.addBodyVars('--crlngn-sidebar-bottom', taskbarReduceSidebar ? '50px' : '0px');
+      GeneralUtil.addCSSVars('--crlngn-sidebar-bottom', taskbarReduceSidebar ? '50px' : '0px');
     }else{
-      GeneralUtil.addBodyVars('--crlngn-sidebar-bottom', '0px');
+      GeneralUtil.addCSSVars('--crlngn-sidebar-bottom', '0px');
     }
 
     if(taskbarFlag.taskbarSettings?.locked){
-      GeneralUtil.addBodyVars('--crlngn-taskbar-height', '50px');
+      GeneralUtil.addCSSVars('--crlngn-taskbar-height', '50px');
     }else{
-      GeneralUtil.addBodyVars('--crlngn-taskbar-height', '10px');
+      GeneralUtil.addCSSVars('--crlngn-taskbar-height', '10px');
     }
     const ftMoveStyle = document.querySelector("#ft-move-players-macro");
     if(ftMoveStyle){ftMoveStyle.innerHTML = '';}

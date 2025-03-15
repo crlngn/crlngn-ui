@@ -42,6 +42,10 @@
             "label": "Color Theme",
             "hint": "Select a theme for the color highlights and secondary color. Only affects highlights, inputs and buttons"
           },
+          "adjustOtherModules": {
+            "label": "Enforce styles in other modules",
+            "hint": "Enable my style tweaks and custom fonts on other modules, like CRUX or Combat Carousel. If you would like support for a specific module, please request on Github issues"
+          },
           "customStyles": {
             "label": "Custom CSS",
             "hint": "These styles will be loaded the next time you load Foundry. Remember to check your syntax."

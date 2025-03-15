@@ -85,137 +85,9 @@ body.crlngn-ui{
   .monks-tokenbar.chat-card .card-header h3 {
     font-size: var(--font-size-16);
   }
- 
+
   &.theme-dark .monks-tokenbar .sheet .items-list .items-header {
     background: var(--crlngn-chat-button-bg-15);
-  }
-
-
-  /* CAROUSEL COMBAT TRACKER */
-  /* if crlngn scene nav is enabled, adjust width */
-  #combat-dock {
-    width: calc(100% - 40px);
-    pointer-events: none;
-
-    > #combatants, .buttons-container {
-      pointer-events: all;
-    }
-  }
-
-  #ui-middle.crlngn-ui{
-    #combat-dock {
-      margin-top: calc(var(--crlngn-top-offset, 0px) + var(--left-control-item-size, 0px));
-      transition: margin-top 0.2s linear;
-    }
-    &.navigation-collapsed, &.with-monks-scene {
-      #combat-dock {
-        margin-top: 0;
-      }
-    }
-  }
-
-  #combat-dock {
-    z-index: 0;
-    &:hover{
-      z-index: 1001;
-    }
-    .buttons-container {
-      justify-content: flex-start;
-      gap: 1px;
-  
-      i{
-        border: none;
-        border-radius: 0; 
-      }
-      
-    }
-/*
-    .combatant-wrapper {
-      z-index: 0;
-    }*/
-    
-  }
-
-  #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper {
-    font-family: var(--crlngn-font-family);
-    font-size: var(--font-size-12);
-  }
-  #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper h2 {
-    font-family: var(--crlngn-font-titles);
-  }
-  #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper i {
-    font-size: var(--font-size-11);
-  }
-  #tooltip.combat-dock-tooltip{
-    padding: 0;
-    border: 0;
-    background: var(--color-dark-bg-90);
-    box-shadow: none;
-    max-width: 280px;
-    margin-top: 40px;
-    transform-origin: top center;
-  }
-  #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper {
-    padding: 0;
-    border: 0;
-    box-shadow: none;
-  }
-  #tooltip.combat-dock-tooltip{
-    .roll-link-group a, .roll-link a, .reference-link a {
-      background: var(--color-dark-bg-90);
-    }
-  }
-
-  #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper > ul {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 14px;
-
-    > li{ 
-      min-width: calc((100% - 14px) / 2);
-      max-width: 100%;
-      flex: 1 1 calc((100% - 14px) / 2);
-      background: var(--color-dark-bg-75);
-      outline: 5px solid var(--color-dark-bg-75);
-      padding: 0;
-      margin: 0;
-      line-height: 1.35;
-      
-      &.effects-list {
-        flex-wrap: wrap;
-      }
-
-      span{
-        flex: 1 1 calc(100% - 2em);
-      }
-      span.tooltip-duration {
-        display: flex;
-        line-height: 1;
-        min-width: 100%;
-        padding-left: 1.8em;
-        margin-top: 0.5em;
-      }
-      
-    }
-  }
-  
-  #tooltip.combat-dock-tooltip .effect-description {
-    background: transparent;
-    font-size: var(--font-size-11);
-    padding: 0;
-    line-height: 1.35;
-
-    ul{
-      padding: 0;
-
-      li{
-        display: block;
-      }
-    }
-  }
-  #tooltip.combat-dock-tooltip a.content-link {
-    display: inline-flex;
   }
 
   /* DFREDS EFFECTS PANEL  */
@@ -265,7 +137,7 @@ body.crlngn-ui{
   }
 
   /* MIDI-QOL */
-  :is(.chat-popout, #chat-log) .message .dnd5e2.evaluation .midi-qol.target > img {
+  .chat-sidebar .message .dnd5e2.evaluation .midi-qol.target > img {
     border: none !important;
     /*border-radius: 0 !important;*/
   }
@@ -274,6 +146,10 @@ body.crlngn-ui{
   #ui-right .sidebar-tab #chat-controls .rollmode-buttons button,
   #ui-right .sidebar-tab #chat-controls .rollmode-buttons button > *{
     font-size: var(--font-size-16);
+  }
+  #ui-right .sidebar-tab #chat-controls .rollmode-buttons button.active,
+  #chat-popout #chat-controls .rollmode-buttons button.active{
+    border: 1px solid var(--color-highlights-75);
   }
   
   /* PARTY RESOURCES */
@@ -297,87 +173,7 @@ body.crlngn-ui{
   footer #fvtt-party-resources-status-bar {
     margin-top: 0;
   }
-
-
-  /* CRUX */
-  /*
-  #crux .crux__container {
-    border-right: 1px solid rgba(0,0,0,0.75);
-    background-color: rgba(0,0,0,0.8);
-
-    h1{
-      font-family: var(--crlngn-font-titles);
-      font-size: var(--font-size-24);
-      line-height: 1.15;
-    }
-  }
-
-  #crux .crux__top-section{
-    padding: 0;
-  }
-  #crux .crux__section-header{
-    font-family: var(--crlngn-font-titles);
-    font-size: var(--font-size-16);
-    border: 0;
-    padding-top: 2px;
-    padding-bottom: 2px;
-  }
-  #crux .crux__skill-header{
-    font-family: var(--crlngn-font-titles);
-    font-size: var(--font-size-16);
-    font-weight: 600;
-  }
-
-  #crux .crux__group-header {
-    padding-left: 0;
-    padding-right: 0;
-    h3 {
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-      font-size: var(--font-size-13);
-      font-weight: 500;
-    }
-  }
-
-  #crux .crux__utility-button,
-  #crux .crux__action-button {
-    padding: 2px;
-  }
-
-  #crux .crux__utility-button,
-  #crux .crux__action-button,
-  #crux .crux__action-button img {
-    border: none;
-  }
-
-  #crux .crux__utility-button.crux__toggle-target.toggled-off,
-  #crux .crux__actor .group-dots .dot:not(.empty)
-  {
-    background-color: var(--color-warm-1);
-  }
-
-  #crux .crux__actor .group-dots .dot {
-    width: 8px;
-    height: 8px;
-    margin-left: 2px;
-  }
-
-  #crux .crux__item .flag {
-    margin-left: 2px;
-    filter: saturate(0.6);
-    transform: scale(0.9);
-    font-size: 0.8em;
-  }
-
-  #crux .crux__item .item-name .item-image {
-    transform: scale(0.9);
-  }
-
-  #crux a.crux__actor-name {
-    overflow: auto;
-    display: block;
-    max-width: 100%;
-  }
-    */
+  
   
   /* POLYGLOT */
   .polyglot.polyglot-lang-select span.select2-selection,
@@ -507,62 +303,288 @@ body.crlngn-ui{
       }
     }
   }
+
+
   
-  /* ANONYMOUS */
-  .anonymous-replaced {
-    padding: 0 4px;    
-    border-radius: 3px;   
-    opacity: 0.8; 
-  }
-  .sidebar-tab .chat-message .message-content span.anonymous-replaced,
-  .sidebar-tab .chat-message .message-content *.anonymous-replaced {
-    font-weight: 500;
-    padding: 0 4px;
-    border-radius: 3px;  
-    opacity: 0.8; 
-  }
-  &.theme-dark {
+    
+    /* ANONYMOUS */
     .anonymous-replaced {
-      background: var(--color-dark-bg-75);
+      padding: 0 4px;    
+      border-radius: 3px;   
+      opacity: 0.8; 
     }
     .sidebar-tab .chat-message .message-content span.anonymous-replaced,
     .sidebar-tab .chat-message .message-content *.anonymous-replaced {
-      background: var(--color-dark-bg-50);
+      font-weight: 500;
+      padding: 0 4px;
+      border-radius: 3px;  
+      opacity: 0.8; 
+    }
+    &.theme-dark {
+      .anonymous-replaced {
+        background: var(--color-dark-bg-75);
+      }
+      .sidebar-tab .chat-message .message-content span.anonymous-replaced,
+      .sidebar-tab .chat-message .message-content *.anonymous-replaced {
+        background: var(--color-dark-bg-50);
+      }
+
     }
 
-  }
+    /* MONK'S WALL ENHANCEMENTS */
+    #ui-left #wall-ctrls {
+      position: absolute;
+      width: 0;
+      height: auto;
+      margin-left: -11px;
+      z-index: 100;
 
-  /* MONK'S WALL ENHANCEMENTS */
-  #ui-left #wall-ctrls {
-    position: absolute;
-    width: 0;
-    height: auto;
-    margin-left: -11px;
-    z-index: 100;
+      ol.control-tools {
+        li.control-tool {
+          width: var(--left-control-item-size);
+          height: var(--left-control-item-size);
+        }
+      }
 
-    ol.control-tools {
-      li.control-tool {
-        width: var(--left-control-item-size);
-        height: var(--left-control-item-size);
+    }
+
+    /* CAROUSEL COMBAT TRACKER */
+    #ui-middle.crlngn-ui{
+      #combat-dock {
+        width: calc(100% - 40px);
+        margin-top: calc(var(--crlngn-top-offset, 0px) + var(--left-control-item-size, 0px));
+        transition: margin-top 0.2s linear;
+        pointer-events: none;
+        z-index: 0;
+        &:hover{
+          z-index: 1001;
+        }
+
+        > #combatants, .buttons-container {
+          pointer-events: all;
+        }
+
+        .buttons-container {
+          justify-content: flex-start;
+          gap: 1px;
+      
+          i{
+            border: none;
+            border-radius: 0; 
+          }
+          
+        }
+      }
+
+      &.navigation-collapsed, &.with-monks-scene {
+        #combat-dock {
+          margin-top: 0;
+        }
       }
     }
 
-  }
+    &.crlngn-enforce-styles{
+      /* CRUX */
+      &.crux-taskbar-compat .crux__container, 
+      &.crux-taskbar-compat .crux__empty-tray{
+        height: 100vh !important; 
+      }
+      &.crux-taskbar-compat #crux, #crux {
+        height: calc(100vh - var(--crlngn-sidebar-bottom, 0px)) !important; 
+        .crux__container {
+          border-right: 1px solid rgba(0,0,0,0.75);
+          background-color: rgba(0,0,0,0.8);
 
-  /* DICE TRAY */
-  .dice-tray {
-    button, input{
-      box-shadow: 0 0 6px inset var(--color-dark-bg-90);
-    }
+          h1{
+            font-family: var(--crlngn-font-titles) !important;
+            /*font-size: var(--font-size-20) !important;*/
+            line-height: 1.15;
+          }
+        }
 
-    button:hover, input:hover,
-    button:focus, input:focus {
-      color: var(--color-light-1);
-      border-color: var(--color-warm-3);
-      box-shadow: 0 0 6px inset var(--color-warm-3);
-      background: transparent;
+        .crux__top-section{
+          padding: 0;
+        }
+        .crux__section-header{
+          font-family: var(--crlngn-font-titles) !important;
+          font-size: var(--font-size-15) !important;
+          border: 0 !important;
+          border-radius: 0 !important;
+          padding-top: 2px !important;
+          padding-bottom: 2px !important;
+          font-weight: 500 !important;
+        }
+        .crux__skill-header{
+          font-family: var(--crlngn-font-titles) !important;
+          font-size: var(--font-size-16) !important;
+          font-weight: 500 !important;
+        }
+
+        .crux__group-header {
+          h3, h2 {
+            border-bottom: 1px solid rgba(255,255,255,0.075);
+            font-family: var(--crlngn-font-titles) !important;
+            font-size: var(--font-size-13) !important;
+            font-weight: 500 !important;
+            padding-bottom: 0.25em;
+          }
+        }
+
+        .crux__item {
+          padding: 0 4px !important;
+        }
+        .crux__item .item-name h4{
+          font-family: var(--crlngn-font-body) !important;
+          font-size: var(--font-size-13) !important;
+        }
+
+        .crux__utility-button,
+        .crux__action-button,
+        .crux__end-turn-button {
+          font-family: var(--crlngn-font-body) !important;
+          font-weight: 500 !important;
+          font-size: var(--font-size-14) !important;
+          padding: 4px !important;
+          border: none !important;
+        }
+
+        .crux__utility-button,
+        .crux__action-button,
+        .crux__action-button img {
+          border: none !important;
+        }
+
+        .crux__initiative i, .crux__end-turn-button i {
+          font-size: var(--font-size-13) !important;
+        }
+
+        .crux__utility-button.crux__toggle-target.toggled-off,
+        .crux__actor .group-dots .dot:not(.empty) {
+          background-color: var(--color-warm-1) !important;
+        }
+
+        .crux__actor .group-dots .dot {
+          width: 8px !important;
+          height: 8px !important;
+          margin-left: 2px !important;
+        }
+
+        .crux__item .flag {
+          margin-left: 2px !important;
+          filter: saturate(0.7) !important;
+          transform: scale(0.9) !important;
+          font-size: 0.8em !important;
+        }
+
+        .crux__item .item-name .item-image {
+          transform: scale(0.85) !important;
+        }
+
+        a.crux__actor-name {
+          overflow: auto !important;
+          display: block !important;
+          max-width: 100% !important;
+        }
+      }
+
+      /* CAROUSEL COMBAT TRACKER TOOLTIPS */
+      #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper {
+        font-family: var(--crlngn-font-family);
+        font-size: var(--font-size-12);
+      }
+      #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper h2 {
+        font-family: var(--crlngn-font-titles);
+      }
+      #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper i {
+        font-size: var(--font-size-11);
+      }
+      #tooltip.combat-dock-tooltip{
+        padding: 0;
+        border: 0;
+        background: var(--color-dark-bg-90);
+        box-shadow: none;
+        max-width: 280px;
+        margin-top: 40px;
+        transform-origin: top center;
+      }
+      #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper {
+        padding: 0;
+        border: 0;
+        box-shadow: none;
+      }
+      #tooltip.combat-dock-tooltip{
+        .roll-link-group a, .roll-link a, .reference-link a {
+          background: var(--color-dark-bg-90);
+        }
+      }
+
+      #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper > ul {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 14px;
+
+        > li{ 
+          min-width: calc((100% - 14px) / 2);
+          max-width: 100%;
+          flex: 1 1 calc((100% - 14px) / 2);
+          background: var(--color-dark-bg-75);
+          outline: 5px solid var(--color-dark-bg-75);
+          padding: 0;
+          margin: 0;
+          line-height: 1.35;
+          
+          &.effects-list {
+            flex-wrap: wrap;
+          }
+
+          span{
+            flex: 1 1 calc(100% - 2em);
+          }
+          span.tooltip-duration {
+            display: flex;
+            line-height: 1;
+            min-width: 100%;
+            padding-left: 1.8em;
+            margin-top: 0.5em;
+          }
+          
+        }
+      }
+      
+      #tooltip.combat-dock-tooltip .effect-description {
+        background: transparent;
+        font-size: var(--font-size-11);
+        padding: 0;
+        line-height: 1.35;
+
+        ul{
+          padding: 0;
+
+          li{
+            display: block;
+          }
+        }
+      }
+      #tooltip.combat-dock-tooltip a.content-link {
+        display: inline-flex;
+      }
+
+      /* DICE TRAY */
+      .dice-tray {
+        button, input{
+          box-shadow: 0 0 6px inset var(--color-dark-bg-90);
+        }
+
+        button:hover, input:hover,
+        button:focus, input:focus {
+          color: var(--color-light-1);
+          border-color: var(--color-warm-3);
+          box-shadow: 0 0 6px inset var(--color-warm-3);
+          background: transparent;
+        }
+      }
     }
-  }
 
 }
 

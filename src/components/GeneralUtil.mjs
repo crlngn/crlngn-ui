@@ -212,7 +212,7 @@ export class GeneralUtil {
    * @param {string} varName 
    * @param {string} varValue 
    */
-  static addBodyVars = (varName, varValue) => {
+  static addCSSVars = (varName, varValue) => {
     let bodyStyle = document.querySelector('#crlngn-ui-vars');
     
     if (!bodyStyle) {
@@ -286,6 +286,10 @@ export class GeneralUtil {
     // Update the style element
     bodyStyle.textContent = newCss;
   };
+
+  static addRootVars = () => {
+
+  }
 
   static addCustomCSS = (content) => {
     let customStyle = document.querySelector('#crlngn-ui-custom-css');

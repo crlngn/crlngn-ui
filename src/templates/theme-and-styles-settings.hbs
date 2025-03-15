@@ -27,13 +27,19 @@
   <p>&nbsp;</p>
 
   <div class="form-group">
+    <label for="adjustOtherModules">{{fields.adjustOtherModules.label}}</label>
+    <input type="checkbox" name="adjustOtherModules" {{#if adjustOtherModules}}checked{{/if}} />
+    <p class="hint">{{{fields.adjustOtherModules.hint}}}</p> 
+  </div>
+  <p>&nbsp;</p>
+
+  <div class="form-group">
     <label for="customStyles">{{fields.customStyles.label}}</label>
     <div class="code-editor-wrapper">
       <textarea name="customStyles" class="code-editor" 
-      rows="10" cols="80" wrap="off" placeholder="Write your code here..." 
+      rows="8" cols="80" wrap="off" placeholder="Write your code here..." 
       spellcheck="false">{{customStyles}}</textarea>
     </div>
     <p class="hint">{{fields.customStyles.hint}}</p>
   </div>
-  <p>&nbsp;</p>
 </div>

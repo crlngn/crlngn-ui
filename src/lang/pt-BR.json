@@ -39,7 +39,11 @@
         "fields": {
           "colorTheme": {
             "label": "Tema de cores",
-            "hint": ""
+            "hint": "Selecione um tema de cores primária e secundária. Isto apenas afeta cores de destaques na interface e botões"
+          },
+          "adjustOtherModules": {
+            "label": "Enforce styles in other modules",
+            "hint": "Enable my style tweaks and custom fonts on other modules, like CRUX or Combat Carousel. If you would like support for a specific module, please request on Github issues"
           },
           "customStyles": {
             "label": "Estilos CSS",

@@ -58,7 +58,7 @@ export class LeftControls {
     LogUtil.log("updateCSSVars", [controlsWidth, leftOffset]);
 
     if(!isNaN(controlsWidth) && !isNaN(leftOffset)){
-      GeneralUtil.addBodyVars('--ui-controls-margin-left', controlsMarginLeft + 'px');
+      GeneralUtil.addCSSVars('--ui-controls-margin-left', controlsMarginLeft + 'px');
     }
   }
 }

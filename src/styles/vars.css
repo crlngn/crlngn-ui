@@ -5,9 +5,11 @@ Main Theme
 *************/
 :root {
   /* crlngn-fonts */
-  --crlngn-font-family: var(--font-body);
-  --crlngn-font-journal-body: var(--dnd5e-font-roboto-condensed, var(--crlngn-font-family));
-  --crlngn-font-journal-title: var(--dnd5e-font-modesto, var(--crlngn-font-family));
+  --crlngn-font-family: var(--font-body, "Work Sans", Arial, sans-serif);
+  --crlngn-font-titles: "Roboto Condensed", Arial, sans-serif;
+  --crlngn-font-journal-body: "Work Sans", Arial, sans-serif;
+  --crlngn-font-journal-title: "Roboto Condensed", Arial, sans-serif;
+  /*--crlngn-font-journal-body: var(--dnd5e-font-roboto-condensed, var(--crlngn-font-family));*/
 }
 /* ---------------------------------------- */
 /*  Colors                                  */
@@ -136,7 +138,6 @@ body.crlngn-ui{
   --input-border-color: transparent;
   --input-focus-outline-color: var(--color-cool-3);
   --button-hover-background-color: var(--color-warm-3);
-
   
   .ui-control {
     --toggle-bg-color: var(--color-dark-bg-85);
@@ -178,12 +179,7 @@ body.crlngn-ui{
   
 }
 
-/* Typography section remains unchanged */
-body.crlngn-ui {
-  --crlngn-font-family: "Work Sans", Arial, sans-serif;
-  --crlngn-font-titles: "Roboto Condensed", Arial, sans-serif;
-  --crlngn-font-journal-body: "Work Sans", Arial, sans-serif;
-  --crlngn-font-journal-title: "Roboto Condensed", Arial, sans-serif;
+body {
   --font-body: var(--crlngn-font-family); 
   --font-sans: var(--crlngn-font-family); 
   --font-blockquote: var(--crlngn-font-journal-body);
@@ -204,6 +200,7 @@ body.crlngn-ui {
   --font-h6-size: var(--font-size-14);
   --dnd5e-font-roboto-slab: var(--crlngn-font-titles);
   --dnd5e-font-roboto: var(--crlngn-font-family);
+  --dnd5e-font-modesto: var(--crlngn-font-journal-title);
 }
 
 /* FONT CONFIG */
@@ -213,13 +210,12 @@ body.crlngn-ui {
   --crlngn-font-family: var(--font-body);
   --crlngn-font-titles: var(--dnd5e-font-modesto, var(--crlngn-font-family));
   --crlngn-font-journal-body: var(--dnd5e-font-roboto-condensed, var(--crlngn-font-family));
-  --crlngn-font-journal-title: var(--dnd5e-font-modesto, var(--crlngn-font-family));
+  --crlngn-font-journal-title: var(--dnd5e-font-roboto-slab, var(--crlngn-font-family));
 
   /* other fonts */
   --font-blockquote: var(--crlngn-font-family);
 	--dnd5e-font-roboto-slab: var(--crlngn-font-titles);
   --dnd5e-font-roboto-condensed: var(--crlngn-font-journal-body);
-	--dnd5e-font-modesto:  var(--crlngn-font-journal-title);
   --font-primary: var(--crlngn-font-family);
 	--mej-font-family: var(--crlngn-font-family);
 

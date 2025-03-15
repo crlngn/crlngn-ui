@@ -78,6 +78,7 @@ export class SettingsUtil {
     // Apply custom theme and CSS
     SettingsUtil.applyThemeSettings();
     SettingsUtil.applyCustomCSS();
+    SettingsUtil.applyModuleAdjustments();
 
     /**
      * Register subsetting menus
@@ -217,11 +218,6 @@ export class SettingsUtil {
       case SETTINGS.hideFoundryLogo.tag:
         SettingsUtil.applyLeftControlsSettings(settingTag, value);
         break;
-      // case SETTINGS.leftControlsMenu.tag:
-      //   SettingsUtil.applyLeftControlsSettings(); 
-      //   SettingsUtil.applyControlIconSize();
-      //   SettingsUtil.applyControlsBuffer();
-      //   break;
       case SETTINGS.cameraDockMenu.tag: 
         SettingsUtil.applyCameraPosX();
         SettingsUtil.applyCameraPosY();
@@ -238,11 +234,6 @@ export class SettingsUtil {
         LogUtil.log("SettingsUtil.apply",[settingTag]);
         SettingsUtil.applyChatStyles();
         break;
-      // case SETTINGS.chatMessagesMenu.tag:
-      //   // ChatUtil.chatMsgSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
-      //   SettingsUtil.applyBorderColors();
-      //   SettingsUtil.applyChatStyles();
-      //   break;
       case SETTINGS.enforceDarkMode.tag:
         SettingsUtil.resetFoundryThemeSettings();
         break;
@@ -260,6 +251,9 @@ export class SettingsUtil {
         break;
       case SETTINGS.customStyles.tag:
         SettingsUtil.applyCustomCSS();
+        break;
+      case SETTINGS.adjustOtherModules.tag:
+        SettingsUtil.applyModuleAdjustments();
         break;
       default:
         // do nothing
@@ -348,15 +342,15 @@ export class SettingsUtil {
 
         if(hideFoundryLogo===undefined || hideFoundryLogo===true){
           logo.classList.remove("visible");
-          GeneralUtil.addBodyVars('--ui-top-padding', `${topPadding}px`);
+          GeneralUtil.addCSSVars('--ui-top-padding', `${topPadding}px`);
           document.querySelector("body").classList.remove('logo-visible');
         } else {
           logo.classList.add("visible");
           if(sceneNavMenu.sceneNavEnabled){
-            GeneralUtil.addBodyVars('--ui-top-padding',`${72 + topPadding}px`);
+            GeneralUtil.addCSSVars('--ui-top-padding',`${72 + topPadding}px`);
             document.querySelector("body").classList.add('logo-visible');
           }else{
-            GeneralUtil.addBodyVars('--ui-top-padding','72px');
+            GeneralUtil.addCSSVars('--ui-top-padding','72px');
           }
         }
         break;
@@ -380,7 +374,7 @@ export class SettingsUtil {
     const size = iconSize == ICON_SIZES.small.name ? ICON_SIZES.small.size : ICON_SIZES.regular.size;
 
     LogUtil.log("applyControlIconSize", [size]);
-    GeneralUtil.addBodyVars('--left-control-item-size', size);
+    GeneralUtil.addCSSVars('--left-control-item-size', size);
     SettingsUtil.applyLeftControlsSettings(SETTINGS.hideFoundryLogo.tag);
   }
 
@@ -392,7 +386,7 @@ export class SettingsUtil {
     const leftControls = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
     // const root = document.querySelector("body.crlngn-ui");
     const buffer = isNaN(leftControls.bottomBuffer) ? SETTINGS.leftControlsMenu.default.bottomBuffer : leftControls.bottomBuffer;
-    GeneralUtil.addBodyVars('--controls-bottom-buffer', `${buffer || 0}px`);
+    GeneralUtil.addCSSVars('--controls-bottom-buffer', `${buffer || 0}px`);
   }
 
   static applyPlayersListSettings(){
@@ -454,16 +448,16 @@ export class SettingsUtil {
     const body = document.querySelector("body.crlngn-ui");
     switch(tag){
       case SETTINGS.uiFontBody.tag:
-        GeneralUtil.addBodyVars('--crlngn-font-family', value || customFonts.uiFontBody || SETTINGS.uiFontBody.default.uiFont || '');
+        GeneralUtil.addCSSVars('--crlngn-font-family', value || customFonts.uiFontBody || SETTINGS.uiFontBody.default.uiFont || '');
         break;
       case SETTINGS.uiFontTitles.tag:
-        GeneralUtil.addBodyVars('--crlngn-font-titles', value || customFonts.uiFontTitles || SETTINGS.uiFontTitles.default.uiTitles || '');
+        GeneralUtil.addCSSVars('--crlngn-font-titles', value || customFonts.uiFontTitles || SETTINGS.uiFontTitles.default.uiTitles || '');
         break;
       case SETTINGS.journalFontBody.tag:
-        GeneralUtil.addBodyVars('--crlngn-font-journal-body', value || customFonts.journalFontBody || customFonts.journalFontBody || '');
+        GeneralUtil.addCSSVars('--crlngn-font-journal-body', value || customFonts.journalFontBody || customFonts.journalFontBody || '');
         break;
-      case SETTINGS.journalFontTitles:
-        GeneralUtil.addBodyVars('--crlngn-font-journal-title', value || customFonts.journalFontTitles || customFonts.journalFontTitles || '');
+      case SETTINGS.journalFontTitles.tag:
+        GeneralUtil.addCSSVars('--crlngn-font-journal-title', value || customFonts.journalFontTitles || customFonts.journalFontTitles || '');
         break;
       default:
         //
@@ -527,6 +521,18 @@ export class SettingsUtil {
     const cssContent = value || SettingsUtil.get(SETTINGS.customStyles.tag) || "";
 
     GeneralUtil.addCustomCSS(cssContent);
+  }
+
+  static applyModuleAdjustments = (value) => {
+    const SETTINGS = getSettings();
+    const enforceStyles = value || SettingsUtil.get(SETTINGS.adjustOtherModules.tag) || false;
+    const body = document.querySelector("body");
+
+    if(enforceStyles){
+      body.classList.add('crlngn-enforce-styles');
+    }else{
+      body.classList.remove('crlngn-enforce-styles');
+    }
   }
 
   static hideInterface = () => {

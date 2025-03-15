@@ -52,16 +52,16 @@ export class Main {
   static addCSSLocalization(){
     const locBtnPath = 'CRLNGN_UI.dnd5e.chatCard.buttons';
     
-    GeneralUtil.addBodyVars('--crlngn-i18n-attack', game.i18n.localize(`${locBtnPath}.attack`));
-    GeneralUtil.addBodyVars('--crlngn-i18n-attack', game.i18n.localize(`${locBtnPath}.attack`));
-    GeneralUtil.addBodyVars('--crlngn-i18n-damage', game.i18n.localize(`${locBtnPath}.damage`));
-    GeneralUtil.addBodyVars('--crlngn-i18n-summons', game.i18n.localize(`${locBtnPath}.summons`));
-    GeneralUtil.addBodyVars('--crlngn-i18n-healing', game.i18n.localize(`${locBtnPath}.healing`));
-    GeneralUtil.addBodyVars('--crlngn-i18n-template', game.i18n.localize(`${locBtnPath}.template`));
-    GeneralUtil.addBodyVars('--crlngn-i18n-consume', game.i18n.localize(`${locBtnPath}.consume`));
-    GeneralUtil.addBodyVars('--crlngn-i18n-refund', game.i18n.localize(`${locBtnPath}.refund`));
-    GeneralUtil.addBodyVars('--crlngn-i18n-macro', game.i18n.localize(`${locBtnPath}.macro`));
-    GeneralUtil.addBodyVars('--crlngn-i18n-save-dc', game.i18n.localize(`${locBtnPath}.savedc`));
+    GeneralUtil.addCSSVars('--crlngn-i18n-attack', game.i18n.localize(`${locBtnPath}.attack`));
+    GeneralUtil.addCSSVars('--crlngn-i18n-attack', game.i18n.localize(`${locBtnPath}.attack`));
+    GeneralUtil.addCSSVars('--crlngn-i18n-damage', game.i18n.localize(`${locBtnPath}.damage`));
+    GeneralUtil.addCSSVars('--crlngn-i18n-summons', game.i18n.localize(`${locBtnPath}.summons`));
+    GeneralUtil.addCSSVars('--crlngn-i18n-healing', game.i18n.localize(`${locBtnPath}.healing`));
+    GeneralUtil.addCSSVars('--crlngn-i18n-template', game.i18n.localize(`${locBtnPath}.template`));
+    GeneralUtil.addCSSVars('--crlngn-i18n-consume', game.i18n.localize(`${locBtnPath}.consume`));
+    GeneralUtil.addCSSVars('--crlngn-i18n-refund', game.i18n.localize(`${locBtnPath}.refund`));
+    GeneralUtil.addCSSVars('--crlngn-i18n-macro', game.i18n.localize(`${locBtnPath}.macro`));
+    GeneralUtil.addCSSVars('--crlngn-i18n-save-dc', game.i18n.localize(`${locBtnPath}.savedc`));
   }
 
   static #onRenderChatMessage = (chatMessage, html) => { 

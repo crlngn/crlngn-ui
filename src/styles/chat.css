@@ -29,7 +29,6 @@ body.crlngn-chat {
   --crlngn-i18n-macro: "macro";
   --crlngn-i18n-save-dc: " save DC ";
 
-
   .sidebar-tab{
     --dnd5e-color-gold: var(--color-warm-3);
     --checkbox-fill-color: var(--color-warm-3);
@@ -536,12 +535,15 @@ body.crlngn-chat {
   DARK MODE 
   **********/
   &.theme-dark, &[data-ddb-custom-style=dark] {
-    --dnd5e-color-success-background: rgba(98, 184, 117, 0.35);
-    --dnd5e-color-failure-background: rgba(209, 67, 67, 0.35);
-    --dnd5e-text-color-success: #c1e6a7;
-    --dnd5e-text-color-failure: #d8aeae;
-    --dnd5e-color-card: var(--crlngn-dark-blue);
-    --dnd5e-color-crimson: var(--color-highlights-75);
+
+    .sidebar-tab {
+      --dnd5e-color-card: var(--crlngn-dark-blue);
+      --dnd5e-color-success-background: rgba(98, 184, 117, 0.35);
+      --dnd5e-color-failure-background: rgba(209, 67, 67, 0.35);
+      --dnd5e-text-color-success: #c1e6a7;
+      --dnd5e-text-color-failure: #d8aeae;
+      --dnd5e-color-crimson: var(--color-highlights-75);
+    }
 
     .chat-message p,
     .chat-message span,
@@ -564,6 +566,7 @@ body.crlngn-chat {
       }
     }
 
+    :is(.chat-popout, #chat-log) .chat-message,
     .chat-popout .chat-message,
     #chat-log .chat-message,
     .chat-popout .chat-message.whisper,

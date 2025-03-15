@@ -100,11 +100,13 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.hint"),
       propType: String,
       fields: [
-        "colorTheme",
-        "customStyles"
+        "colorTheme", 
+        "adjustOtherModules", 
+        "customStyles" 
       ],
       default: {
         colorTheme: '',
+        adjustOtherModules: false,
         customStyles: ''
       },
       scope: SETTING_SCOPE.world,
@@ -385,6 +387,18 @@ export function getSettings() {
       scope: SETTING_SCOPE.world,
       config: false
     },
+
+    adjustOtherModules: {
+      tag: "adjust-other-modules",
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.adjustOtherModules.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.adjustOtherModules.hint"),
+      inputType: SETTING_INPUT.checkbox,
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.world,
+      config: false
+    },
+
     customStyles:{
       tag: "custom-styles",
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.customStyles.label"),

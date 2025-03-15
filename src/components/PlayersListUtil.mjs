@@ -12,7 +12,7 @@ export class PlayersListUtil {
     const playersTitle = document.querySelector(`aside#players h3[aria-label="Players"]`);
 
     const playersHeight = playersList.offsetHeight;
-    GeneralUtil.addBodyVars('--players-list-height', playersHeight+'px');
+    GeneralUtil.addCSSVars('--players-list-height', playersHeight+'px');
 
     playersTitle.addEventListener('click', ()=>{
       if(playersList.classList.contains('expanded')){
