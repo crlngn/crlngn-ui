@@ -1,0 +1,211 @@
+{
+  "CRLNGN_UI": { 
+    "ui": { 
+      "notifications": {
+        "settingsUpdated": "Impostazioni aggiornate",
+        "monksScenesNotSupported": "La Navigazione Scene di Carolingian UI entrerà in conflitto con Monk's Scene Navigation. Questa funzionalità di Carolingian UI è stata disabilitata.",
+        "monksPlayerSettingsConflict": "Alcune impostazioni di Carolingian UI sono state disabilitate per evitare conflitti con il modulo Monk's Player Settings.",
+        "forceClientSettingsConflict": "Alcune impostazioni di Carolingian UI sono state disabilitate per evitare conflitti con il modulo Force Client Settings."
+      }
+    },
+    "settings": {
+      "customFontsMenu": {
+        "label": "Font Personalizzati",
+        "title": "Configura Font",
+        "hint": "Configura le famiglie di font utilizzate nell'interfaccia",
+        "description": "Seleziona o digita il nome di un font personalizzato, se già caricato su Foundry core.",
+        "fields": {
+          "uiBody": {
+            "label": "Font UI"
+          },
+          "uiTitles": {
+            "label": "Titoli UI"
+          },
+          "journalBody": {
+            "label": "Corpo Journal"
+          },
+          "journalTitles": {
+            "label": "Titoli Journal"
+          }
+        },
+        "postDescription": "Se il font non si carica, verifica che il nome sia scritto correttamente.",
+        "reset": "Ripristina",
+        "save": "Salva"
+      },
+
+      "themeAndStylesMenu": {
+        "label": "Tema Colori e Stili",
+        "title": "Configura Stili",
+        "hint": "Seleziona un tema colori per l'UI e aggiungi stili CSS personalizzati",
+        "fields": {
+          "colorTheme": {
+            "label": "Tema Colori",
+            "hint": "Seleziona un tema per le evidenziazioni colorate e i colori secondari. Influisce solo su evidenziazioni, input e pulsanti"
+          },
+          "adjustOtherModules": {
+            "label": "Applica stili ad altri moduli",
+            "hint": "Abilita le mie modifiche di stile e i font personalizzati su altri moduli, come CRUX o Combat Carousel. Se desideri supporto per un modulo specifico, per favore segnalalo su Github issues"
+          },
+          "customStyles": {
+            "label": "CSS Personalizzato",
+            "hint": "Questi stili saranno caricati al prossimo avvio di Foundry. Ricordati di controllare la sintassi."
+          }
+        },
+        "reset": "Ripristina",
+        "save": "Salva"
+      },
+      "chatMessagesMenu": {
+        "label": "Opzioni Messaggi Chat",
+        "title": "Configura Chat",
+        "hint": "Modifica l'aspetto e il comportamento delle carte dei messaggi chat nel pannello laterale destro",
+        "fields": {
+          "enableChatStyles": {
+            "label": "Abilita stili per i messaggi chat",
+            "hint": "Aggiunge modifiche di stile alle carte chat. Quando la modalità scura è selezionata su Foundry, anche le carte chat saranno scure. PRINCIPALMENTE PER DND5E - supporto solo parziale per altri sistemi."
+          },
+          "borderColor": {
+            "label": "Colore del bordo della carta chat",
+            "hint": "[Richiede ricaricamento] <b>Colore giocatore</b>: usa il colore del giocatore su Foundry; <b>Tipo di Tiro</b>: usa la codifica colori per attacco, salvezza, prova di abilità, ecc. <b>Nessuno:</b> nessun bordo (permetterà i bordi impostati da altri moduli).",
+            "options": {
+              "playerColor": "Colore Giocatore",
+              "rollType": "Tipo di Tiro",
+              "none": "Nessuno"
+            }
+          }, 
+          "enforceDarkMode": {
+            "label": "Forza Modalità Scura",
+            "hint": "Imposta il tema dell'interfaccia Foundry sul client del giocatore su Scuro se il giocatore l'ha impostato su 'Predefinito Browser'. Se l'hanno specificamente impostato su 'Chiaro', la loro scelta sarà comunque rispettata."
+          }
+        },
+        "reset": "Ripristina",
+        "save": "Salva"
+      },
+      "leftControlsMenu": {
+        "label": "Barra Controlli Sinistra",
+        "title": "Configura Controlli",
+        "hint": "Modifica l'aspetto e il comportamento dei pulsanti di controllo scena, sul lato sinistro dello schermo",
+        "fields": {
+          "bottomBuffer": {
+            "label": "Area Sicura Inferiore",
+            "hint": "Se hai troppe icone nella barra dei controlli a sinistra, puoi definire un'altezza massima per la barra dei controlli definendo un buffer inferiore, in pixel. Se le icone superano quell'area sicura, vengono spostate nella colonna successiva. Usa 0 per nessun buffer."
+          },
+          "iconSize": {
+            "label": "Dimensione delle icone di controllo",
+            "hint": "Configura la dimensione dei pulsanti sulla barra di controllo sinistra. Alcuni altri elementi dell'interfaccia corrisponderanno a questa dimensione per l'allineamento.",
+            "options": {
+              "small": "piccolo",
+              "regular": "normale"
+            }
+          }, 
+          "autoHideSecondary": {
+            "label": "Nascondi automaticamente i controlli secondari",
+            "hint": "Abilita per mantenere la barra secondaria sui controlli a sinistra nascosta finché non passi con il mouse sulla regione o fai clic su un elemento."
+          },
+          "hideFoundryLogo": {
+            "label": "Nascondi Logo Foundry",
+            "hint": "Mantieni abilitato per nascondere il Logo Foundry in alto a sinistra"
+          }
+        },
+        "reset": "Ripristina",
+        "save": "Salva"
+      },
+      "cameraDockMenu": {
+        "label": "Camera",
+        "title": "Configura Dock",
+        "hint": "Abilita un dock telecamera fluttuante che puoi posizionare ovunque",
+        "fields": {
+          "enableFloatingDock": {
+            "label": "Abilita dock telecamera fluttuante",
+            "hint": "<b>[Richiede ricaricamento]</b> Permette al gruppo del lettore video di essere trascinato e posizionato ovunque sullo schermo"
+          }, 
+          "dockPosX": {
+            "label": "Posizione orizzontale",
+            "hint": "Posizione del dock telecamera quando impostato per fluttuare. Dal basso a sinistra dello schermo, in pixel"
+          }, 
+          "dockPosY": {
+            "label": "Posizione verticale",
+            "hint": "Posizione del dock telecamera quando impostato per fluttuare. Dal basso a sinistra dello schermo, in pixel"
+          }, 
+          "dockWidth": {
+            "label": "Larghezza del gruppo telecamera",
+            "hint": "Dimensioni del dock telecamera non minimizzato quando impostato per fluttuare, in pixel"
+          }, 
+          "dockHeight": {
+            "label": "Altezza del gruppo telecamera",
+            "hint": "Dimensioni del dock telecamera non minimizzato quando impostato per fluttuare, in pixel"
+          }
+        },
+        "reset": "Ripristina",
+        "save": "Salva"
+      },
+      "sceneNavMenu": {
+        "label": "Navigazione Scene",
+        "title": "Configura Navigazione",
+        "hint": "Cambia le opzioni per il menu di navigazione scene, nella barra superiore",
+        "fields": {
+          "sceneNavEnabled": {
+            "label": "Abilita Navigazione Scene Orizzontale",
+            "hint": "[Richiede ricaricamento] Se stai avendo problemi di layout con un modulo non compatibile, puoi provare a disabilitare i miei stili personalizzati per la Navigazione Scene."
+          }, 
+          "showNavOnHover": {
+            "label": "Mostra navigazione scene al passaggio del mouse",
+            "hint": "Se la navigazione scene è compressa, puoi mostrarla passando il mouse sulla parte superiore dello schermo."
+          }
+        },
+        "reset": "Ripristina",
+        "save": "Salva"
+      },
+      "controlIconSize": {
+        "label": "Dimensione delle icone di controllo",
+        "hint": "Se usi uno schermo molto grande, potresti voler cambiare la dimensione delle icone sui controlli a sinistra. Questo potrebbe influenzare alcuni altri elementi dell'interfaccia",
+        "choices": {
+          "small": "Piccolo",
+          "normal": "Normale"
+        }
+      },
+      "sceneNavCollapsed": {
+        "label": "Navigazione Scene Compressa",
+        "hint": "Stato attuale del toggle di navigazione scene. È compressa?"
+      },
+      "sceneNavPos": {
+        "label": "Posizione Navigazione Scene",
+        "hint": "Memorizza la posizione corrente della navigazione per il ripristino quando viene renderizzata nuovamente"
+      },
+      "enableMacroLayout": {
+        "label": "Abilita ridimensionamento macro",
+        "hint": "Il modulo riduce la dimensione degli slot macro sulla barra delle scorciatoie e ingrandisce i numeri. Disabilita questa impostazione per utilizzare il layout predefinito di Foundry."
+      },
+      "autoHideLeftControls": {
+        "label": "Nascondi automaticamente i controlli secondari",
+        "hint": "Abilita per mantenere la barra secondaria sui controlli a sinistra nascosta a meno che non passi con il mouse sulla regione o faccia clic su un elemento."
+      },
+      "autoHidePlayersList": {
+        "label": "Nascondi automaticamente la lista giocatori",
+        "hint": "Abilita per mantenere la lista dei giocatori in basso a sinistra minimizzata, tranne quando ci passi sopra con il mouse."
+      },
+      "collapseMacroBar": {
+        "label": "Comprimi Barra Macro",
+        "hint": "Abilita per avere la barra delle scorciatoie macro inizialmente minimizzata per impostazione predefinita al caricamento del mondo."
+      },
+      "debugMode": {
+        "label": "Modalità Debug",
+        "hint": "Abilita o disabilita i messaggi di debug sulla console del browser."
+      }
+    },
+    "dnd5e": {
+      "chatCard": {
+        "buttons": {
+          "summons": "Evocazioni",
+          "attack": "Attacco",
+          "healing": "Guarigione",
+          "damage": "Danno",
+          "template": "Template",
+          "consume": "Consuma",
+          "refund": "Rimborsa",
+          "macro": "Macro",
+          "savedc": "Salvezza CD"
+        }
+      }
+    }
+  }
+}
