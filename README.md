@@ -26,6 +26,7 @@ A sleek and minimalist UI overhaul, focusing on saving space on screen and impro
 
 ### FEATURES:
 - **Custom Fonts** for UI and journal;
+- **Custom colors** for highlights, inputs and secondary controls
 - **Compact left controls:** small or regular sized icons; secondary bars can be hidden until hovered;
 - **Wrapping control icons** set a safe area at the bottom and the left controls will wrap to avoid it - great if you have lots of modules that add icons to left bar; 
 - **Secondary controls bar** has different styles to make it clearer;
@@ -38,6 +39,7 @@ A sleek and minimalist UI overhaul, focusing on saving space on screen and impro
 - **Dark style for chat messages** if the selected Foundry theme is Dark (tested on DnD5e 4.x, partial support for other systems); 
 - **Compact chat messages** (DnD5e) compact usage buttons to save some space on chat log;
 - **Chat Border Colors** - Select if you want the borders to show player color, roll type, or none;
+- **Custom CSS Field** to load your own style modifications to your world
 
 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/right-panel-settings.webp?raw=true" width="200px" height="auto" />
