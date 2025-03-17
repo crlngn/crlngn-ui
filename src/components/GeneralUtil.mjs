@@ -287,10 +287,6 @@ export class GeneralUtil {
     bodyStyle.textContent = newCss;
   };
 
-  static addRootVars = () => {
-
-  }
-
   static addCustomCSS = (content) => {
     let customStyle = document.querySelector('#crlngn-ui-custom-css');
     

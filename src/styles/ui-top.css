@@ -193,6 +193,10 @@ body{
         max-height: 100%;
         transition: margin-left 0.5s ease-in-out;
         gap: 0;
+        
+        &.no-transition{
+          transition: all 0s;
+        }
 
         *{
           pointer-events: all;

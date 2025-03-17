@@ -15,6 +15,7 @@ export class TopNavigation {
   static navSettings;
   static isCollapsed;
   static navPos;
+  static #timeout;
 
   static init(){
     const SETTINGS = getSettings();
@@ -55,38 +56,61 @@ export class TopNavigation {
       TopNavigation.resetLocalVars();
       TopNavigation.addListeners(); 
       
-      TopNavigation.setNavPosition(0);
+      TopNavigation.setNavPosition();
       TopNavigation.placeNavButtons(); 
 
       if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
+        LogUtil.log("RENDER_NAV", []);
         ui.nav.collapse();
+        uiMiddle.classList.add('navigation-collapsed');
       }else{
+        LogUtil.log("RENDER_NAV", []);
         ui.nav.expand();
+        uiMiddle.classList.remove('navigation-collapsed');
       }
     }else{
       uiMiddle.classList.add('with-monks-scene');
     }
+    // LogUtil.log("RENDER_NAV", [ui.nav, game]);
 
-    Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, () => { 
+    Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, (nav, b) => { 
       const SETTINGS = getSettings();
       const isMonksScenenNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
       LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ isMonksScenenNavOn ]);
       
       if(!isMonksScenenNavOn){
+        LogUtil.log("NAV no transition add");
+        TopNavigation.navPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
+
         TopNavigation.resetLocalVars();
+        if(this.#scenesList) this.#scenesList.classList.add("no-transition");
         LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, []); 
         
         TopNavigation.placeNavButtons();
-        TopNavigation.setNavPosition();
         TopNavigation.addListeners();
         // TopNavigation.observeNavOffset();
+        TopNavigation.setNavPosition();
+
+        if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
+          LogUtil.log("RENDER_NAV", []);
+          ui.nav.collapse();
+          uiMiddle.classList.add('navigation-collapsed');
+        }else{
+          LogUtil.log("RENDER_NAV", []);
+          ui.nav.expand();
+          uiMiddle.classList.remove('navigation-collapsed');
+        }
+        //
+        clearTimeout(TopNavigation.#timeout);
+        TopNavigation.#timeout = setTimeout(()=>{
+          if(this.#scenesList) this.#scenesList.classList.remove("no-transition");
+          LogUtil.log("NAV no transition remove");
+        }, 500);
       }
+
       
-      if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
-        ui.nav.collapse();
-      }else{
-        ui.nav.expand();
-      }
+
+      LogUtil.log("SCENE NAV STATE", [SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)]);
     }); 
 
     Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, (value) => { 
@@ -95,23 +119,33 @@ export class TopNavigation {
       if(!isMonksScenenNavOn){
         TopNavigation.placeNavButtons(); 
       }
+      
     }); 
 
     Hooks.on(HOOKS_CORE.COLLAPSE_SCENE_NAV, (nav, value) => {
       const SETTINGS = getSettings();
       SettingsUtil.set(SETTINGS.sceneNavCollapsed.tag, value); 
       LogUtil.log("NAV toggle", [nav, value]); 
-      const uiMiddle = document.querySelector("#ui-middle");
 
-      if(value){
+
+      TopNavigation.isCollapsed = value;
+      // const uiMiddle = document.querySelector("#ui-middle");
+
+      if(value){ 
         uiMiddle.classList.add('navigation-collapsed');
+        // ui.nav.collapse();
       }else{
         uiMiddle.classList.remove('navigation-collapsed');
+        LogUtil.log("RENDER_NAV", [SceneNavigation]);
+        // ui.nav.expand();
       }
     }); 
 
     Hooks.on(HOOKS_CORE.EXPAND_SCENE_NAV, (nav, value) => {
+      // const SETTINGS = getSettings();
       LogUtil.log("NAV expand", [nav, false]); 
+      // SettingsUtil.set(SETTINGS.sceneNavCollapsed.tag, false); 
+      // TopNavigation.isCollapsed = false;
     }); 
 
     // SettingsUtil.apply(SETTINGS.sceneNavCollapsed.tag); 
@@ -227,7 +261,7 @@ export class TopNavigation {
   }
 
   static #onNavNext = (e) => {
-    const SETTINGS = getSettings();
+    // const SETTINGS = getSettings();
     const toggleWidth = this.#navToggle?.offsetWidth;
     const extrasWidth = GeneralUtil.isModuleOn("compact-scene-navigation") ? this.#navExtras?.offsetWidth : 0;
     const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
@@ -250,6 +284,7 @@ export class TopNavigation {
     const position = pos !== undefined ? pos : TopNavigation.navPos || 0;
     const scenes = this.#scenesList?.querySelectorAll("li.nav-item") || [];
 
+    
     const newMargin = scenes[position]?.offsetLeft * -1;
     this.#scenesList.style.marginLeft = newMargin + 'px';
 
@@ -259,4 +294,3 @@ export class TopNavigation {
   }
   
 }
-

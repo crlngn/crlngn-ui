@@ -30,9 +30,9 @@ body.crlngn-chat {
   --crlngn-i18n-save-dc: " save DC ";
 
   .sidebar-tab{
-    --dnd5e-color-gold: var(--color-warm-3);
-    --checkbox-fill-color: var(--color-warm-3);
-    --checkbox-border-color: var(--color-warm-3);
+    --dnd5e-color-gold: var(--color-warm-1);
+    --checkbox-fill-color: var(--color-warm-2);
+    --checkbox-border-color: var(--color-warm-2);
   }
   .chat-message .message-content:not(.dnd5e2) {
     p, ul, ol, li, span, a, b, strong {
@@ -455,7 +455,7 @@ body.crlngn-chat {
   }
   
   &.system-dnd5e .chat-card .card-buttons > button[data-action=rollSave]:after {
-    content: attr(data-ability) var(--crlngn-i18n-save-dc) attr(data-dc);
+    content: attr(data-ability) " " var(--crlngn-i18n-save-dc) " " attr(data-dc);
     text-transform: uppercase;
   }
   

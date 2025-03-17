@@ -198,11 +198,11 @@
           "attack": "Ataque",
           "healing": "Cura",
           "damage": "Dano",
-          "template": "Modelo",
+          "template": "Área",
           "consume": "Consumir",
-          "refund": "Reembolso",
+          "refund": "Devolver",
           "macro": "Macro",
-          "savedc": "DC"
+          "savedc": "CD"
         }
       }
     }

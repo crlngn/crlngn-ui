@@ -197,11 +197,10 @@ body.crlngn-ui  {
     box-shadow: -204px 0 0 200px var(--color-highlights);
   }
 
-  .dnd5e2 button:hover:not(:disabled), .dnd5e2 button:focus {
+  .dnd5e2:not(.actor) button:hover:not(:disabled), .dnd5e2:not(.actor) button:focus {
     box-shadow: 0 0 4px var(--color-shadow-primary);
     border: 1px solid var(--color-highlights);
   }
-
 }
 
 h1, h2 {
@@ -294,7 +293,6 @@ ol#notifications {
     } 
   }
 }
-
 
 #interface{
   opacity: 0;
@@ -417,7 +415,7 @@ body.crlngn-ui {
   }
 
   &.theme-dark {
-    .standard-form.datalists .dropdown-options, textarea  {
+    .standard-form.datalists .dropdown-options, .standard-form textarea  {
       background: var(--color-cool-4);
       color: var(--color-text-light-highlight);
     }
@@ -425,8 +423,9 @@ body.crlngn-ui {
 }
 
 
-/*****
-PACKAGE CONFIG */
+/****************
+PACKAGE CONFIG 
+****************/
 .package-configuration aside.sidebar nav.tabs .category-tab:hover,
 .package-configuration aside.sidebar nav.tabs .category-tab.active {
   text-shadow: none;

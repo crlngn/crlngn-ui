@@ -246,6 +246,9 @@ export class SettingsUtil {
       case SETTINGS.sceneNavCollapsed.tag:
         TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag);
         break;
+      case SETTINGS.sceneNavPos.tag:
+        SettingsUtil.applySceneNavPos();
+        break;
       case SETTINGS.colorTheme.tag:
         SettingsUtil.applyThemeSettings();
         break;
@@ -400,10 +403,10 @@ export class SettingsUtil {
     ModuleCompatUtil.checkPlayersList();
   }
 
-  static applySceneNavPos(){
+  static applySceneNavPos(value){
     const SETTINGS = getSettings();
-    SettingsUtil.set(SETTINGS.sceneNavPos.tag, 0);
-    TopNavigation.navPos = 0;
+    SettingsUtil.set(SETTINGS.sceneNavPos.tag, value || SettingsUtil.get(SETTINGS.sceneNavPos.tag));
+    TopNavigation.navPos = value || SettingsUtil.get(SETTINGS.sceneNavPos.tag);
   }
 
   /**

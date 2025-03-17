@@ -348,6 +348,11 @@ body.crlngn-ui{
 
     }
 
+    /* EPIC ROLLS */
+    #epic-rolls-5e-get-roll-data .grid-container {
+      overflow: auto;
+    }
+
     /* CAROUSEL COMBAT TRACKER */
     #ui-middle.crlngn-ui{
       #combat-dock {
