@@ -353,32 +353,35 @@ body.crlngn-ui{
       overflow: auto;
     }
 
+    #combat-dock {
+      width: calc(100% - 40px);
+      margin-top: 0;
+      pointer-events: none;
+      z-index: 0;
+      &:hover{
+        z-index: 1001;
+      }
+
+      > #combatants, .buttons-container {
+        pointer-events: all;
+      }
+
+      .buttons-container {
+        justify-content: flex-start;
+        gap: 1px;
+    
+        i{
+          border: none;
+          border-radius: 0; 
+        }
+        
+      }
+    }
+
     /* CAROUSEL COMBAT TRACKER */
     #ui-middle.crlngn-ui{
       #combat-dock {
-        width: calc(100% - 40px);
         margin-top: calc(var(--crlngn-top-offset, 0px) + var(--left-control-item-size, 0px));
-        transition: margin-top 0.2s linear;
-        pointer-events: none;
-        z-index: 0;
-        &:hover{
-          z-index: 1001;
-        }
-
-        > #combatants, .buttons-container {
-          pointer-events: all;
-        }
-
-        .buttons-container {
-          justify-content: flex-start;
-          gap: 1px;
-      
-          i{
-            border: none;
-            border-radius: 0; 
-          }
-          
-        }
       }
 
       &.navigation-collapsed, &.with-monks-scene {
