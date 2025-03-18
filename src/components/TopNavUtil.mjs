@@ -2,6 +2,7 @@ import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { getSettings } from "../constants/Settings.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
+import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 
 export class TopNavigation {
@@ -68,12 +69,14 @@ export class TopNavigation {
         ui.nav.expand();
         uiMiddle.classList.remove('navigation-collapsed');
       }
+      SceneNavFolders.createRenderedList();
     }else{
       uiMiddle.classList.add('with-monks-scene');
     }
     // LogUtil.log("RENDER_NAV", [ui.nav, game]);
 
-    Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, (nav, b) => { 
+    Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, (a, b, c, d) => { 
+      LogUtil.log("SCENE NAV", [a, b, c, d]);
       const SETTINGS = getSettings();
       const isMonksScenenNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
       LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ isMonksScenenNavOn ]);
@@ -106,11 +109,9 @@ export class TopNavigation {
           if(this.#scenesList) this.#scenesList.classList.remove("no-transition");
           LogUtil.log("NAV no transition remove");
         }, 500);
+
+        SceneNavFolders.createRenderedList();
       }
-
-      
-
-      LogUtil.log("SCENE NAV STATE", [SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)]);
     }); 
 
     Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, (value) => { 
@@ -294,3 +295,62 @@ export class TopNavigation {
   }
   
 }
+
+/*
+getData(options={}) {
+  let favLabel = game.i18n.localize("CRLNGN_UI.settings.sceneGroupsNav.folderFavorites");
+  let favGroup = { 
+    id: 'crlngn-scene-groups-favorites', 
+    active: true, 
+    name: favLabel, 
+    icon: "fa-star", 
+    tooltip: game.user.isGM ? favLabel : null, 
+    users: [], 
+    visible: true, 
+    css: "gm active" 
+  }; 
+
+  let folders = [];
+  folders = ui.scenes.folders.filter(f => { 
+    return f.folder === null; // true;
+  });
+
+  folders.sort((a, b) => {
+    return a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+  });
+
+  let folderList = folders.map(folder => {
+    return {
+      id: folder.id,
+      active: true,
+      name: folder.name,
+      icon: "fa-folder",
+      tooltip: folder.name,
+      users: [],
+      visible: game.user.isGM || folder.isOwner,
+      css: "gm"
+    };
+  });
+  folderList = [favGroup, ...folderList];
+
+  LogUtil.log("SceneGroupsNavigation", [folders]);
+  let sceneList = this.scenes.map(scene => {
+    return {
+      id: scene.id,
+      active: scene.active,
+      name: TextEditor.truncateText(scene.navName || scene.name, {maxLength: 32}),
+      tooltip: scene.navName && game.user.isGM ? scene.name : null,
+      users: game.users.reduce((arr, u) => {
+        if ( u.active && ( u.viewedScene === scene.id) ) arr.push({letter: u.name[0], color: u.color.css});
+        return arr;
+      }, []),
+      visible: game.user.isGM || scene.isOwner || scene.active,
+      css: [
+        scene.isView ? "view" : null,
+        scene.active ? "active" : null,
+        scene.ownership.default === 0 ? "gm" : null
+      ].filterJoin(" ")
+    };
+  });
+  return {collapsed: this._collapsed, scenes: sceneList, folders: folderList};
+}*/

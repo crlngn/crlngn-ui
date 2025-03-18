@@ -10,6 +10,7 @@ import { LeftControls } from "./LeftControlsUtil.mjs";
 import { MODULE_ID } from "../constants/General.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
+import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
 
 export class Main {
 
@@ -37,6 +38,7 @@ export class Main {
       LeftControls.init();
       ChatUtil.init();
       ModuleCompatUtil.init();
+      SceneNavFolders.init();
 
       const chatStylesEnabled = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
       if(chatStylesEnabled){ 
