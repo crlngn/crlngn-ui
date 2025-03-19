@@ -38,7 +38,6 @@ export class Main {
       LeftControls.init();
       ChatUtil.init();
       ModuleCompatUtil.init();
-      SceneNavFolders.init();
 
       const chatStylesEnabled = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
       if(chatStylesEnabled){ 
@@ -63,6 +62,7 @@ export class Main {
     GeneralUtil.addCSSVars('--crlngn-i18n-refund', game.i18n.localize(`${locBtnPath}.refund`));
     GeneralUtil.addCSSVars('--crlngn-i18n-macro', game.i18n.localize(`${locBtnPath}.macro`));
     GeneralUtil.addCSSVars('--crlngn-i18n-save-dc', game.i18n.localize(`${locBtnPath}.savedc`));
+    GeneralUtil.addCSSVars('--crlngn-i18n-save', game.i18n.localize(`${locBtnPath}.save`));
   }
 
   static #onRenderChatMessage = (chatMessage, html) => { 

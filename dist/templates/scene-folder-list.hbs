@@ -1,0 +1,49 @@
+<ol id="crlngn-scene-folder">
+    <li class="nav-item scene-folders">
+      <a class="selected">
+        <i class="fas fa-folder"></i> {{currFolder.name}}
+      </a>
+      <ol class="folder-list">
+        <li>
+          <a id="scene-folder-favorites" class="favorites">
+            <i class="fas fa-star"></i> Favorites
+          </a>
+        </li>
+        {{#each folderList}}
+        <li>
+          <a>
+            <i class="fas fa-folder"></i> {{this.name}} 
+            {{#if this.hasSubfolders}}<span class="toggle">&#43;</span>{{/if}}
+          </a>
+          {{#if this.hasSubfolders}}
+            <ol class="subfolders">
+              {{#each this.children}}
+              <li>
+                <a>
+                  <i class="fas fa-folder"></i> {{this.folder.name}}
+                </a>
+              </li>
+              {{/each}}
+            </ol>
+          {{/if}}
+        </li>
+        {{/each}}
+      </ol>
+    </li>
+
+    <!--folder scenes-->
+    {{#each scenes}}
+    <li class="scene nav-item gm {{#if this.active}}active{{/if}}" data-scene-id="{{this.id}}" draggable="true">
+      <a class="scene-name">
+        {{#if this.active}}<i class="fas fa-bullseye"></i>{{/if}} {{this.name}}
+      </a>
+      <ul class="scene-players">
+        {{#each ../users}}
+          {{#if (eq this.viewedScene ../this.id)}}
+            <li class="scene-player" style="background-color: #{{this.color}};"></li>
+          {{/if}}
+        {{/each}}
+      </ul>
+    </li>
+    {{/each}}
+</ol>

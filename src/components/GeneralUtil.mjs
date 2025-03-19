@@ -36,7 +36,7 @@ export class GeneralUtil {
 
   // Function to get a list with all the fonts available 
   // (Foundry + CSS imported) - excludes Font Awesome
-  static getAllFonts() {
+  static getAllFonts = async () => {
     // Get Foundry built-in fonts
     const foundryFonts = new Set(Object.keys(CONFIG.fontDefinitions));
     // LogUtil.log('Foundry built-in fonts:', [Array.from(foundryFonts)]);
@@ -101,21 +101,43 @@ export class GeneralUtil {
             } else {
               // For non-Google Fonts, try to fetch and parse the CSS
               try {
-                fetch(url)
-                  .then(response => response.text())
-                  .then(css => {
-                    // Parse font-face rules
-                    const fontFaceRules = css.match(/@font-face\s*{[^}]+}/g) || [];
-                    fontFaceRules.forEach(rule => {
-                      const fontFamilyMatch = rule.match(/font-family:\s*['"]?([^'";]+)['"]?/);
-                      if (fontFamilyMatch) {
-                        const fontFamily = fontFamilyMatch[1].trim();
-                        cssImportedFonts.add(fontFamily);
-                        // LogUtil.log('Added font family from @font-face:', fontFamily);
-                      }
-                    });
-                  })
-                  .catch(error => console.warn('Error loading imported CSS:', error));
+                const response = await fetch(url);
+                // response = response.text();
+                if (!response.ok) {
+                  if (response.status === 404) {
+                    LogUtil.warn('getAllFonts() - Resource not found (404)', [url]);
+                  } else {
+                    LogUtil.warn('getAllFonts() - HTTP error', [response.status]);
+                  }
+                }else{
+                  const fontFaceRules = css.match(/@font-face\s*{[^}]+}/g) || [];
+                  fontFaceRules.forEach(rule => {
+                    const fontFamilyMatch = rule.match(/font-family:\s*['"]?([^'";]+)['"]?/);
+                    if (fontFamilyMatch) {
+                      const fontFamily = fontFamilyMatch[1].trim();
+                      cssImportedFonts.add(fontFamily);
+                      // LogUtil.log('Added font family from @font-face:', fontFamily);
+                    }
+                  });
+                }
+                
+
+                  // .then(response => response.text())
+                  // .then(css => {
+                  //   // Parse font-face rules
+                  //   const fontFaceRules = css.match(/@font-face\s*{[^}]+}/g) || [];
+                  //   fontFaceRules.forEach(rule => {
+                  //     const fontFamilyMatch = rule.match(/font-family:\s*['"]?([^'";]+)['"]?/);
+                  //     if (fontFamilyMatch) {
+                  //       const fontFamily = fontFamilyMatch[1].trim();
+                  //       cssImportedFonts.add(fontFamily);
+                  //       // LogUtil.log('Added font family from @font-face:', fontFamily);
+                  //     }
+                  //   });
+                  // })
+                  // .catch(error => LogUtil.warn('Error loading imported CSS:', [error]));
+
+                
               } catch (e) {
                 LogUtil.warn('Error processing imported CSS:', [e]);
               }

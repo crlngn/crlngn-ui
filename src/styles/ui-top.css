@@ -2,6 +2,7 @@ body{
   &.crlngn-ui { 
     --top-nav-height:  var(--left-control-item-size);
     --ui-controls-margin-left: -100px;
+    --folder-list-width: 160px;
 
     /*&.logo-visible:has(#navigation.collapsed){*/
     &.logo-visible:has(#navigation.collapsed) {
@@ -180,7 +181,8 @@ body{
 
       }
 
-      ol#scene-list{
+      ol#scene-list,
+      ol#crlngn-scene-folder{
         position: relative;
         display: flex;
         flex-wrap: nowrap;
@@ -191,8 +193,17 @@ body{
         max-width: max-content;
         height: 100%;
         max-height: 100%;
-        transition: margin-left 0.5s ease-in-out;
         gap: 0;
+        padding: 0;
+        margin: 0;
+        transition: margin-left 0.5s ease-in-out;
+
+        visibility: visible;
+
+        &.hidden{
+          display: none;
+          visibility: hidden;
+        }
         
         &.no-transition{
           transition: all 0s;
@@ -230,6 +241,10 @@ body{
             width: 130px;
             color: var(--color-text-light-1);
             opacity: 1;
+
+            i{
+              font-size: var(--font-size-10);
+            }
           }
 
           &.scene.gm{
@@ -357,7 +372,8 @@ body{
 
 
   /* Scene folders */
-  #navigation ol#scene-list {
+  #navigation ol#scene-list,
+  #navigation ol#crlngn-scene-folder {
 
     > li.nav-item.scene-folders{
       /*
@@ -387,17 +403,19 @@ body{
         position: relative;
         display: block;
         align-items: center;
-        min-width: 130px;
-        width: 130px;
+        min-width: var(--folder-list-width);
+        width: var(--folder-list-width);
         gap: 0;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
         padding: 0 8px;
         padding-right: 16px;
+        height: 100%;
 
         &:hover{
-          background: repeating-linear-gradient( -45deg, rgba(0,0,0,0.8) 0px, rgba(0,0,0,0.8) 1px, rgba(60,60,80,0.8) 2px, rgba(60,60,80,0.8) 3px);
+          background: var(--color-highlights-15);
+          /*background: repeating-linear-gradient( -45deg, rgba(0,0,0,0.8) 0px, rgba(0,0,0,0.8) 1px, rgba(60,60,80,0.8) 2px, rgba(60,60,80,0.8) 3px);*/
         }
 
         > * {
@@ -414,8 +432,8 @@ body{
           top: 0;
         }
 
-        i.fa-folder {
-          margin-right: 5px;
+        > i {
+          margin-right: 3px;
           font-size: var(--font-size-10);
         }
       }
@@ -428,44 +446,85 @@ body{
         overflow: visible;
         display: none;
         padding: 0;
-        max-width: 130px;
+        max-width: var(--folder-list-width);
 
         li{
-          align-items: center;
+          justify-content: center;
           display: flex;
+          flex-direction: column;
           width: auto;
-          max-width: 130px;
+          max-width: var(--folder-list-width);
           min-height: var(--left-control-item-size);
+          border-top: 1px solid var(--color-cool-5-50);
 
-          &:hover{
-            background: repeating-linear-gradient( -45deg, rgba(0,0,0,0.5) 0px, rgba(0,0,0,0.5) 1px, rgba(60,60,80,0.5) 2px, rgba(60,60,80,0.5) 3px);
-          }
-
-          > a{
+          a{
             position: relative;
-            display: block;
+            display: flex;
+            align-items: baseline;
             color: var(--color-text-light-1);
             opacity: 1;
-            max-width: 130px;
-            width: 130px;
-            padding: 4px 8px;
+            max-width: var(--folder-list-width);
+            width: var(--folder-list-width);
+            padding: 8px 8px;
             padding-right: 16px;
             line-height: 1.4;
+            &:hover{
+              /*background: repeating-linear-gradient( -45deg, rgba(0,0,0,0.5) 0px, rgba(0,0,0,0.5) 1px, rgba(60,60,80,0.5) 2px, rgba(60,60,80,0.5) 3px);*/
+              background: var(--color-highlights-15);
+            }
 
-            &.with-subfolders {
-              &:after{
-                content: '\0276F';
-                display: flex;
-                align-items: center;
-                position: absolute;
-                height: 100%;
-                width: 10px;
-                right: 0;
-                top: 0;
+            > i {
+              margin-right: 4px;
+              font-size: var(--font-size-10);
+            }
+
+            span.toggle{
+              display: flex;
+              align-items: center;
+              position: absolute;
+              font-size: var(--font-size-14);
+              height: 100%;
+              width: 16px;
+              right: 0;
+              top: 0;
+              padding: 2px;
+              justify-content: center;
+
+              &:hover{
+                background: var(--color-highlights-25);
               }
             }
-            
           }
+        }
+        ol.subfolders {
+          margin: 0 0 0 8px;
+          padding: 0;
+          border-left: 1px solid var(--color-secondary);
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          text-align: left;
+          width: calc(100% - 8px);
+          max-height: 0;
+          overflow: hidden;
+
+          &.open { 
+            max-height: initial;
+          }
+
+          li{
+            align-items: flex-start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 100%;
+            min-height: var(--left-control-item-size);
+            width: auto;
+            /*border-left: 1px solid var(--color-secondary);*/
+            text-align: left;
+            background: var(--color-cool-5-25);
+          }
+
         }
       }
 

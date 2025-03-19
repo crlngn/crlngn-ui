@@ -1,3 +1,4 @@
+import { MODULE_ID } from "../constants/General.mjs";
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { getSettings } from "../constants/Settings.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
@@ -12,13 +13,14 @@ export class TopNavigation {
   static #navExtras;
   static #navToggle;
   static #uiMiddle;
+  static #timeout;
   static SETTINGS;
   static navSettings;
   static isCollapsed;
   static navPos;
-  static #timeout;
+  static sceneFoldersTemplate;
 
-  static init(){
+  static init = async() => {
     const SETTINGS = getSettings();
     TopNavigation.navSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
     TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag);
@@ -28,6 +30,7 @@ export class TopNavigation {
     // skip everything
     const uiMiddle = document.querySelector("#ui-middle");
     let navSettings = TopNavigation.navSettings;
+    LogUtil.log("SCENE NAV INIT", [navSettings.sceneNavEnabled]);
     if(navSettings.sceneNavEnabled && uiMiddle){
       uiMiddle.classList.add("crlngn-ui");
     }else if(uiMiddle){
@@ -54,22 +57,24 @@ export class TopNavigation {
     LogUtil.log("TopNavigation - init", [ isMonksScenenNavOn ]);
 
     if(!isMonksScenenNavOn){
+      SceneNavFolders.init();
       TopNavigation.resetLocalVars();
-      TopNavigation.addListeners(); 
       
       TopNavigation.setNavPosition();
       TopNavigation.placeNavButtons(); 
+      TopNavigation.addListeners(); 
+      //
+      SceneNavFolders.renderSceneFolders();
 
       if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
-        LogUtil.log("RENDER_NAV", []);
         ui.nav.collapse();
         uiMiddle.classList.add('navigation-collapsed');
       }else{
-        LogUtil.log("RENDER_NAV", []);
         ui.nav.expand();
         uiMiddle.classList.remove('navigation-collapsed');
       }
-      SceneNavFolders.createRenderedList();
+
+      // game.scenes = [];
     }else{
       uiMiddle.classList.add('with-monks-scene');
     }
@@ -86,6 +91,7 @@ export class TopNavigation {
         TopNavigation.navPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
 
         TopNavigation.resetLocalVars();
+        SceneNavFolders.renderSceneFolders();
         if(this.#scenesList) this.#scenesList.classList.add("no-transition");
         LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, []); 
         
@@ -109,8 +115,6 @@ export class TopNavigation {
           if(this.#scenesList) this.#scenesList.classList.remove("no-transition");
           LogUtil.log("NAV no transition remove");
         }, 500);
-
-        SceneNavFolders.createRenderedList();
       }
     }); 
 
@@ -162,6 +166,8 @@ export class TopNavigation {
     // if(navSettings.sceneNavEnabled){ 
     //   // TopNavigation.observeNavOffset(); 
     // } 
+
+    
   } 
 
   static resetLocalVars(){
@@ -293,6 +299,8 @@ export class TopNavigation {
 
     LogUtil.log("setNavPosition", [pos, position, scenes[position], newMargin]);
   }
+
+  
   
 }
 
