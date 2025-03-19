@@ -203,7 +203,8 @@
           "consume": "Consume",
           "refund": "Refund",
           "macro": "Macro",
-          "savedc": "Save DC"
+          "savedc": "Save DC",
+          "save": "Save"
         }
       }
     }

@@ -22,19 +22,20 @@ export class ChatUtil {
     const content = duplicate(chatMessage.content);
     const tempElement = document.createElement('div');
     tempElement.innerHTML = content;
+    LogUtil.log("enrichCard",[tempElement, content, chatMessage]);
 
-    if(ChatUtil.enableChatStyles && !tempElement.firstChild.classList.contains('crlngn')){ 
+    if(ChatUtil.enableChatStyles && (content!=="" && !tempElement?.firstChild?.classList.contains('crlngn'))){ 
       let elem;
       elem = tempElement.firstChild;
       elem.classList.add('crlngn');
 
       const saveButtons = tempElement.querySelectorAll('.card-buttons button[data-action=rollSave]');
-      LogUtil.log("enrichCard",[saveButtons.length]);
       if (saveButtons.length > 0) {      
         saveButtons.forEach(button => {
           const visibleDCSpan = button.querySelector('.visible-dc');
           const hiddenDCSpan = button.querySelector('.hidden-dc');
           LogUtil.log("enrichCard",[visibleDCSpan, hiddenDCSpan]);
+
           visibleDCSpan.setAttribute('data-ability', button.getAttribute('data-ability') || "");
           visibleDCSpan.setAttribute('data-dc', button.getAttribute('data-dc') || "");
           hiddenDCSpan.setAttribute('data-ability', button.getAttribute('data-ability') || "");
@@ -49,8 +50,11 @@ export class ChatUtil {
       await chatMessage.update({
         content: tempElement.innerHTML
       });
-  
-    }   
+    }else{
+      if(ChatUtil.chatBorderColor===BORDER_COLOR_TYPES.playerColor.name && chatMessage.author?.id){ 
+        chatItem.style.setProperty('border-color', `var(--user-color-${chatMessage.author.id})`);
+      }
+    }
 
     LogUtil.log("enrichCard", [tempElement.firstChild]);
 
