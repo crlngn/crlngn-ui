@@ -3,10 +3,8 @@ body{
     --top-nav-height:  var(--left-control-item-size);
     --ui-controls-margin-left: -100px;
 
-    /*&.logo-visible:has(#navigation.collapsed){*/
     &.logo-visible:has(#navigation.collapsed) {
       --ui-top-padding: calc(72px + var(--top-nav-height,0px));
-      /* --left-control-item-size */
     }
   }
 

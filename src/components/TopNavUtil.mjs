@@ -16,6 +16,7 @@ export class TopNavigation {
   static isCollapsed;
   static navPos;
   static #timeout;
+  static #collapseTimeout;
 
   static init(){
     const SETTINGS = getSettings();
@@ -58,16 +59,7 @@ export class TopNavigation {
       
       TopNavigation.setNavPosition();
       TopNavigation.placeNavButtons(); 
-
-      if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
-        LogUtil.log("RENDER_NAV", []);
-        ui.nav.collapse();
-        uiMiddle.classList.add('navigation-collapsed');
-      }else{
-        LogUtil.log("RENDER_NAV", []);
-        ui.nav.expand();
-        uiMiddle.classList.remove('navigation-collapsed');
-      }
+      TopNavigation.toggleNav(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag));
     }else{
       uiMiddle.classList.add('with-monks-scene');
     }
@@ -90,16 +82,7 @@ export class TopNavigation {
         TopNavigation.addListeners();
         // TopNavigation.observeNavOffset();
         TopNavigation.setNavPosition();
-
-        if(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)){ 
-          LogUtil.log("RENDER_NAV", []);
-          ui.nav.collapse();
-          uiMiddle.classList.add('navigation-collapsed');
-        }else{
-          LogUtil.log("RENDER_NAV", []);
-          ui.nav.expand();
-          uiMiddle.classList.remove('navigation-collapsed');
-        }
+        TopNavigation.toggleNav(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag));
         //
         clearTimeout(TopNavigation.#timeout);
         TopNavigation.#timeout = setTimeout(()=>{
@@ -107,8 +90,6 @@ export class TopNavigation {
           LogUtil.log("NAV no transition remove");
         }, 500);
       }
-
-      
 
       LogUtil.log("SCENE NAV STATE", [SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag)]);
     }); 
@@ -120,25 +101,19 @@ export class TopNavigation {
         TopNavigation.placeNavButtons(); 
       }
       
+      
     }); 
 
-    Hooks.on(HOOKS_CORE.COLLAPSE_SCENE_NAV, (nav, value) => {
+    Hooks.on(HOOKS_CORE.COLLAPSE_SCENE_NAV, (nav, collapsed) => {
       const SETTINGS = getSettings();
-      SettingsUtil.set(SETTINGS.sceneNavCollapsed.tag, value); 
-      LogUtil.log("NAV toggle", [nav, value]); 
+      SettingsUtil.set(SETTINGS.sceneNavCollapsed.tag, collapsed); 
+      LogUtil.log("NAV toggle", [nav, collapsed]); 
 
 
-      TopNavigation.isCollapsed = value;
+      TopNavigation.isCollapsed = collapsed;
       // const uiMiddle = document.querySelector("#ui-middle");
 
-      if(value){ 
-        uiMiddle.classList.add('navigation-collapsed');
-        // ui.nav.collapse();
-      }else{
-        uiMiddle.classList.remove('navigation-collapsed');
-        LogUtil.log("RENDER_NAV", [SceneNavigation]);
-        // ui.nav.expand();
-      }
+      TopNavigation.toggleNav(collapsed);
     }); 
 
     Hooks.on(HOOKS_CORE.EXPAND_SCENE_NAV, (nav, value) => {
@@ -162,6 +137,20 @@ export class TopNavigation {
     //   // TopNavigation.observeNavOffset(); 
     // } 
   } 
+
+  static toggleNav(collapsed){
+    clearTimeout(TopNavigation.#collapseTimeout);
+    TopNavigation.#collapseTimeout = setTimeout(()=>{
+      if(collapsed){
+        ui.nav.collapse();
+        uiMiddle.classList.add('navigation-collapsed');
+      }else{
+        ui.nav.expand();
+        uiMiddle.classList.remove('navigation-collapsed');
+      }
+    }, 500);
+    
+  }
 
   static resetLocalVars(){
     TopNavigation.#navElem = document.querySelector("#navigation"); 
