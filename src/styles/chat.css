@@ -30,9 +30,9 @@ body.crlngn-chat {
   --crlngn-i18n-save-dc: " save DC ";
 
   .sidebar-tab{
-    --dnd5e-color-gold: var(--color-warm-1);
-    --checkbox-fill-color: var(--color-warm-2);
-    --checkbox-border-color: var(--color-warm-2);
+    --dnd5e-color-gold: var(--color-warm-3);
+    --checkbox-fill-color: var(--color-warm-3);
+    --checkbox-border-color: var(--color-warm-3);
   }
   .chat-message .message-content:not(.dnd5e2) {
     p, ul, ol, li, span, a, b, strong {
@@ -370,11 +370,20 @@ body.crlngn-chat {
       span{
         font-size: 0;
         align-self: center;
-        display: inline-flex;
+        /*display: inline-flex;*/
         align-items: center;
       }
+    }
 
-      span:before {
+    &[data-action=placeSummons],
+    &[data-action=rollAttack],
+    &[data-action=rollHealing],
+    &[data-action=rollDamage],
+    &[data-action=placeTemplate],
+    &[data-action=consumeResource],
+    &[data-action=refundResource],
+    &[data-action=executeMacro] {
+      > span:before {
         content: "";
         display: flex;
       }
@@ -454,9 +463,23 @@ body.crlngn-chat {
     content: var(--crlngn-i18n-macro);
   }
   
+  /*
   &.system-dnd5e .chat-card .card-buttons > button[data-action=rollSave]:after {
+    content: attr(data-ability) var(--crlngn-i18n-save-dc) attr(data-dc);
+    text-transform: uppercase;
+  }
+  */
+  &.system-dnd5e .chat-card .card-buttons > button[data-action=rollSave] span.visible-dc:after {
     content: attr(data-ability) " " var(--crlngn-i18n-save-dc) " " attr(data-dc);
     text-transform: uppercase;
+    display: inherit;
+    font-size: 0.65rem;
+  }
+  &.system-dnd5e .chat-card .card-buttons > button[data-action=rollSave] span.hidden-dc:after {
+    content: attr(data-ability) " " var(--crlngn-i18n-save);
+    text-transform: uppercase;
+    display: inherit;
+    font-size: 0.65rem;
   }
   
   /* effects / targets list */

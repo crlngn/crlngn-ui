@@ -203,7 +203,8 @@
           "consume": "Consuma",
           "refund": "Rimborsa",
           "macro": "Macro",
-          "savedc": "Salvezza CD"
+          "savedc": "Salvezza CD",
+          "save": "Salvezza"
         }
       }
     }

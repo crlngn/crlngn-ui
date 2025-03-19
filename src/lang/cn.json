@@ -202,7 +202,8 @@
           "consume": "消耗",
           "refund": "退还",
           "macro": "宏",
-          "savedc": "Save DC"
+          "savedc": "Save DC",
+          "save": "Save"
         }
       }
     }
