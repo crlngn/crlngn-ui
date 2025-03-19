@@ -78,7 +78,7 @@ export class CameraUtil {
   static makeDraggable(){
     CameraUtil.cameraContainer?.addEventListener("mousedown", (e) => {
       const body = document.querySelector("body.crlngn-ui");
-      LogUtil.log("mousedown", [ e.target ]);
+      
       if(e.target.parentNode?.classList.contains('volume-bar')){
         return;
       }

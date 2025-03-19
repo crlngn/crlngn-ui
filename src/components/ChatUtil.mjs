@@ -13,7 +13,6 @@ export class ChatUtil {
   }
 
   static enrichCard = async(chatMessage, html) => {
-  static enrichCard = async(chatMessage, html) => {
     LogUtil.log("renderChatMessage", [ChatUtil.chatBorderColor, ChatUtil.enableChatStyles, BORDER_COLOR_TYPES.playerColor.name, chatMessage.author?.id]); 
     const rollType = chatMessage.flags?.dnd5e?.activity?.type || chatMessage.flags?.dnd5e?.roll?.type || "custom";
     let chatItem = html.get ? html.get(0) : html;

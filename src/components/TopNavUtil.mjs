@@ -13,7 +13,6 @@ export class TopNavigation {
   static #navExtras;
   static #navToggle;
   static #uiMiddle;
-  static #timeout;
   static SETTINGS;
   static navSettings;
   static isCollapsed;
