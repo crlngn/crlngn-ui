@@ -190,7 +190,7 @@
         "label": "Modo de Depuração",
         "hint": "Ative ou desative mensagens de depuração no console do navegador."
       }
-    },
+    }, 
     "dnd5e": {
       "chatCard": {
         "buttons": {
@@ -202,7 +202,8 @@
           "consume": "Consumir",
           "refund": "Devolver",
           "macro": "Macro",
-          "savedc": "CD"
+          "savedc": "CD",
+          "save": "Check"
         }
       }
     }
