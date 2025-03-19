@@ -4,10 +4,8 @@ body{
     --ui-controls-margin-left: -100px;
     --folder-list-width: 160px;
 
-    /*&.logo-visible:has(#navigation.collapsed){*/
     &.logo-visible:has(#navigation.collapsed) {
       --ui-top-padding: calc(72px + var(--top-nav-height,0px));
-      /* --left-control-item-size */
     }
   }
 

@@ -320,6 +320,9 @@ body.crlngn-chat {
     flex-direction: row; 
     flex-wrap: wrap; 
   }
+  .chat-card .card-buttons {
+    gap: 0.25em;
+  }
   .chat-card .card-buttons:not(.midi-buttons) > * {
     flex: 1 1 calc((100% - 10px) / 2);
     min-width: calc((100% - 10px) / 2);
@@ -495,12 +498,13 @@ body.crlngn-chat {
   }
   :is(.card-tray, .effects-tray) button:not(.unbutton),
   .chat-card button:not(.unbutton){
-    min-height: 26px;
+    min-height: 22px;
     font-size: 11px;
     padding: 5px;
     border: 1px solid var(--color-dark-bg-15);
-    margin: 5px 0 0 0;
+    margin: 2px 0 0 0;
     width: 100%;
+    line-height: 22px;
   }
   
   /* dnd5e buttons */

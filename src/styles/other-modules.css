@@ -466,11 +466,6 @@ body.crlngn-ui{
           font-size: var(--font-size-13) !important;
         }
 
-        .crux__utility-button.crux__toggle-target.toggled-off,
-        .crux__actor .group-dots .dot:not(.empty) {
-          background-color: var(--color-warm-1) !important;
-        }
-
         .crux__actor .group-dots .dot {
           width: 8px !important;
           height: 8px !important;
