@@ -239,7 +239,7 @@ body.crlngn-ui{
     &.toggle{
       /*background: var(--color-secondary-75);*/
       background: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
-      border: 1px dashed transparent;
+      border: 1px solid var(--color-secondary-50);
 
       &.active{
         background: repeating-linear-gradient( -45deg, var(--color-secondary-b-90) 0px, var(--color-secondary-b-90) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
