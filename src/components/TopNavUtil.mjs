@@ -61,6 +61,7 @@ export class TopNavigation {
     if(!isMonksScenenNavOn){
       SceneNavFolders.init();
       TopNavigation.resetLocalVars();
+      SceneNavFolders.renderSceneFolders();
       
       TopNavigation.setNavPosition();
       TopNavigation.placeNavButtons(); 

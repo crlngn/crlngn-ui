@@ -13,9 +13,14 @@ export class SceneNavFolders {
       SceneNavFolders.preloadTemplate();
     }
     SceneNavFolders.folderData = SceneNavFolders.getFolders(ui.scenes.folders);
-    SceneNavFolders.selectFolder("KkaCkFDLOFGHmVAF");//("j6VwZl4dQMz4mqmX");
+    SceneNavFolders.selectFolder("KkaCkFDLOFGHmVAF"); // ("j6VwZl4dQMz4mqmX");
   }
 
+  /**
+   * 
+   * @param {object[]} fromList 
+   * @returns 
+   */
   static getFolders = (fromList) => {
     let folders = fromList.filter(f => { 
       return f.folder === null;
@@ -179,62 +184,3 @@ export class SceneNavFolders {
   }
 
 }
-
-/*
-getData(options={}) {
-  let favLabel = game.i18n.localize("CRLNGN_UI.settings.sceneGroupsNav.folderFavorites");
-  let favGroup = { 
-    id: 'crlngn-scene-groups-favorites', 
-    active: true, 
-    name: favLabel, 
-    icon: "fa-star", 
-    tooltip: game.user.isGM ? favLabel : null, 
-    users: [], 
-    visible: true, 
-    css: "gm active" 
-  }; 
-
-  let folders = [];
-  folders = ui.scenes.folders.filter(f => { 
-    return f.folder === null; // true;
-  });
-
-  folders.sort((a, b) => {
-    return a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-  });
-
-  let folderList = folders.map(folder => {
-    return {
-      id: folder.id,
-      active: true,
-      name: folder.name,
-      icon: "fa-folder",
-      tooltip: folder.name,
-      users: [],
-      visible: game.user.isGM || folder.isOwner,
-      css: "gm"
-    };
-  });
-  folderList = [favGroup, ...folderList];
-
-  LogUtil.log("SceneGroupsNavigation", [folders]);
-  let sceneList = this.scenes.map(scene => {
-    return {
-      id: scene.id,
-      active: scene.active,
-      name: TextEditor.truncateText(scene.navName || scene.name, {maxLength: 32}),
-      tooltip: scene.navName && game.user.isGM ? scene.name : null,
-      users: game.users.reduce((arr, u) => {
-        if ( u.active && ( u.viewedScene === scene.id) ) arr.push({letter: u.name[0], color: u.color.css});
-        return arr;
-      }, []),
-      visible: game.user.isGM || scene.isOwner || scene.active,
-      css: [
-        scene.isView ? "view" : null,
-        scene.active ? "active" : null,
-        scene.ownership.default === 0 ? "gm" : null
-      ].filterJoin(" ")
-    };
-  });
-  return {collapsed: this._collapsed, scenes: sceneList, folders: folderList};
-}*/
