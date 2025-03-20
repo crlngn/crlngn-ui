@@ -27,6 +27,7 @@ export class TopNavigation {
     TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag);
     TopNavigation.navPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
 
+    TopNavigation.resetLocalVars();
     // if user disabled Scene Navigation Styles,
     // skip everything
     const uiMiddle = document.querySelector("#ui-middle");
@@ -39,7 +40,7 @@ export class TopNavigation {
       return;
     }
 
-    TopNavigation.resetLocalVars();
+    
 
     // If Monk's Scene Navigation is enabled, disable Carolingian UI Top Navigation
     const isMonksScenenNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
@@ -143,18 +144,18 @@ export class TopNavigation {
     //   // TopNavigation.observeNavOffset(); 
     // } 
 
-    
   } 
 
   static toggleNav(collapsed){
     clearTimeout(TopNavigation.#collapseTimeout);
     TopNavigation.#collapseTimeout = setTimeout(()=>{
+      TopNavigation.resetLocalVars();
       if(collapsed){
         ui.nav.collapse();
-        uiMiddle.classList.add('navigation-collapsed');
+        TopNavigation.#uiMiddle.classList.add('navigation-collapsed');
       }else{
         ui.nav.expand();
-        uiMiddle.classList.remove('navigation-collapsed');
+        TopNavigation.#uiMiddle.classList.remove('navigation-collapsed');
       }
     }, 500);
     
@@ -165,6 +166,7 @@ export class TopNavigation {
     TopNavigation.#scenesList = document.querySelector("#scene-list"); 
     TopNavigation.#navExtras = document.querySelector("#navigation .nav-item.is-root"); 
     TopNavigation.#navToggle = document.querySelector("#nav-toggle"); 
+    TopNavigation.#uiMiddle = document.querySelector("#ui-middle");
     // TopNavigation.#leftControls = document.querySelector("#ui-left #controls"); 
   }
 

@@ -30,9 +30,9 @@ body.crlngn-chat {
   --crlngn-i18n-save-dc: " save DC ";
 
   .sidebar-tab{
-    --dnd5e-color-gold: var(--color-warm-3);
-    --checkbox-fill-color: var(--color-warm-3);
-    --checkbox-border-color: var(--color-warm-3);
+    --dnd5e-color-gold: var(--color-warm-2);
+    --checkbox-fill-color: var(--color-warm-2);
+    --checkbox-border-color: var(--color-warm-2);
   }
   .chat-message .message-content:not(.dnd5e2) {
     p, ul, ol, li, span, a, b, strong {
@@ -498,13 +498,16 @@ body.crlngn-chat {
   }
   :is(.card-tray, .effects-tray) button:not(.unbutton),
   .chat-card button:not(.unbutton){
-    min-height: 22px;
+    min-height: 26px;
     font-size: 11px;
     padding: 5px;
     border: 1px solid var(--color-dark-bg-15);
     margin: 2px 0 0 0;
     width: 100%;
-    line-height: 22px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   /* dnd5e buttons */
@@ -577,7 +580,8 @@ body.crlngn-chat {
     .chat-message div,
     .chat-message table,
     .chat-message ul,
-    .chat-message ol {
+    .chat-message ol,
+    .chat-message li {
       color: var(--color-text-light-3);
     }
     .chat-message .message-header .name-stacked .title,
@@ -605,20 +609,26 @@ body.crlngn-chat {
       border-color: transparent;
     }
     
-    .chat-message.crlngn h1, 
-    .chat-message.crlngn h2, 
-    .chat-message.crlngn h3{
+    .chat-message h1, 
+    .chat-message h2, 
+    .chat-message h3{
       color: var(--color-text-light-1);
       font-family: var(--crlngn-font-titles);
+      &:hover{
+        color: var(--color-text-light-2);
+      }
     }
   
-    .chat-message.crlngn, 
-    .chat-message.crlngn h4, 
-    .chat-message.crlngn h5,
-    .chat-message.crlngn h6,
-    .chat-message.crlngn .card-header {
+    .chat-message, 
+    .chat-message h4, 
+    .chat-message h5,
+    .chat-message h6,
+    .chat-message .card-header {
       color: var(--color-text-light-1);
       font-family: var(--crlngn-font-family);
+      &:hover{
+        color: var(--color-text-light-2);
+      }
     }
   
     /* CHAT MESSAGE CARD */

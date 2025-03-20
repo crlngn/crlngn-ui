@@ -83,7 +83,7 @@ body.crlngn-ui{
     gap: 4px;
   }
   .monks-tokenbar.chat-card .card-header h3 {
-    font-size: var(--font-size-16);
+    font-size: var(--font-size-14);
   }
 
   &.theme-dark .monks-tokenbar .sheet .items-list .items-header {
@@ -329,6 +329,15 @@ body.crlngn-ui{
         background: var(--color-dark-bg-50);
       }
 
+    }
+
+    /* SMALLTIME */
+    #smalltime-app.pinned {
+      margin: 0;
+    }
+    #smalltime-app .window-content {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
     }
 
     /* MONK'S WALL ENHANCEMENTS */
