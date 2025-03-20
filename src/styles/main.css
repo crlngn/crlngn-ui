@@ -10,7 +10,7 @@ body.crlngn-ui  {
   h4, h5, h6 {
     font-family: var(--crlngn-font-family);
   }
-
+  
   .sidebar-tab, #players {
     h1, h2, h3, h4, h5, h6 {
       font-weight: 500;
