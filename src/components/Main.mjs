@@ -24,6 +24,11 @@ export class Main {
       // Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, Main.checkPlayersList);
       // Hooks.on(HOOKS_CORE.RENDER_HOTBAR, Main.checkPlayersList);
       SettingsUtil.registerSettings();
+      TopNavigation.init(); 
+      CameraUtil.init(); 
+      PlayersListUtil.init(); 
+      LeftControls.init();
+      ChatUtil.init();
     });
 
     Hooks.once(HOOKS_CORE.READY, () => {
@@ -32,11 +37,11 @@ export class Main {
       var isDebugOn = SettingsUtil.get(SETTINGS.debugMode.tag);
       if(isDebugOn){CONFIG.debug.hooks = true};
 
-      TopNavigation.init(); 
-      CameraUtil.init(); 
-      PlayersListUtil.init(); 
-      LeftControls.init();
-      ChatUtil.init();
+      // TopNavigation.init(); 
+      // CameraUtil.init(); 
+      // PlayersListUtil.init(); 
+      // LeftControls.init();
+      // ChatUtil.init();
       ModuleCompatUtil.init();
 
       const chatStylesEnabled = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
