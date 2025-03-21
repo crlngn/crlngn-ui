@@ -59,7 +59,6 @@ export class TopNavigation {
     LogUtil.log("TopNavigation - init", [ isMonksScenenNavOn ]);
 
     if(!isMonksScenenNavOn){
-      SceneNavFolders.init();
       TopNavigation.resetLocalVars();
       SceneNavFolders.renderSceneFolders();
       
@@ -81,6 +80,8 @@ export class TopNavigation {
         LogUtil.log("NAV no transition add");
         TopNavigation.navPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
 
+
+        SceneNavFolders.init();
         TopNavigation.resetLocalVars();
         SceneNavFolders.renderSceneFolders();
         if(this.#scenesList) this.#scenesList.classList.add("no-transition");

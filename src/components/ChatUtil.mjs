@@ -22,8 +22,9 @@ export class ChatUtil {
     const content = duplicate(chatMessage.content);
     const tempElement = document.createElement('div');
     tempElement.innerHTML = content;
+    LogUtil.log("enrichCard!!!",[tempElement, tempElement?.firstChild, chatMessage.content, chatMessage]);
 
-    if(game.user.isGM && ChatUtil.enableChatStyles && (content!=="" && !tempElement?.firstChild?.classList.contains('crlngn'))){ 
+    if(game.user.isGM && ChatUtil.enableChatStyles && (content!=="" && tempElement?.firstChild && tempElement.firstChild.classList.contains('crlngn'))){ 
       tempElement.firstChild.classList.add('crlngn');
 
       const saveButtons = tempElement.querySelectorAll('.card-buttons button[data-action=rollSave]');

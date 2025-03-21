@@ -1,34 +1,37 @@
-<ol id="crlngn-scene-folder">
+<ol id="crlngn-scene-folders">
     <li class="nav-item scene-folders">
       <a class="selected">
-        <i class="fas fa-folder"></i> {{currFolder.name}}
+        <i class="fas {{currIcon}}"></i> {{currFolder.name}}
       </a>
-      <ol class="folder-list">
-        <li>
-          <a id="scene-folder-favorites" class="favorites">
-            <i class="fas fa-star"></i> Favorites
-          </a>
-        </li>
-        {{#each folderList}}
-        <li>
-          <a>
-            <i class="fas fa-folder"></i> {{this.name}} 
-            {{#if this.hasSubfolders}}<span class="toggle">&#43;</span>{{/if}}
-          </a>
-          {{#if this.hasSubfolders}}
-            <ol class="subfolders">
-              {{#each this.children}}
-              <li>
-                <a>
-                  <i class="fas fa-folder"></i> {{this.folder.name}}
-                </a>
-              </li>
-              {{/each}}
-            </ol>
-          {{/if}}
-        </li>
-        {{/each}}
-      </ol>
+      <div class="scene-folders-contents">
+        <div class="search-container">
+          <input type="text" class="input-scene-search"
+            autocomplete="off" placeholder="{{localize "CRLNGN_UI.ui.sceneNav.searchPlaceholder"}}"
+            onfocus="this.select()" />
+          <ol class="search-results">
+            <li>Test</li>
+          </ol>
+        </div>
+        <ol class="folder-list">
+          <li class="folder" data-folder-id="">
+            <a id="scene-folder-favorites" class="favorites">
+              <i class="fas fa-star"></i> {{favoritesId}}
+            </a>
+          </li>
+          {{#each folderList}}
+          <li class="folder" data-folder-id="{{this.id}}">
+            <a>
+              <i class="fas fa-folder"></i> {{this.name}} 
+              {{#if this.hasSubfolders}}<span class="toggle">&#43;</span>{{/if}}
+            </a>
+            {{#if this.hasSubfolders}}
+              {{> recursiveFolder children=this.children}}
+            {{/if}}
+          </li>
+          {{/each}}
+        </ol>
+      </div>
+      
     </li>
 
     <!--folder scenes-->
@@ -47,3 +50,21 @@
     </li>
     {{/each}}
 </ol>
+
+{{!-- Partial template for recursive folder rendering --}}
+{{#*inline "recursiveFolder"}}
+  <ol class="subfolders">
+    {{#each children}}
+    <li class="folder" data-folder-id="{{this.folder.id}}">
+      <a>
+        <i class="fas fa-folder"></i> 
+        {{this.folder.name}}
+        {{#if this.hasSubfolders}}<span class="toggle">&#43;</span>{{/if}}
+      </a>
+      {{#if this.hasSubfolders}}
+        {{> recursiveFolder children=this.children}}
+      {{/if}}
+    </li>
+    {{/each}}
+  </ol>
+{{/inline}}

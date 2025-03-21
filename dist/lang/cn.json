@@ -6,6 +6,9 @@
         "monksScenesNotSupported": "卡罗林风格UI的水平场景导航将无法与Monk的场景导航一起使用，因此此功能已被禁用。",
         "monksPlayerSettingsConflict": "卡罗林风格UI的某些设置已被禁用，以防止与Monk's Player Settings发生冲突。",
         "forceClientSettingsConflict": "卡罗林风格UI的某些设置已被禁用，以防止与Force Client Settings发生冲突。"
+      },
+      "sceneNav": {
+        "searchPlaceholder": "Search scenes..."
       }
     },
     "settings": {

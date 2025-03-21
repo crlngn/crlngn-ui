@@ -2,7 +2,9 @@ body{
   &.crlngn-ui { 
     --top-nav-height:  var(--left-control-item-size);
     --ui-controls-margin-left: -100px;
-    --folder-list-width: 160px;
+    --folder-header-width: 130px;
+    --folder-list-width: 200px;
+    --scene-nav-item-width: 130px;
 
     &.logo-visible:has(#navigation.collapsed) {
       --ui-top-padding: calc(72px + var(--top-nav-height,0px));
@@ -176,12 +178,16 @@ body{
           button.crlngn-nav{
             visibility: hidden;
           }
+
+          ol#crlngn-scene-folders {
+            display: none;
+          }
         }
 
       }
 
       ol#scene-list,
-      ol#crlngn-scene-folder{
+      ol#crlngn-scene-folders{
         position: relative;
         display: flex;
         flex-wrap: nowrap;
@@ -237,8 +243,8 @@ body{
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            min-width: 130px;
-            width: 130px;
+            min-width: var(--scene-nav-item-width);
+            width: var(--scene-nav-item-width);
             color: var(--color-text-light-1);
             opacity: 1;
 
@@ -358,6 +364,16 @@ body{
           }
         }
       }
+
+      ol.crlngn-scene-folders {
+        > li.nav-item {
+          > a {
+            min-width: var(--folder-list-width);
+            width: var(--folder-list-width);
+          }
+        }
+        
+      }
     }
   }
 
@@ -373,7 +389,7 @@ body{
 
   /* Scene folders */
   #navigation ol#scene-list,
-  #navigation ol#crlngn-scene-folder {
+  #navigation ol#crlngn-scene-folders {
 
     > li.nav-item.scene-folders{
       /*
@@ -390,33 +406,37 @@ body{
       justify-content: flex-start;
       font-size: var(--font-size-12);
       margin: 0;
-      border: 1px solid transparent;
+      /*border: 1px solid transparent;
       border-right: 1px solid #000;
+      border-left: 1px solid #000;*/
+      border: none;
       border-left: 1px solid #000;
       font-weight: 600;
       border-radius: 0;
-      background-color: var(--left-control-main-bg);
       padding: 0;
       overflow:visible;
+      width: calc(var(--folder-header-width) + 16px);
+      max-width: calc(var(--folder-header-width) + 16px);
+
+      &.collapsed-folder-name{
+        width: auto;
+      }
 
       a.selected{
         position: relative;
         display: block;
         align-items: center;
-        min-width: var(--folder-list-width);
-        width: var(--folder-list-width);
+        width: calc(var(--folder-header-width));
+        min-width: calc(var(--folder-header-width));
+        max-height: var(--left-control-item-size);
         gap: 0;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        padding: 0 8px;
+        padding: 0;
+        margin: 0 8px;
         padding-right: 16px;
         height: 100%;
-
-        &:hover{
-          background: var(--color-highlights-15);
-          /*background: repeating-linear-gradient( -45deg, rgba(0,0,0,0.8) 0px, rgba(0,0,0,0.8) 1px, rgba(60,60,80,0.8) 2px, rgba(60,60,80,0.8) 3px);*/
-        }
 
         > * {
           display: inline-flex;
@@ -430,6 +450,7 @@ body{
           width: 10px;
           right: 0;
           top: 0;
+          justify-content: flex-end;
         }
 
         > i {
@@ -438,97 +459,129 @@ body{
         }
       }
 
-      ol.folder-list{
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        flex-direction: column;
-        overflow: visible;
+      &:hover a.selected {
+        max-height: initial;
+      }
+      &.collapsed-folder-name a.selected {
+        width: var(--left-control-item-size);
+      }
+
+      .scene-folders-contents{
+        background-color: var(--left-control-main-bg);
+        width: calc(var(--folder-list-width) + 10px);
+        max-width: calc(var(--folder-list-width) + 10px);
+        max-height: 300px;
         display: none;
-        padding: 0;
-        max-width: var(--folder-list-width);
+        flex-direction: column;
+        justify-content: flex-start;
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-highlights-75) var(--color-scrollbar-track);
+        overflow: auto;
 
-        li{
-          justify-content: center;
-          display: flex;
+        .search-container {
+          padding: 8px;
+
+          .input-scene-search {
+            border: 1px solid var(--color-dark-1);
+            color: var(--color-light-1);
+          }
+        }
+
+        ol.folder-list,
+        ol.search-results {
+          list-style: none;
+          margin: 0;
+          padding: 0;
           flex-direction: column;
-          width: auto;
+          overflow: visible;
+          display: flex;
+          padding: 0;
+          width: var(--folder-list-width);
           max-width: var(--folder-list-width);
-          min-height: var(--left-control-item-size);
-          border-top: 1px solid var(--color-cool-5-50);
-
-          a{
-            position: relative;
+  
+          li{
+            justify-content: center;
             display: flex;
-            align-items: baseline;
-            color: var(--color-text-light-1);
-            opacity: 1;
-            max-width: var(--folder-list-width);
+            flex-direction: column;
             width: var(--folder-list-width);
-            padding: 8px 8px;
-            padding-right: 16px;
-            line-height: 1.4;
-            &:hover{
-              /*background: repeating-linear-gradient( -45deg, rgba(0,0,0,0.5) 0px, rgba(0,0,0,0.5) 1px, rgba(60,60,80,0.5) 2px, rgba(60,60,80,0.5) 3px);*/
-              background: var(--color-highlights-15);
-            }
-
-            > i {
-              margin-right: 4px;
-              font-size: var(--font-size-10);
-            }
-
-            span.toggle{
+            max-width: var(--folder-list-width);
+            min-height: var(--left-control-item-size);
+            border-top: 1px solid var(--color-cool-5-50);
+  
+            a{
+              position: relative;
               display: flex;
-              align-items: center;
-              position: absolute;
-              font-size: var(--font-size-14);
-              height: 100%;
-              width: 16px;
-              right: 0;
-              top: 0;
-              padding: 2px;
-              justify-content: center;
-
+              align-items: baseline;
+              color: var(--color-text-light-1);
+              opacity: 1;
+              max-width: 100%;
+              width: 100%;
+              padding: 8px 8px;
+              padding-right: 16px;
+              line-height: 1.4;
               &:hover{
-                background: var(--color-highlights-25);
+                /*background: repeating-linear-gradient( -45deg, rgba(0,0,0,0.5) 0px, rgba(0,0,0,0.5) 1px, rgba(60,60,80,0.5) 2px, rgba(60,60,80,0.5) 3px);*/
+                background: var(--color-highlights-50);
+              }
+  
+              > i {
+                margin-right: 4px;
+                font-size: var(--font-size-10);
+              }
+  
+              span.toggle{
+                display: flex;
+                align-items: center;
+                position: absolute;
+                font-size: var(--font-size-14);
+                height: 100%;
+                width: 16px;
+                right: 0;
+                top: 0;
+                padding: 2px;
+                justify-content: center;
+  
+                &:hover{
+                  background: var(--color-highlights-25);
+                }
               }
             }
           }
-        }
-        ol.subfolders {
-          margin: 0 0 0 8px;
-          padding: 0;
-          border-left: 1px solid var(--color-secondary);
-          list-style: none;
-          display: flex;
-          flex-direction: column;
-          text-align: left;
-          width: calc(100% - 8px);
-          max-height: 0;
-          overflow: hidden;
-
-          &.open { 
-            max-height: initial;
-          }
-
-          li{
-            align-items: flex-start;
+          ol.subfolders {
+            margin: 0 0 0 8px;
+            padding: 0;
+            border-left: 1px solid var(--color-secondary);
+            list-style: none;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            max-width: 100%;
-            min-height: var(--left-control-item-size);
-            width: auto;
-            /*border-left: 1px solid var(--color-secondary);*/
             text-align: left;
-            background: var(--color-cool-5-25);
+            width: calc(100% - 8px);
+            flex: 0 0 calc(100% - 8px);
+            max-height: 0;
+            overflow: hidden;
+  
+            &.open { 
+              max-height: initial;
+            }
+  
+            li{
+              align-items: flex-start;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              max-width: 100%;
+              min-height: var(--left-control-item-size);
+              width: auto;
+              /*border-left: 1px solid var(--color-secondary);*/
+              text-align: left;
+              background: var(--color-cool-5-25);
+            }
+  
           }
-
         }
       }
 
-      &:hover ol.folder-list{
+      &:hover .scene-folders-contents{
         display: flex;
       }
     }
