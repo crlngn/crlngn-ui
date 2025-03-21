@@ -24,10 +24,8 @@ export class ChatUtil {
     tempElement.innerHTML = content;
     LogUtil.log("enrichCard",[tempElement, content, chatMessage]);
 
-    if(ChatUtil.enableChatStyles && (content!=="" && !tempElement?.firstChild?.classList.contains('crlngn'))){ 
-      let elem;
-      elem = tempElement.firstChild;
-      elem.classList.add('crlngn');
+    if(game.user.isGM && ChatUtil.enableChatStyles && (content!=="" && !tempElement?.firstChild?.classList.contains('crlngn'))){ 
+      tempElement.firstChild.classList.add('crlngn');
 
       const saveButtons = tempElement.querySelectorAll('.card-buttons button[data-action=rollSave]');
       if (saveButtons.length > 0) {      
@@ -44,16 +42,14 @@ export class ChatUtil {
 
       // add border color
       if(ChatUtil.chatBorderColor===BORDER_COLOR_TYPES.playerColor.name && chatMessage.author?.id){ 
-        elem.style.setProperty('border-color', `var(--user-color-${chatMessage.author.id})`);
+        tempElement.firstChild.style.setProperty('border-color', `var(--user-color-${chatMessage.author.id})`);
       }
       // Update the message document with the modified content
       await chatMessage.update({
         content: tempElement.innerHTML
       });
-    }else{
-      if(ChatUtil.chatBorderColor===BORDER_COLOR_TYPES.playerColor.name && chatMessage.author?.id){ 
-        chatItem.style.setProperty('border-color', `var(--user-color-${chatMessage.author.id})`);
-      }
+    }else if(ChatUtil.chatBorderColor===BORDER_COLOR_TYPES.playerColor.name && chatMessage.author?.id){ 
+      chatItem.style.setProperty('border-color', `var(--user-color-${chatMessage.author.id})`);
     }
 
     LogUtil.log("enrichCard", [tempElement.firstChild]);

@@ -9,11 +9,12 @@ export class PlayersListUtil {
 
   static onRender(){
     const playersList = document.querySelector(`aside#players`);
-    const playersTitle = document.querySelector(`aside#players h3[aria-label="Players"]`);
+    const playersTitle = document.querySelector(`aside#players h3:first-child`);
 
     const playersHeight = playersList.offsetHeight;
     GeneralUtil.addCSSVars('--players-list-height', playersHeight+'px');
 
+    if(!playersList || !playersTitle){return;}
     playersTitle.addEventListener('click', ()=>{
       if(playersList.classList.contains('expanded')){
         playersList.classList.remove('expanded');
