@@ -28,6 +28,7 @@ body.crlngn-chat {
   --crlngn-i18n-refund: "refund";
   --crlngn-i18n-macro: "macro";
   --crlngn-i18n-save-dc: " save DC ";
+  --crlngn-i18n-save: " save ";
 
   .sidebar-tab{
     --dnd5e-color-gold: var(--color-warm-2);
@@ -391,6 +392,10 @@ body.crlngn-chat {
         display: flex;
       }
     }
+    span.hidden-dc:after, span.visible-dc:after {
+      content: "";
+      display: flex;
+    }
 
     span:not(.hidden-dc, .visible-dc) {
       display: flex;
@@ -472,18 +477,33 @@ body.crlngn-chat {
     text-transform: uppercase;
   }
   */
-  &.system-dnd5e .chat-card .card-buttons > button[data-action=rollSave] span.visible-dc:after {
+  .chat-card .card-buttons button[data-action=rollSave] span.visible-dc:after {
     content: attr(data-ability) " " var(--crlngn-i18n-save-dc) " " attr(data-dc);
     text-transform: uppercase;
     display: inherit;
     font-size: 0.65rem;
   }
-  &.system-dnd5e .chat-card .card-buttons > button[data-action=rollSave] span.hidden-dc:after {
-    content: attr(data-ability) " " var(--crlngn-i18n-save);
+  
+  .chat-card .card-buttons button[data-action=rollSave] span.visible-dc:after {
+    content: attr(data-ability) " " var(--crlngn-i18n-save-dc) " " attr(data-dc);
     text-transform: uppercase;
-    display: inherit;
+    display: flex;
     font-size: 0.65rem;
   }
+  .chat-card .card-buttons button[data-action=rollSave] span.hidden-dc:after {
+    content: attr(data-ability,'') " " var(--crlngn-i18n-save,'');
+    text-transform: uppercase;
+    display: flex;
+    font-size: 0.65rem;
+  }
+  /*
+  .chat-card .card-buttons button[data-action=rollSave] span.hidden-dc:after {
+    content: 'Test';
+    text-transform: uppercase;
+    display: flex;
+    font-size: 0.65rem;
+  }
+    */
   
   /* effects / targets list */
   
