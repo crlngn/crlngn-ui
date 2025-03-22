@@ -1,4 +1,4 @@
-<ol id="crlngn-scene-folders">
+<ol id="crlngn-scene-list">
     <li class="nav-item scene-folders">
       <a class="selected">
         <i class="fas {{currIcon}}"></i> {{currFolder.name}}
@@ -8,18 +8,36 @@
           <input type="text" class="input-scene-search"
             autocomplete="off" placeholder="{{localize "CRLNGN_UI.ui.sceneNav.searchPlaceholder"}}"
             onfocus="this.select()" />
+
           <ol class="search-results">
-            <li>Test</li>
+            {{#each searchResults}}
+              {{#if this.isFolder}}
+                <li class="folder" data-folder-id="{{this.id}}">
+                  <a>
+                    <i class="fas fa-star"></i> {{this.name}}
+                  </a>
+                </li>
+              {{else}}
+                <li class="scene" data-scene-id="{{this.id}}">
+                  <a>
+                    <i class="fas fa-compass"></i> {{this.name}}
+                  </a>
+                </li>
+              {{/if}}
+            {{/each}}
           </ol>
+          
+          <p class="subtitle">All folders:</p>
         </div>
+        
         <ol class="folder-list">
-          <li class="folder" data-folder-id="">
+          <li class="folder" data-folder-id="{{favoritesId}}">
             <a id="scene-folder-favorites" class="favorites">
               <i class="fas fa-star"></i> {{favoritesId}}
             </a>
           </li>
           {{#each folderList}}
-          <li class="folder" data-folder-id="{{this.id}}">
+          <li class="folder {{#if (eq ../currFolder.id this.id) }}active{{/if}}" data-folder-id="{{this.id}}">
             <a>
               <i class="fas fa-folder"></i> {{this.name}} 
               {{#if this.hasSubfolders}}<span class="toggle">&#43;</span>{{/if}}
@@ -43,7 +61,7 @@
       <ul class="scene-players">
         {{#each ../users}}
           {{#if (eq this.viewedScene ../this.id)}}
-            <li class="scene-player" style="background-color: #{{this.color}};"></li>
+            <li class="scene-player" style="background-color: {{this.color}};"></li>
           {{/if}}
         {{/each}}
       </ul>

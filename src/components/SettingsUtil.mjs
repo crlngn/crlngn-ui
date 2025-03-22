@@ -7,6 +7,7 @@ import { ChatUtil } from "./ChatUtil.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
+import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
 
 export class SettingsUtil {
@@ -53,12 +54,6 @@ export class SettingsUtil {
       game.keybindings.register(MODULE_ID, "hideInterface", {
         name: "Toggle Hide/Show User Interface",
         hint: "Hides or shows the UI. This will affect all elements inside the `#interface` html block",
-        // uneditable: [
-        //   {
-        //     key: "Digit1",
-        //     modifiers: ["Control"]
-        //   }
-        // ],
         editable: [
           {
             key: "0",
@@ -68,8 +63,6 @@ export class SettingsUtil {
         onDown: () => {  },
         onUp: () => { SettingsUtil.hideInterface() },
         restricted: false,             // Restrict this Keybinding to gamemaster only?
-        // reservedModifiers: ["Alt"],  // On ALT, the notification is permanent instead of temporary
-        // precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL
       });
 
       // LogUtil.log("registerSettings",[setting.tag, SettingsUtil.get(setting.tag)]);
@@ -79,6 +72,13 @@ export class SettingsUtil {
     SettingsUtil.applyThemeSettings();
     SettingsUtil.applyCustomCSS();
     SettingsUtil.applyModuleAdjustments();
+
+    // Apply scene nav settings
+    TopNavigation.sceneNavEnabled = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
+    TopNavigation.navFoldersEnabled = SettingsUtil.get(SETTINGS.navFoldersEnabled.tag);
+    TopNavigation.navFoldersForPlayers = SettingsUtil.get(SETTINGS.navFoldersForPlayers.tag);
+    TopNavigation.showFolderListOnClick = SettingsUtil.get(SETTINGS.showFolderListOnClick.tag);
+    TopNavigation.showNavOnHover = SettingsUtil.get(SETTINGS.showNavOnHover.tag);
 
     /**
      * Register subsetting menus
@@ -240,8 +240,24 @@ export class SettingsUtil {
       case SETTINGS.debugMode.tag:
         SettingsUtil.applyDebugSettings();
         break;
-      case SETTINGS.sceneNavMenu.tag:
-        TopNavigation.navSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
+      // case SETTINGS.sceneNavMenu.tag:
+      //   TopNavigation.navSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
+      //   break;
+      case SETTINGS.sceneNavEnabled.tag:
+        TopNavigation.sceneNavEnabled = value;
+        break;
+      case SETTINGS.navFoldersEnabled.tag:
+        TopNavigation.navFoldersEnabled = value;
+        break;
+      case SETTINGS.navFoldersForPlayers.tag:
+        TopNavigation.navFoldersForPlayers = value;
+        break;
+      case SETTINGS.showFolderListOnClick.tag:
+        TopNavigation.showFolderListOnClick = value;
+        SceneNavFolders.refreshFolderView();
+        break;
+      case SETTINGS.showNavOnHover.tag:
+        TopNavigation.showNavOnHover = value;
         break;
       case SETTINGS.sceneNavCollapsed.tag:
         TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag);
@@ -320,7 +336,7 @@ export class SettingsUtil {
    */
   static applyLeftControlsSettings(tag, value){
     const SETTINGS = getSettings();
-    const sceneNavMenu = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
+    const navEnabled = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
     const controls = document.querySelector("#ui-left");
     const logo = document.querySelector("#ui-left #logo");
     const body = document.querySelector('body.crlngn-ui');
@@ -349,7 +365,7 @@ export class SettingsUtil {
           document.querySelector("body").classList.remove('logo-visible');
         } else {
           logo.classList.add("visible");
-          if(sceneNavMenu.sceneNavEnabled){
+          if(navEnabled){
             GeneralUtil.addCSSVars('--ui-top-padding',`${72 + topPadding}px`);
             document.querySelector("body").classList.add('logo-visible');
           }else{

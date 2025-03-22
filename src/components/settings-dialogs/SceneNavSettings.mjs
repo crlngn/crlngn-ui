@@ -57,23 +57,32 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
    * Uses `foundry.utils.expandObject()` to parse form data.
    */
   static async #onSubmit(event, form, formData) {
-    const SETTINGS = getSettings(); 
-    let menuSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag); 
-    let navEnabled = menuSettings.sceneNavEnabled; 
     event.preventDefault();
     event.stopPropagation();
-
+    const SETTINGS = getSettings(); 
+    const fieldNames = SETTINGS.sceneNavMenu.fields;
+    let navEnabledBefore = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
+    let foldersEnabledBefore = SettingsUtil.get(SETTINGS.navFoldersEnabled.tag);
+    
     // Convert FormData into an object with proper keys
     const settings = foundry.utils.expandObject(formData.object);
 
-    await SettingsUtil.set(SETTINGS.sceneNavMenu.tag, settings);
-    menuSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
+    fieldNames.forEach((fieldName) => {
+      if(settings[fieldName] !== undefined) {
+        LogUtil.log("Saving setting:", [settings[fieldName]]);
+        SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
+      }
+    });
+    let navEnabledAfter = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag); 
+    let foldersEnabledAfter = SettingsUtil.get(SETTINGS.navFoldersEnabled.tag);
 
-    LogUtil.log("Saving settings...", [SETTINGS.sceneNavMenu.tag, form, formData.object, settings, menuSettings]); // Debugging
+    LogUtil.log("Saving settings...", [form, formData.object, settings]); // Debugging
+    await SettingsUtil.set(SETTINGS.sceneNavMenu.tag, settings);
 
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
 
-    if(menuSettings.sceneNavEnabled != navEnabled){
+    if( navEnabledBefore !== navEnabledAfter ||
+      foldersEnabledBefore !== foldersEnabledAfter ){
       location.reload();
     }
   }
@@ -101,12 +110,27 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
    */
   _prepareContext(options) {
     const SETTINGS = getSettings();
+    const menuValues = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
+    const fieldNames = SETTINGS.sceneNavMenu.fields;
+    const fields = {};
+    const fieldValues = {};
+    const fieldDefaults = {};
+
+    fieldNames.forEach((fieldName) => {
+      if(SETTINGS[fieldName]) {
+        const value = SettingsUtil.get(SETTINGS[fieldName].tag);
+        fields[fieldName] = SETTINGS[fieldName];
+        fieldValues[fieldName] = value!== undefined ? value : menuValues[SETTINGS[fieldName].oldName] || SETTINGS[fieldName].default;
+        fieldDefaults[fieldName] = SETTINGS[fieldName].default;
+      }
+    });
+
     const setting = {
-      ...SettingsUtil.get(SETTINGS.sceneNavMenu.tag),
-      default: {
-        ...SETTINGS.sceneNavMenu.default
+      ...fieldValues,
+      default: {...fieldDefaults},
+      fields: { 
+        ...fields
       },
-      fields: { ...SETTINGS.sceneNavMenu.fields },
       buttons: [ 
         { type: "button", icon: "", label: "CRLNGN_UI.settings.sceneNavMenu.reset", action: 'redefine' },
         { type: "submit", icon: "", label: "CRLNGN_UI.settings.sceneNavMenu.save" }

@@ -146,12 +146,24 @@
         "hint": "Altere as opções para a barra de navegação entre cenas, no topo",
         "fields": {
           "sceneNavEnabled": {
-            "label": "Ativar Navegação de Cenas",
+            "label": "Ativar navegação de cenas",
             "hint": "Se você estiver enfrentando problemas de layout com um módulo incompatível, pode desativar meus estilos personalizados para Navegação de Cenas."
           }, 
           "showNavOnHover": {
             "label": "Alternar visibilidades",
             "hint": "Se a navegação de cenas estiver recolhida, você pode exibi-la passando o mouse sobre a parte superior da tela."
+          },
+          "navFoldersEnabled": {
+            "label": "Ativar pastas na barra de navegação",
+            "hint": "Se a navegação de cenas customizada estiver ativada, esta opção inclui uma lista de diretórios e busca de cenas na barra do topo."
+          },
+          "navFoldersForPlayers": {
+            "label": "Mostrar pastas para os jogadores",
+            "hint": "Ative para permitir que a lista de pastas seja exibida aos jogadores. Se o jogador não tem permissão para ver uma past, ela não será exibida."
+          },
+          "showFolderListOnClick": {
+            "label": "Mostrar lista de pastas no click",
+            "hint": "Por padrão, a lista aparece no hover. Ative esta opção para mudar o comportamento para o clique."
           }
         },
         "reset": "Reset", 

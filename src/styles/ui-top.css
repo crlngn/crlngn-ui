@@ -81,8 +81,8 @@ body{
         display: flex;
         flex-wrap: nowrap;
         height: max-content;
-        max-height: 50vh;
-        min-height: max(200px,50vh);
+        max-height: 60vh;
+        min-height: max(200px,60vh);
         pointer-events: none;
         overflow: hidden;
         margin-left: calc((var(--ui-controls-margin-left, 0px) * -1) - var(--max-players-width, 0px));
@@ -179,7 +179,7 @@ body{
             visibility: hidden;
           }
 
-          ol#crlngn-scene-folders {
+          ol#crlngn-scene-list {
             display: none;
           }
         }
@@ -187,7 +187,7 @@ body{
       }
 
       ol#scene-list,
-      ol#crlngn-scene-folders{
+      ol#crlngn-scene-list{
         position: relative;
         display: flex;
         flex-wrap: nowrap;
@@ -365,7 +365,7 @@ body{
         }
       }
 
-      ol.crlngn-scene-folders {
+      ol.crlngn-scene-list {
         > li.nav-item {
           > a {
             min-width: var(--folder-list-width);
@@ -389,26 +389,15 @@ body{
 
   /* Scene folders */
   #navigation ol#scene-list,
-  #navigation ol#crlngn-scene-folders {
+  #navigation ol#crlngn-scene-list {
 
     > li.nav-item.scene-folders{
-      /*
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-      background-color: var(--color-dark-bg);
-      */
-
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       justify-content: flex-start;
       font-size: var(--font-size-12);
       margin: 0;
-      /*border: 1px solid transparent;
-      border-right: 1px solid #000;
-      border-left: 1px solid #000;*/
       border: none;
       border-left: 1px solid #000;
       font-weight: 600;
@@ -451,6 +440,8 @@ body{
           right: 0;
           top: 0;
           justify-content: flex-end;
+          transform: rotate(0deg);
+          transition: transform 0.2s ease-out;
         }
 
         > i {
@@ -470,7 +461,7 @@ body{
         background-color: var(--left-control-main-bg);
         width: calc(var(--folder-list-width) + 10px);
         max-width: calc(var(--folder-list-width) + 10px);
-        max-height: 300px;
+        max-height: calc(max(200px,60vh) - 40px);
         display: none;
         flex-direction: column;
         justify-content: flex-start;
@@ -479,12 +470,33 @@ body{
         overflow: auto;
 
         .search-container {
-          padding: 8px;
-
+          --color-text-selection-bg: var(--color-cool-4);
           .input-scene-search {
             border: 1px solid var(--color-dark-1);
-            color: var(--color-light-1);
+            color: var(--color-light-3);
+            background-color: var(--color-input-bg);
+            font-size: var(--font-size-12);
+            padding: 8px;
+            margin: 8px;
+            width: calc(100% - 26px);
+            /*text-align: center;*/
+
+            &:focus, &:hover{
+              border: 1px solid var(--color-highlights);
+            }
           }
+
+          p.subtitle{
+            margin: 8px;
+            font-weight: 300;
+            padding: 8px 0 0 0;
+            line-height: var(--font-size-18);
+            border-top: 1px solid var(--color-dark-1);
+          }
+        }
+
+        ol.folder-list {
+          padding-bottom: 40px;
         }
 
         ol.folder-list,
@@ -507,6 +519,18 @@ body{
             max-width: var(--folder-list-width);
             min-height: var(--left-control-item-size);
             border-top: 1px solid var(--color-cool-5-50);
+
+            &.scene{
+              font-weight: 300;
+              background-color: var(--color-dark-bg-50);
+              a{
+                font-weight: 300;
+              }
+            }
+            &.active{
+              /*border: 1px solid var(--color-dark-1);*/
+              background: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
+            }
   
             a{
               position: relative;
@@ -581,8 +605,13 @@ body{
         }
       }
 
-      &:hover .scene-folders-contents{
-        display: flex;
+      &.open {
+        a.selected:after {
+          transform: rotate(90deg);
+        }
+        .scene-folders-contents{
+          display: flex;
+        }
       }
     }
 

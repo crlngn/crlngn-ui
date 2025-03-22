@@ -152,6 +152,18 @@
           "showNavOnHover": {
             "label": "悬停时显示导航",
             "hint": "如果场景导航已折叠，您可以通过将鼠标悬停在屏幕顶部来显示它。"
+          },
+          "navFoldersEnabled": {
+            "label": "Enable scene folders on navigation",
+            "hint": "If Custom Scene Navigation is enabled, this option will add a list of folders with scene search to scene navigation bar."
+          },
+          "navFoldersForPlayers": {
+            "label": "Enable scene folders for players",
+            "hint": "Enable to allow players to see the folder list. If they do not have view permissions for a folder, it will not appear on the list."
+          },
+          "showFolderListOnClick": {
+            "label": "Show folder list on click",
+            "hint": "By default, the list of folders on navigation bar is toggled on hover. Enable this option to change this behavior to click."
           }
         },
         "reset": "重置",

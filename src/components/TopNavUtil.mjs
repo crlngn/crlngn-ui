@@ -13,17 +13,20 @@ export class TopNavigation {
   static #navExtras;
   static #navToggle;
   static #uiMiddle;
-  static SETTINGS;
-  static navSettings;
-  static isCollapsed;
-  static navPos;
   static sceneFoldersTemplate;
   static #timeout;
   static #collapseTimeout;
+  // settings
+  static sceneNavEnabled;
+  static navFoldersEnabled;
+  static navFoldersForPlayers;
+  static showFolderListOnClick;
+  static showNavOnHover;
+  static isCollapsed;
+  static navPos;
 
   static init = async() => {
     const SETTINGS = getSettings();
-    TopNavigation.navSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
     TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag);
     TopNavigation.navPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
 
@@ -31,29 +34,24 @@ export class TopNavigation {
     // if user disabled Scene Navigation Styles,
     // skip everything
     const uiMiddle = document.querySelector("#ui-middle");
-    let navSettings = TopNavigation.navSettings;
-    LogUtil.log("SCENE NAV INIT", [navSettings.sceneNavEnabled]);
-    if(navSettings.sceneNavEnabled && uiMiddle){
+
+    LogUtil.log("SCENE NAV INIT", [TopNavigation.sceneNavEnabled]);
+    if(TopNavigation.sceneNavEnabled && uiMiddle){
       uiMiddle.classList.add("crlngn-ui");
     }else if(uiMiddle){
       uiMiddle.classList.remove("crlngn-ui");
       return;
     }
 
-    
-
     // If Monk's Scene Navigation is enabled, disable Carolingian UI Top Navigation
     const isMonksScenenNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
-    if(isMonksScenenNavOn && navSettings.sceneNavEnabled){
+    if(isMonksScenenNavOn && TopNavigation.sceneNavEnabled){
       // &.navigation-collapsed, &.with-monks-scene
       if(game.user.isGM){
         ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.monksScenesNotSupported"), {permanent: true});
       }
       uiMiddle.classList.remove("crlngn-ui");
-      SettingsUtil.set(SETTINGS.sceneNavMenu.tag, {
-        ...navSettings,
-        sceneNavEnabled: false
-      });
+      SettingsUtil.set(SETTINGS.sceneNavEnabled.tag, false);
     }
     
     LogUtil.log("TopNavigation - init", [ isMonksScenenNavOn ]);
@@ -140,9 +138,9 @@ export class TopNavigation {
       }
     });
 
-    LogUtil.log("TopNavigation - init", [navSettings.sceneNavEnabled])
+    LogUtil.log("TopNavigation - init", [TopNavigation.sceneNavEnabled])
     
-    // if(navSettings.sceneNavEnabled){ 
+    // if(TopNavigation.sceneNavEnabled){ 
     //   // TopNavigation.observeNavOffset(); 
     // } 
 
@@ -165,10 +163,15 @@ export class TopNavigation {
 
   static resetLocalVars(){
     TopNavigation.#navElem = document.querySelector("#navigation"); 
-    TopNavigation.#scenesList = document.querySelector("#scene-list"); 
     TopNavigation.#navExtras = document.querySelector("#navigation .nav-item.is-root"); 
     TopNavigation.#navToggle = document.querySelector("#nav-toggle"); 
     TopNavigation.#uiMiddle = document.querySelector("#ui-middle");
+
+    if(TopNavigation.folderNavEnabled){
+      TopNavigation.#scenesList = document.querySelector("#crlngn-scene-list"); 
+    }else{
+      TopNavigation.#scenesList = document.querySelector("#scene-list"); 
+    }
     // TopNavigation.#leftControls = document.querySelector("#ui-left #controls"); 
   }
 
@@ -177,7 +180,7 @@ export class TopNavigation {
       LogUtil.log("TopNavigation mouseenter", [ ]);
     
       if( !TopNavigation.isCollapsed ||
-          !TopNavigation.navSettings?.showNavOnHover ){ 
+          !TopNavigation.showNavOnHover ){ 
             return;
       }
       clearTimeout(this.#navTimeout);
@@ -191,7 +194,7 @@ export class TopNavigation {
     this.#navElem?.addEventListener("mouseleave", (e)=>{
       LogUtil.log("TopNavigation mouseleave", [ ]);
       if( !TopNavigation.isCollapsed ||
-          !TopNavigation.navSettings?.showNavOnHover ){ 
+          !TopNavigation.showNavOnHover ){ 
           return;
       }
       if (!e) var e = window.event;
