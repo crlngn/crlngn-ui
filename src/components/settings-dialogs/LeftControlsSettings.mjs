@@ -1,14 +1,20 @@
 import { getSettings } from "../../constants/Settings.mjs";
 import { LogUtil } from "../LogUtil.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
-// import * as lang from '../../lang/en.json' assert { type: 'json' };
 
-/**
- * Classes for Settings Submenus 
- */
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
+/**
+ * Left Controls Settings application for managing left sidebar control configurations.
+ * Provides a form interface for customizing the behavior and appearance of left-side controls.
+ * @extends {HandlebarsApplicationMixin(ApplicationV2)}
+ */
 export class LeftControlsSettings extends HandlebarsApplicationMixin(ApplicationV2) {
+  /**
+   * Default application options
+   * @static
+   * @returns {object} Configuration object containing default settings for the application
+   */
   static get DEFAULT_OPTIONS() {
     const SETTINGS = getSettings();
     return {
@@ -36,6 +42,10 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
   }
 
   // Define template parts
+  /**
+   * Template parts used for rendering the application
+   * @static
+   */
   static PARTS = {
     content: {
       template: "modules/crlngn-ui/templates/left-controls-settings.hbs",
@@ -46,6 +56,10 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
     },
   };
   
+  /**
+   * Get the localized title for the settings dialog
+   * @returns {string} Localized title string
+   */
   get title() {
     return game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.title");
   }
@@ -54,6 +68,15 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
   /** 
    * Handles form submission and updates FoundryVTT settings.
    * Uses `foundry.utils.expandObject()` to parse form data.
+   */
+  /**
+   * Handles form submission and updates left controls settings
+   * @private
+   * @static
+   * @param {Event} event - The form submission event
+   * @param {HTMLFormElement} form - The form element
+   * @param {FormData} formData - The form data object
+   * @returns {Promise<void>}
    */
   static async #onSubmit(event, form, formData) {
     const SETTINGS = getSettings();
@@ -77,6 +100,14 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
   }
 
+  /**
+   * Resets form fields to their default values
+   * @private
+   * @static
+   * @param {Event} a - The reset event
+   * @param {HTMLElement} b - The form element
+   * @returns {Promise<void>}
+   */
   static async #onReset(a, b){
     const SETTINGS = getSettings();
     const html = this.element;
@@ -98,6 +129,12 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
    * Prepare context to be sent to handlebars template
    * @param {*} options 
    * @returns 
+   */
+  /**
+   * Prepares the context data for the template
+   * @protected
+   * @param {object} options - Application options
+   * @returns {object} The prepared context object containing field values, defaults, and UI configuration
    */
   _prepareContext(options) {
     const SETTINGS = getSettings();
@@ -150,6 +187,12 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
     return context;
   }
 
+  /**
+   * Handles post-render operations
+   * @protected
+   * @param {object} context - The render context
+   * @param {object} options - The render options
+   */
   _onRender(context, options) {
     const SETTINGS = getSettings();
     // const html = this.element;

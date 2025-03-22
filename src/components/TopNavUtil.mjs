@@ -6,6 +6,10 @@ import { LogUtil } from "./LogUtil.mjs";
 import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 
+/**
+ * Manages the top navigation bar for scenes in FoundryVTT
+ * Handles scene navigation, folder organization, and UI state
+ */
 export class TopNavigation {
   static #navElem;
   static #scenesList;
@@ -25,6 +29,11 @@ export class TopNavigation {
   static isCollapsed;
   static navPos;
 
+  /**
+   * Initializes the top navigation system
+   * Sets up initial state, renders folders, and registers event hooks
+   * @returns {Promise<void>}
+   */
   static init = async() => {
     const SETTINGS = getSettings();
     TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag);
@@ -146,6 +155,10 @@ export class TopNavigation {
 
   } 
 
+  /**
+   * Toggles the navigation bar's collapsed state
+   * @param {boolean} collapsed - Whether the navigation should be collapsed
+   */
   static toggleNav(collapsed){
     clearTimeout(TopNavigation.#collapseTimeout);
     TopNavigation.#collapseTimeout = setTimeout(()=>{
@@ -161,20 +174,28 @@ export class TopNavigation {
     
   }
 
+  /**
+   * Resets and reinitializes local DOM element references
+   */
   static resetLocalVars(){
     TopNavigation.#navElem = document.querySelector("#navigation"); 
     TopNavigation.#navExtras = document.querySelector("#navigation .nav-item.is-root"); 
     TopNavigation.#navToggle = document.querySelector("#nav-toggle"); 
     TopNavigation.#uiMiddle = document.querySelector("#ui-middle");
 
-    if(TopNavigation.folderNavEnabled){
+    if(TopNavigation.navFoldersEnabled){
       TopNavigation.#scenesList = document.querySelector("#crlngn-scene-list"); 
+      LogUtil.log("TopNavigation resetLocalVars", [TopNavigation.#scenesList]);
     }else{
       TopNavigation.#scenesList = document.querySelector("#scene-list"); 
     }
     // TopNavigation.#leftControls = document.querySelector("#ui-left #controls"); 
   }
 
+  /**
+   * Adds event listeners for navigation interactions
+   * Handles hover and click events for navigation expansion/collapse
+   */
   static addListeners(){
     TopNavigation.#navElem?.addEventListener("mouseenter", ()=>{
       LogUtil.log("TopNavigation mouseenter", [ ]);
@@ -212,12 +233,16 @@ export class TopNavigation {
     });
   }
 
+  /**
+   * Places navigation buttons for scrolling through scenes
+   * Only adds buttons if navigation is overflowing and buttons don't already exist
+   */
   static placeNavButtons(){ 
     TopNavigation.resetLocalVars();
 
     const existingButtons = this.#navElem?.querySelectorAll("button.crlngn-nav");
     const isNavOverflowing = this.#scenesList?.scrollWidth >= this.#navElem?.offsetWidth;
-    LogUtil.log("placeNavButtons", [ isNavOverflowing, existingButtons, this.#scenesList?.scrollWidth, this.#navElem?.offsetWidth]);
+    LogUtil.log("placeNavButtons", [ this.#scenesList ]);
     
     if(!isNavOverflowing || existingButtons.length > 0){
       return;
@@ -246,16 +271,23 @@ export class TopNavigation {
   }
 
 
+  /**
+   * @private
+   * Handles click on the 'previous' navigation button
+   * Scrolls the scene list backward by one page
+   * @param {Event} e - The pointer event
+   */
   static #onNavLast = (e) => {
+    const folderListWidth = this.#navElem?.querySelector("#crlngn-scene-folders")?.offsetWidth || 0;
     const toggleWidth = this.#navToggle?.offsetWidth;
-    const extrasWidth = GeneralUtil.isModuleOn("compact-scene-navigation") ? this.#navExtras?.offsetWidth : 0;
+    const extrasWidth = GeneralUtil.isModuleOn("compact-scene-navigation") ? this.#navExtras?.offsetWidth + folderListWidth : folderListWidth;
     const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
-    const scenes = this.#scenesList?.querySelectorAll("li.nav-item") || [];
+    const scenes = this.#scenesList?.querySelectorAll("li.nav-item:not(.is-root)") || [];
     const itemWidth = firstScene.offsetWidth;
     const currPos = TopNavigation.navPos || 0;
     const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? extrasWidth : 0) - (toggleWidth*2))/itemWidth);
 
-    LogUtil.log("onNavLast", ["currPos", currPos, itemsPerPage]);
+    LogUtil.log("onNavLast", [folderListWidth, "currPos", currPos, "items", itemsPerPage, e]);
 
     let newPos = currPos - itemsPerPage;
     newPos = newPos < 0 ? 0 : newPos;
@@ -264,17 +296,24 @@ export class TopNavigation {
     TopNavigation.setNavPosition(newPos); 
   }
 
+  /**
+   * @private
+   * Handles click on the 'next' navigation button
+   * Scrolls the scene list forward by one page
+   * @param {Event} e - The pointer event
+   */
   static #onNavNext = (e) => {
     // const SETTINGS = getSettings();
+    const folderListWidth = this.#navElem?.querySelector("#crlngn-scene-folders")?.offsetWidth || 0;
     const toggleWidth = this.#navToggle?.offsetWidth;
-    const extrasWidth = GeneralUtil.isModuleOn("compact-scene-navigation") ? this.#navExtras?.offsetWidth : 0;
+    const extrasWidth = GeneralUtil.isModuleOn("compact-scene-navigation") ? this.#navExtras?.offsetWidth + folderListWidth : folderListWidth;
     const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
     const scenes = this.#scenesList?.querySelectorAll("li.nav-item:not(.is-root)") || [];
     const itemWidth = firstScene.offsetWidth;
     const currPos = TopNavigation.navPos || 0;
     const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? extrasWidth : 0) - (toggleWidth*2))/itemWidth);
 
-    LogUtil.log("onNavLast", ["currPos", currPos, itemsPerPage]);
+    LogUtil.log("onNavNext", [folderListWidth, "currPos", currPos, "items", itemsPerPage, e]);
 
     let newPos = currPos + itemsPerPage;
     newPos = newPos > scenes.length ? scenes.length : newPos;
@@ -282,13 +321,16 @@ export class TopNavigation {
     TopNavigation.setNavPosition(newPos); 
   }
 
+  /**
+   * Sets the position of the scene navigation list
+   * @param {number} [pos] - The position to scroll to. If undefined, uses stored position
+   */
   static setNavPosition(pos) { 
     const SETTINGS = getSettings();
     if(!this.#scenesList){ return; }
     const position = pos !== undefined ? pos : TopNavigation.navPos || 0;
-    const scenes = this.#scenesList?.querySelectorAll("li.nav-item") || [];
+    const scenes = this.#scenesList?.querySelectorAll("li.nav-item:not(.is-root)") || [];
 
-    
     const newMargin = scenes[position]?.offsetLeft * -1;
     this.#scenesList.style.marginLeft = newMargin + 'px';
 
@@ -296,66 +338,4 @@ export class TopNavigation {
 
     LogUtil.log("setNavPosition", [pos, position, scenes[position], newMargin]);
   }
-
-  
-  
 }
-
-/*
-getData(options={}) {
-  let favLabel = game.i18n.localize("CRLNGN_UI.settings.sceneGroupsNav.folderFavorites");
-  let favGroup = { 
-    id: 'crlngn-scene-groups-favorites', 
-    active: true, 
-    name: favLabel, 
-    icon: "fa-star", 
-    tooltip: game.user.isGM ? favLabel : null, 
-    users: [], 
-    visible: true, 
-    css: "gm active" 
-  }; 
-
-  let folders = [];
-  folders = ui.scenes.folders.filter(f => { 
-    return f.folder === null; // true;
-  });
-
-  folders.sort((a, b) => {
-    return a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-  });
-
-  let folderList = folders.map(folder => {
-    return {
-      id: folder.id,
-      active: true,
-      name: folder.name,
-      icon: "fa-folder",
-      tooltip: folder.name,
-      users: [],
-      visible: game.user.isGM || folder.isOwner,
-      css: "gm"
-    };
-  });
-  folderList = [favGroup, ...folderList];
-
-  LogUtil.log("SceneGroupsNavigation", [folders]);
-  let sceneList = this.scenes.map(scene => {
-    return {
-      id: scene.id,
-      active: scene.active,
-      name: TextEditor.truncateText(scene.navName || scene.name, {maxLength: 32}),
-      tooltip: scene.navName && game.user.isGM ? scene.name : null,
-      users: game.users.reduce((arr, u) => {
-        if ( u.active && ( u.viewedScene === scene.id) ) arr.push({letter: u.name[0], color: u.color.css});
-        return arr;
-      }, []),
-      visible: game.user.isGM || scene.isOwner || scene.active,
-      css: [
-        scene.isView ? "view" : null,
-        scene.active ? "active" : null,
-        scene.ownership.default === 0 ? "gm" : null
-      ].filterJoin(" ")
-    };
-  });
-  return {collapsed: this._collapsed, scenes: sceneList, folders: folderList};
-}*/

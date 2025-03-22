@@ -237,9 +237,9 @@ body .journal-entry-content a.content-link > i {
 }
 
 
-#tooltip, #tooltip > * {
-	font-size: var(--font-size-12) !important;
-	padding: 6px !important;
+#tooltip, #tooltip > *:not(hr) {
+	font-size: var(--font-size-12);
+	padding: 4px 6px;
 }
 
 #loading {

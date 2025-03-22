@@ -8,7 +8,10 @@
         "forceClientSettingsConflict": "卡罗林风格UI的某些设置已被禁用，以防止与Force Client Settings发生冲突。"
       },
       "sceneNav": {
-        "searchPlaceholder": "Search scenes..."
+        "searchPlaceholder": "Search scenes...",
+        "favoritesFolder": "收藏",
+        "addToFavorites": "添加到收藏",
+        "removeFromFavorites": "从收藏中移除"
       }
     },
     "settings": {

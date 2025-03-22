@@ -10,11 +10,17 @@ import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
 import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
 
+/**
+ * Core settings management utility for the Carolingian UI module
+ * Handles registration, retrieval, and application of module settings
+ */
 export class SettingsUtil {
   static #uiHidden = false;
   static firstLoad = true;
+
   /**
-   * Registers settings for this module
+   * Registers all module settings with Foundry VTT
+   * Initializes settings, registers menus, and sets up hooks for settings changes
    */
   static registerSettings(){
     const SETTINGS = getSettings();
@@ -138,6 +144,12 @@ export class SettingsUtil {
    * @param {String} moduleName 
    * @returns {*} // current value of the setting
    */
+  /**
+   * Retrieves the value of a module setting
+   * @param {string} settingName - Name of the setting to retrieve
+   * @param {string} [moduleName=MODULE_ID] - ID of the module the setting belongs to
+   * @returns {*} Current value of the setting
+   */
   static get(settingName, moduleName=MODULE_ID){
     if(!settingName){ return null; }
 
@@ -165,6 +177,13 @@ export class SettingsUtil {
    * @param {String} moduleName 
    * @returns {*} // current value of the setting
    */
+  /**
+   * Updates the value of a module setting
+   * @param {string} settingName - Name of the setting to update
+   * @param {*} newValue - New value to set
+   * @param {string} [moduleName=MODULE_ID] - ID of the module the setting belongs to
+   * @returns {boolean} True if setting was updated successfully
+   */
   static set(settingName, newValue, moduleName=MODULE_ID){ 
     if(!settingName){ return false; }
 
@@ -188,6 +207,11 @@ export class SettingsUtil {
 
   /**
    * Apply current settings
+   */
+  /**
+   * Applies a specific setting based on its tag
+   * @param {string} settingTag - The tag identifying the setting to apply
+   * @param {*} [value] - The value to apply, if not provided uses stored setting
    */
   static apply(settingTag, value=undefined){
     const SETTINGS = getSettings();
@@ -280,6 +304,10 @@ export class SettingsUtil {
     
   }
 
+  /**
+   * Applies border color settings to chat messages
+   * Can be based on player color or roll type
+   */
   static applyBorderColors(){
     const SETTINGS = getSettings();
     const borderColorSettings = SettingsUtil.get(SETTINGS.chatBorderColor.tag);
@@ -297,6 +325,9 @@ export class SettingsUtil {
     }
   }
 
+  /**
+   * Applies chat message styling settings
+   */
   static applyChatStyles(){
     const SETTINGS = getSettings();
     const chatMsgSettings = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
@@ -311,6 +342,9 @@ export class SettingsUtil {
     }
   }
 
+  /**
+   * Applies settings for the macro hotbar
+   */
   static applyHotBarSettings(){
     const SETTINGS = getSettings();
     const macroSizeOption = SettingsUtil.get(SETTINGS.enableMacroLayout.tag);
@@ -322,6 +356,10 @@ export class SettingsUtil {
       hotbar.classList.remove("foundry-default");
     }
   }
+  /**
+   * Applies collapse state to the macro hotbar
+   * Controls visibility and expansion state of the macro bar
+   */
   static applyHotBarCollapse(){
     const SETTINGS = getSettings();
     const macroCollapseOption = SettingsUtil.get(SETTINGS.collapseMacroBar.tag);
@@ -332,7 +370,9 @@ export class SettingsUtil {
   }
 
   /**
-   * Makes changes to left control auto-hide according to selected settings
+   * Applies settings to left controls bar
+   * @param {string} tag - Setting tag to apply
+   * @param {*} value - Value to apply for the setting
    */
   static applyLeftControlsSettings(tag, value){
     const SETTINGS = getSettings();
@@ -383,8 +423,10 @@ export class SettingsUtil {
         //
     }
   }
+
   /**
-   * Makes changes to size of icons in left controls according to selected settings
+   * Applies size settings for control icons
+   * Updates the size of icons in the left controls panel
    */
   static applyControlIconSize(){
     const SETTINGS = getSettings();
@@ -398,7 +440,8 @@ export class SettingsUtil {
   }
 
   /**
-   * Apply bottom buffer to left controls 
+   * Applies bottom buffer spacing to left controls
+   * Adjusts the spacing at the bottom of the controls panel
    */
   static applyControlsBuffer(){
     const SETTINGS = getSettings();
@@ -408,6 +451,9 @@ export class SettingsUtil {
     GeneralUtil.addCSSVars('--controls-bottom-buffer', `${buffer || 0}px`);
   }
 
+  /**
+   * Applies settings for the players list
+   */
   static applyPlayersListSettings(){
     const SETTINGS = getSettings();
     LogUtil.log("applyPlayersListSettings",[document.querySelector("#players"), SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)]); 
@@ -419,6 +465,10 @@ export class SettingsUtil {
     ModuleCompatUtil.checkPlayersList();
   }
 
+  /**
+   * Applies scene navigation position settings
+   * @param {number} [value] - Position value to apply, if not provided uses stored setting
+   */
   static applySceneNavPos(value){
     const SETTINGS = getSettings();
     SettingsUtil.set(SETTINGS.sceneNavPos.tag, value || SettingsUtil.get(SETTINGS.sceneNavPos.tag));
@@ -426,7 +476,8 @@ export class SettingsUtil {
   }
 
   /**
-   * Apply Camera dock settings
+   * Applies horizontal position of camera dock
+   * @param {number} [pos] - X position to apply
    */
   static applyCameraPosX(pos){
     const SETTINGS = getSettings();
@@ -434,26 +485,42 @@ export class SettingsUtil {
     const xPos = pos || cameraSettings.dockPosX; 
     CameraUtil.resetPositionAndSize({ x: xPos });
   }
+  /**
+   * Applies vertical position of camera dock
+   * @param {number} [pos] - Y position to apply
+   */
   static applyCameraPosY(pos){
     const SETTINGS = getSettings();
     const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
     const yPos = pos || cameraSettings.dockPosY;
     CameraUtil.resetPositionAndSize({ y: yPos });
   }
+  /**
+   * Applies width of camera dock
+   * @param {number} [value] - Width value to apply
+   */
   static applyCameraWidth(value){
     const SETTINGS = getSettings();
     const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
     const width = value || cameraSettings.dockWidth;
     CameraUtil.resetPositionAndSize({ w: width });
   }
+  /**
+   * Applies height of camera dock
+   * @param {number} [value] - Height value to apply
+   */
   static applyCameraHeight(value){
     const SETTINGS = getSettings();
     const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
     const height = value || cameraSettings.dockHeight;
     CameraUtil.resetPositionAndSize({ h: height });
   }
-  /*******/
 
+  /**
+   * Applies custom font settings
+   * @param {string} tag - Font setting tag to apply
+   * @param {string} [value] - Font value to apply
+   */
   static applyCustomFonts(tag, value){
     const SETTINGS = getSettings();
     const fields = SETTINGS.customFontsMenu.fields;
@@ -483,6 +550,10 @@ export class SettingsUtil {
     }
   }
 
+  /**
+   * Resets Foundry's theme settings to defaults
+   * Used when enforcing dark mode or other theme changes
+   */
   static resetFoundryThemeSettings(){
     const SETTINGS = getSettings();
     const isMonksSettingsOn = GeneralUtil.isModuleOn('monks-player-settings');
@@ -512,11 +583,19 @@ export class SettingsUtil {
     }
   }
 
+  /**
+   * Applies debug mode settings
+   * @param {boolean} [value] - Whether to enable debug mode
+   */
   static applyDebugSettings(value){
     const SETTINGS = getSettings();
     LogUtil.debugOn = value || SettingsUtil.get(SETTINGS.debugMode.tag);
   }
 
+  /**
+   * Applies the selected theme to the UI
+   * @param {string} [value] - Theme name to apply, if not provided uses stored setting
+   */
   static applyThemeSettings = (value) => {
     const SETTINGS = getSettings();
     const themeName = value || SettingsUtil.get(SETTINGS.colorTheme.tag) || "";
@@ -535,6 +614,10 @@ export class SettingsUtil {
     }
   }
 
+  /**
+   * Applies custom CSS styles to the UI
+   * @param {string} [value] - CSS content to apply, if not provided uses stored setting
+   */
   static applyCustomCSS = (value) => {
     const SETTINGS = getSettings();
     const cssContent = value || SettingsUtil.get(SETTINGS.customStyles.tag) || "";
@@ -542,6 +625,10 @@ export class SettingsUtil {
     GeneralUtil.addCustomCSS(cssContent);
   }
 
+  /**
+   * Applies style adjustments to other modules
+   * @param {boolean} [value] - Whether to enforce styles, if not provided uses stored setting
+   */
   static applyModuleAdjustments = (value) => {
     const SETTINGS = getSettings();
     const enforceStyles = value || SettingsUtil.get(SETTINGS.adjustOtherModules.tag) || false;
@@ -554,6 +641,10 @@ export class SettingsUtil {
     }
   }
 
+  /**
+   * Toggles visibility of the main UI interface
+   * Affects all elements inside the #interface block, camera views, and taskbar
+   */
   static hideInterface = () => {
     LogUtil.log('hideInterface');
     const ui = document.querySelector("#interface");

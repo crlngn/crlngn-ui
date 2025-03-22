@@ -1,5 +1,8 @@
 import { LogUtil } from "./LogUtil.mjs";
 
+/**
+ * Utility class providing general-purpose functionality for the module
+ */
 export class GeneralUtil {
   /**
    * Checks if module is currently installed and active
@@ -12,10 +15,21 @@ export class GeneralUtil {
     return module?.active ? true : false;
   }
 
+  /**
+   * Finds and returns the first element matching the selector within the parent element
+   * @param {HTMLElement} parent - The parent element to search within
+   * @param {string} selector - CSS selector string
+   * @returns {HTMLElement|null} The first matching element or null if not found
+   */
   static html(parent, selector) {
     return parent.querySelector(selector);
   }
 
+  /**
+   * Gets the full width of an element including margins and borders
+   * @param {HTMLElement} element - The element to measure
+   * @returns {number} The full width in pixels
+   */
   static getFullWidth(element) {
     const style = window.getComputedStyle(element);
     if (style.width === '0px') {
@@ -24,6 +38,11 @@ export class GeneralUtil {
     return element.offsetWidth;
   }
 
+  /**
+   * Calculates the distance from the bottom of an element to the bottom of its offset parent
+   * @param {HTMLElement} element - The element to measure
+   * @returns {number} The offset from the bottom in pixels
+   */
   static getOffsetBottom(element) {
     const offsetTop = element.offsetTop;
     const elementHeight = element.offsetHeight;
@@ -36,6 +55,12 @@ export class GeneralUtil {
 
   // Function to get a list with all the fonts available 
   // (Foundry + CSS imported) - excludes Font Awesome
+  /**
+   * Retrieves a comprehensive list of available fonts from multiple sources
+   * Combines Foundry built-in fonts, custom fonts from settings, and CSS imported fonts
+   * Excludes Font Awesome fonts from the results
+   * @returns {Promise<string[]>} Array of font family names, sorted alphabetically
+   */
   static getAllFonts = async () => {
     // Get Foundry built-in fonts
     const foundryFonts = new Set(Object.keys(CONFIG.fontDefinitions));
@@ -70,17 +95,14 @@ export class GeneralUtil {
               LogUtil.warn('Could not read stylesheet rules:', [e]);
             }
           }
-  
-          // Log the found CSS text for debugging
-          // LogUtil.log('Processing stylesheet text:', [cssText.slice(0, 200) + '...']);
-  
+          
           // Extract URLs from @import statements
           const importUrlRegex = /@import\s+url\(['"]([^'"]+)['"]\)/g;
           let match;
           
           while ((match = importUrlRegex.exec(cssText)) !== null) {
             const url = match[1]; // This is the actual URL
-            // LogUtil.log('Found import URL:', [url]);
+            LogUtil.log('Found import URL:', [url]);
   
             if (url.includes('fonts.googleapis.com')) {
               // Extract font family names from Google Fonts URL
@@ -188,11 +210,20 @@ export class GeneralUtil {
   }
 
   // Helper function to format font names
+  /**
+   * Formats a font name by cleaning it and wrapping it in quotes if it contains spaces
+   * @param {string} fontName - The font name to format
+   * @returns {string} The formatted font name
+   */
   static wrapFontName = (fontName) => {
     const cleanName = fontName.replace(/['"`]/g, '');
     return cleanName.includes(' ') ? `"${cleanName}"` : cleanName;
   };
 
+  /**
+   * Adds automatic logging functionality to all methods of a class
+   * @param {Function} Class - The class constructor to add logging to
+   */
   static addLoggingToClass(Class) {
     // For static methods (properties of the constructor)
     const staticMethodNames = Object.getOwnPropertyNames(Class)

@@ -1,72 +1,79 @@
-<ol id="crlngn-scene-list">
-    <li class="nav-item scene-folders">
-      <a class="selected">
-        <i class="fas {{currIcon}}"></i> {{currFolder.name}}
-      </a>
-      <div class="scene-folders-contents">
-        <div class="search-container">
-          <input type="text" class="input-scene-search"
-            autocomplete="off" placeholder="{{localize "CRLNGN_UI.ui.sceneNav.searchPlaceholder"}}"
-            onfocus="this.select()" />
+<div id="crlngn-scene-folders" draggable="false">
+  <a class="selected">
+    <i class="fas {{currIcon}}"></i> {{currFolder.name}}
+  </a>
+  <div class="scene-folders-contents">
+    <div class="search-container">
+      <input type="text" class="input-scene-search"
+        autocomplete="off" placeholder="{{localize "CRLNGN_UI.ui.sceneNav.searchPlaceholder"}}"
+        onfocus="this.select()" />
 
-          <ol class="search-results">
-            {{#each searchResults}}
-              {{#if this.isFolder}}
-                <li class="folder" data-folder-id="{{this.id}}">
-                  <a>
-                    <i class="fas fa-star"></i> {{this.name}}
-                  </a>
-                </li>
-              {{else}}
-                <li class="scene" data-scene-id="{{this.id}}">
-                  <a>
-                    <i class="fas fa-compass"></i> {{this.name}}
-                  </a>
-                </li>
-              {{/if}}
-            {{/each}}
-          </ol>
-          
-          <p class="subtitle">All folders:</p>
-        </div>
-        
-        <ol class="folder-list">
-          <li class="folder" data-folder-id="{{favoritesId}}">
-            <a id="scene-folder-favorites" class="favorites">
-              <i class="fas fa-star"></i> {{favoritesId}}
-            </a>
-          </li>
-          {{#each folderList}}
-          <li class="folder {{#if (eq ../currFolder.id this.id) }}active{{/if}}" data-folder-id="{{this.id}}">
-            <a>
-              <i class="fas fa-folder"></i> {{this.name}} 
-              {{#if this.hasSubfolders}}<span class="toggle">&#43;</span>{{/if}}
-            </a>
-            {{#if this.hasSubfolders}}
-              {{> recursiveFolder children=this.children}}
-            {{/if}}
-          </li>
-          {{/each}}
-        </ol>
-      </div>
-      
-    </li>
-
-    <!--folder scenes-->
-    {{#each scenes}}
-    <li class="scene nav-item gm {{#if this.active}}active{{/if}}" data-scene-id="{{this.id}}" draggable="true">
-      <a class="scene-name">
-        {{#if this.active}}<i class="fas fa-bullseye"></i>{{/if}} {{this.name}}
-      </a>
-      <ul class="scene-players">
-        {{#each ../users}}
-          {{#if (eq this.viewedScene ../this.id)}}
-            <li class="scene-player" style="background-color: {{this.color}};"></li>
+      <ol class="search-results">
+        {{#each searchResults}}
+          {{#if this.isFolder}}
+            <li class="folder" data-folder-id="{{this.id}}">
+              <a>
+                <i class="fas fa-star"></i> {{this.name}}
+              </a>
+            </li>
+          {{else}}
+            <li class="scene" data-scene-id="{{this.id}}">
+              <a>
+                <i class="fas fa-map"></i> {{this.name}}
+              </a>
+            </li>
           {{/if}}
         {{/each}}
-      </ul>
-    </li>
-    {{/each}}
+      </ol>
+      
+      <p class="subtitle">All folders:</p>
+    </div>
+    
+    <ol class="folder-list">
+      <li class="folder" data-folder-id="{{favoritesId}}">
+        <a id="scene-folder-favorites" class="favorites">
+          <i class="fas fa-star"></i> {{favoritesId}}
+        </a>
+      </li>
+      {{#each folderList}}
+      <li class="folder {{#if (eq ../currFolder.id this.id) }}active{{/if}}" data-folder-id="{{this.id}}">
+        <a>
+          <i class="fas fa-folder"></i> {{this.name}} 
+          {{#if this.hasSubfolders}}<span class="toggle">&#43;</span>{{/if}}
+        </a>
+        {{#if this.hasSubfolders}}
+          {{> recursiveFolder children=this.children}}
+        {{/if}}
+      </li>
+      {{/each}}
+    </ol>
+  </div>
+</div>
+<ol id="crlngn-scene-list">
+  <!--subfolders first-->
+  {{#each folders}}
+  <li class="folder nav-item gm" data-folder-id="{{this.folder.id}}" draggable="false">
+    <a class="folder-name">
+      <i class="fas fa-folder"></i> {{this.folder.name}}
+    </a>
+  </li>
+  {{/each}}
+
+  <!--folder scenes-->
+  {{#each scenes}}
+  <li class="scene nav-item gm {{#if this.active}}active{{/if}}" data-scene-id="{{this.id}}" draggable="true">
+    <a class="scene-name">
+      {{#if this.active}}<i class="fas fa-bullseye"></i>{{/if}} {{this.name}}
+    </a>
+    <ul class="scene-players">
+      {{#each ../users}}
+        {{#if (eq this.viewedScene ../this.id)}}
+          <li class="scene-player" style="background-color: {{this.color}};"></li>
+        {{/if}}
+      {{/each}}
+    </ul>
+  </li>
+  {{/each}}
 </ol>
 
 {{!-- Partial template for recursive folder rendering --}}

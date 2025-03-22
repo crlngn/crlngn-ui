@@ -5,6 +5,7 @@ body{
     --folder-header-width: 130px;
     --folder-list-width: 200px;
     --scene-nav-item-width: 130px;
+    --folder-nav-item-width: var(--left-control-item-size);
 
     &.logo-visible:has(#navigation.collapsed) {
       --ui-top-padding: calc(72px + var(--top-nav-height,0px));
@@ -39,6 +40,7 @@ body{
   #navigation {
     /*position: absolute;*/
     z-index:10;
+    border-radius: 0;
     &:hover{
       z-index:100;
     }
@@ -179,7 +181,8 @@ body{
             visibility: hidden;
           }
 
-          ol#crlngn-scene-list {
+          ol#crlngn-scene-list,
+          #crlngn-scene-folders {
             display: none;
           }
         }
@@ -187,7 +190,7 @@ body{
       }
 
       ol#scene-list,
-      ol#crlngn-scene-list{
+      ol#crlngn-scene-list {
         position: relative;
         display: flex;
         flex-wrap: nowrap;
@@ -223,7 +226,7 @@ body{
           line-height: calc(var(--left-control-item-size) - 1px);
         }
 
-        > li.nav-item:not(.is-root, .scene-folders) {
+        > li.nav-item:not(.is-root) {
           display: flex;
           flex-direction: row;
           align-items: center;
@@ -250,11 +253,28 @@ body{
 
             i{
               font-size: var(--font-size-10);
+
+              &.fa-folder{
+                margin-right: 3px;
+              }
+            }
+          }
+
+          &.folder{
+            > a{
+              span.name{
+                display: inline-flex;
+                height: 100%;
+              }
+            }
+
+            &:hover{
+              z-index: 100;
             }
           }
 
           &.scene.gm{
-            opacity: 0.8;
+            opacity: 1;
 
             &::before {
               content: "";
@@ -283,6 +303,7 @@ body{
           }
 
           &:hover{
+            opacity: 0.85;
             > a{
               overflow: auto;
               width: auto;
@@ -372,8 +393,14 @@ body{
             width: var(--folder-list-width);
           }
         }
+
+        > li:is(.nav-item):nth-child(2) {
+          margin-left: var(--scene-nav-item-width);
+        }
         
       }
+
+      
     }
   }
 
@@ -388,10 +415,8 @@ body{
 
 
   /* Scene folders */
-  #navigation ol#scene-list,
-  #navigation ol#crlngn-scene-list {
-
-    > li.nav-item.scene-folders{
+  #ui-middle.crlngn-ui {
+    #crlngn-scene-folders{
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -399,33 +424,46 @@ body{
       font-size: var(--font-size-12);
       margin: 0;
       border: none;
-      border-left: 1px solid #000;
-      font-weight: 600;
       border-radius: 0;
+      font-weight: 600;
       padding: 0;
       overflow:visible;
       width: calc(var(--folder-header-width) + 16px);
       max-width: calc(var(--folder-header-width) + 16px);
+      line-height: calc(var(--left-control-item-size) - 1px);
+      pointer-events: all;
+
+      height: 100%;
+      max-height: 100%;
+      gap: 0;
+      padding: 0;
+      margin: 0;
+      visibility: visible;
 
       &.collapsed-folder-name{
         width: auto;
+      }
+      > a {
+        min-width: var(--folder-list-width);
+        width: var(--folder-list-width);
       }
 
       a.selected{
         position: relative;
         display: block;
         align-items: center;
-        width: calc(var(--folder-header-width));
-        min-width: calc(var(--folder-header-width));
+        width: calc(var(--folder-header-width) + 16px);
+        min-width: calc(var(--folder-header-width) + 16px);
         max-height: var(--left-control-item-size);
         gap: 0;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        padding: 0;
-        margin: 0 8px;
-        padding-right: 16px;
+        padding: 0 16px 0 8px;
+        margin: 0;
         height: 100%;
+        background: var(--color-dark-bg-90);
+        z-index: 100;
 
         > * {
           display: inline-flex;
@@ -436,10 +474,10 @@ body{
           display: flex;
           position: absolute;
           height: 100%;
-          width: 10px;
+          width: 16px;
           right: 0;
           top: 0;
-          justify-content: flex-end;
+          justify-content: center;
           transform: rotate(0deg);
           transition: transform 0.2s ease-out;
         }

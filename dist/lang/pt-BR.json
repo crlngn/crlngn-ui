@@ -8,7 +8,10 @@
         "forceClientSettingsConflict": "Algumas configurações do módulo Carolingian UI foram desativadas para evitar conflitos com o módulo Force Client Settings."
       },
       "sceneNav": {
-        "searchPlaceholder": "Buscar cenas..."
+        "searchPlaceholder": "Buscar cenas...",
+        "favoritesFolder": "Favoritos",
+        "addToFavorites": "Incluir nos Favoritos",
+        "removeFromFavorites": "Remover dos Favoritos"
       }
     },
     "settings": {
