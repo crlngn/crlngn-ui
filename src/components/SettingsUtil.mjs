@@ -80,13 +80,6 @@ export class SettingsUtil {
     SettingsUtil.applyCustomCSS();
     SettingsUtil.applyModuleAdjustments();
 
-    // Apply scene nav settings
-    TopNavigation.sceneNavEnabled = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
-    TopNavigation.navFoldersEnabled = SettingsUtil.get(SETTINGS.navFoldersEnabled.tag);
-    TopNavigation.navFoldersForPlayers = SettingsUtil.get(SETTINGS.navFoldersForPlayers.tag);
-    TopNavigation.showFolderListOnClick = SettingsUtil.get(SETTINGS.showFolderListOnClick.tag);
-    TopNavigation.showNavOnHover = SettingsUtil.get(SETTINGS.showNavOnHover.tag);
-
     /**
      * Register subsetting menus
      */
@@ -116,12 +109,16 @@ export class SettingsUtil {
     });
     //apply debug Settings
     SettingsUtil.applyDebugSettings();
-    //
-    SettingsUtil.applySceneNavPos();
     // apply chat style settings
     SettingsUtil.applyChatStyles();
     // aply border colors
     SettingsUtil.applyBorderColors();
+
+    // apply scene nav settings
+    const sceneNavFields = SETTINGS.sceneNavMenu.fields;
+    sceneNavFields.forEach(fieldName => {
+      SettingsUtil.apply(SETTINGS[fieldName].tag);
+    });
 
     // apply custom font settings
     const fontFields = SETTINGS.customFontsMenu.fields;
@@ -271,8 +268,8 @@ export class SettingsUtil {
       case SETTINGS.navFoldersEnabled.tag:
         TopNavigation.navFoldersEnabled = value;
         break;
-      case SETTINGS.navFoldersForPlayers.tag:
-        TopNavigation.navFoldersForPlayers = value;
+      case SETTINGS.navStartCollapsed.tag:
+        TopNavigation.navStartCollapsed = value;
         break;
       case SETTINGS.showFolderListOnClick.tag:
         TopNavigation.showFolderListOnClick = value;
@@ -470,7 +467,6 @@ export class SettingsUtil {
   static applySceneNavPos(value){
     const SETTINGS = getSettings();
     TopNavigation.navPos = value || SettingsUtil.get(SETTINGS.sceneNavPos.tag);
-    // SettingsUtil.set(SETTINGS.sceneNavPos.tag, value || SettingsUtil.get(SETTINGS.sceneNavPos.tag));
   }
 
   /**

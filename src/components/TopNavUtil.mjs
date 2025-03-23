@@ -21,10 +21,12 @@ export class TopNavigation {
   static #timeout;
   static #collapseTimeout;
   static #navBtnsTimeout;
+  static #navFirstLoad = true;
   // settings
   static sceneNavEnabled;
   static navFoldersEnabled;
   static navFoldersForPlayers;
+  static navStartCollapsed;
   static showFolderListOnClick;
   static showNavOnHover;
   static isCollapsed;
@@ -37,7 +39,19 @@ export class TopNavigation {
    */
   static init = async() => {
     const SETTINGS = getSettings();
-    TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag);
+    
+    // Load settings first
+    TopNavigation.navStartCollapsed = SettingsUtil.get(SETTINGS.navStartCollapsed.tag);
+    TopNavigation.showNavOnHover = SettingsUtil.get(SETTINGS.showNavOnHover.tag);
+    TopNavigation.sceneNavEnabled = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
+    TopNavigation.navFoldersEnabled = SettingsUtil.get(SETTINGS.navFoldersEnabled.tag);
+    TopNavigation.navFoldersForPlayers = SettingsUtil.get(SETTINGS.navFoldersForPlayers.tag);
+    TopNavigation.showFolderListOnClick = SettingsUtil.get(SETTINGS.showFolderListOnClick.tag);
+    
+    // Then determine initial collapse state
+    TopNavigation.isCollapsed = TopNavigation.#navFirstLoad
+      ? TopNavigation.navStartCollapsed
+      : SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag);
     TopNavigation.navPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
 
     TopNavigation.resetLocalVars();
@@ -62,7 +76,6 @@ export class TopNavigation {
       TopNavigation.setNavPosition(scenePage);
       TopNavigation.placeNavButtons();
       TopNavigation.addListeners();
-      TopNavigation.toggleNav(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag));
       //
     }else if(isMonksSceneNavOn){
       uiMiddle.classList.add('with-monks-scene');
@@ -71,6 +84,8 @@ export class TopNavigation {
 
     Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, async() => { 
       LogUtil.log("SCENE NAV", [TopNavigation.navPos]);
+      LogUtil.log("TopNavigation", [TopNavigation.isCollapsed, TopNavigation.navStartCollapsed]);
+
       const SETTINGS = getSettings();
       const isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
       const isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
@@ -87,8 +102,14 @@ export class TopNavigation {
         TopNavigation.setNavPosition(scenePage);
         TopNavigation.placeNavButtons();
         TopNavigation.addListeners();
-        TopNavigation.toggleNav(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag));
-        //
+        // Only check sceneNavCollapsed setting if not first load
+        if (!TopNavigation.#navFirstLoad) {
+          TopNavigation.toggleNav(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag));
+        }else{
+          LogUtil.log("TopNavigation", [TopNavigation.isCollapsed, TopNavigation.navStartCollapsed]);
+        TopNavigation.#navFirstLoad = false;
+        TopNavigation.toggleNav(TopNavigation.navStartCollapsed);
+        }
         
         clearTimeout(TopNavigation.#timeout);
         TopNavigation.#timeout = setTimeout(()=>{
@@ -114,8 +135,6 @@ export class TopNavigation {
 
 
       TopNavigation.isCollapsed = collapsed;
-      // const uiMiddle = document.querySelector("#ui-middle");
-
       TopNavigation.toggleNav(collapsed);
     }); 
 
@@ -202,7 +221,7 @@ export class TopNavigation {
       TopNavigation.#scenesList = document.querySelector("#crlngn-scene-list"); 
       LogUtil.log("TopNavigation resetLocalVars", [TopNavigation.#scenesList]);
     }else{
-      TopNavigation.#scenesList = document.querySelector("#scene-list"); 
+      TopNavigation.#scenesList = document.querySelector("#crlngn-scene-list"); 
     }
     // TopNavigation.#leftControls = document.querySelector("#ui-left #controls"); 
   }
@@ -222,9 +241,6 @@ export class TopNavigation {
       e.stopPropagation();
       clearTimeout(TopNavigation.#navTimeout);
 
-      /** @type {HTMLElement} */
-      const list = document.querySelector("#scene-list");
-      if(list) {list.style.display = "flex";}
       const navigation = document.querySelector("#navigation");
       navigation.classList.remove("collapsed");
     });
@@ -240,9 +256,6 @@ export class TopNavigation {
       this.#navTimeout = setTimeout(()=>{
         clearTimeout(this.#navTimeout);
         this.#navTimeout = null;
-        /** @type {HTMLElement} */
-        const list = document.querySelector("#scene-list");
-        if(list) {list.style.display = "none";}
         const navigation = document.querySelector("#navigation");
         navigation.classList.add("collapsed");
       }, 700);

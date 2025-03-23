@@ -214,14 +214,14 @@ export function getSettings() {
       fields: [
         "sceneNavEnabled",
         "navFoldersEnabled",
-        "navFoldersForPlayers",
         "showFolderListOnClick",
+        "navStartCollapsed",
         "showNavOnHover"
       ],
       default: {
         sceneNavEnabled: true,
         navFoldersEnabled: true,
-        navFoldersForPlayers: false,
+        navStartCollapsed: false,
         showFolderListOnClick: false,
         showNavOnHover: false
       },
@@ -293,8 +293,19 @@ export function getSettings() {
       config: false 
     },
 
+    navStartCollapsed: { 
+      tag: "nav-start-collapsed", 
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navStartCollapsed.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navStartCollapsed.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox,
+      default: false, 
+      scope: SETTING_SCOPE.client, 
+      config: false 
+    },
+
     showFolderListOnClick: { 
-      tag: "nav-folders-for-players", 
+      tag: "nav-folders-list-on-click", 
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showFolderListOnClick.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showFolderListOnClick.hint"), 
       propType: Boolean, 

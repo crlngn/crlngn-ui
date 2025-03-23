@@ -166,6 +166,10 @@
             "label": "Enable scene folders for players",
             "hint": "Enable to allow players to see the folder list. If they do not have view permissions for a folder, it will not appear on the list."
           },
+          "navStartCollapsed": {
+            "label": "Start collapsed",
+            "hint": "Enable this option to collapse the scene navigation when loading Foundry, regardless of previous saved state."
+          },
           "showFolderListOnClick": {
             "label": "Show folder list on click",
             "hint": "By default, the list of folders on navigation bar is toggled on hover. Enable this option to change this behavior to click."

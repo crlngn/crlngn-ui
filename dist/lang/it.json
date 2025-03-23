@@ -159,16 +159,20 @@
             "hint": "Se la navigazione scene è compressa, puoi mostrarla passando il mouse sulla parte superiore dello schermo."
           },
           "navFoldersEnabled": {
-            "label": "Enable scene folders on navigation",
-            "hint": "If Custom Scene Navigation is enabled, this option will add a list of folders with scene search to scene navigation bar."
+            "label": "Abilita cartelle scene nella navigazione",
+            "hint": "Se la Navigazione Scene Personalizzata è abilitata, questa opzione aggiungerà un elenco di cartelle con ricerca scene alla barra di navigazione."
           },
           "navFoldersForPlayers": {
-            "label": "Enable scene folders for players",
-            "hint": "Enable to allow players to see the folder list. If they do not have view permissions for a folder, it will not appear on the list."
+            "label": "Abilita cartelle scene per i giocatori",
+            "hint": "Abilita per permettere ai giocatori di vedere l'elenco delle cartelle. Se non hanno i permessi di visualizzazione per una cartella, questa non apparirà nell'elenco."
+          },
+          "navStartCollapsed": {
+            "label": "Avvia compresso",
+            "hint": "Abilita questa opzione per comprimere la navigazione scene durante il caricamento di Foundry, indipendentemente dallo stato precedentemente salvato."
           },
           "showFolderListOnClick": {
-            "label": "Show folder list on click",
-            "hint": "By default, the list of folders on navigation bar is toggled on hover. Enable this option to change this behavior to click."
+            "label": "Mostra elenco cartelle al clic",
+            "hint": "Di default, l'elenco delle cartelle nella barra di navigazione si attiva al passaggio del mouse. Abilita questa opzione per cambiare questo comportamento al clic."
           }
         },
         "reset": "Ripristina",
