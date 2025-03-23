@@ -11,18 +11,18 @@ export class PlayersListUtil {
     const playersList = document.querySelector(`aside#players`);
     const playersTitle = document.querySelector(`aside#players h3:first-child`);
 
+    if(!playersList || !(playersList instanceof HTMLElement) || !playersTitle){return;}
+
     const playersHeight = playersList.offsetHeight;
     GeneralUtil.addCSSVars('--players-list-height', playersHeight+'px');
 
-    if(!playersList || !playersTitle){return;}
     playersTitle.addEventListener('click', ()=>{
       if(playersList.classList.contains('expanded')){
         playersList.classList.remove('expanded');
       }else{
         playersList.classList.add('expanded');
       }
-    })
-
+    });
   }
 
 }

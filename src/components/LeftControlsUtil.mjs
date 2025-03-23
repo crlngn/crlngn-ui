@@ -41,11 +41,11 @@ export class LeftControls {
   
     LeftControls.#resizeObserver = new ResizeObserver(entries => {
       throttle(() => LeftControls.updateCSSVars(), 250);
-    }, {
-      box: 'border-box'
     });
 
-    LeftControls.#resizeObserver.observe(LeftControls.#leftControls);
+    LeftControls.#resizeObserver.observe(LeftControls.#leftControls, {
+      box: 'border-box'
+    });
     LeftControls.updateCSSVars();
   }
 

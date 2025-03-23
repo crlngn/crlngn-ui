@@ -20,8 +20,6 @@ export class Main {
       LogUtil.log("Initiating module...", [], true); 
 
       Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
-      // Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, Main.checkPlayersList);
-      // Hooks.on(HOOKS_CORE.RENDER_HOTBAR, Main.checkPlayersList);
       SettingsUtil.registerSettings();
       TopNavigation.init(); 
       CameraUtil.init(); 
@@ -36,11 +34,6 @@ export class Main {
       var isDebugOn = SettingsUtil.get(SETTINGS.debugMode.tag);
       if(isDebugOn){CONFIG.debug.hooks = true};
 
-      // TopNavigation.init(); 
-      // CameraUtil.init(); 
-      // PlayersListUtil.init(); 
-      // LeftControls.init();
-      // ChatUtil.init();
       ModuleCompatUtil.init();
 
       const chatStylesEnabled = SettingsUtil.get(SETTINGS.enableChatStyles.tag);

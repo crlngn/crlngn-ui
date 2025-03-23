@@ -44,6 +44,7 @@ export class SettingsUtil {
         settingObj.choices = setting.choices
       }
 
+      // @ts-ignore - Valid module ID for settings registration
       await game.settings.register(MODULE_ID, setting.tag, settingObj);
 
       if(SettingsUtil.get(setting.tag)===undefined){
@@ -53,12 +54,6 @@ export class SettingsUtil {
       game.keybindings.register(MODULE_ID, "hideInterface", {
         name: "Toggle Hide/Show User Interface",
         hint: "Hides or shows the UI. This will affect all elements inside the `#interface` html block",
-        // uneditable: [
-        //   {
-        //     key: "Digit1",
-        //     modifiers: ["Control"]
-        //   }
-        // ],
         editable: [
           {
             key: "0",
@@ -68,8 +63,6 @@ export class SettingsUtil {
         onDown: () => {  },
         onUp: () => { SettingsUtil.hideInterface() },
         restricted: false,             // Restrict this Keybinding to gamemaster only?
-        // reservedModifiers: ["Alt"],  // On ALT, the notification is permanent instead of temporary
-        // precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL
       });
 
       // LogUtil.log("registerSettings",[setting.tag, SettingsUtil.get(setting.tag)]);
@@ -127,9 +120,6 @@ export class SettingsUtil {
     controlFields.forEach(fieldName => {
       SettingsUtil.applyLeftControlsSettings(SETTINGS[fieldName].tag);
     }); 
-
-
-
   }
 
   /**

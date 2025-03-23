@@ -1,6 +1,7 @@
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
+import { SettingsUtil } from "./SettingsUtil.mjs";
 
 export class ModuleCompatUtil {
   static #checkPlayersTimeout;
@@ -20,10 +21,12 @@ export class ModuleCompatUtil {
     const isTaskbarOn = GeneralUtil.isModuleOn('foundry-taskbar');
     // const body = document.querySelector('body.crlngn-ui');
     // const bodyStyle = document.querySelector('#crlngn-ui-vars');
+    
+    /** @type {{taskbarSettings?: {locked?: boolean, reduceSidebar?: boolean}} | undefined} */
     const taskbarFlag = game.user.flags?.['foundry-taskbar'];
     LogUtil.log("checkTaskbarLock",[taskbarFlag]);
 
-    if(!isTaskbarOn || !taskbarFlag){
+    if(!isTaskbarOn || !taskbarFlag?.taskbarSettings){
       return;
     }
 
@@ -44,7 +47,6 @@ export class ModuleCompatUtil {
     ModuleCompatUtil.checkPlayersList();
   }
 
-
   static checkPlayersList = () => {
     const body = document.querySelector('body');
     const uiLeftPlayers = document.querySelector('#players');
@@ -58,7 +60,7 @@ export class ModuleCompatUtil {
       timeoutDelay = 250;
     }
     const hotbar = document.querySelector('#hotbar');
-    if(hotbar) hotbar.style.setProperty('visibility', 'hidden');
+    if(hotbar && hotbar instanceof HTMLElement) hotbar.style.setProperty('visibility', 'hidden');
     clearTimeout(ModuleCompatUtil.#checkPlayersTimeout);
     ModuleCompatUtil.#checkPlayersTimeout =  setTimeout(()=>{
       if(isPlayersDocked){
@@ -77,7 +79,7 @@ export class ModuleCompatUtil {
           body.classList.remove('with-players-hide');
         }
       }
-      if(hotbar) hotbar.style.removeProperty('visibility');
+      if(hotbar && hotbar instanceof HTMLElement) hotbar.style.removeProperty('visibility');
       clearTimeout(ModuleCompatUtil.#checkPlayersTimeout);
     }, timeoutDelay);
     

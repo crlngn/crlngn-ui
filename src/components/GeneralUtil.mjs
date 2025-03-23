@@ -1,21 +1,36 @@
 import { LogUtil } from "./LogUtil.mjs";
+import { SettingsUtil } from "./SettingsUtil.mjs";
 
+/**
+ * General utility functions
+ */
 export class GeneralUtil {
   /**
    * Checks if module is currently installed and active
    * @param {string} moduleName 
-   * @returns 
+   * @returns {boolean}
    */
   static isModuleOn(moduleName){
     const module = game.modules?.get(moduleName);
     // LogUtil.log("isModuleOn", [module?.active]);
-    return module?.active ? true : false;
+    return Boolean(module?.active);
   }
 
+  /**
+   * Retrieves an HTML element from a parent element
+   * @param {HTMLElement} parent 
+   * @param {string} selector 
+   * @returns {HTMLElement|null}
+   */
   static html(parent, selector) {
     return parent.querySelector(selector);
   }
 
+  /**
+   * Gets the full width of an element
+   * @param {HTMLElement} element 
+   * @returns {number}
+   */
   static getFullWidth(element) {
     const style = window.getComputedStyle(element);
     if (style.width === '0px') {
@@ -24,64 +39,56 @@ export class GeneralUtil {
     return element.offsetWidth;
   }
 
-  static getOffsetBottom(element) {
-    const offsetTop = element.offsetTop;
-    const elementHeight = element.offsetHeight;
-    const offsetParent = element.offsetParent;
-    const parentHeight = offsetParent ? offsetParent.clientHeight : window.innerHeight;
-  
-    return parentHeight - (offsetTop + elementHeight);
-  }
-
-
-  // Function to get a list with all the fonts available 
-  // (Foundry + CSS imported) - excludes Font Awesome
-  static getAllFonts() {
-    // Get Foundry built-in fonts
-    const foundryFonts = new Set(Object.keys(CONFIG.fontDefinitions));
-    // LogUtil.log('Foundry built-in fonts:', [Array.from(foundryFonts)]);
-    
-    // Get custom fonts from settings
-    const customFontsObj = game.settings.get("core", "fonts") || {};
-    const customFonts = Object.entries(customFontsObj).map(([fontFamily]) => fontFamily);
-    // LogUtil.log('Custom fonts from settings:', [customFonts]);
-  
-    // Get CSS imported fonts
-    const cssImportedFonts = new Set();
-    
+  /**
+   * Processes all stylesheets to extract font-family names
+   * @param {Set<string>} cssImportedFonts
+   */
+  static processStyleSheets = async (cssImportedFonts) => {
     for (const sheet of document.styleSheets) {
       try {
         // Handle stylesheet text content for @import rules
         if (sheet.ownerNode) {
+          // Check if the stylesheet is from core Foundry or our module
+          const href = sheet.href || '';
+          const isFoundryCore = href.includes('/css/') || href.includes('/styles/');
+          const isOurModule = href.includes('/modules/crlngn-ui/');
+          
+          // Skip if not from core or our module
+          if (href && !isFoundryCore && !isOurModule) {
+            LogUtil.log('Skipping non-core/module stylesheet:', [href]);
+            continue;
+          }
+          
           let cssText = '';
           
-          // Get text content from style tags
-          if (sheet.ownerNode.tagName === 'STYLE') {
-            cssText = sheet.ownerNode.textContent;
-          }
-          // Get text content from link tags
-          else if (sheet.ownerNode.tagName === 'LINK') {
-            try {
-              if (sheet.href?.startsWith(window.location.origin)) {
+          if (sheet.ownerNode instanceof Element) {
+            // Get text content from style tags
+            if (sheet.ownerNode.tagName === 'STYLE') {
+              cssText = sheet.ownerNode.textContent;
+            }
+            // Get text content from link tags
+            else if (sheet.ownerNode.tagName === 'LINK') {
+              try {
                 const rules = sheet.cssRules || sheet.rules;
                 cssText = Array.from(rules).map(rule => rule.cssText).join('\n');
+              } catch (e) {
+                LogUtil.warn('Could not read stylesheet rules:', [e]);
               }
-            } catch (e) {
-              LogUtil.warn('Could not read stylesheet rules:', [e]);
             }
           }
-  
+          
+          LogUtil.log('Processing stylesheet:', [href || 'inline style']);
+
           // Log the found CSS text for debugging
-          // LogUtil.log('Processing stylesheet text:', [cssText.slice(0, 200) + '...']);
-  
+          // LogUtil.log('Processing stylesheet text:', s[cssText.slice(0, 200) + '...']);
+
           // Extract URLs from @import statements
           const importUrlRegex = /@import\s+url\(['"]([^'"]+)['"]\)/g;
           let match;
           
           while ((match = importUrlRegex.exec(cssText)) !== null) {
-            const url = match[1]; // This is the actual URL
-            // LogUtil.log('Found import URL:', [url]);
-  
+            let url = match[1]; // This is the actual URL
+
             if (url.includes('fonts.googleapis.com')) {
               // Extract font family names from Google Fonts URL
               const familyMatch = url.match(/family=([^&]+)/);
@@ -99,30 +106,41 @@ export class GeneralUtil {
                 });
               }
             } else {
-              // For non-Google Fonts, try to fetch and parse the CSS
+              // Skip relative path imports
+              if (url.startsWith('./') || url.startsWith('../')) {
+                LogUtil.log('Skipping relative import:', [url]);
+                continue;
+              }
+              
+              // For absolute paths or URLs, use as is
+              let resolvedUrl = url;
+
               try {
-                fetch(url)
-                  .then(response => response.text())
-                  .then(css => {
-                    // Parse font-face rules
-                    const fontFaceRules = css.match(/@font-face\s*{[^}]+}/g) || [];
-                    fontFaceRules.forEach(rule => {
-                      const fontFamilyMatch = rule.match(/font-family:\s*['"]?([^'";]+)['"]?/);
-                      if (fontFamilyMatch) {
-                        const fontFamily = fontFamilyMatch[1].trim();
-                        cssImportedFonts.add(fontFamily);
-                        // LogUtil.log('Added font family from @font-face:', fontFamily);
-                      }
-                    });
-                  })
-                  .catch(error => console.warn('Error loading imported CSS:', error));
+                const response = await fetch(resolvedUrl);
+                if (!response.ok) {
+                  LogUtil.warn('Error loading imported CSS:', [response.status]);
+                  continue;
+                }
+                const css = await response.text();
+                /** @type {RegExpMatchArray | null} */
+                const fontFaceRules = css.match(/@font-face\s*{[^}]+}/g);
+                if (!fontFaceRules) continue;
+                
+                fontFaceRules.forEach(rule => {
+                  /** @type {RegExpMatchArray | null} */
+                  const fontFamilyMatch = rule.match(/font-family:\s*['"]?([^'";]+)['"]?/);
+                  if (fontFamilyMatch && fontFamilyMatch[1]) {
+                    const fontFamily = fontFamilyMatch[1].trim();
+                    cssImportedFonts.add(fontFamily);
+                  }
+                });
               } catch (e) {
                 LogUtil.warn('Error processing imported CSS:', [e]);
               }
             }
           }
         }
-  
+
         // Check for @font-face rules in the current stylesheet
         if (!sheet.href || sheet.href.startsWith(window.location.origin)) {
           try {
@@ -144,6 +162,42 @@ export class GeneralUtil {
         LogUtil.warn('Error processing stylesheet:', [e]);
       }
     }
+    return [];
+  }
+
+  /**
+   * Gets the offset bottom of an element
+   * @param {HTMLElement} element 
+   * @returns {number}
+   */
+  static getOffsetBottom(element) {
+    const offsetTop = element.offsetTop;
+    const elementHeight = element.offsetHeight;
+    const offsetParent = element.offsetParent;
+    const parentHeight = offsetParent ? offsetParent.clientHeight : window.innerHeight;
+  
+    return parentHeight - (offsetTop + elementHeight);
+  }
+
+
+  // Function to get a list with all the fonts available 
+  // (Foundry + CSS imported) - excludes Font Awesome
+  /**
+   * Retrieves a list of all available fonts
+   * @returns {Promise<string[]>}
+   */
+  static async getAllFonts() {
+    // Get Foundry built-in fonts
+    const foundryFonts = new Set(Object.keys(CONFIG.fontDefinitions));
+    
+    // Get custom fonts from settings
+    const customFontsObj = SettingsUtil.get("fonts","core") || {};
+    const customFonts = Object.entries(customFontsObj).map(([fontFamily]) => fontFamily);
+  
+    // Get CSS imported fonts
+    const cssImportedFonts = new Set();
+
+    await this.processStyleSheets(cssImportedFonts);
   
     // Log what we found for debugging
     LogUtil.log('Found fonts:', [{
@@ -158,61 +212,30 @@ export class GeneralUtil {
       ...customFonts,
       ...cssImportedFonts
     ]))
-    .filter(f => !f.includes("FontAwesome") && !f.includes("Font Awesome") )
+    .filter(f => !/FontAwesome|Font Awesome|FoundryVTT/.test(f))
     .map(f => f.replace(/['"`]/g, '').trim())
     .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
-  
-    return allFonts;
-  }
 
-  // Helper function to format font names
-  static wrapFontName = (fontName) => {
-    const cleanName = fontName.replace(/['"`]/g, '');
-    return cleanName.includes(' ') ? `"${cleanName}"` : cleanName;
-  };
-
-  static addLoggingToClass(Class) {
-    // For static methods (properties of the constructor)
-    const staticMethodNames = Object.getOwnPropertyNames(Class)
-      .filter(prop => typeof Class[prop] === 'function' && 
-              prop !== 'constructor' && 
-              prop !== 'prototype' &&
-              prop !== 'addLoggingToClass');
-    
-    console.log(`TEST: Adding logging to ${Class.name} static methods:`, staticMethodNames);
-    
-    staticMethodNames.forEach(methodName => {
-      const originalMethod = Class[methodName];
-      
-      Class[methodName] = function(...args) {
-        console.log(`TEST: Executing: ${Class.name}.${methodName}`);
-        return originalMethod.apply(this, args);
-      };
-    });
-    
-    // For instance methods (properties of the prototype)
-    const protoMethodNames = Object.getOwnPropertyNames(Class.prototype)
-      .filter(prop => typeof Class.prototype[prop] === 'function' && 
-              prop !== 'constructor');
-    
-              console.log(`TEST: Adding logging to ${Class.name} prototype methods:`, protoMethodNames);
-    
-    protoMethodNames.forEach(methodName => {
-      const originalMethod = Class.prototype[methodName];
-      
-      Class.prototype[methodName] = function(...args) {
-        console.log(`TEST: Executing: ${Class.name}.${methodName}`);
-        return originalMethod.apply(this, args);
-      };
-    });
+    // Move return statement to the end of the function
+    return allFonts || [];
   }
 
   /**
-   * Adds css rules to a <style> element at the body
+   * Helper function to format font names
+   * @param {string} fontName 
+   * @returns {string}
+   */
+  static wrapFontName(fontName) {
+    const cleanName = fontName.replace(/['"`]/g, '');
+    return cleanName.includes(' ') ? `"${cleanName}"` : cleanName;
+  }
+
+  /**
+   * Adds CSS variables to a style element
    * @param {string} varName 
    * @param {string} varValue 
    */
-  static addCSSVars = (varName, varValue) => {
+  static addCSSVars(varName, varValue) {
     let bodyStyle = document.querySelector('#crlngn-ui-vars');
     
     if (!bodyStyle) {
@@ -285,9 +308,13 @@ export class GeneralUtil {
     
     // Update the style element
     bodyStyle.textContent = newCss;
-  };
+  }
 
-  static addCustomCSS = (content) => {
+  /**
+   * Adds custom CSS to a style element
+   * @param {string} content 
+   */
+  static addCustomCSS(content) {
     let customStyle = document.querySelector('#crlngn-ui-custom-css');
     
     if (!customStyle) {

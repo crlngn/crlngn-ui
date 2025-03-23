@@ -28,7 +28,7 @@
             "label": "日志标题"
           }
         },
-        "postDescription": "如果字体未加载，请仔细检查名称是否正确。",
+        "postDescription": "要从 Google Fonts 导入，请先将 @import 链接粘贴到样式设置的 Custom CSS 字段中，字体将在此处列出。",
         "reset": "重置",
         "save": "保存"
       },
@@ -47,7 +47,7 @@
           },
           "customStyles": {
             "label": "自定义CSS",
-            "hint": "这些样式将在您下次加载Foundry时被载入"
+            "hint": "这些样式将在您下次加载 Foundry 时被载入。您可以通过粘贴 '@import' 链接来包含 'Google Fonts'，字体将在自定义字体设置中列出。"
           }
         },
         "reset": "重置",

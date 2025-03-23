@@ -13,7 +13,7 @@
         "label": "Custom Fonts",
         "title": "Configure Fonts",
         "hint": "Configure the font families used throughout the interface",
-        "description": "Select or type the name of a custom font, if already loaded on Foundry core.",
+        "description": "Select or type the name of a custom font, if already loaded on Foundry core. ",
         "fields": {
           "uiBody": {
             "label": "UI Font"
@@ -28,15 +28,15 @@
             "label": "Journal Titles"
           }
         },
-        "postDescription": "If the font doesn't load, double check that the name is written correctly.",
+        "postDescription": "To import from <b>Google Fonts</b>, first paste the @import link in the \"Custom CSS\" field of style settings, and the font will be listed here.",
         "reset": "Reset",
         "save": "Save"
       },
 
       "themeAndStylesMenu": {
-        "label": "Color Theme and Styles",
+        "label": "Theme and Styles",
         "title": "Configure Styles",
-        "hint": "Select a color theme for the UI, and add custom CSS styles",
+        "hint": "Select a color theme for the UI, and add custom CSS styles.",
         "fields": {
           "colorTheme": {
             "label": "Color Theme",
@@ -48,7 +48,7 @@
           },
           "customStyles": {
             "label": "Custom CSS",
-            "hint": "These styles will be loaded the next time you load Foundry. Remember to check your syntax."
+            "hint": "These styles will be loaded the next time you load Foundry. You may include Google Fonts by pasting the @import link, and the font will be listed in the Custom Fonts settings."
           }
         },
         "reset": "Reset",

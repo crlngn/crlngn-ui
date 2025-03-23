@@ -82,9 +82,9 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
   /**
    * Prepare context to be sent to handlebars template
    * @param {*} options 
-   * @returns 
+   * @returns {Promise<Object>}
    */
-  _prepareContext(options) {
+  async _prepareContext(options) {
     const SETTINGS = getSettings();
     const menuValues = SettingsUtil.get(SETTINGS.customFontsMenu.tag);
     const fieldNames = SETTINGS.customFontsMenu.fields;
@@ -105,7 +105,7 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
     const setting = {
       ...fieldValues,
       default: {...fieldDefaults},
-      fontList: GeneralUtil.getAllFonts(),
+      fontList: await GeneralUtil.getAllFonts(),
       fields: { 
         ...fields
       },
@@ -113,7 +113,7 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
         { type: "button", icon: "", label: "CRLNGN_UI.settings.customFontsMenu.reset", action: 'redefine' },
         { type: "submit", icon: "", label: "CRLNGN_UI.settings.customFontsMenu.save" }
       ]
-    }
+    };
 
     return setting;
   }

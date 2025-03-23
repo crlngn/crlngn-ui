@@ -23,7 +23,7 @@ export function getSettingMenus() {
       name: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.title"),
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.title"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.hint"),
-      icon: "fas fa-cog",
+      icon: "fas fa-brush",
       propType: ThemeAndStyleSettings,
       restricted: true 
     },

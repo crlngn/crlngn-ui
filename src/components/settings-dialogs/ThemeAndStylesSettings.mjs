@@ -23,7 +23,7 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
         closeOnSubmit: true,
       },
       position: {
-        width: 600,
+        width: 480,
         height: "auto",
       },
       tag: "form",
