@@ -3,21 +3,37 @@ import { getSettings } from "../constants/Settings.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
-import { Main } from "./Main.mjs"; 
 
+/**
+ * Utility class for managing the camera dock functionality in FoundryVTT
+ * Handles camera positioning, dragging, resizing, and UI controls
+ */
 export class CameraUtil {
+  /** @type {number} Private offset X for dragging */
   static #offsetX = 0;
+  /** @type {number} Private offset Y for dragging */
   static #offsetY = 0;
+  /** @type {boolean} Flag indicating if camera is being dragged */
   static isDragging = false;
+  /** @type {HTMLElement|null} Reference to the camera container element */
   static cameraContainer;
-  //resizing
+  /** @type {boolean} Flag indicating if camera is being resized */
   static isResizing = false;
+  /** @type {number} Private starting X position for resizing */
   static #startX = 0;
+  /** @type {number} Private starting Y position for resizing */
   static #startY = 0;
+  /** @type {number} Private starting width for resizing */
   static #startWidth = 0;
+  /** @type {number} Private starting height for resizing */
   static #startHeight = 0;
+  /** @type {number} Private starting bottom position for resizing */
   static #startBottom = 0;
 
+  /**
+   * Initializes the camera utility
+   * Sets up event hooks based on camera dock settings
+   */
   static init(){
     const SETTINGS = getSettings();
     const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
@@ -32,10 +48,19 @@ export class CameraUtil {
     } 
   }
 
+  /**
+   * Renders the camera in plain mode (non-floating)
+   * Adds visibility class to camera views
+   */
   static onRenderPlain(){
     document.querySelector('#camera-views')?.classList.add('visible');
   }
 
+  /**
+   * Renders the camera in floating mode
+   * Sets up draggable and resizable functionality
+   * Positions camera based on saved settings
+   */
   static onRenderFloating(){
     const SETTINGS = getSettings();
     const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
@@ -58,6 +83,10 @@ export class CameraUtil {
     CameraUtil.placeControlsToggle();
   }
 
+  /**
+   * Places the camera controls toggle button
+   * Creates and positions play/pause button if it doesn't exist
+   */
   static placeControlsToggle(){ 
     const camControls = document.querySelector('#camera-views .user-controls');
     const existingButtons = camControls?.querySelectorAll(".crlngn-video-toggle");
@@ -75,10 +104,14 @@ export class CameraUtil {
     camControls?.insertBefore(btnToggle, controlBar);
   }
 
+  /**
+   * Makes the camera container draggable
+   * Sets up mouse event listeners for drag functionality
+   */
   static makeDraggable(){
     CameraUtil.cameraContainer?.addEventListener("mousedown", (e) => {
       const body = document.querySelector("body.crlngn-ui");
-      LogUtil.log("mousedown", [ e.target ]);
+      
       if(e.target.parentNode?.classList.contains('volume-bar')){
         return;
       }
@@ -96,6 +129,10 @@ export class CameraUtil {
 
   }
 
+  /**
+   * Makes the camera container resizable
+   * Adds resize handle and sets up mouse event listeners
+   */
   static makeResizeable(){
     if(CameraUtil.cameraContainer){
       const body = document.querySelector("body.crlngn-ui");
@@ -120,6 +157,14 @@ export class CameraUtil {
     }
   }
 
+  /**
+   * Resets the position and size of the camera container
+   * @param {Object} options - Position and size options
+   * @param {number|null} [options.x] - X position in pixels
+   * @param {number|null} [options.y] - Y position in pixels
+   * @param {number|null} [options.w] - Width in pixels
+   * @param {number|null} [options.h] - Height in pixels
+   */
   static resetPositionAndSize({x, y, w, h} = { x: null, y: null, w: null, h: null }){
     const SETTINGS = getSettings();
     const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
@@ -153,6 +198,12 @@ export class CameraUtil {
   }
 
   // when user releases element
+  /**
+   * Handles the release of drag operation
+   * Saves the final position to settings
+   * @param {MouseEvent} e - Mouse event
+   * @private
+   */
   static #onDragRelease(e){
     const SETTINGS = getSettings();
     const cameraSettings = {...SettingsUtil.get(SETTINGS.cameraDockMenu.tag)};
@@ -175,6 +226,12 @@ export class CameraUtil {
   } 
 
   // when user drags element
+  /**
+   * Handles the drag movement of the camera container
+   * Updates position based on mouse movement
+   * @param {MouseEvent} e - Mouse event
+   * @private
+   */
   static #onDragMove(e){ 
     if (!CameraUtil.isDragging) return; 
     LogUtil.log("mousemove", [ e.target.parentNode ]); 
@@ -197,6 +254,12 @@ export class CameraUtil {
   } 
 
   // when user drags the resize handle
+  /**
+   * Handles the resize operation of the camera container
+   * Updates size based on mouse movement
+   * @param {MouseEvent} e - Mouse event
+   * @private
+   */
   static #onResize(e) {
     if (!CameraUtil.isResizing) return;
     const newWidth = CameraUtil.#startWidth + (e.clientX - CameraUtil.#startX);

@@ -211,27 +211,120 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.hint"),
       propType: Object,
       inputType: SETTING_INPUT.button,
-      fields: {
-        sceneNavEnabled: { 
-          tag: "scene-nav-enabled", 
-          label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavEnabled.label"), 
-          hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavEnabled.hint"), 
-          inputType: SETTING_INPUT.checkbox
-        },
-        showNavOnHover: {
-          tag: "show-nav-on-hover", 
-          label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showNavOnHover.label"), 
-          hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showNavOnHover.hint"), 
-          inputType: SETTING_INPUT.checkbox
-        }
-      },
+      fields: [
+        "sceneNavEnabled",
+        "navFoldersEnabled",
+        "showFolderListOnClick",
+        "navStartCollapsed",
+        "showNavOnHover"
+      ],
       default: {
         sceneNavEnabled: true,
+        navFoldersEnabled: true,
+        navStartCollapsed: false,
+        showFolderListOnClick: false,
         showNavOnHover: false
       },
       scope: SETTING_SCOPE.client,
       config: false, 
       requiresReload: true 
+    },
+
+    // sceneNavMenu: {
+    //   tag: "scene-nav-menu", 
+    //   label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.label"),
+    //   hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.hint"),
+    //   propType: Object,
+    //   inputType: SETTING_INPUT.button,
+    //   fields: {
+    //     sceneNavEnabled: { 
+    //       tag: "scene-nav-enabled", 
+    //       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavEnabled.label"), 
+    //       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavEnabled.hint"), 
+    //       inputType: SETTING_INPUT.checkbox
+    //     },
+    //     showNavOnHover: {
+    //       tag: "show-nav-on-hover", 
+    //       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showNavOnHover.label"), 
+    //       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showNavOnHover.hint"), 
+    //       inputType: SETTING_INPUT.checkbox
+    //     }
+    //   },
+    //   default: {
+    //     sceneNavEnabled: true,
+    //     showNavOnHover: false
+    //   },
+    //   scope: SETTING_SCOPE.client,
+    //   config: false, 
+    //   requiresReload: true 
+    // },
+
+    sceneNavEnabled: { 
+      tag: "scene-nav-enabled", 
+      oldName: "sceneNavEnabled",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavEnabled.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavEnabled.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox, 
+      default: true, 
+      scope: SETTING_SCOPE.client, 
+      config: false 
+    },
+
+    navFoldersEnabled: { 
+      tag: "nav-folders-enabled", 
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navFoldersEnabled.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navFoldersEnabled.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox, 
+      default: true, 
+      scope: SETTING_SCOPE.client, 
+      config: false 
+    },
+
+    navFoldersForPlayers: { 
+      tag: "nav-folders-for-players", 
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navFoldersForPlayers.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navFoldersForPlayers.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox, 
+      default: false, 
+      scope: SETTING_SCOPE.client, 
+      config: false 
+    },
+
+    navStartCollapsed: { 
+      tag: "nav-start-collapsed", 
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navStartCollapsed.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navStartCollapsed.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox,
+      default: false, 
+      scope: SETTING_SCOPE.client, 
+      config: false 
+    },
+
+    showFolderListOnClick: { 
+      tag: "nav-folders-list-on-click", 
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showFolderListOnClick.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showFolderListOnClick.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox, 
+      default: false, 
+      scope: SETTING_SCOPE.client, 
+      config: false 
+    },
+
+    showNavOnHover: { 
+      tag: "show-nav-on-hover", 
+      oldName: "showNavOnHover",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showNavOnHover.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showNavOnHover.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox, 
+      default: false, 
+      scope: SETTING_SCOPE.client, 
+      config: false 
     },
 
     sceneNavCollapsed: { 

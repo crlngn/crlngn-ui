@@ -1,6 +1,6 @@
 {
   "name": "crlngn-ui",
-  "version": "1.12.11",
+  "version": "1.13.1",
   "description": "Tweaks and style adjustments to improve UI on Foundry",
   "license": "MIT",
   "private": true,
@@ -16,7 +16,7 @@
     "tsc": "tsc"
   },
   "devDependencies": {
-    "@league-of-foundry-developers/foundry-vtt-types": "^9.280.1",
+    "@league-of-foundry-developers/foundry-vtt-types": "^12.331.3-beta",
     "@types/node": "^22.7.5",
     "autoprefixer": "^10.4.20",
     "cssnano": "^7.0.6",

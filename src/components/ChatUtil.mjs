@@ -2,16 +2,31 @@ import { BORDER_COLOR_TYPES, getSettings } from "../constants/Settings.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 
+/**
+ * Utility class for managing chat message styling and enhancements in FoundryVTT
+ */
 export class ChatUtil {
+  /** @type {string} Border color setting for chat messages */
   static chatBorderColor;
+  /** @type {boolean} Flag indicating if custom chat styles are enabled */
   static enableChatStyles;
 
+  /**
+   * Initializes chat utility settings
+   * Loads chat border color and style enablement from module settings
+   */
   static init(){
     const SETTINGS = getSettings();
     ChatUtil.enableChatStyles = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
     ChatUtil.chatBorderColor = SettingsUtil.get(SETTINGS.chatBorderColor.tag);
   }
 
+  /**
+   * Enriches chat message cards with additional styling and functionality
+   * @param {ChatMessage} chatMessage - The Foundry ChatMessage instance
+   * @param {jQuery|HTMLElement} html - The chat message HTML element
+   * @returns {Promise<void>}
+   */
   static enrichCard = async(chatMessage, html) => {
     LogUtil.log("renderChatMessage", [ChatUtil.chatBorderColor, ChatUtil.enableChatStyles, BORDER_COLOR_TYPES.playerColor.name, chatMessage.author?.id]); 
     const rollType = chatMessage.flags?.dnd5e?.activity?.type || chatMessage.flags?.dnd5e?.roll?.type || "custom";

@@ -4,8 +4,15 @@
       "notifications": {
         "settingsUpdated": "Impostazioni aggiornate",
         "monksScenesNotSupported": "La Navigazione Scene di Carolingian UI entrerà in conflitto con Monk's Scene Navigation. Questa funzionalità di Carolingian UI è stata disabilitata.",
+        "ripperScenesNotSupported": "La Navigazione Scene di Carolingian UI entrerà in conflitto con Compact Scene Navigation. Questa funzionalità di Carolingian UI è stata disabilitata.",
         "monksPlayerSettingsConflict": "Alcune impostazioni di Carolingian UI sono state disabilitate per evitare conflitti con il modulo Monk's Player Settings.",
         "forceClientSettingsConflict": "Alcune impostazioni di Carolingian UI sono state disabilitate per evitare conflitti con il modulo Force Client Settings."
+      },
+      "sceneNav": {
+        "searchPlaceholder": "Cerca...",
+        "favoritesFolder": "Preferiti",
+        "addToFavorites": "Aggiungi ai Preferiti",
+        "removeFromFavorites": "Rimuovi dai Preferiti"
       }
     },
     "settings": {
@@ -150,6 +157,22 @@
           "showNavOnHover": {
             "label": "Mostra navigazione scene al passaggio del mouse",
             "hint": "Se la navigazione scene è compressa, puoi mostrarla passando il mouse sulla parte superiore dello schermo."
+          },
+          "navFoldersEnabled": {
+            "label": "Abilita cartelle scene nella navigazione",
+            "hint": "Se la Navigazione Scene Personalizzata è abilitata, questa opzione aggiungerà un elenco di cartelle con ricerca scene alla barra di navigazione."
+          },
+          "navFoldersForPlayers": {
+            "label": "Abilita cartelle scene per i giocatori",
+            "hint": "Abilita per permettere ai giocatori di vedere l'elenco delle cartelle. Se non hanno i permessi di visualizzazione per una cartella, questa non apparirà nell'elenco."
+          },
+          "navStartCollapsed": {
+            "label": "Avvia compresso",
+            "hint": "Abilita questa opzione per comprimere la navigazione scene durante il caricamento di Foundry, indipendentemente dallo stato precedentemente salvato."
+          },
+          "showFolderListOnClick": {
+            "label": "Mostra elenco cartelle al clic",
+            "hint": "Di default, l'elenco delle cartelle nella barra di navigazione si attiva al passaggio del mouse. Abilita questa opzione per cambiare questo comportamento al clic."
           }
         },
         "reset": "Ripristina",

@@ -2,6 +2,9 @@ import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 
 /**
+ * Utility class providing general-purpose functionality for the module
+ */
+/**
  * General utility functions
  */
 export class GeneralUtil {
@@ -17,19 +20,19 @@ export class GeneralUtil {
   }
 
   /**
-   * Retrieves an HTML element from a parent element
-   * @param {HTMLElement} parent 
-   * @param {string} selector 
-   * @returns {HTMLElement|null}
+   * Finds and returns the first element matching the selector within the parent element
+   * @param {HTMLElement} parent - The parent element to search within
+   * @param {string} selector - CSS selector string
+   * @returns {HTMLElement|null} The first matching element or null if not found
    */
   static html(parent, selector) {
     return parent.querySelector(selector);
   }
 
   /**
-   * Gets the full width of an element
-   * @param {HTMLElement} element 
-   * @returns {number}
+   * Gets the full width of an element including margins and borders
+   * @param {HTMLElement} element - The element to measure
+   * @returns {number} The full width in pixels
    */
   static getFullWidth(element) {
     const style = window.getComputedStyle(element);
@@ -40,10 +43,41 @@ export class GeneralUtil {
   }
 
   /**
-   * Processes all stylesheets to extract font-family names
-   * @param {Set<string>} cssImportedFonts
+   * Calculates the distance from the bottom of an element to the bottom of its offset parent
+   * @param {HTMLElement} element - The element to measure
+   * @returns {number} The offset from the bottom in pixels
    */
-  static processStyleSheets = async (cssImportedFonts) => {
+  static getOffsetBottom(element) {
+    const offsetTop = element.offsetTop;
+    const elementHeight = element.offsetHeight;
+    const offsetParent = element.offsetParent;
+    const parentHeight = offsetParent ? offsetParent.clientHeight : window.innerHeight;
+  
+    return parentHeight - (offsetTop + elementHeight);
+  }
+
+
+  // Function to get a list with all the fonts available 
+  // (Foundry + CSS imported) - excludes Font Awesome
+  /**
+   * Retrieves a comprehensive list of available fonts from multiple sources
+   * Combines Foundry built-in fonts, custom fonts from settings, and CSS imported fonts
+   * Excludes Font Awesome fonts from the results
+   * @returns {Promise<string[]>} Array of font family names, sorted alphabetically
+   */
+  static getAllFonts = async () => {
+    // Get Foundry built-in fonts
+    const foundryFonts = new Set(Object.keys(CONFIG.fontDefinitions));
+    // LogUtil.log('Foundry built-in fonts:', [Array.from(foundryFonts)]);
+    
+    // Get custom fonts from settings
+    const customFontsObj = game.settings.get("core", "fonts") || {};
+    const customFonts = Object.entries(customFontsObj).map(([fontFamily]) => fontFamily);
+    // LogUtil.log('Custom fonts from settings:', [customFonts]);
+  
+    // Get CSS imported fonts
+    const cssImportedFonts = new Set();
+    
     for (const sheet of document.styleSheets) {
       try {
         // Handle stylesheet text content for @import rules
@@ -82,6 +116,7 @@ export class GeneralUtil {
           // Log the found CSS text for debugging
           // LogUtil.log('Processing stylesheet text:', s[cssText.slice(0, 200) + '...']);
 
+          
           // Extract URLs from @import statements
           const importUrlRegex = /@import\s+url\(['"]([^'"]+)['"]\)/g;
           let match;
@@ -220,12 +255,13 @@ export class GeneralUtil {
     return allFonts || [];
   }
 
+  // Helper function to format font names
   /**
-   * Helper function to format font names
-   * @param {string} fontName 
-   * @returns {string}
+   * Formats a font name by cleaning it and wrapping it in quotes if it contains spaces
+   * @param {string} fontName - The font name to format
+   * @returns {string} The formatted font name
    */
-  static wrapFontName(fontName) {
+  static wrapFontName = (fontName) => {
     const cleanName = fontName.replace(/['"`]/g, '');
     return cleanName.includes(' ') ? `"${cleanName}"` : cleanName;
   }

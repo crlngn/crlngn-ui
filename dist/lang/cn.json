@@ -4,8 +4,15 @@
       "notifications": {
         "settingsUpdated": "设置已更新",
         "monksScenesNotSupported": "卡罗林风格UI的水平场景导航将无法与Monk的场景导航一起使用，因此此功能已被禁用。",
+        "ripperScenesNotSupported": "卡罗林风格UI的水平场景导航将无法与Compact Scene Navigation一起使用，因此此功能已被禁用。",
         "monksPlayerSettingsConflict": "卡罗林风格UI的某些设置已被禁用，以防止与Monk's Player Settings发生冲突。",
         "forceClientSettingsConflict": "卡罗林风格UI的某些设置已被禁用，以防止与Force Client Settings发生冲突。"
+      },
+      "sceneNav": {
+        "searchPlaceholder": "搜索场景...",
+        "favoritesFolder": "收藏",
+        "addToFavorites": "添加到收藏",
+        "removeFromFavorites": "从收藏中移除"
       }
     },
     "settings": {
@@ -149,6 +156,22 @@
           "showNavOnHover": {
             "label": "悬停时显示导航",
             "hint": "如果场景导航已折叠，您可以通过将鼠标悬停在屏幕顶部来显示它。"
+          },
+          "navFoldersEnabled": {
+            "label": "在导航栏启用场景文件夹",
+            "hint": "如果启用了自定义场景导航，此选项将在场景导航栏中添加带有场景搜索功能的文件夹列表。"
+          },
+          "navFoldersForPlayers": {
+            "label": "为玩家启用场景文件夹",
+            "hint": "启用此选项允许玩家查看文件夹列表。如果他们没有文件夹的查看权限，该文件夹将不会出现在列表中。"
+          },
+          "navStartCollapsed": {
+            "label": "启动时折叠",
+            "hint": "启用此选项可在加载 Foundry 时折叠场景导航，无论之前保存的状态如何。"
+          },
+          "showFolderListOnClick": {
+            "label": "点击时显示文件夹列表",
+            "hint": "默认情况下，导航栏上的文件夹列表在悬停时切换。启用此选项可将此行为更改为点击时切换。"
           }
         },
         "reset": "重置",

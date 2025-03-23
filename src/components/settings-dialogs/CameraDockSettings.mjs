@@ -1,14 +1,20 @@
 import { getSettings } from "../../constants/Settings.mjs";
 import { LogUtil } from "../LogUtil.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
-// import * as lang from '../../lang/en.json' assert { type: 'json' };
 
-/**
- * Classes for Settings Submenus 
- */
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
+/**
+ * Camera Dock Settings application for managing camera-related configurations.
+ * Provides a form interface for users to customize camera dock behavior and appearance.
+ * @extends {HandlebarsApplicationMixin(ApplicationV2)}
+ */
 export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2) {
+  /**
+   * Default application options
+   * @static
+   * @returns {object} Configuration object containing default settings for the application
+   */
   static get DEFAULT_OPTIONS() {
     const SETTINGS = getSettings();
     
@@ -37,6 +43,10 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
   }
 
   // Define template parts
+  /**
+   * Template parts used for rendering the application
+   * @static
+   */
   static PARTS = {
     content: {
       template: "modules/crlngn-ui/templates/camera-dock-settings.hbs",
@@ -47,6 +57,10 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
     },
   };
   
+  /**
+   * Get the localized title for the settings dialog
+   * @returns {string} Localized title string
+   */
   get title() {
     return game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.title");
     // return `My Module: ${game.i18n.localize(this.options.window.title)}`;
@@ -57,6 +71,15 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
    * Handles form submission and updates FoundryVTT settings.
    * Uses `foundry.utils.expandObject()` to parse form data.
    */
+  /**
+   * Handles form submission and updates FoundryVTT settings
+   * @private
+   * @static
+   * @param {Event} event - The form submission event
+   * @param {HTMLFormElement} form - The form element
+   * @param {FormData} formData - The form data object
+   * @returns {Promise<void>}
+   */
   static async #onSubmit(event, form, formData) {
     const SETTINGS = getSettings();
     let controlSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
@@ -64,8 +87,13 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
     event.preventDefault();
     event.stopPropagation();
 
-    // Convert FormData into an object with proper keys
-    const settings = foundry.utils.expandObject(formData.object);
+    // Convert FormData into an object with proper keys and handle checkboxes
+    const rawData = formData.object;
+    // Ensure checkbox fields are properly represented as booleans
+    if (!rawData.hasOwnProperty('enableFloatingDock')) {
+      rawData.enableFloatingDock = false;
+    }
+    const settings = foundry.utils.expandObject(rawData);
 
     await SettingsUtil.set(SETTINGS.cameraDockMenu.tag, settings);
     controlSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
@@ -79,6 +107,14 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
     }
   }
 
+  /**
+   * Resets form fields to their default values
+   * @private
+   * @static
+   * @param {Event} a - The reset event
+   * @param {HTMLElement} b - The form element
+   * @returns {Promise<void>}
+   */
   static async #onReset(a, b){
     const SETTINGS = getSettings();
     const html = this.element;
@@ -99,6 +135,12 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
    * Prepare context to be sent to handlebars template
    * @param {*} options 
    * @returns 
+   */
+  /**
+   * Prepares the context data for the template
+   * @protected
+   * @param {object} options - Application options
+   * @returns {object} The prepared context object
    */
   _prepareContext(options) {
     const SETTINGS = getSettings();

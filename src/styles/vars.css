@@ -128,8 +128,7 @@ body.crlngn-ui{
   --color-scrollbar: var(--color-secondary-75);
   --color-scrollbar-track: transparent;
   --color-scrollbar-border: var(--color-secondary-90);
-  --color-text-selection: #f7f3e8;
-  --color-text-selection-bg: var(--color-dark-bg-50);
+  --color-text-selection: var(--color-text-light);
   --color-shadow-primary: var(--color-highlights);
   --toggle-active-bg-color: var(--color-secondary);
   --toggle-active-border-color: var(--color-secondary);
@@ -160,6 +159,8 @@ body.crlngn-ui{
     --input-text-color: var(--color-light-3);
     --input-placeholder-color: var(--color-light-4);
     --checkbox-checkmark-color: var(--color-light-1);
+    --color-text-selection-bg: var(--color-dark-bg-75);
+    
 
     .standard-form, .sidebar-tab{
       input, 

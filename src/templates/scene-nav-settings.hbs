@@ -7,6 +7,30 @@
   </div>
 
   <div class="form-group">
+    <label for="navFoldersEnabled">{{fields.navFoldersEnabled.label}}</label>
+    <input type="checkbox" name="navFoldersEnabled" {{#if navFoldersEnabled}}checked{{/if}} />
+    <p class="hint">{{{fields.navFoldersEnabled.hint}}}</p> 
+  </div>
+
+  {{!-- <div class="form-group">
+    <label for="navFoldersForPlayers">{{fields.navFoldersForPlayers.label}}</label>
+    <input type="checkbox" name="navFoldersForPlayers" {{#if navFoldersForPlayers}}checked{{/if}} />
+    <p class="hint">{{{fields.navFoldersForPlayers.hint}}}</p> 
+  </div> --}}
+
+  <div class="form-group">
+    <label for="showFolderListOnClick">{{fields.showFolderListOnClick.label}}</label>
+    <input type="checkbox" name="showFolderListOnClick" {{#if showFolderListOnClick}}checked{{/if}} />
+    <p class="hint">{{{fields.showFolderListOnClick.hint}}}</p> 
+  </div>
+
+  <div class="form-group">
+    <label for="navStartCollapsed">{{fields.navStartCollapsed.label}}</label>
+    <input type="checkbox" name="navStartCollapsed" {{#if navStartCollapsed}}checked{{/if}} />
+    <p class="hint">{{{fields.navStartCollapsed.hint}}}</p> 
+  </div>
+
+  <div class="form-group">
     <label for="showNavOnHover">{{fields.showNavOnHover.label}}</label>
     <input type="checkbox" name="showNavOnHover" {{#if showNavOnHover}}checked{{/if}} />
     <p class="hint">{{{fields.showNavOnHover.hint}}}</p> 

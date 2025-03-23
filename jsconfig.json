@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
-    "types": ["@league-of-foundry-developers/foundry-vtt-types"],
     "module": "ES2022",
     "target": "ES2022",
     "moduleResolution": "node",
-    "allowJs": true,
     "checkJs": false,
-    "noImplicitAny": false,
-    "strict": false,
-    "noPropertyAccessFromIndexSignature": false
+    "types": ["@league-of-foundry-developers/foundry-vtt-types"],
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*"]
+    }
   },
-  "exclude": ["node_modules", "foundry", "dnd5e", "demo", "dist"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/node_modules/*", "dist"]
 }

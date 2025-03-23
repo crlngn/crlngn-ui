@@ -1,16 +1,23 @@
 import { getSettings } from "../../constants/Settings.mjs";
 import { GeneralUtil } from "../GeneralUtil.mjs";
 import { LogUtil } from "../LogUtil.mjs";
-import { Main } from "../Main.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
 
-/**
- * Classes for Settings Submenus 
- */
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
+/**
+ * Custom Fonts Settings application for managing font configurations.
+ * Provides a form interface with dropdown font selection and keyboard navigation.
+ * @extends {HandlebarsApplicationMixin(ApplicationV2)}
+ */
 export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV2) {
+  /** @type {HTMLElement} Private static reference to the form element */
   static #element;
+  /**
+   * Default application options
+   * @static
+   * @returns {object} Configuration object containing default settings for the application
+   */
   static get DEFAULT_OPTIONS() {
     const SETTINGS = getSettings();
 
@@ -39,6 +46,10 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
   }
 
   // Define template parts
+  /**
+   * Template parts used for rendering the application
+   * @static
+   */
   static PARTS = {
     content: {
       template: "modules/crlngn-ui/templates/custom-fonts-settings.hbs",
@@ -49,6 +60,10 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
     },
   };
   
+  /**
+   * Get the localized title for the settings dialog
+   * @returns {string} Localized title string
+   */
   get title() {
     return game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.title");
   }
@@ -56,6 +71,15 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
   /** 
    * Handles form submission and updates FoundryVTT settings.
    * Uses `foundry.utils.expandObject()` to parse form data.
+   */
+  /**
+   * Handles form submission and updates font settings
+   * @private
+   * @static
+   * @param {Event} event - The form submission event
+   * @param {HTMLFormElement} form - The form element
+   * @param {FormData} formData - The form data object
+   * @returns {Promise<void>}
    */
   static async #onSubmit(event, form, formData) {
     const SETTINGS = getSettings();
@@ -136,6 +160,12 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
     return context;
   }
 
+  /**
+   * Handles post-render operations including dropdown setup and event listeners
+   * @protected
+   * @param {object} context - The render context
+   * @param {object} options - The render options
+   */
   _onRender(context, options) {
     CustomFontsSettings.#element = this.element;
     
@@ -249,6 +279,11 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
     });
   }
   
+  /**
+   * Closes all open font dropdown menus
+   * @private
+   * @static
+   */
   static #closeAllDropdowns() {
     CustomFontsSettings.#element.querySelectorAll('.dropdown-options').forEach(dropdown => {
       dropdown.classList.remove('active');
@@ -256,6 +291,14 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
   }
   
 
+  /**
+   * Resets form fields to their default values
+   * @private
+   * @static
+   * @param {Event} a - The reset event
+   * @param {HTMLElement} b - The form element
+   * @returns {Promise<void>}
+   */
   static async #onReset(a, b){
     const SETTINGS = getSettings();
     const html = this.element;

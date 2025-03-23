@@ -10,9 +10,18 @@ import { LeftControls } from "./LeftControlsUtil.mjs";
 import { MODULE_ID } from "../constants/General.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
+import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
 
+/**
+ * Main class handling core module initialization and setup
+ * Manages module lifecycle, hooks, and core functionality
+ */
 export class Main {
 
+  /**
+   * Initialize the module and set up core hooks
+   * @static
+   */
   static init(){
     Hooks.once(HOOKS_CORE.INIT, () => { 
       document.querySelector("#ui-middle")?.classList.add(MODULE_ID);
@@ -26,6 +35,7 @@ export class Main {
       PlayersListUtil.init(); 
       LeftControls.init();
       ChatUtil.init();
+      SceneNavFolders.registerHooks();
     });
 
     Hooks.once(HOOKS_CORE.READY, () => {
@@ -35,6 +45,7 @@ export class Main {
       if(isDebugOn){CONFIG.debug.hooks = true};
 
       ModuleCompatUtil.init();
+      TopNavigation.checkSceneNavCompat();
 
       const chatStylesEnabled = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
       if(chatStylesEnabled){ 
@@ -47,6 +58,10 @@ export class Main {
   }
 
   // Custom labels for DnD5e buttons, added via CSS
+  /**
+   * Add CSS variables for DnD5e button localization
+   * @static
+   */
   static addCSSLocalization(){
     const locBtnPath = 'CRLNGN_UI.dnd5e.chatCard.buttons';
     
@@ -62,6 +77,13 @@ export class Main {
     GeneralUtil.addCSSVars('--crlngn-i18n-save', game.i18n.localize(`${locBtnPath}.save`));
   }
 
+  /**
+   * Handle chat message rendering
+   * @private
+   * @static
+   * @param {ChatMessage} chatMessage - The chat message being rendered
+   * @param {jQuery} html - The HTML element of the chat message
+   */
   static #onRenderChatMessage = (chatMessage, html) => { 
     LogUtil.log(HOOKS_CORE.RENDER_CHAT_MESSAGE,[chatMessage, html]);
   

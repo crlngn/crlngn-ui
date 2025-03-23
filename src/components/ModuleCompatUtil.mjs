@@ -3,8 +3,20 @@ import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 
+/**
+ * Utility class for handling compatibility with other Foundry VTT modules
+ * Manages interactions and adjustments needed for module interoperability
+ */
 export class ModuleCompatUtil {
+  /**
+   * @private
+   * Timeout handle for debouncing players list checks
+   */
   static #checkPlayersTimeout;
+  /**
+   * Initializes module compatibility features
+   * Sets up hooks for players list and taskbar integration
+   */
   static init(){
 
     Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, ModuleCompatUtil.checkPlayersList);
@@ -17,6 +29,10 @@ export class ModuleCompatUtil {
     ModuleCompatUtil.checkTaskbarLock();
   }
 
+  /**
+   * Checks and applies taskbar lock settings
+   * Adjusts UI variables based on taskbar module state and settings
+   */
   static checkTaskbarLock = () => {
     const isTaskbarOn = GeneralUtil.isModuleOn('foundry-taskbar');
     // const body = document.querySelector('body.crlngn-ui');
@@ -47,6 +63,11 @@ export class ModuleCompatUtil {
     ModuleCompatUtil.checkPlayersList();
   }
 
+
+  /**
+   * Manages players list visibility and positioning
+   * Handles interaction between players list and taskbar module
+   */
   static checkPlayersList = () => {
     const body = document.querySelector('body');
     const uiLeftPlayers = document.querySelector('#players');

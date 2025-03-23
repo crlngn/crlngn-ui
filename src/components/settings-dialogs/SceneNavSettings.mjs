@@ -1,14 +1,20 @@
 import { getSettings } from "../../constants/Settings.mjs";
 import { LogUtil } from "../LogUtil.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
-// import * as lang from '../../lang/en.json' assert { type: 'json' };
 
-/**
- * Classes for Settings Submenus 
- */
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
+/**
+ * Scene Navigation Settings application for managing scene navigation configurations.
+ * Provides a form interface for customizing the behavior and appearance of the scene navigation bar.
+ * @extends {HandlebarsApplicationMixin(ApplicationV2)}
+ */
 export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) {
+  /**
+   * Default application options
+   * @static
+   * @returns {object} Configuration object containing default settings for the application
+   */
   static get DEFAULT_OPTIONS() {
     const SETTINGS = getSettings();
     return {
@@ -36,6 +42,10 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
   }
 
   // Define template parts
+  /**
+   * Template parts used for rendering the application
+   * @static
+   */
   static PARTS = {
     content: {
       template: "modules/crlngn-ui/templates/scene-nav-settings.hbs",
@@ -46,6 +56,10 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
     },
   };
   
+  /**
+   * Get the localized title for the settings dialog
+   * @returns {string} Localized title string
+   */
   get title() {
     return game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.title");
     // return `My Module: ${game.i18n.localize(this.options.window.title)}`;
@@ -56,28 +70,54 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
    * Handles form submission and updates FoundryVTT settings.
    * Uses `foundry.utils.expandObject()` to parse form data.
    */
+  /**
+   * Handles form submission and updates scene navigation settings
+   * @private
+   * @static
+   * @param {Event} event - The form submission event
+   * @param {HTMLFormElement} form - The form element
+   * @param {FormData} formData - The form data object
+   * @returns {Promise<void>}
+   */
   static async #onSubmit(event, form, formData) {
-    const SETTINGS = getSettings(); 
-    let menuSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag); 
-    let navEnabled = menuSettings.sceneNavEnabled; 
     event.preventDefault();
     event.stopPropagation();
-
+    const SETTINGS = getSettings(); 
+    const fieldNames = SETTINGS.sceneNavMenu.fields;
+    let navEnabledBefore = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
+    let foldersEnabledBefore = SettingsUtil.get(SETTINGS.navFoldersEnabled.tag);
+    
     // Convert FormData into an object with proper keys
     const settings = foundry.utils.expandObject(formData.object);
 
-    await SettingsUtil.set(SETTINGS.sceneNavMenu.tag, settings);
-    menuSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
+    fieldNames.forEach((fieldName) => {
+      if(settings[fieldName] !== undefined) {
+        LogUtil.log("Saving setting:", [settings[fieldName]]);
+        SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
+      }
+    });
+    let navEnabledAfter = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag); 
+    let foldersEnabledAfter = SettingsUtil.get(SETTINGS.navFoldersEnabled.tag);
 
-    LogUtil.log("Saving settings...", [SETTINGS.sceneNavMenu.tag, form, formData.object, settings, menuSettings]); // Debugging
+    LogUtil.log("Saving settings...", [form, formData.object, settings]); // Debugging
+    await SettingsUtil.set(SETTINGS.sceneNavMenu.tag, settings);
 
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
 
-    if(menuSettings.sceneNavEnabled != navEnabled){
+    if( navEnabledBefore !== navEnabledAfter ||
+      foldersEnabledBefore !== foldersEnabledAfter ){
       location.reload();
     }
   }
 
+  /**
+   * Resets form fields to their default values
+   * @private
+   * @static
+   * @param {Event} a - The reset event
+   * @param {HTMLElement} b - The form element
+   * @returns {Promise<void>}
+   */
   static async #onReset(a, b){
     const SETTINGS = getSettings();
     const html = this.element;
@@ -99,14 +139,35 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
    * @param {*} options 
    * @returns 
    */
+  /**
+   * Prepares the context data for the template
+   * @protected
+   * @param {object} options - Application options
+   * @returns {object} The prepared context object containing field values, defaults, and UI configuration
+   */
   _prepareContext(options) {
     const SETTINGS = getSettings();
+    const menuValues = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
+    const fieldNames = SETTINGS.sceneNavMenu.fields;
+    const fields = {};
+    const fieldValues = {};
+    const fieldDefaults = {};
+
+    fieldNames.forEach((fieldName) => {
+      if(SETTINGS[fieldName]) {
+        const value = SettingsUtil.get(SETTINGS[fieldName].tag);
+        fields[fieldName] = SETTINGS[fieldName];
+        fieldValues[fieldName] = value!== undefined ? value : menuValues[SETTINGS[fieldName].oldName] || SETTINGS[fieldName].default;
+        fieldDefaults[fieldName] = SETTINGS[fieldName].default;
+      }
+    });
+
     const setting = {
-      ...SettingsUtil.get(SETTINGS.sceneNavMenu.tag),
-      default: {
-        ...SETTINGS.sceneNavMenu.default
+      ...fieldValues,
+      default: {...fieldDefaults},
+      fields: { 
+        ...fields
       },
-      fields: { ...SETTINGS.sceneNavMenu.fields },
       buttons: [ 
         { type: "button", icon: "", label: "CRLNGN_UI.settings.sceneNavMenu.reset", action: 'redefine' },
         { type: "submit", icon: "", label: "CRLNGN_UI.settings.sceneNavMenu.save" }
@@ -136,6 +197,12 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
     return context;
   }
 
+  /**
+   * Handles post-render operations
+   * @protected
+   * @param {object} context - The render context
+   * @param {object} options - The render options
+   */
   _onRender(context, options) {
     LogUtil.log("_onRender", [context, options]);
   }

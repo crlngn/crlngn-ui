@@ -4,8 +4,15 @@
       "notifications": {
         "settingsUpdated": "Settings updated",
         "monksScenesNotSupported": "Carolingian UI's Scene Navigation will conflict with Monk's Scene Navigation. This functionality of Carolingian UI has been disabled.",
+        "ripperScenesNotSupported": "Carolingian UI's Scene Navigation will conflict with Compact Scene Navigation. This functionality of Carolingian UI has been disabled.",
         "monksPlayerSettingsConflict": "Some of Carolingian UI's settings have been disabled to prevent conflict with the module Monk's Player Settings.",
         "forceClientSettingsConflict": "Some of Carolingian UI's settings have been disabled to prevent conflict with the module Force Client Settings."
+      },
+      "sceneNav": {
+        "searchPlaceholder": "Search scenes...",
+        "favoritesFolder": "Favorites",
+        "addToFavorites": "Add to Favorites",
+        "removeFromFavorites": "Remove from Favorites"
       }
     },
     "settings": {
@@ -144,12 +151,28 @@
         "hint": "Change options for the scene navigation menu, on the top bar",
         "fields": {
           "sceneNavEnabled": {
-            "label": "Enable Horizontal Scene Navigation",
+            "label": "Enable custom scene navigation",
             "hint": "[Requires reload] If you are having layout issues with a non-compatible module, you can try to disable my custom styles for Scene Navigation."
           }, 
           "showNavOnHover": {
-            "label": "Toggle scene nav on hover",
+            "label": "Toggle scene navigation on hover",
             "hint": "If the scene navigation is collapsed, you can show it by hovering the mouse over the top of the screen."
+          },
+          "navFoldersEnabled": {
+            "label": "Enable scene folders on navigation",
+            "hint": "If Custom Scene Navigation is enabled, this option will add a list of folders with scene search to scene navigation bar."
+          },
+          "navFoldersForPlayers": {
+            "label": "Enable scene folders for players",
+            "hint": "Enable to allow players to see the folder list. If they do not have view permissions for a folder, it will not appear on the list."
+          },
+          "navStartCollapsed": {
+            "label": "Start collapsed",
+            "hint": "Enable this option to collapse the scene navigation when loading Foundry, regardless of previous saved state."
+          },
+          "showFolderListOnClick": {
+            "label": "Show folder list on click",
+            "hint": "By default, the list of folders on navigation bar is toggled on hover. Enable this option to change this behavior to click."
           }
         },
         "reset": "Reset",
@@ -164,11 +187,11 @@
         }
       },
       "sceneNavCollapsed": {
-        "label": "Scene Navigation Collapsed",
+        "label": "Scene navigation collapsed",
         "hint": "Current state of the scene navigation toggle. Is it collapsed?"
       },
       "sceneNavPos": {
-        "label": "Scene Navigation Position",
+        "label": "Scene navigation position",
         "hint": "Stores current position of navigation for reset when it's re-rendered"
       },
       "enableMacroLayout": {

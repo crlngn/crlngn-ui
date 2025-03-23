@@ -15,10 +15,25 @@ export const HOOKS_CORE = {
   RENDER_SCENE_CONTROLS: "renderSceneControls",
   RENDER_PLAYERS_LIST: "renderPlayerList",
 
-  /* Scene Navigation*/
+  /* Scenes */
   RENDER_SCENE_NAV: "renderSceneNavigation",
   COLLAPSE_SCENE_NAV: "collapseSceneNavigation",
   EXPAND_SCENE_NAV: "expandSceneNavigation",
+  GET_SCENE_NAV_CONTEXT: "getSceneNavigationContext",
+  GET_SCENE_DIRECTORY_ENTRY_CONTEXT: "getSceneDirectoryEntryContext",
+
+  /* Document Directory */
+  RENDER_DOCUMENT_DIRECTORY: "renderDocumentDirectory",
+
+  /* Folders */
+  CREATE_FOLDER: "createFolder",
+  UPDATE_FOLDER: "updateFolder",
+  DELETE_FOLDER: "deleteFolder",
+
+  /* Scene Document */
+  CREATE_SCENE: "createScene",
+  UPDATE_SCENE: "updateScene",
+  DELETE_SCENE: "deleteScene",
 
   /* Right Side Panel */
   COLLAPSE_SIDE_BAR: "collapseSidebar",

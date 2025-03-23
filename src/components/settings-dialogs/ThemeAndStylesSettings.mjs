@@ -2,14 +2,22 @@ import { getSettings, THEMES } from "../../constants/Settings.mjs";
 import { LogUtil } from "../LogUtil.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
 
-/**
- * Classes for Settings Submenus 
- */
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
+/**
+ * Theme and Styles Settings application for managing UI theme and style configurations.
+ * Provides a form interface with dropdown theme selection and live preview capabilities.
+ * @extends {HandlebarsApplicationMixin(ApplicationV2)}
+ */
 export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
+  /** @type {HTMLElement} Private static reference to the form element */
   static #element;
 
+  /**
+   * Default application options
+   * @static
+   * @returns {object} Configuration object containing default settings for the application
+   */
   static get DEFAULT_OPTIONS() {
     const SETTINGS = getSettings();
 
@@ -38,6 +46,10 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
   }
 
   // Define template parts
+  /**
+   * Template parts used for rendering the application
+   * @static
+   */
   static PARTS = {
     content: {
       template: "modules/crlngn-ui/templates/theme-and-styles-settings.hbs",
@@ -48,6 +60,10 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
     },
   };
   
+  /**
+   * Get the localized title for the settings dialog
+   * @returns {string} Localized title string
+   */
   get title() {
     return game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.title");
   }
@@ -55,6 +71,15 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
   /** 
    * Handles form submission and updates FoundryVTT settings.
    * Uses `foundry.utils.expandObject()` to parse form data.
+   */
+  /**
+   * Handles form submission and updates theme settings
+   * @private
+   * @static
+   * @param {Event} event - The form submission event
+   * @param {HTMLFormElement} form - The form element
+   * @param {FormData} formData - The form data object
+   * @returns {Promise<void>}
    */
   static async #onSubmit(event, form, formData) {
     const SETTINGS = getSettings();
@@ -84,6 +109,12 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
    * Prepare context to be sent to handlebars template
    * @param {*} options 
    * @returns 
+   */
+  /**
+   * Prepares the context data for the template
+   * @protected
+   * @param {object} options - Application options
+   * @returns {object} The prepared context object containing field values, defaults, theme list, and UI configuration
    */
   _prepareContext(options) {
     const SETTINGS = getSettings();
@@ -145,6 +176,12 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
     return context;
   }
 
+  /**
+   * Handles post-render operations including dropdown setup, keyboard navigation, and theme preview
+   * @protected
+   * @param {object} context - The render context
+   * @param {object} options - The render options
+   */
   _onRender(context, options) {
     ThemeAndStyleSettings.#element = this.element;
     
@@ -283,12 +320,25 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
     });
   }
   
+  /**
+   * Closes all open theme dropdown menus
+   * @private
+   * @static
+   */
   static #closeAllDropdowns() {
     ThemeAndStyleSettings.#element.querySelectorAll('.dropdown-options').forEach(dropdown => {
       dropdown.classList.remove('active');
     });
   }
 
+  /**
+   * Resets form fields to their default values and updates theme preview
+   * @private
+   * @static
+   * @param {Event} a - The reset event
+   * @param {HTMLElement} b - The form element
+   * @returns {Promise<void>}
+   */
   static async #onReset(a, b){
     const SETTINGS = getSettings();
     const html = this.element;
