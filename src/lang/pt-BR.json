@@ -35,7 +35,7 @@
             "label": "Títulos do Diário"
           }
         },
-        "postDescription": "Se a fonte não carregar, você pode ter digitado o nome incorretamente ou a fonte não foi encontrada.",
+        "postDescription": "Para importar do <b>Google Fonts</b>, primeiro cole o link @import no campo \"Estilos CSS\" nas configurações de estilo, e a fonte será listada aqui.",
         "reset": "Redefinir",
         "save": "Salvar"
       },
@@ -54,7 +54,7 @@
           },
           "customStyles": {
             "label": "Estilos CSS",
-            "hint": "Estilos digitados aqui serão aplicados na próxima vez que você carregar o Foundry"
+            "hint": "Estilos digitados aqui serão aplicados na próxima vez que você carregar o Foundry. Você pode incluir fontes do Google Fonts colando o link @import, e a fonte será listada nas configurações de Fontes Personalizadas."
           }
         },
         "reset": "Redefinir",

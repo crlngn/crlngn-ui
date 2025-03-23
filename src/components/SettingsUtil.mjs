@@ -51,6 +51,7 @@ export class SettingsUtil {
         settingObj.choices = setting.choices
       }
 
+      // @ts-ignore - Valid module ID for settings registration
       await game.settings.register(MODULE_ID, setting.tag, settingObj);
 
       if(SettingsUtil.get(setting.tag)===undefined){
@@ -133,9 +134,6 @@ export class SettingsUtil {
     controlFields.forEach(fieldName => {
       SettingsUtil.applyLeftControlsSettings(SETTINGS[fieldName].tag);
     }); 
-
-
-
   }
 
   /**

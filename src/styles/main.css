@@ -237,9 +237,13 @@ body .journal-entry-content a.content-link > i {
 }
 
 
-#tooltip, #tooltip > *:not(hr) {
+#tooltip {
 	font-size: var(--font-size-12);
-	padding: 4px 6px;
+	padding: 6px;
+
+  > div, > p, > section, > button {
+    padding: 6px;
+  }
 }
 
 #loading {

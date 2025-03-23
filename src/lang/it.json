@@ -35,7 +35,7 @@
             "label": "Titoli Journal"
           }
         },
-        "postDescription": "Se il font non si carica, verifica che il nome sia scritto correttamente.",
+        "postDescription": "Per importare da <b>Google Fonts</b>, prima incolla il link @import nel campo \"CSS Personalizzato\" delle impostazioni di stile, e il font sarà elencato qui.",
         "reset": "Ripristina",
         "save": "Salva"
       },
@@ -55,7 +55,7 @@
           },
           "customStyles": {
             "label": "CSS Personalizzato",
-            "hint": "Questi stili saranno caricati al prossimo avvio di Foundry. Ricordati di controllare la sintassi."
+            "hint": "Questi stili saranno caricati al prossimo avvio di Foundry. Puoi includere Google Fonts incollando il link @import, e il font sarà elencato nelle impostazioni dei Font Personalizzati."
           }
         },
         "reset": "Ripristina",

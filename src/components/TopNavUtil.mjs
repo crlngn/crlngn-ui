@@ -212,15 +212,17 @@ export class TopNavigation {
    * Handles hover and click events for navigation expansion/collapse
    */
   static addListeners(){
-    TopNavigation.#navElem?.addEventListener("mouseenter", ()=>{
+    TopNavigation.#navElem?.addEventListener("mouseenter", (e)=>{
       LogUtil.log("TopNavigation mouseenter", [ ]);
     
       if( !TopNavigation.isCollapsed ||
           !TopNavigation.showNavOnHover ){ 
             return;
       }
-      clearTimeout(this.#navTimeout);
+      e.stopPropagation();
+      clearTimeout(TopNavigation.#navTimeout);
 
+      /** @type {HTMLElement} */
       const list = document.querySelector("#scene-list");
       if(list) {list.style.display = "flex";}
       const navigation = document.querySelector("#navigation");
@@ -233,13 +235,12 @@ export class TopNavigation {
           !TopNavigation.showNavOnHover ){ 
           return;
       }
-      if (!e) var e = window.event;
-      e.cancelBubble = true;
-      if (e.stopPropagation) e.stopPropagation();
+      e.stopPropagation();
 
       this.#navTimeout = setTimeout(()=>{
         clearTimeout(this.#navTimeout);
         this.#navTimeout = null;
+        /** @type {HTMLElement} */
         const list = document.querySelector("#scene-list");
         if(list) {list.style.display = "none";}
         const navigation = document.querySelector("#navigation");
