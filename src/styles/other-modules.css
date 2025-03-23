@@ -500,6 +500,9 @@ body.crlngn-ui{
       }
 
       /* CAROUSEL COMBAT TRACKER TOOLTIPS */
+      #tooltip.combat-dock-tooltip {
+        padding: 12px !important;
+      }
       #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper {
         font-family: var(--crlngn-font-family);
         font-size: var(--font-size-12);
