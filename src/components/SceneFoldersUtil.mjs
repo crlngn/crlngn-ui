@@ -24,7 +24,7 @@ export class SceneNavFolders {
     if(!SceneNavFolders.folderListData || SceneNavFolders.folderListData.length === 0){
       const isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
       const isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
-      if(!isMonksSceneNavOn || !isRipperSceneNavOn){
+      if(!isMonksSceneNavOn && !isRipperSceneNavOn){
         SceneNavFolders.preloadTemplate();
       }
       LogUtil.log("SceneNavFolders",[ui.scenes]);
