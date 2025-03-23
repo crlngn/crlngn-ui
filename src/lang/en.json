@@ -6,13 +6,15 @@
         "monksScenesNotSupported": "Carolingian UI's Scene Navigation will conflict with Monk's Scene Navigation. This functionality of Carolingian UI has been disabled.",
         "ripperScenesNotSupported": "Carolingian UI's Scene Navigation will conflict with Compact Scene Navigation. This functionality of Carolingian UI has been disabled.",
         "monksPlayerSettingsConflict": "Some of Carolingian UI's settings have been disabled to prevent conflict with the module Monk's Player Settings.",
-        "forceClientSettingsConflict": "Some of Carolingian UI's settings have been disabled to prevent conflict with the module Force Client Settings."
+        "forceClientSettingsConflict": "Some of Carolingian UI's settings have been disabled to prevent conflict with the module Force Client Settings.",
+        "initialViewSet": "This scene's initial view was set to the current view."
       },
       "sceneNav": {
         "searchPlaceholder": "Search scenes...",
         "favoritesFolder": "Favorites",
         "addToFavorites": "Add to Favorites",
-        "removeFromFavorites": "Remove from Favorites"
+        "removeFromFavorites": "Remove from Favorites",
+        "initialViewBtn": "Set Initial View"
       }
     },
     "settings": {
@@ -147,7 +149,7 @@
       },
       "sceneNavMenu": {
         "label": "Scene Navigation",
-        "title": "Configure Navigation",
+        "title": "Configure Scene Nav",
         "hint": "Change options for the scene navigation menu, on the top bar",
         "fields": {
           "sceneNavEnabled": {

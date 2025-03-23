@@ -50,6 +50,12 @@
     </ol>
   </div>
 </div>
+
+<!--debug-->
+{{!-- <div class="debug-block">
+  Debug: {{log scenes}}
+</div> --}}
+
 <ol id="crlngn-scene-list" class="no-transition">
   <!--subfolders first-->
   {{#each folders}}
@@ -60,7 +66,6 @@
   </li>
   {{/each}}
 
-  <!--folder scenes-->
   {{#each scenes}}
   <li class="scene nav-item{{#if (eq this.ownership.default 0)}} gm{{/if}}{{#if (eq ../viewedSceneId this.id) }} active{{/if}}" 
     data-scene-id="{{this.id}}" draggable="true">
@@ -73,7 +78,6 @@
         <i class="fas fa-crown"></i>
         {{else}}
         {{#unless this.active}}
-          {{!-- Debug: {{log this}} --}}
           {{#if (eq this.ownership.default 0)}}
           <i class="fas fa-lock"></i>
           {{/if}}
@@ -81,12 +85,6 @@
         {{/if}}
       {{/if}}
       {{this.name}}
-      {{!-- <ul class="scene-icons">
-        {{#if (eq this.ownership.default 0)}}
-          <li class="scene-icon" data-icon="crown"></li>
-        {{/if}}
-        <li class="scene-icon" data-icon="bullseye"></li>
-      </ul> --}}
     </a>
     <ul class="scene-players">
       {{#each ../users}}

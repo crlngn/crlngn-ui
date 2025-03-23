@@ -22,6 +22,8 @@ export class TopNavigation {
   static #collapseTimeout;
   static #navBtnsTimeout;
   static #navFirstLoad = true;
+  static #isMonksSceneNavOn = false;
+  static #isRipperSceneNavOn = false;
   // settings
   static sceneNavEnabled;
   static navFoldersEnabled;
@@ -39,7 +41,9 @@ export class TopNavigation {
    */
   static init = async() => {
     const SETTINGS = getSettings();
-    
+
+    this.checkSceneNavCompat();
+
     // Load settings first
     TopNavigation.navStartCollapsed = SettingsUtil.get(SETTINGS.navStartCollapsed.tag);
     TopNavigation.showNavOnHover = SettingsUtil.get(SETTINGS.showNavOnHover.tag);
@@ -67,17 +71,16 @@ export class TopNavigation {
       return;
     }
     
-    const isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
-    const isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
-    if(!isMonksSceneNavOn && !isRipperSceneNavOn){
+    if(!this.#isMonksSceneNavOn && !this.#isRipperSceneNavOn){
       await SceneNavFolders.renderSceneFolders();
       
       const scenePage = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
       TopNavigation.setNavPosition(scenePage);
       TopNavigation.placeNavButtons();
       TopNavigation.addListeners();
+      TopNavigation.handleNavState();
       //
-    }else if(isMonksSceneNavOn){
+    }else if(this.#isMonksSceneNavOn){
       uiMiddle.classList.add('with-monks-scene');
     }
     // LogUtil.log("RENDER_NAV", [ui.nav, game]);
@@ -87,11 +90,9 @@ export class TopNavigation {
       LogUtil.log("TopNavigation", [TopNavigation.isCollapsed, TopNavigation.navStartCollapsed]);
 
       const SETTINGS = getSettings();
-      const isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
-      const isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
-      LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ isMonksSceneNavOn, isRipperSceneNavOn ]);
+      LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ this.#isMonksSceneNavOn, this.#isRipperSceneNavOn ]);
       
-      if(!isMonksSceneNavOn && !isRipperSceneNavOn){
+      if(!this.#isMonksSceneNavOn && !this.#isRipperSceneNavOn){
         LogUtil.log("NAV no transition add");
         TopNavigation.navPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
 
@@ -102,14 +103,8 @@ export class TopNavigation {
         TopNavigation.setNavPosition(scenePage);
         TopNavigation.placeNavButtons();
         TopNavigation.addListeners();
-        // Only check sceneNavCollapsed setting if not first load
-        if (!TopNavigation.#navFirstLoad) {
-          TopNavigation.toggleNav(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag));
-        }else{
-          LogUtil.log("TopNavigation", [TopNavigation.isCollapsed, TopNavigation.navStartCollapsed]);
-        TopNavigation.#navFirstLoad = false;
-        TopNavigation.toggleNav(TopNavigation.navStartCollapsed);
-        }
+
+        TopNavigation.handleNavState();
         
         clearTimeout(TopNavigation.#timeout);
         TopNavigation.#timeout = setTimeout(()=>{
@@ -120,9 +115,8 @@ export class TopNavigation {
     }); 
 
     Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, (value) => { 
-      const isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
-      LogUtil.log(HOOKS_CORE.COLLAPSE_SIDE_BAR, ["isMonksSceneNavOn",isMonksSceneNavOn]);
-      if(!isMonksSceneNavOn && !isRipperSceneNavOn){
+      LogUtil.log(HOOKS_CORE.COLLAPSE_SIDE_BAR, ["isMonksSceneNavOn", this.#isMonksSceneNavOn]);
+      if(!this.#isMonksSceneNavOn && !this.#isRipperSceneNavOn){
         TopNavigation.placeNavButtons(); 
       }
       
@@ -132,7 +126,6 @@ export class TopNavigation {
       const SETTINGS = getSettings();
       SettingsUtil.set(SETTINGS.sceneNavCollapsed.tag, collapsed); 
       LogUtil.log("NAV toggle", [nav, collapsed]); 
-
 
       TopNavigation.isCollapsed = collapsed;
       TopNavigation.toggleNav(collapsed);
@@ -147,9 +140,8 @@ export class TopNavigation {
 
     // SettingsUtil.apply(SETTINGS.sceneNavCollapsed.tag); 
     window.addEventListener('resize', ()=>{
-      const isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
-      const isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
-      if(!isMonksSceneNavOn && !isRipperSceneNavOn){
+      
+      if(!this.#isMonksSceneNavOn && !this.#isRipperSceneNavOn){
         TopNavigation.placeNavButtons();
       }
     });
@@ -161,6 +153,20 @@ export class TopNavigation {
     // } 
 
   } 
+
+  /**
+   * Handles the first load of the navigation bar
+   * Only checks sceneNavCollapsed setting if not first load
+   */
+  static handleNavState(){
+    const SETTINGS = getSettings();
+    if(game.ready && TopNavigation.#navFirstLoad) {
+      TopNavigation.#navFirstLoad = false;
+      TopNavigation.toggleNav(TopNavigation.navStartCollapsed);
+    }else{
+      TopNavigation.toggleNav(SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag));
+    }
+  }
 
   /**
    * Toggles the navigation bar's collapsed state
@@ -186,11 +192,12 @@ export class TopNavigation {
    */
   static checkSceneNavCompat(){
     const SETTINGS = getSettings();
-    const isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
-    const isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
     const uiMiddle = document.querySelector("#ui-middle");
+    
+    this.#isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
+    this.#isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
 
-    if((isMonksSceneNavOn || isRipperSceneNavOn) && TopNavigation.sceneNavEnabled){
+    if((this.#isMonksSceneNavOn || this.#isRipperSceneNavOn) && TopNavigation.sceneNavEnabled){
       uiMiddle.classList.remove("crlngn-ui");
       SettingsUtil.set(SETTINGS.sceneNavEnabled.tag, false);
       SettingsUtil.set(SETTINGS.navFoldersEnabled.tag, false);
@@ -199,10 +206,10 @@ export class TopNavigation {
 
       LogUtil.log("checkSceneNavCompat", [isMonksSceneNavOn, isRipperSceneNavOn]);
       
-      if(game.user.isGM && isMonksSceneNavOn){
+      if(game.user.isGM && this.#isMonksSceneNavOn){
         ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.monksScenesNotSupported"), {permanent: true});
       }
-      if(game.user.isGM && isRipperSceneNavOn){
+      if(game.user.isGM && this.#isRipperSceneNavOn){
         ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.ripperScenesNotSupported"), {permanent: true});
       }
     }

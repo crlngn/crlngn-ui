@@ -33,7 +33,7 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
       },
       tag: "form",
       window: {
-        icon: "fas fa-cog",
+        icon: "fas fa-map",
         title: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.title"),
         contentClasses: ["standard-form", "crlngn"],
         resizable: false
