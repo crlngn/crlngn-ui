@@ -4,6 +4,7 @@
       "notifications": {
         "settingsUpdated": "Configurações atualizadas",
         "monksScenesNotSupported": "A Navegação Horizontal do módulo Carolingian UI foi desabilitada, pois terá conflitos com Monk's Scene Navigation.",
+        "ripperScenesNotSupported": "A Navegação Horizontal do módulo Carolingian UI foi desabilitada, pois terá conflitos com Compact Scene Navigation.",
         "monksPlayerSettingsConflict": "Algumas configurações do módulo Carolingian UI foram desativadas para evitar conflitos com o módulo Monk's Player Settings.",
         "forceClientSettingsConflict": "Algumas configurações do módulo Carolingian UI foram desativadas para evitar conflitos com o módulo Force Client Settings."
       },

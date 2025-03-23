@@ -4,11 +4,12 @@
       "notifications": {
         "settingsUpdated": "Impostazioni aggiornate",
         "monksScenesNotSupported": "La Navigazione Scene di Carolingian UI entrerà in conflitto con Monk's Scene Navigation. Questa funzionalità di Carolingian UI è stata disabilitata.",
+        "ripperScenesNotSupported": "La Navigazione Scene di Carolingian UI entrerà in conflitto con Compact Scene Navigation. Questa funzionalità di Carolingian UI è stata disabilitata.",
         "monksPlayerSettingsConflict": "Alcune impostazioni di Carolingian UI sono state disabilitate per evitare conflitti con il modulo Monk's Player Settings.",
         "forceClientSettingsConflict": "Alcune impostazioni di Carolingian UI sono state disabilitate per evitare conflitti con il modulo Force Client Settings."
       },
       "sceneNav": {
-        "searchPlaceholder": "Search scenes...",
+        "searchPlaceholder": "Cerca...",
         "favoritesFolder": "Preferiti",
         "addToFavorites": "Aggiungi ai Preferiti",
         "removeFromFavorites": "Rimuovi dai Preferiti"

@@ -471,8 +471,8 @@ export class SettingsUtil {
    */
   static applySceneNavPos(value){
     const SETTINGS = getSettings();
-    SettingsUtil.set(SETTINGS.sceneNavPos.tag, value || SettingsUtil.get(SETTINGS.sceneNavPos.tag));
     TopNavigation.navPos = value || SettingsUtil.get(SETTINGS.sceneNavPos.tag);
+    // SettingsUtil.set(SETTINGS.sceneNavPos.tag, value || SettingsUtil.get(SETTINGS.sceneNavPos.tag));
   }
 
   /**

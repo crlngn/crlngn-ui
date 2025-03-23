@@ -87,8 +87,13 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
     event.preventDefault();
     event.stopPropagation();
 
-    // Convert FormData into an object with proper keys
-    const settings = foundry.utils.expandObject(formData.object);
+    // Convert FormData into an object with proper keys and handle checkboxes
+    const rawData = formData.object;
+    // Ensure checkbox fields are properly represented as booleans
+    if (!rawData.hasOwnProperty('enableFloatingDock')) {
+      rawData.enableFloatingDock = false;
+    }
+    const settings = foundry.utils.expandObject(rawData);
 
     await SettingsUtil.set(SETTINGS.cameraDockMenu.tag, settings);
     controlSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);

@@ -205,17 +205,16 @@ body{
         padding: 0;
         margin: 0;
         transition: margin-left 0.5s ease-in-out;
-
         visibility: visible;
+        z-index: 1;
 
         &.hidden{
           display: none;
           visibility: hidden;
         }
-        z-index: 1;
         
         &.no-transition{
-          transition: all 0s;
+          transition: margin-left 0s;
         }
 
         *{
@@ -253,9 +252,21 @@ body{
 
             i{
               font-size: var(--font-size-10);
+              visibility: hidden;
+              display: none;
 
-              &.fa-folder{
-                margin-right: 3px;
+              &.fa-lock, &.fa-bullseye {
+                transform: scale(0.9);
+              }
+
+              &.fa-folder,
+              &.fa-bullseye,
+              &.fa-crown,
+              &.fa-eye,
+              &.fa-lock{
+                margin-right: 2px;
+                visibility: visible;
+                display: inline-flex;
               }
             }
           }
@@ -465,8 +476,20 @@ body{
         background: var(--color-dark-bg-90);
         z-index: 100;
 
-        > * {
-          display: inline-flex;
+        i {
+          margin-right: 8px;
+          font-size: var(--font-size-10);
+          flex-shrink: 0;
+          max-width: 12px;
+          text-align: center;
+          overflow: hidden;
+        }
+
+        .folder-name {
+          flex-grow: 1;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         &:after{

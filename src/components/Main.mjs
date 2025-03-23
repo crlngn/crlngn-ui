@@ -10,6 +10,7 @@ import { LeftControls } from "./LeftControlsUtil.mjs";
 import { MODULE_ID } from "../constants/General.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
+import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
 
 /**
  * Main class handling core module initialization and setup
@@ -34,6 +35,7 @@ export class Main {
       PlayersListUtil.init(); 
       LeftControls.init();
       ChatUtil.init();
+      SceneNavFolders.registerHooks();
     });
 
     Hooks.once(HOOKS_CORE.READY, () => {
@@ -43,6 +45,7 @@ export class Main {
       if(isDebugOn){CONFIG.debug.hooks = true};
 
       ModuleCompatUtil.init();
+      TopNavigation.checkSceneNavCompat();
 
       const chatStylesEnabled = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
       if(chatStylesEnabled){ 

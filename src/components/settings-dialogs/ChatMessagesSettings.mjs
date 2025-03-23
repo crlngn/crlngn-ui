@@ -85,8 +85,15 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
     event.stopPropagation();
     const fieldNames = SETTINGS.chatMessagesMenu.fields;
 
-    // Convert FormData into an object with proper keys
-    const settings = foundry.utils.expandObject(formData.object);
+    // Convert FormData into an object with proper keys and handle checkboxes
+    const rawData = formData.object;
+    // Ensure checkbox fields are properly represented as booleans
+    fieldNames.forEach((fieldName) => {
+      if (SETTINGS[fieldName].inputType === 'checkbox' && !rawData.hasOwnProperty(fieldName)) {
+        rawData[fieldName] = false;
+      }
+    });
+    const settings = foundry.utils.expandObject(rawData);
     const currBorderSettings = SettingsUtil.get(SETTINGS.chatBorderColor.tag);
     LogUtil.log("Compared settings:", [ settings.chatBorderColor, currBorderSettings ]);
     

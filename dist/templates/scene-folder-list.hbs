@@ -1,6 +1,7 @@
 <div id="crlngn-scene-folders" draggable="false">
   <a class="selected">
-    <i class="fas {{currIcon}}"></i> {{currFolder.name}}
+    <i class="fas {{currIcon}}"></i>
+    <span class="folder-name">{{currFolder.name}}</span>
   </a>
   <div class="scene-folders-contents">
     <div class="search-container">
@@ -32,7 +33,7 @@
     <ol class="folder-list">
       <li class="folder" data-folder-id="{{favoritesId}}">
         <a id="scene-folder-favorites" class="favorites">
-          <i class="fas fa-star"></i> {{favoritesId}}
+          <i class="fas fa-star"></i> {{favoritesName}}
         </a>
       </li>
       {{#each folderList}}
@@ -49,10 +50,10 @@
     </ol>
   </div>
 </div>
-<ol id="crlngn-scene-list">
+<ol id="crlngn-scene-list" class="no-transition">
   <!--subfolders first-->
   {{#each folders}}
-  <li class="folder nav-item gm" data-folder-id="{{this.folder.id}}" draggable="false">
+  <li class="folder nav-item gm {{#if (eq ../currFolder.id this.id) }}active{{/if}}" data-folder-id="{{this.folder.id}}" draggable="false">
     <a class="folder-name">
       <i class="fas fa-folder"></i> {{this.folder.name}}
     </a>
@@ -61,13 +62,35 @@
 
   <!--folder scenes-->
   {{#each scenes}}
-  <li class="scene nav-item gm {{#if this.active}}active{{/if}}" data-scene-id="{{this.id}}" draggable="true">
+  <li class="scene nav-item{{#if (eq this.ownership.default 0)}} gm{{/if}}{{#if (eq ../viewedSceneId this.id) }} active{{/if}}" 
+    data-scene-id="{{this.id}}" draggable="true">
     <a class="scene-name">
-      {{#if this.active}}<i class="fas fa-bullseye"></i>{{/if}} {{this.name}}
+      {{#if this.active}}
+      <i class="fas fa-bullseye"></i>
+      {{/if}}
+      {{#if ../isGM}}
+        {{#if (eq ../viewedSceneId this.id)}}
+        <i class="fas fa-crown"></i>
+        {{else}}
+        {{#unless this.active}}
+          {{!-- Debug: {{log this}} --}}
+          {{#if (eq this.ownership.default 0)}}
+          <i class="fas fa-lock"></i>
+          {{/if}}
+        {{/unless}}
+        {{/if}}
+      {{/if}}
+      {{this.name}}
+      {{!-- <ul class="scene-icons">
+        {{#if (eq this.ownership.default 0)}}
+          <li class="scene-icon" data-icon="crown"></li>
+        {{/if}}
+        <li class="scene-icon" data-icon="bullseye"></li>
+      </ul> --}}
     </a>
     <ul class="scene-players">
       {{#each ../users}}
-        {{#if (eq this.viewedScene ../this.id)}}
+        {{#if (eq this.active ../this.id)}}
           <li class="scene-player" style="background-color: {{this.color}};"></li>
         {{/if}}
       {{/each}}
