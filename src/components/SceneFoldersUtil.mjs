@@ -91,31 +91,6 @@ export class SceneNavFolders {
   }
 
   /**
-   * Creates an ordered list element containing folder items
-   * @param {object[]} folders - Array of folder objects to create list items for
-   * @returns {HTMLOListElement} Ordered list element containing folder items
-   */
-  static createListElement = (folders) => {
-    const folderList = document.createElement("ol"); 
-    folderList.classList.add('folder-list');
-
-    folders.forEach(f => {
-      const folder = document.createElement("li");
-
-      LogUtil.log("createListElement", [f]);
-      
-      if(f.children && f.children.length > 0){
-        folder.innerHTML = `<a class="with-subfolders">${f.name}</a>`; 
-      }else{
-        folder.innerHTML = `<a>${f.name}</a>`; 
-      }
-      folderList.append(folder);
-    })
-
-    return folderList;
-  }
-
-  /**
    * Preloads the Handlebars template for scene folder list
    * @returns {Promise<boolean>} True when template is successfully loaded
    */
@@ -187,12 +162,15 @@ export class SceneNavFolders {
     } else {
       const foldersData = SceneNavFolders.selectedFolder.children;
       LogUtil.log("foldersData", [foldersData, SceneNavFolders.selectedFolder]);
+      // Get folder contents and sort by sort property
+      const folderScenes = [...SceneNavFolders.selectedFolder.contents];
+      folderScenes.sort((a, b) => a.sort - b.sort);
       SceneNavFolders.#templateData = {
         ...baseData,
         currFolder: SceneNavFolders.selectedFolder,
         currIcon: 'fa-folder',
         folders: foldersData,
-        scenes: SceneNavFolders.selectedFolder.contents
+        scenes: folderScenes
       };
     }
 
@@ -316,70 +294,172 @@ export class SceneNavFolders {
    * @param {HTMLElement} html - The scene list container
    */
   static #initializeDragDrop = (html) => {
-    // Initialize SortableJS on the scene list
-    const options = {
-      animation: 150,
-      draggable: ".nav-item",
+    // Check if Sortable is available, if not retry after a short delay
+    if (typeof Sortable === 'undefined') {
+      setTimeout(() => SceneNavFolders.#initializeDragDrop(html), 100);
+      return;
+    }
+    LogUtil.log("#initializeDragDrop", []);
+
+    // Common options for both scenes and folders
+    const commonOptions = {
+      animation: 100,
       delay: 50,
-      delayOnTouchOnly: true,
+      delayOnTouchOnly: true
+    };
+
+    // Initialize SortableJS for scenes
+    const sceneOptions = {
+      ...commonOptions,
+      draggable: ".scene.nav-item",
       onEnd: async (evt) => {
-        const scenes = html.querySelectorAll(".nav-item");
+        LogUtil.log("#initializeDragDrop scenes", ["onEnd", evt]);
+
+        const scenes = html.querySelectorAll(".scene.nav-item");
         const updates = [];
         
         // Get all scenes in their new order
         const orderedScenes = Array.from(scenes).map(el => game.scenes.get(el.dataset.sceneId));
         
-        // Calculate base sort order
-        const siblings = Array.from(scenes);
-        const updateData = SortingHelpers.performIntegerSort(evt.item, {
-          target: evt.to,
-          siblings: siblings,
-          sortBefore: true
-        });
-
         // Calculate navigation order for scenes
-        let navOrder = 0;
+        let order = 0;
         const density = CONST.SORT_INTEGER_DENSITY;
 
-        // First pass: Update sort for all scenes
-        for (let [id, sort] of Object.entries(updateData || {})) {
-          const scene = game.scenes.get(id);
+        // First pass: Update order for all scenes in the drag operation
+        for (const scene of orderedScenes) {
           if (!scene) continue;
           
-          // Start with just the sort update
           const update = {
-            _id: scene.id,
-            sort: sort
+            _id: scene.id
           };
 
-          // If this scene is navigable, assign it a nav order
-          if (scene.navigation) {
-            update.navOrder = navOrder;
-            navOrder += density;
+          // For default folder (Favorites), only update navOrder for navigable scenes
+          if (SceneNavFolders.selectedFolder === DEFAULT_FOLDER_ID) {
+            if (scene.navigation) {
+              update.navOrder = order;
+              order += density;
+            }
+          } 
+          // For scenes in the selected folder, update their sort order
+          else if (SceneNavFolders.selectedFolder && scene.folder?.id === SceneNavFolders.selectedFolder.id) {
+            update.sort = order;
+            order += density;
           }
 
           updates.push(update);
         }
 
-        // Second pass: Update any remaining navigable scenes not in the drag operation
-        for (const scene of orderedScenes) {
-          if (!scene || !scene.navigation || updates.some(u => u._id === scene.id)) continue;
-          updates.push({
-            _id: scene.id,
-            navOrder: navOrder
-          });
-          navOrder += density;
+        // Second pass: Update any remaining scenes not in the updates array
+        const remainingScenes = game.scenes.contents.filter(s => !updates.some(u => u._id === s.id));
+        
+        // Sort remaining scenes by their current order (navOrder for favorites, sort for folders)
+        remainingScenes.sort((a, b) => {
+          if (SceneNavFolders.selectedFolder === DEFAULT_FOLDER_ID) {
+            // Only include navigable scenes for favorites
+            if (!a.navigation && !b.navigation) return 0;
+            if (!a.navigation) return 1;
+            if (!b.navigation) return -1;
+            return a.navOrder - b.navOrder;
+          } else {
+            // Only include scenes from the current folder
+            const aInFolder = a.folder?.id === SceneNavFolders.selectedFolder.id;
+            const bInFolder = b.folder?.id === SceneNavFolders.selectedFolder.id;
+            if (!aInFolder && !bInFolder) return 0;
+            if (!aInFolder) return 1;
+            if (!bInFolder) return -1;
+            return a.sort - b.sort;
+          }
+        });
+
+        // Update the remaining scenes with new order values
+        for (const scene of remainingScenes) {
+          if (SceneNavFolders.selectedFolder === DEFAULT_FOLDER_ID) {
+            if (scene.navigation) {
+              updates.push({
+                _id: scene.id,
+                navOrder: order
+              });
+              order += density;
+            }
+          } else if (scene.folder?.id === SceneNavFolders.selectedFolder.id) {
+            updates.push({
+              _id: scene.id,
+              sort: order
+            });
+            order += density;
+          }
         }
 
         // Apply updates
         if (updates.length) {
           await Scene.updateDocuments(updates);
           ui.nav.render();
+          // Re-render the scene directory to reflect the new sort order
+          game.scenes.directory.render();
         }
       }
     };
 
-    new Sortable(html, options);
+    // Initialize SortableJS for folders
+    const folderOptions = {
+      ...commonOptions,
+      draggable: ".folder.nav-item",
+      onEnd: async (evt) => {
+        LogUtil.log("#initializeDragDrop folders", ["onEnd", evt]);
+
+        const folders = html.querySelectorAll(".folder.nav-item");
+        const updates = [];
+        
+        // Get all folders in their new order
+        const orderedFolders = Array.from(folders).map(el => {
+          const folderId = el.dataset.folderId;
+          return game.scenes.folders.find(f => f.id === folderId);
+        }).filter(f => f);
+        
+        // Calculate sort order for folders
+        let order = 0;
+        const density = CONST.SORT_INTEGER_DENSITY;
+
+        // Update sort order for all folders in the drag operation
+        for (const folder of orderedFolders) {
+          if (!folder) continue;
+          
+          // Only update folders that are children of the selected folder
+          if (folder.folder?.id === SceneNavFolders.selectedFolder?.id) {
+            updates.push({
+              _id: folder.id,
+              sort: order
+            });
+            order += density;
+          }
+        }
+
+        // Update remaining folders in the same parent folder
+        const remainingFolders = game.scenes.folders
+          .filter(f => f.folder?.id === SceneNavFolders.selectedFolder?.id && !updates.some(u => u._id === f.id))
+          .sort((a, b) => a.sort - b.sort);
+
+        for (const folder of remainingFolders) {
+          updates.push({
+            _id: folder.id,
+            sort: order
+          });
+          order += density;
+        }
+
+        // Apply updates
+        if (updates.length) {
+          await Folder.updateDocuments(updates);
+          ui.nav.render();
+          // Re-render the scene directory to reflect the new sort order
+          game.scenes.directory.render();
+        }
+      }
+    };
+
+    // Create separate Sortable instances for scenes and folders
+    new Sortable(html, sceneOptions);
+    new Sortable(html, folderOptions);
   }
 
   /**
@@ -476,18 +556,14 @@ export class SceneNavFolders {
     // Also hook into scene changes
     Hooks.on(HOOKS_CORE.CREATE_SCENE, () => {
       SceneNavFolders.refreshFolderView();
-      // game.scenes.directory.render();
     });
     Hooks.on(HOOKS_CORE.UPDATE_SCENE, () => {
       SceneNavFolders.refreshFolderView();
-      // game.scenes.directory.render();
     });
     Hooks.on(HOOKS_CORE.DELETE_SCENE, () => {
       SceneNavFolders.refreshFolderView();
-      // game.scenes.directory.render();
     });
 
-    // Hooks.on(HOOKS_CORE.GET_SCENE_DIRECTORY_ENTRY_CONTEXT, SceneNavFolders.#modifyDirectoryContextMenu);
     Hooks.on(HOOKS_CORE.RENDER_DOCUMENT_DIRECTORY, (directory) => {
       if(directory.entryType !== "Scene") return;
       
@@ -526,6 +602,28 @@ export class SceneNavFolders {
           SceneNavFolders.#observeSceneContextMenu(optionLabel);
         }
       });
+    });
+
+    Hooks.on(HOOKS_CORE.GET_SCENE_NAV_CONTEXT, (nav, options) => {
+      LogUtil.log(HOOKS_CORE.GET_SCENE_NAV_CONTEXT, [nav, options]);
+
+      const initialViewOption = options.find(opt => opt.name === 'CRLNGN_UI.ui.sceneNav.initialViewBtn');
+      if(!initialViewOption){
+        options.push({
+          ...options[0],
+          condition: li => game.user.isGM && game.scenes.get(li.data("sceneId"))._view,
+          callback: li => {
+              let scene = game.scenes.get(li.data("sceneId"));
+              let x = parseInt(canvas.stage.pivot.x);
+              let y = parseInt(canvas.stage.pivot.y);
+              let scale = canvas.stage.scale.x;
+              scene.update({ initial: { x: x, y: y, scale: scale } }, { diff: false });
+              ui.notifications.info(game.i18n.localize("CRLNGN_UI.ui.notifications.initialViewSet"))
+          },
+          icon: "<i class=\"fas fa-expand\"></i>",
+          name: 'CRLNGN_UI.ui.sceneNav.initialViewBtn'
+        });
+      }
     });
   }
   /**

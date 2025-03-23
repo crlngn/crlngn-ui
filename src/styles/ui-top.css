@@ -91,8 +91,17 @@ body{
         width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width) + 10px);
         max-width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width) + 10px);
         min-width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width) + 10px);
-
         z-index:101;
+
+        .debug-block{
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 50vw;
+          height: 100px;
+          z-index: 101;
+        }
 
         > *{
           position: relative;

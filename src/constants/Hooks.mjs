@@ -20,10 +20,11 @@ export const HOOKS_CORE = {
   COLLAPSE_SCENE_NAV: "collapseSceneNavigation",
   EXPAND_SCENE_NAV: "expandSceneNavigation",
   GET_SCENE_NAV_CONTEXT: "getSceneNavigationContext",
-  GET_SCENE_DIRECTORY_ENTRY_CONTEXT: "getSceneDirectoryEntryContext",
 
   /* Document Directory */
   RENDER_DOCUMENT_DIRECTORY: "renderDocumentDirectory",
+  GET_SCENE_DIRECTORY_ENTRY_CONTEXT: "getSceneDirectoryEntryContext",
+  RENDER_SCENE_DIRECTORY: "renderSceneDirectory",
 
   /* Folders */
   CREATE_FOLDER: "createFolder",
