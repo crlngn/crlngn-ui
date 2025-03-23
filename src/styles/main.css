@@ -241,7 +241,7 @@ body .journal-entry-content a.content-link > i {
 	font-size: var(--font-size-12);
 	padding: 6px;
 
-  > div, > p, > section, > button {
+  > div, > p, > section, > button, > span {
     padding: 6px;
   }
 }

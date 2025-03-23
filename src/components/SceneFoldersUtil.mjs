@@ -615,14 +615,15 @@ export class SceneNavFolders {
    */
   static #onOutsideClick = (evt) => {
     evt.preventDefault();
-    evt.stopPropagation();
+
+    document.removeEventListener('click', SceneNavFolders.#onOutsideClick);
+    // evt.stopPropagation();
     const target = evt.target;
     const folderElement = document.querySelector('#crlngn-scene-folders');
     LogUtil.log("#onOutsideClick", [folderElement, target, folderElement.contains(target)]);
     // const selectedLink = folderElement?.querySelector('a.selected');
     if (folderElement?.classList.contains('open') && !folderElement.contains(target)) {
       folderElement.classList.remove('open');
-      document.removeEventListener('click', SceneNavFolders.#onOutsideClick);
     }
   }
 
@@ -635,6 +636,7 @@ export class SceneNavFolders {
   static #onSelectScene = (evt) => {
     evt.preventDefault();
     evt.stopPropagation();
+    document.removeEventListener('click', SceneNavFolders.#onOutsideClick);
     const target = evt.currentTarget;
     const data = target.dataset;
     const scene = game.scenes.get(data.sceneId);
@@ -687,6 +689,8 @@ export class SceneNavFolders {
   static #onSelectFolder = (evt) => {
     evt.stopPropagation();
     evt.preventDefault();
+
+    document.removeEventListener('click', SceneNavFolders.#onOutsideClick);
     const target = evt.currentTarget;
     const data = target.dataset;
     LogUtil.log("#onSelectFolder", [data]);
