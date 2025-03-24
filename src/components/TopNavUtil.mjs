@@ -234,7 +234,7 @@ export class TopNavigation {
       TopNavigation.#scenesList = document.querySelector("#crlngn-scene-list"); 
       LogUtil.log("TopNavigation resetLocalVars", [TopNavigation.#scenesList]);
     }else{
-      TopNavigation.#scenesList = document.querySelector("#crlngn-scene-list"); 
+      TopNavigation.#scenesList = document.querySelector("#scene-list"); 
     }
     // TopNavigation.#leftControls = document.querySelector("#ui-left #controls"); 
   }
@@ -285,10 +285,11 @@ export class TopNavigation {
       clearTimeout(this.#navBtnsTimeout);
       TopNavigation.resetLocalVars();
 
-      const folderListWidth = this.#navElem?.querySelector("#crlngn-scene-folders")?.offsetWidth || 0;
-      const existingButtons = this.#navElem?.querySelectorAll("button.crlngn-nav");
-      const isNavOverflowing = this.#scenesList?.scrollWidth + folderListWidth >= this.#navElem?.offsetWidth;
-      LogUtil.log("placeNavButtons", [ this.#scenesList, isNavOverflowing ]);
+      const folderListWidth = TopNavigation.#navElem?.querySelector("#crlngn-scene-folders")?.offsetWidth || 0;
+      // const extrasWidth = this.#isRipperSceneNavOn ? this.#navExtras?.offsetWidth : 0;
+      const existingButtons = TopNavigation.#navElem?.querySelectorAll("button.crlngn-nav");
+      const isNavOverflowing = TopNavigation.#scenesList?.scrollWidth + folderListWidth >= this.#navElem?.offsetWidth;
+      LogUtil.log("placeNavButtons", [ TopNavigation.#scenesList, isNavOverflowing ]);
       
       if(!isNavOverflowing){
         return;
@@ -328,12 +329,13 @@ export class TopNavigation {
    */
   static #onNavLast = (e) => {
     const folderListWidth = this.#navElem?.querySelector("#crlngn-scene-folders")?.offsetWidth || 0;
+    const extrasWidth = this.#isRipperSceneNavOn ? this.#navExtras?.offsetWidth : 0;
     const toggleWidth = this.#navToggle?.offsetWidth;
     const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
     const scenes = this.#scenesList?.querySelectorAll("li.nav-item:not(.is-root)") || [];
     const itemWidth = firstScene.offsetWidth;
     const currPos = TopNavigation.navPos || 0;
-    const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? folderListWidth : 0) - (toggleWidth*2))/itemWidth);
+    const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? extrasWidth + folderListWidth : 0) - (toggleWidth*2))/itemWidth);
 
     let newPos = currPos - (itemsPerPage - 1);
     newPos = newPos < 0 ? 0 : newPos;
@@ -351,18 +353,18 @@ export class TopNavigation {
   static #onNavNext = (e) => {
     // const SETTINGS = getSettings();
     const folderListWidth = this.#navElem?.querySelector("#crlngn-scene-folders")?.offsetWidth || 0;
+    const extrasWidth = this.#isRipperSceneNavOn ? this.#navExtras?.offsetWidth : 0;
     const toggleWidth = this.#navToggle?.offsetWidth;
     const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
     const scenes = this.#scenesList?.querySelectorAll("li.nav-item:not(.is-root)") || [];
     const itemWidth = firstScene.offsetWidth;
     const currPos = TopNavigation.navPos || 0;
-    const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? folderListWidth : 0) - (toggleWidth*2))/itemWidth);
+    const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? extrasWidth + folderListWidth : 0) - (toggleWidth*2))/itemWidth);
 
     let newPos = currPos + (itemsPerPage - 1);
     newPos = newPos > scenes.length-1 ? scenes.length-1 : newPos;
 
     LogUtil.log("onNavNext", ["currPos", currPos, "items", itemsPerPage, newPos]);
-
 
     TopNavigation.setNavPosition(newPos); 
   }
@@ -375,9 +377,10 @@ export class TopNavigation {
     const SETTINGS = getSettings();
     if(!this.#scenesList){ return; }
     const scenes = this.#scenesList?.querySelectorAll("li.nav-item:not(.is-root)") || [];
+    const extrasWidth = this.#isRipperSceneNavOn ? this.#navExtras?.offsetWidth : 0;
     const position = pos!==undefined ? pos : TopNavigation.navPos || 0;
 
-    const newMargin = parseInt(scenes[position]?.offsetLeft) * -1;
+    const newMargin = (parseInt(scenes[position]?.offsetLeft) - extrasWidth) * -1;
     this.#scenesList.style.marginLeft = newMargin + 'px';
 
     TopNavigation.navPos = position;
