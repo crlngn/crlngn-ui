@@ -1,6 +1,6 @@
 
 
-import { MODULE_SETTINGS } from '../constants/Settings.mjs';
+import { getSettings } from '../constants/Settings.mjs';
 import { LogUtil } from './LogUtil.mjs';
 
 export class UpdateNewsUtil {
@@ -11,9 +11,9 @@ export class UpdateNewsUtil {
    * Initialize the update news system
    */
   static init() {
-    if (!game.user?.isGM) return;
     
     Hooks.once('ready', () => {
+      if (!game.user?.isGM) return;
       this.checkForUpdates();
     });
   }
@@ -23,16 +23,18 @@ export class UpdateNewsUtil {
    * @private
    */
   static async checkForUpdates() {
+    const SETTINGS = getSettings();
     try {
       const response = await fetch(this.UPDATE_NEWS_URL);
       if (!response.ok) {
-        LogUtil.warn("Failed to fetch update news", [response]);
+        LogUtil.warn("checkForUpdates | Failed to fetch update news", [response]);
         return;
       }
       
       const updateData = await response.json();
       const lastUpdateId = game.settings.get('crlngn-ui', MODULE_SETTINGS.lastUpdateId);
       
+      LogUtil.log('checkForUpdates', [updateData]);
       // Check if this update has already been shown
       if (updateData.id === lastUpdateId) return;
       
@@ -40,9 +42,9 @@ export class UpdateNewsUtil {
       await this.displayUpdateNews(updateData);
       
       // Save the current update ID
-      await game.settings.set('crlngn-ui', MODULE_SETTINGS.lastUpdateId, updateData.id);
+      await game.settings.set('crlngn-ui', SETTINGS.lastUpdateId.tag, updateData.id);
     } catch (error) {
-      LogUtil.error('Failed to check for updates', [error]);
+      LogUtil.warn('checkForUpdates | Failed to check for updates', [error]);
     }
   }
 

@@ -36,6 +36,7 @@ export class Main {
       PlayersListUtil.init(); 
       LeftControls.init();
       ChatUtil.init();
+      UpdateNewsUtil.init(); 
       SceneNavFolders.registerHooks();
     });
 
@@ -47,7 +48,6 @@ export class Main {
 
       ModuleCompatUtil.init();
       TopNavigation.checkSceneNavCompat();
-      UpdateNewsUtil.init(); 
 
       const chatStylesEnabled = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
       if(chatStylesEnabled){ 

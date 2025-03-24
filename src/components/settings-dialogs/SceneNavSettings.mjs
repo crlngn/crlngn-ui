@@ -99,7 +99,7 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
     let navEnabledAfter = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag); 
     let foldersEnabledAfter = SettingsUtil.get(SETTINGS.navFoldersEnabled.tag);
 
-    LogUtil.log("Saving settings...", [form, formData.object, settings]); // Debugging
+    LogUtil.log("Saving settings...", [navEnabledBefore, navEnabledAfter]); // Debugging
     await SettingsUtil.set(SETTINGS.sceneNavMenu.tag, settings);
 
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
