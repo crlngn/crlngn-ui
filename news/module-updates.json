@@ -1,6 +1,6 @@
 {
-  "id": "v1.13.4",
+  "id": "1.13.4",
   "title": "New Updates to Carolingian UI!",
-  "content": "<p>There is a new version of Carolingian UI available! The new version has the following updates:</p> <ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>",
+  "content": "<p>New version of Carolingian UI available!</p>\n\n<p>Version 1.13.4 has the following updates:</p>\n<ul>\n  <li>- Restored basic support for Compact Scene Navigation and Monk's Scene Navigation (though I would love if you use my Scene Folder Navigation instead!)</li>\n  <li>Fixed player presence indicators on Scene Navigation items</li>\n  <li>Adjusted input selection styles for better visibility</li>\n  <li>Fix for an issue with Custom Fonts dropdowns introduced by last updates</li>\n</ul> <p>More details and requests on <a href='https://github.com/crlngn/crlngn-ui/releases'>Github repo</a> or <a href='https://discord.gg/P5ygvHXE3R'>Discord</a></p>",
   "imageUrl": ""
 }

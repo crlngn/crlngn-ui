@@ -1027,3 +1027,12 @@ body.crlngn-chat {
   }
 
 }
+
+.chat-message .crlngn-news {
+  h3{
+    padding: 6px 0;
+  }
+  .crlngn-news-content {
+    padding: 6px 0;
+  }
+}

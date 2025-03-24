@@ -2,6 +2,7 @@
 
 import { getSettings } from '../constants/Settings.mjs';
 import { LogUtil } from './LogUtil.mjs';
+import { SettingsUtil } from './SettingsUtil.mjs';
 
 export class UpdateNewsUtil {
   // static UPDATE_NEWS_URL = 'https://raw.githubusercontent.com/crlngn/crlngn-ui/main/news/module-updates.json'; // Replace with your GitHub raw JSON URL
@@ -32,7 +33,7 @@ export class UpdateNewsUtil {
       }
       
       const updateData = await response.json();
-      const lastUpdateId = game.settings.get('crlngn-ui', MODULE_SETTINGS.lastUpdateId);
+      const lastUpdateId = SettingsUtil.get(SETTINGS.lastUpdateId.tag);
       
       LogUtil.log('checkForUpdates', [updateData]);
       // Check if this update has already been shown
@@ -42,7 +43,8 @@ export class UpdateNewsUtil {
       await this.displayUpdateNews(updateData);
       
       // Save the current update ID
-      await game.settings.set('crlngn-ui', SETTINGS.lastUpdateId.tag, updateData.id);
+      SettingsUtil.set(SETTINGS.lastUpdateId.tag, updateData.id);
+      // await game.settings.set('crlngn-ui', SETTINGS.lastUpdateId.tag, updateData.id);
     } catch (error) {
       LogUtil.warn('checkForUpdates | Failed to check for updates', [error]);
     }
