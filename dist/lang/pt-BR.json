@@ -4,7 +4,7 @@
       "notifications": {
         "settingsUpdated": "Configurações atualizadas",
         "monksScenesNotSupported": "A Navegação Horizontal do módulo Carolingian UI foi desabilitada, pois terá conflitos com Monk's Scene Navigation.",
-        "ripperScenesNotSupported": "A Navegação Horizontal do módulo Carolingian UI foi desabilitada, pois terá conflitos com Compact Scene Navigation.",
+        "ripperScenesCompat": "Carolingian UI agora tem Navegação de Cenas com Pastas e Busca de Cenas, que não podem ser usados junto com a Compact Scene Navigation. Desative o outro módulo ou desative 'Ativar pastas na barra de navegação' nas configurações de Carolingian UI.",
         "monksPlayerSettingsConflict": "Algumas configurações do módulo Carolingian UI foram desativadas para evitar conflitos com o módulo Monk's Player Settings.",
         "forceClientSettingsConflict": "Algumas configurações do módulo Carolingian UI foram desativadas para evitar conflitos com o módulo Force Client Settings.",
         "initialViewSet": "A visualização inicial desta cena foi definida para a visualização atual."

@@ -4,7 +4,7 @@
       "notifications": {
         "settingsUpdated": "设置已更新",
         "monksScenesNotSupported": "卡罗林风格UI的水平场景导航将无法与Monk的场景导航一起使用，因此此功能已被禁用。",
-        "ripperScenesNotSupported": "卡罗林风格UI的水平场景导航将无法与Compact Scene Navigation一起使用，因此此功能已被禁用。",
+        "ripperScenesCompat": "卡罗林风格UI现在包含场景文件夹导航和场景搜索功能，这些功能无法与紧凑场景导航一起使用。请禁用其他模块或在卡罗林风格UI设置中禁用“场景文件夹导航”。",
         "monksPlayerSettingsConflict": "卡罗林风格UI的某些设置已被禁用，以防止与Monk's Player Settings发生冲突。",
         "forceClientSettingsConflict": "卡罗林风格UI的某些设置已被禁用，以防止与Force Client Settings发生冲突。",
         "initialViewSet": "此场景的初始视图已设置为当前视图。"
