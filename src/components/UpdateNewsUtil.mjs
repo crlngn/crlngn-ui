@@ -14,6 +14,8 @@ export class UpdateNewsUtil {
   static init() {
     Hooks.once('ready', () => {
       if (!game.user?.isGM) return;
+      // const SETTINGS = getSettings();
+      // SettingsUtil.set(SETTINGS.lastUpdateId.tag, '');
       this.checkForUpdates();
     });
   }
@@ -34,7 +36,7 @@ export class UpdateNewsUtil {
       const updateData = await response.json();
       const lastUpdateId = SettingsUtil.get(SETTINGS.lastUpdateId.tag);
       
-      LogUtil.log('checkForUpdates', [updateData]);
+      LogUtil.log('checkForUpdates...', [updateData.id, lastUpdateId]);
       // Check if this update has already been shown
       if (updateData.id === lastUpdateId) return;
       
@@ -43,6 +45,7 @@ export class UpdateNewsUtil {
       
       // Save the current update ID
       SettingsUtil.set(SETTINGS.lastUpdateId.tag, updateData.id);
+      LogUtil.log('checkForUpdates SUCCESS', [updateData.id]);
       // await game.settings.set('crlngn-ui', SETTINGS.lastUpdateId.tag, updateData.id);
     } catch (error) {
       LogUtil.warn('checkForUpdates | Failed to check for updates', [error]);

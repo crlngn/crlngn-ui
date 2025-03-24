@@ -31,13 +31,14 @@ export class Main {
 
       Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
       SettingsUtil.registerSettings();
+
       TopNavigation.init();
       CameraUtil.init(); 
       PlayersListUtil.init(); 
       LeftControls.init();
       ChatUtil.init();
-      UpdateNewsUtil.init(); 
       SceneNavFolders.registerHooks();
+      UpdateNewsUtil.init();
     });
 
     Hooks.once(HOOKS_CORE.READY, () => {

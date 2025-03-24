@@ -1034,5 +1034,17 @@ body.crlngn-chat {
   }
   .crlngn-news-content {
     padding: 6px 0;
+
+    b{
+      font-weight: 600;
+    }
+
+    ul{
+      margin: 12px 0;
+
+      > li{
+        margin: 6px 0;
+      }
+    }
   }
 }
