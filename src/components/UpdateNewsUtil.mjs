@@ -5,8 +5,8 @@ import { LogUtil } from './LogUtil.mjs';
 import { SettingsUtil } from './SettingsUtil.mjs';
 
 export class UpdateNewsUtil {
-  // static UPDATE_NEWS_URL = 'https://raw.githubusercontent.com/crlngn/crlngn-ui/main/news/module-updates.json'; // Replace with your GitHub raw JSON URL
-  static UPDATE_NEWS_URL = "https://raw.githubusercontent.com/crlngn/crlngn-ui/refs/heads/scene-nav-folders/news/module-updates.json";
+  static UPDATE_NEWS_URL = 'https://raw.githubusercontent.com/crlngn/crlngn-ui/main/news/module-updates.json'; // GitHub raw JSON URL
+  // static UPDATE_NEWS_URL = "https://raw.githubusercontent.com/crlngn/crlngn-ui/refs/heads/scene-nav-folders/news/module-updates.json"; // for testing
   
   /**
    * Initialize the update news system
