@@ -57,15 +57,12 @@ export class GeneralUtil {
   }
 
 
-  // Function to get a list with all the fonts available 
-  // (Foundry + CSS imported) - excludes Font Awesome
   /**
-   * Retrieves a comprehensive list of available fonts from multiple sources
-   * Combines Foundry built-in fonts, custom fonts from settings, and CSS imported fonts
-   * Excludes Font Awesome fonts from the results
-   * @returns {Promise<string[]>} Array of font family names, sorted alphabetically
+   * Process stylesheets to extract font families
+   * @returns {Promise<Set<string>>} Set of font family names from stylesheets
+   * @private
    */
-  static getAllFonts = async () => {
+  static processStyleSheets = async () => {
     // Get Foundry built-in fonts
     const foundryFonts = new Set(Object.keys(CONFIG.fontDefinitions));
     // LogUtil.log('Foundry built-in fonts:', [Array.from(foundryFonts)]);
@@ -197,7 +194,7 @@ export class GeneralUtil {
         LogUtil.warn('Error processing stylesheet:', [e]);
       }
     }
-    return [];
+    return cssImportedFonts;
   }
 
   /**
@@ -215,8 +212,6 @@ export class GeneralUtil {
   }
 
 
-  // Function to get a list with all the fonts available 
-  // (Foundry + CSS imported) - excludes Font Awesome
   /**
    * Retrieves a list of all available fonts
    * @returns {Promise<string[]>}
@@ -226,13 +221,11 @@ export class GeneralUtil {
     const foundryFonts = new Set(Object.keys(CONFIG.fontDefinitions));
     
     // Get custom fonts from settings
-    const customFontsObj = SettingsUtil.get("fonts","core") || {};
+    const customFontsObj = game.settings.get("core", "fonts") || {};
     const customFonts = Object.entries(customFontsObj).map(([fontFamily]) => fontFamily);
   
     // Get CSS imported fonts
-    const cssImportedFonts = new Set();
-
-    await this.processStyleSheets(cssImportedFonts);
+    const cssImportedFonts = await this.processStyleSheets();
   
     // Log what we found for debugging
     LogUtil.log('Found fonts:', [{
@@ -248,10 +241,9 @@ export class GeneralUtil {
       ...cssImportedFonts
     ]))
     .filter(f => !/FontAwesome|Font Awesome|FoundryVTT/.test(f))
-    .map(f => f.replace(/['"`]/g, '').trim())
+    .map(f => f.replace(/['"]/g, '').trim())
     .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
-    // Move return statement to the end of the function
     return allFonts || [];
   }
 

@@ -10,7 +10,7 @@ body{
     &.logo-visible:has(#navigation.collapsed) {
       --ui-top-padding: calc(72px + var(--top-nav-height,0px));
     }
-  }
+  } 
 
   #interface{
     --current-sidebar-width: var(--sidebar-width);
@@ -220,6 +220,9 @@ body{
         &.hidden{
           display: none;
           visibility: hidden;
+          max-width: 0;
+          max-height: 0;
+          overflow: hidden;
         }
         
         &.no-transition{
@@ -341,6 +344,8 @@ body{
           font-size: var(--font-size-14);
           margin: 0 -1px 0 0;
           background: rgba(0, 0, 0, 0.75);
+          border-bottom: 0;
+          border-top: 0;
         }
 
         ol.context-items li{
@@ -351,20 +356,26 @@ body{
         }
   
         li.scene > ul.scene-players {
+          height: 8px;
+          width: calc(100% - 20px);
           list-style: none;
           margin: 0;
           padding: 0;
           position: absolute;
-          display: inline-flex;
-          right: 0;
+          left: 10px;
+          right: auto;
           top: auto;
-          left: auto;
-          height: 100%;
+          bottom: -1px;
+          display: flex;
+          align-items: flex-end;
+          justify-items: stretch;
   
           li.scene-player{
-            height: calc(100% - 4px);
-            width: 4px;
-            margin: 2px 0 2px -1px;
+            height: 4px;
+            flex: 1 1 100%;
+            width: 100%;
+            max-width: 20px;
+            margin: 0 0 0 -1px;
             line-height: 1;
             font-size: 0;
             text-align: center;

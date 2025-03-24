@@ -71,9 +71,10 @@ export class TopNavigation {
       return;
     }
     
-    if(!this.#isMonksSceneNavOn && !this.#isRipperSceneNavOn){
-      await SceneNavFolders.renderSceneFolders();
-      
+    if(!this.#isMonksSceneNavOn){
+      if(!this.#isRipperSceneNavOn){
+        await SceneNavFolders.renderSceneFolders();
+      }
       const scenePage = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
       TopNavigation.setNavPosition(scenePage);
       TopNavigation.placeNavButtons();
@@ -90,14 +91,15 @@ export class TopNavigation {
       LogUtil.log("TopNavigation", [TopNavigation.isCollapsed, TopNavigation.navStartCollapsed]);
 
       const SETTINGS = getSettings();
-      LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV, [ this.#isMonksSceneNavOn, this.#isRipperSceneNavOn ]);
       
-      if(!this.#isMonksSceneNavOn && !this.#isRipperSceneNavOn){
+      if(!this.#isMonksSceneNavOn){
         LogUtil.log("NAV no transition add");
         TopNavigation.navPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
 
         SceneNavFolders.init();
-        await SceneNavFolders.renderSceneFolders();
+        if(!this.#isRipperSceneNavOn){
+          await SceneNavFolders.renderSceneFolders();
+        }
         if(this.#scenesList) {this.#scenesList.classList.add("no-transition")};
         const scenePage = TopNavigation.navPos;
         TopNavigation.setNavPosition(scenePage);
@@ -116,7 +118,7 @@ export class TopNavigation {
 
     Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, (value) => { 
       LogUtil.log(HOOKS_CORE.COLLAPSE_SIDE_BAR, ["isMonksSceneNavOn", this.#isMonksSceneNavOn]);
-      if(!this.#isMonksSceneNavOn && !this.#isRipperSceneNavOn){
+      if(!this.#isMonksSceneNavOn){
         TopNavigation.placeNavButtons(); 
       }
       
@@ -141,7 +143,7 @@ export class TopNavigation {
     // SettingsUtil.apply(SETTINGS.sceneNavCollapsed.tag); 
     window.addEventListener('resize', ()=>{
       
-      if(!this.#isMonksSceneNavOn && !this.#isRipperSceneNavOn){
+      if(!this.#isMonksSceneNavOn){
         TopNavigation.placeNavButtons();
       }
     });
@@ -197,21 +199,25 @@ export class TopNavigation {
     this.#isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
     this.#isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
 
-    if((this.#isMonksSceneNavOn || this.#isRipperSceneNavOn) && TopNavigation.sceneNavEnabled){
+    if(this.#isRipperSceneNavOn && TopNavigation.navFoldersEnabled){
+      if(game.user?.isGM && this.#isRipperSceneNavOn){
+        ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.ripperScenesCompat"), {permanent: true});
+      }
+    }
+    if((this.#isMonksSceneNavOn) && TopNavigation.sceneNavEnabled){
       uiMiddle.classList.remove("crlngn-ui");
-      SettingsUtil.set(SETTINGS.sceneNavEnabled.tag, false);
-      SettingsUtil.set(SETTINGS.navFoldersEnabled.tag, false);
-      TopNavigation.sceneNavEnabled = false;
-      TopNavigation.navFoldersEnabled = false;
-
-      LogUtil.log("checkSceneNavCompat", [isMonksSceneNavOn, isRipperSceneNavOn]);
       
-      if(game.user.isGM && this.#isMonksSceneNavOn){
+      if(game.ready){
+        SettingsUtil.set(SETTINGS.sceneNavEnabled.tag, false);
+        TopNavigation.sceneNavEnabled = false;
+      }
+
+      LogUtil.log("checkSceneNavCompat", [this.#isMonksSceneNavOn, this.#isRipperSceneNavOn]);
+      
+      if(game.user?.isGM && this.#isMonksSceneNavOn){
         ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.monksScenesNotSupported"), {permanent: true});
       }
-      if(game.user.isGM && this.#isRipperSceneNavOn){
-        ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.ripperScenesNotSupported"), {permanent: true});
-      }
+      
     }
   }
 
