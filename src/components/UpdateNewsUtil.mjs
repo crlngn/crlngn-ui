@@ -12,7 +12,6 @@ export class UpdateNewsUtil {
    * Initialize the update news system
    */
   static init() {
-    
     Hooks.once('ready', () => {
       if (!game.user?.isGM) return;
       this.checkForUpdates();
