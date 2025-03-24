@@ -1,6 +1,6 @@
 {
   "id": "v1.13.4",
-  "title": "<h3>Update Title</h3>",
-  "content": "<div>There is a new version of Carolingian UI available! The new version has the following updates: <ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul></div>",
+  "title": "New Updates to Carolingian UI!",
+  "content": "<p>There is a new version of Carolingian UI available! The new version has the following updates:</p> <ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>",
   "imageUrl": "" // Optional
 }

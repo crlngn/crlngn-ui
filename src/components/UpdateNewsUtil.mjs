@@ -1,9 +1,11 @@
 
 
 import { MODULE_SETTINGS } from '../constants/Settings.mjs';
+import { LogUtil } from './LogUtil.mjs';
 
 export class UpdateNewsUtil {
-  static UPDATE_NEWS_URL = 'news/module-updates.json'; // Replace with your GitHub raw JSON URL
+  // static UPDATE_NEWS_URL = 'https://raw.githubusercontent.com/crlngn/crlngn-ui/main/news/module-updates.json'; // Replace with your GitHub raw JSON URL
+  static UPDATE_NEWS_URL = "https://raw.githubusercontent.com/crlngn/crlngn-ui/refs/heads/scene-nav-folders/news/module-updates.json";
   
   /**
    * Initialize the update news system
@@ -23,7 +25,10 @@ export class UpdateNewsUtil {
   static async checkForUpdates() {
     try {
       const response = await fetch(this.UPDATE_NEWS_URL);
-      if (!response.ok) throw new Error('Failed to fetch update news');
+      if (!response.ok) {
+        LogUtil.warn("Failed to fetch update news", [response]);
+        return;
+      }
       
       const updateData = await response.json();
       const lastUpdateId = game.settings.get('crlngn-ui', MODULE_SETTINGS.lastUpdateId);
@@ -37,7 +42,7 @@ export class UpdateNewsUtil {
       // Save the current update ID
       await game.settings.set('crlngn-ui', MODULE_SETTINGS.lastUpdateId, updateData.id);
     } catch (error) {
-      console.error('Failed to check for updates:', error);
+      LogUtil.error('Failed to check for updates', [error]);
     }
   }
 
@@ -55,7 +60,9 @@ export class UpdateNewsUtil {
       <div class="crlngn-news">
         <h3>${updateData.title}</h3>
         ${updateData.imageUrl ? `<img src="${updateData.imageUrl}" alt="Update Preview">` : ''}
-        <div class="crlngn-news-content">${updateData.content}</div>
+        <div class="crlngn-news-content">
+        ${updateData.content}
+        </div>
       </div>
     `;
 
