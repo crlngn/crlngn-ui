@@ -554,14 +554,14 @@ export class SettingsUtil {
     const isForceSettingsOn = GeneralUtil.isModuleOn('force-client-settings');
     const forceDarkModeOn = SettingsUtil.get(SETTINGS.enforceDarkMode.tag);
     if(forceDarkModeOn && isMonksSettingsOn){
-      if(game.user.isGM) {
+      if(game.user?.isGM) {
         ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.monksPlayerSettingsConflict"), {permanent: true});
         SettingsUtil.set(SETTINGS.enforceDarkMode.tag, false);
       }
       return;
     }
     if(forceDarkModeOn && isForceSettingsOn){
-      if(game.user.isGM) {
+      if(game.user?.isGM) {
         ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.forceClientSettingsConflict"), {permanent: true});
         SettingsUtil.set(SETTINGS.enforceDarkMode.tag, false);
       }

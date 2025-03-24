@@ -183,7 +183,7 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
       ...fieldValues,
       // enforceDarkMode: SettingsUtil.get(SETTINGS.enforceDarkMode.tag),
       default: { ...fieldDefaults },
-      isGM: game.user.isGM,
+      isGM: game.user?.isGM,
       fields: { ...fields },
       buttons: [ 
         { type: "button", icon: "", label: "CRLNGN_UI.settings.chatMessagesMenu.reset", action: 'redefine' },

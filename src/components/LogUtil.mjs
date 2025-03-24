@@ -41,7 +41,7 @@ export class LogUtil {
    * @param {boolean} [options.permanent=false] - Whether UI notification should be permanent
    * @static
    */
-  static logError(strRef, options){ // = { ui:false, console:true, permanent:false }) {
+  static error(strRef, options){ // = { ui:false, console:true, permanent:false }) {
       if(options.ui){
           // console.log(ui.notifications);
           ui.notifications?.error(strRef, { localize: true, permanent: options.permanent });

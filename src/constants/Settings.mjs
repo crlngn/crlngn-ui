@@ -10,6 +10,11 @@ export const SETTING_SCOPE = {
   world: "world"
 }
 
+export const MODULE_SETTINGS = {
+  lastUpdateId: "lastUpdateId",
+  // Add other module settings here...
+}
+
 export const ICON_SIZES = {
   small: { name: 'small', size: '36px'},
   regular: { name: 'regular', size: '42px'},
@@ -581,7 +586,18 @@ export function getSettings() {
       default: true,
       scope: SETTING_SCOPE.client,
       config: false
-    }
+    },
+
+    //
+    lastUpdateId: {
+      tag: 'last-update-id',
+      label: "",/*game.i18n.localize("CRLNGN_UI.ui.updates.label"), */
+      hint: "",/*game.i18n.localize("CRLNGN_UI.ui.updates.hint"), */
+      propType: String,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      default: ''
+    },
 
   }
 

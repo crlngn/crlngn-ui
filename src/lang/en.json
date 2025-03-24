@@ -4,7 +4,7 @@
       "notifications": {
         "settingsUpdated": "Settings updated",
         "monksScenesNotSupported": "Carolingian UI's Scene Navigation will conflict with Monk's Scene Navigation. This functionality of Carolingian UI has been disabled.",
-        "ripperScenesNotSupported": "Carolingian UI's Scene Navigation will conflict with Compact Scene Navigation. This functionality of Carolingian UI has been disabled.",
+        "ripperScenesCompat": "Carolingian UI now has Scene Folder Navigation and Scene Search, which cannot be used together with Compact Scene Navigation. Either disable the other module or disable 'Scene Folder Navigation' on Carolingian UI settings.",
         "monksPlayerSettingsConflict": "Some of Carolingian UI's settings have been disabled to prevent conflict with the module Monk's Player Settings.",
         "forceClientSettingsConflict": "Some of Carolingian UI's settings have been disabled to prevent conflict with the module Force Client Settings.",
         "initialViewSet": "This scene's initial view was set to the current view."
@@ -15,6 +15,10 @@
         "addToFavorites": "Add to Favorites",
         "removeFromFavorites": "Remove from Favorites",
         "initialViewBtn": "Set Initial View"
+      },
+      "updates": {
+        "label": "Last Update ID",
+        "hint": "Tracks the last displayed update notification"
       }
     },
     "settings": {

@@ -11,6 +11,7 @@ import { MODULE_ID } from "../constants/General.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
 import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
+import { UpdateNewsUtil } from "./UpdateNewsUtil.mjs";
 
 /**
  * Main class handling core module initialization and setup
@@ -30,11 +31,12 @@ export class Main {
 
       Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
       SettingsUtil.registerSettings();
-      TopNavigation.init(); 
+      TopNavigation.init();
       CameraUtil.init(); 
       PlayersListUtil.init(); 
       LeftControls.init();
       ChatUtil.init();
+      UpdateNewsUtil.init(); 
       SceneNavFolders.registerHooks();
     });
 

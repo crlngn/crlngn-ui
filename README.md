@@ -1,4 +1,4 @@
-**Latest Version:** 1.13.3
+**Latest Version:** 1.13.4
 
 I have just created a Discord channel for users of my module to discuss it and seek help. It's pretty empty so far as I've just created it, but feel free to join:
 

@@ -20,7 +20,6 @@ export class SceneNavFolders {
 
   static init(){
     if(SceneNavFolders.noFolderView()){ return; }
-    SceneNavFolders.#defaultFolderName = game.i18n.localize("CRLNGN_UI.ui.sceneNav.favoritesFolder");
     if(!SceneNavFolders.folderListData || SceneNavFolders.folderListData.length === 0){
       const isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
       const isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
@@ -132,6 +131,7 @@ export class SceneNavFolders {
   static renderSceneFolders = async() => {
     if(SceneNavFolders.noFolderView()){ return; }
     if(!SceneNavFolders.selectedFolder){ return; }
+    SceneNavFolders.#defaultFolderName = game.i18n.localize("CRLNGN_UI.ui.sceneNav.favoritesFolder");
 
     LogUtil.log("SCENE NAV renderSceneFolders", []);
 
@@ -145,7 +145,7 @@ export class SceneNavFolders {
       folderList: folders.map(f => SceneNavFolders.getFoldersData(f)),
       viewedSceneId: game.scenes.current.id,
       users: game.users.contents,
-      isGM: game.user.isGM,
+      isGM: game.user?.isGM,
       searchValue: SceneNavFolders.searchValue,
       showSearchResults: !!SceneNavFolders.searchValue
     };
@@ -181,6 +181,7 @@ export class SceneNavFolders {
     // Clear existing elements if they exist
     SceneNavFolders.#folderElement?.remove();
     SceneNavFolders.#customList?.remove();
+    LogUtil.log("renderSceneFolders", [SceneNavFolders.#templateData]);
     
     const renderedHtml = await renderTemplate(
       `modules/${MODULE_ID}/templates/scene-folder-list.hbs`, 
@@ -189,7 +190,6 @@ export class SceneNavFolders {
     
     const targetElement = document.querySelector('#scene-list');
     targetElement.insertAdjacentHTML('beforebegin', renderedHtml);
-    
     
     SceneNavFolders.#folderElement = document.querySelector('#crlngn-scene-folders');
     SceneNavFolders.#customList = document.querySelector('#crlngn-scene-list');
@@ -284,7 +284,7 @@ export class SceneNavFolders {
     });
 
     // Only add drag-drop if user is GM
-    if (game.user.isGM) {
+    if (game.user?.isGM) {
       SceneNavFolders.#initializeDragDrop(html);
     }
   }
@@ -580,7 +580,6 @@ export class SceneNavFolders {
           const optionLabel = game.i18n.localize("CRLNGN_UI.ui.sceneNav." + langPath);
 
           SceneNavFolders.#observeSceneContextMenu(optionLabel);
-          
         }
       });
     });
@@ -611,7 +610,7 @@ export class SceneNavFolders {
       if(!initialViewOption){
         options.push({
           ...options[0],
-          condition: li => game.user.isGM && game.scenes.get(li.data("sceneId"))._view,
+          condition: li => game.user?.isGM && game.scenes.get(li.data("sceneId"))._view,
           callback: li => {
               let scene = game.scenes.get(li.data("sceneId"));
               let x = parseInt(canvas.stage.pivot.x);
