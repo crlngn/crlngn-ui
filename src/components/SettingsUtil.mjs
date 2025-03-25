@@ -54,7 +54,8 @@ export class SettingsUtil {
       // @ts-ignore - Valid module ID for settings registration
       await game.settings.register(MODULE_ID, setting.tag, settingObj);
 
-      if(SettingsUtil.get(setting.tag)===undefined){
+      if(SettingsUtil.get(setting.tag)==undefined){
+        LogUtil.log('resetting...', [setting.tag]);
         SettingsUtil.set(setting.tag, setting.default);
       }
 

@@ -33,6 +33,7 @@
   "dependencies": {
     "postcss-custom-properties": "^14.0.4",
     "postcss-discard-duplicates": "^7.0.1",
-    "postcss-nesting": "^13.0.1"
+    "postcss-nesting": "^13.0.1",
+    "sortablejs": "^1.15.6"
   }
 }

@@ -217,6 +217,20 @@ body{
         transition: margin-left 0.5s ease-in-out;
         visibility: visible;
         z-index: 1;
+        
+        .sortable-ghost {
+          opacity: 0.5;
+        }
+
+        .sortable-drag {
+          opacity: 0.9;
+          transition: none;
+          &:hover {
+            width: var(--scene-nav-item-width) !important;
+            min-width: var(--scene-nav-item-width) !important;
+            overflow: hidden;
+          }
+        }
 
         &.hidden{
           display: none;
@@ -328,15 +342,25 @@ body{
             }
           }
 
-          &:hover{
-            opacity: 0.85;
+          &:not(.no-hover):hover{
             > a{
               overflow: auto;
               width: auto;
               text-overflow: auto;
             }
           }
+
+          /* Disable hover effects during drag operations */
+          &.no-hover:hover {
+            > a {
+              overflow: hidden;
+              width: var(--scene-nav-item-width) !important;
+              max-width: var(--scene-nav-item-width) !important;
+            }
+          }
+          
         }
+        
 
         /* Compact Scene Navigation compatibility */
         > li.nav-item.is-root{

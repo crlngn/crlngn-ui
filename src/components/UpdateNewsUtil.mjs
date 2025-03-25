@@ -12,13 +12,13 @@ export class UpdateNewsUtil {
    * Initialize the update news system
    */
   static init() {
-    Hooks.once('ready', () => {
+    // Hooks.once('ready', () => {
       if (!game.user?.isGM) return;
       // uncomment to clean up this setting
       // const SETTINGS = getSettings();
       // SettingsUtil.set(SETTINGS.lastUpdateId.tag, '');
       this.checkForUpdates();
-    });
+    // });
   }
 
   /**

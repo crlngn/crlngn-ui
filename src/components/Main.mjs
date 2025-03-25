@@ -28,6 +28,8 @@ export class Main {
       document.querySelector("#ui-middle")?.classList.add(MODULE_ID);
 
       LogUtil.log("Initiating module...", [], true); 
+      // Create namespace
+      window.crlngnUI = window.crlngnUI || {};
 
       Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
       SettingsUtil.registerSettings();
@@ -37,21 +39,27 @@ export class Main {
       PlayersListUtil.init(); 
       LeftControls.init();
       ChatUtil.init();
-      if(TopNavigation.navFoldersEnabled){
-        SceneNavFolders.registerHooks();
-      }
-      
-      UpdateNewsUtil.init();
     });
 
     Hooks.once(HOOKS_CORE.READY, () => {
       LogUtil.log("Core Ready", []);
       const SETTINGS = getSettings();
+      LogUtil.log('Available libraries:', [Object.keys(window).filter(key => 
+        typeof window[key] === 'function' && 
+        /^[A-Z]/.test(key) && 
+        key.length > 3
+      )]);
       var isDebugOn = SettingsUtil.get(SETTINGS.debugMode.tag);
       if(isDebugOn){CONFIG.debug.hooks = true};
 
       ModuleCompatUtil.init();
       TopNavigation.checkSceneNavCompat();
+      UpdateNewsUtil.init();
+
+      if(TopNavigation.navFoldersEnabled){
+        SceneNavFolders.init();
+        SceneNavFolders.registerHooks();
+      }
 
       const chatStylesEnabled = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
       if(chatStylesEnabled){ 

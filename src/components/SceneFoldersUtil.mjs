@@ -3,6 +3,7 @@ import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
+import { Sortable } from "sortablejs";
 
 const DEFAULT_FOLDER_ID = "favorites";
 
@@ -18,6 +19,7 @@ export class SceneNavFolders {
   static #defaultFolderName = '';
   static contextMenuSceneId = null;
   static #folderToggleStates = {};
+  static #sortableTimeout;
 
   static init(){
     if(SceneNavFolders.noFolderView()){ return; }
@@ -345,6 +347,7 @@ export class SceneNavFolders {
     // Only add drag-drop if user is GM
     if (game.user?.isGM) {
       SceneNavFolders.#initializeDragDrop(html);
+      LogUtil.log("addSceneListeners");
     }
   }
 
@@ -354,17 +357,30 @@ export class SceneNavFolders {
    */
   static #initializeDragDrop = (html) => {
     // Check if Sortable is available, if not retry after a short delay
-    if (typeof Sortable === 'undefined') {
-      setTimeout(() => SceneNavFolders.#initializeDragDrop(html), 100);
+    clearInterval(SceneNavFolders.#sortableTimeout);
+    LogUtil.log("#initializeDragDrop A", [Sortable]);
+    let tries = 0;
+    if (!Sortable && tries < 5) {
+      SceneNavFolders.#sortableTimeout = setTimeout(() => SceneNavFolders.#initializeDragDrop(html), 500);
+      tries++;
       return;
     }
-    LogUtil.log("#initializeDragDrop", []);
+    clearInterval(SceneNavFolders.#sortableTimeout);
+    LogUtil.log("#initializeDragDrop B", [Sortable]);
 
     // Common options for both scenes and folders
     const commonOptions = {
-      animation: 100,
-      delay: 50,
-      delayOnTouchOnly: true
+      animation: 200,
+      delay: 100,
+      delayOnTouchOnly: true,
+      onStart: function () {
+        html.querySelectorAll(".scene.nav-item").forEach(it => it.classList.add('no-hover'))
+        this.el.classList.add('no-hover');
+      },
+      onEnd: function () {
+        html.querySelectorAll(".scene.nav-item").forEach(it => it.classList.remove('no-hover'))
+        this.el.classList.remove('no-hover');
+      }
     };
 
     // Initialize SortableJS for scenes
@@ -517,8 +533,8 @@ export class SceneNavFolders {
     };
 
     // Create separate Sortable instances for scenes and folders
-    new Sortable(html, sceneOptions);
-    new Sortable(html, folderOptions);
+    Sortable.create(html, sceneOptions);
+    Sortable.create(html, folderOptions);
   }
 
   /**
