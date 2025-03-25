@@ -1,7 +1,7 @@
 {
   "id": "1.13.7",
   "title": "New Updates to Carolingian UI!",
-  "content": "<p>Starting from version 1.13.4, the module includes folders and search in Scene Navigation. After gathering feedback, I've made some modifications to the folders:</p>\n<ul>\n  <li>Added folder tree to the navigation. This way, you can go back and forth between subfolders without reopening the folder list.</li>\n <li>Some users did not understand that 'Favorites' was Foundry's default navigation. I changed the naming and removed the star icon to avoid confusion.</li>\n   <li>Retained folder list open/closed state in a same session (resets on reload)</li>\n</ul> <p><b>Check details and send requests on <a href='https://github.com/crlngn/crlngn-ui/releases'>Github repo</a> or <a href='https://discord.gg/P5ygvHXE3R'>Discord</a></b></p>",
+  "content": "<p>After gathering feedback for Folders and Search in Scene Navigation, I've made some modifications:</p>\n<ul>\n  <li>Added folder tree to the navigation. This way, you can go back and forth between subfolders without reopening the folder list.</li>\n <li>Some users did not understand that 'Favorites' was Foundry's default navigation. I changed back the naming and icon to avoid confusion.</li>\n   <li>Retained folder list open/closed state in a same session (resets on reload)</li>\n</ul> <p><b>Keep the feedback coming! More on <a href='https://github.com/crlngn/crlngn-ui/releases'>Github repo</a> or <a href='https://discord.gg/P5ygvHXE3R'>Discord</a></b></p>",
   "imageUrl": "",
   "videoUrl": "https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-ui-folder-tree.mp4?raw=true"
 }

@@ -5,7 +5,7 @@ import { LogUtil } from './LogUtil.mjs';
 import { SettingsUtil } from './SettingsUtil.mjs';
 
 export class UpdateNewsUtil {
-  static UPDATE_NEWS_URL = 'https://raw.githubusercontent.com/crlngn/crlngn-ui/main/news/module-updates.json'; // GitHub raw JSON URL
+  static UPDATE_NEWS_URL = 'https://raw.githubusercontent.com/crlngn/crlngn-ui/main/news/module-updates.json?v='+(new Date).getTime(); // GitHub raw JSON URL
   // static UPDATE_NEWS_URL = "https://raw.githubusercontent.com/crlngn/crlngn-ui/refs/heads/scene-nav-folders/news/module-updates.json"; // for testing
   
   /**
@@ -14,8 +14,9 @@ export class UpdateNewsUtil {
   static init() {
     Hooks.once('ready', () => {
       if (!game.user?.isGM) return;
-      const SETTINGS = getSettings();
-      SettingsUtil.set(SETTINGS.lastUpdateId.tag, '');
+      // uncomment to clean up this setting
+      // const SETTINGS = getSettings();
+      // SettingsUtil.set(SETTINGS.lastUpdateId.tag, '');
       this.checkForUpdates();
     });
   }
@@ -66,7 +67,7 @@ export class UpdateNewsUtil {
       <div class="crlngn-news">
         <h3>${updateData.title}</h3>
         ${updateData.imageUrl ? `<img src="${updateData.imageUrl}" alt="Update Preview" />` : ''}
-        ${updateData.videoUrl ? `<video src="${updateData.videoUrl}" alt="Update Preview" />` : ''}
+        ${updateData.videoUrl ? `<div class="updates-media-container"><video controls autoplay loop src="${updateData.videoUrl}" alt="Update Preview" style="width: 100%"></video></div>` : ''}
         <div class="crlngn-news-content">
         ${updateData.content}
         </div>
