@@ -2,7 +2,7 @@ body{
   &.crlngn-ui { 
     --top-nav-height:  var(--left-control-item-size);
     --ui-controls-margin-left: -100px;
-    --folder-header-width: 130px;
+    --folder-header-width: 150px;
     --folder-list-width: 200px;
     --scene-nav-item-width: 130px;
     --folder-nav-item-width: var(--left-control-item-size);
@@ -88,9 +88,9 @@ body{
         pointer-events: none;
         overflow: hidden;
         margin-left: calc((var(--ui-controls-margin-left, 0px) * -1) - var(--max-players-width, 0px));
-        width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width) + 10px);
-        max-width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width) + 10px);
-        min-width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width) + 10px);
+        width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width) + 5px);
+        max-width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width) + 5px);
+        min-width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width) + 5px);
         z-index:101;
 
         .debug-block{
@@ -198,6 +198,7 @@ body{
 
       }
 
+
       ol#scene-list,
       ol#crlngn-scene-list {
         position: relative;
@@ -267,7 +268,9 @@ body{
               visibility: hidden;
               display: none;
 
-              &.fa-lock, &.fa-bullseye {
+              &.fa-lock, 
+              &.fa-bullseye, 
+              &.fa-folder {
                 transform: scale(0.9);
               }
 
@@ -417,6 +420,10 @@ body{
         }
       }
 
+      &.arrow-turn-left {
+        transform: scale(0.9);
+      }
+
       ol.crlngn-scene-list {
         > li.nav-item {
           > a {
@@ -449,6 +456,7 @@ body{
   #ui-middle.crlngn-ui {
     #crlngn-scene-folders{
       display: flex;
+      flex: 0 0 auto;
       flex-direction: column;
       align-items: flex-start;
       justify-content: flex-start;
@@ -461,19 +469,26 @@ body{
       overflow:visible;
       width: calc(var(--folder-header-width) + 16px);
       max-width: calc(var(--folder-header-width) + 16px);
+      min-width: max-content;
       line-height: calc(var(--left-control-item-size) - 1px);
       pointer-events: all;
-
-      height: 100%;
-      max-height: 100%;
+      height: var(--left-control-item-size);
+      max-height: var(--left-control-item-size);
       gap: 0;
       padding: 0;
       margin: 0;
       visibility: visible;
+      position: relative;
 
       &.collapsed-folder-name{
         width: auto;
       }
+
+      &.favorites {
+        width: calc(var(--left-control-item-size) + 6px);
+        max-width: calc(var(--left-control-item-size) + 6px);
+      }
+
       > a {
         min-width: var(--folder-list-width);
         width: var(--folder-list-width);
@@ -493,8 +508,26 @@ body{
         padding: 0 16px 0 8px;
         margin: 0;
         height: 100%;
+        line-height: var(--left-control-item-size);
         background: var(--color-dark-bg-90);
         z-index: 100;
+
+        &.favorites{
+          width: calc(var(--left-control-item-size) + 16px);
+          min-width: calc(var(--left-control-item-size) + 16px);
+          text-overflow: clip;
+        }
+
+        &:hover{
+          overflow: auto;
+          width: auto;
+          text-overflow: auto;
+        }
+
+        > * {
+          line-height: var(--left-control-item-size);
+          vertical-align: middle;
+        }
 
         i {
           margin-right: 8px;
@@ -503,6 +536,30 @@ body{
           max-width: 12px;
           text-align: center;
           overflow: hidden;
+
+          &.fa-folder-tree {
+            transform: scale(1.05);
+            margin-right: 5px;
+            padding-bottom: 3px;
+            display: inline-flex;
+          }
+          &.arrow-turn-left {
+            transform: scale(0.9);
+          }
+
+          &.fa-folder{
+            margin: 0 0 0 0;
+            max-width: 20px;
+            overflow: auto;
+            font-size: var(--font-size-10);
+
+            &:after{
+              content: '\0276F';
+              font-size: var(--font-size-10);
+              display: inline-flex;
+              margin: 0 0 0 5px;
+            }
+          }
         }
 
         .folder-name {
@@ -514,6 +571,7 @@ body{
 
         &:after{
           content: '\0276F';
+          font-size: var(--font-size-10);
           display: flex;
           position: absolute;
           height: 100%;
@@ -540,6 +598,7 @@ body{
 
       .scene-folders-contents{
         background-color: var(--left-control-main-bg);
+        border-left: 1px solid var(--color-dark-1);
         width: calc(var(--folder-list-width) + 10px);
         max-width: calc(var(--folder-list-width) + 10px);
         max-height: calc(max(200px,60vh) - 40px);
@@ -549,9 +608,16 @@ body{
         scrollbar-width: thin;
         scrollbar-color: var(--color-highlights-75) var(--color-scrollbar-track);
         overflow: auto;
+        position: absolute;
+        margin-top: var(--left-control-item-size);
 
         .search-container {
           --color-text-selection-bg: var(--color-cool-4);
+
+          .back-to-favorites {
+            padding: 0 8px;
+          }
+
           .input-scene-search {
             border: 1px solid var(--color-dark-1);
             color: var(--color-light-3);
@@ -640,7 +706,7 @@ body{
                 position: absolute;
                 font-size: var(--font-size-14);
                 height: 100%;
-                width: 16px;
+                width: 22px;
                 right: 0;
                 top: 0;
                 padding: 2px;
@@ -686,8 +752,16 @@ body{
         }
       }
 
+      &.favorites {
+        > a.selected {
+          width: calc(var(--left-control-item-size) + 6px);
+          min-width: calc(var(--left-control-item-size) + 6px);
+          text-overflow: clip;
+        }
+      }
+
       &.open {
-        a.selected:after {
+        > a.selected:after {
           transform: rotate(90deg);
         }
         .scene-folders-contents{

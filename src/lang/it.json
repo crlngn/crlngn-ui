@@ -10,10 +10,10 @@
         "initialViewSet": "La vista iniziale di questa scena è stata impostata sulla vista corrente."
       },
       "sceneNav": {
-        "searchPlaceholder": "Cerca...",
-        "favoritesFolder": "Preferiti",
-        "addToFavorites": "Aggiungi ai Preferiti",
-        "removeFromFavorites": "Rimuovi dai Preferiti",
+        "searchPlaceholder": "Cerca scene...",
+        "favoritesFolder": "Torna alle Scene Selezionate",
+        "addToFavorites": "Aggiungi alla Navigazione",
+        "removeFromFavorites": "Rimuovi dalla Navigazione",
         "initialViewBtn": "Imposta Vista Iniziale"
       }
     },

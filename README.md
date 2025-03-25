@@ -1,4 +1,4 @@
-**Latest Version:** 1.13.6
+**Latest Version:** 1.13.7
 
 I have just created a Discord channel for users of my module to discuss it and seek help. It's pretty empty so far as I've just created it, but feel free to join:
 
@@ -25,12 +25,12 @@ A sleek and minimalist UI overhaul, focusing on saving space on screen and impro
 </div>
 
 ### FEATURES:
+- **Scene Navigation** have folders and scene search. It can be scrolled horizontally, saving space, and there's improved icons and markers for players and GM;
 - **Custom Fonts** for UI and journal;
-- **Custom colors** for highlights, inputs and secondary controls
+- **Custom Color Themes** for highlights, inputs and secondary controls
 - **Compact left controls:** small or regular sized icons; secondary bars can be hidden until hovered;
 - **Wrapping control icons** set a safe area at the bottom and the left controls will wrap to avoid it - great if you have lots of modules that add icons to left bar; 
 - **Secondary controls bar** has different styles to make it clearer;
-- **Top Navigation** can be horizontally scrolled; player and GM markers are simple lines with the color of each player;
 - **Compact Player List** - can be auto-hidden and opened on hover;
 - **Macro hotbar** with optional resizing and styles;
 - **Floating camera dock** - drag, resize and position it anywhere on screen;
@@ -40,7 +40,6 @@ A sleek and minimalist UI overhaul, focusing on saving space on screen and impro
 - **Compact chat messages** (DnD5e) compact usage buttons to save some space on chat log;
 - **Chat Border Colors** - Select if you want the borders to show player color, roll type, or none;
 - **Custom CSS Field** to load your own style modifications to your world
-
 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/right-panel-settings.webp?raw=true" width="200px" height="auto" />
 
@@ -62,7 +61,7 @@ I am very opinionated about this module's look and feel, as it was created for m
 - Are You Focused? 1.2.x
 - Break Time 12.0.x
 - Carousel Combat Tracker 3.1.x
-- Compact Scene Navigation 1.0.x (avoid using auto hide setting in both modules)
+- Compact Scene Navigation 1.0.x (my module now provides similar features, so I suggest not using it)
 - CRUX 1.2.x
 - Dice Tray 2.2.x
 - Dungeon Draw 3.0.x
@@ -70,7 +69,7 @@ I am very opinionated about this module's look and feel, as it was created for m
 - Force Client Settings 2.5.x (please disable "Enforce Dark Mode")
 - Hide Player UI 1.7.x
 - LiveKit AV Client 0.5.x
-- Midi-QoL 12.4.x (probably works in v11)
+- Midi-QoL 12.4.x (seems to work in v11 as well)
 - Mobile Improvements 1.3.x
 - Monk's Hotbar Expansion 11.0.x
 - Party Resources 1.7.x

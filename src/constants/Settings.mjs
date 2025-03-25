@@ -299,7 +299,7 @@ export function getSettings() {
     },
 
     navStartCollapsed: { 
-      tag: "nav-start-collapsed", 
+      tag: "nav-compasst-collapsed", 
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navStartCollapsed.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navStartCollapsed.hint"), 
       propType: Boolean, 

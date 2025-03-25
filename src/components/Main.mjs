@@ -37,7 +37,10 @@ export class Main {
       PlayersListUtil.init(); 
       LeftControls.init();
       ChatUtil.init();
-      SceneNavFolders.registerHooks();
+      if(TopNavigation.navFoldersEnabled){
+        SceneNavFolders.registerHooks();
+      }
+      
       UpdateNewsUtil.init();
     });
 

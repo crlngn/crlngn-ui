@@ -11,9 +11,9 @@
       },
       "sceneNav": {
         "searchPlaceholder": "搜索场景...",
-        "favoritesFolder": "收藏",
-        "addToFavorites": "添加到收藏",
-        "removeFromFavorites": "从收藏中移除",
+        "favoritesFolder": "返回已选场景",
+        "addToFavorites": "添加到导航",
+        "removeFromFavorites": "从导航中移除",
         "initialViewBtn": "设置初始视图"
       }
     },

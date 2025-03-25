@@ -11,9 +11,9 @@
       },
       "sceneNav": {
         "searchPlaceholder": "Search scenes...",
-        "favoritesFolder": "Favorites",
-        "addToFavorites": "Add to Favorites",
-        "removeFromFavorites": "Remove from Favorites",
+        "favoritesFolder": "Back to Selected Scenes",
+        "addToFavorites": "Add to Navigation",
+        "removeFromFavorites": "Remove from Navigation",
         "initialViewBtn": "Set Initial View"
       },
       "updates": {

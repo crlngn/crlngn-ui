@@ -11,9 +11,9 @@
       },
       "sceneNav": {
         "searchPlaceholder": "Buscar cenas...",
-        "favoritesFolder": "Favoritos",
-        "addToFavorites": "Incluir nos Favoritos",
-        "removeFromFavorites": "Remover dos Favoritos",
+        "favoritesFolder": "Voltar às Cenas Selecionadas",
+        "addToFavorites": "Adicionar à Navegação",
+        "removeFromFavorites": "Remover da Navegação",
         "initialViewBtn": "Definir Visualização"
       }
     },

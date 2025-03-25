@@ -15,8 +15,9 @@ export class SceneNavFolders {
   static folderList;
   static folderListData = [];
   static searchValue = "";
-  static #defaultFolderName = 'Favorites';
+  static #defaultFolderName = '';
   static contextMenuSceneId = null;
+  static #folderToggleStates = {};
 
   static init(){
     if(SceneNavFolders.noFolderView()){ return; }
@@ -43,15 +44,20 @@ export class SceneNavFolders {
    * @returns {object[]} Sorted array of top-level folders
    */
   static getFolders = (fromList) => {
-    let folders = fromList.filter(f => { 
-      return f.folder === null;
-    });
+    // Helper function to recursively set isOpen state
+    const setFolderOpenState = (folder) => {
+      folder.isOpen = SceneNavFolders.#folderToggleStates[folder.id] ?? false;
+      folder.children.forEach(setFolderOpenState);
+    };
 
+    // Get top-level folders
+    let folders = fromList.filter(f => f.folder === null);
+    // Process each top-level folder and its children
+    folders.forEach(setFolderOpenState);
     // alphabetical order
     folders.sort((a, b) => {
       return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
     });
-    // LogUtil.log("getFolders", [folders]);
 
     return folders;
   }
@@ -78,6 +84,39 @@ export class SceneNavFolders {
     return ui.scenes.folders.find(fd => {
       return fd.id===id
     }) || DEFAULT_FOLDER_ID;
+  }
+
+  /**
+   * Gets an array of parent folders for a given folder ID
+   * @param {string} folderId - The ID of the folder to get parents for
+   * @returns {object[]} Array of parent folder objects from closest to furthest
+   */
+  static getParentFolders(folderId) {
+    const parents = [];
+    let currentFolder = ui.scenes.folders.find(f => f.id === folderId);
+    LogUtil.log("getParentFolders", [ui.scenes.folders, currentFolder]);
+    
+    // Keep track of visited folder IDs to prevent infinite loops
+    const visitedFolders = new Set();
+    
+    while (currentFolder?.folder) {
+      // If we've seen this folder before, we have a cycle
+      if (visitedFolders.has(currentFolder.id)) {
+        LogUtil.log("Circular reference detected in folder structure", [currentFolder]);
+        break;
+      }
+      visitedFolders.add(currentFolder.id);
+      const parentFolder = currentFolder.folder; // folder property is already the parent folder object
+      
+      if (parentFolder) {
+        parents.unshift(parentFolder);
+        currentFolder = parentFolder;
+      } else {
+        break;
+      }
+    }
+    
+    return parents;
   }
 
   /**
@@ -112,12 +151,16 @@ export class SceneNavFolders {
    * @returns {object} Extended folder data
    */
   static getFoldersData = (folder) => {
-    return {
+    const children = folder.children.map(fc => SceneNavFolders.getFoldersData(fc.folder));
+    const processedFolder = {
       ...folder,
-      children: folder.children.map(fc => SceneNavFolders.getFoldersData(fc)),
-      hasSubfolders: folder.children.length > 0,
+      isOpen: SceneNavFolders.#folderToggleStates[folder.id] || false,
+      children: children,
+      hasSubfolders: children.length > 0,
       id: folder.id
     };
+    LogUtil.log("processedFolder", [processedFolder]);
+    return processedFolder;
   }
 
   /**
@@ -131,17 +174,15 @@ export class SceneNavFolders {
   static renderSceneFolders = async() => {
     if(SceneNavFolders.noFolderView()){ return; }
     if(!SceneNavFolders.selectedFolder){ return; }
+
     SceneNavFolders.#defaultFolderName = game.i18n.localize("CRLNGN_UI.ui.sceneNav.favoritesFolder");
 
-    LogUtil.log("SCENE NAV renderSceneFolders", []);
-
     const folders = SceneNavFolders.getFolders(ui.scenes.folders);
-    
 
     // Prepare base template data
     const baseData = {
       favoritesId: DEFAULT_FOLDER_ID,
-      favoritesName: SceneNavFolders.#defaultFolderName || DEFAULT_FOLDER_ID,
+      favoritesName: SceneNavFolders.#defaultFolderName,
       folderList: folders.map(f => SceneNavFolders.getFoldersData(f)),
       viewedSceneId: game.scenes.current.id,
       users: game.users.contents,
@@ -149,19 +190,23 @@ export class SceneNavFolders {
       searchValue: SceneNavFolders.searchValue,
       showSearchResults: !!SceneNavFolders.searchValue
     };
+    LogUtil.log("renderSceneFolders", [baseData.folderList, SceneNavFolders.#folderToggleStates]);
 
     // Add folder-specific data
     if(SceneNavFolders.selectedFolder === DEFAULT_FOLDER_ID) {
       SceneNavFolders.#templateData = {
         ...baseData,
-        currFolder: { name: SceneNavFolders.#defaultFolderName || DEFAULT_FOLDER_ID, id: DEFAULT_FOLDER_ID },
-        currIcon: 'fa-star',
+        currFolder: { name: "", id: DEFAULT_FOLDER_ID },
+        currIcon: 'fa-map',
         folders: [],
-        scenes: ui.nav.scenes.filter(sc => sc.permission >= 2)
+        scenes: ui.nav.scenes.filter(sc => sc.permission >= 2),
+        hasParents: false,
+        parentFolders: []
       };
     } else {
       const foldersData = SceneNavFolders.selectedFolder.children;
-      LogUtil.log("foldersData", [foldersData, SceneNavFolders.selectedFolder]);
+      const folderParents = SceneNavFolders.getParentFolders(SceneNavFolders.selectedFolder.id);
+      LogUtil.log("foldersData", [foldersData, SceneNavFolders.selectedFolder, folderParents]);
       // Get folder contents and sort by sort property
       const folderScenes = [...SceneNavFolders.selectedFolder.contents];
       folderScenes.sort((a, b) => a.sort - b.sort);
@@ -170,7 +215,9 @@ export class SceneNavFolders {
         currFolder: SceneNavFolders.selectedFolder,
         currIcon: 'fa-folder',
         folders: foldersData,
-        scenes: folderScenes
+        scenes: folderScenes,
+        hasParents: folderParents.length > 0,
+        parentFolders: folderParents
       };
     }
 
@@ -181,7 +228,6 @@ export class SceneNavFolders {
     // Clear existing elements if they exist
     SceneNavFolders.#folderElement?.remove();
     SceneNavFolders.#customList?.remove();
-    LogUtil.log("renderSceneFolders", [SceneNavFolders.#templateData]);
     
     const renderedHtml = await renderTemplate(
       `modules/${MODULE_ID}/templates/scene-folder-list.hbs`, 
@@ -232,7 +278,11 @@ export class SceneNavFolders {
       html.addEventListener('mouseleave', SceneNavFolders.#onOpenList);
       selectedLink?.removeEventListener('click', SceneNavFolders.#onOpenList);
     }
-    
+
+    // add click event to each item of folder tree
+    html.querySelectorAll(".parent-folder").forEach(folderIcon => {
+      folderIcon.addEventListener('click', SceneNavFolders.#onSelectFolder);
+    }); 
 
     // Add click event to all toggle spans
     html.querySelectorAll('span.toggle').forEach(toggleSpan => {
@@ -242,19 +292,25 @@ export class SceneNavFolders {
         
         // Find the parent li
         const parentLi = event.currentTarget.closest('li');
+        const folderId = parentLi.dataset.folderId;
         // Find the subfolders list within this li
         const subfoldersOl = parentLi.querySelector('ol.subfolders');
+        let isOpen = false;
         
         // Toggle visibility of the subfolders
         if (!subfoldersOl) { return }
         const isHidden = !(subfoldersOl.classList.contains('open'));
         if(isHidden){
           subfoldersOl.classList.add('open');
-          event.currentTarget.textContent = '−';
+          isOpen = true;
         }else{
           subfoldersOl.classList.remove('open');
-          event.currentTarget.textContent = '+';
+          isOpen = false;
         }
+        event.currentTarget.textContent = isOpen ? '−' : '+';
+
+        // Always update the toggle state
+        SceneNavFolders.#folderToggleStates[folderId] = isOpen;
       });
     });
 
@@ -269,6 +325,9 @@ export class SceneNavFolders {
     searchInput.addEventListener('keydown', evt => {
       evt.stopPropagation();
     });
+
+    const backButton = html.querySelector(".search-container .back-to-favorites");
+    backButton.addEventListener("click", SceneNavFolders.#onSelectFolder);
   }
 
   /**
@@ -641,7 +700,7 @@ export class SceneNavFolders {
 
       if (toggleNavItem) {
         LogUtil.log("updating toggle nav item", [toggleNavItem]);
-        toggleNavItem.innerHTML = `<i class="fas fa-star fa-fw"></i>${optionLabel}`;
+        toggleNavItem.innerHTML = `<i class="fas fa-compass fa-fw"></i>${optionLabel}`;
         return true;
       }
       return false;

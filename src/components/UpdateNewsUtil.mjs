@@ -14,8 +14,8 @@ export class UpdateNewsUtil {
   static init() {
     Hooks.once('ready', () => {
       if (!game.user?.isGM) return;
-      // const SETTINGS = getSettings();
-      // SettingsUtil.set(SETTINGS.lastUpdateId.tag, '');
+      const SETTINGS = getSettings();
+      SettingsUtil.set(SETTINGS.lastUpdateId.tag, '');
       this.checkForUpdates();
     });
   }
@@ -65,7 +65,8 @@ export class UpdateNewsUtil {
     const content = `
       <div class="crlngn-news">
         <h3>${updateData.title}</h3>
-        ${updateData.imageUrl ? `<img src="${updateData.imageUrl}" alt="Update Preview">` : ''}
+        ${updateData.imageUrl ? `<img src="${updateData.imageUrl}" alt="Update Preview" />` : ''}
+        ${updateData.videoUrl ? `<video src="${updateData.videoUrl}" alt="Update Preview" />` : ''}
         <div class="crlngn-news-content">
         ${updateData.content}
         </div>
