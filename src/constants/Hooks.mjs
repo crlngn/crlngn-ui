@@ -6,6 +6,8 @@
 export const HOOKS_CORE = {
   INIT: "init", 
   READY: "ready", 
+  CANVAS_READY: "canvasReady",
+  CANVAS_INIT: "canvasInit",
 
   /* Chat Messages */
   RENDER_CHAT_MESSAGE: "renderChatMessage" ,
@@ -20,6 +22,7 @@ export const HOOKS_CORE = {
   COLLAPSE_SCENE_NAV: "collapseSceneNavigation",
   EXPAND_SCENE_NAV: "expandSceneNavigation",
   GET_SCENE_NAV_CONTEXT: "getSceneNavigationContext",
+  RENDER_SCENE: "renderScene",
 
   /* Document Directory */
   RENDER_DOCUMENT_DIRECTORY: "renderDocumentDirectory",
@@ -48,4 +51,14 @@ export const HOOKS_CORE = {
   /* Update user */
   UPDATE_USER: "updateUser",
   UPDATE_DOCUMENT: "updateDocument"
+}
+
+/**
+ * DND5e System hooks
+ * https://github.com/foundryvtt/dnd5e/blob/master/module/documents/actor.mjs
+ * */ 
+export const HOOKS_DND5E = {
+  /* Example hooks - add real ones as needed */
+  // ROLL_ABILITY_TEST: "dnd5e.rollAbilityTest",
+  // ROLL_SKILL_TEST: "dnd5e.rollSkillTest"
 }

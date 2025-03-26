@@ -220,6 +220,8 @@ export function getSettings() {
         "sceneNavEnabled",
         "navFoldersEnabled",
         "showFolderListOnClick",
+        "sceneClickToView",
+        "useSceneIcons",
         "navStartCollapsed",
         "showNavOnHover"
       ],
@@ -227,6 +229,8 @@ export function getSettings() {
         sceneNavEnabled: true,
         navFoldersEnabled: true,
         navStartCollapsed: false,
+        sceneClickToView: false,
+        useSceneIcons: false,
         showFolderListOnClick: false,
         showNavOnHover: false
       },
@@ -328,6 +332,30 @@ export function getSettings() {
       propType: Boolean, 
       inputType: SETTING_INPUT.checkbox, 
       default: false, 
+      scope: SETTING_SCOPE.client, 
+      config: false 
+    },
+
+    sceneClickToView: { 
+      tag: "scene-click-to-view", 
+      oldName: "sceneClickToView",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneClickToView.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneClickToView.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox, 
+      default: true, 
+      scope: SETTING_SCOPE.client, 
+      config: false 
+    },
+
+    useSceneIcons: {
+      tag: "use-scene-icons", 
+      oldName: "useSceneIcons",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneIcons.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneIcons.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox, 
+      default: true, 
       scope: SETTING_SCOPE.client, 
       config: false 
     },
@@ -591,8 +619,8 @@ export function getSettings() {
     //
     lastUpdateId: {
       tag: 'last-update-id',
-      label: "",/*game.i18n.localize("CRLNGN_UI.ui.updates.label"), */
-      hint: "",/*game.i18n.localize("CRLNGN_UI.ui.updates.hint"), */
+      label: game.i18n.localize("CRLNGN_UI.ui.updates.label"),
+      hint: game.i18n.localize("CRLNGN_UI.ui.updates.hint"),
       propType: String,
       scope: SETTING_SCOPE.world,
       config: false,

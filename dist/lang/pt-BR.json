@@ -174,6 +174,14 @@
           "showFolderListOnClick": {
             "label": "Mostrar lista de pastas no click",
             "hint": "Por padrão, a lista aparece no hover. Ative esta opção para mudar o comportamento para o clique."
+          },
+          "sceneClickToView": {
+            "label": "Ativar Clique e Duplo Clique",
+            "hint": "Quando ativado, um clique na cena a abre para visualização. Um duplo clique a ativa para os jogadores."
+          },
+          "useSceneIcons": {
+            "label": "Usar ícones de cena",
+            "hint": "Mostra ícones próximos ao nome da cena: <i class='fas fa-lock'></i> Invisível para jogadores até ser ativada; <i class='fas fa-crown'></i> Atualmente visualizada pelo GM; <i class='fas fa-bullseye'></i> Atualmente ativa para os jogadores;"
           }
         },
         "reset": "Redefinir", 

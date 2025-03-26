@@ -681,6 +681,10 @@ body{
           padding: 0;
           width: var(--folder-list-width);
           max-width: var(--folder-list-width);
+
+          .no-results{
+            padding: 0 8px;
+          }
   
           li{
             justify-content: center;

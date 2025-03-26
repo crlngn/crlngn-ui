@@ -175,6 +175,14 @@
           "showFolderListOnClick": {
             "label": "Mostra elenco cartelle al clic",
             "hint": "Di default, l'elenco delle cartelle nella barra di navigazione si attiva al passaggio del mouse. Abilita questa opzione per cambiare questo comportamento al clic."
+          },
+          "sceneClickToView": {
+            "label": "Abilita Click e Doppio Click",
+            "hint": "Quando abilitato, cliccare sulla scena nella vista scena apre quella scena. Cliccare due volte l'attiva."
+          },
+          "useSceneIcons": {
+            "label": "Mostra icone scene",
+            "hint": "Mostra icone vicino al nome della scena: <i class='fas fa-lock'></i> Invisibile ai giocatori fino all'attivazione; <i class='fas fa-crown'></i> Attualmente visualizzata dal GM; <i class='fas fa-bullseye'></i> Attualmente attiva per i giocatori;"
           }
         },
         "reset": "Ripristina",

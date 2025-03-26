@@ -269,6 +269,16 @@ export class SettingsUtil {
       case SETTINGS.navFoldersEnabled.tag:
         TopNavigation.navFoldersEnabled = value;
         break;
+      case SETTINGS.sceneClickToView.tag:
+        TopNavigation.sceneClickToView = value;
+        game.scenes?.directory.render();
+        SceneNavFolders.refreshFolderView();
+        break;
+      case SETTINGS.useSceneIcons.tag:
+        TopNavigation.useSceneIcons = value;
+        game.scenes?.directory.render();
+        SceneNavFolders.refreshFolderView();
+        break;
       case SETTINGS.navStartCollapsed.tag:
         TopNavigation.navStartCollapsed = value;
         break;

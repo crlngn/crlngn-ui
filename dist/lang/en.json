@@ -154,7 +154,7 @@
       "sceneNavMenu": {
         "label": "Scene Navigation",
         "title": "Configure Scene Nav",
-        "hint": "Change options for the scene navigation menu, on the top bar",
+        "hint": "Change options for the scene navigation menu, on the top bar. Most of these options will only work if you have my navigation bar and scene folders enabled. ",
         "fields": {
           "sceneNavEnabled": {
             "label": "Enable custom scene navigation",
@@ -179,6 +179,14 @@
           "showFolderListOnClick": {
             "label": "Show folder list on click",
             "hint": "By default, the list of folders on navigation bar is toggled on hover. Enable this option to change this behavior to click."
+          },
+          "sceneClickToView": {
+            "label": "Enable Click/Double Click to View/Activate",
+            "hint": "When enabled, clicking on the scene in scene once opens that scene. Double clicking activates it."
+          },
+          "useSceneIcons": {
+            "label": "Use scene icons",
+            "hint": "Shows icons next to the scene name: <i class='fas fa-lock'></i> Invisible to players until activated; <i class='fas fa-crown'></i> Currently viewed by the GM; <i class='fas fa-bullseye'></i> Currently active to players;"
           }
         },
         "reset": "Reset",

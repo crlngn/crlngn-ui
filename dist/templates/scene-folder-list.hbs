@@ -69,7 +69,7 @@
   </div>
 </div>
 
-<ol id="crlngn-scene-list" class="no-transition">
+<ol id="crlngn-scene-list" class="no-transition{{#unless useIcons}} no-icons{{/unless}}">
   <!--subfolders first-->
   {{#each folders}}
   <li class="folder nav-item gm {{#if (eq ../currFolder.id this.id)}}active{{/if}}" data-folder-id="{{this.folder.id}}" draggable="false">
@@ -85,15 +85,24 @@
     data-scene-id="{{this.id}}" draggable="true">
     <a class="scene-name">
       {{#if this.active}}
-      <i class="fas fa-bullseye"></i>
+      <i class="fas fa-bullseye"
+        data-tooltip="Active scene"
+        data-tooltip-direction="DOWN"
+        data-tooltip-delay="1000"></i>
       {{/if}}
       {{#if ../isGM}}
         {{#if (eq ../viewedSceneId this.id)}}
-        <i class="fas fa-crown"></i>
+        <i class="fas fa-crown"
+            data-tooltip="Viewed by GM"
+            data-tooltip-direction="DOWN"
+            data-tooltip-delay="1000"></i>
         {{else}}
         {{#unless this.active}}
           {{#if (eq this.ownership.default 0)}}
-          <i class="fas fa-lock"></i>
+          <i class="fas fa-lock"
+            data-tooltip="Hidden from players"
+            data-tooltip-direction="DOWN"
+            data-tooltip-delay="1000"></i>
           {{/if}}
         {{/unless}}
         {{/if}}
@@ -118,8 +127,8 @@
     <li class="folder" data-folder-id="{{this.id}}">
       <a>
         <i class="fas fa-folder"></i> 
-        {{this.name}}
-        {{#if this.hasSubfolders}}<span class="toggle">&#43;</span>{{/if}}
+        {{this.name}} 
+        {{#if this.hasSubfolders}}<span class="toggle">{{#if this.isOpen}} &minus;{{else}}&plus;{{/if}}</span>{{/if}}
       </a>
       {{#if this.hasSubfolders}}
         {{> recursiveFolder children=this.children}}

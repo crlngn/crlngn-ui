@@ -324,6 +324,12 @@ body.crlngn-ui {
   * FORMS
   *******/
   .standard-form.crlngn {
+
+    .form-content{
+      max-height: 70vh;
+      overflow: auto;
+    }
+    
     &:after{
       content: '';
       width: 100%;

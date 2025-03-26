@@ -73,7 +73,9 @@ export class TopNavigation {
     
     if(!this.#isMonksSceneNavOn){
       if(!this.#isRipperSceneNavOn){
-        await SceneNavFolders.renderSceneFolders();
+        SceneNavFolders.init();
+        SceneNavFolders.registerHooks();
+        SceneNavFolders.renderSceneFolders();
       }
       const scenePage = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
       TopNavigation.setNavPosition(scenePage);
@@ -96,8 +98,8 @@ export class TopNavigation {
         LogUtil.log("NAV no transition add");
         TopNavigation.navPos = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
 
-        SceneNavFolders.init();
         if(!this.#isRipperSceneNavOn){
+          SceneNavFolders.init();
           await SceneNavFolders.renderSceneFolders();
         }
         if(this.#scenesList) {this.#scenesList.classList.add("no-transition")};
@@ -140,6 +142,28 @@ export class TopNavigation {
       // TopNavigation.isCollapsed = false;
     }); 
 
+    Hooks.on(HOOKS_CORE.CANVAS_INIT, async () => {
+      try {
+        LogUtil.log(HOOKS_CORE.CANVAS_INIT, ['Starting canvas init']);
+        const scene = game.scenes.viewed;
+        if (!scene) {
+          LogUtil.log(HOOKS_CORE.CANVAS_INIT, ['No viewed scene found']);
+          return;
+        }
+        LogUtil.log(HOOKS_CORE.CANVAS_INIT, ['Getting scene position for', scene.id]);
+        const pos = await TopNavigation.getCurrScenePosition(scene.id);
+        LogUtil.log(HOOKS_CORE.CANVAS_INIT, ['Got position', pos]);
+        // Ensure DOM is ready before accessing element dimensions
+        await new Promise(resolve => setTimeout(resolve, 100));
+        LogUtil.log(HOOKS_CORE.CANVAS_INIT, ['Setting nav position', pos]);
+        TopNavigation.setNavPosition(pos);
+        LogUtil.log(HOOKS_CORE.CANVAS_INIT, ['Canvas init complete']);
+      } catch (error) {
+        LogUtil.log(HOOKS_CORE.CANVAS_INIT, ['Error in canvas init:', error]);
+        console.error('Error in canvas init:', error);
+      }
+    });
+
     // SettingsUtil.apply(SETTINGS.sceneNavCollapsed.tag); 
     window.addEventListener('resize', ()=>{
       
@@ -177,11 +201,16 @@ export class TopNavigation {
   static toggleNav(collapsed){
     clearTimeout(TopNavigation.#collapseTimeout);
     TopNavigation.#collapseTimeout = setTimeout(()=>{
+      if(!ui.nav){ 
+        TopNavigation.toggleNav(collapsed);
+        return; 
+      }
       TopNavigation.resetLocalVars();
-      if(collapsed){
+
+      if(collapsed===true){
         ui.nav.collapse();
         TopNavigation.#uiMiddle.classList.add('navigation-collapsed');
-      }else{
+      }else if(collapsed===false){
         ui.nav.expand();
         TopNavigation.#uiMiddle.classList.remove('navigation-collapsed');
       }
@@ -327,15 +356,18 @@ export class TopNavigation {
    * Scrolls the scene list backward by one page
    * @param {Event} e - The pointer event
    */
-  static #onNavLast = (e) => {
-    const folderListWidth = this.#navElem?.querySelector("#crlngn-scene-folders")?.offsetWidth || 0;
-    const extrasWidth = this.#isRipperSceneNavOn ? this.#navExtras?.offsetWidth : 0;
-    const toggleWidth = this.#navToggle?.offsetWidth;
-    const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
+  static #onNavLast = async (e) => {
+    // const folderListWidth = this.#navElem?.querySelector("#crlngn-scene-folders")?.offsetWidth || 0;
+    // const extrasWidth = this.#isRipperSceneNavOn ? this.#navExtras?.offsetWidth : 0;
+    // const toggleWidth = this.#navToggle?.offsetWidth;
+    // const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
+    // const scenes = this.#scenesList?.querySelectorAll("li.nav-item:not(.is-root)") || [];
+    // const itemWidth = firstScene.offsetWidth;
+    // const currPos = TopNavigation.navPos || 0;
+    // const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? extrasWidth + folderListWidth : 0) - (toggleWidth*2))/itemWidth);
+    const itemsPerPage = await TopNavigation.getItemsPerPage();
     const scenes = this.#scenesList?.querySelectorAll("li.nav-item:not(.is-root)") || [];
-    const itemWidth = firstScene.offsetWidth;
     const currPos = TopNavigation.navPos || 0;
-    const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? extrasWidth + folderListWidth : 0) - (toggleWidth*2))/itemWidth);
 
     let newPos = currPos - (itemsPerPage - 1);
     newPos = newPos < 0 ? 0 : newPos;
@@ -350,16 +382,17 @@ export class TopNavigation {
    * Scrolls the scene list forward by one page
    * @param {Event} e - The pointer event
    */
-  static #onNavNext = (e) => {
+  static #onNavNext = async (e) => {
     // const SETTINGS = getSettings();
-    const folderListWidth = this.#navElem?.querySelector("#crlngn-scene-folders")?.offsetWidth || 0;
-    const extrasWidth = this.#isRipperSceneNavOn ? this.#navExtras?.offsetWidth : 0;
-    const toggleWidth = this.#navToggle?.offsetWidth;
-    const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
+    // const folderListWidth = this.#navElem?.querySelector("#crlngn-scene-folders")?.offsetWidth || 0;
+    // const extrasWidth = this.#isRipperSceneNavOn ? this.#navExtras?.offsetWidth : 0;
+    // const toggleWidth = this.#navToggle?.offsetWidth;
+    // const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
+    // const itemWidth = firstScene.offsetWidth;
+    // const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? extrasWidth + folderListWidth : 0) - (toggleWidth*2))/itemWidth);
+    const itemsPerPage = await TopNavigation.getItemsPerPage();
     const scenes = this.#scenesList?.querySelectorAll("li.nav-item:not(.is-root)") || [];
-    const itemWidth = firstScene.offsetWidth;
     const currPos = TopNavigation.navPos || 0;
-    const itemsPerPage = Math.floor((this.#navElem?.offsetWidth - (currPos === 0 ? extrasWidth + folderListWidth : 0) - (toggleWidth*2))/itemWidth);
 
     let newPos = currPos + (itemsPerPage - 1);
     newPos = newPos > scenes.length-1 ? scenes.length-1 : newPos;
@@ -374,18 +407,145 @@ export class TopNavigation {
    * @param {number} [pos] - The position to scroll to. If undefined, uses stored position
    */
   static setNavPosition(pos) { 
-    const SETTINGS = getSettings();
-    if(!this.#scenesList){ return; }
-    const scenes = this.#scenesList?.querySelectorAll("li.nav-item:not(.is-root)") || [];
-    const extrasWidth = this.#isRipperSceneNavOn ? this.#navExtras?.offsetWidth : 0;
-    const position = pos!==undefined ? pos : TopNavigation.navPos || 0;
+    try {
+      LogUtil.log("setNavPosition", ['Starting with pos:', pos]);
+      const SETTINGS = getSettings();
+      
+      if(!this.#scenesList){ 
+        LogUtil.log("setNavPosition", ['No scenes list found']);
+        return; 
+      }
 
-    const newMargin = (parseInt(scenes[position]?.offsetLeft) - extrasWidth) * -1;
-    this.#scenesList.style.marginLeft = newMargin + 'px';
+      const scenes = this.#scenesList?.querySelectorAll("li.nav-item:not(.is-root)") || [];
+      if (scenes.length === 0) {
+        LogUtil.log("setNavPosition", ['No scene items found']);
+        return;
+      }
 
-    TopNavigation.navPos = position;
-    SettingsUtil.set(SETTINGS.sceneNavPos.tag, position);
+      const extrasWidth = this.#isRipperSceneNavOn ? this.#navExtras?.offsetWidth || 0 : 0;
+      const position = pos!==undefined ? pos : TopNavigation.navPos || 0;
+      
+      if (position >= scenes.length) {
+        LogUtil.log("setNavPosition", ['Position out of bounds:', position, 'max:', scenes.length - 1]);
+        return;
+      }
 
-    LogUtil.log("setNavPosition", [pos, position, scenes, scenes[position], newMargin]);
+      const targetScene = scenes[position];
+      if (!targetScene) {
+        LogUtil.log("setNavPosition", ['Target scene not found at position:', position]);
+        return;
+      }
+
+      const offsetLeft = targetScene.offsetLeft;
+      if (typeof offsetLeft !== 'number') {
+        LogUtil.log("setNavPosition", ['Invalid offsetLeft for scene:', offsetLeft]);
+        return;
+      }
+
+      const newMargin = (parseInt(offsetLeft) - extrasWidth) * -1;
+      LogUtil.log("setNavPosition", ['Calculated margin:', newMargin]);
+      
+      this.#scenesList.style.marginLeft = newMargin + 'px';
+      TopNavigation.navPos = position;
+      SettingsUtil.set(SETTINGS.sceneNavPos.tag, position);
+      
+      LogUtil.log("setNavPosition", ['Complete:', { pos, position, newMargin }]);
+    } catch (error) {
+      LogUtil.log("setNavPosition", ['Error:', error]);
+      console.error('Error in setNavPosition:', error);
+    }
+  }
+
+  static getItemsPerPage = async () => {
+    try {
+      LogUtil.log('getItemsPerPage', ['Starting']);
+      if(!this.#navElem) {
+        LogUtil.log('getItemsPerPage', ['No nav element, resetting vars']);
+        TopNavigation.resetLocalVars();
+        // Ensure DOM is ready before accessing element dimensions
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+      if (!this.#navElem) {
+        LogUtil.log('getItemsPerPage', ['Nav element still not found after reset']);
+        return 0;
+      }
+
+      const folderListWidth = this.#navElem?.querySelector("#crlngn-scene-folders")?.offsetWidth || 0;
+      const extrasWidth = this.#isRipperSceneNavOn ? this.#navExtras?.offsetWidth || 0 : 0;
+      const toggleWidth = this.#navToggle?.offsetWidth || 0;
+      const firstScene = this.#scenesList?.querySelector("li.nav-item:not(.is-root)");
+      
+      if (!firstScene) {
+        LogUtil.log('getItemsPerPage', ['No scene items found']);
+        return 0;
+      }
+
+      const itemWidth = firstScene.offsetWidth;
+      if (!itemWidth) {
+        LogUtil.log('getItemsPerPage', ['Scene item has no width']);
+        return 0;
+      }
+
+      const currPos = TopNavigation.navPos || 0;
+      const navWidth = this.#navElem?.offsetWidth;
+      if (!navWidth) {
+        LogUtil.log('getItemsPerPage', ['Nav element has no width']);
+        return 0;
+      }
+
+      const itemsPerPage = Math.floor((navWidth - (currPos === 0 ? extrasWidth + folderListWidth : 0) - (toggleWidth*2))/itemWidth);
+      LogUtil.log('getItemsPerPage', ['Calculated items per page:', itemsPerPage]);
+      return itemsPerPage || 0;
+    } catch (error) {
+      LogUtil.log('getItemsPerPage', ['Error:', error]);
+      console.error('Error in getItemsPerPage:', error);
+      return 0;
+    }
+  }
+
+  static getCurrScenePosition = async (id) => {
+    try {
+      LogUtil.log('getCurrScenePosition', ['Starting with id:', id]);
+
+      if (!this.#scenesList) {
+        LogUtil.log('getCurrScenePosition', ['No scenes list found']);
+        return 0;
+      }
+
+      const itemsPerPage = await TopNavigation.getItemsPerPage() || 1;
+      LogUtil.log('getCurrScenePosition', ['Items per page:', itemsPerPage]);
+
+      const sceneItems = this.#scenesList.querySelectorAll("li.nav-item:not(.is-root)");
+      if (!sceneItems || sceneItems.length === 0) {
+        LogUtil.log('getCurrScenePosition', ['No scene items found']);
+        return 0;
+      }
+
+      const sceneArray = Array.from(sceneItems);
+      if (!id) {
+        LogUtil.log('getCurrScenePosition', ['No scene ID provided']);
+        return 0;
+      }
+
+      const sceneIndex = sceneArray.findIndex(item => item.dataset.sceneId === id);
+      LogUtil.log('getCurrScenePosition', ['Found scene index:', sceneIndex]);
+      
+      if (sceneIndex === -1) {
+        LogUtil.log('getCurrScenePosition', ['Scene not found with id:', id]);
+        return 0;
+      }
+
+      const isSceneVisible = sceneIndex >= TopNavigation.navPos && 
+                            sceneIndex <= TopNavigation.navPos + itemsPerPage;
+      
+      const pos = isSceneVisible ? TopNavigation.navPos : sceneIndex;
+      LogUtil.log('getCurrScenePosition', ['Final position:', pos, 'isVisible:', isSceneVisible]);
+
+      return pos;
+    } catch (error) {
+      LogUtil.log('getCurrScenePosition', ['Error:', error]);
+      console.error('Error in getCurrScenePosition:', error);
+      return 0;
+    }
   }
 }

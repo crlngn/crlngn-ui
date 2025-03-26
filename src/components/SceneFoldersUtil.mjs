@@ -21,25 +21,20 @@ export class SceneNavFolders {
   static #folderToggleStates = {};
   static #sortableTimeout;
 
-  static init(){
-    if(SceneNavFolders.noFolderView()){ return; }
-    if(!SceneNavFolders.folderListData || SceneNavFolders.folderListData.length === 0){
+  static init() {
+    if (SceneNavFolders.noFolderView() || !ui.scenes) { return; }
+    if (!SceneNavFolders.folderListData || SceneNavFolders.folderListData.length === 0) {
       const isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
       const isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
-      if(!isMonksSceneNavOn && !isRipperSceneNavOn){
+      if (!isMonksSceneNavOn && !isRipperSceneNavOn) {
         SceneNavFolders.preloadTemplate();
       }
-      LogUtil.log("SceneNavFolders",[ui.scenes]);
+
       SceneNavFolders.folderListData = SceneNavFolders.getFolders(ui.scenes.folders);
       SceneNavFolders.selectedFolder = SceneNavFolders.selectFolder(DEFAULT_FOLDER_ID);
     }
   }
 
-  /**
-   * 
-   * @param {object[]} fromList 
-   * @returns 
-   */
   /**
    * Retrieves and sorts top-level folders from the provided folder list
    * @param {object[]} fromList - Array of folder objects to filter
@@ -74,17 +69,13 @@ export class SceneNavFolders {
   }
 
   /**
-   * 
-   * @param {string} id - Scene folder id
-   */
-  /**
    * Retrieves a folder by its ID
    * @param {string} id - Scene folder id
    * @returns {object|string} Found folder object or DEFAULT_FOLDER_ID if not found
    */
-  static getFolderById(id){
+  static getFolderById(id) {
     return ui.scenes.folders.find(fd => {
-      return fd.id===id
+      return fd.id === id;
     }) || DEFAULT_FOLDER_ID;
   }
 
@@ -96,7 +87,6 @@ export class SceneNavFolders {
   static getParentFolders(folderId) {
     const parents = [];
     let currentFolder = ui.scenes.folders.find(f => f.id === folderId);
-    LogUtil.log("getParentFolders", [ui.scenes.folders, currentFolder]);
     
     // Keep track of visited folder IDs to prevent infinite loops
     const visitedFolders = new Set();
@@ -104,7 +94,6 @@ export class SceneNavFolders {
     while (currentFolder?.folder) {
       // If we've seen this folder before, we have a cycle
       if (visitedFolders.has(currentFolder.id)) {
-        LogUtil.log("Circular reference detected in folder structure", [currentFolder]);
         break;
       }
       visitedFolders.add(currentFolder.id);
@@ -134,7 +123,7 @@ export class SceneNavFolders {
    * Preloads the Handlebars template for scene folder list
    * @returns {Promise<boolean>} True when template is successfully loaded
    */
-  static preloadTemplate = async() => {
+  static preloadTemplate = async () => {
     const templatePath = [
       `modules/${MODULE_ID}/templates/scene-folder-list.hbs`
     ];
@@ -142,7 +131,6 @@ export class SceneNavFolders {
     // This returns an object with paths as keys and template functions as values
     await loadTemplates(templatePath);
 
-    LogUtil.log("preloadTemplate", [true]);
   
     return true;
   }
@@ -161,7 +149,7 @@ export class SceneNavFolders {
       hasSubfolders: children.length > 0,
       id: folder.id
     };
-    LogUtil.log("processedFolder", [processedFolder]);
+
     return processedFolder;
   }
 
@@ -173,9 +161,9 @@ export class SceneNavFolders {
   static #folderElement = null;
   static #customList = null;
 
-  static renderSceneFolders = async() => {
-    if(SceneNavFolders.noFolderView()){ return; }
-    if(!SceneNavFolders.selectedFolder){ return; }
+  static renderSceneFolders = async () => {
+    if (SceneNavFolders.noFolderView()) { return; }
+    if (!SceneNavFolders.selectedFolder) { return; }
 
     SceneNavFolders.#defaultFolderName = game.i18n.localize("CRLNGN_UI.ui.sceneNav.favoritesFolder");
 
@@ -192,10 +180,9 @@ export class SceneNavFolders {
       searchValue: SceneNavFolders.searchValue,
       showSearchResults: !!SceneNavFolders.searchValue
     };
-    LogUtil.log("renderSceneFolders", [baseData.folderList, SceneNavFolders.#folderToggleStates]);
-
+    
     // Add folder-specific data
-    if(SceneNavFolders.selectedFolder === DEFAULT_FOLDER_ID) {
+    if (SceneNavFolders.selectedFolder === DEFAULT_FOLDER_ID) {
       SceneNavFolders.#templateData = {
         ...baseData,
         currFolder: { name: "", id: DEFAULT_FOLDER_ID },
@@ -208,7 +195,7 @@ export class SceneNavFolders {
     } else {
       const foldersData = SceneNavFolders.selectedFolder.children;
       const folderParents = SceneNavFolders.getParentFolders(SceneNavFolders.selectedFolder.id);
-      LogUtil.log("foldersData", [foldersData, SceneNavFolders.selectedFolder, folderParents]);
+  
       // Get folder contents and sort by sort property
       const folderScenes = [...SceneNavFolders.selectedFolder.contents];
       folderScenes.sort((a, b) => a.sort - b.sort);
@@ -225,7 +212,7 @@ export class SceneNavFolders {
 
     // Check if cached elements are still in the document
     // if (!SceneNavFolders.#folderElement?.isConnected || !SceneNavFolders.#customList?.isConnected) {
-    LogUtil.log("Elements not in DOM, rendering template", []);
+
     
     // Clear existing elements if they exist
     SceneNavFolders.#folderElement?.remove();
@@ -242,7 +229,7 @@ export class SceneNavFolders {
     SceneNavFolders.#folderElement = document.querySelector('#crlngn-scene-folders');
     SceneNavFolders.#customList = document.querySelector('#crlngn-scene-list');
     targetElement?.classList.add('hidden');
-    const nav = SceneNavFolders.#customList;//targetElement.previousElementSibling;
+    const nav = SceneNavFolders.#customList; // targetElement.previousElementSibling;
 
     const sceneItems = nav.querySelectorAll("li.nav-item");
     const navPos = TopNavigation.navPos || 0;
@@ -265,17 +252,17 @@ export class SceneNavFolders {
    * @param {HTMLElement} html - The HTML element containing the scene folders UI
    */
   static activateFolderListeners = (html) => {
-    if(SceneNavFolders.noFolderView()){ return; }
+    if (SceneNavFolders.noFolderView()) { return; }
 
-    LogUtil.log("activateFolderListeners", [html]);
+
 
     // Add click or hover event to folder list header
     const selectedLink = html.querySelector('a.selected');
-    if(TopNavigation.showFolderListOnClick){
+    if (TopNavigation.showFolderListOnClick) {
       selectedLink?.removeEventListener('mouseover', SceneNavFolders.#onOpenList);
       html.removeEventListener('mouseleave', SceneNavFolders.#onOpenList);
       selectedLink?.addEventListener('click', SceneNavFolders.#onOpenList);
-    }else{
+    } else {
       selectedLink?.addEventListener('mouseover', SceneNavFolders.#onOpenList);
       html.addEventListener('mouseleave', SceneNavFolders.#onOpenList);
       selectedLink?.removeEventListener('click', SceneNavFolders.#onOpenList);
@@ -300,12 +287,12 @@ export class SceneNavFolders {
         let isOpen = false;
         
         // Toggle visibility of the subfolders
-        if (!subfoldersOl) { return }
+        if (!subfoldersOl) { return; }
         const isHidden = !(subfoldersOl.classList.contains('open'));
-        if(isHidden){
+        if (isHidden) {
           subfoldersOl.classList.add('open');
           isOpen = true;
-        }else{
+        } else {
           subfoldersOl.classList.remove('open');
           isOpen = false;
         }
@@ -323,7 +310,7 @@ export class SceneNavFolders {
     });
 
     const searchInput = html.querySelector('.search-container .input-scene-search');
-    searchInput.addEventListener("keyup", SceneNavFolders.#onSearchInput);
+    searchInput.addEventListener("keyup", SceneNavFolders.onSearchInput);
     searchInput.addEventListener('keydown', evt => {
       evt.stopPropagation();
     });
@@ -341,13 +328,13 @@ export class SceneNavFolders {
     sceneItems.forEach(li => {
       const isFolder = li.classList.contains("folder");
       li.addEventListener("click", isFolder ? SceneNavFolders.#onSelectFolder : SceneNavFolders.#onSelectScene);
-      li.addEventListener("dblclick", isFolder ? ()=>{} : SceneNavFolders.#onActivateScene);
+      li.addEventListener("dblclick", isFolder ? () => {} : SceneNavFolders.#onActivateScene);
     });
 
     // Only add drag-drop if user is GM
     if (game.user?.isGM) {
       SceneNavFolders.#initializeDragDrop(html);
-      LogUtil.log("addSceneListeners");
+
     }
   }
 
@@ -358,7 +345,7 @@ export class SceneNavFolders {
   static #initializeDragDrop = (html) => {
     // Check if Sortable is available, if not retry after a short delay
     clearInterval(SceneNavFolders.#sortableTimeout);
-    LogUtil.log("#initializeDragDrop A", [Sortable]);
+
     let tries = 0;
     if (!Sortable && tries < 5) {
       SceneNavFolders.#sortableTimeout = setTimeout(() => SceneNavFolders.#initializeDragDrop(html), 500);
@@ -366,7 +353,6 @@ export class SceneNavFolders {
       return;
     }
     clearInterval(SceneNavFolders.#sortableTimeout);
-    LogUtil.log("#initializeDragDrop B", [Sortable]);
 
     // Common options for both scenes and folders
     const commonOptions = {
@@ -374,11 +360,11 @@ export class SceneNavFolders {
       delay: 100,
       delayOnTouchOnly: true,
       onStart: function () {
-        html.querySelectorAll(".scene.nav-item").forEach(it => it.classList.add('no-hover'))
+        html.querySelectorAll(".scene.nav-item").forEach(it => it.classList.add('no-hover'));
         this.el.classList.add('no-hover');
       },
       onEnd: function () {
-        html.querySelectorAll(".scene.nav-item").forEach(it => it.classList.remove('no-hover'))
+        html.querySelectorAll(".scene.nav-item").forEach(it => it.classList.remove('no-hover'));
         this.el.classList.remove('no-hover');
       }
     };
@@ -388,7 +374,6 @@ export class SceneNavFolders {
       ...commonOptions,
       draggable: ".scene.nav-item",
       onEnd: async (evt) => {
-        LogUtil.log("#initializeDragDrop scenes", ["onEnd", evt]);
 
         const scenes = html.querySelectorAll(".scene.nav-item");
         const updates = [];
@@ -480,7 +465,6 @@ export class SceneNavFolders {
       ...commonOptions,
       draggable: ".folder.nav-item",
       onEnd: async (evt) => {
-        LogUtil.log("#initializeDragDrop folders", ["onEnd", evt]);
 
         const folders = html.querySelectorAll(".folder.nav-item");
         const updates = [];
@@ -610,6 +594,123 @@ export class SceneNavFolders {
    * Registers Foundry VTT hooks for folder and scene changes
    */
   static registerHooks() {
+      Hooks.on(HOOKS_CORE.CREATE_FOLDER, (folder) => {
+          if (folder.type === "Scene") {
+              SceneNavFolders.refreshFolderView();
+          }
+      });
+      
+      Hooks.on(HOOKS_CORE.UPDATE_FOLDER, (folder) => {
+          if (folder.type === "Scene") {
+              SceneNavFolders.refreshFolderView();
+          }
+      });
+      
+      Hooks.on(HOOKS_CORE.DELETE_FOLDER, (folder) => {
+          if (folder.type === "Scene") {
+              SceneNavFolders.refreshFolderView();
+          }
+      });
+      
+      // Also hook into scene changes
+      Hooks.on(HOOKS_CORE.CREATE_SCENE, () => {
+          SceneNavFolders.refreshFolderView();
+      });
+      Hooks.on(HOOKS_CORE.UPDATE_SCENE, () => {
+          SceneNavFolders.refreshFolderView();
+      });
+      Hooks.on(HOOKS_CORE.DELETE_SCENE, () => {
+          SceneNavFolders.refreshFolderView();
+      });
+
+      Hooks.on(HOOKS_CORE.RENDER_DOCUMENT_DIRECTORY, (directory) => {
+          if(directory.entryType !== "Scene") return;
+          
+          const sceneNav = document.querySelector('#scenes .directory-list');
+          sceneNav.addEventListener('contextmenu', (event) => {
+            const navItem = event.target.closest('.directory-item');
+            if (!navItem) return;
+            SceneNavFolders.contextMenuSceneId = navItem.dataset.documentId || null;
+            
+            if (SceneNavFolders.contextMenuSceneId) {
+              const scene = game.scenes.get(SceneNavFolders.contextMenuSceneId);
+              const langPath = scene.navigation ? "removeFromFavorites" : "addToFavorites";
+              const optionLabel = game.i18n.localize("CRLNGN_UI.ui.sceneNav." + langPath);
+
+              SceneNavFolders.#observeSceneContextMenu(optionLabel);
+            }
+          });
+
+          // apply settings to scene directory
+          const directoryScenes = sceneNav.querySelectorAll("li.scene");
+          directoryScenes.forEach(sc => {
+            const scene = game.scenes.get(sc.dataset.sceneId || sc.dataset.documentId);
+            if(TopNavigation.sceneClickToView){
+              sc.addEventListener("dblclick", SceneNavFolders.#onActivateScene);//onActivateScene
+              sc.addEventListener("click", SceneNavFolders.#onSelectScene);
+            }
+           
+            if(TopNavigation.useSceneIcons && scene && game.user?.isGM){
+              let iconElem = document.createElement('i');
+              iconElem.classList.add('fas');
+              iconElem.classList.add('icon');
+              if(scene.ownership.default!==0){
+                if(scene.active){
+                  iconElem.classList.add('fa-bullseye');
+                  sc.prepend(iconElem);
+                }
+                if(game.scenes.current.id===scene.id){
+                  iconElem.classList.add('fa-crown');
+                  sc.prepend(iconElem);
+                }
+              }else{
+                iconElem.classList.add('fa-lock');
+                sc.prepend(iconElem);
+              }
+            }
+          });
+      });
+
+      Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, () => {      
+          const sceneNav = document.querySelector('#navigation');
+          sceneNav.addEventListener('contextmenu', (event) => {
+              const navItem = event.target.closest('.nav-item');
+              if (!navItem) return;
+              
+              SceneNavFolders.contextMenuSceneId = event.currentTarget.dataset.sceneId || navItem.dataset.sceneId || null;
+              
+              if (SceneNavFolders.contextMenuSceneId) {
+                  const scene = game.scenes.get(SceneNavFolders.contextMenuSceneId);
+                  const langPath = scene.navigation ? "removeFromFavorites" : "addToFavorites";
+                  const optionLabel = game.i18n.localize("CRLNGN_UI.ui.sceneNav." + langPath);
+
+                  SceneNavFolders.#observeSceneContextMenu(optionLabel);
+              }
+          });
+      });
+
+      Hooks.on(HOOKS_CORE.GET_SCENE_NAV_CONTEXT, (nav, options) => {
+          const initialViewOption = options.find(opt => opt.name === 'CRLNGN_UI.ui.sceneNav.initialViewBtn');
+          if(!initialViewOption){
+              options.push({
+                  ...options[0],
+                  condition: li => game.user?.isGM && game.scenes.get(li.data("sceneId"))._view,
+                  callback: li => {
+                      let scene = game.scenes.get(li.data("sceneId"));
+                      let x = parseInt(canvas.stage.pivot.x);
+                      let y = parseInt(canvas.stage.pivot.y);
+                      let scale = canvas.stage.scale.x;
+                      scene.update({ initial: { x: x, y: y, scale: scale } }, { diff: false });
+                      ui.notifications.info(game.i18n.localize("CRLNGN_UI.ui.notifications.initialViewSet"))
+                  },
+                  icon: "<i class=\"fas fa-expand\"></i>",
+                  name: 'CRLNGN_UI.ui.sceneNav.initialViewBtn'
+              });
+          }
+      });
+  }
+  /*
+  static registerHooks() {
     Hooks.on(HOOKS_CORE.CREATE_FOLDER, (folder) => {
       if (folder.type === "Scene") {
         SceneNavFolders.refreshFolderView();
@@ -679,7 +780,6 @@ export class SceneNavFolders {
     });
 
     Hooks.on(HOOKS_CORE.GET_SCENE_NAV_CONTEXT, (nav, options) => {
-      LogUtil.log(HOOKS_CORE.GET_SCENE_NAV_CONTEXT, [nav, options]);
 
       const initialViewOption = options.find(opt => opt.name === 'CRLNGN_UI.ui.sceneNav.initialViewBtn');
       if(!initialViewOption){
@@ -700,6 +800,8 @@ export class SceneNavFolders {
       }
     });
   }
+    */
+   
   /**
    * Observes the context menu and adds a label for including or removing a scene from favorites
    * @param {string} optionLabel - The label for the context menu item
@@ -715,7 +817,6 @@ export class SceneNavFolders {
       );
 
       if (toggleNavItem) {
-        LogUtil.log("updating toggle nav item", [toggleNavItem]);
         toggleNavItem.innerHTML = `<i class="fas fa-compass fa-fw"></i>${optionLabel}`;
         return true;
       }
@@ -792,7 +893,6 @@ export class SceneNavFolders {
     // evt.stopPropagation();
     const target = evt.target;
     const folderElement = document.querySelector('#crlngn-scene-folders');
-    LogUtil.log("#onOutsideClick", [folderElement, target, folderElement.contains(target)]);
     // const selectedLink = folderElement?.querySelector('a.selected');
     if (folderElement?.classList.contains('open') && !folderElement.contains(target)) {
       folderElement.classList.remove('open');
@@ -811,10 +911,9 @@ export class SceneNavFolders {
     document.removeEventListener('click', SceneNavFolders.#onOutsideClick);
     const target = evt.currentTarget;
     const data = target.dataset;
-    const scene = game.scenes.get(data.sceneId);
+    const scene = game.scenes.get(data.sceneId || data.documentId);
     const isSearchResult = target.parentElement?.classList.contains('search-results');
 
-    LogUtil.log("scene click", [scene, target.parentElement, isSearchResult]);
 
     // Clear any existing timer
     if (SceneNavFolders.#clickTimer) {
@@ -840,7 +939,7 @@ export class SceneNavFolders {
     evt.preventDefault();
     const target = evt.currentTarget;
     const data = target.dataset;
-    const scene = game.scenes.get(data.sceneId);
+    const scene = game.scenes.get(data.sceneId || data.documentId);
 
     // Clear the single-click timer if it exists
     if (SceneNavFolders.#clickTimer) {
@@ -848,7 +947,6 @@ export class SceneNavFolders {
       SceneNavFolders.#clickTimer = null;
     }
 
-    LogUtil.log("#onActivateScene", [scene]);
     scene.activate();
     SceneNavFolders.refreshFolderView();
   }
@@ -865,7 +963,6 @@ export class SceneNavFolders {
     document.removeEventListener('click', SceneNavFolders.#onOutsideClick);
     const target = evt.currentTarget;
     const data = target.dataset;
-    LogUtil.log("#onSelectFolder", [data]);
     const newFolder = SceneNavFolders.selectFolder(data.folderId || "");
     if(newFolder !== SceneNavFolders.selectedFolder){
       TopNavigation.navPos = 0;
@@ -879,7 +976,7 @@ export class SceneNavFolders {
    * Handles search input changes
    * @param {Event} evt - The triggering event
    */
-  static #onSearchInput = (evt) => {
+  static onSearchInput = (evt) => {
     evt.stopPropagation();
     
     const input = evt.currentTarget;

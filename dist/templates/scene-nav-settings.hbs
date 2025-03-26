@@ -1,4 +1,4 @@
-<div>
+<div class="form-content">
 
   <div class="form-group">
     <label for="sceneNavEnabled">{{fields.sceneNavEnabled.label}}</label>
@@ -22,6 +22,18 @@
     <label for="showFolderListOnClick">{{fields.showFolderListOnClick.label}}</label>
     <input type="checkbox" name="showFolderListOnClick" {{#if showFolderListOnClick}}checked{{/if}} />
     <p class="hint">{{{fields.showFolderListOnClick.hint}}}</p> 
+  </div>
+
+  <div class="form-group">
+    <label for="sceneClickToView">{{fields.sceneClickToView.label}}</label>
+    <input type="checkbox" name="sceneClickToView" {{#if sceneClickToView}}checked{{/if}} />
+    <p class="hint">{{{fields.sceneClickToView.hint}}}</p> 
+  </div>
+
+  <div class="form-group">
+    <label for="useSceneIcons">{{fields.useSceneIcons.label}}</label>
+    <input type="checkbox" name="useSceneIcons" {{#if useSceneIcons}}checked{{/if}} />
+    <p class="hint">{{{fields.useSceneIcons.hint}}}</p> 
   </div>
 
   <div class="form-group">

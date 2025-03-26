@@ -34,6 +34,12 @@ export class Main {
       Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
       SettingsUtil.registerSettings();
 
+      if(TopNavigation.navFoldersEnabled){
+        // Add SceneNavFolders to window namespace
+        window.crlngnUI.SceneNavFolders = SceneNavFolders;
+        SceneNavFolders.init();
+      }
+
       TopNavigation.init();
       CameraUtil.init(); 
       PlayersListUtil.init(); 

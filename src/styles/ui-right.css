@@ -171,9 +171,27 @@ body.crlngn-ui {
       }
     }
 
+    li.directory-item.scene{
+      position: relative;
+      .icon{
+        position: absolute;
+        font-size: var(--font-size-10);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        padding: 5px;
+        top: 0px;
+        left: 0px;
+        border-bottom-right-radius: 3px;
+        background-color: var(--color-dark-bg-75);
+      }
+    }
+
     li.directory-item.compendium h3,
     li.directory-item h3.document-name {
-      font-size: var(--font-size-12);
+      font-size: var(--font-size-13);
       font-weight: 600;
       line-height: 1.35;
       display: flex;
@@ -181,7 +199,7 @@ body.crlngn-ui {
       justify-content: center;
 
       &.compendium-name, a {
-        background: rgba(0, 0, 0, .6);
+        background: rgba(0, 0, 0, .35);
         padding: 3px 10px;
         border-radius: 4px;
         border: none;
