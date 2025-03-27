@@ -15,14 +15,18 @@ I have just created a Discord channel for users of my module to discuss it and s
 A sleek and minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12, but also offering many quality of life features to the ui panels. 
 
 <div style="display: flex; flex-direction: row;">
-<video src="https://github.com/user-attachments/assets/9cc3b4fb-9f9e-45a4-9367-1bc6d255679c" width="100%" height="auto">
-</video>
+  <video src="https://github.com/user-attachments/assets/9cc3b4fb-9f9e-45a4-9367-1bc6d255679c" width="100%" height="auto">
+  </video>
+  <video src="https://github.com/user-attachments/assets/417afe41-82fc-4fd7-928e-95368c8a72ab" width="48%" height="auto">
+  </video>
 </div>
   
-<div style="display: flex; flex-wrap: wrap; flex-direction: row; gap: '2%'">
-  <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-2.webp?raw=true" width="49%" height="auto" />
+<div style="display: flex; flex-wrap: wrap; flex-direction: row; gap:2%">
   <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-1.webp?raw=true" width="49%" height="auto" />
+  <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-2.webp?raw=true" width="49%" height="auto" />
 </div>
+
+  
 
 ### FEATURES:
 - **Scene Navigation** have folders and scene search. It can be scrolled horizontally, saving space, and there's improved icons and markers for players and GM;
@@ -41,14 +45,7 @@ A sleek and minimalist UI overhaul, focusing on saving space on screen and impro
 - **Chat Border Colors** - Select if you want the borders to show player color, roll type, or none;
 - **Custom CSS Field** to load your own style modifications to your world
 
-
-<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-ui-folder-tree.gif?raw=true" width="500px" height="auto" />
-
-<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/right-panel-settings.webp?raw=true" width="300px" height="auto" />
-
-<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/toolbar-1.webp?raw=true" width="300px" height="auto" />
-
-<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/top-nav-1.webp?raw=true" width="300px" height="auto" />
+<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-ui-folder-tree.gif?raw=true" width="300px" height="auto" />
 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/slider-controls.webp?raw=true" width="300px" height="auto" />
 
