@@ -1,4 +1,6 @@
 <div class="form-content">
+  <h4><i class="fas fa-user"></i> {{localize "CRLNGN_UI.ui.clientSettingsLabel"}}</h4>
+  <hr/>
   {{!-- <h2>{{localize "CRLNGN_UI.settings.customFontsDialog.label"}}</h2> --}}
   <p class="hint">{{localize "CRLNGN_UI.settings.chatMessagesMenu.hint"}}</p>
 
@@ -19,13 +21,5 @@
     </select>
     <p class="hint">{{{fields.chatBorderColor.hint}}}</p> 
   </div>
-
-  {{!-- {{#if isGM}}
-  <div class="form-group">
-    <label for="enforceDarkMode">{{fields.enforceDarkMode.label}}</label>
-    <input type="checkbox" name="enforceDarkMode" {{#if enforceDarkMode}}checked{{/if}} />
-    <p class="hint">{{fields.enforceDarkMode.hint}}</p> 
-  </div>
-  {{/if}} --}}
 
 </div>

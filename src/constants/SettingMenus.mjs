@@ -32,7 +32,7 @@ export function getSettingMenus() {
       name: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.title"),
       label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.title"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.hint"),
-      icon: "fas fa-cog",
+      icon: "fas fa-comment",
       propType: ChatMessagesSettings,
       restricted: false 
     },
@@ -41,7 +41,7 @@ export function getSettingMenus() {
       name: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.title"),
       label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.title"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.hint"),
-      icon: "fas fa-cog",
+      icon: "fas fa-gear",
       propType: LeftControlsSettings,
       restricted: false 
     },
@@ -59,7 +59,7 @@ export function getSettingMenus() {
       name: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.title"),
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.title"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.hint"),
-      icon: "fas fa-cog",  
+      icon: "fas fa-map",  
       propType: SceneNavSettings,
       restricted: false 
     }

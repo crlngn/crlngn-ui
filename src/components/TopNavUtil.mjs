@@ -31,6 +31,11 @@ export class TopNavigation {
   static navStartCollapsed;
   static showFolderListOnClick;
   static showNavOnHover;
+  static useSceneIcons;
+  static useScenePreview;
+  static useNavBackButton;
+  static sceneNavAlias = "";
+  static sceneClickToView;
   static isCollapsed;
   static navPos;
 
@@ -144,22 +149,16 @@ export class TopNavigation {
 
     Hooks.on(HOOKS_CORE.CANVAS_INIT, async () => {
       try {
-        LogUtil.log(HOOKS_CORE.CANVAS_INIT, ['Starting canvas init']);
         const scene = game.scenes.viewed;
         if (!scene) {
-          LogUtil.log(HOOKS_CORE.CANVAS_INIT, ['No viewed scene found']);
           return;
         }
-        LogUtil.log(HOOKS_CORE.CANVAS_INIT, ['Getting scene position for', scene.id]);
         const pos = await TopNavigation.getCurrScenePosition(scene.id);
-        LogUtil.log(HOOKS_CORE.CANVAS_INIT, ['Got position', pos]);
         // Ensure DOM is ready before accessing element dimensions
         await new Promise(resolve => setTimeout(resolve, 100));
-        LogUtil.log(HOOKS_CORE.CANVAS_INIT, ['Setting nav position', pos]);
         TopNavigation.setNavPosition(pos);
-        LogUtil.log(HOOKS_CORE.CANVAS_INIT, ['Canvas init complete']);
       } catch (error) {
-        LogUtil.log(HOOKS_CORE.CANVAS_INIT, ['Error in canvas init:', error]);
+        LogUtil.warn(HOOKS_CORE.CANVAS_INIT, ['Error in canvas init:', error]);
         console.error('Error in canvas init:', error);
       }
     });

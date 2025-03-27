@@ -22,7 +22,6 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
       actions: {
         redefine: SceneNavSettings.#onReset,
       },
-      // classes: ["standard-form"],
       form: {
         handler: SceneNavSettings.#onSubmit,
         closeOnSubmit: true,
@@ -147,7 +146,6 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
    */
   _prepareContext(options) {
     const SETTINGS = getSettings();
-    const menuValues = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
     const fieldNames = SETTINGS.sceneNavMenu.fields;
     const fields = {};
     const fieldValues = {};
@@ -157,7 +155,7 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
       if(SETTINGS[fieldName]) {
         const value = SettingsUtil.get(SETTINGS[fieldName].tag);
         fields[fieldName] = SETTINGS[fieldName];
-        fieldValues[fieldName] = value!== undefined ? value : menuValues[SETTINGS[fieldName].oldName] || SETTINGS[fieldName].default;
+        fieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;
         fieldDefaults[fieldName] = SETTINGS[fieldName].default;
       }
     });
@@ -205,7 +203,26 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
    */
   _onRender(context, options) {
     LogUtil.log("_onRender", [context, options]);
+    
+    // Add event listener for sceneNavEnabled checkbox
+    const sceneNavCheckbox = this.element?.querySelector('input[name="sceneNavEnabled"]');
+    LogUtil.log('_onRender', [this.element, sceneNavCheckbox])
+    if (sceneNavCheckbox) {
+      sceneNavCheckbox.addEventListener('change', this.#onSceneNavEnabledChange.bind(this));
+      // Initial state
+      this.#onSceneNavEnabledChange({ target: sceneNavCheckbox });
+    }
   }
 
+  /**
+   * Handles changes to the sceneNavEnabled checkbox
+   * @private
+   * @param {Event} event - The change event
+   */
+  #onSceneNavEnabledChange(event) {
+    const otherInputs = this.element?.querySelectorAll('input:not([name="sceneNavEnabled"])');
+    otherInputs.forEach(input => input.disabled = !event.target.checked);
+    LogUtil.log('onSceneNavEnabledChange', [this.element, otherInputs])
+  }
 
 }

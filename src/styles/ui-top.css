@@ -6,6 +6,8 @@ body{
     --folder-list-width: 200px;
     --scene-nav-item-width: 130px;
     --folder-nav-item-width: var(--left-control-item-size);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
     &.logo-visible:has(#navigation.collapsed) {
       --ui-top-padding: calc(72px + var(--top-nav-height,0px));
@@ -76,6 +78,8 @@ body{
       }*/
 
       #navigation {
+        --nav-width: calc(100% + var(--ui-controls-margin-left, 0px) + var(--max-players-width, 0px) + 6px);
+        --nav-margin-left: calc((var(--ui-controls-margin-left, 0px) * -1) - var(--max-players-width, 0px));
         position: absolute;
         top: 0;
         left: 0;
@@ -84,14 +88,26 @@ body{
         flex-wrap: nowrap;
         height: max-content;
         max-height: 60vh;
-        min-height: max(200px,60vh);
+        min-height: max(200px, 60vh);
         pointer-events: none;
         overflow: hidden;
-        margin-left: calc((var(--ui-controls-margin-left, 0px) * -1) - var(--max-players-width, 0px));
-        width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width) + 5px);
-        max-width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width) + 5px);
-        min-width: calc(100% + var(--ui-controls-margin-left) + var(--max-players-width) + 5px);
+        margin-left: var(--nav-margin-left);
+        width: var(--nav-width);
+        max-width: var(--nav-width);
         z-index:101;
+
+        &:before{
+          content: '';
+          display: block;
+          position: absolute; 
+          background: rgba(0, 0, 0, 0.75);
+          width: 100vw;
+          height: var(--top-nav-height, 0px);
+          padding: 0 0 1px 0;
+          margin: 0;
+          top: 0;
+          left: 0;
+        }
 
         .debug-block{
           display: block;
@@ -107,17 +123,7 @@ body{
           position: relative;
         }
 
-        &:before{
-          content: '';
-          display: block;
-          position: absolute; 
-          background: rgba(0, 0, 0, 0.75);
-          width: 100%;
-          height: calc(var(--top-nav-height, 0px) + 1px);
-          backdrop-filter: blur(3px);
-          margin: 0;
-          box-shadow: 0 2px 6px rgb(39 62 84 / 40%);
-        }
+        
 
         &:after{
           content: '';
@@ -133,7 +139,7 @@ body{
           background: rgba(0, 0, 0, 0.75);
           width: var(--left-control-item-size);
           flex: 0 0 var(--left-control-item-size);
-          height: calc(var(--top-nav-height,0px) + 1px);
+          height: var(--top-nav-height,0px);
           text-align: center;
           z-index: 100;
           border: 1px solid transparent;
@@ -209,13 +215,13 @@ body{
         flex: 0 0 auto;
         width: auto;
         max-width: max-content;
-        height: 100%;
-        max-height: 100%;
+        height: var(--left-control-item-size);
+        max-height: var(--left-control-item-size);
         gap: 0;
         padding: 0;
         margin: 0;
         transition: margin-left 0.5s ease-in-out;
-        visibility: visible;
+        background-color: var(--left-control-main-bg);
         z-index: 1;
         
         .sortable-ghost {
@@ -234,7 +240,6 @@ body{
 
         &.hidden{
           display: none;
-          visibility: hidden;
           max-width: 0;
           max-height: 0;
           overflow: hidden;
@@ -249,7 +254,8 @@ body{
         }
 
         li.nav-item {
-          line-height: calc(var(--left-control-item-size) - 1px);
+          line-height: var(--left-control-item-size);
+          max-height: var(--left-control-item-size);
         }
 
         > li.nav-item:not(.is-root) {
@@ -298,6 +304,10 @@ body{
                 display: inline-flex;
               }
             }
+
+            i.hidden{
+              display: none;
+            }
           }
 
           &.folder{
@@ -334,7 +344,6 @@ body{
 
           &.scene.active{
             background: var(--color-secondary-75);
-            box-shadow: 0;
             opacity: 1;
 
             a{
@@ -381,6 +390,23 @@ body{
           border-bottom: 1px solid #000;
           font-size: var(--font-size-12);
         }
+
+        li.scene > .scene-preview {
+          width: var(--folder-header-width);
+          height: 80px;
+          background-color: var(--color-dark-bg-50);
+          background-size: cover;
+          background-position: center;
+          position: absolute;
+          border: 5px solid var(--color-dark-bg-75);
+          top: 36px;
+          left: 0;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+          display: none;
+        }
+        li.scene:hover > .scene-preview {
+          display: flex;
+        }
   
         li.scene > ul.scene-players {
           height: 8px;
@@ -396,7 +422,7 @@ body{
           display: flex;
           align-items: flex-end;
           justify-items: stretch;
-  
+
           li.scene-player{
             height: 4px;
             flex: 1 1 100%;
@@ -446,10 +472,15 @@ body{
 
       &.arrow-turn-left {
         transform: scale(0.9);
+        &:hover{
+          color: var(--color-text-hyperlink);
+        }
       }
 
-      ol.crlngn-scene-list {
+      /*
+      ol#crlngn-scene-list {
         > li.nav-item {
+          position: relative;
           > a {
             min-width: var(--folder-list-width);
             width: var(--folder-list-width);
@@ -460,7 +491,7 @@ body{
           margin-left: var(--scene-nav-item-width);
         }
         
-      }
+      }*/
 
       
     }
@@ -468,8 +499,14 @@ body{
 
   &.hide-player-ui-sceneList{
     #ui-middle.crlngn-ui #ui-top.offset{
-      #navigation:before{
-        display: none;
+      #navigation{
+        &:before{
+          display: none;
+        }
+        #crlngn-scene-list, #crlngn-scene-folders{
+          display: none;
+          visibility: hidden;
+        }
       }
     }
     
@@ -479,6 +516,7 @@ body{
   /* Scene folders */
   #ui-middle.crlngn-ui {
     #crlngn-scene-folders{
+      --nav-header-width: calc(var(--folder-header-width) + 16px);
       display: flex;
       flex: 0 0 auto;
       flex-direction: column;
@@ -491,10 +529,10 @@ body{
       font-weight: 600;
       padding: 0;
       overflow:visible;
-      width: calc(var(--folder-header-width) + 16px);
-      max-width: calc(var(--folder-header-width) + 16px);
+      width: var(--nav-header-width);
+      max-width: var(--nav-header-width);
       min-width: max-content;
-      line-height: calc(var(--left-control-item-size) - 1px);
+      line-height: var(--left-control-item-size);
       pointer-events: all;
       height: var(--left-control-item-size);
       max-height: var(--left-control-item-size);
@@ -508,10 +546,12 @@ body{
         width: auto;
       }
 
+      /*
       &.favorites {
         width: calc(var(--left-control-item-size) + 6px);
         max-width: calc(var(--left-control-item-size) + 6px);
       }
+      */
 
       > a {
         min-width: var(--folder-list-width);
@@ -531,16 +571,19 @@ body{
         text-overflow: ellipsis;
         padding: 0 16px 0 8px;
         margin: 0;
-        height: 100%;
-        line-height: var(--left-control-item-size);
+        height: var(--left-control-item-size);
         background: var(--color-dark-bg-90);
         z-index: 100;
 
+        /*
         &.favorites{
-          width: calc(var(--left-control-item-size) + 16px);
+          overflow: auto;
+          width: auto;
+          text-overflow: auto;
           min-width: calc(var(--left-control-item-size) + 16px);
+          max-width: calc(var(--folder-header-width) + 16px);
           text-overflow: clip;
-        }
+        }*/
 
         &:hover{
           overflow: auto;
@@ -549,7 +592,6 @@ body{
         }
 
         > * {
-          line-height: var(--left-control-item-size);
           vertical-align: middle;
         }
 
@@ -561,11 +603,21 @@ body{
           text-align: center;
           overflow: hidden;
 
+          &.fa-turn-left{
+            min-width: 22px;
+            min-height: 22px;
+            line-height: 24px;
+            font-size: var(--font-size-12);
+          }
+
           &.fa-folder-tree {
             transform: scale(1.05);
             margin-right: 5px;
-            padding-bottom: 3px;
+            padding-bottom: 1px;
             display: inline-flex;
+            line-height: var(--left-control-item-size);
+            max-height: var(--left-control-item-size);
+            overflow: hidden;
           }
           &.arrow-turn-left {
             transform: scale(0.9);
@@ -574,7 +626,7 @@ body{
           &.fa-folder{
             margin: 0 0 0 0;
             max-width: 20px;
-            overflow: auto;
+            overflow: hidden;
             font-size: var(--font-size-10);
 
             &:after{
@@ -598,13 +650,15 @@ body{
           font-size: var(--font-size-10);
           display: flex;
           position: absolute;
-          height: 100%;
+          height: var(--left-control-item-size);
           width: 16px;
           right: 0;
           top: 0;
           justify-content: center;
           transform: rotate(0deg);
           transition: transform 0.2s ease-out;
+          line-height: calc(var(--left-control-item-size) + 2px);
+          overflow: hidden;
         }
 
         > i {
@@ -621,10 +675,11 @@ body{
       }
 
       .scene-folders-contents{
+        --scene-folders-width: calc(var(--folder-list-width) + 10px);
         background-color: var(--left-control-main-bg);
         border-left: 1px solid var(--color-dark-1);
-        width: calc(var(--folder-list-width) + 10px);
-        max-width: calc(var(--folder-list-width) + 10px);
+        width: var(--scene-folders-width);
+        max-width: var(--scene-folders-width);;
         max-height: calc(max(200px,60vh) - 40px);
         display: none;
         flex-direction: column;
@@ -781,10 +836,26 @@ body{
       }
 
       &.favorites {
+        --fav-max-width: calc(var(--folder-header-width) + 16px);
+        --fav-min-width: calc(var(--left-control-item-size) + 6px);
+        width: var(--left-control-item-size);
+        max-width: calc(var(--folder-header-width) + 16px);
         > a.selected {
-          width: calc(var(--left-control-item-size) + 6px);
-          min-width: calc(var(--left-control-item-size) + 6px);
-          text-overflow: clip;
+          width: auto;
+          min-width: var(--fav-min-width);
+          max-width: var(--fav-max-width);
+          text-overflow: ellipsis;
+        }
+
+        &:hover {
+          max-width: max-content;
+
+          a.selected{
+            overflow: auto;
+            width: auto;
+            text-overflow: initial;
+            max-width: max-content;
+          }
         }
       }
 

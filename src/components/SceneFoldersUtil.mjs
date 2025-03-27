@@ -1,7 +1,9 @@
+import { BACK_BUTTON_OPTIONS } from "../constants/Settings.mjs";
 import { MODULE_ID } from "../constants/General.mjs";
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
+import { SettingsUtil } from "./SettingsUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
 import { Sortable } from "sortablejs";
 
@@ -20,16 +22,17 @@ export class SceneNavFolders {
   static contextMenuSceneId = null;
   static #folderToggleStates = {};
   static #sortableTimeout;
+  static #lastScenesVisited = [];
 
   static init() {
     if (SceneNavFolders.noFolderView() || !ui.scenes) { return; }
     if (!SceneNavFolders.folderListData || SceneNavFolders.folderListData.length === 0) {
-      const isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
-      const isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
-      if (!isMonksSceneNavOn && !isRipperSceneNavOn) {
-        SceneNavFolders.preloadTemplate();
-      }
-
+      // const isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
+      // const isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
+      // if (isMonksSceneNavOn || isRipperSceneNavOn) {
+      //   return;
+      // }
+      SceneNavFolders.preloadTemplate();
       SceneNavFolders.folderListData = SceneNavFolders.getFolders(ui.scenes.folders);
       SceneNavFolders.selectedFolder = SceneNavFolders.selectFolder(DEFAULT_FOLDER_ID);
     }
@@ -168,7 +171,8 @@ export class SceneNavFolders {
     SceneNavFolders.#defaultFolderName = game.i18n.localize("CRLNGN_UI.ui.sceneNav.favoritesFolder");
 
     const folders = SceneNavFolders.getFolders(ui.scenes.folders);
-
+    const buttonLabel = `CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.options.${TopNavigation.useNavBackButton}`;
+    SceneNavFolders.selectedFolder !== DEFAULT_FOLDER_ID
     // Prepare base template data
     const baseData = {
       favoritesId: DEFAULT_FOLDER_ID,
@@ -178,7 +182,12 @@ export class SceneNavFolders {
       users: game.users.contents,
       isGM: game.user?.isGM,
       searchValue: SceneNavFolders.searchValue,
-      showSearchResults: !!SceneNavFolders.searchValue
+      showSearchResults: !!SceneNavFolders.searchValue,
+      useNavBackButton: SceneNavFolders.isBackBtnActive(),
+      backButtonLabel: SceneNavFolders.isBackBtnActive() ? game.i18n.localize(buttonLabel) : '',
+      useSceneIcons: TopNavigation.useSceneIcons,
+      useScenePreview: TopNavigation.useScenePreview,
+      sceneNavAlias: TopNavigation.sceneNavAlias
     };
     
     // Add folder-specific data
@@ -215,6 +224,8 @@ export class SceneNavFolders {
 
     
     // Clear existing elements if they exist
+    SceneNavFolders.#folderElement = document.querySelector('#crlngn-scene-folders');
+    SceneNavFolders.#customList = document.querySelector('#crlngn-scene-list');
     SceneNavFolders.#folderElement?.remove();
     SceneNavFolders.#customList?.remove();
     
@@ -247,6 +258,15 @@ export class SceneNavFolders {
     TopNavigation.resetLocalVars();
   }
 
+  static isBackBtnActive = () => {
+    if(TopNavigation.useNavBackButton === BACK_BUTTON_OPTIONS.lastScene.name){
+      return SceneNavFolders.#lastScenesVisited.length > 1;
+    }else if(TopNavigation.useNavBackButton === BACK_BUTTON_OPTIONS.defaultScenes.name){
+      return SceneNavFolders.selectedFolder !== DEFAULT_FOLDER_ID;
+    }
+    return false;
+  }
+
   /**
    * Activates event listeners for the scene folders UI
    * @param {HTMLElement} html - The HTML element containing the scene folders UI
@@ -254,7 +274,10 @@ export class SceneNavFolders {
   static activateFolderListeners = (html) => {
     if (SceneNavFolders.noFolderView()) { return; }
 
-
+    //add event to back button, if present
+    const navBackButton = html.querySelector("i.fa-turn-left");
+    LogUtil.log("navBackButton", [html, navBackButton]);
+    navBackButton?.addEventListener('click', SceneNavFolders.#onBackButton); 
 
     // Add click or hover event to folder list header
     const selectedLink = html.querySelector('a.selected');
@@ -270,7 +293,7 @@ export class SceneNavFolders {
 
     // add click event to each item of folder tree
     html.querySelectorAll(".parent-folder").forEach(folderIcon => {
-      folderIcon.addEventListener('click', SceneNavFolders.#onSelectFolder);
+      folderIcon.addEventListener('click', SceneNavFolders.#onSelectFolder); 
     }); 
 
     // Add click event to all toggle spans
@@ -465,7 +488,6 @@ export class SceneNavFolders {
       ...commonOptions,
       draggable: ".folder.nav-item",
       onEnd: async (evt) => {
-
         const folders = html.querySelectorAll(".folder.nav-item");
         const updates = [];
         
@@ -594,150 +616,51 @@ export class SceneNavFolders {
    * Registers Foundry VTT hooks for folder and scene changes
    */
   static registerHooks() {
-      Hooks.on(HOOKS_CORE.CREATE_FOLDER, (folder) => {
-          if (folder.type === "Scene") {
-              SceneNavFolders.refreshFolderView();
-          }
-      });
-      
-      Hooks.on(HOOKS_CORE.UPDATE_FOLDER, (folder) => {
-          if (folder.type === "Scene") {
-              SceneNavFolders.refreshFolderView();
-          }
-      });
-      
-      Hooks.on(HOOKS_CORE.DELETE_FOLDER, (folder) => {
-          if (folder.type === "Scene") {
-              SceneNavFolders.refreshFolderView();
-          }
-      });
-      
-      // Also hook into scene changes
-      Hooks.on(HOOKS_CORE.CREATE_SCENE, () => {
-          SceneNavFolders.refreshFolderView();
-      });
-      Hooks.on(HOOKS_CORE.UPDATE_SCENE, () => {
-          SceneNavFolders.refreshFolderView();
-      });
-      Hooks.on(HOOKS_CORE.DELETE_SCENE, () => {
-          SceneNavFolders.refreshFolderView();
-      });
+    Hooks.on(HOOKS_CORE.CANVAS_INIT, () => {
+      const sceneId = game.scenes?.viewed?.id;
+      const length = SceneNavFolders.#lastScenesVisited.length;
+      const lastSceneId = length > 0 ? SceneNavFolders.#lastScenesVisited[length-1] : null;
+      const penultimateSceneId = length > 0 ? SceneNavFolders.#lastScenesVisited[length-2] : null;
 
-      Hooks.on(HOOKS_CORE.RENDER_DOCUMENT_DIRECTORY, (directory) => {
-          if(directory.entryType !== "Scene") return;
-          
-          const sceneNav = document.querySelector('#scenes .directory-list');
-          sceneNav.addEventListener('contextmenu', (event) => {
-            const navItem = event.target.closest('.directory-item');
-            if (!navItem) return;
-            SceneNavFolders.contextMenuSceneId = navItem.dataset.documentId || null;
-            
-            if (SceneNavFolders.contextMenuSceneId) {
-              const scene = game.scenes.get(SceneNavFolders.contextMenuSceneId);
-              const langPath = scene.navigation ? "removeFromFavorites" : "addToFavorites";
-              const optionLabel = game.i18n.localize("CRLNGN_UI.ui.sceneNav." + langPath);
+      if(length === 0 || (penultimateSceneId !== sceneId && lastSceneId !== sceneId)){ 
+        SceneNavFolders.#lastScenesVisited.push(sceneId);
+        LogUtil.log(HOOKS_CORE.CANVAS_INIT, [SceneNavFolders.#lastScenesVisited]);
+      };
+    });
 
-              SceneNavFolders.#observeSceneContextMenu(optionLabel);
-            }
-          });
-
-          // apply settings to scene directory
-          const directoryScenes = sceneNav.querySelectorAll("li.scene");
-          directoryScenes.forEach(sc => {
-            const scene = game.scenes.get(sc.dataset.sceneId || sc.dataset.documentId);
-            if(TopNavigation.sceneClickToView){
-              sc.addEventListener("dblclick", SceneNavFolders.#onActivateScene);//onActivateScene
-              sc.addEventListener("click", SceneNavFolders.#onSelectScene);
-            }
-           
-            if(TopNavigation.useSceneIcons && scene && game.user?.isGM){
-              let iconElem = document.createElement('i');
-              iconElem.classList.add('fas');
-              iconElem.classList.add('icon');
-              if(scene.ownership.default!==0){
-                if(scene.active){
-                  iconElem.classList.add('fa-bullseye');
-                  sc.prepend(iconElem);
-                }
-                if(game.scenes.current.id===scene.id){
-                  iconElem.classList.add('fa-crown');
-                  sc.prepend(iconElem);
-                }
-              }else{
-                iconElem.classList.add('fa-lock');
-                sc.prepend(iconElem);
-              }
-            }
-          });
-      });
-
-      Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, () => {      
-          const sceneNav = document.querySelector('#navigation');
-          sceneNav.addEventListener('contextmenu', (event) => {
-              const navItem = event.target.closest('.nav-item');
-              if (!navItem) return;
-              
-              SceneNavFolders.contextMenuSceneId = event.currentTarget.dataset.sceneId || navItem.dataset.sceneId || null;
-              
-              if (SceneNavFolders.contextMenuSceneId) {
-                  const scene = game.scenes.get(SceneNavFolders.contextMenuSceneId);
-                  const langPath = scene.navigation ? "removeFromFavorites" : "addToFavorites";
-                  const optionLabel = game.i18n.localize("CRLNGN_UI.ui.sceneNav." + langPath);
-
-                  SceneNavFolders.#observeSceneContextMenu(optionLabel);
-              }
-          });
-      });
-
-      Hooks.on(HOOKS_CORE.GET_SCENE_NAV_CONTEXT, (nav, options) => {
-          const initialViewOption = options.find(opt => opt.name === 'CRLNGN_UI.ui.sceneNav.initialViewBtn');
-          if(!initialViewOption){
-              options.push({
-                  ...options[0],
-                  condition: li => game.user?.isGM && game.scenes.get(li.data("sceneId"))._view,
-                  callback: li => {
-                      let scene = game.scenes.get(li.data("sceneId"));
-                      let x = parseInt(canvas.stage.pivot.x);
-                      let y = parseInt(canvas.stage.pivot.y);
-                      let scale = canvas.stage.scale.x;
-                      scene.update({ initial: { x: x, y: y, scale: scale } }, { diff: false });
-                      ui.notifications.info(game.i18n.localize("CRLNGN_UI.ui.notifications.initialViewSet"))
-                  },
-                  icon: "<i class=\"fas fa-expand\"></i>",
-                  name: 'CRLNGN_UI.ui.sceneNav.initialViewBtn'
-              });
-          }
-      });
-  }
-  /*
-  static registerHooks() {
     Hooks.on(HOOKS_CORE.CREATE_FOLDER, (folder) => {
       if (folder.type === "Scene") {
         SceneNavFolders.refreshFolderView();
+        ui.nav.render();
       }
     });
     
     Hooks.on(HOOKS_CORE.UPDATE_FOLDER, (folder) => {
       if (folder.type === "Scene") {
         SceneNavFolders.refreshFolderView();
+        ui.nav.render();
       }
     });
     
     Hooks.on(HOOKS_CORE.DELETE_FOLDER, (folder) => {
-      if (folder.type === "Scene") {
+      if(folder.type === "Scene") {
         SceneNavFolders.refreshFolderView();
+        ui.nav.render();
       }
     });
     
     // Also hook into scene changes
     Hooks.on(HOOKS_CORE.CREATE_SCENE, () => {
       SceneNavFolders.refreshFolderView();
+      ui.nav.render();
     });
     Hooks.on(HOOKS_CORE.UPDATE_SCENE, () => {
       SceneNavFolders.refreshFolderView();
+      ui.nav.render();
     });
     Hooks.on(HOOKS_CORE.DELETE_SCENE, () => {
       SceneNavFolders.refreshFolderView();
+      ui.nav.render();
     });
 
     Hooks.on(HOOKS_CORE.RENDER_DOCUMENT_DIRECTORY, (directory) => {
@@ -747,7 +670,6 @@ export class SceneNavFolders {
       sceneNav.addEventListener('contextmenu', (event) => {
         const navItem = event.target.closest('.directory-item');
         if (!navItem) return;
-        
         SceneNavFolders.contextMenuSceneId = navItem.dataset.documentId || null;
         
         if (SceneNavFolders.contextMenuSceneId) {
@@ -756,6 +678,35 @@ export class SceneNavFolders {
           const optionLabel = game.i18n.localize("CRLNGN_UI.ui.sceneNav." + langPath);
 
           SceneNavFolders.#observeSceneContextMenu(optionLabel);
+        }
+      });
+
+      // apply settings to scene directory
+      const directoryScenes = sceneNav.querySelectorAll("li.scene");
+      directoryScenes.forEach(sc => {
+        const scene = game.scenes.get(sc.dataset.sceneId || sc.dataset.documentId);
+        if(TopNavigation.sceneClickToView){
+          sc.addEventListener("dblclick", SceneNavFolders.#onActivateScene);//onActivateScene
+          sc.addEventListener("click", SceneNavFolders.#onSelectScene);
+        }
+        
+        if(TopNavigation.useSceneIcons && scene && game.user?.isGM){
+          let iconElem = document.createElement('i');
+          iconElem.classList.add('fas');
+          iconElem.classList.add('icon');
+          if(scene.ownership.default!==0){
+            if(scene.active){
+              iconElem.classList.add('fa-bullseye');
+              sc.prepend(iconElem);
+            }
+            if(game.scenes.current.id===scene.id){
+              iconElem.classList.add('fa-crown');
+              sc.prepend(iconElem);
+            }
+          }else{
+            iconElem.classList.add('fa-lock');
+            sc.prepend(iconElem);
+          }
         }
       });
     });
@@ -772,7 +723,6 @@ export class SceneNavFolders {
           const scene = game.scenes.get(SceneNavFolders.contextMenuSceneId);
           const langPath = scene.navigation ? "removeFromFavorites" : "addToFavorites";
           const optionLabel = game.i18n.localize("CRLNGN_UI.ui.sceneNav." + langPath);
-          // LogUtil.log("contextmenu", [scene, optionLabel]);
 
           SceneNavFolders.#observeSceneContextMenu(optionLabel);
         }
@@ -780,19 +730,18 @@ export class SceneNavFolders {
     });
 
     Hooks.on(HOOKS_CORE.GET_SCENE_NAV_CONTEXT, (nav, options) => {
-
       const initialViewOption = options.find(opt => opt.name === 'CRLNGN_UI.ui.sceneNav.initialViewBtn');
       if(!initialViewOption){
         options.push({
           ...options[0],
           condition: li => game.user?.isGM && game.scenes.get(li.data("sceneId"))._view,
           callback: li => {
-              let scene = game.scenes.get(li.data("sceneId"));
-              let x = parseInt(canvas.stage.pivot.x);
-              let y = parseInt(canvas.stage.pivot.y);
-              let scale = canvas.stage.scale.x;
-              scene.update({ initial: { x: x, y: y, scale: scale } }, { diff: false });
-              ui.notifications.info(game.i18n.localize("CRLNGN_UI.ui.notifications.initialViewSet"))
+            let scene = game.scenes.get(li.data("sceneId"));
+            let x = parseInt(canvas.stage.pivot.x);
+            let y = parseInt(canvas.stage.pivot.y);
+            let scale = canvas.stage.scale.x;
+            scene.update({ initial: { x: x, y: y, scale: scale } }, { diff: false });
+            ui.notifications.info(game.i18n.localize("CRLNGN_UI.ui.notifications.initialViewSet"))
           },
           icon: "<i class=\"fas fa-expand\"></i>",
           name: 'CRLNGN_UI.ui.sceneNav.initialViewBtn'
@@ -800,7 +749,6 @@ export class SceneNavFolders {
       }
     });
   }
-    */
    
   /**
    * Observes the context menu and adds a label for including or removing a scene from favorites
@@ -914,7 +862,6 @@ export class SceneNavFolders {
     const scene = game.scenes.get(data.sceneId || data.documentId);
     const isSearchResult = target.parentElement?.classList.contains('search-results');
 
-
     // Clear any existing timer
     if (SceneNavFolders.#clickTimer) {
       clearTimeout(SceneNavFolders.#clickTimer);
@@ -951,6 +898,34 @@ export class SceneNavFolders {
     SceneNavFolders.refreshFolderView();
   }
 
+  static #onBackButton = (evt) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    switch(TopNavigation.useNavBackButton){
+      case BACK_BUTTON_OPTIONS.defaultScenes.name:
+        SceneNavFolders.selectedFolder = SceneNavFolders.selectFolder(DEFAULT_FOLDER_ID);
+        LogUtil.log("onBackButton",[BACK_BUTTON_OPTIONS.defaultScenes.name]);
+        break;
+      case BACK_BUTTON_OPTIONS.lastScene.name:
+        const length = SceneNavFolders.#lastScenesVisited.length;
+        const lastSceneId = length ? SceneNavFolders.#lastScenesVisited[length-2] : null;
+        const lastScene = lastSceneId ? game.scenes?.get(lastSceneId) : null;
+        if(lastScene){
+          lastScene.view();
+          const isInCurrFolder = lastScene.folder && SceneNavFolders.selectedFolder.id === lastScene.folder.id;
+          const folder = (!isInCurrFolder && lastScene.navigation) || !lastScene.folder ? DEFAULT_FOLDER_ID : lastScene.folder.id;
+          SceneNavFolders.selectedFolder = SceneNavFolders.selectFolder(folder);
+          SceneNavFolders.#lastScenesVisited.splice(length-1, 1);
+        }
+        LogUtil.log("onBackButton",[lastScene, lastSceneId, SceneNavFolders.#lastScenesVisited]);
+        break;
+      default:
+        //
+    }
+    SceneNavFolders.refreshFolderView();
+  }
+
   /**
    * @private
    * Handles folder selection
@@ -967,6 +942,7 @@ export class SceneNavFolders {
     if(newFolder !== SceneNavFolders.selectedFolder){
       TopNavigation.navPos = 0;
     }
+
     SceneNavFolders.selectedFolder = newFolder;
     SceneNavFolders.refreshFolderView();
   }

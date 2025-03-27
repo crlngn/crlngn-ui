@@ -1,9 +1,14 @@
-<div id="crlngn-scene-folders"  class="{{#if (eq currFolder.id favoritesId)}}favorites{{/if}}" draggable="false">
+<div id="crlngn-scene-folders" class="{{#if (eq currFolder.id favoritesId)}}favorites{{/if}}" draggable="false">
   
   <a class="selected">
-    {{!-- {{#unless hasParents}} --}}
-    <i class="fas fa-folder-tree"></i> 
-    {{!-- {{/unless}} --}}
+    {{#if useNavBackButton}}
+    <i class="fas fa-turn-left"
+      data-tooltip="{{backButtonLabel}}"
+      data-tooltip-direction="DOWN"
+      data-tooltip-delay="500"></i>
+    {{/if}}
+
+    <i class="fas fa-folder-tree"></i>
     
     {{#unless (eq currFolder.id favoritesId)}}
     {{#each parentFolders}}
@@ -13,7 +18,9 @@
       data-tooltip-direction="DOWN"
       data-tooltip-delay="500"></i>
     {{/each}}
-    <span class="folder-name">{{currFolder.name}}</span>
+    {{currFolder.name}}
+    {{else}}
+    {{sceneNavAlias}}
     {{/unless}}
   </a>
   
@@ -26,7 +33,7 @@
 
       <div class="back-to-favorites" data-folder-id="{{favoritesId}}">
         <a id="scene-folder-favorites" class="favorites">
-          <i class="fas fa-arrow-turn-left"></i> {{favoritesName}}
+          <i class="fas fa-map"></i> {{#if sceneNavAlias}}{{sceneNavAlias}}{{else}}{{favoritesName}}{{/if}}
         </a>
       </div>
 
@@ -58,7 +65,7 @@
         data-folder-id="{{this.id}}">
         <a>
           <i class="fas fa-folder"></i> {{this.name}} 
-          {{#if this.hasSubfolders}}<span class="toggle">&#43;</span>{{/if}}
+          {{#if this.hasSubfolders}}<span class="toggle">{{#if this.isOpen}} &minus;{{else}}&plus;{{/if}}</span>{{/if}}
         </a>
         {{#if this.hasSubfolders}}
           {{> recursiveFolder children=this.children}}
@@ -84,7 +91,7 @@
   <li class="scene nav-item{{#if (eq this.ownership.default 0)}} gm{{/if}}{{#if (eq ../viewedSceneId this.id) }} active{{/if}}" 
     data-scene-id="{{this.id}}" draggable="true">
     <a class="scene-name">
-      {{#if this.active}}
+      {{#if this.active}} 
       <i class="fas fa-bullseye"
         data-tooltip="Active scene"
         data-tooltip-direction="DOWN"
@@ -92,14 +99,14 @@
       {{/if}}
       {{#if ../isGM}}
         {{#if (eq ../viewedSceneId this.id)}}
-        <i class="fas fa-crown"
-            data-tooltip="Viewed by GM"
-            data-tooltip-direction="DOWN"
-            data-tooltip-delay="1000"></i>
+        <i class="fas fa-crown{{#unless ../useSceneIcons}} hidden{{/unless}}"
+          data-tooltip="Viewed by GM"
+          data-tooltip-direction="DOWN"
+          data-tooltip-delay="1000"></i>
         {{else}}
         {{#unless this.active}}
           {{#if (eq this.ownership.default 0)}}
-          <i class="fas fa-lock"
+          <i class="fas fa-lock{{#unless ../useSceneIcons}} hidden{{/unless}}"
             data-tooltip="Hidden from players"
             data-tooltip-direction="DOWN"
             data-tooltip-delay="1000"></i>
@@ -116,6 +123,10 @@
         {{/if}}
       {{/each}}
     </ul>
+
+    {{#if ../useScenePreview}}
+    <span class="scene-preview" style="background-image: url('{{this.thumbnail}}')"></span>
+    {{/if}}
   </li>
   {{/each}}
 </ol>

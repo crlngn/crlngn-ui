@@ -1,16 +1,20 @@
 {
   "CRLNGN_UI": { 
     "ui": { 
+      "clientSettingsLabel": "Player Settings (Client)",
+      "worldSettingsLabel": "World Settings (GM)",
       "notifications": {
         "settingsUpdated": "Settings updated",
+        "minimalUiNotSupported": "Carolingian UI is not compatible with Minimal UI, and offers most of its features. Please disable that module to avoid performance issues.",
         "monksScenesNotSupported": "Carolingian UI's Scene Navigation will conflict with Monk's Scene Navigation. This functionality of Carolingian UI has been disabled.",
         "ripperScenesCompat": "Carolingian UI now has Scene Folder Navigation and Scene Search, which cannot be used together with Compact Scene Navigation. Either disable the other module or disable 'Scene Folder Navigation' on Carolingian UI settings.",
-        "monksPlayerSettingsConflict": "Some of Carolingian UI's settings have been disabled to prevent conflict with the module Monk's Player Settings.",
-        "forceClientSettingsConflict": "Some of Carolingian UI's settings have been disabled to prevent conflict with the module Force Client Settings.",
+        "monksPlayerSettingsConflict": "Carolingian UI's setting 'Enforce Dark Mode' has been disabled to prevent conflict with the module Monk's Player Settings.",
+        "forceClientSettingsConflict": "Carolingian UI's setting 'Enforce Dark Mode' has been disabled to prevent conflict with Force Client Settings.",
         "initialViewSet": "This scene's initial view was set to the current view."
       },
       "sceneNav": {
         "searchPlaceholder": "Search scenes...",
+        "backTo": "Back to",
         "favoritesFolder": "Back to Selected Scenes",
         "addToFavorites": "Add to Navigation",
         "removeFromFavorites": "Remove from Navigation",
@@ -62,6 +66,10 @@
           "customStyles": {
             "label": "Custom CSS",
             "hint": "These styles will be loaded the next time you load Foundry. You may include Google Fonts by pasting the @import link, and the font will be listed in the Custom Fonts settings."
+          }, 
+          "enforceDarkMode": {
+            "label": "Enforce Dark Mode",
+            "hint": "Do not enable this if using Force Client Settings or similar modules. This sets Foundry's UI theme on player's client to Dark if they have it set to 'Browser Default'. If they specifically set it to 'Light', their choice will be respected."
           }
         },
         "reset": "Reset",
@@ -84,10 +92,6 @@
               "rollType": "Roll Type",
               "none": "None"
             }
-          }, 
-          "enforceDarkMode": {
-            "label": "Enforce Dark Mode",
-            "hint": "Sets Foundry UI theme on player's client to Dark if player has it set to 'Browser Default'. If they specifically set it to 'Light', their choice will still be respected."
           }
         },
         "reset": "Reset",
@@ -186,7 +190,24 @@
           },
           "useSceneIcons": {
             "label": "Use scene icons",
-            "hint": "Shows icons next to the scene name: <i class='fas fa-lock'></i> Invisible to players until activated; <i class='fas fa-crown'></i> Currently viewed by the GM; <i class='fas fa-bullseye'></i> Currently active to players;"
+            "hint": "Shows icons next to the scene name. <i class='fas fa-lock'></i> Invisible to players until activated; <i class='fas fa-crown'></i> Currently viewed by the GM; <i class='fas fa-bullseye'></i> Currently active to players;"
+          },
+          "sceneNavAlias": {
+            "label": "Alias for default navigation",
+            "hint": "If you want, you can add a label beside the folder tree icon to identify the default navigation, for example, `Favorites`"
+          },
+          "useNavBackButton": {
+            "label": "Enable Back Button",
+            "hint": "<b>'Back to Last Scene'</b>: clicking takes you back to previously viewed scene, <b>'Back to Default Scenes'</b>: only appears in folder view, clicking opens the default scene navigation, <b>'OFF'</b>: No back button",
+            "options": {
+              "noButton": "OFF",
+              "lastScene": "Back to Last Scene",
+              "defaultScenes": "Back to Default Scenes"
+            }
+          },
+          "useScenePreview": {
+            "label": "Use Scene Preview",
+            "hint": "When enabled, the thumbnail preview will be shown when hovering over scene navigation"
           }
         },
         "reset": "Reset",

@@ -138,7 +138,6 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
    */
   _prepareContext(options) {
     const SETTINGS = getSettings();
-    const menuValues = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
     const fieldNames = SETTINGS.leftControlsMenu.fields;
     const fields = {};
     const fieldValues = {};
@@ -148,7 +147,7 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
       if(SETTINGS[fieldName]) {
         const value = SettingsUtil.get(SETTINGS[fieldName].tag);
         fields[fieldName] = SETTINGS[fieldName];
-        fieldValues[fieldName] = value!== undefined ? value : menuValues[SETTINGS[fieldName].oldName] || SETTINGS[fieldName].default;
+        fieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;
         fieldDefaults[fieldName] = SETTINGS[fieldName].default;
       }
     });

@@ -1,8 +1,11 @@
 {
   "CRLNGN_UI": { 
     "ui": { 
+      "clientSettingsLabel": "Configurações do Jogador (Cliente)",
+      "worldSettingsLabel": "Configurações do Mundo (GM)",
       "notifications": {
         "settingsUpdated": "Configurações atualizadas",
+        "minimalUiNotSupported": "Carolingian UI não é compatível com Minimal UI, e oferece a maioria de suas funcionalidades. Por favor, desabilite Minimal UI para evitar problemas de performance.",
         "monksScenesNotSupported": "A Navegação Horizontal do módulo Carolingian UI foi desabilitada, pois terá conflitos com Monk's Scene Navigation.",
         "ripperScenesCompat": "Carolingian UI agora tem Navegação de Cenas com Pastas e Busca de Cenas, que não podem ser usados junto com a Compact Scene Navigation. Desative o outro módulo ou desative 'Ativar pastas na barra de navegação' nas configurações de Carolingian UI.",
         "monksPlayerSettingsConflict": "Algumas configurações do módulo Carolingian UI foram desativadas para evitar conflitos com o módulo Monk's Player Settings.",
@@ -11,6 +14,7 @@
       },
       "sceneNav": {
         "searchPlaceholder": "Buscar cenas...",
+        "backTo": "Voltar para ",
         "favoritesFolder": "Voltar às Cenas Selecionadas",
         "addToFavorites": "Adicionar à Navegação",
         "removeFromFavorites": "Remover da Navegação",
@@ -57,6 +61,10 @@
           "customStyles": {
             "label": "Estilos CSS",
             "hint": "Estilos digitados aqui serão aplicados na próxima vez que você carregar o Foundry. Você pode incluir fontes do Google Fonts colando o link @import, e a fonte será listada nas configurações de Fontes Personalizadas."
+          }, 
+          "enforceDarkMode": {
+            "label": "Forçar Modo Escuro",
+            "hint": "<b>Não habilite se usar Force Client Settings ou módulos semelhantes.</b> Define o tema da interface do Foundry para o jogador como Escuro caso o tema atual seja 'Padrão do Navegador'. Se o jogador selecionar modo claro, sua opção será respeitada"
           }
         },
         "reset": "Redefinir",
@@ -79,10 +87,6 @@
               "rollType": "Tipo de Rolagem",
               "none": "Nenhuma"
             }
-          }, 
-          "enforceDarkMode": {
-            "label": "Forçar Modo Escuro",
-            "hint": "Define o tema da interface do Foundry no cliente do jogador como Escuro. Se você usa qualquer módulo como 'Force Client Settings', talvez queira desativar isso."
           }
         },
         "reset": "Redefinir",
@@ -182,6 +186,23 @@
           "useSceneIcons": {
             "label": "Usar ícones de cena",
             "hint": "Mostra ícones próximos ao nome da cena: <i class='fas fa-lock'></i> Invisível para jogadores até ser ativada; <i class='fas fa-crown'></i> Atualmente visualizada pelo GM; <i class='fas fa-bullseye'></i> Atualmente ativa para os jogadores;"
+          },
+          "sceneNavAlias": {
+            "label": "Rótulo para a Navegação Padrão",
+            "hint": "Se quiser, você pode adicionar um rótulo ao lado do ícone para identificar a navegação padrão, por exemplo, 'Favoritos'"
+          },
+          "useNavBackButton": {
+            "label": "Habilitar Botão Voltar",
+            "hint": "<b>'Voltar para Cena Anterior'</b>: ao clicar, retorna para a cena anteriormente visualizada, <b>'Voltar para Cenas Padrão'</b>: somente aparece na vista de pasta, ao clicar abre a navegação de cena padrão, <b>'Desabilitado'</b>: Nenhum botão Voltar",
+            "options": {
+              "noButton": "Desabilitado",
+              "lastScene": "Voltar para Cena Anterior",
+              "defaultScenes": "Voltar para Cenas Padrão"
+            }
+          },
+          "useScenePreview": {
+            "label": "Usar Previsualização de Cena",
+            "hint": "Quando ativado, a miniatura da cena será exibida quando passar o mouse sobre o item na barra de navegação"
           }
         },
         "reset": "Redefinir", 

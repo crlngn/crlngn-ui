@@ -62,6 +62,7 @@ export class Main {
       TopNavigation.checkSceneNavCompat();
       UpdateNewsUtil.init();
 
+
       if(TopNavigation.navFoldersEnabled){
         SceneNavFolders.init();
         SceneNavFolders.registerHooks();
@@ -74,6 +75,10 @@ export class Main {
       SettingsUtil.resetFoundryThemeSettings();
       // SettingsUtil.applyThemeSettings();
       
+      const isMinimalUiOn = GeneralUtil.isModuleOn('minimal-ui');
+      if(isMinimalUiOn){
+        ui.notifications.warn(game.i18n.localize('CRLNGN_UI.ui.notifications.minimalUiNotSupported'),{ permanent: true });
+      }
     })
   }
 

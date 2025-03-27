@@ -38,8 +38,7 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
       window: {
         icon: "fas fa-brush",
         title: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.title"),
-        // Add datalists to your content classes
-        contentClasses: ["standard-form", "datalists"],
+        contentClasses: ["standard-form", "datalists", "crlngn"],
         resizable: false
       }
     }
@@ -105,11 +104,7 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
   }
 
-  /**
-   * Prepare context to be sent to handlebars template
-   * @param {*} options 
-   * @returns 
-   */
+
   /**
    * Prepares the context data for the template
    * @protected
@@ -118,7 +113,6 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
    */
   _prepareContext(options) {
     const SETTINGS = getSettings();
-    const menuValues = SettingsUtil.get(SETTINGS.themeAndStylesMenu.tag);
     const fieldNames = SETTINGS.themeAndStylesMenu.fields;
     const fields = {};
     const fieldValues = {};

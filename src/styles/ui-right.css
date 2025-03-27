@@ -4,7 +4,9 @@
 }
 
 #interface #ui-right {
-  
+  #sidebar .sidebar-tab[data-tab=chat]:not(.active) #chat-log{
+    padding: 0;
+  }
   #sidebar{
     margin: 0; 
     border-radius: 0; 

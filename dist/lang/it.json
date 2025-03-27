@@ -1,8 +1,11 @@
 {
   "CRLNGN_UI": { 
     "ui": { 
+      "clientSettingsLabel": "Impostazioni del Jiocatore (Cliente)",
+      "worldSettingsLabel": "Impostazioni del Mondo (GM)",
       "notifications": {
         "settingsUpdated": "Impostazioni aggiornate",
+        "minimalUiNotSupported": "Carolingian UI is not compatible with Minimal UI, and offers most of its features. Please disable that module to avoid performance issues.",
         "monksScenesNotSupported": "La Navigazione Scene di Carolingian UI entrerà in conflitto con Monk's Scene Navigation. Questa funzionalità di Carolingian UI è stata disabilitata.",
         "ripperScenesCompat": "Carolingian UI ora ha la Navigazione Cartelle Scene e Ricerca Scene, che non possono essere utilizzate insieme alla Compact Scene Navigation. Disabilita l'altro modulo o disabilita 'Navigazione Cartelle Scene' nelle impostazioni di Carolingian UI.",
         "monksPlayerSettingsConflict": "Alcune impostazioni di Carolingian UI sono state disabilitate per evitare conflitti con il modulo Monk's Player Settings.",
@@ -11,6 +14,7 @@
       },
       "sceneNav": {
         "searchPlaceholder": "Cerca scene...",
+        "backTo": "Torna a ",
         "favoritesFolder": "Torna alle Scene Selezionate",
         "addToFavorites": "Aggiungi alla Navigazione",
         "removeFromFavorites": "Rimuovi dalla Navigazione",
@@ -58,6 +62,10 @@
           "customStyles": {
             "label": "CSS Personalizzato",
             "hint": "Questi stili saranno caricati al prossimo avvio di Foundry. Puoi includere Google Fonts incollando il link @import, e il font sarà elencato nelle impostazioni dei Font Personalizzati."
+          }, 
+          "enforceDarkMode": {
+            "label": "Forza Modalità Scura",
+            "hint": "<b>Non abilitare questo se si utilizza Force Client Settings o moduli simili.</b> Imposta il tema dell'interfaccia Foundry sul client del giocatore su Scuro se il giocatore l'ha impostato su 'Predefinito Browser'. Se l'hanno specificamente impostato su 'Chiaro', la loro scelta sarà comunque rispettata."
           }
         },
         "reset": "Ripristina",
@@ -80,10 +88,6 @@
               "rollType": "Tipo di Tiro",
               "none": "Nessuno"
             }
-          }, 
-          "enforceDarkMode": {
-            "label": "Forza Modalità Scura",
-            "hint": "Imposta il tema dell'interfaccia Foundry sul client del giocatore su Scuro se il giocatore l'ha impostato su 'Predefinito Browser'. Se l'hanno specificamente impostato su 'Chiaro', la loro scelta sarà comunque rispettata."
           }
         },
         "reset": "Ripristina",
@@ -183,6 +187,23 @@
           "useSceneIcons": {
             "label": "Mostra icone scene",
             "hint": "Mostra icone vicino al nome della scena: <i class='fas fa-lock'></i> Invisibile ai giocatori fino all'attivazione; <i class='fas fa-crown'></i> Attualmente visualizzata dal GM; <i class='fas fa-bullseye'></i> Attualmente attiva per i giocatori;"
+          },
+          "sceneNavAlias": {
+            "label": "Etichetta per la navigazione predefinita",
+            "hint": "Se lo desideri, puoi aggiungere un'etichetta vicino all'icona per identificare la navigazione predefinita, ad esempio, 'Preferite'"
+          },
+          "useNavBackButton": {
+            "label": "Abilita pulsante torna indietro",
+            "hint": "<b>'Torna all'ultima scena'</b>: cliccando torna alla scena precedentemente visualizzata, <b>'Torna alle scene predefinite'</b>: appare solo nella vista cartelle, cliccando apre la navigazione scene predefinita, <b>'Disabilitato'</b>: Nessun pulsante torna indietro",
+            "options": {
+              "noButton": "Disabilitato",
+              "lastScene": "Torna all'ultima scena",
+              "defaultScenes": "Torna alle scene predefinite"
+            }
+          },
+          "useScenePreview": {
+            "label": "Usa Anteprima Scena",
+            "hint": "Quando abilitato, l'anteprima della scena verrà mostrata quando si passa il mouse sulla navigazione"
           }
         },
         "reset": "Ripristina",

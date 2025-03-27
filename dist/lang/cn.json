@@ -1,16 +1,20 @@
 {
   "CRLNGN_UI": { 
     "ui": { 
+      "clientSettingsLabel": "玩家设置 (客户端)",
+      "worldSettingsLabel": "世界设置 (游戏主持人)",
       "notifications": {
         "settingsUpdated": "设置已更新",
-        "monksScenesNotSupported": "卡罗林风格UI的水平场景导航将无法与Monk的场景导航一起使用，因此此功能已被禁用。",
-        "ripperScenesCompat": "卡罗林风格UI现在包含场景文件夹导航和场景搜索功能，这些功能无法与紧凑场景导航一起使用。请禁用其他模块或在卡罗林风格UI设置中禁用“场景文件夹导航”。",
-        "monksPlayerSettingsConflict": "卡罗林风格UI的某些设置已被禁用，以防止与Monk's Player Settings发生冲突。",
-        "forceClientSettingsConflict": "卡罗林风格UI的某些设置已被禁用，以防止与Force Client Settings发生冲突。",
+        "minimalUiNotSupported": "Carolingian UI与Minimal UI不兼容，并提供了大多数的功能。请禁用该模块以避免性能问题。",
+        "monksScenesNotSupported": "Carolingian UI的水平场景导航将无法与Monk的场景导航一起使用，因此此功能已被禁用。",
+        "ripperScenesCompat": "Carolingian UI现在包含场景文件夹导航和场景搜索功能，这些功能无法与紧凑场景导航一起使用。请禁用其他模块或在Carolingian UI设置中禁用“场景文件夹导航”。",
+        "monksPlayerSettingsConflict": "Carolingian UI的“强制暗黑模式”设置已被禁用，以防止与Monk's Player Settings发生冲突。",
+        "forceClientSettingsConflict": "Carolingian UI的“强制暗黑模式”设置已被禁用，以防止与Force Client Settings发生冲突。",
         "initialViewSet": "此场景的初始视图已设置为当前视图。"
       },
       "sceneNav": {
         "searchPlaceholder": "搜索场景...",
+        "backTo": "返回",
         "favoritesFolder": "返回已选场景",
         "addToFavorites": "添加到导航",
         "removeFromFavorites": "从导航中移除",
@@ -57,6 +61,10 @@
           "customStyles": {
             "label": "自定义CSS",
             "hint": "这些样式将在您下次加载 Foundry 时被载入。您可以通过粘贴 '@import' 链接来包含 'Google Fonts'，字体将在自定义字体设置中列出。"
+          }, 
+          "enforceDarkMode": {
+            "label": "强制暗色模式",
+            "hint": "在玩家客户端上将Foundry UI主题设置为暗色。如果你使用任何模块如'强制客户端设置'，你可能需要关闭此选项。"
           }
         },
         "reset": "重置",
@@ -79,10 +87,6 @@
               "rollType": "骰子类型",
               "none": "无"
             }
-          }, 
-          "enforceDarkMode": {
-            "label": "强制暗色模式",
-            "hint": "在玩家客户端上将Foundry UI主题设置为暗色。如果你使用任何模块如'强制客户端设置'，你可能需要关闭此选项。"
           }
         },
         "reset": "重置",
@@ -182,6 +186,23 @@
           "useSceneIcons": {
             "label": "使用场景图标",
             "hint": "在场景名称旁显示图标：<i class='fas fa-lock'></i> 激活前对玩家不可见；<i class='fas fa-crown'></i> GM当前正在查看；<i class='fas fa-bullseye'></i> 当前对玩家激活；"
+          },
+          "sceneNavAlias": {
+            "label": "默认导航别名",
+            "hint": "如果你想，你可以在文件夹树图标旁添加一个标签，以标识默认的导航，例如，'收藏'"
+          },
+          "useNavBackButton": {
+            "label": "启用返回按钮",
+            "hint": "<b>'返回到上一个场景'</b>: 点击返回到之前查看的场景，<b>'返回到默认场景'</b>: 只在文件夹视图中出现，点击打开默认场景导航，<b>禁用</b>: 无返回按钮",
+            "options": {
+              "noButton": "禁用",
+              "lastScene": "返回到上一个场景",
+              "defaultScenes": "返回到默认场景"
+            }
+          },
+          "useScenePreview": {
+            "label": "使用场景预览",
+            "hint": "启用后，悬停在场景导航上时将显示场景的缩略图预览"
           }
         },
         "reset": "重置",

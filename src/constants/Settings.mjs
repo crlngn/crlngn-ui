@@ -28,6 +28,12 @@ export const BORDER_COLOR_TYPES = {
   }
 }
 
+export const BACK_BUTTON_OPTIONS = {
+  noButton: { name: 'noButton' },
+  lastScene: { name: 'lastScene' },
+  defaultScenes: { name: 'defaultScenes' }
+}
+
 export const THEMES = [
   {
     label: 'Carolingian Teal',
@@ -107,7 +113,7 @@ export function getSettings() {
       fields: [
         "colorTheme", 
         "adjustOtherModules", 
-        "customStyles" 
+        "customStyles"
       ],
       default: {
         colorTheme: '',
@@ -222,17 +228,23 @@ export function getSettings() {
         "showFolderListOnClick",
         "sceneClickToView",
         "useSceneIcons",
+        "sceneNavAlias",
         "navStartCollapsed",
-        "showNavOnHover"
+        "showNavOnHover",
+        "useNavBackButton",
+        "useScenePreview"
       ],
       default: {
         sceneNavEnabled: true,
         navFoldersEnabled: true,
         navStartCollapsed: false,
-        sceneClickToView: false,
+        sceneClickToView: true,
         useSceneIcons: false,
+        sceneNavAlias: "",
         showFolderListOnClick: false,
-        showNavOnHover: false
+        showNavOnHover: false,
+        useScenePreview: true,
+        useNavBackButton: BACK_BUTTON_OPTIONS.noButton
       },
       scope: SETTING_SCOPE.client,
       config: false, 
@@ -344,7 +356,7 @@ export function getSettings() {
       propType: Boolean, 
       inputType: SETTING_INPUT.checkbox, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.world, 
       config: false 
     },
 
@@ -356,7 +368,48 @@ export function getSettings() {
       propType: Boolean, 
       inputType: SETTING_INPUT.checkbox, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.world, 
+      config: false 
+    },
+
+    useNavBackButton: {
+      tag: "use-nav-back-button", 
+      oldName: "useNavBackButton",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.hint"), 
+      propType: String, 
+      inputType: SETTING_INPUT.select, 
+      options: {
+        noButton: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.options.noButton"), 
+        lastScene: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.options.lastScene"), 
+        defaultScenes: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.options.defaultScenes")
+      },
+      default: BACK_BUTTON_OPTIONS.lastScene, 
+      scope: SETTING_SCOPE.world, 
+      config: false 
+    },
+
+    useScenePreview: {
+      tag: "use-scene-preview",
+      oldName: "useScenePreview",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useScenePreview.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useScenePreview.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox,
+      default: true, 
+      scope: SETTING_SCOPE.world, 
+      config: false 
+    },
+
+    sceneNavAlias: {
+      tag: "scene-nav-alias", 
+      oldName: "sceneNavAlias",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavAlias.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavAlias.hint"), 
+      propType: String, 
+      inputType: SETTING_INPUT.text, 
+      default: "", 
+      scope: SETTING_SCOPE.world, 
       config: false 
     },
 
@@ -381,20 +434,6 @@ export function getSettings() {
       scope: SETTING_SCOPE.client, 
       config: false 
     },
-
-    /*
-    enableChatStyles: { 
-      tag: "enable-chat-styles", 
-      label: game.i18n.localize("CRLNGN_UI.settings.enableChatStyles.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.enableChatStyles.hint"), 
-      propType: Boolean, 
-      inputType: SETTING_INPUT.checkbox, 
-      default: true, 
-      scope: SETTING_SCOPE.client, 
-      config: true, 
-      requiresReload: true 
-    },
-    */
 
     enableMacroLayout: { 
       tag: "enable-macro-layout", 
@@ -423,8 +462,8 @@ export function getSettings() {
     /* DARK MODE */
     enforceDarkMode: { 
       tag: "enforce-dark-mode", 
-      label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enforceDarkMode.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enforceDarkMode.hint"), 
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.enforceDarkMode.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.enforceDarkMode.hint"), 
       propType: Boolean, 
       inputType: SETTING_INPUT.checkbox, 
       default: true, 

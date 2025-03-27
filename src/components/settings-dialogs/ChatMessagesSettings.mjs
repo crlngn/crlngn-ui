@@ -103,13 +103,6 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
         SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
       }
     });
-    
-    // if(settings.enforceDarkMode === undefined){
-    //   delete settings.enforceDarkMode;
-    // }
-
-    await SettingsUtil.set(SETTINGS.chatMessagesMenu.tag, settings);
-    // await SettingsUtil.set(SETTINGS.enforceDarkMode.tag, settings.enforceDarkMode);
 
     const borderSettings = settings.chatBorderColor;
     if(borderSettings !== currBorderSettings){
@@ -161,7 +154,6 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
    */
   _prepareContext(options) {
     const SETTINGS = getSettings();
-    const menuValues = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
     const fieldNames = SETTINGS.chatMessagesMenu.fields;
     const fields = {};
     const fieldValues = {};
@@ -172,7 +164,7 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
       if(SETTINGS[fieldName]) {
         const value = SettingsUtil.get(SETTINGS[fieldName].tag);
         fields[fieldName] = SETTINGS[fieldName];
-        fieldValues[fieldName] = value!== undefined ? value : menuValues[SETTINGS[fieldName].oldName] || SETTINGS[fieldName].default;
+        fieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;
         fieldDefaults[fieldName] = SETTINGS[fieldName].default;
       }
     });
@@ -181,7 +173,6 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
 
     const setting = {
       ...fieldValues,
-      // enforceDarkMode: SettingsUtil.get(SETTINGS.enforceDarkMode.tag),
       default: { ...fieldDefaults },
       isGM: game.user?.isGM,
       fields: { ...fields },

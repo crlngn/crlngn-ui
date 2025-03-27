@@ -10,6 +10,14 @@ body.crlngn-ui  {
   h4, h5, h6 {
     font-family: var(--crlngn-font-family);
   }
+
+  input[type=checkbox]:disabled{
+    opacity: 0.7;
+    filter:saturate(0.25);
+  }
+  input:disabled{
+    --input-text-color: rgba(50,50,50,0.7);
+  }
   
   .sidebar-tab, #players {
     h1, h2, h3, h4, h5, h6 {
@@ -22,6 +30,10 @@ body.crlngn-ui  {
   #tooltip {
     font-family: var(--crlngn-font-family);
     box-shadow: 0 1px 6px rgba(40,40,65,0.7);
+  }
+
+  .application hr {
+    background-image: linear-gradient(90deg, var(--color-warm-2) 0%, transparent 100%);
   }
 
   .app:not(.monks-scene-navigation) {
@@ -324,6 +336,16 @@ body.crlngn-ui {
   * FORMS
   *******/
   .standard-form.crlngn {
+    h4{
+      font-family: var(--crlngn-font-titles);
+      font-size: var(--font-size-16);
+      line-height: var(--font-size-18);
+
+      i{
+        font-size: var(--font-size-12);
+        margin-right: 5px;
+      }
+    }
 
     .form-content{
       max-height: 70vh;
@@ -434,6 +456,10 @@ body.crlngn-ui {
       background: var(--color-cool-4);
       color: var(--color-text-light-highlight);
     }
+    input:disabled{
+      --input-text-color: rgba(200,200,200,0.7);
+    }
+    
   }
 }
 

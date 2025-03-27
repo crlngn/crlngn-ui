@@ -30,7 +30,6 @@ export class SettingsUtil {
     /**
      * Register each of the settings defined in the SETTINGS constant 
      */
-    
     const settingsList = Object.entries(SETTINGS);
     settingsList.forEach(async(entry) => {
       const setting = entry[1]; 
@@ -207,7 +206,7 @@ export class SettingsUtil {
   /**
    * Applies a specific setting based on its tag
    * @param {string} settingTag - The tag identifying the setting to apply
-   * @param {*} [value] - The value to apply, if not provided uses stored setting
+   * @param {*} [value] - The value to apply, if not provided uses stored setting. Type depends on setting type
    */
   static apply(settingTag, value=undefined){
     const SETTINGS = getSettings();
@@ -260,9 +259,6 @@ export class SettingsUtil {
       case SETTINGS.debugMode.tag:
         SettingsUtil.applyDebugSettings();
         break;
-      // case SETTINGS.sceneNavMenu.tag:
-      //   TopNavigation.navSettings = SettingsUtil.get(SETTINGS.sceneNavMenu.tag);
-      //   break;
       case SETTINGS.sceneNavEnabled.tag:
         TopNavigation.sceneNavEnabled = value;
         break;
@@ -277,6 +273,20 @@ export class SettingsUtil {
       case SETTINGS.useSceneIcons.tag:
         TopNavigation.useSceneIcons = value;
         game.scenes?.directory.render();
+        SceneNavFolders.refreshFolderView();
+        break;
+      case SETTINGS.useNavBackButton.tag:
+        TopNavigation.useNavBackButton = value;
+        ui.nav?.render();
+        // SceneNavFolders.refreshFolderView();
+        break;
+      case SETTINGS.useScenePreview.tag:
+        TopNavigation.useScenePreview = value;
+        ui.nav?.render();
+        // SceneNavFolders.refreshFolderView();
+        break;
+      case SETTINGS.sceneNavAlias.tag:
+        TopNavigation.sceneNavAlias = value;
         SceneNavFolders.refreshFolderView();
         break;
       case SETTINGS.navStartCollapsed.tag:

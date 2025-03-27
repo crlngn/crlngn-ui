@@ -38,8 +38,7 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
       window: {
         icon: "fas fa-text",
         title: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.title"),
-        // Add datalists to your content classes
-        contentClasses: ["standard-form", "datalists"],
+        contentClasses: ["standard-form", "datalists", "crlngn"],
         resizable: false
       }
     }
@@ -98,7 +97,7 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
     });
 
     // For compatibility - to be removed in future version
-    SettingsUtil.set(SETTINGS.customFontsMenu.tag, settings);
+    // SettingsUtil.set(SETTINGS.customFontsMenu.tag, settings);
 
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
   }
@@ -110,7 +109,6 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
    */
   async _prepareContext(options) {
     const SETTINGS = getSettings();
-    const menuValues = SettingsUtil.get(SETTINGS.customFontsMenu.tag);
     const fieldNames = SETTINGS.customFontsMenu.fields;
 
     const fields = {};
@@ -121,7 +119,7 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
       if(SETTINGS[fieldName]) {
         const value = SettingsUtil.get(SETTINGS[fieldName].tag);
         fields[fieldName] = SETTINGS[fieldName];
-        fieldValues[fieldName] = value!== undefined ? value : menuValues[SETTINGS[fieldName].oldName] || SETTINGS[fieldName].default;
+        fieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;
         fieldDefaults[fieldName] = SETTINGS[fieldName].default;
       }
     });
@@ -290,7 +288,6 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
     });
   }
   
-
   /**
    * Resets form fields to their default values
    * @private
@@ -303,7 +300,6 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
     const SETTINGS = getSettings();
     const html = this.element;
     const inputs = html.querySelectorAll("input[type=text]");
-    // const menuValues = SettingsUtil.get(SETTINGS.customFontsMenu.tag);
     const fieldNames = SETTINGS.customFontsMenu.fields;
 
     const fields = {};
