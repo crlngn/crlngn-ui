@@ -611,11 +611,11 @@ body{
           }
 
           &.fa-folder-tree {
-            transform: scale(1.05);
+            transform: scale(1.1);
             margin-right: 5px;
             padding-bottom: 1px;
             display: inline-flex;
-            line-height: var(--left-control-item-size);
+            line-height: 24px;
             max-height: var(--left-control-item-size);
             overflow: hidden;
           }
