@@ -1,7 +1,7 @@
 import { MODULE_ID } from "../constants/General.mjs";
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { getSettingMenus } from "../constants/SettingMenus.mjs";
-import { BORDER_COLOR_TYPES, getSettings, ICON_SIZES, THEMES } from "../constants/Settings.mjs";
+import { BORDER_COLOR_TYPES, getSettings, ICON_SIZES, THEMES, UI_SCALE } from "../constants/Settings.mjs";
 import { CameraUtil } from "./CameraUtil.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
@@ -25,7 +25,6 @@ export class SettingsUtil {
   static registerSettings(){
     const SETTINGS = getSettings();
     LogUtil.log("registerSettings - test", [SETTINGS], true);
-    document.querySelector("body").classList.add(MODULE_ID); 
     
     /**
      * Register each of the settings defined in the SETTINGS constant 
@@ -131,6 +130,9 @@ export class SettingsUtil {
     controlFields.forEach(fieldName => {
       SettingsUtil.applyLeftControlsSettings(SETTINGS[fieldName].tag);
     }); 
+
+    // apply general scale
+    SettingsUtil.applyUiScale();
   }
 
   /**
@@ -216,6 +218,9 @@ export class SettingsUtil {
     }
     LogUtil.log("SettingsUtil.apply",[settingTag, value, SettingsUtil.get(settingTag)]); 
     switch(settingTag){
+      case SETTINGS.disableUI.tag:
+        location.reload();
+        break;
       case SETTINGS.enableMacroLayout.tag:
         SettingsUtil.applyHotBarSettings();
         break;
@@ -265,6 +270,9 @@ export class SettingsUtil {
       case SETTINGS.navFoldersEnabled.tag:
         TopNavigation.navFoldersEnabled = value;
         break;
+      case SETTINGS.navShowRootFolders.tag:
+        TopNavigation.navShowRootFolders = value;
+        break;
       case SETTINGS.sceneClickToView.tag:
         TopNavigation.sceneClickToView = value;
         game.scenes?.directory.render();
@@ -313,6 +321,9 @@ export class SettingsUtil {
         break;
       case SETTINGS.adjustOtherModules.tag:
         SettingsUtil.applyModuleAdjustments();
+        break;
+      case SETTINGS.uiScale.tag:
+        SettingsUtil.applyUiScale(value);
         break;
       default:
         // do nothing
@@ -448,11 +459,43 @@ export class SettingsUtil {
     const SETTINGS = getSettings();
     const iconSize = SettingsUtil.get(SETTINGS.controlsIconSize.tag);
     const body = document.querySelector("body");
-    const size = iconSize == ICON_SIZES.small.name ? ICON_SIZES.small.size : ICON_SIZES.regular.size;
+    const size = ICON_SIZES[iconSize] ? ICON_SIZES[iconSize].size : ICON_SIZES.regular.size;
 
+    function getIconFontSize(currIconSize){
+      switch(currIconSize){
+        case ICON_SIZES.large.name:
+          return `var(--font-size-18);`;
+        case ICON_SIZES.regular.name:
+          return `var(--font-size-16);`;
+        default:
+          return `var(--font-size-14);`;
+      }
+    }
     LogUtil.log("applyControlIconSize", [size]);
+    GeneralUtil.addCSSVars('--icon-font-size', getIconFontSize(iconSize));
     GeneralUtil.addCSSVars('--left-control-item-size', size);
     SettingsUtil.applyLeftControlsSettings(SETTINGS.hideFoundryLogo.tag);
+  }
+
+  static applyUiScale(value){
+    const SETTINGS = getSettings();
+    const currSize = value || SettingsUtil.get(SETTINGS.uiScale.tag);
+    if(currSize===UI_SCALE.regular.name){
+      document.querySelector("#interface")?.classList.add("scale-regular");
+      document.querySelector("#interface")?.classList.remove("scale-large");
+      SettingsUtil.set(SETTINGS.controlsIconSize.tag,currSize);
+      GeneralUtil.addCSSVars('--macro-size', '50px');
+    }else if(currSize===UI_SCALE.large.name){
+      document.querySelector("#interface")?.classList.remove("scale-regular");
+      document.querySelector("#interface")?.classList.add("scale-large");
+      SettingsUtil.set(SETTINGS.controlsIconSize.tag,currSize);
+      GeneralUtil.addCSSVars('--macro-size', '54px');
+    }else{
+      document.querySelector("#interface")?.classList.remove("scale-regular");
+      document.querySelector("#interface")?.classList.remove("scale-large");
+      SettingsUtil.set(SETTINGS.controlsIconSize.tag,currSize);
+      GeneralUtil.addCSSVars('--macro-size', '42px');
+    }
   }
 
   /**

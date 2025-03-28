@@ -1026,25 +1026,25 @@ body.crlngn-chat {
     }
   }
 
-}
-
-.chat-message .crlngn-news {
-  h3{
-    padding: 6px 0;
-  }
-  .crlngn-news-content {
-    padding: 6px 0;
-
-    b{
-      font-weight: 600;
+  .chat-message .crlngn-news {
+    h3{
+      padding: 6px 0;
     }
+    .crlngn-news-content {
+      padding: 6px 0;
 
-    ul{
-      margin: 12px 0;
+      b{
+        font-weight: 600;
+      }
 
-      > li{
-        margin: 6px 0;
+      ul{
+        margin: 12px 0;
+
+        > li{
+          margin: 6px 0;
+        }
       }
     }
   }
+
 }

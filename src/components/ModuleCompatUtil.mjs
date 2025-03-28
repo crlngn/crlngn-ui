@@ -75,15 +75,15 @@ export class ModuleCompatUtil {
     const isPlayersDocked = isTaskbarOn ? game.settings.get('foundry-taskbar','dockPlayersList') : false;
     const isMacroDocked = isTaskbarOn ? game.settings.get('foundry-taskbar','dockMacroBar') : false;
     LogUtil.log('checkPlayersList',[isPlayersDocked, isTaskbarOn, isMacroDocked, game.settings]);
-    let timeoutDelay = 10;
+    let timeoutDelay = 0;
     
     if(isPlayersDocked){
       timeoutDelay = 250;
     }
     const hotbar = document.querySelector('#hotbar');
-    if(hotbar && hotbar instanceof HTMLElement) hotbar.style.setProperty('visibility', 'hidden');
-    clearTimeout(ModuleCompatUtil.#checkPlayersTimeout);
-    ModuleCompatUtil.#checkPlayersTimeout =  setTimeout(()=>{
+    // if(hotbar && hotbar instanceof HTMLElement) hotbar.style.setProperty('visibility', 'hidden');
+    // clearTimeout(ModuleCompatUtil.#checkPlayersTimeout);
+    // ModuleCompatUtil.#checkPlayersTimeout =  setTimeout(()=>{
       if(isPlayersDocked){
 
         LogUtil.log('checkPlayersList TEST',[isPlayersDocked]);
@@ -100,9 +100,9 @@ export class ModuleCompatUtil {
           body.classList.remove('with-players-hide');
         }
       }
-      if(hotbar && hotbar instanceof HTMLElement) hotbar.style.removeProperty('visibility');
-      clearTimeout(ModuleCompatUtil.#checkPlayersTimeout);
-    }, timeoutDelay);
+      // if(hotbar && hotbar instanceof HTMLElement) hotbar.style.removeProperty('visibility');
+      // clearTimeout(ModuleCompatUtil.#checkPlayersTimeout);
+    // }, timeoutDelay);
     
     
   }

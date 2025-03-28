@@ -1,4 +1,27 @@
-#interface #ui-middle {
-  z-index: 10;
+body.crlngn-ui{
+  #interface {
 
+    &.scale-regular{
+      --font-size-10: 0.7rem;
+      --font-size-11: 0.735rem;
+      --font-size-12: 0.8rem;
+      --font-size-13: 0.865rem;
+      --font-size-14: 0.925rem;
+      --font-size-15: 0.94rem;
+    }
+
+    &.scale-large{
+      --font-size-10: 0.725rem;
+      --font-size-11: 0.75rem;
+      --font-size-12: 0.85rem;
+      --font-size-13: 0.875rem;
+      --font-size-14: 0.94rem;
+      --font-size-15: 0.96rem;
+    }
+
+    #ui-middle {
+      z-index: 10;
+    }
+    
+  }
 }

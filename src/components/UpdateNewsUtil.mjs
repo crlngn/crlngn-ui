@@ -6,7 +6,6 @@ import { SettingsUtil } from './SettingsUtil.mjs';
 
 export class UpdateNewsUtil {
   static UPDATE_NEWS_URL = 'https://raw.githubusercontent.com/crlngn/crlngn-ui/main/news/module-updates.json?v='+(new Date).getTime(); // GitHub raw JSON URL
-  // static UPDATE_NEWS_URL = "https://raw.githubusercontent.com/crlngn/crlngn-ui/refs/heads/scene-nav-folders/news/module-updates.json"; // for testing
   
   /**
    * Initialize the update news system

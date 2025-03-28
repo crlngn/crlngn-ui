@@ -20,6 +20,12 @@
   </div>
 
   <div class="form-group">
+    <label for="navShowRootFolders">{{fields.navShowRootFolders.label}}</label>
+    <input type="checkbox" name="navShowRootFolders" {{#if navShowRootFolders}}checked{{/if}} {{#unless navShowRootFolders}}disabled{{/unless}} />
+    <p class="hint">{{{fields.navShowRootFolders.hint}}}</p> 
+  </div>
+
+  <div class="form-group">
     <label for="navStartCollapsed">{{fields.navStartCollapsed.label}}</label>
     <input type="checkbox" name="navStartCollapsed" {{#if navStartCollapsed}}checked{{/if}} {{#unless sceneNavEnabled}}disabled{{/unless}} />
     <p class="hint">{{{fields.navStartCollapsed.hint}}}</p> 

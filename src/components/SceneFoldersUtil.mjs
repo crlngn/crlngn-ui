@@ -187,16 +187,19 @@ export class SceneNavFolders {
       backButtonLabel: SceneNavFolders.isBackBtnActive() ? game.i18n.localize(buttonLabel) : '',
       useSceneIcons: TopNavigation.useSceneIcons,
       useScenePreview: TopNavigation.useScenePreview,
-      sceneNavAlias: TopNavigation.sceneNavAlias
+      sceneNavAlias: TopNavigation.sceneNavAlias,
+      showRootFolders: TopNavigation.navShowRootFolders
     };
     
+    LogUtil.log("rootFolders", [ui.scenes?.folders, game.folders]);
     // Add folder-specific data
     if (SceneNavFolders.selectedFolder === DEFAULT_FOLDER_ID) {
+      const rootFolders = TopNavigation.navShowRootFolders ? ui.scenes?.folders.filter(f => f.folder===null) || [] : [];
       SceneNavFolders.#templateData = {
         ...baseData,
         currFolder: { name: "", id: DEFAULT_FOLDER_ID },
         currIcon: 'fa-map',
-        folders: [],
+        folders: rootFolders,
         scenes: ui.nav.scenes.filter(sc => sc.permission >= 2),
         hasParents: false,
         parentFolders: []
@@ -919,6 +922,9 @@ export class SceneNavFolders {
           SceneNavFolders.#lastScenesVisited.splice(length-1, 1);
         }
         LogUtil.log("onBackButton",[lastScene, lastSceneId, SceneNavFolders.#lastScenesVisited]);
+        break;
+      case BACK_BUTTON_OPTIONS.previousFolder.name:
+        
         break;
       default:
         //

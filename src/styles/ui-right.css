@@ -1,62 +1,63 @@
-:root{
+/*:root{
   --right-control-item-size: 36px;
   --sidebar-tab-height: 48px;
-}
+}*/
 
-#interface #ui-right {
-  #sidebar .sidebar-tab[data-tab=chat]:not(.active) #chat-log{
-    padding: 0;
-  }
-  #sidebar{
-    margin: 0; 
-    border-radius: 0; 
-    border: 0; 
-    /*var(--crlngn-taskbar-height, 0px);*/
-    height: calc(100% - var(--crlngn-sidebar-bottom, 0px)); 
-    padding-bottom: 10px; 
-
-    &.collapsed{
-      width: var(--right-control-item-size);
-      min-width: var(--right-control-item-size);
-      height: auto;
-      /*transition: height 0s;*/
-
-      > nav > .item{
-        order: 1;
+body.crlngn-ui{
+  --right-control-item-size: 36px;
+  --sidebar-tab-height: 48px;
+  #interface #ui-right {
+    #sidebar .sidebar-tab[data-tab=chat]:not(.active) #chat-log{
+      padding: 0;
+    }
+    #sidebar{
+      margin: 0; 
+      border-radius: 0; 
+      border: 0; 
+      /*var(--crlngn-taskbar-height, 0px);*/
+      height: calc(100% - var(--crlngn-sidebar-bottom, 0px)); 
+      padding-bottom: 10px; 
+  
+      &.collapsed{
+        width: var(--right-control-item-size);
+        min-width: var(--right-control-item-size);
+        height: auto;
+        /*transition: height 0s;*/
+  
+        > nav > .item{
+          order: 1;
+        }
+        > nav > .collapse{
+          order: 0;
+        }
       }
-      > nav > .collapse{
-        order: 0;
+  
+      #sidebar-tabs{ 
+        margin: 2px 0 0 0;
+        --sidebar-tab-height: 36px;
+  
+        > .item{
+          border-radius: 0;
+          height: var(--right-control-item-size);
+          width: 100%;
+          flex: 1 1 100%;
+          opacity: 0.7;
+        }
+        > .item.active{
+          opacity: 1;
+        }
+  
+        > [data-tab] > * {
+          font-size: 0.7rem;
+        } 
       }
     }
-
-    #sidebar-tabs{ 
-      margin: 2px 0 0 0;
-      --sidebar-tab-height: 36px;
-
-      > .item{
-        border-radius: 0;
-        height: var(--right-control-item-size);
-        width: 100%;
-        flex: 1 1 100%;
-        opacity: 0.7;
-      }
-      > .item.active{
-        opacity: 1;
-      }
-
-      > [data-tab] > * {
-        font-size: 0.7rem;
-      } 
+  
+    aside#players{
+      margin-top: auto;
     }
   }
 
-  aside#players{
-    margin-top: auto;
-  }
-}
-
-
-body.crlngn-ui {
   #ui-right .sidebar-tab,
   .sidebar-popout {
     line-height: 1.5;
@@ -230,4 +231,3 @@ body.crlngn-ui {
 
   }
 }
-

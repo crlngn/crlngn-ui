@@ -9,8 +9,15 @@ Main Theme
   --crlngn-font-titles: "Roboto Slab", Arial, sans-serif;
   --crlngn-font-journal-body: "Work Sans", Arial, sans-serif;
   --crlngn-font-journal-title: "Quattrocento", Arial, sans-serif;
-  /*--crlngn-font-journal-body: var(--dnd5e-font-roboto-condensed, var(--crlngn-font-family));*/
+
+  --color-dark-bg-15: rgba(15, 15, 15, 0.15);
+  --color-dark-bg-25: rgba(15, 15, 15, 0.25);
+  --color-dark-bg-50: rgba(15, 15, 15, 0.5);
+  --color-dark-bg-75: rgba(15, 15, 15, 0.75);
+  --color-dark-bg-85: rgba(15, 15, 15, 0.85);
+  --color-dark-bg-90: rgba(15, 15, 15, 0.9);
 }
+
 /* ---------------------------------------- */
 /*  Colors                                  */
 /* ---------------------------------------- */
@@ -184,7 +191,7 @@ body.crlngn-ui{
   
 }
 
-body {
+body.crlngn-ui {
   --font-body: var(--crlngn-font-family); 
   --font-sans: var(--crlngn-font-family); 
   --font-blockquote: var(--crlngn-font-journal-body);

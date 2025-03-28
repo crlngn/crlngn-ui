@@ -124,7 +124,7 @@ body.crlngn-ui{
         width: auto;
         padding: 1px;
         opacity: 0;
-        /*min-width: var(--max-players-width);*/
+        /*min-width: var(--max-players-width, 200px);*/
 
         .crlngn-video-toggle{
           width: 22px; /* var(--left-control-item-size); */

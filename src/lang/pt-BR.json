@@ -203,6 +203,10 @@
           "useScenePreview": {
             "label": "Usar Previsualização de Cena",
             "hint": "Quando ativado, a miniatura da cena será exibida quando passar o mouse sobre o item na barra de navegação"
+          },
+          "navShowRootFolders": {
+            "label": "Mostrar pastas na navegação de cena",
+            "hint": "Pastas serão mostradas na navegação de cena inicial. Se você tiver muitas pastas na raiz do diretório de cenas, pode querer desabilitar esta opção."
           }
         },
         "reset": "Redefinir", 
@@ -211,9 +215,10 @@
       "controlIconSize": {
         "label": "Tamanho dos ícones de controle",
         "hint": "Se você usa uma tela muito grande, pode querer alterar o tamanho dos ícones nos controles à esquerda. Isso pode afetar alguns outros elementos da interface",
-        "choices": {
-          "small": "Pequeno",
-          "normal": "Normal"
+        "options": {
+          "small": "pequeno",
+          "regular": "normal",
+          "large": "grande"
         }
       },
       "sceneNavCollapsed": {
@@ -243,6 +248,19 @@
       "debugMode": {
         "label": "Modo de Depuração",
         "hint": "Ative ou desative mensagens de depuração no console do navegador."
+      },
+      "disableUI":{
+        "label": "Desativar Interface neste Cliente",
+        "hint": "Se um jogador não quiser usar a Interface Carolingian, pode desativá-la. Nenhuma outra funcionalidade do módulo funcionará, exceto o estilo escuro nos cartões de chat - que pode ser desativado separadamente."
+      },
+      "uiScale": {
+        "label": "Escala Geral da Interface Carolingian",
+        "hint": "Se você usa uma resolução alta, isso ajustará o tamanho dos ícones na barra de controles à esquerda e alguns tamanhos de fonte. A configuração de 'tamanho dos ícones' será redefinida.",
+        "options": {
+          "small": "pequeno",
+          "regular": "normal",
+          "large": "grande"
+        }
       }
     }, 
     "dnd5e": {

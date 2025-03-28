@@ -28,6 +28,7 @@ export class TopNavigation {
   static sceneNavEnabled;
   static navFoldersEnabled;
   static navFoldersForPlayers;
+  static navShowRootFolders;
   static navStartCollapsed;
   static showFolderListOnClick;
   static showNavOnHover;

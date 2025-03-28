@@ -82,9 +82,9 @@ export class LeftControls {
   static updateCSSVars() {
     if(!LeftControls.#leftControls){ return; }
 
-    let leftOffset = Number(LeftControls.#uiLeft.offsetWidth); 
-    let controlsWidth = Number(LeftControls.#leftControls.offsetWidth); 
-    let controlsMarginLeft = -leftOffset + controlsWidth + 24;
+    let leftOffset = parseInt(LeftControls.#uiLeft.offsetWidth); 
+    let controlsWidth = parseInt(LeftControls.#leftControls.offsetWidth); 
+    let controlsMarginLeft = -leftOffset + controlsWidth;
     LogUtil.log("updateCSSVars", [controlsWidth, leftOffset]);
 
     if(!isNaN(controlsWidth) && !isNaN(leftOffset)){

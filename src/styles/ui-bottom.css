@@ -1,19 +1,26 @@
-#interface #ui-middle.crlngn-ui #ui-bottom {
-  z-index: 999;
-  margin-bottom: var(--crlngn-taskbar-height, 0px) !important;
-}
+
 
 /***************************************/
 /* HOTBAR - non-breaking style changes */
 /***************************************/
+/*
 :root{
   --macro-size: 50px;
   --hotbar-height: var(--macro-size);
   --hotbar-width: calc((var(--macro-size)*11) + 64px);
 }
+*/
 
 body.crlngn-ui{
   --macro-bar-left: 0px;
+  --macro-size: 50px;
+  --hotbar-height: var(--macro-size);
+  --hotbar-width: calc((var(--macro-size)*11) + 64px);
+
+  #interface #ui-middle.crlngn-ui #ui-bottom {
+    z-index: 999;
+    margin-bottom: var(--crlngn-taskbar-height, 0px) !important;
+  }
 
   &.players-hidden{
     --macro-bar-left: calc((var(--ui-controls-margin-left, 0px) * -1) - var(--max-players-width, 0px));
@@ -69,7 +76,7 @@ body.crlngn-ui{
     }
   
     &:not(.foundry-default) {
-      --macro-size: 42px;
+      /*--macro-size: 42px;*/
       --hotbar-height: var(--macro-size);
   
       .bar-controls {

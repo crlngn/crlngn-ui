@@ -25,14 +25,23 @@ export class Main {
    */
   static init(){
     Hooks.once(HOOKS_CORE.INIT, () => { 
+      document.querySelector("body").classList.add(MODULE_ID); 
       document.querySelector("#ui-middle")?.classList.add(MODULE_ID);
 
       LogUtil.log("Initiating module...", [], true); 
       // Create namespace
       window.crlngnUI = window.crlngnUI || {};
 
-      Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
       SettingsUtil.registerSettings();
+      const SETTINGS = getSettings();
+      const uiEnabled = SettingsUtil.get(SETTINGS.disableUI.tag);
+      LogUtil.log(HOOKS_CORE.INIT,[uiEnabled]);
+      if(uiEnabled){
+        document.querySelector("body").classList.remove(MODULE_ID); 
+        document.querySelector("#ui-middle")?.classList.remove(MODULE_ID);
+
+        return;
+      }
 
       if(TopNavigation.navFoldersEnabled){
         // Add SceneNavFolders to window namespace
@@ -45,6 +54,8 @@ export class Main {
       PlayersListUtil.init(); 
       LeftControls.init();
       ChatUtil.init();
+      Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
+      
     });
 
     Hooks.once(HOOKS_CORE.READY, () => {
@@ -62,7 +73,6 @@ export class Main {
       TopNavigation.checkSceneNavCompat();
       UpdateNewsUtil.init();
 
-
       if(TopNavigation.navFoldersEnabled){
         SceneNavFolders.init();
         SceneNavFolders.registerHooks();
@@ -79,7 +89,7 @@ export class Main {
       if(isMinimalUiOn){
         ui.notifications.warn(game.i18n.localize('CRLNGN_UI.ui.notifications.minimalUiNotSupported'),{ permanent: true });
       }
-    })
+    });
   }
 
   // Custom labels for DnD5e buttons, added via CSS

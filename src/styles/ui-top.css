@@ -1,18 +1,16 @@
-body{
-  &.crlngn-ui { 
-    --top-nav-height:  var(--left-control-item-size);
-    --ui-controls-margin-left: -100px;
-    --folder-header-width: 150px;
-    --folder-list-width: 200px;
-    --scene-nav-item-width: 130px;
-    --folder-nav-item-width: var(--left-control-item-size);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+body.crlngn-ui { 
+  --top-nav-height:  var(--left-control-item-size);
+  --ui-controls-margin-left: -100px;
+  --folder-header-width: 150px;
+  --folder-list-width: 200px;
+  --scene-nav-item-width: calc(var(--font-size-10) * 15);
+  --folder-nav-item-width: var(--left-control-item-size);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
-    &.logo-visible:has(#navigation.collapsed) {
-      --ui-top-padding: calc(72px + var(--top-nav-height,0px));
-    }
-  } 
+  &.logo-visible:has(#navigation.collapsed) {
+    --ui-top-padding: calc(72px + var(--top-nav-height,0px));
+  }
 
   #interface{
     --current-sidebar-width: var(--sidebar-width);
@@ -271,7 +269,6 @@ body{
           font-weight: 600;
           border-radius: 0;
           background-color: transparent;
-          transition: margin-left 0.35s ease-in-out;
 
           > a{
             display: block;
@@ -279,9 +276,11 @@ body{
             text-overflow: ellipsis;
             white-space: nowrap;
             min-width: var(--scene-nav-item-width);
+            max-width: var(--scene-nav-item-width);
             width: var(--scene-nav-item-width);
             color: var(--color-text-light-1);
             opacity: 1;
+            transition: max-width 0.35s ease-out 0.25s;
 
             i{
               font-size: var(--font-size-10);
@@ -355,7 +354,8 @@ body{
             > a{
               overflow: auto;
               width: auto;
-              text-overflow: auto;
+              max-width: 400px;
+              transition: max-width 0.35s ease-out 0.25s;
             }
           }
 
@@ -392,6 +392,7 @@ body{
         }
 
         li.scene > .scene-preview {
+          display: flex;
           width: var(--folder-header-width);
           height: 80px;
           background-color: var(--color-dark-bg-50);
@@ -399,13 +400,17 @@ body{
           background-position: center;
           position: absolute;
           border: 5px solid var(--color-dark-bg-75);
-          top: 36px;
+          top: var(--left-control-item-size);
           left: 0;
           box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-          display: none;
+          visibility: hidden;
+          opacity: 0;
+          transition: opacity 0.35s ease-out 0s, visibility 0s linear 0.35s;
         }
         li.scene:hover > .scene-preview {
-          display: flex;
+          visibility: visible;
+          opacity: 1;
+          transition: opacity 0.35s ease-out 0.35s, visibility 0s linear 0.35s;
         }
   
         li.scene > ul.scene-players {
@@ -625,7 +630,7 @@ body{
 
           &.fa-folder{
             margin: 0 0 0 0;
-            max-width: 20px;
+            max-width: 2em;
             overflow: hidden;
             font-size: var(--font-size-10);
 

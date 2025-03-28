@@ -1,14 +1,22 @@
+/*
 :root{
   --left-control-item-size: 36px;
   --left-control-main-bg: rgba(20, 20, 20, 0.85); 
   --color-secondary-75: rgba(50, 50, 70, 0.75);
   --ui-top-padding: 0px;
 }
+*/
+
 /* -----------------
   LEFT CONTROLS BAR
 ----------------- */
-body.crlngn-ui{
+body.crlngn-ui{  
+  --left-control-item-size: 36px;
+  --left-control-main-bg: rgba(20, 20, 20, 0.85); 
+  --color-secondary-75: rgba(50, 50, 70, 0.75);
+  --ui-top-padding: 0px;
   --crlngn-top-offset: 0px;
+  --icon-font-size: var(--font-size-14);
 
   &.logo-visible{
 
@@ -81,7 +89,7 @@ body.crlngn-ui{
         background: transparent;
         font-size: var(--font-size-12); 
         font-weight: 600;
-        min-width: calc(var(--max-players-width) - var(--left-control-item-size));
+        min-width: calc(var(--max-players-width, 200px) - var(--left-control-item-size));
         height: var(--left-control-item-size);
         background: var(--left-control-main-bg);
         padding: 0 6px 0 0;
@@ -182,7 +190,7 @@ body.crlngn-ui{
     height: var(--left-control-item-size);
     border-radius: 0;
     margin: 0;
-    font-size: var(--font-size-14);
+    font-size: var(--icon-font-size);
     box-shadow: none;
     background: var(--left-control-main-bg);
     border: 1px solid transparent; 
@@ -212,7 +220,7 @@ body.crlngn-ui{
     height: var(--left-control-item-size);
     border-radius: 0;
     margin: 0;
-    font-size: var(--font-size-14);
+    font-size: var(--icon-font-size);
     box-shadow: none;
     background: var(--color-secondary-75);
     border: 1px solid transparent;

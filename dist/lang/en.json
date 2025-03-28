@@ -15,7 +15,7 @@
       "sceneNav": {
         "searchPlaceholder": "Search scenes...",
         "backTo": "Back to",
-        "favoritesFolder": "Back to Selected Scenes",
+        "favoritesFolder": "Back to Root Scenes",
         "addToFavorites": "Add to Navigation",
         "removeFromFavorites": "Remove from Navigation",
         "initialViewBtn": "Set Initial View"
@@ -111,7 +111,8 @@
             "hint": "Configure the size of buttons on the left control bar. Some other UI elements will match this size for alignment.",
             "options": {
               "small": "small",
-              "regular": "regular"
+              "regular": "regular",
+              "large": "large"
             }
           }, 
           "autoHideSecondary": {
@@ -202,12 +203,17 @@
             "options": {
               "noButton": "OFF",
               "lastScene": "Back to Last Scene",
+              "previousFolder": "Parent Folder",
               "defaultScenes": "Back to Default Scenes"
             }
           },
           "useScenePreview": {
             "label": "Use Scene Preview",
             "hint": "When enabled, the thumbnail preview will be shown when hovering over scene navigation"
+          },
+          "navShowRootFolders": {
+            "label": "Show root folders in scene navigation",
+            "hint": "Root folders from Scene Directory will be show in the default scene navigation. If you have many folders on root, you might want to disable this option."
           }
         },
         "reset": "Reset",
@@ -215,10 +221,11 @@
       },
       "controlIconSize": {
         "label": "Size of control icons",
-        "hint": "If you use a very large screen, you may want to change the size of the icons on left controls. This may affect some other UI elements",
-        "choices": {
-          "small": "Small",
-          "normal": "Normal"
+        "hint": "If you use a large resolution, you may want to change the size of the icons on left controls. This may affect some other UI elements",
+        "options": {
+          "small": "small",
+          "regular": "regular",
+          "large": "large"
         }
       },
       "sceneNavCollapsed": {
@@ -230,8 +237,8 @@
         "hint": "Stores current position of navigation for reset when it's re-rendered"
       },
       "enableMacroLayout": {
-        "label": "Enable macro resize",
-        "hint": "The module reduces the size of macro slots on the hotbar, and enlarges the numbers. Disable this setting to use default Foundry layout."
+        "label": "Enable macro layout",
+        "hint": "The module enlarges and centralizes numbers on macro hotbar. Disable this setting to use default Foundry layout."
       },
       "autoHideLeftControls": {
         "label": "Auto hide secondary controls",
@@ -248,6 +255,19 @@
       "debugMode": {
         "label": "Debug Mode",
         "hint": "Enable or disable debug messages on browser console."
+      },
+      "disableUI":{
+        "label": "Disable UI in this client",
+        "hint": "If a player doesn't want to use Carolingian UI, they may disable it. No other feature of the module will work except for dark style in chat cards - which can be separately disabled."
+      },
+      "uiScale": {
+        "label": "General Scale for Carolingian UI",
+        "hint": "If you use a large resolution, this will adjust the size of icons on left controls bar and some font sizes. The 'icon size' setting will be reset.",
+        "options": {
+          "small": "small",
+          "regular": "regular",
+          "large": "large"
+        }
       }
     },
     "dnd5e": {

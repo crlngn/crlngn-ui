@@ -24,6 +24,7 @@
     {{/unless}}
   </a>
 
+
   <div class="scene-folders-contents">
     <div class="search-container">
       <input type="text" class="input-scene-search"
@@ -78,9 +79,9 @@
 <ol id="crlngn-scene-list" class="no-transition{{#unless useIcons}} no-icons{{/unless}}">
   <!--subfolders first-->
   {{#each folders}}
-  <li class="folder nav-item gm {{#if (eq ../currFolder.id this.id)}}active{{/if}}" data-folder-id="{{this.folder.id}}" draggable="false">
+  <li class="folder nav-item gm {{#if (eq ../currFolder.id this.id)}}active{{/if}}" data-folder-id="{{#if this.folder}}{{this.folder.id}}{{else}}{{this.id}}{{/if}}" draggable="false">
     <a class="folder-name">
-      <i class="fas fa-folder"></i> {{this.folder.name}}
+      <i class="fas fa-folder"></i> {{#if this.folder}}{{this.folder.name}}{{else}}{{this.name}}{{/if}}
     </a>
   </li>
   {{/each}}
