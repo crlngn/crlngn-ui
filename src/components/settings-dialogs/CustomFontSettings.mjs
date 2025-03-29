@@ -165,10 +165,16 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
    * @param {object} options - The render options
    */
   _onRender(context, options) {
-    CustomFontsSettings.#element = this.element;
+    CustomFontsSettings.element = this.element;
+
+    // add listener to .toggle-hint 
+    const hintToggle = CustomFontsSettings.element.querySelector('.toggle-hint');
+    hintToggle.addEventListener('click', () => {
+      CustomFontsSettings.element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
+    });
     
     // Handle input focus and blur
-    const inputs = CustomFontsSettings.#element.querySelectorAll('input[type="text"]');
+    const inputs = CustomFontsSettings.element.querySelectorAll('input[type="text"]');
     inputs.forEach(input => {
       const wrapper = input.closest('.dropdown-wrapper');
       const dropdown = wrapper?.querySelector('.dropdown-options');
@@ -241,7 +247,7 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
     });
   
     // Handle option selection
-    const dropOptions = CustomFontsSettings.#element.querySelectorAll('.dropdown-option');
+    const dropOptions = CustomFontsSettings.element.querySelectorAll('.dropdown-option');
     dropOptions.forEach(option => {
       // Add mouse hover effect that syncs with keyboard highlighting
       option.addEventListener('mouseenter', () => {
@@ -283,7 +289,7 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
    * @static
    */
   static #closeAllDropdowns() {
-    CustomFontsSettings.#element.querySelectorAll('.dropdown-options').forEach(dropdown => {
+    CustomFontsSettings.element.querySelectorAll('.dropdown-options').forEach(dropdown => {
       dropdown.classList.remove('active');
     });
   }

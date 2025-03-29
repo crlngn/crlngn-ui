@@ -10,6 +10,7 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
  * @extends {HandlebarsApplicationMixin(ApplicationV2)}
  */
 export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) {
+  static #element;
   /**
    * Default application options
    * @static
@@ -203,6 +204,13 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
    */
   _onRender(context, options) {
     LogUtil.log("_onRender", [context, options]);
+    SceneNavSettings.element = this.element;
+
+    // add listener to .toggle-hint 
+    const hintToggle = SceneNavSettings.element.querySelector('.toggle-hint');
+    hintToggle.addEventListener('click', () => {
+      SceneNavSettings.element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
+    });
     
     // Add event listener for sceneNavEnabled checkbox
     const sceneNavCheckbox = this.element?.querySelector('input[name="sceneNavEnabled"]');

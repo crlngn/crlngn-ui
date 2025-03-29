@@ -8,7 +8,10 @@
       data-tooltip-delay="500"></i>
     {{/if}}
 
-    <i class="fas fa-folder-tree"></i>
+    <i class="fas fa-folder-tree root"
+      data-tooltip="{{rootButtonLabel}}"
+      data-tooltip-direction="DOWN"
+      data-tooltip-delay="500"></i>
     
     {{#unless (eq currFolder.id favoritesId)}}
     {{#each parentFolders}}
@@ -23,7 +26,6 @@
     {{sceneNavAlias}}
     {{/unless}}
   </a>
-
 
   <div class="scene-folders-contents">
     <div class="search-container">

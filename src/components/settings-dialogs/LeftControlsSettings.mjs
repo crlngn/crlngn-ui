@@ -10,6 +10,7 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
  * @extends {HandlebarsApplicationMixin(ApplicationV2)}
  */
 export class LeftControlsSettings extends HandlebarsApplicationMixin(ApplicationV2) {
+  static #element;
   /**
    * Default application options
    * @static
@@ -194,11 +195,15 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
    */
   _onRender(context, options) {
     const SETTINGS = getSettings();
-    // const html = this.element;
-    // html.querySelector("button[type=reset]").addEventListener("click", LeftControlsSettings.#onReset);
+    LeftControlsSettings.element = this.element;
+
+    // add listener to .toggle-hint 
+    const hintToggle = LeftControlsSettings.element.querySelector('.toggle-hint');
+    hintToggle.addEventListener('click', () => {
+      LeftControlsSettings.element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
+    });
 
     const controlSettings = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
-
     LogUtil.log("_onRender", [context, options, controlSettings]);
   }
 

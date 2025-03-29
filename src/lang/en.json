@@ -3,6 +3,7 @@
     "ui": { 
       "clientSettingsLabel": "Player Settings (Client)",
       "worldSettingsLabel": "World Settings (GM)",
+      "toggleHints": "Toggle Help",
       "notifications": {
         "settingsUpdated": "Settings updated",
         "minimalUiNotSupported": "Carolingian UI is not compatible with Minimal UI, and offers most of its features. Please disable that module to avoid performance issues.",
@@ -14,8 +15,8 @@
       },
       "sceneNav": {
         "searchPlaceholder": "Search scenes...",
-        "backTo": "Back to",
-        "favoritesFolder": "Back to Root Scenes",
+        "backTo": "Back to ",
+        "favoritesFolder": "Selected Scenes",
         "addToFavorites": "Add to Navigation",
         "removeFromFavorites": "Remove from Navigation",
         "initialViewBtn": "Set Initial View"
@@ -62,6 +63,10 @@
           "adjustOtherModules": {
             "label": "Enforce styles in other modules",
             "hint": "Enable my style tweaks and custom fonts on other modules, like CRUX or Combat Carousel. If you would like support for a specific module, please request on Github issues"
+          },
+          "otherModulesList": {
+            "label": "Enforce styles in other modules",
+            "hint": "Enable my style tweaks on other modules. Click the checkbox on top of the list to select / unselect all."
           },
           "customStyles": {
             "label": "Custom CSS",
@@ -203,7 +208,6 @@
             "options": {
               "noButton": "OFF",
               "lastScene": "Back to Last Scene",
-              "previousFolder": "Parent Folder",
               "defaultScenes": "Back to Default Scenes"
             }
           },

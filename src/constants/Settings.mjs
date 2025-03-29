@@ -37,7 +37,6 @@ export const BORDER_COLOR_TYPES = {
 export const BACK_BUTTON_OPTIONS = {
   noButton: { name: 'noButton' },
   lastScene: { name: 'lastScene' },
-  previousFolder: { name: 'previousFolder' },
   defaultScenes: { name: 'defaultScenes' }
 }
 
@@ -120,12 +119,18 @@ export function getSettings() {
       fields: [
         "colorTheme", 
         "adjustOtherModules", 
+        "otherModulesList",
         "customStyles"
       ],
       default: {
-        colorTheme: '',
-        adjustOtherModules: false,
-        customStyles: ''
+        colorTheme: "",
+        adjustOtherModules: true,
+        otherModulesList: {
+          "crux": false,
+          "monks-scene-navigation": true,
+          "combat-carousel": true
+        },
+        customStyles: ""
       },
       scope: SETTING_SCOPE.world,
       config: false
@@ -428,7 +433,6 @@ export function getSettings() {
       options: {
         noButton: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.options.noButton"), 
         lastScene: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.options.lastScene"), 
-        previousFolder: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.options.previousFolder"), 
         defaultScenes: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.options.defaultScenes")
       },
       default: BACK_BUTTON_OPTIONS.lastScene.name, 
@@ -607,6 +611,24 @@ export function getSettings() {
       inputType: SETTING_INPUT.checkbox,
       propType: Boolean,
       default: false,
+      scope: SETTING_SCOPE.world,
+      config: false
+    },
+
+    otherModulesList: {
+      tag: "other-modules-list",
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.hint"),
+      inputType: SETTING_INPUT.select,
+      propType: String,
+      default:  "'monks-scene-nav','combat-carousel','dice-tray','hurry-up','crux'",
+      options: {
+        "Combat Carousel": "'combat-carousel'",
+        "Crux": "'crux'",
+        "Dice Tray": "'dice-tray'",
+        "Hurry Up": "'hurry-up'",
+        "Monks Scene Navigation": "'monks-scene-nav'",
+      },
       scope: SETTING_SCOPE.world,
       config: false
     },

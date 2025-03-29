@@ -303,320 +303,390 @@ body.crlngn-ui{
       }
     }
   }
-
-
-  
     
-    /* ANONYMOUS */
+  /* ANONYMOUS */
+  .anonymous-replaced {
+    padding: 0 4px;    
+    border-radius: 3px;   
+    opacity: 0.8; 
+  }
+  .sidebar-tab .chat-message .message-content span.anonymous-replaced,
+  .sidebar-tab .chat-message .message-content *.anonymous-replaced {
+    font-weight: 500;
+    padding: 0 4px;
+    border-radius: 3px;  
+    opacity: 0.8; 
+  }
+  &.theme-dark {
     .anonymous-replaced {
-      padding: 0 4px;    
-      border-radius: 3px;   
-      opacity: 0.8; 
+      background: var(--color-dark-bg-75);
     }
     .sidebar-tab .chat-message .message-content span.anonymous-replaced,
     .sidebar-tab .chat-message .message-content *.anonymous-replaced {
-      font-weight: 500;
-      padding: 0 4px;
-      border-radius: 3px;  
-      opacity: 0.8; 
+      background: var(--color-dark-bg-50);
     }
-    &.theme-dark {
-      .anonymous-replaced {
-        background: var(--color-dark-bg-75);
+
+  }
+
+  /* SMALLTIME */
+  #smalltime-app.pinned {
+    margin: 0;
+  }
+  #smalltime-app .window-content {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  /* MONK'S WALL ENHANCEMENTS */
+  #ui-left #wall-ctrls {
+    position: absolute;
+    width: 0;
+    height: auto;
+    margin-left: -11px;
+    z-index: 100;
+
+    ol.control-tools {
+      li.control-tool {
+        width: var(--left-control-item-size);
+        height: var(--left-control-item-size);
       }
-      .sidebar-tab .chat-message .message-content span.anonymous-replaced,
-      .sidebar-tab .chat-message .message-content *.anonymous-replaced {
-        background: var(--color-dark-bg-50);
+    }
+
+  }
+
+  /* TIDY UI */
+  #module-management {
+    min-height: 60vh;
+    max-height: calc(100vh - 80px);
+  }
+
+  /* TIDY 5e 
+  .app{
+    --t5e-body-font-family: var(--font-body);
+    --t5e-title-font-family: var(--dnd5e-font-modesto);
+    --t5e-primary-accent-color: var(--color-warm-2);
+    --color-text-hyperlink: var(--color-warm-1);
+  }*/
+  
+
+  /* EPIC ROLLS */
+  #epic-rolls-5e-get-roll-data .grid-container {
+    overflow: auto;
+  }
+
+  #combat-dock {
+    width: calc(100% - 40px);
+    margin-top: 0;
+    pointer-events: none;
+    z-index: 0;
+    &:hover{
+      z-index: 1001;
+    }
+
+    > #combatants, .buttons-container {
+      pointer-events: all;
+    }
+
+    .buttons-container {
+      justify-content: flex-start;
+      gap: 1px;
+  
+      i{
+        border: none;
+        border-radius: 0; 
       }
+      
+    }
+  }
 
+  /* CAROUSEL COMBAT TRACKER */
+  #ui-middle.crlngn-ui{
+    #combat-dock {
+      margin-top: calc(var(--crlngn-top-offset, 0px) + var(--left-control-item-size, 0px));
     }
 
-    /* SMALLTIME */
-    #smalltime-app.pinned {
-      margin: 0;
+    &.navigation-collapsed, &.with-monks-scene {
+      #combat-dock {
+        margin-top: 0;
+      }
     }
-    #smalltime-app .window-content {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
+  }
+
+  &.crlngn-crux{
+    /* CRUX */
+    &.crux-taskbar-compat .crux__container, 
+    &.crux-taskbar-compat .crux__empty-tray{
+      height: 100vh !important; 
     }
+    &.crux-taskbar-compat #crux, #crux {
+      height: calc(100vh - var(--crlngn-sidebar-bottom, 0px)) !important; 
+      .crux__container {
+        border-right: 1px solid rgba(0,0,0,0.75);
+        background-color: rgba(0,0,0,0.8);
 
-    /* MONK'S WALL ENHANCEMENTS */
-    #ui-left #wall-ctrls {
-      position: absolute;
-      width: 0;
-      height: auto;
-      margin-left: -11px;
-      z-index: 100;
-
-      ol.control-tools {
-        li.control-tool {
-          width: var(--left-control-item-size);
-          height: var(--left-control-item-size);
+        h1{
+          font-family: var(--crlngn-font-titles) !important;
+          /*font-size: var(--font-size-20) !important;*/
+          line-height: 1.15;
         }
       }
 
-    }
-
-    /* TIDY UI */
-    #module-management {
-      min-height: 60vh;
-      max-height: calc(100vh - 80px);
-    }
-
-    /* TIDY 5e 
-    .app{
-      --t5e-body-font-family: var(--font-body);
-      --t5e-title-font-family: var(--dnd5e-font-modesto);
-      --t5e-primary-accent-color: var(--color-warm-2);
-      --color-text-hyperlink: var(--color-warm-1);
-    }*/
-    
-
-    /* EPIC ROLLS */
-    #epic-rolls-5e-get-roll-data .grid-container {
-      overflow: auto;
-    }
-
-    #combat-dock {
-      width: calc(100% - 40px);
-      margin-top: 0;
-      pointer-events: none;
-      z-index: 0;
-      &:hover{
-        z-index: 1001;
+      .crux__top-section{
+        padding: 0;
+      }
+      .crux__section-header{
+        font-family: var(--crlngn-font-titles) !important;
+        font-size: var(--font-size-15) !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+        font-weight: 500 !important;
+      }
+      .crux__skill-header{
+        font-family: var(--crlngn-font-titles) !important;
+        font-size: var(--font-size-16) !important;
+        font-weight: 500 !important;
       }
 
-      > #combatants, .buttons-container {
-        pointer-events: all;
+      .crux__group-header {
+        h3, h2 {
+          border-bottom: 1px solid rgba(255,255,255,0.075);
+          font-family: var(--crlngn-font-titles) !important;
+          font-size: var(--font-size-13) !important;
+          font-weight: 500 !important;
+          padding-bottom: 0.25em;
+        }
       }
 
-      .buttons-container {
-        justify-content: flex-start;
-        gap: 1px;
-    
-        i{
-          border: none;
-          border-radius: 0; 
+      .crux__item {
+        padding: 0 4px !important;
+      }
+      .crux__item .item-name h4{
+        font-family: var(--crlngn-font-body) !important;
+        font-size: var(--font-size-13) !important;
+      }
+
+      .crux__utility-button,
+      .crux__action-button,
+      .crux__end-turn-button {
+        font-family: var(--crlngn-font-body) !important;
+        font-weight: 500 !important;
+        font-size: var(--font-size-14) !important;
+        padding: 4px !important;
+        border: none !important;
+      }
+
+      .crux__utility-button,
+      .crux__action-button,
+      .crux__action-button img {
+        border: none !important;
+      }
+
+      .crux__initiative i, .crux__end-turn-button i {
+        font-size: var(--font-size-13) !important;
+      }
+
+      .crux__actor .group-dots .dot {
+        width: 8px !important;
+        height: 8px !important;
+        margin-left: 2px !important;
+      }
+
+      .crux__item .flag {
+        margin-left: 2px !important;
+        filter: saturate(0.7) !important;
+        transform: scale(0.9) !important;
+        font-size: 0.8em !important;
+      }
+
+      .crux__item .item-name .item-image {
+        transform: scale(0.85) !important;
+      }
+
+      a.crux__actor-name {
+        overflow: auto !important;
+        display: block !important;
+        max-width: 100% !important;
+      }
+    }
+  }
+
+  &.crlngn-combat-carousel{
+    /* CAROUSEL COMBAT TRACKER TOOLTIPS */
+    #tooltip.combat-dock-tooltip {
+      padding: 12px !important;
+    }
+    #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper {
+      font-family: var(--crlngn-font-family);
+      font-size: var(--font-size-12);
+    }
+    #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper h2 {
+      font-family: var(--crlngn-font-titles);
+    }
+    #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper i {
+      font-size: var(--font-size-11);
+    }
+    #tooltip.combat-dock-tooltip{
+      padding: 0;
+      border: 0;
+      background: var(--color-dark-bg-90);
+      box-shadow: none;
+      max-width: 280px;
+      margin-top: 40px;
+      transform-origin: top center;
+    }
+    #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper {
+      padding: 0;
+      border: 0;
+      box-shadow: none;
+    }
+    #tooltip.combat-dock-tooltip{
+      .roll-link-group a, .roll-link a, .reference-link a {
+        background: var(--color-dark-bg-90);
+      }
+    }
+
+    #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper > ul {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 14px;
+
+      > li{ 
+        min-width: calc((100% - 14px) / 2);
+        max-width: 100%;
+        flex: 1 1 calc((100% - 14px) / 2);
+        background: var(--color-dark-bg-75);
+        outline: 5px solid var(--color-dark-bg-75);
+        padding: 0;
+        margin: 0;
+        line-height: 1.35;
+        
+        &.effects-list {
+          flex-wrap: wrap;
+        }
+
+        span{
+          flex: 1 1 calc(100% - 2em);
+        }
+        span.tooltip-duration {
+          display: flex;
+          line-height: 1;
+          min-width: 100%;
+          padding-left: 1.8em;
+          margin-top: 0.5em;
         }
         
       }
     }
+    
+    #tooltip.combat-dock-tooltip .effect-description {
+      background: transparent;
+      font-size: var(--font-size-11);
+      padding: 0;
+      line-height: 1.35;
 
-    /* CAROUSEL COMBAT TRACKER */
-    #ui-middle.crlngn-ui{
-      #combat-dock {
-        margin-top: calc(var(--crlngn-top-offset, 0px) + var(--left-control-item-size, 0px));
-      }
+      ul{
+        padding: 0;
 
-      &.navigation-collapsed, &.with-monks-scene {
-        #combat-dock {
-          margin-top: 0;
+        li{
+          display: block;
         }
       }
     }
+    #tooltip.combat-dock-tooltip a.content-link {
+      display: inline-flex;
+    }
+  }
 
-    &.crlngn-enforce-styles{
-      /* CRUX */
-      &.crux-taskbar-compat .crux__container, 
-      &.crux-taskbar-compat .crux__empty-tray{
-        height: 100vh !important; 
-      }
-      &.crux-taskbar-compat #crux, #crux {
-        height: calc(100vh - var(--crlngn-sidebar-bottom, 0px)) !important; 
-        .crux__container {
-          border-right: 1px solid rgba(0,0,0,0.75);
-          background-color: rgba(0,0,0,0.8);
-
-          h1{
-            font-family: var(--crlngn-font-titles) !important;
-            /*font-size: var(--font-size-20) !important;*/
-            line-height: 1.15;
-          }
-        }
-
-        .crux__top-section{
-          padding: 0;
-        }
-        .crux__section-header{
-          font-family: var(--crlngn-font-titles) !important;
-          font-size: var(--font-size-15) !important;
-          border: 0 !important;
-          border-radius: 0 !important;
-          padding-top: 2px !important;
-          padding-bottom: 2px !important;
-          font-weight: 500 !important;
-        }
-        .crux__skill-header{
-          font-family: var(--crlngn-font-titles) !important;
-          font-size: var(--font-size-16) !important;
-          font-weight: 500 !important;
-        }
-
-        .crux__group-header {
-          h3, h2 {
-            border-bottom: 1px solid rgba(255,255,255,0.075);
-            font-family: var(--crlngn-font-titles) !important;
-            font-size: var(--font-size-13) !important;
-            font-weight: 500 !important;
-            padding-bottom: 0.25em;
-          }
-        }
-
-        .crux__item {
-          padding: 0 4px !important;
-        }
-        .crux__item .item-name h4{
-          font-family: var(--crlngn-font-body) !important;
-          font-size: var(--font-size-13) !important;
-        }
-
-        .crux__utility-button,
-        .crux__action-button,
-        .crux__end-turn-button {
-          font-family: var(--crlngn-font-body) !important;
-          font-weight: 500 !important;
-          font-size: var(--font-size-14) !important;
-          padding: 4px !important;
-          border: none !important;
-        }
-
-        .crux__utility-button,
-        .crux__action-button,
-        .crux__action-button img {
-          border: none !important;
-        }
-
-        .crux__initiative i, .crux__end-turn-button i {
-          font-size: var(--font-size-13) !important;
-        }
-
-        .crux__actor .group-dots .dot {
-          width: 8px !important;
-          height: 8px !important;
-          margin-left: 2px !important;
-        }
-
-        .crux__item .flag {
-          margin-left: 2px !important;
-          filter: saturate(0.7) !important;
-          transform: scale(0.9) !important;
-          font-size: 0.8em !important;
-        }
-
-        .crux__item .item-name .item-image {
-          transform: scale(0.85) !important;
-        }
-
-        a.crux__actor-name {
-          overflow: auto !important;
-          display: block !important;
-          max-width: 100% !important;
-        }
+  &.crlngn-dice-tray {
+    /* DICE TRAY */
+    .dice-tray {
+      button, input{
+        box-shadow: 0 0 6px inset var(--color-dark-bg-90);
       }
 
-      /* CAROUSEL COMBAT TRACKER TOOLTIPS */
-      #tooltip.combat-dock-tooltip {
-        padding: 12px !important;
-      }
-      #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper {
-        font-family: var(--crlngn-font-family);
-        font-size: var(--font-size-12);
-      }
-      #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper h2 {
-        font-family: var(--crlngn-font-titles);
-      }
-      #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper i {
-        font-size: var(--font-size-11);
-      }
-      #tooltip.combat-dock-tooltip{
-        padding: 0;
-        border: 0;
-        background: var(--color-dark-bg-90);
-        box-shadow: none;
-        max-width: 280px;
-        margin-top: 40px;
-        transform-origin: top center;
-      }
-      #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper {
-        padding: 0;
-        border: 0;
-        box-shadow: none;
-      }
-      #tooltip.combat-dock-tooltip{
-        .roll-link-group a, .roll-link a, .reference-link a {
-          background: var(--color-dark-bg-90);
-        }
-      }
-
-      #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper > ul {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 14px;
-
-        > li{ 
-          min-width: calc((100% - 14px) / 2);
-          max-width: 100%;
-          flex: 1 1 calc((100% - 14px) / 2);
-          background: var(--color-dark-bg-75);
-          outline: 5px solid var(--color-dark-bg-75);
-          padding: 0;
-          margin: 0;
-          line-height: 1.35;
-          
-          &.effects-list {
-            flex-wrap: wrap;
-          }
-
-          span{
-            flex: 1 1 calc(100% - 2em);
-          }
-          span.tooltip-duration {
-            display: flex;
-            line-height: 1;
-            min-width: 100%;
-            padding-left: 1.8em;
-            margin-top: 0.5em;
-          }
-          
-        }
-      }
-      
-      #tooltip.combat-dock-tooltip .effect-description {
+      button:hover, input:hover,
+      button:focus, input:focus {
+        color: var(--color-light-1);
+        border-color: var(--color-warm-3);
+        box-shadow: 0 0 6px inset var(--color-warm-3);
         background: transparent;
-        font-size: var(--font-size-11);
-        padding: 0;
-        line-height: 1.35;
-
-        ul{
-          padding: 0;
-
-          li{
-            display: block;
-          }
-        }
-      }
-      #tooltip.combat-dock-tooltip a.content-link {
-        display: inline-flex;
-      }
-
-      /* DICE TRAY */
-      .dice-tray {
-        button, input{
-          box-shadow: 0 0 6px inset var(--color-dark-bg-90);
-        }
-
-        button:hover, input:hover,
-        button:focus, input:focus {
-          color: var(--color-light-1);
-          border-color: var(--color-warm-3);
-          box-shadow: 0 0 6px inset var(--color-warm-3);
-          background: transparent;
-        }
       }
     }
+  }
 
+  &.crlngn-monks-scene-nav{
+    /* Monk's Scene Navigation */
+    #navigation {
+      margin-top: 0;
+      .monks-scene-navigation {
+        max-height: 32px;
+        overflow: visible;
+        ol.scene-list{
+          border: 0 !important;
+          li.nav-item, li.folder {
+            a.folder-name{
+              border-color: #666 !important;
+            }
+            a.scene-name {
+              margin: 0;
+              padding: 4px;
+              height: 32px;
 
+              &.expanded {
+                margin-top: 0;
+                height: 32px;
+              }
+
+              i {
+                font-size: var(--font-size-11);
+              }
+            }
+          }
+        }
+        /*
+        ol.scene-list{
+          gap: 0;
+          margin: 0;
+          padding: 0;
+  
+          li.nav-item {
+            margin: 0;
+  
+            a.scene-name{
+              border-width: 0;
+              border-radius: 0;
+              margin: 0;
+              padding: 4px;
+              height: 32px;
+              border: 1px solid #000 !important;
+  
+              &.expanded {
+                margin-top: 0;
+                height: 32px;
+              }
+  
+              i {
+                font-size: var(--font-size-11);
+              }
+            }
+          }
+        }*/
+      }
+    }
+  }
+
+  &.crlngn-hurry-up {
+    #hurry-up {
+      left: auto !important;
+      right: calc(var(--current-sidebar-width) + 10px) !important;
+      top: calc(var(--left-control-item-size) + 10px) !important;
+      bottom: auto !important;
+      transform-origin: top right;
+      transform: scale(0.75);
+    }
+  }
 
 }
-

@@ -12,6 +12,7 @@ import { GeneralUtil } from "./GeneralUtil.mjs";
 import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
 import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
 import { UpdateNewsUtil } from "./UpdateNewsUtil.mjs";
+import { CustomHandlebarsHelpers } from "./CustomHandlebarsHelpers.mjs";
 
 /**
  * Main class handling core module initialization and setup
@@ -54,21 +55,23 @@ export class Main {
       PlayersListUtil.init(); 
       LeftControls.init();
       ChatUtil.init();
+
       Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
-      
     });
 
     Hooks.once(HOOKS_CORE.READY, () => {
       LogUtil.log("Core Ready", []);
       const SETTINGS = getSettings();
-      LogUtil.log('Available libraries:', [Object.keys(window).filter(key => 
-        typeof window[key] === 'function' && 
-        /^[A-Z]/.test(key) && 
-        key.length > 3
-      )]);
+      // LogUtil.log('Available libraries:', [Object.keys(window).filter(key => 
+      //   typeof window[key] === 'function' && 
+      //   /^[A-Z]/.test(key) && 
+      //   key.length > 3
+      // )]);
+
       var isDebugOn = SettingsUtil.get(SETTINGS.debugMode.tag);
       if(isDebugOn){CONFIG.debug.hooks = true};
 
+      CustomHandlebarsHelpers.init();
       ModuleCompatUtil.init();
       TopNavigation.checkSceneNavCompat();
       UpdateNewsUtil.init();
@@ -82,13 +85,18 @@ export class Main {
       if(chatStylesEnabled){ 
         Main.addCSSLocalization();
       }
+      
+      // SettingsUtil.set(SETTINGS.otherModulesList.tag, "'monks-scene-nav','combat-carousel','dice-tray','hurry-up'");
+      // LogUtil.log("SETTING!!!", [SettingsUtil.get(SETTINGS.otherModulesList.tag)]);
       SettingsUtil.resetFoundryThemeSettings();
+      SettingsUtil.applyOtherModulesList();
       // SettingsUtil.applyThemeSettings();
       
       const isMinimalUiOn = GeneralUtil.isModuleOn('minimal-ui');
       if(isMinimalUiOn){
         ui.notifications.warn(game.i18n.localize('CRLNGN_UI.ui.notifications.minimalUiNotSupported'),{ permanent: true });
       }
+
     });
   }
 

@@ -1,5 +1,5 @@
 <div class="form-content">
-  <h4><i class="fas fa-globe"></i> {{localize "CRLNGN_UI.ui.worldSettingsLabel"}}</h4>
+  <h4><i class="fas fa-globe"></i> {{localize "CRLNGN_UI.ui.worldSettingsLabel"}} <span class="toggle-hint">{{localize 'CRLNGN_UI.ui.toggleHints'}}</span></h4>
   <hr/>
 
   <div class="form-group">
@@ -26,10 +26,25 @@
     </div>
   </div>
   
-  <div class="form-group">
+  {{!-- <div class="form-group">
     <label for="adjustOtherModules">{{fields.adjustOtherModules.label}}</label>
     <input type="checkbox" name="adjustOtherModules" {{#if adjustOtherModules}}checked{{/if}} />
     <p class="hint">{{{fields.adjustOtherModules.hint}}}</p> 
+  </div> --}}
+
+
+  <div class="form-group">
+    <label for="otherModulesList">{{fields.otherModulesList.label}}</label>
+    <input type="checkbox" class="adjustOtherModules" name="adjustOtherModules" {{#if adjustOtherModules}}checked{{/if}} />
+    <input type="text" class="otherModulesList" name="otherModulesList" value="{{{otherModulesList}}}" hidden />
+    <p class="hint">{{{fields.otherModulesList.hint}}}</p> 
+    <ul class="multiple-select other-modules">
+      {{#each fields.otherModulesList.options}}
+      <li>
+        <label><input type="checkbox" value={{this}} {{#if (normalizedIncludes ../otherModulesList this)}}checked{{/if}} />{{@key}}</label>
+      </li>
+      {{/each}}
+    </ul>
   </div>
 
   <div class="form-group">

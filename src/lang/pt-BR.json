@@ -3,6 +3,7 @@
     "ui": { 
       "clientSettingsLabel": "Configurações do Jogador (Cliente)",
       "worldSettingsLabel": "Configurações do Mundo (GM)",
+      "toggleHints": "Alternar Ajuda",
       "notifications": {
         "settingsUpdated": "Configurações atualizadas",
         "minimalUiNotSupported": "Carolingian UI não é compatível com Minimal UI, e oferece a maioria de suas funcionalidades. Por favor, desabilite Minimal UI para evitar problemas de performance.",
@@ -19,6 +20,10 @@
         "addToFavorites": "Adicionar à Navegação",
         "removeFromFavorites": "Remover da Navegação",
         "initialViewBtn": "Definir Visualização"
+      },
+      "updates": {
+        "label": "Último ID de Atualização",
+        "hint": "Rastreia a última notificação de atualização exibida"
       }
     },
     "settings": {
@@ -57,6 +62,10 @@
           "adjustOtherModules": {
             "label": "Aplicar estilos a outros módulos",
             "hint": "Habilite para aplicar meus ajustes de estilo e fontes customizadas a outros módulos, como Dice Tray, CRUX ou Combat Carousel. Para suporte a outros módulos, solicite no Github"
+          },
+          "otherModulesList": {
+            "label": "Aplicar estilos a outros módulos",
+            "hint": "Habilite meus ajustes de estilo em outros módulos. Clique na caixa no topo da lista para selecionar/desmarcar todos."
           },
           "customStyles": {
             "label": "Estilos CSS",

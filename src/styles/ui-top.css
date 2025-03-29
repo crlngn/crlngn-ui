@@ -5,20 +5,18 @@ body.crlngn-ui {
   --folder-list-width: 200px;
   --scene-nav-item-width: calc(var(--font-size-10) * 15);
   --folder-nav-item-width: var(--left-control-item-size);
+  --current-sidebar-width: var(--sidebar-width);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
   &.logo-visible:has(#navigation.collapsed) {
     --ui-top-padding: calc(72px + var(--top-nav-height,0px));
   }
+  &:has(#interface #sidebar.collapsed){
+    --current-sidebar-width: var(--right-control-item-size);
+  }
 
   #interface{
-    --current-sidebar-width: var(--sidebar-width);
-  
-    &:has(#sidebar.collapsed){
-      --current-sidebar-width: var(--right-control-item-size);
-    }
-
     #ui-middle{
       position:relative;
       margin-left: calc(var(--ui-controls-margin-left, 0px));
@@ -32,7 +30,7 @@ body.crlngn-ui {
       }
     }
     #ui-top {
-      margin-left: -20px;
+      margin-left: calc(var(--left-control-item-size) - 20px);
     }
 
   }
@@ -76,7 +74,7 @@ body.crlngn-ui {
       }*/
 
       #navigation {
-        --nav-width: calc(100% + var(--ui-controls-margin-left, 0px) + var(--max-players-width, 0px) + 6px);
+        --nav-width: calc(100% + var(--ui-controls-margin-left, 0px) + var(--max-players-width, 0px) + 10px);
         --nav-margin-left: calc((var(--ui-controls-margin-left, 0px) * -1) - var(--max-players-width, 0px));
         position: absolute;
         top: 0;

@@ -10,6 +10,7 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
  * @extends {HandlebarsApplicationMixin(ApplicationV2)}
  */
 export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2) {
+  static element;
   /**
    * Default application options
    * @static
@@ -180,6 +181,13 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
 
   _onRender(context, options) {
     LogUtil.log("_onRender", [context, options]);
+    CameraDockSettings.element = this.element;
+
+    // add listener to .toggle-hint 
+    const hintToggle = CameraDockSettings.element.querySelector('.toggle-hint');
+    hintToggle.addEventListener('click', () => {
+      CameraDockSettings.element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
+    });
   }
 
 

@@ -45,8 +45,8 @@ export class SettingsUtil {
         onChange: value => SettingsUtil.apply(setting.tag, value)
       }
 
-      if(setting.choices){
-        settingObj.choices = setting.choices
+      if(setting.choices || setting.options){
+        settingObj.choices = setting.choices || setting.options;
       }
 
       // @ts-ignore - Valid module ID for settings registration
@@ -321,6 +321,9 @@ export class SettingsUtil {
         break;
       case SETTINGS.adjustOtherModules.tag:
         SettingsUtil.applyModuleAdjustments();
+        break;
+      case SETTINGS.otherModulesList.tag:
+        SettingsUtil.applyOtherModulesList();
         break;
       case SETTINGS.uiScale.tag:
         SettingsUtil.applyUiScale(value);
@@ -690,13 +693,23 @@ export class SettingsUtil {
   static applyModuleAdjustments = (value) => {
     const SETTINGS = getSettings();
     const enforceStyles = value || SettingsUtil.get(SETTINGS.adjustOtherModules.tag) || false;
-    const body = document.querySelector("body");
+    // const body = document.querySelector("body");
 
     if(enforceStyles){
-      body.classList.add('crlngn-enforce-styles');
-    }else{
-      body.classList.remove('crlngn-enforce-styles');
+      ModuleCompatUtil.addModuleClasses();
     }
+  }
+
+  static applyOtherModulesList = (value) => {
+    const SETTINGS = getSettings();
+    const currSetting = value || SettingsUtil.get(SETTINGS.otherModulesList.tag);
+    LogUtil.log("applyOtherModulesList", [currSetting, currSetting.split(",")]);
+    if(currSetting.split(",").length===0){
+      SettingsUtil.set(SETTINGS.adjustOtherModules.tag, false);
+    }else{
+      SettingsUtil.set(SETTINGS.adjustOtherModules.tag, true);
+    }
+    ModuleCompatUtil.addModuleClasses();
   }
 
   /**

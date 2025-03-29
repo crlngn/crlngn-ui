@@ -12,6 +12,7 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   /** @type {HTMLElement} Private static reference to the form element */
   static #element;
+  static #hintsOn = false;
 
   /**
    * Default application options
@@ -177,13 +178,19 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
    * @param {object} options - The render options
    */
   _onRender(context, options) {
-    ThemeAndStyleSettings.#element = this.element;
+    ThemeAndStyleSettings.element = this.element;
+
+    // add listener to .toggle-hint 
+    const hintToggle = ThemeAndStyleSettings.element.querySelector('.toggle-hint');
+    hintToggle.addEventListener('click', () => {
+      ThemeAndStyleSettings.element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
+    });
     
     // Store reference to themes for later use
     this._themes = THEMES;
     
     // Handle input focus and blur
-    const inputs = ThemeAndStyleSettings.#element.querySelectorAll('input[type="text"]');
+    const inputs = ThemeAndStyleSettings.element.querySelectorAll('input[type="text"]:not([hidden])');
     inputs.forEach(input => {
       const wrapper = input.closest('.dropdown-wrapper');
       const dropdown = wrapper?.querySelector('.dropdown-options');
@@ -255,7 +262,7 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
     });
   
     // Handle option selection
-    const dropOptions = ThemeAndStyleSettings.#element.querySelectorAll('.dropdown-option');
+    const dropOptions = ThemeAndStyleSettings.element.querySelectorAll('.dropdown-option');
     const that = this; // Store reference to this for use in event handlers
     
     dropOptions.forEach(option => {
@@ -294,6 +301,37 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
         dropdown.classList.remove('active');
       });
     });
+
+    // add event listeners for each checkbox of 'other modules' list
+    const otherModulesChecks = ThemeAndStyleSettings.element.querySelectorAll('.multiple-select.other-modules input[type="checkbox"]');
+    const hiddenInputOtherModules = ThemeAndStyleSettings.element.querySelector('input.otherModulesList');
+    otherModulesChecks.forEach(checkbox => {
+      checkbox.addEventListener("change", (evt) => {
+        const tgt = evt.currentTarget;
+        let hiddenValue = `${hiddenInputOtherModules.value}`;
+        let selectedValues = hiddenValue.split(",") || [];
+        let index = selectedValues.indexOf(tgt.value);
+
+        if(!evt.currentTarget.checked && index > -1){
+          selectedValues.splice(index, 1);
+        }else if(evt.currentTarget.checked && index === -1){
+          selectedValues.push(tgt.value);
+        }
+        hiddenInputOtherModules.value = selectedValues.join(",");
+        LogUtil.log("checkbox changed", [selectedValues, hiddenInputOtherModules.value]);
+      })
+    });
+
+    // listen for toggle all / untoggle all checkbox
+    const toggleModulesCheckbox = ThemeAndStyleSettings.element.querySelector('input.adjustOtherModules');
+    toggleModulesCheckbox.addEventListener("change", (evt) => {
+      const checkboxes = ThemeAndStyleSettings.element.querySelectorAll('.multiple-select.other-modules input[type="checkbox"]');
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = evt.currentTarget.checked;
+        const event = new Event('change', { bubbles: true });
+        checkbox.dispatchEvent(event);
+      })
+    })
   }
 
   /**
@@ -320,7 +358,7 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
    * @static
    */
   static #closeAllDropdowns() {
-    ThemeAndStyleSettings.#element.querySelectorAll('.dropdown-options').forEach(dropdown => {
+    ThemeAndStyleSettings.element.querySelectorAll('.dropdown-options').forEach(dropdown => {
       dropdown.classList.remove('active');
     });
   }

@@ -3,6 +3,7 @@
     "ui": { 
       "clientSettingsLabel": "Impostazioni del Jiocatore (Cliente)",
       "worldSettingsLabel": "Impostazioni del Mondo (GM)",
+      "toggleHints": "Attiva/Disattiva Aiuto",
       "notifications": {
         "settingsUpdated": "Impostazioni aggiornate",
         "minimalUiNotSupported": "Carolingian UI is not compatible with Minimal UI, and offers most of its features. Please disable that module to avoid performance issues.",
@@ -19,6 +20,10 @@
         "addToFavorites": "Aggiungi alla Navigazione",
         "removeFromFavorites": "Rimuovi dalla Navigazione",
         "initialViewBtn": "Imposta Vista Iniziale"
+      },
+      "updates": {
+        "label": "Ultimo ID Aggiornamento",
+        "hint": "Traccia l'ultima notifica di aggiornamento visualizzata"
       }
     },
     "settings": {
@@ -58,6 +63,10 @@
           "adjustOtherModules": {
             "label": "Applica stili ad altri moduli",
             "hint": "Abilita le mie modifiche di stile e i font personalizzati su altri moduli, come CRUX o Combat Carousel. Se desideri supporto per un modulo specifico, per favore segnalalo su Github issues"
+          },
+          "otherModulesList": {
+            "label": "Applica stili ad altri moduli",
+            "hint": "Abilita le mie modifiche di stile su altri moduli. Clicca la casella in cima alla lista per selezionare/deselezionare tutto."
           },
           "customStyles": {
             "label": "CSS Personalizzato",

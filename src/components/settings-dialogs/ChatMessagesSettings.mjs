@@ -10,6 +10,7 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
  * @extends {HandlebarsApplicationMixin(ApplicationV2)}
  */
 export class ChatMessagesSettings extends HandlebarsApplicationMixin(ApplicationV2) {
+  static #element;
   /**
    * Default application options
    * @static
@@ -212,8 +213,13 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
    */
   _onRender(context, options) {
     const SETTINGS = getSettings();
-    // const html = this.element;
-    // html.querySelector("button[type=reset]").addEventListener("click", ChatMessagesSettings.#onReset);
+    ChatMessagesSettings.element = this.element;
+
+    // add listener to .toggle-hint 
+    const hintToggle = ChatMessagesSettings.element.querySelector('.toggle-hint');
+    hintToggle.addEventListener('click', () => {
+      ChatMessagesSettings.element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
+    });
 
     const controlSettings = SettingsUtil.get(SETTINGS.chatMessagesMenu.tag);
     LogUtil.log("_onRender", [context, options, controlSettings]);

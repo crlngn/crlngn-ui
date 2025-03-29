@@ -1,3 +1,4 @@
+import { getSettings } from "../constants/Settings.mjs";
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
@@ -27,6 +28,24 @@ export class ModuleCompatUtil {
       Hooks.on(HOOKS_CORE.UPDATE_USER, ModuleCompatUtil.checkTaskbarLock);
     }
     ModuleCompatUtil.checkTaskbarLock();
+    ModuleCompatUtil.addModuleClasses();
+  }
+
+  static addModuleClasses = () => {
+    const SETTINGS = getSettings();
+    const moduleCompatSettings = SettingsUtil.get(SETTINGS.otherModulesList.tag) || "";
+    const splitList = moduleCompatSettings.split(",");
+    LogUtil.log("addModuleClasses", [splitList, moduleCompatSettings]);
+
+    Object.entries(SETTINGS.otherModulesList.options).forEach(opt => {
+      const moduleId = opt[1].replace(/'/g, "");
+      document.querySelector('body').classList.remove('crlngn-'+moduleId);
+    })
+
+    splitList.forEach(item => {
+      const moduleId = item.replace(/'/g, "");
+      document.querySelector('body').classList.add('crlngn-'+moduleId);
+    });
   }
 
   /**
@@ -103,8 +122,6 @@ export class ModuleCompatUtil {
       // if(hotbar && hotbar instanceof HTMLElement) hotbar.style.removeProperty('visibility');
       // clearTimeout(ModuleCompatUtil.#checkPlayersTimeout);
     // }, timeoutDelay);
-    
-    
   }
 
 
