@@ -90,6 +90,7 @@ body.crlngn-ui {
         margin-left: var(--nav-margin-left);
         width: var(--nav-width);
         max-width: var(--nav-width);
+        min-width: var(--nav-width);
         z-index:101;
 
         &:before{
