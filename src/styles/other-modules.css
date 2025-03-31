@@ -222,8 +222,17 @@ body.crlngn-ui{
   }
 
   /* HEALTH ESTIMATE */
-  :is(.chat-popout, #chat-log, .chat-log) .message.hm_message {
+  :is(.chat-popout, #chat-log, .chat-log) .chat-message.hm_message {
     text-shadow: 0 1px 4px rgba(0, 0, 0.75);
+    border-width: 0;
+
+    &.hm_messageheal, &.hm_messageheal:before{
+      background: var(--dnd5e-color-success-background) !important;
+    }
+
+    &.hm_messagetaken, &.hm_messagetaken:before{
+      background: var(--dnd5e-color-failure-background) !important;
+    }
   }
 
   /* VISUAL ACTIVE EFFECTS */
