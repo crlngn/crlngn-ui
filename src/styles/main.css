@@ -1,5 +1,9 @@
 body.crlngn-ui  {
   /*font-size: var(--font-size-13);*/
+  /*-webkit-font-smoothing: antialiased;*/
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-weight: 400;
 
   h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
@@ -24,6 +28,9 @@ body.crlngn-ui  {
       font-weight: 500;
       letter-spacing: 0.02em;
       font-family: var(--crlngn-font-family);
+    }
+    h4.dice-total{
+      font-weight: 600;
     }
   }
   

@@ -6,8 +6,6 @@ body.crlngn-ui {
   --scene-nav-item-width: calc(var(--font-size-10) * 15);
   --folder-nav-item-width: var(--left-control-item-size);
   --current-sidebar-width: var(--sidebar-width);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 
   &.logo-visible:has(#navigation.collapsed) {
     --ui-top-padding: calc(72px + var(--top-nav-height,0px));
@@ -90,7 +88,7 @@ body.crlngn-ui {
         margin-left: var(--nav-margin-left);
         width: var(--nav-width);
         max-width: var(--nav-width);
-        min-width: var(--nav-width);
+        min-width: var(--nav-width); /* needed for Forien's Quest Log */
         z-index:101;
 
         &:before{

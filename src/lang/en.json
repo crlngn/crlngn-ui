@@ -73,7 +73,7 @@
             "hint": "These styles will be loaded the next time you load Foundry. You may include Google Fonts by pasting the @import link, and the font will be listed in the Custom Fonts settings."
           }, 
           "enforceDarkMode": {
-            "label": "Enforce Dark Mode",
+            "label": "Enforce Dark Mode to Players",
             "hint": "Do not enable this if using Force Client Settings or similar modules. This sets Foundry's UI theme on player's client to Dark if they have it set to 'Browser Default'. If they specifically set it to 'Light', their choice will be respected."
           }
         },
