@@ -5,12 +5,13 @@ body.crlngn-ui {
   --folder-list-width: 200px;
   --scene-nav-item-width: calc(var(--font-size-10) * 15);
   --folder-nav-item-width: var(--left-control-item-size);
-  --current-sidebar-width: var(--sidebar-width);
+  /*--current-sidebar-width: var(--sidebar-width);*/
 
-  &.logo-visible:has(#navigation.collapsed) {
+  &.logo-visible.nav-collapsed {
     --ui-top-padding: calc(72px + var(--top-nav-height,0px));
   }
-  &:has(#interface #sidebar.collapsed){
+
+  &.nav-collapsed{
     --current-sidebar-width: var(--right-control-item-size);
   }
 
@@ -20,17 +21,16 @@ body.crlngn-ui {
       margin-left: calc(var(--ui-controls-margin-left, 0px));
       width: calc(100% - var(--ui-controls-margin-left, 0px));
 
-
       #ui-middle > *{
         margin-top: 0;
         margin-left: var(--macro-bar-left, 0px);
         max-width: calc(100% - var(--ui-controls-margin-left, 0px));
       }
     }
+
     #ui-top {
       margin-left: calc(var(--left-control-item-size) - 20px);
     }
-
   }
 
   #navigation {

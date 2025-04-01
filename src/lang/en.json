@@ -27,6 +27,10 @@
       }
     },
     "settings": {
+      "hideInterface": {
+        "label": "Toggle Hide/Show Interface",
+        "hint": "Hides or shows the UI. This will affect all elements inside the `#interface` html block"
+      },
       "customFontsMenu": {
         "label": "Custom Fonts",
         "title": "Configure Fonts",
@@ -142,11 +146,11 @@
             "hint": "<b>[Requires reload]</b> Allows video player group to be dragged and placed anywhere on screen"
           }, 
           "dockPosX": {
-            "label": "Horizontal position",
+            "label": "Dock Horizontal position",
             "hint": "Position of camera dock when set to float. From bottom left of screen, in pixels"
           }, 
           "dockPosY": {
-            "label": "Vertical position",
+            "label": "Dock Vertical position",
             "hint": "Position of camera dock when set to float. From bottom left of screen, in pixels"
           }, 
           "dockWidth": {
@@ -156,6 +160,23 @@
           "dockHeight": {
             "label": "Height of camera group",
             "hint": "Dimensions of the non-minimized camera dock when set to float, in pixels"
+          },
+          "dockResizeOnUserJoin": {
+            "label": "Resize Dock to Fit Videos",
+            "hint": "When enabled, the dock will be resized when a user joins. Any manual resize may be overriden when a new user joins. For manual resize, turn this option off.",
+            "options": {
+              "off": "OFF: Do not auto-resize",
+              "horizontal": "Resize to fit horizontally",
+              "vertical": "Resize to fit vertically"
+            }
+          },
+          "dockWasResized": {
+            "label": "Flag: Was the dock manually resized?",
+            "hint": "This is a flag that is set to true when the dock is manually resized. It is used to determine if the dock should be resized when a new user joins."
+          },
+          "defaultVideoWidth": {
+            "label": "Default video width",
+            "hint": "Width of each individual camera in dock, in pixels. Minimum width is 140px, to allow space for camera control icons."
           }
         },
         "reset": "Reset",

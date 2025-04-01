@@ -83,29 +83,36 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
    */
   static async #onSubmit(event, form, formData) {
     const SETTINGS = getSettings();
-    let controlSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
-    let isFloating = controlSettings.enableFloatingDock;
     event.preventDefault();
     event.stopPropagation();
+    const fieldNames = SETTINGS.cameraDockMenu.fields;
 
     // Convert FormData into an object with proper keys and handle checkboxes
     const rawData = formData.object;
     // Ensure checkbox fields are properly represented as booleans
-    if (!rawData.hasOwnProperty('enableFloatingDock')) {
-      rawData.enableFloatingDock = false;
-    }
+    fieldNames.forEach((fieldName) => {
+      if (SETTINGS[fieldName].inputType === 'checkbox' && !rawData.hasOwnProperty(fieldName)) {
+        rawData[fieldName] = false;
+      }
+    });
     const settings = foundry.utils.expandObject(rawData);
-
-    await SettingsUtil.set(SETTINGS.cameraDockMenu.tag, settings);
-    controlSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
-
-    LogUtil.log("Saving settings:", [SETTINGS.cameraDockMenu.tag, form, formData.object, settings, controlSettings]); // Debugging
+    const currDockSettings = SettingsUtil.get(SETTINGS.enableFloatingDock.tag);
+    LogUtil.log("Compared settings:", [ settings.enableFloatingDock, currDockSettings ]);
+    
+    fieldNames.forEach((fieldName) => {
+      LogUtil.log("Saving setting >>", [SETTINGS[fieldName].tag, settings[fieldName]]);
+      if(settings[fieldName] !== undefined) {
+        SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
+      }
+    });
 
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
 
-    if(controlSettings.enableFloatingDock != isFloating){
+    const dockSettings = settings.enableFloatingDock;
+    if(dockSettings !== currDockSettings){
       location.reload();
     }
+    
   }
 
   /**
@@ -120,23 +127,25 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
     const SETTINGS = getSettings();
     const html = this.element;
     const inputs = html.querySelectorAll("input, select");
-    const defaults = SETTINGS.cameraDockMenu.default;
+    const fieldNames = SETTINGS.cameraDockMenu.fields;
+
+    const fields = {};
+    const fieldDefaults = {};
+
+    fieldNames.forEach((fieldName) => {
+      if(SETTINGS[fieldName]) {
+        fields[fieldName] = SETTINGS[fieldName];
+        fieldDefaults[fieldName] = SETTINGS[fieldName].default;
+      }
+    });
 
     inputs.forEach(inputField => {
-      inputField.value = defaults[inputField.name];
-      if(inputField.type==='checkbox'){
-        inputField.checked = defaults[inputField.name];
-      }
+      inputField.value = fieldDefaults[inputField.name];
     })
 
     LogUtil.log("#onReset", [a, b, SETTINGS.cameraDockMenu.default]);
   }
 
-  /**
-   * Prepare context to be sent to handlebars template
-   * @param {*} options 
-   * @returns 
-   */
   /**
    * Prepares the context data for the template
    * @protected
@@ -145,12 +154,26 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
    */
   _prepareContext(options) {
     const SETTINGS = getSettings();
+    const fieldNames = SETTINGS.cameraDockMenu.fields;
+    const fields = {};
+    const fieldValues = {};
+    const fieldDefaults = {};
+
+    fieldNames.forEach((fieldName) => {
+      LogUtil.log("_prepareContext", [SETTINGS[fieldName].oldName]);
+      if(SETTINGS[fieldName]) {
+        const value = SettingsUtil.get(SETTINGS[fieldName].tag);
+        fields[fieldName] = SETTINGS[fieldName];
+        fieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;
+        fieldDefaults[fieldName] = SETTINGS[fieldName].default;
+      }
+    });
+
     const setting = {
-      ...SettingsUtil.get(SETTINGS.cameraDockMenu.tag),
-      default: {
-        ...SETTINGS.cameraDockMenu.default
-      },
-      fields: { ...SETTINGS.cameraDockMenu.fields },
+      ...fieldValues,
+      default: { ...fieldDefaults },
+      isGM: game.user?.isGM,
+      fields: { ...fields },
       buttons: [ 
         { type: "button", icon: "", label: "CRLNGN_UI.settings.cameraDockMenu.reset", action: 'redefine' },
         { type: "submit", icon: "", label: "CRLNGN_UI.settings.cameraDockMenu.save" }
@@ -188,6 +211,28 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
     hintToggle.addEventListener('click', () => {
       CameraDockSettings.element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
     });
+
+    // Add event listener for enableFloatingDock checkbox
+    const enableFloatingDockCheckbox = this.element?.querySelector('input[name="enableFloatingDock"]');
+    LogUtil.log('_onRender', [this.element, enableFloatingDockCheckbox])
+    if (enableFloatingDockCheckbox) {
+      enableFloatingDockCheckbox.addEventListener('change', this.#onDockEnabledChange.bind(this));
+      // Initial state
+      this.#onDockEnabledChange({ target: enableFloatingDockCheckbox });
+    }
+  }
+
+  /**
+   * Handles changes to the dockEnabled checkbox
+   * @private
+   * @param {Event} event - The change event
+   */
+  #onDockEnabledChange(event) {
+    const otherInputs = this.element?.querySelectorAll('input:not([name="enableFloatingDock"])');
+    otherInputs.forEach(input => input.disabled = !event.target.checked);
+    const otherSelects = this.element?.querySelectorAll('select');
+    otherSelects.forEach(select => select.disabled = !event.target.checked);
+    LogUtil.log('onDockEnabledChange', [this.element, otherInputs, otherSelects])
   }
 
 

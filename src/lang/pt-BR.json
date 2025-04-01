@@ -27,6 +27,10 @@
       }
     },
     "settings": {
+      "hideInterface": {
+        "label": "Ocultar/Mostrar Interface",
+        "hint": "Oculta ou mostra a interface. Isso afetará todos os elementos dentro do bloco html #interface"
+      },
       "customFontsMenu": {
         "label": "Fontes Personalizadas",
         "title": "Configurar Fontes",
@@ -154,6 +158,23 @@
           "dockHeight": {
             "label": "Altura do grupo de câmeras",
             "hint": "Dimensões do dock da câmera quando configurado para flutuar, se não minimizado. Em pixels"
+          },
+          "dockResizeOnUserJoin": {
+            "label": "Redimensionar Dock para Ajustar Vídeos",
+            "hint": "Quando ativado, o dock será redimensionado quando um usuário entrar. O redimensionamento manual pode ser substituído quando um novo usuário entrar.",
+            "options": {
+              "off": "DESATIVADO: Não redimensionar automaticamente",
+              "horizontal": "Redimensionar para ajustar horizontalmente",
+              "vertical": "Redimensionar para ajustar verticalmente"
+            }
+          },
+          "dockWasResized": {
+            "label": "Marcador: O dock foi redimensionado manualmente?",
+            "hint": "Este é um marcador que é definido como verdadeiro quando o dock é redimensionado manualmente. É usado para determinar se o dock deve ser redimensionado quando um novo usuário entrar."
+          },
+          "defaultVideoWidth": {
+            "label": "Largura padrão do vídeo",
+            "hint": "Largura de cada câmera individual no dock, em pixels. A largura mínima é 140px, para permitir espaço para os ícones de controle da câmera."
           }
         },
         "reset": "Redefinir",

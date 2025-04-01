@@ -52,26 +52,25 @@ export class SettingsUtil {
       // @ts-ignore - Valid module ID for settings registration
       await game.settings.register(MODULE_ID, setting.tag, settingObj);
 
-      if(SettingsUtil.get(setting.tag)==undefined){
+      if(SettingsUtil.get(setting.tag) === undefined){
         LogUtil.log('resetting...', [setting.tag]);
         SettingsUtil.set(setting.tag, setting.default);
       }
-
-      game.keybindings.register(MODULE_ID, "hideInterface", {
-        name: "Toggle Hide/Show User Interface",
-        hint: "Hides or shows the UI. This will affect all elements inside the `#interface` html block",
-        editable: [
-          {
-            key: "0",
-            modifiers: ["Control"]
-          }
-        ],
-        onDown: () => {  },
-        onUp: () => { SettingsUtil.hideInterface() },
-        restricted: false,             // Restrict this Keybinding to gamemaster only?
-      });
-
       // LogUtil.log("registerSettings",[setting.tag, SettingsUtil.get(setting.tag)]);
+    });
+
+    game.keybindings.register(MODULE_ID, "hideInterface", {
+      name: game.i18n.localize("CRLNGN_UI.settings.hideInterface.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.hideInterface.hint"),
+      editable: [
+        {
+          key: "0",
+          modifiers: ["Control"]
+        }
+      ],
+      onDown: () => {  },
+      onUp: () => { SettingsUtil.hideInterface() },
+      restricted: false, // Restrict this Keybinding to gamemaster only?
     });
 
     // Apply custom theme and CSS
@@ -116,6 +115,12 @@ export class SettingsUtil {
     // apply scene nav settings
     const sceneNavFields = SETTINGS.sceneNavMenu.fields;
     sceneNavFields.forEach(fieldName => {
+      SettingsUtil.apply(SETTINGS[fieldName].tag);
+    });
+
+    // apply camera dock settings
+    const cameraDockFields = SETTINGS.cameraDockMenu.fields;
+    cameraDockFields.forEach(fieldName => {
       SettingsUtil.apply(SETTINGS[fieldName].tag);
     });
 
@@ -242,20 +247,39 @@ export class SettingsUtil {
       case SETTINGS.hideFoundryLogo.tag:
         SettingsUtil.applyLeftControlsSettings(settingTag, value);
         break;
-      case SETTINGS.cameraDockMenu.tag: 
-        SettingsUtil.applyCameraPosX();
-        SettingsUtil.applyCameraPosY();
-        SettingsUtil.applyCameraWidth();
-        SettingsUtil.applyCameraHeight();
+      case SETTINGS.enableFloatingDock.tag:
+        CameraUtil.currSettings.enableFloatingDock = value;
+        break;
+      case SETTINGS.dockHeight.tag:
+        CameraUtil.currSettings.dockHeight = value;
+        SettingsUtil.applyCameraHeight(value); 
+        break;
+      case SETTINGS.dockWidth.tag:
+        CameraUtil.currSettings.dockWidth = value;
+        SettingsUtil.applyCameraWidth(value); 
+        break;
+      case SETTINGS.dockPosX.tag:
+        CameraUtil.currSettings.dockPosX = value;
+        SettingsUtil.applyCameraPosX(value); 
+        break;
+      case SETTINGS.dockPosY.tag:
+        CameraUtil.currSettings.dockPosY = value;
+        SettingsUtil.applyCameraPosY(value); 
+        break;
+      case SETTINGS.defaultVideoWidth.tag:
+        CameraUtil.currSettings.defaultVideoWidth = value;
+        CameraUtil.applyVideoWidth(value); 
+        break;
+      case SETTINGS.dockResizeOnUserJoin.tag:
+        CameraUtil.currSettings.dockResizeOnUserJoin = value;
+        CameraUtil.applyDockResize(value); 
         break;
       case SETTINGS.chatBorderColor.tag:
         ChatUtil.chatBorderColor = SettingsUtil.get(SETTINGS.chatBorderColor.tag);
-        LogUtil.log("SettingsUtil.apply",[settingTag]); 
         SettingsUtil.applyBorderColors();
         break;
       case SETTINGS.enableChatStyles.tag:
         ChatUtil.enableChatStyles = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
-        LogUtil.log("SettingsUtil.apply",[settingTag]);
         SettingsUtil.applyChatStyles();
         break;
       case SETTINGS.enforceDarkMode.tag:
@@ -542,38 +566,41 @@ export class SettingsUtil {
    */
   static applyCameraPosX(pos){
     const SETTINGS = getSettings();
-    const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
-    const xPos = pos || cameraSettings.dockPosX; 
+    const cameraSettings = SettingsUtil.get(SETTINGS.dockPosX.tag);
+    const xPos = pos || cameraSettings; 
     CameraUtil.resetPositionAndSize({ x: xPos });
   }
+
   /**
    * Applies vertical position of camera dock
    * @param {number} [pos] - Y position to apply
    */
   static applyCameraPosY(pos){
     const SETTINGS = getSettings();
-    const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
-    const yPos = pos || cameraSettings.dockPosY;
+    const cameraSettings = SettingsUtil.get(SETTINGS.dockPosY.tag);
+    const yPos = pos || cameraSettings;
     CameraUtil.resetPositionAndSize({ y: yPos });
   }
+
   /**
    * Applies width of camera dock
    * @param {number} [value] - Width value to apply
    */
   static applyCameraWidth(value){
     const SETTINGS = getSettings();
-    const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
-    const width = value || cameraSettings.dockWidth;
+    const cameraSettings = SettingsUtil.get(SETTINGS.dockWidth.tag);
+    const width = value || cameraSettings;
     CameraUtil.resetPositionAndSize({ w: width });
   }
+
   /**
    * Applies height of camera dock
    * @param {number} [value] - Height value to apply
    */
   static applyCameraHeight(value){
     const SETTINGS = getSettings();
-    const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
-    const height = value || cameraSettings.dockHeight;
+    const cameraSettings = SettingsUtil.get(SETTINGS.dockHeight.tag);
+    const height = value || cameraSettings;
     CameraUtil.resetPositionAndSize({ h: height });
   }
 
@@ -693,13 +720,16 @@ export class SettingsUtil {
   static applyModuleAdjustments = (value) => {
     const SETTINGS = getSettings();
     const enforceStyles = value || SettingsUtil.get(SETTINGS.adjustOtherModules.tag) || false;
-    // const body = document.querySelector("body");
-
+    
     if(enforceStyles){
       ModuleCompatUtil.addModuleClasses();
     }
   }
 
+  /**
+   * Applies the list of other modules to adjust styles for
+   * @param {string} [value] - Comma-separated list of module names wrapped in single quotes, if not provided uses stored setting
+   */
   static applyOtherModulesList = (value) => {
     const SETTINGS = getSettings();
     const currSetting = value || SettingsUtil.get(SETTINGS.otherModulesList.tag);
@@ -712,7 +742,7 @@ export class SettingsUtil {
     ModuleCompatUtil.addModuleClasses();
   }
 
-  /**
+  /** 
    * Toggles visibility of the main UI interface
    * Affects all elements inside the #interface block, camera views, and taskbar
    */
@@ -733,6 +763,6 @@ export class SettingsUtil {
       if(taskbar) taskbar.style.setProperty('visibility', 'hidden');
       SettingsUtil.#uiHidden = true;
     }
-    
   }
+
 }

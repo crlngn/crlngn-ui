@@ -2,6 +2,9 @@
   <h4><i class="fas fa-user"></i> {{localize "CRLNGN_UI.ui.clientSettingsLabel"}} <span class="toggle-hint">{{localize 'CRLNGN_UI.ui.toggleHints'}}</span></h4>
   <hr/>
 
+  {{!-- Stores flag about dock having been manually resized or not --}}
+  <input type="checkbox" name="dockWasResized" {{#if dockWasResized}}checked{{/if}} hidden />
+
   <div class="form-group">
     <label for="enableFloatingDock">{{fields.enableFloatingDock.label}}</label>
     <input type="checkbox" name="enableFloatingDock" {{#if enableFloatingDock}}checked{{/if}} />
@@ -9,20 +12,38 @@
   </div>
 
   <div class="form-group">
+    <label for="dockResizeOnUserJoin">{{fields.dockResizeOnUserJoin.label}}</label>
+    <select name="dockResizeOnUserJoin" {{#unless enableFloatingDock}}disabled{{/unless}}>
+      {{#each fields.dockResizeOnUserJoin.options}}
+      <option value="{{@key}}" {{#if (eq @key ../dockResizeOnUserJoin)}}selected{{/if}}>
+        {{this}}
+      </option>
+      {{/each}}
+    </select>
+    <p class="hint">{{{fields.dockResizeOnUserJoin.hint}}}</p>
+  </div>
+
+  <div class="form-group">
+    <label for="defaultVideoWidth">{{fields.defaultVideoWidth.label}}</label>
+    <input type="number" name="defaultVideoWidth" value="{{defaultVideoWidth}}" {{#unless enableFloatingDock}}disabled{{/unless}} />
+    <p class="hint">{{fields.defaultVideoWidth.hint}}</p> 
+  </div>
+
+  <div class="form-group">
     <label for="dockPosX">{{fields.dockPosX.label}}</label>
-    <input type="number" name="dockPosX" value="{{dockPosX}}" />
+    <input type="number" name="dockPosX" value="{{dockPosX}}" {{#unless enableFloatingDock}}disabled{{/unless}} />
     
     <label for="dockPosY">{{fields.dockPosY.label}}</label>
-    <input type="number" name="dockPosY" value="{{dockPosY}}" />
+    <input type="number" name="dockPosY" value="{{dockPosY}}" {{#unless enableFloatingDock}}disabled{{/unless}} />
     <p class="hint">{{fields.dockPosY.hint}}</p> 
   </div>
 
   <div class="form-group">
     <label for="dockWidth">{{fields.dockWidth.label}}</label>
-    <input type="number" name="dockWidth" value="{{dockWidth}}" />
+    <input type="number" name="dockWidth" value="{{dockWidth}}" {{#unless enableFloatingDock}}disabled{{/unless}} />
     
     <label for="dockHeight">{{fields.dockHeight.label}}</label>
-    <input type="number" name="dockHeight" value="{{dockHeight}}" />
+    <input type="number" name="dockHeight" value="{{dockHeight}}" {{#unless enableFloatingDock}}disabled{{/unless}} />
     <p class="hint">{{fields.dockHeight.hint}}</p> 
   </div>
 

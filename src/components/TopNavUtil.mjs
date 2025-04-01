@@ -110,16 +110,17 @@ export class TopNavigation {
         }
         if(this.#scenesList) {this.#scenesList.classList.add("no-transition")};
         const scenePage = TopNavigation.navPos;
+        TopNavigation.resetLocalVars();
         TopNavigation.setNavPosition(scenePage);
         TopNavigation.placeNavButtons();
         TopNavigation.addListeners();
-
         TopNavigation.handleNavState();
         
         clearTimeout(TopNavigation.#timeout);
         TopNavigation.#timeout = setTimeout(()=>{
           LogUtil.log("NAV no transition remove");
           if(this.#scenesList) this.#scenesList.classList.remove("no-transition");
+          TopNavigation.placeNavButtons();
         }, 250);
       }
     }); 
@@ -128,7 +129,14 @@ export class TopNavigation {
       LogUtil.log(HOOKS_CORE.COLLAPSE_SIDE_BAR, ["isMonksSceneNavOn", this.#isMonksSceneNavOn]);
       if(!this.#isMonksSceneNavOn){
         TopNavigation.placeNavButtons(); 
+
+        if(value){
+          document.querySelector("body").classList.add("nav-collapsed");
+        }else{
+          document.querySelector("body").classList.remove("nav-collapsed");
+        }
       }
+      
       
     }); 
 
@@ -346,7 +354,7 @@ export class TopNavigation {
       this.#navElem?.appendChild(btnLast);
       this.#navElem?.appendChild(btnNext);
       if(this.#scenesList) this.#scenesList.classList.remove("no-transition");
-    }, 250);
+    }, 100);
   }
 
 

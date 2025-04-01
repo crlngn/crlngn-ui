@@ -180,7 +180,7 @@ export class SceneNavFolders {
       favoritesId: DEFAULT_FOLDER_ID,
       favoritesName: SceneNavFolders.#defaultFolderName,
       folderList: folders.map(f => SceneNavFolders.getFoldersData(f)),
-      viewedSceneId: game.scenes.current.id,
+      viewedSceneId: game.scenes.current?.id,
       users: game.users.contents,
       isGM: game.user?.isGM,
       searchValue: SceneNavFolders.searchValue,
@@ -708,7 +708,7 @@ export class SceneNavFolders {
               iconElem.classList.add('fa-bullseye');
               sc.prepend(iconElem);
             }
-            if(game.scenes.current.id===scene.id){
+            if(game.scenes.current?.id===scene.id){
               iconElem.classList.add('fa-crown');
               sc.prepend(iconElem);
             }
@@ -863,8 +863,8 @@ export class SceneNavFolders {
    */
   static #clickTimer = null;
   static #onSelectScene = (evt) => {
-    evt.preventDefault();
-    evt.stopPropagation();
+    /*evt.preventDefault();
+    evt.stopPropagation();*/
     document.removeEventListener('click', SceneNavFolders.#onOutsideClick);
     const target = evt.currentTarget;
     const data = target.dataset;

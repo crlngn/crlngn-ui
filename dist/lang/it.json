@@ -27,6 +27,10 @@
       }
     },
     "settings": {
+      "hideInterface": {
+        "label": "Nascondi/Mostra Interfaccia",
+        "hint": "Nasconde o mostra l'interfaccia. Ciò influenzerà tutti gli elementi all'interno del blocco html #interface"
+      },
       "customFontsMenu": {
         "label": "Font Personalizzati",
         "title": "Configura Font",
@@ -155,6 +159,23 @@
           "dockHeight": {
             "label": "Altezza del gruppo telecamera",
             "hint": "Dimensioni del dock telecamera non minimizzato quando impostato per fluttuare, in pixel"
+          },
+          "dockResizeOnUserJoin": {
+            "label": "Ridimensiona Dock per Adattare i Video",
+            "hint": "Quando abilitato, il dock verrà ridimensionato quando un utente si unisce. Il ridimensionamento manuale potrebbe essere sovrascritto quando un nuovo utente si unisce.",
+            "options": {
+              "off": "DISATTIVATO: Non ridimensionare automaticamente",
+              "horizontal": "Ridimensiona per adattare orizzontalmente",
+              "vertical": "Ridimensiona per adattare verticalmente"
+            }
+          },
+          "dockWasResized": {
+            "label": "Flag: Il dock è stato ridimensionato manualmente?",
+            "hint": "Questo è un flag che viene impostato su vero quando il dock viene ridimensionato manualmente. Viene utilizzato per determinare se il dock deve essere ridimensionato quando un nuovo utente si unisce."
+          },
+          "defaultVideoWidth": {
+            "label": "Larghezza video predefinita",
+            "hint": "Larghezza di ogni singola telecamera nel dock, in pixel. La larghezza minima è 140px, per consentire spazio per le icone di controllo della telecamera."
           }
         },
         "reset": "Ripristina",

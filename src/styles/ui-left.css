@@ -228,7 +228,6 @@ body.crlngn-ui{
     box-sizing: border-box;
     z-index: 0;
   
-  
     &:hover{
       border: 1px solid transparent;
       background: var(--color-secondary-75);
@@ -278,5 +277,16 @@ body.crlngn-ui{
       padding: 6px 0;
     }
   
+  }
+
+  /* STAR TREK */
+  #interface #ui-left {
+    .scene-control.sta-roller .nested-buttons {
+      left: var(--left-control-item-size);
+      display: none !important;
+    }
+    .scene-control.sta-roller.active .nested-buttons {
+      display: block !important;
+    }
   }
 }

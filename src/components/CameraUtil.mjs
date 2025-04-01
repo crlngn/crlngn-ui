@@ -1,5 +1,5 @@
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
-import { getSettings } from "../constants/Settings.mjs";
+import { DOCK_RESIZE_OPTIONS, getSettings, MIN_AV_WIDTH } from "../constants/Settings.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
@@ -29,6 +29,7 @@ export class CameraUtil {
   static #startHeight = 0;
   /** @type {number} Private starting bottom position for resizing */
   static #startBottom = 0;
+  static currSettings = {};
 
   /**
    * Initializes the camera utility
@@ -36,11 +37,20 @@ export class CameraUtil {
    */
   static init(){
     const SETTINGS = getSettings();
-    const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
+    CameraUtil.currSettings = {
+      enableFloatingDock: SettingsUtil.get(SETTINGS.enableFloatingDock.tag),
+      defaultVideoWidth: SettingsUtil.get(SETTINGS.defaultVideoWidth.tag),
+      dockHeight: SettingsUtil.get(SETTINGS.dockHeight.tag),
+      dockWidth: SettingsUtil.get(SETTINGS.dockWidth.tag),
+      dockPosX: SettingsUtil.get(SETTINGS.dockPosX.tag),
+      dockPosY: SettingsUtil.get(SETTINGS.dockPosY.tag),
+      dockWasResized: SettingsUtil.get(SETTINGS.dockWasResized.tag),
+      dockResizeOnUserJoin: SettingsUtil.get(SETTINGS.dockResizeOnUserJoin.tag),
+    }
 
-    if(cameraSettings.enableFloatingDock){ 
+    if(CameraUtil.currSettings.enableFloatingDock){ 
       Hooks.on(HOOKS_CORE.RENDER_CAMERA_VIEWS, CameraUtil.onRenderFloating);
-      LogUtil.log("CameraUtil", [cameraSettings]);
+      LogUtil.log("CameraUtil settings", [CameraUtil.currSettings]);
       CameraUtil.onRenderFloating();
     }else{ 
       Hooks.on(HOOKS_CORE.RENDER_CAMERA_VIEWS, CameraUtil.onRenderPlain);
@@ -63,7 +73,7 @@ export class CameraUtil {
    */
   static onRenderFloating(){
     const SETTINGS = getSettings();
-    const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
+    const cameraSettings = CameraUtil.currSettings; // SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
 
     document.querySelector('#camera-views')?.classList.add('crlngn-ui');
     CameraUtil.cameraContainer = document.querySelector('#camera-views .camera-container');
@@ -81,6 +91,49 @@ export class CameraUtil {
     CameraUtil.makeResizeable();
     CameraUtil.resetPositionAndSize();
     CameraUtil.placeControlsToggle();
+    CameraUtil.applyDockResize();
+    CameraUtil.applyVideoWidth();
+  }
+
+  static applyDockResize(resizeValue) {
+    const value = resizeValue || CameraUtil.currSettings.dockResizeOnUserJoin;
+    if(value===DOCK_RESIZE_OPTIONS.horizontal.name){
+      document.querySelector('#camera-views')?.classList.add('crlngn-horizontal');
+      document.querySelector('#camera-views')?.classList.remove('crlngn-vertical');
+    }else if(value===DOCK_RESIZE_OPTIONS.vertical.name){
+      document.querySelector('#camera-views')?.classList.add('crlngn-vertical');
+      document.querySelector('#camera-views')?.classList.remove('crlngn-horizontal');
+    }else{
+      document.querySelector('#camera-views')?.classList.remove('crlngn-vertical');
+      document.querySelector('#camera-views')?.classList.remove('crlngn-horizontal');
+    }
+  }
+
+  /**
+     * Applies width of individual videos
+     * @param {number} [value] - Width value to apply
+     */
+  static applyVideoWidth(value){
+    const SETTINGS = getSettings();
+    const cameraSettings = SettingsUtil.get(SETTINGS.defaultVideoWidth.tag);
+    let width = value || cameraSettings;
+    
+    if(width < MIN_AV_WIDTH){
+      width = MIN_AV_WIDTH;
+      SettingsUtil.set(SETTINGS.defaultVideoWidth.tag, width);
+    }else if(!Number.isNaN(width)){
+      CameraUtil.currSettings.defaultVideoWidth = width;
+      // GeneralUtil.addCSSVars('--av-width', width+'px');
+      const minimized = document.querySelector('#camera-views.crlngn-ui.webrtc-dock-minimized');
+      const nonMinimized = document.querySelector('#camera-views.crlngn-ui');
+      if(!minimized && nonMinimized){
+        nonMinimized.style.setProperty('--av-width', width+'px');
+      }else if(nonMinimized){
+        nonMinimized.style.removeProperty('--av-width');
+      }
+      
+      CameraUtil.resizeDock();
+    }
   }
 
   /**
@@ -106,10 +159,14 @@ export class CameraUtil {
 
   /**
    * Makes the camera container draggable
-   * Sets up mouse event listeners for drag functionality
+   * Sets up mouse and touch event listeners for drag functionality
    */
   static makeDraggable(){
+    // Handle mouse events
     CameraUtil.cameraContainer?.addEventListener("mousedown", (e) => {
+      // Only trigger drag on left mouse button (button 0)
+      if (e.button !== 0) return;
+      
       const body = document.querySelector("body.crlngn-ui");
       
       if(e.target.parentNode?.classList.contains('volume-bar')){
@@ -122,11 +179,35 @@ export class CameraUtil {
       CameraUtil.isDragging = true;
       CameraUtil.#offsetX = e.clientX - CameraUtil.cameraContainer?.offsetLeft;
       CameraUtil.#offsetY = (window.innerHeight - e.clientY) - offsetBottom;
-      // CameraUtil.cameraContainer.style.zIndex = "101"; 
 
+      e.preventDefault();
       e.stopPropagation();
-    }); 
+    });
+    
+    // Handle touch events
+    CameraUtil.cameraContainer?.addEventListener("touchstart", (e) => {
+      // Skip if this is a multi-touch gesture (right-click equivalent)
+      if (e.touches.length > 1) return;
+      
+      const body = document.querySelector("body.crlngn-ui");
+      
+      if(e.target.parentNode?.classList.contains('volume-bar')){
+        return;
+      }
+      body?.addEventListener("touchmove", CameraUtil.#onTouchMove);
+      body?.addEventListener("touchend", CameraUtil.#onTouchRelease);
+      body?.addEventListener("touchcancel", CameraUtil.#onTouchRelease);
 
+      const touch = e.touches[0];
+      const offsetBottom = GeneralUtil.getOffsetBottom(CameraUtil.cameraContainer);
+      CameraUtil.isDragging = true;
+      CameraUtil.#offsetX = touch.clientX - CameraUtil.cameraContainer?.offsetLeft;
+      CameraUtil.#offsetY = (window.innerHeight - touch.clientY) - offsetBottom;
+
+      // Prevent scrolling while dragging
+      e.preventDefault();
+      e.stopPropagation();
+    });
   }
 
   /**
@@ -167,19 +248,20 @@ export class CameraUtil {
    */
   static resetPositionAndSize({x, y, w, h} = { x: null, y: null, w: null, h: null }){
     const SETTINGS = getSettings();
-    const cameraSettings = SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
+    const cameraSettings = CameraUtil.currSettings; //SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
 
     if(!cameraSettings.enableFloatingDock || !CameraUtil.cameraContainer){ return }
     if(!x && !y && !w && !h){
       const savedPosX = cameraSettings.dockPosX || 0;
       const savedPosY = cameraSettings.dockPosY || 0;
-      const savedWidth = cameraSettings.dockWidth || 0;
-      const savedHeight = cameraSettings.dockHeight || 0;
-
       CameraUtil.cameraContainer.style.left = `${savedPosX}px`;
       CameraUtil.cameraContainer.style.bottom = `${savedPosY}px`;
-      CameraUtil.cameraContainer.style.width = `${savedWidth}px`;
-      CameraUtil.cameraContainer.style.height = `${savedHeight}px`;
+      if(CameraUtil.currSettings.dockResizeOnUserJoin===DOCK_RESIZE_OPTIONS.off.name){
+        const savedWidth = cameraSettings.dockWidth || 0;
+        const savedHeight = cameraSettings.dockHeight || 0;
+        CameraUtil.cameraContainer.style.width = `${savedWidth}px`;
+        CameraUtil.cameraContainer.style.height = `${savedHeight}px`;
+      }
     }else{
       if(x){
         CameraUtil.cameraContainer.style.left = `${x}px`;
@@ -187,14 +269,23 @@ export class CameraUtil {
       if(y){
         CameraUtil.cameraContainer.style.bottom = `${y}px`;
       }
-      if(w){
-        CameraUtil.cameraContainer.style.width = `${w}px`;
-      }
-      if(h){
-        CameraUtil.cameraContainer.style.height = `${h}px`;
+      if(CameraUtil.currSettings.dockResizeOnUserJoin===DOCK_RESIZE_OPTIONS.horizontal.name){
+        if(w){
+          CameraUtil.cameraContainer.style.width = `${w}px`;
+        }
+        if(h){
+          CameraUtil.cameraContainer.style.height = `${h}px`;
+        }
       }
     }
-    
+  }
+
+  static resizeDock = () => {
+    const SETTINGS = getSettings();
+    const cameraSettings = CameraUtil.currSettings; //SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
+
+    if(!cameraSettings.enableFloatingDock || !CameraUtil.cameraContainer){ return };
+
   }
 
   // when user releases element
@@ -206,7 +297,7 @@ export class CameraUtil {
    */
   static #onDragRelease(e){
     const SETTINGS = getSettings();
-    const cameraSettings = {...SettingsUtil.get(SETTINGS.cameraDockMenu.tag)};
+    const cameraSettings = {...CameraUtil.currSettings};//SettingsUtil.get(SETTINGS.cameraDockMenu.tag)};
 
     if(CameraUtil.isDragging){ 
       const body = document.querySelector("body.crlngn-ui"); 
@@ -214,7 +305,8 @@ export class CameraUtil {
       cameraSettings.dockPosY = parseInt(CameraUtil.cameraContainer?.style.bottom) || 0; 
 
       if(cameraSettings.dockPosY <= 0){ cameraSettings.dockPosY = 0 }
-      SettingsUtil.set(SETTINGS.cameraDockMenu.tag, cameraSettings);
+      SettingsUtil.set(SETTINGS.dockPosX.tag, cameraSettings.dockPosX);
+      SettingsUtil.set(SETTINGS.dockPosY.tag, cameraSettings.dockPosY);
       
       body?.removeEventListener("mousemove", CameraUtil.#onDragMove); 
       body?.removeEventListener("mouseup", CameraUtil.#onDragRelease); 
@@ -223,6 +315,35 @@ export class CameraUtil {
       e.stopPropagation(); 
     }
     
+  }
+  
+  /**
+   * Handles the release of touch drag operation
+   * Saves the final position to settings
+   * @param {TouchEvent} e - Touch event
+   * @private
+   */
+  static #onTouchRelease(e){
+    const SETTINGS = getSettings();
+    const cameraSettings = {...CameraUtil.currSettings};//{...SettingsUtil.get(SETTINGS.cameraDockMenu.tag)};
+
+    if(CameraUtil.isDragging){ 
+      const body = document.querySelector("body.crlngn-ui"); 
+      cameraSettings.dockPosX = parseInt(CameraUtil.cameraContainer?.style.left) || 0; 
+      cameraSettings.dockPosY = parseInt(CameraUtil.cameraContainer?.style.bottom) || 0; 
+
+      if(cameraSettings.dockPosY <= 0){ cameraSettings.dockPosY = 0 }
+      SettingsUtil.set(SETTINGS.dockPosX.tag, cameraSettings.dockPosX);
+      SettingsUtil.set(SETTINGS.dockPosY.tag, cameraSettings.dockPosY);
+      
+      body?.removeEventListener("touchmove", CameraUtil.#onTouchMove); 
+      body?.removeEventListener("touchend", CameraUtil.#onTouchRelease);
+      body?.removeEventListener("touchcancel", CameraUtil.#onTouchRelease);
+  
+      CameraUtil.isDragging = false; 
+      e.preventDefault();
+      e.stopPropagation(); 
+    }
   } 
 
   // when user drags element
@@ -241,7 +362,7 @@ export class CameraUtil {
       let bottom = (window.innerHeight - e.clientY) -  CameraUtil.#offsetY;
 
       if(left + CameraUtil.cameraContainer.offsetWidth > window.innerWidth){  
-        left = window.innerWidth - CameraUtil.cameraContainer.offsetWidt;
+        left = window.innerWidth - CameraUtil.cameraContainer.offsetWidth;
       }
       CameraUtil.cameraContainer.style.left = `${left}px`;
 
@@ -250,7 +371,36 @@ export class CameraUtil {
       } 
       CameraUtil.cameraContainer.style.bottom = `${bottom}px`;
     }
-    // e.stopPropagation(); 
+    e.preventDefault();
+    e.stopPropagation(); 
+  }
+  
+  /**
+   * Handles the touch drag movement of the camera container
+   * Updates position based on touch movement
+   * @param {TouchEvent} e - Touch event
+   * @private
+   */
+  static #onTouchMove(e){ 
+    if (!CameraUtil.isDragging || !e.touches[0]) return; 
+    
+    if(CameraUtil.cameraContainer){
+      const touch = e.touches[0];
+      let left = touch.clientX - CameraUtil.#offsetX;
+      let bottom = (window.innerHeight - touch.clientY) -  CameraUtil.#offsetY;
+
+      if(left + CameraUtil.cameraContainer.offsetWidth > window.innerWidth){  
+        left = window.innerWidth - CameraUtil.cameraContainer.offsetWidth;
+      }
+      CameraUtil.cameraContainer.style.left = `${left}px`;
+
+      if(bottom + CameraUtil.cameraContainer.offsetHeight > window.innerHeight){  
+        bottom = window.innerHeight - CameraUtil.cameraContainer.offsetHeight;
+      } 
+      CameraUtil.cameraContainer.style.bottom = `${bottom}px`;
+    }
+    e.preventDefault();
+    e.stopPropagation(); 
   } 
 
   // when user drags the resize handle
@@ -275,7 +425,7 @@ export class CameraUtil {
   // when user releases the resize handle
   static #onStopResize() {
     const SETTINGS = getSettings();
-    const cameraSettings = {...SettingsUtil.get(SETTINGS.cameraDockMenu.tag)};
+    const cameraSettings = {...CameraUtil.currSettings};//{...SettingsUtil.get(SETTINGS.cameraDockMenu.tag)};
 
     const body = document.querySelector("body.crlngn-ui");
     CameraUtil.isResizing = false;
@@ -288,7 +438,10 @@ export class CameraUtil {
     cameraSettings.dockHeight = parseInt(CameraUtil.cameraContainer?.style.height || 0);
     cameraSettings.dockPosY = parseInt(CameraUtil.cameraContainer?.style.bottom || 0);
 
-    SettingsUtil.set(SETTINGS.cameraDockMenu.tag, cameraSettings);
+    SettingsUtil.set(SETTINGS.dockWidth.tag, cameraSettings.dockWidth);
+    SettingsUtil.set(SETTINGS.dockHeight.tag, cameraSettings.dockHeight);
+    SettingsUtil.set(SETTINGS.dockPosY.tag, cameraSettings.dockPosY);
+    SettingsUtil.set(SETTINGS.dockWasResized.tag, true);
   }
 
 }

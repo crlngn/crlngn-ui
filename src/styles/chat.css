@@ -36,6 +36,7 @@ body.crlngn-chat {
     --checkbox-border-color: var(--color-warm-2);
   }
   .chat-message .message-content:not(.dnd5e2) {
+    font-size: var(--font-size-13);
     p, ul, ol, li, span, a, b, strong {
       font-family: var(--crlngn-font-family);
     }

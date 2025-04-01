@@ -143,11 +143,6 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
   }
 
   /**
-   * Prepare context to be sent to handlebars template
-   * @param {*} options 
-   * @returns 
-   */
-  /**
    * Prepares the context data for the template
    * @protected
    * @param {object} options - Application options

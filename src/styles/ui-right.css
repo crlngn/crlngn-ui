@@ -6,6 +6,8 @@
 body.crlngn-ui{
   --right-control-item-size: 36px;
   --sidebar-tab-height: 48px;
+  --crlngn-sidebar-bottom: 0px;
+
   #interface #ui-right {
     #sidebar .sidebar-tab[data-tab=chat]:not(.active) #chat-log{
       padding: 0;
@@ -50,6 +52,11 @@ body.crlngn-ui{
         > [data-tab] > * {
           font-size: 0.7rem;
         } 
+      }
+
+      &:not(.collapsed) #sidebar-tabs{
+        width: var(--sidebar-width);
+        align-self: flex-end;
       }
     }
   
@@ -229,5 +236,10 @@ body.crlngn-ui{
         }
     }
 
+  }
+
+  /* STAR TREK SYSTEM */
+  &.system-sta #interface #ui-right #sidebar:not(.collapsed) {
+    border-top-left-radius: 35px;
   }
 }

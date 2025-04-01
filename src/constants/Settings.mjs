@@ -40,6 +40,14 @@ export const BACK_BUTTON_OPTIONS = {
   defaultScenes: { name: 'defaultScenes' }
 }
 
+export const DOCK_RESIZE_OPTIONS = {
+  off: { name: 'OFF' },
+  horizontal: { name: 'horizontal' },
+  vertical: { name: 'vertical' }
+}
+
+export const MIN_AV_WIDTH = 140;
+
 export const THEMES = [
   {
     label: 'Carolingian Teal',
@@ -184,44 +192,25 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.hint"),
       propType: Object,
       inputType: SETTING_INPUT.button,
-      fields: {
-        enableFloatingDock: { 
-          tag: "enable-floating-camera-dock", 
-          label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.enableFloatingDock.label"), 
-          hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.enableFloatingDock.hint"), 
-          inputType: SETTING_INPUT.checkbox
-        },
-        dockPosX: {
-          tag: "camera-dock-x",
-          label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockPosX.label"),
-          hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockPosX.hint"),
-          inputType: SETTING_INPUT.number
-        },
-        dockPosY: {
-          tag: "camera-dock-y",
-          label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockPosY.label"),
-          hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockPosY.hint"),
-          inputType: SETTING_INPUT.number
-        },
-        dockWidth: {
-          tag: "camera-dock-width",
-          label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockWidth.label"),
-          hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockWidth.hint"),
-          inputType: SETTING_INPUT.number
-        },
-        dockHeight: {
-          tag: "camera-dock-height",
-          label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockHeight.label"),
-          hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockHeight.hint"),
-          inputType: SETTING_INPUT.number
-        },
-      },
+      fields: [
+        "enableFloatingDock",
+        "dockResizeOnUserJoin",
+        "dockPosX",
+        "dockPosY",
+        "dockWidth",
+        "dockHeight",
+        "defaultVideoWidth",
+        "dockWasResized"
+      ],
       default: {
         enableFloatingDock: true,
+        dockResizeOnUserJoin: DOCK_RESIZE_OPTIONS.horizontal.name,
+        defaultVideoWidth: 160,
         dockPosX: 0,
         dockPosY: 120,
-        dockWidth: 140,
-        dockHeight: 140
+        dockWidth: 160,
+        dockHeight: 140,
+        dockWasResized: false
       },
       scope: SETTING_SCOPE.client,
       config: false, 
@@ -725,7 +714,93 @@ export function getSettings() {
       config: false
     },
 
-    //
+    /* CAMERA DOCK */
+    enableFloatingDock: { 
+      tag: "enable-floating-camera-dock", 
+      label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.enableFloatingDock.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.enableFloatingDock.hint"), 
+      inputType: SETTING_INPUT.checkbox,
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.client,
+      config: false
+    },
+    dockPosX: {
+      tag: "camera-dock-x",
+      label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockPosX.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockPosX.hint"),
+      inputType: SETTING_INPUT.number,
+      propType: Number,
+      default: 0,
+      scope: SETTING_SCOPE.client,
+      config: false
+    },
+    dockPosY: {
+      tag: "camera-dock-y",
+      label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockPosY.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockPosY.hint"),
+      inputType: SETTING_INPUT.number,
+      propType: Number,
+      default: 120,
+      scope: SETTING_SCOPE.client,
+      config: false
+    },
+    dockWidth: {
+      tag: "camera-dock-width",
+      label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockWidth.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockWidth.hint"),
+      inputType: SETTING_INPUT.number,
+      propType: Number,
+      default: 160,
+      scope: SETTING_SCOPE.client,
+      config: false
+    },
+    dockHeight: {
+      tag: "camera-dock-height",
+      label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockHeight.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockHeight.hint"),
+      inputType: SETTING_INPUT.number,
+      propType: Number,
+      default: 145,
+      scope: SETTING_SCOPE.client,
+      config: false
+    },
+    dockWasResized: {
+      tag: "dock-was-resized", 
+      label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockWasResized.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockWasResized.hint"), 
+      inputType: SETTING_INPUT.checkbox,
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false
+    },
+    dockResizeOnUserJoin: {
+      tag: "dock-resize-on-user-join",
+      label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockResizeOnUserJoin.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockResizeOnUserJoin.hint"),
+      inputType: SETTING_INPUT.select, 
+      options: {
+        off: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockResizeOnUserJoin.options.off"), 
+        horizontal: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockResizeOnUserJoin.options.horizontal"), 
+        vertical: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockResizeOnUserJoin.options.vertical")
+      },
+      propType: String,
+      default: DOCK_RESIZE_OPTIONS.off.name,
+      scope: SETTING_SCOPE.client,
+      config: false
+    },
+    defaultVideoWidth: {
+      tag: "default-video-width",
+      label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.defaultVideoWidth.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.defaultVideoWidth.hint"),
+      inputType: SETTING_INPUT.number,
+      propType: Number,
+      default: 160,
+      scope: SETTING_SCOPE.client,
+      config: false
+    },
+    // NEWS UPDATE
     lastUpdateId: {
       tag: 'last-update-id',
       label: game.i18n.localize("CRLNGN_UI.ui.updates.label"),
@@ -734,8 +809,7 @@ export function getSettings() {
       scope: SETTING_SCOPE.world,
       config: false,
       default: ''
-    },
-
+    }
     
   }
 

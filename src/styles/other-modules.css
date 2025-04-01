@@ -223,7 +223,7 @@ body.crlngn-ui{
 
   /* HEALTH ESTIMATE */
   :is(.chat-popout, #chat-log, .chat-log) .chat-message.hm_message {
-    text-shadow: 0 1px 4px rgba(0, 0, 0.75);
+    text-shadow: 0 1px 4px rgba(0, 0, 0.9);
     border-width: 0;
 
     &.hm_messageheal, &.hm_messageheal:before{
@@ -232,6 +232,40 @@ body.crlngn-ui{
 
     &.hm_messagetaken, &.hm_messagetaken:before{
       background: var(--dnd5e-color-failure-background) !important;
+    }
+    .message-content{
+      font-size: var(--font-size-13);
+    }
+    .message-timestamp, .name-stacked .title{
+      color: var(--color-light-2);
+    }
+  }
+
+  /* DND5e Character Monitor*/
+  
+  :is(.chat-popout, #chat-log, .chat-log) .chat-message.dnd5e-cm {
+    --dnd5e-cm-hpPlus: var(--dnd5e-color-success-background);
+    --dnd5e-cm-hpMinus: var(--dnd5e-color-failure-background);
+    --dnd5e-cm-on: var(--dnd5e-color-success-background);
+    --dnd5e-cm-off: var(--dnd5e-color-failure-background);
+    --dnd5e-cm-slots: #773d9a;
+    --dnd5e-cm-feats: #4a57aa;
+    --dnd5e-cm-effects: #9d6329;
+    --dnd5e-cm-currency: #a28d3e;
+    --dnd5e-cm-proficiency: #37908a;
+    --dnd5e-cm-ability: #37908a;
+    --dnd5e-cm-sheetMode: #000000;
+
+    border-width: 0;
+    /*text-align: center;*/
+
+    .message-content div.dnd5e-cm {
+      font-size: var(--font-size-13);
+      text-shadow: 0 1px 4px rgba(0, 0, 0.9);
+      padding: 0.25rem 0.5rem;
+    }
+    .message-timestamp, .name-stacked .title{
+      color: var(--color-light-2);
     }
   }
 
@@ -371,7 +405,7 @@ body.crlngn-ui{
   /* TIDY UI */
   #module-management {
     min-height: 60vh;
-    max-height: calc(100vh - 80px);
+    max-height: calc(100vh - 40px);
   }
 
   /* TIDY 5e 
@@ -427,7 +461,7 @@ body.crlngn-ui{
   }
 
   &.crlngn-crux{
-    --base-font-multiplier: (var(--crux-width) / 250) * var(--crux-font-size-multiplier);
+    /*--base-font-multiplier: (var(--crux-width) / 250) * var(--crux-font-size-multiplier);*/
     /* CRUX */
     &.crux-taskbar-compat .crux__container, 
     &.crux-taskbar-compat .crux__empty-tray{
@@ -441,7 +475,6 @@ body.crlngn-ui{
 
         h1{
           font-family: var(--crlngn-font-titles) !important;
-          /*font-size: calc(var(--font-size-20) * var(--header-multiplier)) !important;*/
           line-height: 1.15;
         }
       }
@@ -455,7 +488,7 @@ body.crlngn-ui{
         border-radius: 0 !important;
         padding-top: 2px !important;
         padding-bottom: 2px !important;
-        font-size: calc(14 * var(--base-font-multiplier)) !important;
+        /*font-size: calc(14 * var(--base-font-multiplier)) !important;*/
 
         &:after {
           content: "Width: " var(--crux-width) " | Ratio: " var(--crux-width-ratio) " | Multiplier: " var(--header-multiplier);
@@ -465,14 +498,14 @@ body.crlngn-ui{
       }
       .crux__skill-header{
         font-family: var(--crlngn-font-titles) !important;
-        font-size: calc(14 * var(--base-font-multiplier)) !important;
+        /*font-size: calc(14 * var(--base-font-multiplier)) !important;*/
       }
 
       .crux__group-header {
         h3, h2 {
           border-bottom: 1px solid rgba(255,255,255,0.15) !important;
           font-family: var(--crlngn-font-titles) !important;
-          font-size: calc(13 * var(--base-font-multiplier)) !important;
+          /*font-size: calc(13 * var(--base-font-multiplier)) !important;*/
           padding-bottom: 0.25em;
 
         }
@@ -483,13 +516,13 @@ body.crlngn-ui{
       }
       .crux__item .item-name h4 {
         font-family: var(--crlngn-font-family) !important;
-        font-size: calc(13 * var(--base-font-multiplier)) !important;
+        /*font-size: calc(13 * var(--base-font-multiplier)) !important;*/
         font-weight: 500 !important;
       }
       .crux__item .item-name h3,
       .crux__group-header h3 {
         font-family: var(--crlngn-font-family) !important;
-        font-size: calc(14 * var(--base-font-multiplier)) !important;
+        /*font-size: calc(14 * var(--base-font-multiplier)) !important;*/
       }
 
       .crux__utility-button,
@@ -497,12 +530,12 @@ body.crlngn-ui{
       .crux__end-turn-button {
         font-family: var(--crlngn-font-family) !important;
         font-weight: 500 !important;
-        font-size: calc(var(--font-size-14) * var(--base-multiplier)) !important;
+        /*font-size: calc(var(--font-size-14) * var(--base-multiplier)) !important;*/
         padding: 4px !important;
         border: none !important;
       }
       .crux__ability{
-        font-size: calc(12 * var(--base-font-multiplier)) !important;
+        /*font-size: calc(12 * var(--base-font-multiplier)) !important;*/
       }
 
       .crux__utility-button,
@@ -512,7 +545,7 @@ body.crlngn-ui{
       }
 
       .crux__initiative i, .crux__end-turn-button i {
-        font-size: calc(14 * var(--base-font-multiplier)) !important;
+        /*font-size: calc(14 * var(--base-font-multiplier)) !important;*/
       }
 
       .crux__actor .group-dots .dot {
@@ -528,7 +561,7 @@ body.crlngn-ui{
       }
 
       a.crux__actor-name {
-        font-size: calc(19 * var(--base-font-multiplier)) !important;
+        /*font-size: calc(19 * var(--base-font-multiplier)) !important;*/
       }
     }
   }
