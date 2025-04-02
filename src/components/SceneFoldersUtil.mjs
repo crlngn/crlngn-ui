@@ -863,13 +863,23 @@ export class SceneNavFolders {
    */
   static #clickTimer = null;
   static #onSelectScene = (evt) => {
-    /*evt.preventDefault();
-    evt.stopPropagation();*/
+    evt.preventDefault();
+    
     document.removeEventListener('click', SceneNavFolders.#onOutsideClick);
     const target = evt.currentTarget;
     const data = target.dataset;
     const scene = game.scenes.get(data.sceneId || data.documentId);
     const isSearchResult = target.parentElement?.classList.contains('search-results');
+    
+    // Temporarily override the sheet.render method to prevent scene configuration
+    if (scene && scene.sheet) {
+      const originalRender = scene.sheet.render;
+      scene.sheet.render = function() { return this; };
+      // Restore the original method after a short delay
+      setTimeout(() => {
+        scene.sheet.render = originalRender;
+      }, 300);
+    }
 
     // Clear any existing timer
     if (SceneNavFolders.#clickTimer) {

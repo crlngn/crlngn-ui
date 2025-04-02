@@ -39,9 +39,10 @@ body.crlngn-ui  {
     background-image: linear-gradient(90deg, var(--color-warm-2) 0%, transparent 100%);
   }
 
+  /*
   .app:not(.monks-scene-navigation) {
     background-color: rgba(0, 0, 0, 0.4);
-  }
+  }*/
 
   .package-configuration .window-content {
     font-size: var(--font-size-13);
@@ -513,4 +514,26 @@ body.crlngn-ui {
     text-shadow: none;
     background: var(--color-highlights-15);
   }
+}
+
+
+/* Forbidden Lands System */
+body.crlngn-ui {
+  --font-header-sc: var(--crlngn-font-titles);
+
+  &.theme-dark{
+    .chat-message .dice-roll {
+      background: transparent;
+      border: 0;
+    }
+    .chat-message .message-content .dice-formula {
+      font-size: var(--font-size-14);
+      text-transform: none;
+      padding: 0.25em 0.1em;
+    }
+    .chat-message .message-content .dice-roll .dice-total {
+      padding: 0.5em 0.1em;
+    }
+  }
+  
 }
