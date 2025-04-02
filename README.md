@@ -12,7 +12,7 @@ I have just created a Discord channel for users of my module to discuss it and s
 - Localization: English and Brazilian Portuguese (me), Chinese by [yyzitai](https://github.com/yyzitai)
 
 ## Carolingian UI
-A sleek and minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12, but also offering many quality of life features to the ui panels. 
+A minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12, but also offering many quality of life features to the ui panels. 
 
 <div style="display: flex; flex-direction: row;">
   <video src="https://github.com/user-attachments/assets/9cc3b4fb-9f9e-45a4-9367-1bc6d255679c" width="100%" height="auto">
@@ -37,7 +37,7 @@ A sleek and minimalist UI overhaul, focusing on saving space on screen and impro
 - **Secondary controls bar** has different styles to make it clearer;
 - **Compact Player List** - can be auto-hidden and opened on hover;
 - **Macro hotbar** with optional resizing and styles;
-- **Floating camera dock** - drag, resize and position it anywhere on screen;
+- **Floating camera dock** - drag and position it anywhere on screen, resize automatically or manually;
 - **Right panel** buttons, sliders and headers have modified dark styles for a more uniform feel;
 - **Settings** allow you to configure macro bar, left controls, camera dock and scene navigation;
 - **Dark style for chat messages** if the selected Foundry theme is Dark (tested on DnD5e 4.x, partial support for other systems); 
