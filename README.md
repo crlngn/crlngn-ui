@@ -37,7 +37,7 @@ A minimalist UI overhaul, focusing on saving space on screen and improving overa
 - **Secondary controls bar** has different styles to make it clearer;
 - **Compact Player List** - can be auto-hidden and opened on hover;
 - **Macro hotbar** with optional resizing and styles;
-- **Floating camera dock** - drag, resize and position it anywhere on screen;
+- **Floating camera dock** - drag and position it anywhere on screen, resize automatically or manually;
 - **Right panel** buttons, sliders and headers have modified dark styles for a more uniform feel;
 - **Settings** allow you to configure macro bar, left controls, camera dock and scene navigation;
 - **Dark style for chat messages** if the selected Foundry theme is Dark (tested on DnD5e 4.x, partial support for other systems); 
