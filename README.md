@@ -12,7 +12,7 @@ I have just created a Discord channel for users of my module to discuss it and s
 - Localization: English and Brazilian Portuguese (me), Chinese by [yyzitai](https://github.com/yyzitai)
 
 ## Carolingian UI
-A sleek and minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12, but also offering many quality of life features to the ui panels. 
+A minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12, but also offering many quality of life features to the ui panels. 
 
 <div style="display: flex; flex-direction: row;">
   <video src="https://github.com/user-attachments/assets/9cc3b4fb-9f9e-45a4-9367-1bc6d255679c" width="100%" height="auto">
