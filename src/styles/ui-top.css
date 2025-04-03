@@ -853,7 +853,7 @@ body.crlngn-ui {
           max-width: max-content;
 
           a.selected{
-            overflow: auto;
+            overflow: hidden;
             width: auto;
             text-overflow: initial;
             max-width: max-content;
