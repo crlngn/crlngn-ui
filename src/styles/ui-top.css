@@ -588,7 +588,7 @@ body.crlngn-ui {
         }*/
 
         &:hover{
-          overflow: auto;
+          overflow: hidden;
           width: auto;
           text-overflow: auto;
         }
