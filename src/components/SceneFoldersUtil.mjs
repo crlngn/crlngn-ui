@@ -23,6 +23,29 @@ export class SceneNavFolders {
   static #folderToggleStates = {};
   static #sortableTimeout;
   static #lastScenesVisited = [];
+  static #currSceneSortMode = "a";
+
+  /**
+   * @private
+   * Updates the current scene sorting mode by checking game.scenes.sortingMode
+   */
+  static #updateSortMode() {
+    try {
+      // sortingMode is either "a" for alphabetical or "m" for manual
+      if (game.scenes && game.scenes.sortingMode !== undefined) {
+        SceneNavFolders.#currSceneSortMode = game.scenes.sortingMode;
+        SceneNavFolders.refreshFolderView();
+        ui.nav.render();
+        return;
+      }
+    } catch (error) {
+      console.error("Error checking scene directory sort mode:", error);
+    }
+    
+    // Fallback to default (alphabetical)
+    SceneNavFolders.#currSceneSortMode = "a";
+    LogUtil.log("updateSortMode fallback", [SceneNavFolders.#currSceneSortMode]);
+  }
 
   static init() {
     if (SceneNavFolders.noFolderView() || !ui.scenes) { return; }
@@ -35,6 +58,10 @@ export class SceneNavFolders {
       SceneNavFolders.preloadTemplate();
       SceneNavFolders.folderListData = SceneNavFolders.getFolders(ui.scenes.folders);
       SceneNavFolders.selectedFolder = SceneNavFolders.selectFolder(DEFAULT_FOLDER_ID);
+      
+      // Get the current sorting mode from the SceneDirectory
+      SceneNavFolders.#updateSortMode();
+      LogUtil.log("getFolders / sortOrder", [SceneNavFolders.#currSceneSortMode]);
     }
   }
 
@@ -54,10 +81,16 @@ export class SceneNavFolders {
     let folders = fromList.filter(f => f.folder === null);
     // Process each top-level folder and its children
     folders.forEach(setFolderOpenState);
-    // alphabetical order
-    folders.sort((a, b) => {
-      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-    });
+    LogUtil.log("getFolders / sortOrder", [SceneNavFolders.#currSceneSortMode]);
+    if(SceneNavFolders.#currSceneSortMode === "a"){
+      // alphabetical sort order
+      folders.sort((a, b) => {
+        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+      });
+    }else{
+      // manual sort order
+      folders.sort((a, b) => a.sort - b.sort);
+    }
 
     return folders;
   }
@@ -198,6 +231,17 @@ export class SceneNavFolders {
     // Add folder-specific data
     if (SceneNavFolders.selectedFolder === DEFAULT_FOLDER_ID) {
       const rootFolders = TopNavigation.navShowRootFolders ? ui.scenes?.folders.filter(f => f.folder===null) || [] : [];
+      
+      if(SceneNavFolders.#currSceneSortMode === "a"){
+        // alphabetical sort order
+        rootFolders.sort((a, b) => {
+          return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+        });
+      }else{
+        // manual sort order
+        rootFolders.sort((a, b) => a.sort - b.sort);
+      }
+
       SceneNavFolders.#templateData = {
         ...baseData,
         currFolder: { name: "", id: DEFAULT_FOLDER_ID },
@@ -256,10 +300,6 @@ export class SceneNavFolders {
     // Set up initial listeners
     SceneNavFolders.activateFolderListeners(SceneNavFolders.#folderElement);
     SceneNavFolders.#addSceneListeners(SceneNavFolders.#customList);
-    // } else {
-    //   // Update existing elements
-    //   SceneNavFolders.#updateFolderView();
-    // }
 
     TopNavigation.resetLocalVars();
   }
@@ -580,12 +620,18 @@ export class SceneNavFolders {
     }
     
     // Filter scenes and folders
-    const filteredScenes = game.scenes.filter(sc => {
+    const filteredScenes = game.scenes?.filter(sc => {
       return sc.name.toLowerCase().includes(searchValue.toLowerCase()) && sc.permission >= 2;
+    }) || [];
+    filteredScenes.sort((a, b) => {
+      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
     });
     
-    const filteredFolders = game.scenes.folders.filter(f => {
+    const filteredFolders = game.scenes?.folders.filter(f => {
       return f.name.toLowerCase().includes(searchValue.toLowerCase());
+    }) || [];
+    filteredFolders.sort((a, b) => {
+      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
     });
     
     // Show the results container
@@ -635,6 +681,13 @@ export class SceneNavFolders {
         SceneNavFolders.#lastScenesVisited.push(sceneId);
         LogUtil.log(HOOKS_CORE.CANVAS_INIT, [SceneNavFolders.#lastScenesVisited]);
       };
+    });
+
+
+    
+    // Add hook for when the scene directory renders to detect sorting mode
+    Hooks.on(HOOKS_CORE.RENDER_SCENE_DIRECTORY, (app, html) => {
+      SceneNavFolders.#updateSortMode();
     });
 
     Hooks.on(HOOKS_CORE.CREATE_FOLDER, (folder) => {

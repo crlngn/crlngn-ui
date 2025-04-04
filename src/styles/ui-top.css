@@ -72,7 +72,7 @@ body.crlngn-ui {
       }*/
 
       #navigation {
-        --nav-width: calc(100% + var(--ui-controls-margin-left, 0px) + var(--max-players-width, 0px) + 10px);
+        --nav-width: calc(100% + var(--ui-controls-margin-left, 0px) + var(--max-players-width, 0px));
         --nav-margin-left: calc((var(--ui-controls-margin-left, 0px) * -1) - var(--max-players-width, 0px));
         position: absolute;
         top: 0;

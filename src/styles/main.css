@@ -10,14 +10,6 @@ body.crlngn-ui  {
   h4, h5, h6 {
     font-family: var(--crlngn-font-family);
   }
-
-  input[type=checkbox]:disabled{
-    opacity: 0.7;
-    filter:saturate(0.25);
-  }
-  input:disabled{
-    --input-text-color: rgba(50,50,50,0.7);
-  }
   
   .sidebar-tab, #players {
     h1, h2, h3, h4, h5, h6 {
@@ -258,26 +250,8 @@ body.crlngn-ui{
     padding: 1px;
   }
   fieldset{
-    border: 1px solid rgba(0,0,0,0.1)
+    /*border: 1px solid rgba(0,0,0,0.1);*/
   }
-  
-  &[inline-roll-styling="true"] a.inline-roll,
-  &[inline-roll-styling="true"] a.content-link {
-    display: inline-block;
-    padding: 1px 8px;
-    background: rgba(0,0,0,0.05);
-    text-decoration: none;
-    border-radius: 8px;
-    color: var(--color-text-dark-1);
-    /*filter: brightness(0);*/
-  }
-  
-  .journal-entry-content a.inline-roll > i,
-  .journal-entry-content a.content-link > i {
-    color: var(--color-text-dark-1);
-    filter: brightness(0);
-  }
-  
   
   #tooltip {
     font-size: var(--font-size-12);
@@ -493,6 +467,31 @@ body.crlngn-ui {
   }
 
   &.theme-dark {
+
+    input[type=checkbox]:disabled{
+      opacity: 0.7;
+      filter:saturate(0.25);
+    }
+    input:disabled{
+      --input-text-color: rgba(50,50,50,0.7);
+    }
+    
+    &[inline-roll-styling="true"] a.inline-roll,
+    &[inline-roll-styling="true"] a.content-link {
+      display: inline-block;
+      padding: 1px 8px;
+      background: rgba(0,0,0,0.05);
+      text-decoration: none;
+      border-radius: 8px;
+      color: var(--color-text-dark-1);
+      /*filter: brightness(0);*/
+    }
+    
+    .journal-entry-content a.inline-roll > i,
+    .journal-entry-content a.content-link > i {
+      color: var(--color-text-dark-1);
+      filter: brightness(0);
+    }
     .standard-form.datalists .dropdown-options, .standard-form textarea  {
       background: var(--color-cool-4);
       color: var(--color-text-light-highlight);
