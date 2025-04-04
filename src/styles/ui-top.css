@@ -134,7 +134,7 @@ body.crlngn-ui {
           background: rgba(0, 0, 0, 0.75);
           width: var(--left-control-item-size);
           flex: 0 0 var(--left-control-item-size);
-          height: var(--top-nav-height,0px);
+          height: calc(var(--top-nav-height, 0) + 1px);
           text-align: center;
           z-index: 100;
           border: 1px solid transparent;
