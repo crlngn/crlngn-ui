@@ -1,5 +1,6 @@
 body.crlngn-ui {
   --max-players-width: 200px;
+  --crlngn-avatar-size: calc(var(--control-item-size) - 12px);
 
   #players {
     gap: 0;
@@ -58,20 +59,18 @@ body.crlngn-ui {
         transition: border-top-right-radius 0.1s ease-out 0s;
       }
     }
-    #performance-stats{
-      visibility: visible;
-    }
 
     &.minimized {
       pointer-events: all;
       #players-active, #players-inactive {
+        width: var(--control-item-size);
         max-width: var(--control-item-size);
-        overflow-x: hidden;
+        overflow: hidden;
       }
       &:hover{
         #players-active, #players-inactive {
+          width: var(--max-players-width, 200px);
           max-width: var(--max-players-width, 200px);
-          overflow-x: visible;
         }
       }
       
@@ -80,6 +79,7 @@ body.crlngn-ui {
         flex-wrap: nowrap;
         flex: 0 0 auto;
         width: auto;
+        overflow: hidden;
       }
 
       .player:before{
@@ -88,38 +88,69 @@ body.crlngn-ui {
       }
 
       #performance-stats{
-        display: none;
-        visibility: hidden;
+        #latency, #fps {
+          display: none;
+        }
       }
       #players-active:hover  #performance-stats{
-        display: flex;
-        visibility: visible;
+        #latency, #fps {
+          display: block;
+        }
+        #players-expand {
+          width: var(--crlngn-avatar-size);
+          flex: 0 0 var(--crlngn-avatar-size);
+          display: inline-flex;
+          align-items: center;
+        }
       }
+      
     }
 
+    .rest-recovery-prompt-rest-button {
+      width: 100%;
+      flex: 1 1 100%;
+      background: var(--color-dark-bg-50);
+      padding: 4px 0;
+      margin: 2px 0;
+      justify-content: flex-start;
+      height: auto;
+      border: 0;
+
+      &:hover, &:focus {
+        border: 0;
+        outline: 0;
+      }
+
+      i {
+        width: var(--crlngn-avatar-size);
+        flex: 0 0 var(--crlngn-avatar-size);
+        height: auto;
+        margin-right: 4px;
+      }
+    }
+    
+
     &.crlngn-avatars{
-      /* if showing player avatar */
-      --avatar-size: calc(var(--control-item-size) - 8px);
 
       #players-active, #players-inactive{
         padding: 6px;
       }
       #performance-stats{
-        padding: 4px 0;
+        padding: 4px;
       }
 
       li {
         border-bottom: 1px solid rgba(255, 255, 255, 0.075);
 
         > img.avatar {
-          width: var(--avatar-size);
-          height: var(--avatar-size);
+          width: var(--crlngn-avatar-size);
+          height: var(--crlngn-avatar-size);
           object-fit: cover;
           overflow: hidden;
           border-bottom: 2px solid var(--player-color);
           border-radius: 0;
           background-color: rgba(255,255,255,0.15);
-          flex: 0 0 var(--avatar-size);
+          flex: 0 0 var(--crlngn-avatar-size);
           padding: 0;
           margin-right: 4px;
           margin-bottom: -1px;
@@ -133,6 +164,26 @@ body.crlngn-ui {
 
       #players-inactive img.avatar{
         filter: saturate(0.2);
+      }
+
+      &.minimized {
+        --crlngn-avatar-size: calc(var(--control-item-size) - 7px);
+        #players-active, #players-inactive{
+          padding: 10px 3px 0 3px;
+        }
+
+        /* Rest Recovery 5e */
+        .rest-recovery-prompt-rest-button {
+          background: transparent;
+          min-width: 180px;
+          width: 100%;
+        }
+
+        &:hover{
+          .rest-recovery-prompt-rest-button {
+            background: var(--color-dark-bg-50);
+          }
+        }
       }
     }
     
