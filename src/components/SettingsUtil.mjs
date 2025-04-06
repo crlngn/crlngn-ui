@@ -244,7 +244,6 @@ export class SettingsUtil {
       case SETTINGS.controlsBottomBuffer.tag:
       case SETTINGS.controlsIconSize.tag:
       case SETTINGS.controlsAutoHide.tag:
-      case SETTINGS.hideFoundryLogo.tag:
         SettingsUtil.applyLeftControlsSettings(settingTag, value);
         break;
       case SETTINGS.enableFloatingDock.tag:
@@ -432,7 +431,6 @@ export class SettingsUtil {
     const SETTINGS = getSettings();
     const navEnabled = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
     const controls = document.querySelector("#ui-left");
-    const logo = document.querySelector("#ui-left #logo");
     const body = document.querySelector('body.crlngn-ui');
     const bodyStyleElem = document.querySelector('#crlngn-ui-vars');
 
@@ -444,27 +442,6 @@ export class SettingsUtil {
           controls.classList.add("auto-hide"); 
         }else{
           controls.classList.remove("auto-hide"); 
-        }
-        break;
-      case SETTINGS.hideFoundryLogo.tag:
-        const bodyStyles = window.getComputedStyle(body);
-        const navHeight = bodyStyles.getPropertyValue('--top-nav-height') || '0px';
-        const topPadding = parseFloat(navHeight) || 0;
-        const hideFoundryLogo = SettingsUtil.get(SETTINGS.hideFoundryLogo.tag);
-        LogUtil.log("applyLeftControlsSettings", [tag, topPadding, navHeight]);
-
-        if(hideFoundryLogo===undefined || hideFoundryLogo===true){
-          logo.classList.remove("visible");
-          GeneralUtil.addCSSVars('--ui-top-padding', `${topPadding}px`);
-          document.querySelector("body").classList.remove('logo-visible');
-        } else {
-          logo.classList.add("visible");
-          if(navEnabled){
-            GeneralUtil.addCSSVars('--ui-top-padding',`${72 + topPadding}px`);
-            document.querySelector("body").classList.add('logo-visible');
-          }else{
-            GeneralUtil.addCSSVars('--ui-top-padding','72px');
-          }
         }
         break;
       case SETTINGS.controlsBottomBuffer.tag:
@@ -501,7 +478,7 @@ export class SettingsUtil {
     LogUtil.log("applyControlIconSize", [size]);
     GeneralUtil.addCSSVars('--icon-font-size', getIconFontSize(iconSize));
     GeneralUtil.addCSSVars('--left-control-item-size', size);
-    SettingsUtil.applyLeftControlsSettings(SETTINGS.hideFoundryLogo.tag);
+    SettingsUtil.applyLeftControlsSettings();
   }
 
   static applyUiScale(value){

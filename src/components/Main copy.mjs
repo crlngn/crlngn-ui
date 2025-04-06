@@ -35,10 +35,9 @@ export class Main {
 
       SettingsUtil.registerSettings();
       const SETTINGS = getSettings();
-      const uiDisabled = SettingsUtil.get(SETTINGS.disableUI.tag);
-      LogUtil.log(HOOKS_CORE.INIT,[uiDisabled]);
-
-      if(uiDisabled){
+      const uiEnabled = SettingsUtil.get(SETTINGS.disableUI.tag);
+      LogUtil.log(HOOKS_CORE.INIT,[uiEnabled]);
+      if(uiEnabled){
         document.querySelector("body").classList.remove(MODULE_ID); 
         document.querySelector("#ui-middle")?.classList.remove(MODULE_ID);
 

@@ -1,0 +1,391 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300..800;1,300..800&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=Quattrocento:wght@400;700&display=swap');
+/*************
+Main Theme
+*************/
+:root {
+  /* crlngn-fonts */
+  --crlngn-font-family: var(--font-body, '"Work Sans", Arial, sans-serif');
+  --crlngn-font-titles: "Roboto Slab", Arial, sans-serif;
+  --crlngn-font-journal-body: "Work Sans", Arial, sans-serif;
+  --crlngn-font-journal-title: "Quattrocento", Arial, sans-serif;
+
+  --color-dark-bg-15: rgba(15, 15, 15, 0.15);
+  --color-dark-bg-25: rgba(15, 15, 15, 0.25);
+  --color-dark-bg-50: rgba(15, 15, 15, 0.5);
+  --color-dark-bg-75: rgba(15, 15, 15, 0.75);
+  --color-dark-bg-85: rgba(15, 15, 15, 0.85);
+  --color-dark-bg-90: rgba(15, 15, 15, 0.9);
+}
+
+/* ---------------------------------------- */
+/*  Colors                                  */
+/* ---------------------------------------- */
+/* THEME - main */ 
+body.crlngn-ui {
+  --color-input-bg: rgba(0,0,0,0.5); 
+  &.theme-dark{
+    --color-button-bg: rgba(90,120,150,0.5);
+    --color-input-border: rgba(90,120,150, 0.5);
+    --color-border-dark-5: rgba(80, 80, 80, 1);
+    --color-sidebar-font: rgba(213, 221, 230, 0.8);
+  }
+
+	--dnd5e-color-beige: rgba(0,0,0,0.2);
+	--color-text-dark: rgba(235,235,235,1);
+	--color-text-dark-op: rgba(235,235,235,0.6);
+	--color-control-bg: rgba(255,255,255,0.35);
+	--dnd5e-border-groove: 1px solid rgba(0,0,0,0.35);
+	--dnd5e-color-parchment: rgb(244, 239, 237);
+
+  --color-border-highlight-alt: rgba(68, 147, 173, 0.9); 
+	--color-border-highlight: rgba(68, 147, 173, 1);
+  --color-shadow-highlight: rgba(90, 120, 150, 0.5); 
+	--color-shadow-primary: rgba(87, 183, 214, 0.8);
+  --color-border-light-primary: rgba(90,120,150, 0.5);
+  --color-border-light-highlight: rgba(68, 147, 173, 1);
+  --color-underline-header: rgba(68, 147, 173, 1);
+  --color-underline-active: rgba(68, 147, 173, 1);
+	--color-text-hyperlink: rgb(87, 172, 201);
+
+  --color-highlights: rgb(68, 147, 173);
+  --color-highlights-15: rgba(68, 147, 173, 0.15);
+  --color-highlights-25: rgba(68, 147, 173, 0.25);
+  --color-highlights-50: rgba(68, 147, 173, 0.5);
+  --color-highlights-75: rgba(68, 147, 173, 0.75);
+  --color-highlights-90: rgba(68, 147, 173, 0.9);
+  --color-scrollbar: rgba(68, 147, 173, 0.7);
+  --color-secondary: rgba(62, 62, 88, 1);
+  --color-secondary-bright: rgba(122, 122, 148, 0.75);
+  --color-secondary-15: rgba(62, 62, 88, 0.15);
+  --color-secondary-25: rgba(62, 62, 88, 0.25);
+  --color-secondary-50: rgba(62, 62, 88, 0.5);
+  --color-secondary-75: rgba(62, 62, 88, 0.75);
+  --color-secondary-90: rgba(62, 62, 88, 0.9);
+  --color-secondary-b-50: rgba(34, 34, 54, 0.5);
+  --color-secondary-b-75: rgba(34, 34, 54, 0.75);
+  --color-secondary-b-90: rgba(34, 34, 54, 0.90);
+  --color-dark-bg-15: rgba(15, 15, 15, 0.15);
+  --color-dark-bg-25: rgba(15, 15, 15, 0.25);
+  --color-dark-bg-50: rgba(15, 15, 15, 0.5);
+  --color-dark-bg-75: rgba(15, 15, 15, 0.75);
+  --color-dark-bg-85: rgba(15, 15, 15, 0.85);
+  --color-dark-bg-90: rgba(15, 15, 15, 0.9);
+  --color-dark-bg: rgba(15, 15, 15, 1); 
+  --color-light-bg-15: rgba(233, 233, 226, 0.15);
+  --color-light-bg-25: rgba(233, 233, 226, 0.25);
+  --color-light-bg-50: rgba(233, 233, 226, 0.50);
+  --color-light-bg-75: rgba(233, 233, 226, 0.75);
+  --color-light-bg-85: rgba(233, 233, 226, 0.85);
+  --color-light-bg-90: rgba(233, 233, 226, 0.9);
+  --color-light-bg: rgba(233, 233, 226, 1);
+  
+  --color-warm-3: rgb(122, 182, 196);
+  --color-warm-2: rgb(111, 169, 187);
+  --color-warm-1: rgb(75, 144, 173);
+  
+  &.theme-dark{
+    --color-warm-1: rgb(122, 182, 196); 
+    --color-warm-2: rgb(94, 158, 178); 
+    --color-warm-3: rgb(68, 119, 141);
+    --color-cool-3: rgb(83, 71, 107);
+    --color-cool-4: rgb(54, 48, 59); 
+    --color-cool-5: rgb(11, 10, 19);   
+    --color-cool-5-0: rgba(11, 10, 19, 0);
+    --color-cool-5-25: rgba(11, 10, 19, 0.25);
+    --color-cool-5-50: rgba(11, 10, 19, 0.5);
+    --color-cool-5-75: rgba(11, 10, 19, 0.75);
+    --color-cool-5-90: rgba(11, 10, 19, 0.9);
+  }
+
+  --color-text-light-1: #f7f4f8; 
+  --color-text-light-2: #e6e6ef;
+  --color-text-light-3: #dcdce8;
+  --color-text-light-4: #bbbbca;  
+  --color-text-light-5: #8e8e9e;
+  --color-text-light-6: #7a7a90;
+  --color-light-1: #f7f4f8; 
+  --color-light-2: #e6e6ef;
+  --color-light-3: #dcdce8;
+  --color-light-4: #bbbbca;  
+  --color-light-5: #8e8e9e;
+  --color-light-6: #7a7a90;  
+  --color-dark-1: #111;
+  --color-dark-2: #222;
+  --color-dark-3: #444;
+  --color-dark-4: #555;
+  --color-dark-5: #666;
+  --color-dark-6: #777;
+  --color-text-light:rgba(200,200,200,1);
+}
+
+body.crlngn-ui{
+  --checkbox-checkmark-color: var(--color-dark-1);
+  --control-active-border-color: var(--color-highlights);
+  --control-active-icon-color: var(--color-light-1);
+  --color-text-light-highlight: var(--color-light-1);
+  --color-text-selection-bg: var(--color-cool-5);
+  --color-text-accent: var(--color-highlights);
+  --color-level-error: #ce0707;
+  --color-level-error-bg: rgba(105, 0, 8, 0.8);
+  --color-level-error-border: #750003;
+  --color-level-info: #59a1f6;
+  --color-level-info-bg: rgba(47, 80, 132, 0.8);
+  --color-level-info-border: #5c87b9;
+  --color-level-success: #26b231;
+  --color-level-success-bg: rgba(26, 107, 34, 0.8);
+  --color-level-success-border: #1b8f23;
+  --color-level-warning: rgb(190, 140, 46);
+  --color-level-warning-bg: rgba(79, 58, 10, 0.8);
+  --color-level-warning-border: #b18404;
+  --color-scrollbar: var(--color-secondary-75);
+  --color-scrollbar-track: transparent;
+  --color-scrollbar-border: var(--color-secondary-90);
+  --color-text-selection: var(--color-text-light);
+  --color-shadow-primary: var(--color-highlights);
+  --toggle-active-bg-color: var(--color-secondary);
+  --toggle-active-border-color: var(--color-secondary);
+  --input-background-color: var(--color-input-bg);
+  --input-background-alt: var(--color-light-bg);
+  --input-border-color: transparent;
+  --input-focus-outline-color: var(--color-cool-3);
+  --button-hover-background-color: var(--color-warm-3);
+  
+  .ui-control {
+    --toggle-bg-color: var(--color-dark-bg-85);
+    --toggle-border-color: transparent;
+    --toggle-active-bg-color: var(--color-secondary-75);
+    --toggle-active-border-color: var(--color-secondary-90);
+    --control-tools-bg-50: var(--color-secondary-b-50);
+  }
+
+  * {
+    /*scrollbar-width: thin;*/
+    scrollbar-color: var(--color-highlights-75) var(--color-scrollbar-track);
+  }
+
+  &.theme-dark{
+    --input-border-color: var(--color-secondary-25);
+    --input-focus-outline-color: var(--color-highlights);
+    --input-background-color: var(--color-input-bg);
+    --input-background-alt: var(--color-cool-5);
+    --input-text-color: var(--color-light-3);
+    --input-placeholder-color: var(--color-light-4);
+    --checkbox-checkmark-color: var(--color-light-1);
+    --color-text-selection-bg: var(--color-cool-5);
+    
+
+    .standard-form, .sidebar-tab{
+      input, 
+      select, 
+      code-mirror {
+        --input-border-color: var(--color-secondary-25);
+        --input-focus-outline-color: var(--color-highlights);
+        /*--input-background-color: var(--color-dark-bg);*/
+        --input-background-color: var(--color-cool-4);
+        --input-background-alt: var(--color-cool-5);
+        --input-text-color: var(--color-light-3);
+        --input-placeholder-color: var(--color-light-4);
+      }
+
+      button{
+        --button-hover-background-color: var(--color-warm-3);
+      }
+    }
+  
+  }
+  
+}
+
+body.crlngn-ui {
+  --font-body: var(--crlngn-font-family); 
+  --font-sans: var(--crlngn-font-family); 
+  --font-blockquote: var(--crlngn-font-journal-body);
+  --font-size-17: 1.075rem;
+  --font-size-26: 1.65rem;
+  --font-size-42: 2.8rem;
+  --font-h1: var(--crlngn-font-titles);
+  --font-h2: var(--crlngn-font-titles);
+  --font-h3: var(--crlngn-font-titles);
+  --font-h4: var(--crlngn-font-titles);
+  --font-h5: var(--crlngn-font-family);
+  --font-h6: var(--crlngn-font-family);
+  --font-h1-size: var(--font-size-42);
+  --font-h2-size: var(--font-size-32);
+  --font-h3-size: var(--font-size-28);
+  --font-h4-size: var(--font-size-18);
+  --font-h5-size: var(--font-size-16);
+  --font-h6-size: var(--font-size-14);
+  --dnd5e-font-roboto-slab: var(--crlngn-font-titles);
+  --dnd5e-font-roboto: var(--crlngn-font-family);
+  --dnd5e-font-modesto: var(--crlngn-font-journal-title);
+}
+
+/* FONT CONFIG */
+body.crlngn-ui {
+  --controls-bottom-buffer: 200px;
+  /* crlngn fonts */
+  --crlngn-font-family: var(--font-body);
+  --crlngn-font-titles: var(--dnd5e-font-modesto, var(--crlngn-font-family));
+  --crlngn-font-journal-body: var(--dnd5e-font-roboto-condensed, var(--crlngn-font-family));
+  --crlngn-font-journal-title: var(--dnd5e-font-roboto-slab, var(--crlngn-font-family));
+
+  /* other fonts */
+  --font-blockquote: var(--crlngn-font-family);
+	--dnd5e-font-roboto-slab: var(--crlngn-font-titles);
+  --dnd5e-font-roboto-condensed: var(--crlngn-font-journal-body);
+  --font-primary: var(--crlngn-font-family);
+	--mej-font-family: var(--crlngn-font-family);
+
+  --font-h1: var(--crlngn-font-titles);
+  --font-h2: var(--crlngn-font-titles);
+  --font-h3: var(--crlngn-font-titles);
+  --font-h4: var(--crlngn-font-family);
+  --font-h5: var(--crlngn-font-family);
+  --font-h6: var(--crlngn-font-family);
+}
+
+
+/* THEME - GOLD */ 
+body.crlngn-ui.crlngn-theme-gold-chocolate {
+  --color-highlights: rgb(164, 138, 51);
+  --color-highlights-15: rgba(164, 138, 51, 0.15);
+  --color-highlights-25: rgba(164, 138, 51, 0.25);
+  --color-highlights-50: rgba(164, 138, 51, 0.5);
+  --color-highlights-75: rgba(164, 138, 51, 0.75);
+  --color-highlights-90: rgba(164, 138, 51, 0.9);
+  --color-scrollbar: rgba(164, 138, 51, 0.7);
+  --color-border-highlight-alt: rgba(164, 138, 51, 0.9); 
+	--color-border-highlight: rgba(164, 138, 51, 1);
+  --color-shadow-highlight: rgba(164, 138, 51, 0.5); 
+	--color-shadow-primary: rgba(142, 121, 54, 0.8);
+  --color-border-light-primary: rgba(142, 121, 54, 0.5);
+  --color-border-light-highlight: rgba(164, 138, 51, 1);
+  --color-underline-header: rgba(164, 138, 51, 1);
+  --color-underline-active: rgba(164, 138, 51, 1);
+	--color-text-hyperlink: rgb(172, 141, 40);
+
+  --color-secondary: rgb(34, 25, 25);
+  --color-secondary-bright: rgba(125, 109, 109, 0.75);
+  --color-secondary-15: rgba(34, 25, 25, 0.15);
+  --color-secondary-25: rgba(34, 25, 25, 0.25);
+  --color-secondary-50: rgba(34, 25, 25, 0.5);
+  --color-secondary-75: rgba(34, 25, 25, 0.75);
+  --color-secondary-90: rgba(34, 25, 25, 0.9);
+  --color-secondary-b-50: rgba(34, 34, 54, 0.5);
+  --color-secondary-b-75: rgba(34, 34, 54, 0.75);
+  --color-secondary-b-90: rgba(34, 34, 54, 0.90);
+  
+  --color-warm-1: rgb(213, 190, 116);
+  --color-warm-2: rgb(192, 165, 77);
+  --color-warm-3: rgb(184, 153, 54);
+
+}
+
+/* THEME - ROYAL BLOOD */ 
+body.crlngn-ui.crlngn-theme-royal-blood {
+  --color-highlights: rgb(152, 33, 37);
+  --color-highlights-15: rgba(152, 33, 37, 0.15);
+  --color-highlights-25: rgba(152, 33, 37, 0.25);
+  --color-highlights-50: rgba(152, 33, 37, 0.5);
+  --color-highlights-75: rgba(152, 33, 37, 0.75);
+  --color-highlights-90: rgba(152, 33, 37, 0.9);
+  --color-scrollbar: rgba(152, 33, 37, 0.7);
+  --color-border-highlight-alt: rgba(152, 33, 37, 0.9); 
+	--color-border-highlight: rgba(152, 33, 37, 1);
+  --color-shadow-highlight: rgba(152, 33, 37, 0.5); 
+	--color-shadow-primary: rgba(95, 22, 27, 0.8);
+  --color-border-light-primary: rgba(95, 22, 27, 0.5);
+  --color-border-light-highlight: rgba(152, 33, 37, 1);
+  --color-underline-header: rgba(152, 33, 37, 1);
+  --color-underline-active: rgba(152, 33, 37, 1);
+	--color-text-hyperlink: rgb(186, 62, 62);
+
+  --color-secondary: rgb(40, 31, 49);
+  --color-secondary-bright: rgba(123, 111, 133, 0.75);
+  --color-secondary-15: rgba(40, 31, 49, 0.15);
+  --color-secondary-25: rgba(40, 31, 49, 0.25);
+  --color-secondary-50: rgba(40, 31, 49, 0.5);
+  --color-secondary-75: rgba(40, 31, 49, 0.75);
+  --color-secondary-90: rgba(40, 31, 49, 0.9);
+  --color-secondary-b-25: rgba(20, 17, 25, 0.5);
+  --color-secondary-b-50: rgba(20, 17, 25, 0.5);
+  --color-secondary-b-75: rgba(20, 17, 25, 0.75);
+  --color-secondary-b-90: rgba(20, 17, 25, 0.9);
+  
+  --color-warm-1: rgb(177, 51, 55);
+  --color-warm-2: rgb(152, 33, 37);
+  --color-warm-3: rgb(95, 22, 27);
+}
+
+/* THEME - DARK SORCERY */
+body.crlngn-ui.crlngn-theme-dark-sorcery {
+  --color-highlights: rgb(139, 98, 196);
+  --color-highlights-15: rgba(139, 98, 196, 0.15);
+  --color-highlights-25: rgba(139, 98, 196, 0.25);
+  --color-highlights-50: rgba(139, 98, 196, 0.5);
+  --color-highlights-75: rgba(139, 98, 196, 0.75);
+  --color-highlights-90: rgba(139, 98, 196, 0.9);
+  --color-scrollbar: rgba(139, 98, 196, 0.7);
+  --color-border-highlight-alt: rgba(139, 98, 196, 0.9); 
+	--color-border-highlight: rgba(139, 98, 196, 1);
+  --color-shadow-highlight: rgba(139, 98, 196, 0.5); 
+	--color-shadow-primary: rgba(139, 98, 196, 0.8);
+  --color-border-light-primary: rgba(139, 98, 196, 0.5);
+  --color-border-light-highlight: rgba(139, 98, 196, 1);
+  --color-underline-header: rgba(139, 98, 196, 1);
+  --color-underline-active: rgba(139, 98, 196, 1);
+	--color-text-hyperlink: rgb(151, 107, 190);
+
+  --color-secondary: rgb(31, 47, 49);
+  --color-secondary-bright: rgba(97, 121, 123, 0.75);
+  --color-secondary-15: rgba(31, 47, 49, 0.15);
+  --color-secondary-25: rgba(31, 47, 49, 0.25);
+  --color-secondary-50: rgba(31, 47, 49, 0.5);
+  --color-secondary-75: rgba(31, 47, 49, 0.75);
+  --color-secondary-90: rgba(31, 47, 49, 0.9);
+  --color-secondary-b-50: rgba(14, 34, 36, 0.5);
+  --color-secondary-b-75: rgba(14, 34, 36, 0.75);
+  --color-secondary-b-90: rgba(14, 34, 36, 0.9);
+  
+  --color-warm-1: rgb(159, 128, 189);
+  --color-warm-2: rgb(139, 98, 196);
+  --color-warm-3: rgb(97, 53, 135);
+
+}
+
+/* THEME - tangerine */ 
+body.crlngn-ui.crlngn-theme-tangerine {
+  --color-highlights: rgb(220, 120, 43);
+  --color-highlights-15: rgba(220, 120, 43, 0.15);
+  --color-highlights-25: rgba(220, 120, 43, 0.25);
+  --color-highlights-50: rgba(220, 120, 43, 0.5);
+  --color-highlights-75: rgba(220, 120, 43, 0.75);
+  --color-highlights-90: rgba(220, 120, 43, 0.9);
+  --color-scrollbar: rgba(220, 120, 43, 0.7);
+  --color-border-highlight-alt: rgba(173, 112, 66, 0.9); 
+	--color-border-highlight: rgba(220, 120, 43, 1);
+  --color-shadow-highlight: rgba(173, 112, 66, 0.5); 
+	--color-shadow-primary: rgba(220, 120, 43, 0.8);
+  --color-border-light-primary: rgba(220, 120, 43, 0.5);
+  --color-border-light-highlight: rgba(220, 120, 43, 1);
+  --color-underline-header: rgba(220, 120, 43, 1);
+  --color-underline-active: rgba(220, 120, 43, 1);
+	--color-text-hyperlink: rgb(220, 120, 43);
+
+  --color-secondary: rgb(40, 31, 49);
+  --color-secondary-bright: rgba(126, 113, 138, 0.75);
+  --color-secondary-15: rgba(40, 31, 49, 0.15);
+  --color-secondary-25: rgba(40, 31, 49, 0.25);
+  --color-secondary-50: rgba(40, 31, 49, 0.5);
+  --color-secondary-75: rgba(40, 31, 49, 0.75);
+  --color-secondary-90: rgba(40, 31, 49, 0.9);
+  --color-secondary-b-50: rgba(20, 17, 25, 0.5);
+  --color-secondary-b-75: rgba(20, 17, 25, 0.75);
+  --color-secondary-b-90: rgba(20, 17, 25, 0.9);
+  
+  --color-warm-1: rgb(221, 155, 104);
+  --color-warm-2: rgb(220, 120, 43);
+  --color-warm-3: rgb(161, 86, 29);
+
+}

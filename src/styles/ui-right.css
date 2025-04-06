@@ -4,135 +4,57 @@
 }*/
 
 body.crlngn-ui{
-  --right-control-item-size: 36px;
   --sidebar-tab-height: 48px;
   --crlngn-sidebar-bottom: 0px;
 
-  #interface #ui-right {
-    #sidebar .sidebar-tab[data-tab=chat]:not(.active) #chat-log{
-      padding: 0;
-    }
-    #sidebar{
-      margin: 0; 
-      border-radius: 0; 
-      border: 0; 
-      /*var(--crlngn-taskbar-height, 0px);*/
-      height: calc(100% - var(--crlngn-sidebar-bottom, 0px)); 
-      padding-bottom: 10px; 
-  
-      &.collapsed{
-        width: var(--right-control-item-size);
-        min-width: var(--right-control-item-size);
-        height: auto;
-        /*transition: height 0s;*/
-  
-        > nav > .item{
-          order: 1;
-        }
-        > nav > .collapse{
-          order: 0;
-        }
-      }
-  
-      #sidebar-tabs{ 
-        margin: 2px 0 0 0;
-        --sidebar-tab-height: 36px;
-  
-        > .item{
-          border-radius: 0;
-          height: var(--right-control-item-size);
-          width: 100%;
-          flex: 1 1 100%;
-          opacity: 0.7;
-        }
-        > .item.active{
-          opacity: 1;
-        }
-  
-        > [data-tab] > * {
-          font-size: 0.7rem;
-        } 
-      }
 
-      &:not(.collapsed) #sidebar-tabs{
-        width: var(--sidebar-width);
-        align-self: flex-end;
+  #sidebar-tabs {
+    padding: 0;
+
+    > menu {
+      gap: 0;
+
+      li:last-child button {
+        border-bottom-left-radius: var(--crlngn-border-radius);
       }
     }
-  
-    aside#players{
-      margin-top: auto;
+
+    .ui-control{
+      &[aria-pressed=true]{
+        border: 1px solid var(--color-highlights);
+      }
     }
   }
+  .sidebar-tab:not(.sidebar-popout) {
+    border-radius: 0;
+  }
 
-  #ui-right .sidebar-tab,
-  .sidebar-popout {
-    line-height: 1.5;
-    font-size: var(--font-size-13);
-
-    #chat-controls {
-      align-items: center;
-      padding: 0.25em 0;
-
-      label {
-        min-width: 24px;
-        text-align: center;
-      }
-      i{
-        font-size: var(--font-size-16);
-        margin: 0;
-      }
-    }
-    .playlist-sounds li h4 {
-      font-weight: 500;
-    }
-
-    .dnd5e2.sidebar-heading{
-      display: flex;
-      flex-wrap: wrap;
-    }
-    > ul, 
-    > div:not(.sidebar-heading) > h2, 
-    > div > ul:not(.links){
-      padding: 4px 14px;
-    }
-
-    h2 {
-      border: 0;
-      color: #fff;
-      font-size: var(--font-size-12);
-      text-transform: uppercase;
-      font-weight: 500;
-      margin: 14px 0 6px;
-    }
-
-    #chat-form textarea {
-      margin: 4px 0;
-    }
-
-    button#chat-form--send {
-      display: none;
-    }
-
-
-    button:not(.dice-tray button, .chat-message button, .dice-tray-container button) {
-      padding: 6px; 
+  .sidebar-tab .header-actions,
+  .sidebar-tab .settings,
+  .sidebar-tab .documentation,
+  .sidebar-tab .access {
+    button:not(.dice-tray button, .chat-message button, .dice-tray-container button),
+    a.button {
+      padding: 6px 4px; 
       border-radius: 0; 
-      background: rgba(0,0,0,0.15); 
-      border: 1px solid rgba(0,0,0,0.5); 
+      /*background: var(--color-dark-bg-15); */
+      border: 1px solid var(--color-secondary-75);
       display: flex; 
       flex-direction: row; 
       align-items: center; 
       justify-content: center; 
       color: #dcdcdc; 
       font-weight: 500; 
-      box-shadow: 0 0 10px inset rgb(0, 0, 0, 0.3); 
+      box-shadow: 0 0 10px inset rgb(0, 0, 0, 0.35); 
       transition: all ease-in-out 0.25s; 
       position: relative; 
-      min-height: 34px;
+      min-height: calc(var(--input-height) * 1.2);
       font-size: var(--font-size-13); 
       font-weight: 600; 
-      margin: 2px 0;
+      margin: 0;    
+      min-width: max-content;
+      width: auto;
+      flex: 1 1 auto;
 
       &:hover{
         color: #fff; 
@@ -141,10 +63,10 @@ body.crlngn-ui{
         border: 1px solid var(--color-highlights-50); 
       }
 
-      &:active{
+      &[aria-pressed="true"]{
         color: #fff;
         box-shadow: 0 0 8px inset rgb(0, 0, 0, 0.25);
-        background: var(--color-highlights-25); 
+        border: 1px solid var(--color-highlights-50); 
       }
 
       > i {
@@ -152,94 +74,72 @@ body.crlngn-ui{
         margin: 0 5px 0 0;
       }
     }
-
-    .directory-header {
-      margin: 5px;
-    }
-
-    li.folder > .folder-header h3 {
-      font-size: var(--font-size-14);
-      font-weight: 600;
-
-      a{
-        background: rgba(0, 0, 0, .6);
-        padding: 4px 10px;
-        border-radius: 4px;
-        border: 1px solid #000;
-
-        > i {
-          font-size: var(--font-size-10);
-          margin: 0 5px 0 0;
-        }
-      }
-    }
-
-    li.directory {
-      .compendium-footer .source {
-        font-size: var(--font-size-10);
-        opacity: 0.5;
-      }
-    }
-
-    li.directory-item.scene{
-      position: relative;
-      .icon{
-        position: absolute;
-        font-size: var(--font-size-10);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 18px;
-        height: 18px;
-        padding: 5px;
-        top: 0px;
-        left: 0px;
-        border-bottom-right-radius: 3px;
-        background-color: var(--color-dark-bg-75);
-      }
-    }
-
-    li.directory-item.compendium h3,
-    li.directory-item h3.document-name {
-      font-size: var(--font-size-13);
-      font-weight: 600;
-      line-height: 1.35;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      &.compendium-name, a {
-        background: rgba(0, 0, 0, .35);
-        padding: 3px 10px;
-        border-radius: 4px;
-        border: none;
-        display: inline-flex;
-        white-space: normal;
-        max-width: 80%;
-        line-height: 1.5;
-        height: auto;
-        align-items: center;
-
-        > i {
-          font-size: var(--font-size-10);
-          margin: 0 5px 0 0;
-        }
-      }
-    }
-
-    .dnd5e2.sidebar-heading ul.links{
-        margin: 10px 0 0 0;
-
-        a{
-          text-decoration: none;
-          font-weight: 500;
-        }
-    }
-
   }
 
-  /* STAR TREK SYSTEM */
-  &.system-sta #interface #ui-right #sidebar:not(.collapsed) {
-    border-top-left-radius: 35px;
+  .sidebar-tab .settings,
+  .sidebar-tab .documentation,
+  .sidebar-tab .access,
+  .sidebar-info {
+    gap: 3px;
+
+    h4{
+      font-size: var(--font-size-18);
+      font-weight: 600;
+      font-family: var(--crlngn-font-titles);
+      margin-bottom: 6px;
+      letter-spacing: 0.02em;
+      color: var(--color-text-secondary);
+    }
   }
+
+  .settings-sidebar .info .title {
+    font-size: var(--font-size-20);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  #ui-right-column-1 {
+    padding: 0;
+  }
+
+  #chat-notifications #chat-message {
+    margin: 0;
+    border-bottom-color: transparent;
+    border-radius: var(--crlngn-border-radius);
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+
+    &:hover, &:focus {
+      border-bottom-color: transparent;
+    }
+  }
+
+  .themed.theme-dark .combat-tracker {
+    --active-input-bg-color: var(--color-cool-5);
+    --entry-hover-bg: var(--color-secondary-75);
+    --entry-active-bg: var(--color-secondary-90);
+    --token-effect-filter: none;
+  }
+
+  .compendium {
+
+    .compendium-banner {
+      filter: saturate(0.2);
+      opacity: 0.3;
+    }
+
+    &:hover {
+      .compendium-banner {
+        filter: saturate(1);
+        opacity: 1;
+      }
+    }
+    
+    .compendium-name{
+      font-weight: 600;
+      font-size: 0.9em;
+    }
+    
+  }
+
 }

@@ -1,22 +1,73 @@
 body.crlngn-ui{
   #interface {
 
-    &.scale-regular{
-      --font-size-10: 0.7rem;
-      --font-size-11: 0.735rem;
-      --font-size-12: 0.8rem;
-      --font-size-13: 0.865rem;
-      --font-size-14: 0.925rem;
-      --font-size-15: 0.94rem;
-    }
+    #hotbar{
+      --hotbar-size: 60px;
+      margin: 0;
 
-    &.scale-large{
-      --font-size-10: 0.735rem;
-      --font-size-11: 0.79rem;
-      --font-size-12: 0.87rem;
-      --font-size-13: 0.89rem;
-      --font-size-14: 0.95rem;
-      --font-size-15: 0.975rem;
+      &.sm, &.md.offset {
+        height: calc(var(--hotbar-size)* 2);
+      }
+
+      button { 
+        border: 1px solid transparent;
+        &:hover, &:focus {
+          border: 1px solid transparent;
+        }
+
+        &.hotbar-page-control{
+          transform:scaleY(0.65);
+        }
+      }
+
+      #action-bar {
+        gap: 0px;
+
+        .slot {
+          border-radius: 0;
+          border: 1px solid rgba(0, 0, 0, 0.25);
+          margin: 0 -1px -1px 0;
+          background-color: var(--color-dark-bg-90);
+          overflow: hidden;
+          z-index: 0;
+
+          &:hover, &:focus{
+            border: 1px solid var(--color-highlights);
+            z-index: 10;
+          }
+
+          .key {
+            border-radius: 0 0 8px 0;
+          }
+        }
+      }
+
+      &.md #action-bar {
+        .slot:nth-child(1) {
+          border-top-left-radius: var(--crlngn-border-radius);
+        }
+        .slot:nth-child(5) {
+          border-top-right-radius: 0;
+        }
+        .slot:nth-child(10) {
+          border-top-right-radius: var(--crlngn-border-radius);
+        }
+      }
+
+      &.sm #action-bar, &.md.offset #action-bar {
+        .slot:nth-child(1) {
+          border-top-left-radius: var(--crlngn-border-radius);
+        }
+        .slot:nth-child(5) {
+          border-top-right-radius: var(--crlngn-border-radius);
+        }
+        .slot:nth-child(10) {
+          border-top-right-radius: 0;
+        }
+      }
+
+      
+      
     }
 
     #ui-middle {

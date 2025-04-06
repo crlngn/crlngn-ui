@@ -126,10 +126,6 @@
           "autoHideSecondary": {
             "label": "自动隐藏次要控件",
             "hint": "启用后，左侧的次要控制栏将保持隐藏，直到您将鼠标悬停在该区域或单击某个项目。"
-          },
-          "hideFoundryLogo": {
-            "label": "隐藏 Foundry 徽标",
-            "hint": "启用此选项以隐藏左上角的 Foundry 徽标"
           }
         },
         "reset": "重置",

@@ -127,10 +127,6 @@
           "autoHideSecondary": {
             "label": "Auto hide secondary controls",
             "hint": "Enable to keep the secondary bar on the left controls hidden until you hover on the region or click on an item."
-          },
-          "hideFoundryLogo": {
-            "label": "Hide Foundry Logo",
-            "hint": "Keep this enabled to hide the Foundry Logo on the top left"
           }
         },
         "reset": "Reset",

@@ -126,10 +126,6 @@
           "autoHideSecondary": {
             "label": "Nascondi automaticamente i controlli secondari",
             "hint": "Abilita per mantenere la barra secondaria sui controlli a sinistra nascosta finché non passi con il mouse sulla regione o fai clic su un elemento."
-          },
-          "hideFoundryLogo": {
-            "label": "Nascondi Logo Foundry",
-            "hint": "Mantieni abilitato per nascondere il Logo Foundry in alto a sinistra"
           }
         },
         "reset": "Ripristina",

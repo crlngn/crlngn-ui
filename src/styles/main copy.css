@@ -1,17 +1,8 @@
 body.crlngn-ui  {
   -webkit-font-smoothing: antialiased;
-  font-family: var(--crlngn-font-family);
-  font-weight: 400;
-  /* vars */
-  --control-item-size: 38px; /* size of control icon buttons */
-  --crlngn-border-radius: calc(var(--control-item-size) / 6);
-}
 
-/* HEADINGS */
-body.crlngn-ui  {
   h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
-    border-bottom: 0;
   }
   h1, h2, h3 {
     font-family: var(--crlngn-font-titles);
@@ -20,75 +11,53 @@ body.crlngn-ui  {
     font-family: var(--crlngn-font-family);
   }
   
-  .sidebar-tab {
+  .sidebar-tab, #players {
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      font-family: var(--crlngn-font-family);
+    }
     h4.dice-total{
       font-weight: 600;
     }
   }
-}
-
-/*************/
-/* JOURNALS */
-body.crlngn-ui  {
-  .sheet.journal-entry .journal-entry-page p {
-    /*font-size: var(--font-size-14);*/
-  }
-  .sheet.journal-entry {
-    h1, h2, h3 {
-      font-family: var(--dnd5e-font-modesto);
-    }
-    h4, h5, h6 {
-      font-family: var(--dnd5e-font-roboto-slab);
-    }
-  }
-}
-
-/******************
-* FORMS & FIELDS
-*******************/  
-body.crlngn-ui{
   
-  .header-actions button,
-  .dialog-buttons button,
-  .combat-controls button, 
-  .standard-form button {
-    height: auto;
-    min-height: var(--input-height);
-    padding: 6px;
-    line-height: 125%;
-    border: 1px solid var(--color-secondary-bright-50);
-    background: var(--color-secondary-b-50);
-    
-    &.default {
-      border: 1px solid var(--color-highlights);
-    }
-    &:hover, &:focus {
-      border: 1px solid var(--color-warm-3);
-      background: var(--color-highlights-50);
-    }
-
-    i {
-      font-size: var(--font-size-11);
-      margin-right: 3px;
-    }
+  #tooltip {
+    font-family: var(--crlngn-font-family);
+    box-shadow: 0 1px 6px rgba(40,40,65,0.7);
   }
 
-  .header-actions {
-    padding-inline: 0px;
-    gap: 4px;
+  .application hr {
+    background-image: linear-gradient(90deg, var(--color-warm-2) 0%, transparent 100%);
+  }
+
+  /*
+  .app:not(.monks-scene-navigation) {
+    background-color: rgba(0, 0, 0, 0.4);
+  }*/
+
+  .package-configuration .window-content {
+    font-size: var(--font-size-13);
+  }
+
+
+
+  /*****
+  * JOURNAL */
+  .sheet.journal-entry .journal-entry-page p {
+    font-size: var(--font-size-14);
+  }
+  /******************
+  * BUTTONS
+  ******************/
+  .dialog-buttons button,
+  .standard-form {
     button {
-      min-height: calc(var(--input-height) * 1.2);
-      padding: 6px 4px;
-      border: 1px solid var(--color-secondary-b-75);
-      i {
-        display: none;
+      border: 1px solid var(--color-dark-1);
+      &.default {
+        border: 2px solid var(--color-shadow-primary);
       }
     }
-  } 
-
-
-  /* SELECT */
-  .standard-form {
     .multiple-select {
       list-style-type: none;
       display: block;
@@ -109,6 +78,10 @@ body.crlngn-ui{
       }
     }
   }
+
+  /******************
+  * INPUT AND RANGE
+  *******************/
   span.selected-theme{
     position: absolute;
     display: inline-flex;
@@ -170,17 +143,34 @@ body.crlngn-ui{
     box-shadow: none;
     background: var(--color-input-bg);
   }
-  .sidebar-tab search {
-    input, select, textarea {
-      background: var(--color-light-bg-25);
-      font-family: var(--crlngn-font-family);
+
+  .sidebar-tab .header-search input,
+  .sidebar-tab select, 
+  .sidebar-tab textarea,
+  .sidebar-tab .chat-message.message.flexcol select,
+  #chat-controls .roll-type-select,
+  #chat-form textarea
+   {
+    font-family: var(--crlngn-font-family);
+    background: var(--color-input-bg);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    color: var(--color-text-light-highlight);
+
+    &::selection{
+      background: var(--color-cool-4);
     }
-    input[type=text], input[type=search]{
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      font-size: 0.9em;
-    }
+  }
+
+  .sidebar-tab select option, 
+  #chat-controls .roll-type-select option,
+  .sidebar-tab select optgroup,
+  #chat-controls .roll-type-select optgroup,
+  .sidebar-tab select option[disabled], 
+  #chat-controls .roll-type-select[disabled] {
+    font-family: var(--crlngn-font-family);
+    background: initial; 
+    color: initial; 
+    border: initial; 
   }
 
   .sidebar-tab input[type=range],
@@ -203,7 +193,7 @@ body.crlngn-ui{
   .sidebar-tab input[type=range]::-webkit-slider-runnable-track,
   .package-configuration input[type=range]::-webkit-slider-runnable-track {
     height: 10px;
-    background: var(--color-secondary-25);
+    background: var(--color-dark-bg-50);
     border-radius: 10px;
     border: 0;
   }
@@ -245,7 +235,93 @@ body.crlngn-ui{
     box-shadow: 0 0 4px var(--color-shadow-primary);
     border: 1px solid var(--color-highlights);
   }
+}
 
+body.crlngn-ui{
+  h1, h2 {
+    border-bottom: 0;
+  }
+  
+  h2{
+    font-weight: 600;	
+  }
+  
+  input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 1px;
+  }
+  fieldset{
+    /*border: 1px solid rgba(0,0,0,0.1);*/
+  }
+  
+  #tooltip {
+    font-size: var(--font-size-12);
+    padding: 6px;
+  
+    > div, > p, > section, > button, > span {
+      padding: 6px;
+    }
+  }
+  
+  #loading {
+    padding: 5px 10px 10px 10px;
+    margin: 12px auto;
+    max-width: 600px;
+    height: auto;
+    background-color: var(--color-secondary-75);
+    border: 1px solid transparent;
+    box-shadow: 0 0 4px var(--color-secondary-90);
+  
+    #loading-bar {
+      background-color: rgba(240,240,240,1);
+      border: 0;
+      height: 2px;
+      margin-top: 20px;
+    }
+    label#context{
+      font-size: 0;
+      background: transparent;
+      text-transform: uppercase;
+      margin: 0;
+      padding: 0;
+      top: -20px;
+      left: 0;
+  
+      &:before{
+        content: "Loading...";
+        display: inline-block;
+        color: var(--color-text-light-highlight);
+        font-size: var(--font-size-12);
+      }
+    }
+    label#progress{
+      font-size: var(--font-size-12);
+      color: var(--color-text-light-highlight);
+      background: transparent;
+      text-transform: uppercase;
+      margin: 0;
+      padding: 0;
+      top: -20px;
+    }
+  }
+  
+  ol#notifications {
+    .notification{
+      padding: 8px 12px; 
+  
+      &.info {
+        background: var(--color-secondary-90);
+        border: 1px solid rgba(0,0,0);
+      } 
+    }
+  }
+}
+
+
+body.crlngn-ui {
+
+  /*******
+  * FORMS
+  *******/
   .standard-form.crlngn {
     h4{
       font-family: var(--crlngn-font-titles);
@@ -330,10 +406,6 @@ body.crlngn-ui{
     }
   }
 
-  input[type="color"]::-webkit-color-swatch-wrapper {
-    padding: 1px;
-  }
-
   .standard-form.datalists {
     .dropdown-wrapper {
       position: relative;
@@ -380,6 +452,10 @@ body.crlngn-ui{
     border: 1px solid var(--color-level-warning);
   }
 
+  form button {
+    border: 1px solid var(--color-dark-1);
+  }
+
   & > aside.application {
     transform: translateX(calc(var(--ui-controls-margin-left) * -1));
   }
@@ -387,7 +463,7 @@ body.crlngn-ui{
   /* Dialogs for DnD5e */
   &.theme-dark form.application footer button,
   &.theme-dark .standard-form.crlngn button {
-    border: 1px solid var(--color-secondary-bright-50);
+    border: 1px solid var(--color-light-bg-25);
   }
 
   &.theme-dark {
@@ -425,55 +501,6 @@ body.crlngn-ui{
     }
     
   }
-
-  #interface.theme-dark {
-    .sidebar-tab search {
-      input{
-        background: var(--color-input-bg);
-      }
-    }
-  }
-}
-
-/**************
-* GENERAL
-**************/
-body.crlngn-ui{
-
-  .application hr {
-    background-image: linear-gradient(90deg, var(--color-warm-2) 0%, transparent 100%);
-  }
-  
-  #tooltip {
-    font-family: var(--crlngn-font-family);
-    font-size: var(--font-size-12);
-    padding: 6px;
-    box-shadow: 0 1px 6px rgba(40,40,65,0.7);
-  
-    > div, > p, > section, > button, > span {
-      padding: 6px;
-    }
-  }
-  
-  ol#notifications {
-    .notification{
-      padding: 12px; 
-      line-height: 125%;
-  
-      &.info {
-        background: var(--color-secondary-90);
-        border: 1px solid rgba(0,0,0);
-      } 
-    }
-  }
-
-  #scene-controls .ui-control, 
-  .tabs .ui-control {
-    --control-size: var(--control-item-size);
-    border-radius: 0;
-    border: 1px solid transparent;
-    font-size: 0.9em;
-  }
 }
 
 
@@ -488,7 +515,7 @@ body.crlngn-ui {
   }
 }
 
-/**************************/
+
 /* Forbidden Lands System */
 body.crlngn-ui {
   --font-header-sc: var(--crlngn-font-titles);

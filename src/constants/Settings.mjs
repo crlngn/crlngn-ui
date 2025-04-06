@@ -172,14 +172,12 @@ export function getSettings() {
       fields: [
         "controlsBottomBuffer",
         "controlsIconSize",
-        "controlsAutoHide",
-        "hideFoundryLogo"
+        "controlsAutoHide"
       ],
       default: { /* old names */
         bottomBuffer: 200,
         iconSize: ICON_SIZES.small.name,
-        autoHideSecondary: false,
-        hideFoundryLogo: true
+        autoHideSecondary: false
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -699,17 +697,6 @@ export function getSettings() {
       inputType: SETTING_INPUT.checkbox,
       propType: Boolean,
       default: false,
-      scope: SETTING_SCOPE.client,
-      config: false
-    },
-    hideFoundryLogo: {
-      tag: "hide-foundry-logo",
-      oldName: "hideFoundryLogo",
-      label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.hideFoundryLogo.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.hideFoundryLogo.hint"), 
-      inputType: SETTING_INPUT.checkbox,
-      propType: Boolean,
-      default: true,
       scope: SETTING_SCOPE.client,
       config: false
     },
