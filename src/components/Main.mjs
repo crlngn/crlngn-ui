@@ -51,11 +51,11 @@ export class Main {
         SceneNavFolders.init();
       }
 
-      TopNavigation.init();
-      CameraUtil.init(); 
-      PlayersListUtil.init(); 
+      // TopNavigation.init();
+      // CameraUtil.init(); 
       LeftControls.init();
       ChatUtil.init();
+      PlayersListUtil.init(); 
 
       Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
     });
@@ -73,31 +73,25 @@ export class Main {
       if(isDebugOn){CONFIG.debug.hooks = true};
 
       CustomHandlebarsHelpers.init();
+      PlayersListUtil.applyPlayersListSettings(); 
       ModuleCompatUtil.init();
-      TopNavigation.checkSceneNavCompat();
+      // TopNavigation.checkSceneNavCompat();
       UpdateNewsUtil.init();
 
+      /*
       if(TopNavigation.navFoldersEnabled){
         SceneNavFolders.init();
         SceneNavFolders.registerHooks();
       }
+      */
 
       const chatStylesEnabled = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
       if(chatStylesEnabled){ 
         Main.addCSSLocalization();
       }
       
-      // SettingsUtil.set(SETTINGS.otherModulesList.tag, "'monks-scene-nav','combat-carousel','dice-tray','hurry-up'");
-      // LogUtil.log("SETTING!!!", [SettingsUtil.get(SETTINGS.otherModulesList.tag)]);
       SettingsUtil.resetFoundryThemeSettings();
-      SettingsUtil.applyOtherModulesList();
-      // SettingsUtil.applyThemeSettings();
-      
-      const isMinimalUiOn = GeneralUtil.isModuleOn('minimal-ui');
-      if(isMinimalUiOn){
-        ui.notifications.warn(game.i18n.localize('CRLNGN_UI.ui.notifications.minimalUiNotSupported'),{ permanent: true });
-      }
-
+      // SettingsUtil.applyOtherModulesList();
     });
   }
 

@@ -24,7 +24,7 @@ body.crlngn-ui {
         }
       }
   
-      &.auto-hide{
+      &.minimized{
         width: var(--left-control-item-size);
         max-width: var(--left-control-item-size);
         &:hover {
@@ -36,7 +36,7 @@ body.crlngn-ui {
         }
       }
   
-      &:not(.auto-hide), &:hover{ 
+      &:not(.minimized), &:hover{ 
         width: max-content;
         min-width: var(--max-players-width, 200px);
         max-width: max-content;
@@ -121,7 +121,7 @@ body.crlngn-ui {
         }
       }
   
-      &:not(.auto-hide) h3,
+      &:not(.minimized) h3,
       &:hover h3 {
         width: 150px;
         color: #fff;
@@ -170,7 +170,7 @@ body.crlngn-ui {
         }
       }
   
-      &:not(.auto-hide) ol li span.player-name,
+      &:not(.minimized) ol li span.player-name,
       &:hover ol li span.player-name {
         opacity: 1;
         /*overflow: auto;*/
@@ -182,7 +182,7 @@ body.crlngn-ui {
         margin-right: 0;
       }
       &:hover ol li,
-      &:not(.auto-hide) ol li {
+      &:not(.minimized) ol li {
         i{
           display: inline-flex;
           margin-right: -20px;

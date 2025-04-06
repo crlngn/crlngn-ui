@@ -166,7 +166,7 @@ body.crlngn-ui{
     }
   }
   
-  #ui-left.auto-hide #controls ol:not(.main-controls) {
+  #ui-left.minimized #controls ol:not(.main-controls) {
     opacity: 0;
     display: none;
     visibility: hidden;

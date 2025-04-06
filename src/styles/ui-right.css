@@ -131,7 +131,7 @@ body.crlngn-ui{
     &:hover {
       .compendium-banner {
         filter: saturate(1);
-        opacity: 1;
+        opacity: 0.6;
       }
     }
     

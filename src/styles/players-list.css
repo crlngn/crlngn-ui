@@ -5,24 +5,25 @@ body.crlngn-ui {
     gap: 0;
 
     #players-active .players-list{
-      padding-bottom: 8px;
+      padding-bottom: 0;
       margin-bottom: 6px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      gap: 0;
+      /*border-bottom: 1px solid rgba(255, 255, 255, 0.15);*/
 
       li{
         margin-bottom: 0;
       }
     }
 
-    #performance-stats button,
     #performance-stats button:focus,
-    #performance-stats button:hover {
+    #performance-stats button:hover,
+    #performance-stats button:active {
       border: 0;
+      outline: 0;
+      box-shadow: none;
     }
 
     #players-active, #players-inactive{
-      padding: 10px 12px;
+      padding: 10px;
       border-radius: 0;
       border-top-right-radius: var(--crlngn-border-radius);
       gap: 0;
@@ -47,7 +48,7 @@ body.crlngn-ui {
     }
     #players-inactive{
       border-bottom: 1px solid var(--color-dark-bg-75);
-      background: var(--color-secondary-90);
+      background: var(--color-secondary-75);
     }
 
     &.expanded {
@@ -61,11 +62,19 @@ body.crlngn-ui {
       visibility: visible;
     }
 
-    &.expanded {
+    &.minimized {
+      pointer-events: all;
       #players-active, #players-inactive {
         max-width: var(--control-item-size);
         overflow-x: hidden;
       }
+      &:hover{
+        #players-active, #players-inactive {
+          max-width: var(--max-players-width, 200px);
+          overflow-x: visible;
+        }
+      }
+      
 
       li {
         flex-wrap: nowrap;
@@ -82,7 +91,52 @@ body.crlngn-ui {
         display: none;
         visibility: hidden;
       }
+      #players-active:hover  #performance-stats{
+        display: flex;
+        visibility: visible;
+      }
     }
+
+    &.crlngn-avatars{
+      /* if showing player avatar */
+      --avatar-size: calc(var(--control-item-size) - 8px);
+
+      #players-active, #players-inactive{
+        padding: 6px;
+      }
+      #performance-stats{
+        padding: 4px 0;
+      }
+
+      li {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+
+        > img.avatar {
+          width: var(--avatar-size);
+          height: var(--avatar-size);
+          object-fit: cover;
+          overflow: hidden;
+          border-bottom: 2px solid var(--player-color);
+          border-radius: 0;
+          background-color: rgba(255,255,255,0.15);
+          flex: 0 0 var(--avatar-size);
+          padding: 0;
+          margin-right: 4px;
+          margin-bottom: -1px;
+          z-index: 1;
+        }
+  
+        &:before {
+          display: none;
+        }
+      }
+
+      #players-inactive img.avatar{
+        filter: saturate(0.2);
+      }
+    }
+    
+
   }
   
 }

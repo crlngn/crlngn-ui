@@ -29,6 +29,10 @@ export class ModuleCompatUtil {
     }
     ModuleCompatUtil.checkTaskbarLock();
     ModuleCompatUtil.addModuleClasses();
+    const isMinimalUiOn = GeneralUtil.isModuleOn('minimal-ui');
+    if(isMinimalUiOn){
+      ui.notifications.warn(game.i18n.localize('CRLNGN_UI.ui.notifications.minimalUiNotSupported'),{ permanent: true });
+    }
   }
 
   static addModuleClasses = () => {
@@ -111,7 +115,7 @@ export class ModuleCompatUtil {
         body.classList.add('players-hidden');
       }else{
         body.classList.remove('players-hidden');
-        if(body.querySelector('#players.auto-hide')){
+        if(body.querySelector('#players.minimized')){
           body.classList.add('with-players-hide');
           body.classList.remove('with-players');
         }else if(uiLeftPlayers){

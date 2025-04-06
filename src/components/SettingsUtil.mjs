@@ -7,6 +7,7 @@ import { ChatUtil } from "./ChatUtil.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
+import { PlayersListUtil } from "./PlayersListUtil.mjs";
 import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
 
@@ -97,7 +98,7 @@ export class SettingsUtil {
 
 
     Hooks.on(HOOKS_CORE.RENDER_SCENE_CONTROLS, SettingsUtil.applyLeftControlsSettings);
-    Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, SettingsUtil.applyPlayersListSettings); 
+    Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, PlayersListUtil.applyPlayersListSettings); 
     Hooks.on(HOOKS_CORE.RENDER_HOTBAR, () => {
       if(SettingsUtil.firstLoad){
         SettingsUtil.firstLoad = false;
@@ -233,7 +234,7 @@ export class SettingsUtil {
         SettingsUtil.applyHotBarCollapse();
         break;
       case SETTINGS.autoHidePlayerList.tag:
-        SettingsUtil.applyPlayersListSettings();
+        PlayersListUtil.applyPlayersListSettings();
         break;
       case SETTINGS.uiFontBody.tag:
       case SETTINGS.uiFontTitles.tag:
@@ -417,9 +418,9 @@ export class SettingsUtil {
     const SETTINGS = getSettings();
     const macroCollapseOption = SettingsUtil.get(SETTINGS.collapseMacroBar.tag);
 
-    if(macroCollapseOption){
-      ui.hotbar.collapse();
-    }
+    // if(macroCollapseOption){
+    //   ui.hotbar.collapse();
+    // }
   }
 
   /**
@@ -512,20 +513,6 @@ export class SettingsUtil {
     // const root = document.querySelector("body.crlngn-ui");
     const buffer = isNaN(leftControls.bottomBuffer) ? SETTINGS.leftControlsMenu.default.bottomBuffer : leftControls.bottomBuffer;
     GeneralUtil.addCSSVars('--controls-bottom-buffer', `${buffer || 0}px`);
-  }
-
-  /**
-   * Applies settings for the players list
-   */
-  static applyPlayersListSettings(){
-    const SETTINGS = getSettings();
-    LogUtil.log("applyPlayersListSettings",[document.querySelector("#players"), SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)]); 
-    if(SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)){
-      document.querySelector("#players")?.classList.add("auto-hide");
-    }else{
-      document.querySelector("#players")?.classList.remove("auto-hide");
-    }
-    ModuleCompatUtil.checkPlayersList();
   }
 
   /**
@@ -639,12 +626,22 @@ export class SettingsUtil {
       return;
     }
 
-    const foundryColorScheme = game.settings.get('core','colorScheme');
+    // LogUtil.log("resetFoundryThemeSettings", [game.settings]);
+    const foundryUiConfig = game.settings.get('core','uiConfig') || null;
 
-    LogUtil.log("resetFoundryThemeSettings", [foundryColorScheme, forceDarkModeOn])
+    // applications or interface
 
-    if(foundryColorScheme===false && forceDarkModeOn){
-      game.settings.set('core','colorScheme','dark');
+    LogUtil.log("resetFoundryThemeSettings", [foundryUiConfig, game.settings])
+    
+    if(forceDarkModeOn){
+      const enforcedThemes = {
+        ...foundryUiConfig,
+        colorScheme: {
+          application: foundryUiConfig.colorScheme.applications===''? 'dark' : foundryUiConfig.colorScheme.applications,
+          interface: foundryUiConfig.colorScheme.interface===''? 'dark' : foundryUiConfig.colorScheme.interface
+        }
+      }
+      game.settings.set('core','uiConfig', enforcedThemes);
     }
   }
 

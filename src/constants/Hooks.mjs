@@ -15,7 +15,7 @@ export const HOOKS_CORE = {
   /* Left Side Controls */
   GET_SCENE_CONTROLS: "getSceneControlButtons",
   RENDER_SCENE_CONTROLS: "renderSceneControls",
-  RENDER_PLAYERS_LIST: "renderPlayerList",
+  RENDER_PLAYERS_LIST: "renderPlayers",
 
   /* Scenes */
   RENDER_SCENE_NAV: "renderSceneNavigation",

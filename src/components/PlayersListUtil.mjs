@@ -1,5 +1,9 @@
+import { getSettings } from "../constants/Settings.mjs";
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
+import { LogUtil } from "./LogUtil.mjs";
+import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
+import { SettingsUtil } from "./SettingsUtil.mjs";
 
 /**
  * Utility class for managing the players list functionality and appearance
@@ -12,6 +16,8 @@ export class PlayersListUtil {
    */
   static init(){
     Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, PlayersListUtil.onRender); 
+    PlayersListUtil.applyPlayersListSettings();
+    LogUtil.log("PlayersList init");
   }
 
   /**
@@ -20,22 +26,49 @@ export class PlayersListUtil {
    * @static
    * @private
    */
-  static onRender(){
-    const playersList = document.querySelector(`aside#players`);
-    const playersTitle = document.querySelector(`aside#players h3:first-child`);
+  static onRender(playersList, html, playerData){
+    const htmlActive = playersList?.element?.querySelector("#players-active");
+    LogUtil.log("PlayersList onRender A", [playersList.element]);
+    const players = [...playerData.active, ...playerData.inactive];
+    players.forEach(pl => {
+      const element = html.querySelector(`li[data-user-id='${pl.id}']`);
+      const player = game.users.get(pl.id);
+      const charAvatar = player.character?.img || "";
 
-    if(!playersList || !(playersList instanceof HTMLElement) || !playersTitle){return;}
+      LogUtil.log("player", [player]);
+      // const userAvatar = 
+      const avatarImg = document.createElement("img");
+      avatarImg.src = charAvatar || player.avatar || "";
+      avatarImg.alt= "*";
+      avatarImg.classList.add('avatar');
+      if(element) element.prepend(avatarImg);
+    })
 
-    const playersHeight = playersList.offsetHeight;
-    GeneralUtil.addCSSVars('--players-list-height', playersHeight+'px');
+    playersList?.element?.classList.add("crlngn-avatars");
+    // const playersList = document.querySelector(`#players`);
+    PlayersListUtil.applyPlayersListSettings();
+    // const playersTitle = document.querySelector(`aside#players h3:first-child`);
 
-    playersTitle.addEventListener('click', ()=>{
-      if(playersList.classList.contains('expanded')){
-        playersList.classList.remove('expanded');
-      }else{
-        playersList.classList.add('expanded');
-      }
-    });
+    // if(!playersList || !(playersList instanceof HTMLElement) || !playersTitle){return;}
+
+    // const playersHeight = playersList.offsetHeight;
+    // GeneralUtil.addCSSVars('--players-list-height', playersHeight+'px');
+
+  }
+
+  /**
+   * Applies settings for the players list
+   */
+  static applyPlayersListSettings(){
+    const SETTINGS = getSettings();
+    LogUtil.log("applyPlayersListSettings");
+    LogUtil.log("applyPlayersListSettings",[document.querySelector("#players"), SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)]); 
+    if(SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)){
+      document.querySelector("#players")?.classList.add("minimized");
+    }else{
+      document.querySelector("#players")?.classList.remove("minimized");
+    }
+    ModuleCompatUtil.checkPlayersList();
   }
 
 }
