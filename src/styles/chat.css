@@ -695,6 +695,8 @@ body.crlngn-chat {
     :is(#chat-popout, #chat, #chat-notifications) .chat-message .message-header h4.message-sender {
       color: var(--color-text-gray-blue);
       font-size: var(--font-size-16);
+      line-height: 110%;
+      margin-bottom: 4px;
     }
     :is(#chat-popout, #chat, #chat-notifications) .message .message-header .subtitle,
     :is(#chat-popout, #chat, #chat-notifications) .message .flavor-text, 

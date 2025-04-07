@@ -25,6 +25,11 @@ body.crlngn-ui  {
       font-weight: 600;
     }
   }
+  fieldset{
+    border-style: solid;
+    border-width: 1px;
+  }
+  
 }
 
 /*************/
@@ -47,23 +52,30 @@ body.crlngn-ui  {
 * FORMS & FIELDS
 *******************/  
 body.crlngn-ui{
-  
-  .header-actions button,
-  .dialog-buttons button,
+  .standard-form .form-group {
+    margin: 6px 0;
+  }
+
+  .application:not(.dnd5e2) .dialog-buttons button,
   .combat-controls button:not(.inline-control),
-  .standard-form button {
+  form.application .form-footer button,
+  .application:not(.dnd5e2) .standard-form button {
     height: auto;
     min-height: var(--input-height);
-    padding: 6px;
+    padding: 10px 6px;
     line-height: 125%;
-    border: 1px solid var(--color-secondary-bright-50);
-    background: var(--color-secondary-b-50);
+    border: 1px solid var(--color-secondary-50);
+    background: var(--dnd5e-background-card);
     
     &.default {
-      border: 1px solid var(--color-highlights);
+      border: 1px solid var(--color-secondary-90);
     }
-    &:hover, &:focus {
+    &:hover {
       border: 1px solid var(--color-warm-3);
+      background: var(--color-highlights-50);
+    }
+    &:focus {
+      border: 1px solid var(--color-highlights-75);
       background: var(--color-highlights-50);
     }
 
@@ -72,6 +84,7 @@ body.crlngn-ui{
       margin-right: 3px;
     }
   }
+  
 
   .header-actions {
     padding-inline: 0px;
@@ -95,11 +108,13 @@ body.crlngn-ui{
       width: 100%;
       min-width: 100%;
       height: auto;
-      max-height: 100px;
+      max-height: 160px;
       overflow: auto;
-      margin: 0;
+      margin: 0 0 10px 0;
       padding: 10px;
       background-color: var(--color-dark-bg-50);
+      border: 1px solid var(--color-cool-4);
+      border-radius: 6px;
 
       li{
         display: flex;
@@ -163,9 +178,11 @@ body.crlngn-ui{
     --color-text-selection-bg: var(--color-cool-5);
     font-family: monospace;
     white-space: pre;
+    width: calc(100% - 4px);
     /*tab-size: 2;*/
     padding: 6px;
     border: 1px solid rgba(0, 0, 0, 0.5);
+    margin: 1px;
     /*color: var(--color-text-light-highlight);*/
     box-shadow: none;
     background: var(--color-input-bg);
@@ -384,12 +401,6 @@ body.crlngn-ui{
     transform: translateX(calc(var(--ui-controls-margin-left) * -1));
   }
 
-  /* Dialogs for DnD5e */
-  &.theme-dark form.application footer button,
-  &.theme-dark .standard-form.crlngn button {
-    border: 1px solid var(--color-secondary-bright-50);
-  }
-
   &.theme-dark {
 
     input[type=checkbox]:disabled{
@@ -432,6 +443,40 @@ body.crlngn-ui{
         background: var(--color-input-bg);
       }
     }
+  }
+}
+
+/*************
+* DnD5e
+*************/
+body.crlngn-ui {
+  .application.dnd5e2 .dialog-buttons button,
+  .application.dnd5e2 .standard-form button {
+    border: 1px solid var(--color-dark-bg-90);
+    &.default {
+      border: 1px solid var(--color-highlights-75);
+    }
+    &:hover {
+      border: 1px solid var(--color-warm-3);
+      background: var(--dnd5e-background-card);
+    }
+    &:focus {
+      border: 1px solid var(--color-highlights-75);
+      background: var(--dnd5e-background-card);
+    }
+  }
+  .dnd5e2.application .window-header {
+    h1{
+      margin: 6px;
+      font-size: var(--font-size-20);
+    }
+    .window-subtitle{
+      color: rgb(90, 94, 105);
+      margin: 6px;
+    }
+  }
+  .dnd5e2.sheet.actor.character .sheet-header .document-name {
+    line-height: 105%;
   }
 }
 

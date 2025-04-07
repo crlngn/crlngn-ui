@@ -107,7 +107,7 @@
         "save": "Save"
       },
       "leftControlsMenu": {
-        "label": "Left Control Bar",
+        "label": "Control Bars",
         "title": "Configure Controls",
         "hint": "Modify the look and behavior of scene control buttons, on the left side of screen",
         "fields": {
@@ -127,6 +127,23 @@
           "autoHideSecondary": {
             "label": "Auto hide secondary controls",
             "hint": "Enable to keep the secondary bar on the left controls hidden until you hover on the region or click on an item."
+          }
+        },
+        "reset": "Reset",
+        "save": "Save"
+      },
+      "playersListMenu": {
+        "label": "Players List",
+        "title": "Player List Options",
+        "hint": "Change behavior or add avatars to players list",
+        "fields": {
+          "autoHidePlayerList": {
+            "label": "Auto hide player list",
+            "hint": "Enable to keep the players list on bottom left minimized, except when hovered."
+          },
+          "playerListAvatars": {
+            "label": "Show avatars",
+            "hint": "Show player avatars for players in the list. It looks for character image, or user image if no character is assigned"
           }
         },
         "reset": "Reset",
@@ -264,10 +281,6 @@
       "autoHideLeftControls": {
         "label": "Auto hide secondary controls",
         "hint": "Enable to keep the secondary bar on the left controls hidden unless you hover on the region or click on an item."
-      },
-      "autoHidePlayersList": {
-        "label": "Auto hide player list",
-        "hint": "Enable to keep the bottom left players list minimized, except when hovered."
       },
       "collapseMacroBar": {
         "label": "Collapse Macro Bar",

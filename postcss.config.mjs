@@ -9,7 +9,12 @@ export default {
     postcssNesting(),
     postcssCustomProperties(),
     postcssDiscardDuplicates(),
-    postcssPresetEnv({ stage: 1 }),
+    postcssPresetEnv({ 
+      stage: 1,
+      features: {
+        'nesting-rules': false // Disable nesting in postcss-preset-env
+      } 
+    }),
     cssnano({
       preset: ["default", {
         discardComments: {

@@ -56,146 +56,174 @@ export class GeneralUtil {
     return parentHeight - (offsetTop + elementHeight);
   }
 
-
   /**
    * Process stylesheets to extract font families
-   * @returns {Promise<Set<string>>} Set of font family names from stylesheets
+   * @returns {Promise<string[]>} Array of font family names from stylesheets
    * @private
    */
   static processStyleSheets = async () => {
     // Get Foundry built-in fonts
     const foundryFonts = new Set(Object.keys(CONFIG.fontDefinitions));
-    // LogUtil.log('Foundry built-in fonts:', [Array.from(foundryFonts)]);
+    LogUtil.log('Foundry built-in fonts:', [Array.from(foundryFonts)]);
     
     // Get custom fonts from settings
     const customFontsObj = game.settings.get("core", "fonts") || {};
     const customFonts = Object.entries(customFontsObj).map(([fontFamily]) => fontFamily);
-    // LogUtil.log('Custom fonts from settings:', [customFonts]);
-  
+
+    LogUtil.log('Stylesheets:', [document.styleSheets]);
+
     // Get CSS imported fonts
     const cssImportedFonts = new Set();
     
+    // Process all stylesheets
     for (const sheet of document.styleSheets) {
       try {
-        // Handle stylesheet text content for @import rules
+        // Handle stylesheet content
         if (sheet.ownerNode) {
-          // Check if the stylesheet is from core Foundry or our module
+          // Check if the stylesheet is from core Foundry, our module, or a system
           const href = sheet.href || '';
-          const isFoundryCore = href.includes('/css/') || href.includes('/styles/');
-          const isOurModule = href.includes('/modules/crlngn-ui/');
+          const isFoundryCore = href.includes('css/') || href.includes('styles/');
+          const isCrlngnUI = href.includes('modules/crlngn-ui/');
+          const isSystem = href.includes('systems/');
           
-          // Skip if not from core or our module
-          if (href && !isFoundryCore && !isOurModule) {
-            LogUtil.log('Skipping non-core/module stylesheet:', [href]);
+          // Skip if not from core, not from crlngn-ui, and not from a system
+          if (href && !isFoundryCore && !isCrlngnUI && !isSystem) {
+            LogUtil.log('Skipping stylesheet:', [href]);
             continue;
           }
           
-          let cssText = '';
+          LogUtil.log('Processing stylesheet:', [sheet, href]);
           
-          if (sheet.ownerNode instanceof Element) {
-            // Get text content from style tags
-            if (sheet.ownerNode.tagName === 'STYLE') {
-              cssText = sheet.ownerNode.textContent;
-            }
-            // Get text content from link tags
-            else if (sheet.ownerNode.tagName === 'LINK') {
-              try {
-                const rules = sheet.cssRules || sheet.rules;
-                cssText = Array.from(rules).map(rule => rule.cssText).join('\n');
-              } catch (e) {
-                LogUtil.warn('Could not read stylesheet rules:', [e]);
-              }
-            }
-          }
-          
-          LogUtil.log('Processing stylesheet:', [href || 'inline style']);
-
-          // Log the found CSS text for debugging
-          // LogUtil.log('Processing stylesheet text:', s[cssText.slice(0, 200) + '...']);
-
-          
-          // Extract URLs from @import statements
-          const importUrlRegex = /@import\s+url\(['"]([^'"]+)['"]\)/g;
-          let match;
-          
-          while ((match = importUrlRegex.exec(cssText)) !== null) {
-            let url = match[1]; // This is the actual URL
-
-            if (url.includes('fonts.googleapis.com')) {
-              // Extract font family names from Google Fonts URL
-              const familyMatch = url.match(/family=([^&]+)/);
-              if (familyMatch) {
-                const families = decodeURIComponent(familyMatch[1])
-                  .split('|') // Split multiple families
-                  .map(family => {
-                    // Remove weight/style variations
-                    return family.split(':')[0].replace(/\+/g, ' ');
-                  });
-                
-                families.forEach(family => {
-                  cssImportedFonts.add(family);
-                  // LogUtil.log('Added Google Font family:', [family]);
-                });
-              }
-            } else {
-              // Skip relative path imports
-              if (url.startsWith('./') || url.startsWith('../')) {
-                LogUtil.log('Skipping relative import:', [url]);
-                continue;
-              }
-              
-              // For absolute paths or URLs, use as is
-              let resolvedUrl = url;
-
-              try {
-                const response = await fetch(resolvedUrl);
-                if (!response.ok) {
-                  LogUtil.warn('Error loading imported CSS:', [response.status]);
-                  continue;
-                }
-                const css = await response.text();
-                /** @type {RegExpMatchArray | null} */
-                const fontFaceRules = css.match(/@font-face\s*{[^}]+}/g);
-                if (!fontFaceRules) continue;
-                
-                fontFaceRules.forEach(rule => {
-                  /** @type {RegExpMatchArray | null} */
-                  const fontFamilyMatch = rule.match(/font-family:\s*['"]?([^'";]+)['"]?/);
-                  if (fontFamilyMatch && fontFamilyMatch[1]) {
-                    const fontFamily = fontFamilyMatch[1].trim();
-                    cssImportedFonts.add(fontFamily);
-                  }
-                });
-              } catch (e) {
-                LogUtil.warn('Error processing imported CSS:', [e]);
-              }
-            }
-          }
-        }
-
-        // Check for @font-face rules in the current stylesheet
-        if (!sheet.href || sheet.href.startsWith(window.location.origin)) {
-          try {
-            const rules = sheet.cssRules || sheet.rules;
-            for (const rule of rules) {
-              if (rule instanceof CSSFontFaceRule) {
-                const fontFamily = rule.style.getPropertyValue('font-family')
-                  .replace(/['"`]/g, '')
-                  .trim();
-                cssImportedFonts.add(fontFamily);
-                // LogUtil.log('Found font-face rule for:', [fontFamily]);
-              }
-            }
-          } catch (e) {
-            LogUtil.warn('Could not read stylesheet rules:', [e]);
-          }
+          // Process CSS rules directly
+          await this.processStyleSheetRules(sheet, cssImportedFonts);
         }
       } catch (e) {
         LogUtil.warn('Error processing stylesheet:', [e]);
       }
     }
-    return cssImportedFonts;
+
+    // Log what we found for debugging
+    LogUtil.log('Found fonts:', [{
+      foundry: Array.from(foundryFonts),
+      custom: customFonts,
+      cssImported: Array.from(cssImportedFonts)
+    }]);
+
+    // Combine all fonts, filter, clean, sort
+    const allFonts = Array.from(new Set([
+      ...foundryFonts,
+      ...customFonts,
+      ...cssImportedFonts
+    ]))
+    .filter(f => !/FontAwesome|Font Awesome|FoundryVTT/.test(f))
+    .map(f => f.replace(/['"]/g, '').trim())
+    .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+
+    return allFonts;
   }
+
+  /**
+   * Process CSS rules from a stylesheet to extract font families
+   * @param {CSSStyleSheet} sheet - The stylesheet to process
+   * @param {Set<string>} cssImportedFonts - Set to collect found font families
+   * @private
+   */
+  static async processStyleSheetRules(sheet, cssImportedFonts) {
+    try {
+      // Extract text content from style tags
+      if (sheet.ownerNode?.tagName === 'STYLE') {
+        const cssText = sheet.ownerNode.textContent;
+        this.extractFontsFromCSSText(cssText, cssImportedFonts);
+      }
+      
+      // Process rules directly
+      try {
+        // Try to access rules - this may fail due to CORS restrictions
+        const rules = sheet.cssRules || sheet.rules;
+        if (!rules) return;
+        
+        for (let i = 0; i < rules.length; i++) {
+          const rule = rules[i];
+          
+          // Handle @font-face rules
+          if (rule instanceof CSSFontFaceRule) {
+            const fontFamily = rule.style.getPropertyValue('font-family');
+            if (fontFamily) {
+              cssImportedFonts.add(fontFamily);
+              LogUtil.log('Found font-face rule:', [fontFamily]);
+            }
+          }
+          // Handle @import rules (v13 uses these for module CSS)
+          else if (rule instanceof CSSImportRule) {
+            LogUtil.log('Found import rule:', [rule.href]);
+            
+            // For v13, we need to access the imported stylesheet
+            if (rule.styleSheet) {
+              // Recursively process the imported stylesheet
+              await this.processStyleSheetRules(rule.styleSheet, cssImportedFonts);
+            } else {
+              // If we can't access the stylesheet directly, we try to fetch it
+              if (rule.href) {
+                try {
+                  const response = await fetch(rule.href);
+                  const cssText = await response.text();
+                  this.extractFontsFromCSSText(cssText, cssImportedFonts);
+                } catch (e) {
+                  LogUtil.warn('Error fetching imported CSS:', [e]);
+                }
+              }
+            }
+          }
+        }
+      } catch (e) {
+        // Handle SecurityError for cross-origin stylesheets
+        if (e.name === 'SecurityError' && sheet.href) {
+          LogUtil.log('Security restriction on stylesheet, trying to fetch directly:', [sheet.href]);
+          try {
+            // Try to fetch the stylesheet directly
+            const response = await fetch(sheet.href);
+            const cssText = await response.text();
+            this.extractFontsFromCSSText(cssText, cssImportedFonts);
+          } catch (fetchError) {
+            LogUtil.warn('Error fetching cross-origin stylesheet:', [fetchError]);
+          }
+        } else {
+          LogUtil.warn('Error accessing CSS rules:', [e]);
+        }
+      }
+    } catch (e) {
+      LogUtil.warn('Error in processStyleSheetRules:', [e]);
+    }
+  }
+
+  /**
+   * Extract font families from CSS text
+   * @param {string} cssText - CSS text to process
+   * @param {Set<string>} cssImportedFonts - Set to collect found font families
+   * @private
+   */
+  static extractFontsFromCSSText(cssText, cssImportedFonts) {
+    if (!cssText) return;
+    
+    // Extract font-face declarations
+    const fontFaceRegex = /@font-face\s*{[^}]*font-family\s*:\s*(['"])(.+?)\1[^}]*}/gs;
+    const fontFaceMatches = cssText.match(fontFaceRegex) || [];
+    
+    LogUtil.log('Font face matches in CSS text:', [fontFaceMatches.length]);
+    
+    // Extract font family names from font-face rules
+    fontFaceMatches.forEach(match => {
+      const fontFamilyRegex = /font-family\s*:\s*(['"])(.+?)\1/;
+      const fontFamilyMatch = match.match(fontFamilyRegex);
+      
+      if (fontFamilyMatch && fontFamilyMatch[2]) {
+        const fontName = fontFamilyMatch[2].trim();
+        cssImportedFonts.add(fontName);
+        LogUtil.log('Found font-face in CSS text:', [fontName]);
+      }
+    });
+  }
+  
 
   /**
    * Gets the offset bottom of an element

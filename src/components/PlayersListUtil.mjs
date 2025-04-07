@@ -27,47 +27,61 @@ export class PlayersListUtil {
    * @private
    */
   static onRender(playersList, html, playerData){
-    const htmlActive = playersList?.element?.querySelector("#players-active");
-    LogUtil.log("PlayersList onRender A", [playersList.element]);
-    const players = [...playerData.active, ...playerData.inactive];
-    players.forEach(pl => {
-      const element = html.querySelector(`li[data-user-id='${pl.id}']`);
-      const player = game.users.get(pl.id);
-      const charAvatar = player.character?.img || "";
-
-      LogUtil.log("player", [player]);
-      // const userAvatar = 
-      const avatarImg = document.createElement("img");
-      avatarImg.src = charAvatar || player.avatar || "";
-      avatarImg.alt= "*";
-      avatarImg.classList.add('avatar');
-      if(element) element.prepend(avatarImg);
-    })
-
-    playersList?.element?.classList.add("crlngn-avatars");
-    // const playersList = document.querySelector(`#players`);
+    const SETTINGS = getSettings();
     PlayersListUtil.applyPlayersListSettings();
-    // const playersTitle = document.querySelector(`aside#players h3:first-child`);
-
-    // if(!playersList || !(playersList instanceof HTMLElement) || !playersTitle){return;}
-
-    // const playersHeight = playersList.offsetHeight;
-    // GeneralUtil.addCSSVars('--players-list-height', playersHeight+'px');
-
+    PlayersListUtil.applyAvatars();
   }
 
   /**
    * Applies settings for the players list
-   */
+   */ 
   static applyPlayersListSettings(){
     const SETTINGS = getSettings();
-    LogUtil.log("applyPlayersListSettings");
-    LogUtil.log("applyPlayersListSettings",[document.querySelector("#players"), SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)]); 
+    LogUtil.log("applyPlayersListSettings",[SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)]); 
     if(SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)){
       document.querySelector("#players")?.classList.add("minimized");
     }else{
       document.querySelector("#players")?.classList.remove("minimized");
     }
+    ModuleCompatUtil.checkPlayersList();
+  }
+
+  /**
+   * Adds avatars for the players list
+   */
+  static applyAvatars(){
+    const SETTINGS = getSettings();
+    LogUtil.log("applyAvatars",[game.users]); 
+
+    const htmlPlayers = document.querySelector("#players");
+    const activePlayers = game.users.filter(u=>u.active===true);
+    const inactivePlayers = game.users.filter(u=>u.active===false);
+    const players = [...activePlayers, ...inactivePlayers];
+
+    if(SettingsUtil.get(SETTINGS.playerListAvatars.tag)){
+      htmlPlayers?.classList.add("crlngn-avatars");
+  
+      players.forEach(pl => {
+        const element = htmlPlayers?.querySelector(`li[data-user-id='${pl.id}']`);
+        const player = game.users.get(pl.id);
+        const charAvatar = player.character?.img || "";
+
+        LogUtil.log("player", [player]);
+        const avatarImg = document.createElement("img");
+        avatarImg.src = charAvatar || player.avatar || "";
+        avatarImg.alt= "*";
+        avatarImg.classList.add('avatar');
+        if(element) element.prepend(avatarImg);
+      });
+    }else{
+      const existingLi = htmlPlayers?.querySelectorAll("li.player");
+      existingLi.forEach(li => {
+        const img = li.querySelector("img.avatar");
+        img?.remove();
+      });
+      htmlPlayers?.classList.remove("crlngn-avatars");
+    }
+
     ModuleCompatUtil.checkPlayersList();
   }
 

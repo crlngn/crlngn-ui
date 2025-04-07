@@ -114,6 +114,7 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
     const fields = {};
     const fieldValues = {};
     const fieldDefaults = {};
+    const fonts = await GeneralUtil.getAllFonts();
 
     fieldNames.forEach((fieldName) => {
       if(SETTINGS[fieldName]) {
@@ -127,7 +128,7 @@ export class CustomFontsSettings extends HandlebarsApplicationMixin(ApplicationV
     const setting = {
       ...fieldValues,
       default: {...fieldDefaults},
-      fontList: await GeneralUtil.getAllFonts(),
+      fontList: fonts,
       fields: { 
         ...fields
       },

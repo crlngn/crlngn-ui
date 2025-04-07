@@ -139,6 +139,9 @@ export class SettingsUtil {
 
     // apply general scale
     SettingsUtil.applyUiScale();
+
+
+    LogUtil.log("game settings", [game.settings]);
   }
 
   /**
@@ -232,6 +235,9 @@ export class SettingsUtil {
         break;
       case SETTINGS.collapseMacroBar.tag:
         SettingsUtil.applyHotBarCollapse();
+        break;
+      case SETTINGS.playerListAvatars.tag:
+        PlayersListUtil.applyAvatars();
         break;
       case SETTINGS.autoHidePlayerList.tag:
         PlayersListUtil.applyPlayersListSettings();

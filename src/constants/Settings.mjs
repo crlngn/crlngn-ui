@@ -184,6 +184,25 @@ export function getSettings() {
       requiresReload: false
     },
 
+    playersListMenu: {
+      tag: "players-list-menu", 
+      label: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.hint"),
+      propType: Object,
+      inputType: SETTING_INPUT.button,
+      fields: [
+        "autoHidePlayerList",
+        "playerListAvatars"
+      ],
+      default: {
+        autoHidePlayerList: false,
+        playerListAvatars: true
+      },
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+
     cameraDockMenu: {
       tag: "camera-dock-menu", 
       label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.label"),
@@ -251,35 +270,6 @@ export function getSettings() {
       config: false, 
       requiresReload: true 
     },
-
-    // sceneNavMenu: {
-    //   tag: "scene-nav-menu", 
-    //   label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.label"),
-    //   hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.hint"),
-    //   propType: Object,
-    //   inputType: SETTING_INPUT.button,
-    //   fields: {
-    //     sceneNavEnabled: { 
-    //       tag: "scene-nav-enabled", 
-    //       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavEnabled.label"), 
-    //       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavEnabled.hint"), 
-    //       inputType: SETTING_INPUT.checkbox
-    //     },
-    //     showNavOnHover: {
-    //       tag: "show-nav-on-hover", 
-    //       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showNavOnHover.label"), 
-    //       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showNavOnHover.hint"), 
-    //       inputType: SETTING_INPUT.checkbox
-    //     }
-    //   },
-    //   default: {
-    //     sceneNavEnabled: true,
-    //     showNavOnHover: false
-    //   },
-    //   scope: SETTING_SCOPE.client,
-    //   config: false, 
-    //   requiresReload: true 
-    // },
 
     disableUI: {
       tag: 'disable-ui',
@@ -497,7 +487,6 @@ export function getSettings() {
       requiresReload: false 
     },
 
-    /* DARK MODE */
     enforceDarkMode: { 
       tag: "enforce-dark-mode", 
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.enforceDarkMode.label"), 
@@ -507,18 +496,6 @@ export function getSettings() {
       default: true, 
       scope: SETTING_SCOPE.world, 
       config: true 
-    },  
-
-    autoHidePlayerList: { 
-      tag: "auto-hide-player-list", 
-      label: game.i18n.localize("CRLNGN_UI.settings.autoHidePlayersList.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.autoHidePlayersList.hint"), 
-      propType: Boolean,
-      inputType: SETTING_INPUT.checkbox,
-      default: true, 
-      scope: SETTING_SCOPE.client, 
-      config: true, 
-      requiresReload: false 
     },
 
     debugMode: { 
@@ -532,7 +509,30 @@ export function getSettings() {
       config: true
     },
 
-    /* NON-CONFIG SETTINGS */
+    /* NON-CONFIG OR MENU SETTINGS */
+    /* PLAYERS LIST */
+    autoHidePlayerList: { 
+      tag: "auto-hide-player-list", 
+      label: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.autoHidePlayerList.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.autoHidePlayerList.hint"), 
+      propType: Boolean,
+      inputType: SETTING_INPUT.checkbox,
+      default: false, 
+      scope: SETTING_SCOPE.client, 
+      config: false
+    },
+
+    playerListAvatars: { 
+      tag: "player-list-avatars", 
+      label: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.playerListAvatars.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.playerListAvatars.hint"), 
+      propType: Boolean,
+      inputType: SETTING_INPUT.checkbox,
+      default: true, 
+      scope: SETTING_SCOPE.client, 
+      config: false
+    },
+
     /* FONTS */
     uiFontBody: {
       tag: "ui-font-body",

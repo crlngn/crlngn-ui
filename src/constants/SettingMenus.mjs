@@ -1,4 +1,5 @@
 // import * as lang from '../lang/en.json';
+import { PlayersListSettings } from '../components/settings-dialogs/PlayersListSettings.mjs';
 import { CameraDockSettings } from '../components/settings-dialogs/CameraDockSettings.mjs';
 import { ChatMessagesSettings } from '../components/settings-dialogs/ChatMessagesSettings.mjs';
 import { CustomFontsSettings } from '../components/settings-dialogs/CustomFontSettings.mjs';
@@ -45,15 +46,6 @@ export function getSettingMenus() {
       propType: LeftControlsSettings,
       restricted: false 
     },
-    cameraDockMenu: {
-      tag: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.label"),
-      name: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.title"),
-      label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.title"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.hint"),
-      icon: "fas fa-camera",  
-      propType: CameraDockSettings,
-      restricted: false 
-    },
     sceneNavMenu: {
       tag: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.label"),
       name: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.title"),
@@ -61,6 +53,24 @@ export function getSettingMenus() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.hint"),
       icon: "fas fa-map",  
       propType: SceneNavSettings,
+      restricted: false 
+    },
+    playersListMenu: {
+      tag: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.label"),
+      name: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.title"),
+      label: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.title"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.hint"),
+      icon: "fas fa-camera",  
+      propType: PlayersListSettings,
+      restricted: false 
+    },
+    cameraDockMenu: {
+      tag: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.label"),
+      name: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.title"),
+      label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.title"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.hint"),
+      icon: "fas fa-camera",  
+      propType: CameraDockSettings,
       restricted: false 
     }
   };

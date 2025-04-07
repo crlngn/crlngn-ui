@@ -5,11 +5,11 @@ import { SettingsUtil } from "../SettingsUtil.mjs";
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 /**
- * Left Controls Settings application for managing left sidebar control configurations.
- * Provides a form interface for customizing the behavior and appearance of left-side controls.
+ * PlayersListSettings application for managing player list configurations.
+ * Provides a form interface for customizing the behavior and appearance of player list.
  * @extends {HandlebarsApplicationMixin(ApplicationV2)}
  */
-export class LeftControlsSettings extends HandlebarsApplicationMixin(ApplicationV2) {
+export class PlayersListSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   static #element;
   /**
    * Default application options
@@ -19,13 +19,13 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
   static get DEFAULT_OPTIONS() {
     const SETTINGS = getSettings();
     return {
-      id: SETTINGS.leftControlsMenu.tag,
+      id: SETTINGS.playersListMenu.tag,
       actions: {
-        redefine: LeftControlsSettings.#onReset,
+        redefine: PlayersListSettings.#onReset,
       },
       // classes: ["standard-form"],
       form: {
-        handler: LeftControlsSettings.#onSubmit,
+        handler: PlayersListSettings.#onSubmit,
         closeOnSubmit: true,
       },
       position: {
@@ -34,8 +34,8 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
       },
       tag: "form",
       window: {
-        icon: "fas fa-cog",
-        title: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.title"),
+        icon: "fas fa-user",
+        title: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.title"),
         contentClasses: ["standard-form", "crlngn"],
         resizable: false
       }
@@ -49,7 +49,7 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
    */
   static PARTS = {
     content: {
-      template: "modules/crlngn-ui/templates/left-controls-settings.hbs",
+      template: "modules/crlngn-ui/templates/players-list-settings.hbs",
     },
     footer: {
       template: "templates/generic/form-footer.hbs"
@@ -62,7 +62,7 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
    * @returns {string} Localized title string
    */
   get title() {
-    return game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.title");
+    return game.i18n.localize("CRLNGN_UI.settings.playersListMenu.title");
   }
 
 
@@ -83,7 +83,7 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
     const SETTINGS = getSettings();
     event.preventDefault();
     event.stopPropagation();
-    const fieldNames = SETTINGS.leftControlsMenu.fields;
+    const fieldNames = SETTINGS.playersListMenu.fields;
     
     // Convert FormData into an object with proper keys
     const settings = foundry.utils.expandObject(formData.object);
@@ -94,9 +94,6 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
         SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
       }
     });
-
-    // For compatibility - to be removed in future version
-    // await SettingsUtil.set(SETTINGS.leftControlsMenu.tag, settings);
 
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
   }
@@ -113,7 +110,7 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
     const SETTINGS = getSettings();
     const html = this.element;
     const inputs = html.querySelectorAll("input, select");
-    const defaults = SETTINGS.leftControlsMenu.default;
+    const defaults = SETTINGS.playersListMenu.default;
 
     inputs.forEach(inputField => {
       inputField.value = defaults[inputField.name];
@@ -122,8 +119,8 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
       }
     })
 
-    LogUtil.log("#onReset", [a, b, SETTINGS.leftControlsMenu.default]);
-    // await SettingsUtil.set(SETTINGS.leftControlsMenu.tag, SETTINGS.leftControlsMenu.default);
+    LogUtil.log("#onReset", [a, b, SETTINGS.playersListMenu.default]);
+    // await SettingsUtil.set(SETTINGS.playersListMenu.tag, SETTINGS.playersListMenu.default);
   }
 
   /**
@@ -139,7 +136,7 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
    */
   _prepareContext(options) {
     const SETTINGS = getSettings();
-    const fieldNames = SETTINGS.leftControlsMenu.fields;
+    const fieldNames = SETTINGS.playersListMenu.fields;
     const fields = {};
     const fieldValues = {};
     const fieldDefaults = {};
@@ -152,16 +149,17 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
         fieldDefaults[fieldName] = SETTINGS[fieldName].default;
       }
     });
+    LogUtil.log("_prepareContext A", [fields, fieldNames, fieldValues, fieldDefaults]);
 
-    const setting = {
+    const setting = { 
       ...fieldValues,
       default: {...fieldDefaults},
       fields: { 
         ...fields
       },
       buttons: [
-        { type: "button", icon: "", label: "CRLNGN_UI.settings.leftControlsMenu.reset", action: 'redefine' },
-        { type: "submit", icon: "", label: "CRLNGN_UI.settings.leftControlsMenu.save" }
+        { type: "button", icon: "", label: "CRLNGN_UI.settings.playersListMenu.reset", action: 'redefine' },
+        { type: "submit", icon: "", label: "CRLNGN_UI.settings.playersListMenu.save" }
       ]
     }
 
@@ -195,15 +193,15 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
    */
   _onRender(context, options) {
     const SETTINGS = getSettings();
-    LeftControlsSettings.element = this.element;
+    PlayersListSettings.element = this.element;
 
     // add listener to .toggle-hint 
-    const hintToggle = LeftControlsSettings.element.querySelector('.toggle-hint');
+    const hintToggle = PlayersListSettings.element.querySelector('.toggle-hint');
     hintToggle.addEventListener('click', () => {
-      LeftControlsSettings.element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
+      PlayersListSettings.element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
     });
 
-    const controlSettings = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
+    const controlSettings = SettingsUtil.get(SETTINGS.playersListMenu.tag);
     LogUtil.log("_onRender", [context, options, controlSettings]);
   }
 

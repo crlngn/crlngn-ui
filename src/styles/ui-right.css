@@ -37,15 +37,15 @@ body.crlngn-ui{
     a.button {
       padding: 6px 4px; 
       border-radius: 0; 
-      /*background: var(--color-dark-bg-15); */
-      border: 1px solid var(--color-secondary-75);
+      background: var(--color-dark-bg-25);
+      border: 1px solid var(--color-secondary-50);
       display: flex; 
       flex-direction: row; 
       align-items: center; 
       justify-content: center; 
       color: #dcdcdc; 
       font-weight: 500; 
-      box-shadow: 0 0 10px inset rgb(0, 0, 0, 0.35); 
+      box-shadow: 0 0 10px inset rgb(0, 0, 0, 0.5); 
       transition: all ease-in-out 0.25s; 
       position: relative; 
       min-height: calc(var(--input-height) * 1.2);
@@ -140,6 +140,13 @@ body.crlngn-ui{
       font-size: 0.9em;
     }
     
+  }
+
+  #roll-privacy.vertical {
+    button {
+      width: var(--control-item-size);
+      height: var(--control-item-size);
+    }
   }
 
 }
