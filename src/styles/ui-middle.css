@@ -65,14 +65,17 @@ body.crlngn-ui{
           border-top-right-radius: 0;
         }
       }
-
-      
       
     }
 
-    #ui-middle {
-      z-index: 10;
+    #hotbar button {
+      --button-text-color: var(--color-light-1);
+      --button-hover-text-color: var(--color-light-1);
+
+      &:hover{
+        text-shadow: 0 0 10px var(--color-dark-bg-90);
+      }
     }
-    
+
   }
 }

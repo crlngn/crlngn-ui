@@ -199,7 +199,7 @@ export class SettingsUtil {
       const world = game.settings.storage.get("world");
       selectedSetting = world.getSetting(`${moduleName}.${settingName}`);
     } 
-    LogUtil.log("Setting",[settingName, selectedSetting]);
+    LogUtil.log("Setting",[settingName, selectedSetting, newValue]);
 
     try{
       game.settings.set(moduleName, settingName, newValue);
@@ -302,16 +302,17 @@ export class SettingsUtil {
         break;
       case SETTINGS.navShowRootFolders.tag:
         TopNavigation.navShowRootFolders = value;
+        ui.nav?.render();
         break;
       case SETTINGS.sceneClickToView.tag:
         TopNavigation.sceneClickToView = value;
-        game.scenes?.directory.render();
-        SceneNavFolders.refreshFolderView();
+        // game.scenes?.directory.render();
+        // SceneNavFolders.refreshFolderView();
         break;
       case SETTINGS.useSceneIcons.tag:
         TopNavigation.useSceneIcons = value;
-        game.scenes?.directory.render();
-        SceneNavFolders.refreshFolderView();
+        // game.scenes?.directory.render();
+        // SceneNavFolders.refreshFolderView();
         break;
       case SETTINGS.useNavBackButton.tag:
         TopNavigation.useNavBackButton = value;
@@ -325,14 +326,14 @@ export class SettingsUtil {
         break;
       case SETTINGS.sceneNavAlias.tag:
         TopNavigation.sceneNavAlias = value;
-        SceneNavFolders.refreshFolderView();
+        // SceneNavFolders.refreshFolderView();
         break;
       case SETTINGS.navStartCollapsed.tag:
         TopNavigation.navStartCollapsed = value;
         break;
       case SETTINGS.showFolderListOnClick.tag:
         TopNavigation.showFolderListOnClick = value;
-        SceneNavFolders.refreshFolderView();
+        // SceneNavFolders.refreshFolderView();
         break;
       case SETTINGS.showNavOnHover.tag:
         TopNavigation.showNavOnHover = value;
@@ -341,7 +342,7 @@ export class SettingsUtil {
         TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag);
         break;
       case SETTINGS.sceneNavPos.tag:
-        SettingsUtil.applySceneNavPos();
+        // SettingsUtil.applySceneNavPos();
         break;
       case SETTINGS.colorTheme.tag:
         SettingsUtil.applyThemeSettings();
@@ -484,7 +485,7 @@ export class SettingsUtil {
     }
     LogUtil.log("applyControlIconSize", [size]);
     GeneralUtil.addCSSVars('--icon-font-size', getIconFontSize(iconSize));
-    GeneralUtil.addCSSVars('--left-control-item-size', size);
+    GeneralUtil.addCSSVars('--control-item-size', size);
     SettingsUtil.applyLeftControlsSettings();
   }
 

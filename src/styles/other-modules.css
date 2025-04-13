@@ -100,8 +100,8 @@ body.crlngn-ui{
 
   /* VISUAL ACTIVE EFFECTS */
   .visual-active-effects.panel {
-    /*--visual-active-effects-icon-size: calc(var(--left-control-item-size) * 1.5);*/
-    --visual-active-effects-top-offset: calc(var(--left-control-item-size) * 1.5);
+    /*--visual-active-effects-icon-size: calc(var(--control-item-size) * 1.5);*/
+    --visual-active-effects-top-offset: calc(var(--control-item-size) * 1.5);
   }
 
   /* RIPPER93 youtube widget */
@@ -158,7 +158,7 @@ body.crlngn-ui{
   }
 
   #fvtt-party-resources-status-bar {
-    margin-top: calc(var(--crlngn-top-offset, 0px) + var(--left-control-item-size));
+    margin-top: calc(var(--crlngn-top-offset, 0px) + var(--control-item-size));
     position: relative;
     width: 100%;
     z-index:0;
@@ -395,8 +395,8 @@ body.crlngn-ui{
 
     ol.control-tools {
       li.control-tool {
-        width: var(--left-control-item-size);
-        height: var(--left-control-item-size);
+        width: var(--control-item-size);
+        height: var(--control-item-size);
       }
     }
 
@@ -450,7 +450,7 @@ body.crlngn-ui{
   /* CAROUSEL COMBAT TRACKER */
   #ui-middle.crlngn-ui{
     #combat-dock {
-      margin-top: calc(var(--crlngn-top-offset, 0px) + var(--left-control-item-size, 0px));
+      margin-top: calc(var(--crlngn-top-offset, 0px) + var(--control-item-size, 0px));
     }
 
     &.navigation-collapsed, &.with-monks-scene {
@@ -736,7 +736,7 @@ body.crlngn-ui{
     #hurry-up {
       left: auto !important;
       right: calc(var(--current-sidebar-width) + 10px) !important;
-      top: calc(var(--left-control-item-size) + 10px) !important;
+      top: calc(var(--control-item-size) + 10px) !important;
       bottom: auto !important;
       transform-origin: top right;
       transform: scale(0.75);

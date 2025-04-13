@@ -29,7 +29,7 @@ body.crlngn-ui{
     --macro-bar-left: calc(-1 * var(--ui-controls-margin-left, 0px));
   }
   &.with-players-hide{
-    --macro-bar-left: calc((var(--ui-controls-margin-left, 0px) * -1) - var(--max-players-width, 0px) + var(--left-control-item-size, 0px));
+    --macro-bar-left: calc((var(--ui-controls-margin-left, 0px) * -1) - var(--max-players-width, 0px) + var(--control-item-size, 0px));
   }
 
   #ui-bottom {

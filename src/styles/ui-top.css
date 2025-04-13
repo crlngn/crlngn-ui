@@ -1,10 +1,10 @@
 body.crlngn-ui { 
-  --top-nav-height:  var(--left-control-item-size);
+  --top-nav-height:  var(--control-item-size);
   --ui-controls-margin-left: -100px;
   --folder-header-width: 150px;
   --folder-list-width: 200px;
   --scene-nav-item-width: calc(var(--font-size-10) * 15);
-  --folder-nav-item-width: var(--left-control-item-size);
+  --folder-nav-item-width: var(--control-item-size);
   /*--current-sidebar-width: var(--sidebar-width);*/
 
   &.logo-visible.nav-collapsed {
@@ -29,7 +29,7 @@ body.crlngn-ui {
     }
 
     #ui-top {
-      margin-left: calc(var(--left-control-item-size) - 20px);
+      margin-left: calc(var(--control-item-size) - 20px);
     }
   }
 
@@ -132,8 +132,8 @@ body.crlngn-ui {
 
         #nav-toggle {
           background: rgba(0, 0, 0, 0.75);
-          width: var(--left-control-item-size);
-          flex: 0 0 var(--left-control-item-size);
+          width: var(--control-item-size);
+          flex: 0 0 var(--control-item-size);
           height: calc(var(--top-nav-height, 0) + 1px);
           text-align: center;
           z-index: 100;
@@ -151,12 +151,12 @@ body.crlngn-ui {
         button.crlngn-nav.ui-nav-left,
         button.crlngn-nav.ui-nav-right {
           pointer-events: all;
-          width: var(--left-control-item-size);
+          width: var(--control-item-size);
           background: transparent;
           color: var(--color-text-light-1);
           border: none;
           border-radius: 0;
-          width: var(--left-control-item-size);
+          width: var(--control-item-size);
           height: var(--top-nav-height, 0px);
           background: rgba(0,0,0,0.8);
           box-shadow: none;
@@ -166,12 +166,12 @@ body.crlngn-ui {
           position: absolute;
           right: 0;
           margin: 0;
-          flex: 0 0 var(--left-control-item-size);
+          flex: 0 0 var(--control-item-size);
           font-size: var(--font-size-12);
           z-index: 101;
 
           &.crlngn-nav.ui-nav-left{
-            right: var(--left-control-item-size);
+            right: var(--control-item-size);
           }
 
           &:active,
@@ -210,8 +210,8 @@ body.crlngn-ui {
         flex: 0 0 auto;
         width: auto;
         max-width: max-content;
-        height: var(--left-control-item-size);
-        max-height: var(--left-control-item-size);
+        height: var(--control-item-size);
+        max-height: var(--control-item-size);
         gap: 0;
         padding: 0;
         margin: 0;
@@ -249,8 +249,8 @@ body.crlngn-ui {
         }
 
         li.nav-item {
-          line-height: var(--left-control-item-size);
-          max-height: var(--left-control-item-size);
+          line-height: var(--control-item-size);
+          max-height: var(--control-item-size);
         }
 
         > li.nav-item:not(.is-root) {
@@ -397,7 +397,7 @@ body.crlngn-ui {
           background-position: center;
           position: absolute;
           border: 5px solid var(--color-dark-bg-75);
-          top: var(--left-control-item-size);
+          top: var(--control-item-size);
           left: 0;
           box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
           visibility: hidden;
@@ -447,7 +447,7 @@ body.crlngn-ui {
   
         button.crlngn-nav.ui-nav-left,
         button.crlngn-nav.ui-nav-right {
-          width: var(--left-control-item-size);
+          width: var(--control-item-size);
           height: var(--top-nav-height,0px);
           background: rgba(0,0,0,0.8);
           box-shadow: none;
@@ -457,11 +457,11 @@ body.crlngn-ui {
           position: absolute;
           right: 0;
           margin: 0;
-          flex: 0 0 var(--left-control-item-size);
+          flex: 0 0 var(--control-item-size);
           font-size: var(--font-size-12);
   
           &.crlngn-nav.ui-nav-left{
-            right: var(--left-control-item-size);
+            right: var(--control-item-size);
           }
   
           &:active,
@@ -534,10 +534,10 @@ body.crlngn-ui {
       width: var(--nav-header-width);
       max-width: var(--nav-header-width);
       min-width: max-content;
-      line-height: var(--left-control-item-size);
+      line-height: var(--control-item-size);
       pointer-events: all;
-      height: var(--left-control-item-size);
-      max-height: var(--left-control-item-size);
+      height: var(--control-item-size);
+      max-height: var(--control-item-size);
       gap: 0;
       padding: 0;
       margin: 0;
@@ -550,8 +550,8 @@ body.crlngn-ui {
 
       /*
       &.favorites {
-        width: calc(var(--left-control-item-size) + 6px);
-        max-width: calc(var(--left-control-item-size) + 6px);
+        width: calc(var(--control-item-size) + 6px);
+        max-width: calc(var(--control-item-size) + 6px);
       }
       */
 
@@ -566,14 +566,14 @@ body.crlngn-ui {
         align-items: center;
         width: calc(var(--folder-header-width) + 16px);
         min-width: calc(var(--folder-header-width) + 16px);
-        max-height: var(--left-control-item-size);
+        max-height: var(--control-item-size);
         gap: 0;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
         padding: 0 16px 0 8px;
         margin: 0;
-        height: var(--left-control-item-size);
+        height: var(--control-item-size);
         background: var(--color-dark-bg-90);
         z-index: 100;
 
@@ -582,7 +582,7 @@ body.crlngn-ui {
           overflow: auto;
           width: auto;
           text-overflow: auto;
-          min-width: calc(var(--left-control-item-size) + 16px);
+          min-width: calc(var(--control-item-size) + 16px);
           max-width: calc(var(--folder-header-width) + 16px);
           text-overflow: clip;
         }*/
@@ -618,7 +618,7 @@ body.crlngn-ui {
             padding-bottom: 1px;
             display: inline-flex;
             line-height: 24px;
-            max-height: var(--left-control-item-size);
+            max-height: var(--control-item-size);
             overflow: hidden;
           }
           &.arrow-turn-left {
@@ -652,14 +652,14 @@ body.crlngn-ui {
           font-size: var(--font-size-10);
           display: flex;
           position: absolute;
-          height: var(--left-control-item-size);
+          height: var(--control-item-size);
           width: 16px;
           right: 0;
           top: 0;
           justify-content: center;
           transform: rotate(0deg);
           transition: transform 0.2s ease-out;
-          line-height: calc(var(--left-control-item-size) + 2px);
+          line-height: calc(var(--control-item-size) + 2px);
           overflow: hidden;
         }
 
@@ -673,7 +673,7 @@ body.crlngn-ui {
         max-height: initial;
       }
       &.collapsed-folder-name a.selected {
-        width: var(--left-control-item-size);
+        width: var(--control-item-size);
       }
 
       .scene-folders-contents{
@@ -690,7 +690,7 @@ body.crlngn-ui {
         scrollbar-color: var(--color-highlights-75) var(--color-scrollbar-track);
         overflow: auto;
         position: absolute;
-        margin-top: var(--left-control-item-size);
+        margin-top: var(--control-item-size);
 
         .search-container {
           --color-text-selection-bg: var(--color-cool-4);
@@ -749,7 +749,7 @@ body.crlngn-ui {
             flex-direction: column;
             width: var(--folder-list-width);
             max-width: var(--folder-list-width);
-            min-height: var(--left-control-item-size);
+            min-height: var(--control-item-size);
             border-top: 1px solid var(--color-cool-5-50);
 
             &.scene{
@@ -826,7 +826,7 @@ body.crlngn-ui {
               flex-direction: column;
               justify-content: center;
               max-width: 100%;
-              min-height: var(--left-control-item-size);
+              min-height: var(--control-item-size);
               width: auto;
               /*border-left: 1px solid var(--color-secondary);*/
               text-align: left;
@@ -839,8 +839,8 @@ body.crlngn-ui {
 
       &.favorites {
         --fav-max-width: calc(var(--folder-header-width) + 16px);
-        --fav-min-width: calc(var(--left-control-item-size) + 6px);
-        width: var(--left-control-item-size);
+        --fav-min-width: calc(var(--control-item-size) + 6px);
+        width: var(--control-item-size);
         max-width: calc(var(--folder-header-width) + 16px);
         > a.selected {
           width: auto;

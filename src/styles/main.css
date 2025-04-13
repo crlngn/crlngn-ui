@@ -1,10 +1,12 @@
+body{
+  /* vars */
+  --crlngn-border-radius: calc(var(--control-item-size) / 6);
+  --control-item-size: 38px; /* size of control icon buttons */
+}
 body.crlngn-ui  {
   -webkit-font-smoothing: antialiased;
   font-family: var(--crlngn-font-family);
   font-weight: 400;
-  /* vars */
-  --control-item-size: 38px; /* size of control icon buttons */
-  --crlngn-border-radius: calc(var(--control-item-size) / 6);
 }
 
 /* HEADINGS */

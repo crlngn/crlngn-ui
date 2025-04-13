@@ -216,8 +216,7 @@ export function getSettings() {
         "dockPosY",
         "dockWidth",
         "dockHeight",
-        "defaultVideoWidth",
-        "dockWasResized"
+        "defaultVideoWidth"
       ],
       default: {
         enableFloatingDock: true,
@@ -226,8 +225,7 @@ export function getSettings() {
         dockPosX: 0,
         dockPosY: 120,
         dockWidth: 160,
-        dockHeight: 140,
-        dockWasResized: false
+        dockHeight: 140
       },
       scope: SETTING_SCOPE.client,
       config: false, 
@@ -749,16 +747,6 @@ export function getSettings() {
       inputType: SETTING_INPUT.number,
       propType: Number,
       default: 145,
-      scope: SETTING_SCOPE.client,
-      config: false
-    },
-    dockWasResized: {
-      tag: "dock-was-resized", 
-      label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockWasResized.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockWasResized.hint"), 
-      inputType: SETTING_INPUT.checkbox,
-      propType: Boolean,
-      default: false,
       scope: SETTING_SCOPE.client,
       config: false
     },

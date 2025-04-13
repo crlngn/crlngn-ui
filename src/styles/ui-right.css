@@ -29,6 +29,51 @@ body.crlngn-ui{
     border-radius: 0;
   }
 
+  .sidebar-tab {
+    li.directory-item.folder{
+      .folder-name {
+        font-weight: 700;
+        font-size: 1.1em;
+        text-shadow: 0 0 4px rgba(0,0,0,0.3);
+      }
+    }
+    li.directory-item.scene{
+      position: relative;
+      .entry-name{
+        font-weight: 600;
+        font-size: 1.1em;
+        text-shadow: 0 0 6px rgba(0,0,0,1);
+      }
+      .icon{
+        position: absolute;
+        font-size: var(--font-size-10);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        padding: 6px;
+        border-radius: 50%;
+        top: 3px;
+        left: 3px;
+        border-bottom-right-radius: 3px;
+        background-color: var(--color-dark-bg-75);
+      }
+      img{
+        opacity: 0.5
+      }
+      &:hover{
+        .entry-name{
+          text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+          color: var(--color-light-1);
+        }
+        img{
+          opacity: 1
+        }
+      }
+    }
+  }
+
   .sidebar-tab .header-actions,
   .sidebar-tab .settings,
   .sidebar-tab .documentation,

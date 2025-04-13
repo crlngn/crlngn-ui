@@ -164,10 +164,6 @@
               "vertical": "Redimensionar para ajustar verticalmente"
             }
           },
-          "dockWasResized": {
-            "label": "Marcador: O dock foi redimensionado manualmente?",
-            "hint": "Este é um marcador que é definido como verdadeiro quando o dock é redimensionado manualmente. É usado para determinar se o dock deve ser redimensionado quando um novo usuário entrar."
-          },
           "defaultVideoWidth": {
             "label": "Largura padrão do vídeo",
             "hint": "Largura de cada câmera individual no dock, em pixels. A largura mínima é 140px, para permitir espaço para os ícones de controle da câmera."

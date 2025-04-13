@@ -165,10 +165,6 @@
               "vertical": "Ridimensiona per adattare verticalmente"
             }
           },
-          "dockWasResized": {
-            "label": "Flag: Il dock è stato ridimensionato manualmente?",
-            "hint": "Questo è un flag che viene impostato su vero quando il dock viene ridimensionato manualmente. Viene utilizzato per determinare se il dock deve essere ridimensionato quando un nuovo utente si unisce."
-          },
           "defaultVideoWidth": {
             "label": "Larghezza video predefinita",
             "hint": "Larghezza di ogni singola telecamera nel dock, in pixel. La larghezza minima è 140px, per consentire spazio per le icone di controllo della telecamera."

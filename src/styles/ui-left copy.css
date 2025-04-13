@@ -1,6 +1,6 @@
 /*
 :root{
-  --left-control-item-size: 36px;
+  --control-item-size: 36px;
   --left-control-main-bg: rgba(20, 20, 20, 0.85); 
   --color-secondary-75: rgba(50, 50, 70, 0.75);
   --ui-top-padding: 0px;
@@ -11,7 +11,7 @@
   LEFT CONTROLS BAR
 ----------------- */
 body.crlngn-ui{  
-  --left-control-item-size: 36px;
+  --control-item-size: 36px;
   --left-control-main-bg: rgba(20, 20, 20, 0.85); 
   --color-secondary-75: rgba(50, 50, 70, 0.75);
   --ui-top-padding: 0px;
@@ -61,14 +61,14 @@ body.crlngn-ui{
       position: relative;
       display: flex;
       white-space: nowrap;
-      width: var(--left-control-item-size);
-      height: var(--left-control-item-size);
+      width: var(--control-item-size);
+      height: var(--control-item-size);
       padding: 0;
       margin: 0;
       overflow: hidden;
       text-align: left;
       border-bottom: 1px solid var(--color-secondary-75);
-      flex: 0 0 var(--left-control-item-size);
+      flex: 0 0 var(--control-item-size);
   
       > * {
         flex: 0 0 auto;
@@ -76,7 +76,7 @@ body.crlngn-ui{
   
       >i{
         display: inline-block;
-        line-height: calc(var(--left-control-item-size));
+        line-height: calc(var(--control-item-size));
         width: 100%;
         height: 100%;
         vertical-align: middle;
@@ -89,15 +89,15 @@ body.crlngn-ui{
         background: transparent;
         font-size: var(--font-size-12); 
         font-weight: 600;
-        min-width: calc(var(--max-players-width, 200px) - var(--left-control-item-size));
-        height: var(--left-control-item-size);
+        min-width: calc(var(--max-players-width, 200px) - var(--control-item-size));
+        height: var(--control-item-size);
         background: var(--left-control-main-bg);
         padding: 0 6px 0 0;
         margin: -1px 0 0 0;
         border: 1px solid transparent;
         border-bottom: 1px solid var(--color-secondary-75);
         color: var(--color-text-light-1);
-        line-height: calc(var(--left-control-item-size));
+        line-height: calc(var(--control-item-size));
       }
   
       &:hover{
@@ -105,7 +105,7 @@ body.crlngn-ui{
         padding: 0;
         gap: 0;
         /*max-width: max-content;*/
-        max-width: var(--left-control-item-size);
+        max-width: var(--control-item-size);
         overflow: visible; 
       }
     }
@@ -118,8 +118,8 @@ body.crlngn-ui{
     flex: 1 1 auto;
     height: 100%;
     flex-wrap: nowrap;
-    width: auto;/*calc(var(--left-control-item-size) * 2.25);*/
-    min-width: calc(var(--left-control-item-size) * 2.25);
+    width: auto;/*calc(var(--control-item-size) * 2.25);*/
+    min-width: calc(var(--control-item-size) * 2.25);
     /*max-width: 72px;*/
     padding: 0;
     overflow: visible;
@@ -129,16 +129,16 @@ body.crlngn-ui{
     position: absolute;
     top: var(--ui-top-padding);
     max-height:  calc(100% - var(--ui-top-padding) - (var(--controls-bottom-buffer)));
-    min-height: calc(var(--left-control-item-size) * 6);
+    min-height: calc(var(--control-item-size) * 6);
   
     > *{
       flex: 0 0 auto;
   
       &#touch-vtt-controls {
-        height: var(--left-control-item-size);
+        height: var(--control-item-size);
   
         button#touch-vtt-togglepause {
-          width: var(--left-control-item-size);
+          width: var(--control-item-size);
           height: 30px;
           background: var(--left-control-main-bg);
           border: 1px solid transparent;
@@ -186,8 +186,8 @@ body.crlngn-ui{
   }
   
   #ui-left #controls ol.control-tools > li {
-    width: var(--left-control-item-size);
-    height: var(--left-control-item-size);
+    width: var(--control-item-size);
+    height: var(--control-item-size);
     border-radius: 0;
     margin: 0;
     font-size: var(--icon-font-size);
@@ -216,8 +216,8 @@ body.crlngn-ui{
   }
   
   #ui-left #controls ol.sub-controls > li {
-    width: var(--left-control-item-size);
-    height: var(--left-control-item-size);
+    width: var(--control-item-size);
+    height: var(--control-item-size);
     border-radius: 0;
     margin: 0;
     font-size: var(--icon-font-size);
@@ -273,7 +273,7 @@ body.crlngn-ui{
     }
   
     #pf2e-hud-persistent-menu {
-      min-width: var(--left-control-item-size);
+      min-width: var(--control-item-size);
       padding: 6px 0;
     }
   
@@ -282,7 +282,7 @@ body.crlngn-ui{
   /* STAR TREK */
   #interface #ui-left {
     .scene-control.sta-roller .nested-buttons {
-      left: var(--left-control-item-size);
+      left: var(--control-item-size);
       display: none !important;
     }
     .scene-control.sta-roller.active .nested-buttons {

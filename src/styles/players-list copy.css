@@ -25,8 +25,8 @@ body.crlngn-ui {
       }
   
       &.minimized{
-        width: var(--left-control-item-size);
-        max-width: var(--left-control-item-size);
+        width: var(--control-item-size);
+        max-width: var(--control-item-size);
         &:hover {
           min-width: var(--max-players-width, 200px);
           max-width: var(--max-players-width, 200px);
@@ -56,7 +56,7 @@ body.crlngn-ui {
   
       h3 { 
         margin: 0; 
-        padding: 6px 0 0 var(--left-control-item-size); 
+        padding: 6px 0 0 var(--control-item-size); 
         border-bottom: none; 
         white-space: nowrap; 
         display: flex; 
@@ -92,10 +92,10 @@ body.crlngn-ui {
         i:first-child {
           align-items: center;
           display: flex;
-          flex: 0 0 var(--left-control-item-size);
+          flex: 0 0 var(--control-item-size);
           justify-content: center;
-          margin: 6px 0 0 calc(var(--left-control-item-size) * -1);
-          width: var(--left-control-item-size);
+          margin: 6px 0 0 calc(var(--control-item-size) * -1);
+          width: var(--control-item-size);
           height: 16px;
           font-size: var(--font-size-12);
           color: #fff;
@@ -115,7 +115,7 @@ body.crlngn-ui {
           max-width: 24px;
   
           &:before{
-            width: var(--left-control-item-size);
+            width: var(--control-item-size);
             text-align: center;
           }
         }
@@ -129,7 +129,7 @@ body.crlngn-ui {
   
       > ol {
         max-width: var(--max-players-width, 200px);
-        min-width: var(--left-control-item-size);
+        min-width: var(--control-item-size);
   
         li.player {
           line-height: 1.2em;
@@ -141,8 +141,8 @@ body.crlngn-ui {
           width: 100%;
           max-width: 100%;
           font-size: var(--font-size-12);
-          min-width: var(--left-control-item-size);
-          flex: 0 0 var(--left-control-item-size);
+          min-width: var(--control-item-size);
+          flex: 0 0 var(--control-item-size);
           margin: 1px 0;
   
           span.player-active {
@@ -150,16 +150,16 @@ body.crlngn-ui {
             width: 8px;
             height: 8px;
             flex: 0 0 8px;
-            margin: 0 calc((var(--left-control-item-size) - 8px) / 2);
+            margin: 0 calc((var(--control-item-size) - 8px) / 2);
             border: 1px solid rgba(255,255,255,0.5);
           }
   
           span.player-name {
-            width: var(--left-control-item-size);
+            width: var(--control-item-size);
             overflow: visible;
             background: transparent;
-            padding: 1px 3px 1px var(--left-control-item-size);
-            margin-left: calc(var(--left-control-item-size) * -1);
+            padding: 1px 3px 1px var(--control-item-size);
+            margin-left: calc(var(--control-item-size) * -1);
             opacity: 0;
             transition: opacity 0.15s ease-in-out;
           }
@@ -175,7 +175,7 @@ body.crlngn-ui {
         opacity: 1;
         /*overflow: auto;*/
         width: auto;
-        max-width: var(--max-players-width, 200px); /*calc(var(--max-players-width, 200px) - var(--left-control-item-size));*/
+        max-width: var(--max-players-width, 200px); /*calc(var(--max-players-width, 200px) - var(--control-item-size));*/
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -223,13 +223,13 @@ body.crlngn-ui {
         font-size: var(--font-size-12);
         font-weight: 600;
         margin: 2px 0;
-        width: var(--left-control-item-size);
-        min-width: var(--left-control-item-size);
-        flex: 1 1 var(--left-control-item-size);
+        width: var(--control-item-size);
+        min-width: var(--control-item-size);
+        flex: 1 1 var(--control-item-size);
 
         i:first-child{
-          flex: 0 0 var(--left-control-item-size);
-          width: var(--left-control-item-size);
+          flex: 0 0 var(--control-item-size);
+          width: var(--control-item-size);
           height: 16px;
           justify-content: center;
           margin: 0; 

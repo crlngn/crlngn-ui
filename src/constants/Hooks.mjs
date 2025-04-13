@@ -47,6 +47,8 @@ export const HOOKS_CORE = {
 
   /* Camera Views */
   RENDER_CAMERA_VIEWS: "renderCameraViews",
+  WEBRTC_USER_STATE_CHANGED: "webrtcUserStateChanged",
+  WEBRTC_SETTINGS_CHANGED: "webrtcSettingsChanged",
 
   /* Update user */
   UPDATE_USER: "updateUser",

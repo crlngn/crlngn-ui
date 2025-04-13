@@ -8,7 +8,6 @@ body.crlngn-ui {
     #players-active .players-list{
       padding-bottom: 0;
       margin-bottom: 4px;
-      /* border-bottom: 1px solid rgba(255, 255, 255, 0.15); */
 
       li {
         margin-bottom: 0;
@@ -38,7 +37,7 @@ body.crlngn-ui {
       .player::before {
         width: 0.6rem;
         height: 0.6rem;
-        margin-right: 4px;
+        margin: 0 4px;
         background: var(--player-color, rgba(255,255,255,0.5));
         border: 1px solid rgba(255,255,255,0.25);
         border-radius: 2px;

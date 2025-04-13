@@ -183,10 +183,6 @@
               "vertical": "Resize to fit vertically"
             }
           },
-          "dockWasResized": {
-            "label": "Flag: Was the dock manually resized?",
-            "hint": "This is a flag that is set to true when the dock is manually resized. It is used to determine if the dock should be resized when a new user joins."
-          },
           "defaultVideoWidth": {
             "label": "Default video width",
             "hint": "Width of each individual camera in dock, in pixels. Minimum width is 140px, to allow space for camera control icons."
