@@ -1,3 +1,5 @@
+import { MODULE_ID } from "../constants/General.mjs";
+import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { BORDER_COLOR_TYPES, getSettings } from "../constants/Settings.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
@@ -19,6 +21,8 @@ export class ChatUtil {
     const SETTINGS = getSettings();
     ChatUtil.enableChatStyles = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
     ChatUtil.chatBorderColor = SettingsUtil.get(SETTINGS.chatBorderColor.tag);
+
+    Hooks.on(HOOKS_CORE.RENDER_SIDE_BAR, ChatUtil.addChatToggle);
   }
 
   /**
@@ -54,6 +58,32 @@ export class ChatUtil {
       chatItem.style.setProperty('border-color', `var(--user-color-${chatMessage.author.id})`);
     }
 
+  }
+
+  static addChatToggle = async() => {
+    const buttonTemplate = await renderTemplate(
+      `modules/${MODULE_ID}/templates/chat-toggle-button.hbs`, 
+      {}
+    );
+    const rollModeBox = document.querySelector("#ui-right #roll-privacy");
+    rollModeBox.insertAdjacentHTML('afterbegin', buttonTemplate);
+
+    rollModeBox.querySelector("button[data-action=toggleChat]").addEventListener("click", ChatUtil.onToggleChatBox);
+  }
+
+  static onToggleChatBox = (evt) => {
+    const toggleButton = document.querySelector("button[data-action=toggleChat]");
+    const chatBox = document.querySelector("#chat-notifications #chat-message");
+
+    if(toggleButton.classList.contains("fa-comment-slash")){
+      toggleButton.classList.remove("fa-comment-slash");
+      toggleButton.classList.add("fa-comment");
+      chatBox.classList.add("hidden");
+    }else{
+      toggleButton.classList.add("fa-comment-slash");
+      toggleButton.classList.remove("fa-comment");
+      chatBox.classList.remove("hidden");
+    }
   }
 
 }

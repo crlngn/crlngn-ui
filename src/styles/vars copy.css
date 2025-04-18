@@ -23,7 +23,7 @@ Main Theme
 /* ---------------------------------------- */
 /* THEME - main */ 
 body.crlngn-ui {
-  --color-input-bg: rgba(0,0,0,0.5); 
+  --color-input-bg: var(--color-dark-bg-50); 
   &.theme-dark{
     --color-button-bg: rgba(90,120,150,0.5);
     --color-input-border: rgba(90,120,150, 0.5);
@@ -99,8 +99,8 @@ body.crlngn-ui {
   }
 
   --color-text-light-1: #f7f4f8; 
-  --color-text-light-2: #e6e6ef;
-  --color-text-light-3: #dcdce8;
+  --color-text-light: #e6e6ef;
+  --color-text-light: #dcdce8;
   --color-text-light-4: #bbbbca;  
   --color-text-light-5: #8e8e9e;
   --color-text-light-6: #7a7a90;

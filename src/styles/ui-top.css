@@ -548,13 +548,6 @@ body.crlngn-ui {
         width: auto;
       }
 
-      /*
-      &.favorites {
-        width: calc(var(--control-item-size) + 6px);
-        max-width: calc(var(--control-item-size) + 6px);
-      }
-      */
-
       > a {
         min-width: var(--folder-list-width);
         width: var(--folder-list-width);
@@ -776,7 +769,7 @@ body.crlngn-ui {
               padding-right: 16px;
               line-height: 1.4;
               &:hover{
-                /*background: repeating-linear-gradient( -45deg, rgba(0,0,0,0.5) 0px, rgba(0,0,0,0.5) 1px, rgba(60,60,80,0.5) 2px, rgba(60,60,80,0.5) 3px);*/
+                /*background: repeating-linear-gradient( -45deg, var(--color-dark-bg-50) 0px, var(--color-dark-bg-50) 1px, rgba(60,60,80,0.5) 2px, rgba(60,60,80,0.5) 3px);*/
                 background: var(--color-highlights-50);
               }
   

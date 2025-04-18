@@ -14,12 +14,6 @@
   </div>
 
   <div class="form-group">
-    <label for="showFolderListOnClick">{{fields.showFolderListOnClick.label}}</label>
-    <input type="checkbox" name="showFolderListOnClick" {{#if showFolderListOnClick}}checked{{/if}} {{#unless sceneNavEnabled}}disabled{{/unless}} />
-    <p class="hint">{{{fields.showFolderListOnClick.hint}}}</p> 
-  </div>
-
-  <div class="form-group">
     <label for="navShowRootFolders">{{fields.navShowRootFolders.label}}</label>
     <input type="checkbox" name="navShowRootFolders" {{#if navShowRootFolders}}checked{{/if}} {{#unless navShowRootFolders}}disabled{{/unless}} />
     <p class="hint">{{{fields.navShowRootFolders.hint}}}</p> 
@@ -47,15 +41,9 @@
   </div>
 
   <div class="form-group">
-    <label for="useNavBackButton">{{fields.useNavBackButton.label}}</label>
-    <select name="useNavBackButton">
-      {{#each fields.useNavBackButton.options}}
-      <option value="{{@key}}" {{#if (eq @key ../useNavBackButton)}}selected{{/if}}>
-        {{this}}
-      </option>
-      {{/each}}
-    </select>
-    <p class="hint">{{{fields.useNavBackButton.hint}}}</p>
+    <label for="useSceneBackButton">{{fields.useSceneBackButton.label}}</label>
+    <input type="checkbox" name="useSceneBackButton" {{#if useSceneBackButton}}checked{{/if}} {{#unless sceneNavEnabled}}disabled{{/unless}} />
+    <p class="hint">{{{fields.useSceneBackButton.hint}}}</p> 
   </div>
 
   <div class="form-group">
@@ -68,14 +56,6 @@
     <label for="useSceneIcons">{{fields.useSceneIcons.label}}</label>
     <input type="checkbox" name="useSceneIcons" {{#if useSceneIcons}}checked{{/if}} {{#unless sceneNavEnabled}}disabled{{/unless}} />
     <p class="hint">{{{fields.useSceneIcons.hint}}}</p> 
-  </div>
-
-  <div class="form-group">
-    <label for="sceneNavAlias">{{fields.sceneNavAlias.label}}</label>
-    <input type="text" name="sceneNavAlias" value="{{sceneNavAlias}}" {{#unless sceneNavEnabled}}disabled{{/unless}}
-      autocomplete="off" 
-      onfocus="this.select()" />
-    <p class="hint">{{{fields.sceneNavAlias.hint}}}</p> 
   </div>
   {{/unless}}
 

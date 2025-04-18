@@ -204,10 +204,9 @@ export class SceneNavFolders {
     SceneNavFolders.#defaultFolderName = game.i18n.localize("CRLNGN_UI.ui.sceneNav.favoritesFolder");
 
     const folders = SceneNavFolders.getFolders(ui.scenes.folders);
-    const backButtonLabel = `CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.options.${TopNavigation.useNavBackButton}`;
+    const backButtonLabel = `CRLNGN_UI.settings.sceneNavMenu.fields.useSceneBackButton.options.${TopNavigation.useSceneBackButton}`;
     const backToLabel = game.i18n.localize(`CRLNGN_UI.ui.sceneNav.backTo`);
-    const rootButtonLabel = TopNavigation.sceneNavAlias || game.i18n.localize(`CRLNGN_UI.ui.sceneNav.favoritesFolder`);
-    // SceneNavFolders.selectedFolder !== DEFAULT_FOLDER_ID;
+
     // Prepare base template data
     const baseData = {
       favoritesId: DEFAULT_FOLDER_ID,
@@ -218,12 +217,11 @@ export class SceneNavFolders {
       isGM: game.user?.isGM,
       searchValue: SceneNavFolders.searchValue,
       showSearchResults: !!SceneNavFolders.searchValue,
-      useNavBackButton: SceneNavFolders.isBackBtnActive(),
+      useSceneBackButton: SceneNavFolders.isBackBtnActive(),
       backButtonLabel: SceneNavFolders.isBackBtnActive() ? game.i18n.localize(backButtonLabel) : '',
       rootButtonLabel: `${backToLabel} ${rootButtonLabel}`,
       useSceneIcons: TopNavigation.useSceneIcons,
       useScenePreview: TopNavigation.useScenePreview,
-      sceneNavAlias: TopNavigation.sceneNavAlias,
       showRootFolders: TopNavigation.navShowRootFolders
     };
     
@@ -305,9 +303,9 @@ export class SceneNavFolders {
   }
 
   static isBackBtnActive = () => {
-    if(TopNavigation.useNavBackButton === BACK_BUTTON_OPTIONS.lastScene.name){
+    if(TopNavigation.useSceneBackButton === BACK_BUTTON_OPTIONS.lastScene.name){
       return SceneNavFolders.#lastScenesVisited.length > 1;
-    }else if(TopNavigation.useNavBackButton === BACK_BUTTON_OPTIONS.defaultScenes.name){
+    }else if(TopNavigation.useSceneBackButton === BACK_BUTTON_OPTIONS.defaultScenes.name){
       return SceneNavFolders.selectedFolder !== DEFAULT_FOLDER_ID;
     }
     return false;
@@ -327,18 +325,6 @@ export class SceneNavFolders {
     //add event to back button, if present
     const navBackButton = html.querySelector("i.fa-turn-left");
     navBackButton?.addEventListener('click', SceneNavFolders.#onBackButton); 
-
-    // Add click or hover event to folder list header
-    const selectedLink = html.querySelector('a.selected');
-    if (TopNavigation.showFolderListOnClick) {
-      selectedLink?.removeEventListener('mouseover', SceneNavFolders.#onOpenList);
-      html.removeEventListener('mouseleave', SceneNavFolders.#onOpenList);
-      selectedLink?.addEventListener('click', SceneNavFolders.#onOpenList);
-    } else {
-      selectedLink?.addEventListener('mouseover', SceneNavFolders.#onOpenList);
-      html.addEventListener('mouseleave', SceneNavFolders.#onOpenList);
-      selectedLink?.removeEventListener('click', SceneNavFolders.#onOpenList);
-    }
 
     // add click event to each item of folder tree
     html.querySelectorAll(".parent-folder").forEach(folderIcon => {
@@ -974,7 +960,7 @@ export class SceneNavFolders {
     evt.stopPropagation();
     evt.preventDefault();
 
-    switch(TopNavigation.useNavBackButton){
+    switch(TopNavigation.useSceneBackButton){
       case BACK_BUTTON_OPTIONS.defaultScenes.name:
         SceneNavFolders.selectedFolder = SceneNavFolders.selectFolder(DEFAULT_FOLDER_ID);
         LogUtil.log("onBackButton",[BACK_BUTTON_OPTIONS.defaultScenes.name]);

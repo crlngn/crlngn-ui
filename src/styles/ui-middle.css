@@ -1,7 +1,7 @@
 body.crlngn-ui{
   #interface {
 
-    #hotbar{
+    #hotbar.crlngn-macro{
       --hotbar-size: 60px;
       margin: 0;
 
@@ -64,6 +64,10 @@ body.crlngn-ui{
         .slot:nth-child(10) {
           border-top-right-radius: 0;
         }
+      }
+
+      .slot-icon{
+        border-radius: 0;
       }
       
     }

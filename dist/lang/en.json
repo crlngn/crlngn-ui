@@ -24,7 +24,8 @@
       "updates": {
         "label": "Last Update ID",
         "hint": "Tracks the last displayed update notification"
-      }
+      },
+      "toggleChatBox": "Toggle Chat Box"
     },
     "settings": {
       "hideInterface": {
@@ -111,19 +112,6 @@
         "title": "Configure Controls",
         "hint": "Modify the look and behavior of scene control buttons, on the left side of screen",
         "fields": {
-          "bottomBuffer": {
-            "label": "Bottom Safe Area",
-            "hint": "If you have too many icons on the left controls bar, you can define a maximum-height for the controls bar by defining a bottom buffer, in pixels. If icons overflow that safe area, they are pushed to the next column. Use 0 for no buffer."
-          },
-          "iconSize": {
-            "label": "Size of control icons",
-            "hint": "Configure the size of buttons on the left control bar. Some other UI elements will match this size for alignment.",
-            "options": {
-              "small": "small",
-              "regular": "regular",
-              "large": "large"
-            }
-          }, 
           "autoHideSecondary": {
             "label": "Auto hide secondary controls",
             "hint": "Enable to keep the secondary bar on the left controls hidden until you hover on the region or click on an item."
@@ -194,7 +182,7 @@
       "sceneNavMenu": {
         "label": "Scene Navigation",
         "title": "Configure Scene Nav",
-        "hint": "Change options for the scene navigation menu, on the top bar. Most of these options will only work if you have my navigation bar and scene folders enabled. ",
+        "hint": "Change options for the scene navigation menu, on the top bar.",
         "fields": {
           "sceneNavEnabled": {
             "label": "Enable custom scene navigation",
@@ -216,10 +204,6 @@
             "label": "Start collapsed",
             "hint": "Enable this option to collapse the scene navigation when loading Foundry, regardless of previous saved state."
           },
-          "showFolderListOnClick": {
-            "label": "Show folder list on click",
-            "hint": "By default, the list of folders on navigation bar is toggled on hover. Enable this option to change this behavior to click."
-          },
           "sceneClickToView": {
             "label": "Enable Click/Double Click to View/Activate",
             "hint": "When enabled, clicking on the scene in scene once opens that scene. Double clicking activates it."
@@ -228,18 +212,9 @@
             "label": "Use scene icons",
             "hint": "Shows icons next to the scene name. <i class='fas fa-lock'></i> Invisible to players until activated; <i class='fas fa-crown'></i> Currently viewed by the GM; <i class='fas fa-bullseye'></i> Currently active to players;"
           },
-          "sceneNavAlias": {
-            "label": "Alias for default navigation",
-            "hint": "If you want, you can add a label beside the folder tree icon to identify the default navigation, for example, `Favorites`"
-          },
-          "useNavBackButton": {
+          "useSceneBackButton": {
             "label": "Enable Back Button",
-            "hint": "<b>'Back to Last Scene'</b>: clicking takes you back to previously viewed scene, <b>'Back to Default Scenes'</b>: only appears in folder view, clicking opens the default scene navigation, <b>'OFF'</b>: No back button",
-            "options": {
-              "noButton": "OFF",
-              "lastScene": "Back to Last Scene",
-              "defaultScenes": "Back to Default Scenes"
-            }
+            "hint": "Add a back button to scene navigation, which lets you quick change back to previous scene viewed"
           },
           "useScenePreview": {
             "label": "Use Scene Preview",
@@ -248,6 +223,10 @@
           "navShowRootFolders": {
             "label": "Show root folders in scene navigation",
             "hint": "Root folders from Scene Directory will be show in the default scene navigation. If you have many folders on root, you might want to disable this option."
+          },
+          "sceneNavItemWidth": {
+            "label": "Width of navigation item",
+            "hint": "Leave empty to use default width, or define a new number. Minimum is 100px"
           }
         },
         "reset": "Reset",
@@ -289,15 +268,6 @@
       "disableUI":{
         "label": "Disable UI in this client",
         "hint": "If a player doesn't want to use Carolingian UI, they may disable it. No other feature of the module will work except for dark style in chat cards - which can be separately disabled."
-      },
-      "uiScale": {
-        "label": "General Scale for Carolingian UI",
-        "hint": "If you use a large resolution, this will adjust the size of icons on left controls bar and some font sizes. The 'icon size' setting will be reset.",
-        "options": {
-          "small": "small",
-          "regular": "regular",
-          "large": "large"
-        }
       }
     },
     "dnd5e": {

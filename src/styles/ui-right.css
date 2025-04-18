@@ -42,7 +42,7 @@ body.crlngn-ui{
       .entry-name{
         font-weight: 600;
         font-size: 1.1em;
-        text-shadow: 0 0 6px rgba(0,0,0,1);
+        text-shadow: 0 0 6px var(--color-dark-bg);
       }
       .icon{
         position: absolute;
@@ -88,9 +88,9 @@ body.crlngn-ui{
       flex-direction: row; 
       align-items: center; 
       justify-content: center; 
-      color: #dcdcdc; 
+      /*color: var(--control-icon-color);*/
       font-weight: 500; 
-      box-shadow: 0 0 10px inset rgb(0, 0, 0, 0.5); 
+      box-shadow: 0 0 10px inset var(--color-dark-bg-50);; 
       transition: all ease-in-out 0.25s; 
       position: relative; 
       min-height: calc(var(--input-height) * 1.2);
@@ -102,15 +102,13 @@ body.crlngn-ui{
       flex: 1 1 auto;
 
       &:hover{
-        color: #fff; 
-        box-shadow: 0 0 8px inset rgb(0, 0, 0, 0.25); 
+        box-shadow: 0 0 8px inset var(--color-dark-bg-25);; 
         background: var(--color-highlights-50); 
         border: 1px solid var(--color-highlights-50); 
       }
 
       &[aria-pressed="true"]{
-        color: #fff;
-        box-shadow: 0 0 8px inset rgb(0, 0, 0, 0.25);
+        box-shadow: 0 0 8px inset var(--color-dark-bg-25);;
         border: 1px solid var(--color-highlights-50); 
       }
 
@@ -133,7 +131,7 @@ body.crlngn-ui{
       font-family: var(--crlngn-font-titles);
       margin-bottom: 6px;
       letter-spacing: 0.02em;
-      color: var(--color-text-secondary);
+      color: var(--color-highlights);
     }
   }
 
@@ -153,6 +151,12 @@ body.crlngn-ui{
     border-radius: var(--crlngn-border-radius);
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
+    visibility: visible;
+
+    &.hidden{
+      display: none;
+      visibility: hidden;
+    }
 
     &:hover, &:focus {
       border-bottom-color: transparent;
@@ -184,13 +188,22 @@ body.crlngn-ui{
       font-weight: 600;
       font-size: 0.9em;
     }
-    
   }
 
-  #roll-privacy.vertical {
-    button {
-      width: var(--control-item-size);
-      height: var(--control-item-size);
+  #roll-privacy{
+    button[data-action=toggleChat]{
+      display: none;
+      visibility: hidden;
+    }
+    &.vertical {
+      button {
+        width: var(--control-item-size);
+        height: var(--control-item-size);
+      }
+      button[data-action=toggleChat]{
+        display: flex;
+        visibility: visible;
+      }
     }
   }
 

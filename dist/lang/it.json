@@ -24,7 +24,8 @@
       "updates": {
         "label": "Ultimo ID Aggiornamento",
         "hint": "Traccia l'ultima notifica di aggiornamento visualizzata"
-      }
+      },
+      "toggleChatBox": "Pulsante Chat"
     },
     "settings": {
       "hideInterface": {
@@ -198,10 +199,6 @@
             "label": "Avvia compresso",
             "hint": "Abilita questa opzione per comprimere la navigazione scene durante il caricamento di Foundry, indipendentemente dallo stato precedentemente salvato."
           },
-          "showFolderListOnClick": {
-            "label": "Mostra elenco cartelle al clic",
-            "hint": "Di default, l'elenco delle cartelle nella barra di navigazione si attiva al passaggio del mouse. Abilita questa opzione per cambiare questo comportamento al clic."
-          },
           "sceneClickToView": {
             "label": "Abilita Click e Doppio Click",
             "hint": "Quando abilitato, cliccare sulla scena nella vista scena apre quella scena. Cliccare due volte l'attiva."
@@ -210,18 +207,9 @@
             "label": "Mostra icone scene",
             "hint": "Mostra icone vicino al nome della scena: <i class='fas fa-lock'></i> Invisibile ai giocatori fino all'attivazione; <i class='fas fa-crown'></i> Attualmente visualizzata dal GM; <i class='fas fa-bullseye'></i> Attualmente attiva per i giocatori;"
           },
-          "sceneNavAlias": {
-            "label": "Etichetta per la navigazione predefinita",
-            "hint": "Se lo desideri, puoi aggiungere un'etichetta vicino all'icona per identificare la navigazione predefinita, ad esempio, 'Preferite'"
-          },
-          "useNavBackButton": {
+          "useSceneBackButton": {
             "label": "Abilita pulsante torna indietro",
             "hint": "<b>'Torna all'ultima scena'</b>: cliccando torna alla scena precedentemente visualizzata, <b>'Torna alle scene predefinite'</b>: appare solo nella vista cartelle, cliccando apre la navigazione scene predefinita, <b>'Disabilitato'</b>: Nessun pulsante torna indietro",
-            "options": {
-              "noButton": "Disabilitato",
-              "lastScene": "Torna all'ultima scena",
-              "defaultScenes": "Torna alle scene predefinite"
-            }
           },
           "useScenePreview": {
             "label": "Usa Anteprima Scena",
@@ -275,15 +263,6 @@
       "disableUI":{
         "label": "Disabilita UI in questo client",
         "hint": "Se un giocatore non vuole utilizzare l'interfaccia Carolingian, può disabilitarla. Nessun'altra funzionalità del modulo funzionerà eccetto lo stile scuro nelle carte chat - che può essere disabilitato separatamente."
-      },
-      "uiScale": {
-        "label": "Scala Generale per UI Carolingian",
-        "hint": "Se usi una risoluzione elevata, questo regolerà la dimensione delle icone nella barra dei controlli a sinistra e alcune dimensioni dei caratteri. L'impostazione 'dimensione icone' verrà reimpostata.",
-        "options": {
-          "small": "piccolo",
-          "regular": "normale",
-          "large": "grande"
-        }
       }
     },
     "dnd5e": {

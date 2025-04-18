@@ -606,7 +606,7 @@ body.crlngn-chat {
     .chat-message ul,
     .chat-message ol,
     .chat-message li {
-      color: var(--color-text-light-3);
+      color: var(--color-text-light);
     }
     .chat-message .message-header .name-stacked .title,
     &.system-dnd5e .chat-message .name-stacked .title {
@@ -639,7 +639,7 @@ body.crlngn-chat {
       color: var(--color-text-light-1);
       font-family: var(--crlngn-font-titles);
       &:hover{
-        color: var(--color-text-light-2);
+        color: var(--color-text-light);
       }
     }
   
@@ -651,18 +651,28 @@ body.crlngn-chat {
       color: var(--color-text-light-1);
       font-family: var(--crlngn-font-family);
       &:hover{
-        color: var(--color-text-light-2);
+        color: var(--color-text-light);
       }
     }
   
     /* CHAT MESSAGE CARD */
-    .chat-message .table-draw .table-results .table-result {
-      align-items: flex-start;
-  
-      p{
-        margin: 0;
+    .chat-message .table-draw .table-results{
+      margin: 10px 0;
+
+      .table-result {
+        align-items: flex-start;
+        gap: 10px;
+    
+        p{
+          margin: 0;
+        }
+
+        .result-image{
+          flex: 0 0 25%;
+          width: 25%;
+        }
       }
-    }
+    } 
     
     .chat-message .table-draw .table-results .table-result img.result-image {
       border: none;
@@ -671,7 +681,7 @@ body.crlngn-chat {
   
   
     .chat-message.whisper {
-      border: 2px dotted var(--color-text-light-2);
+      border: 2px dotted var(--color-text-light);
     }
     .chat-message:before {
       opacity: 0.2;
@@ -684,10 +694,14 @@ body.crlngn-chat {
     }
     .chat-message .message-content,
     .chat-message .message-content > * {
-      color: var(--color-text-light-2);
+      color: var(--color-text-light);
     }
     .chat-message.ddb-game-log-message .message-content .ddb-card-content a {
       color: var(--color-text-hyperlink);
+    }
+    .chat-message ol.table-results {
+      margin: 0;
+      padding: 0;
     }
   
     /* headers */
@@ -989,7 +1003,7 @@ body.crlngn-chat {
       height: var(--font-size-16);
     }
     &.system-pf2e .message-content .dice-result .dice-formula {
-      color: var(--color-text-light-2);
+      color: var(--color-text-light);
     }
     &.system-pf2e .chat-message .message-content button {
       font-size: var(--font-size-12);
@@ -1017,16 +1031,16 @@ body.crlngn-chat {
     }
     &.system-pf2e  .chat-message>.message-content .dice-roll .dice-tooltip{
       background-color: transparent;
-      color: var(--color-text-light-2);
+      color: var(--color-text-light);
       font-size: var(--font-size-12);
     }
     &.system-pf2e .chat-message .message-content .dice-result .dice-tooltip .instance {
       border: none;
       border-width: 0;
       border-radius: 0;
-      color: var(--color-text-light-2);
+      color: var(--color-text-light);
       > *{
-        color: var(--color-text-light-2);
+        color: var(--color-text-light);
       }
     }
   }

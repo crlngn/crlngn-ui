@@ -470,7 +470,7 @@ body.crlngn-ui{
     &.crux-taskbar-compat #crux, #crux {
       height: calc(100vh - var(--crlngn-sidebar-bottom, 0px)) !important; 
       .crux__container {
-        border-right: 1px solid rgba(0,0,0,0.75);
+        border-right: 1px solid var(--color-dark-bg-75);
         background-color: rgba(0,0,0,0.8);
 
         h1{

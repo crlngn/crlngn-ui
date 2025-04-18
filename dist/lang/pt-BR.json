@@ -24,7 +24,8 @@
       "updates": {
         "label": "Último ID de Atualização",
         "hint": "Rastreia a última notificação de atualização exibida"
-      }
+      },
+      "toggleChatBox": "Caixa de Mensagens"
     },
     "settings": {
       "hideInterface": {
@@ -197,10 +198,6 @@
             "label": "Recolher navegação ao iniciar",
             "hint": "Ative esta opção para recolher a navegação de cenas ao carregar o Foundry, independentemente do estado anterior."
           },
-          "showFolderListOnClick": {
-            "label": "Mostrar lista de pastas no click",
-            "hint": "Por padrão, a lista aparece no hover. Ative esta opção para mudar o comportamento para o clique."
-          },
           "sceneClickToView": {
             "label": "Ativar Clique e Duplo Clique",
             "hint": "Quando ativado, um clique na cena a abre para visualização. Um duplo clique a ativa para os jogadores."
@@ -209,18 +206,9 @@
             "label": "Usar ícones de cena",
             "hint": "Mostra ícones próximos ao nome da cena: <i class='fas fa-lock'></i> Invisível para jogadores até ser ativada; <i class='fas fa-crown'></i> Atualmente visualizada pelo GM; <i class='fas fa-bullseye'></i> Atualmente ativa para os jogadores;"
           },
-          "sceneNavAlias": {
-            "label": "Rótulo para a Navegação Padrão",
-            "hint": "Se quiser, você pode adicionar um rótulo ao lado do ícone para identificar a navegação padrão, por exemplo, 'Favoritos'"
-          },
-          "useNavBackButton": {
+          "useSceneBackButton": {
             "label": "Habilitar Botão Voltar",
             "hint": "<b>'Voltar para Cena Anterior'</b>: ao clicar, retorna para a cena anteriormente visualizada, <b>'Voltar para Cenas Padrão'</b>: somente aparece na vista de pasta, ao clicar abre a navegação de cena padrão, <b>'Desabilitado'</b>: Nenhum botão Voltar",
-            "options": {
-              "noButton": "Desabilitado",
-              "lastScene": "Voltar para Cena Anterior",
-              "defaultScenes": "Voltar para Cenas Padrão"
-            }
           },
           "useScenePreview": {
             "label": "Usar Previsualização de Cena",
@@ -274,15 +262,6 @@
       "disableUI":{
         "label": "Desativar Interface neste Cliente",
         "hint": "Se um jogador não quiser usar a Interface Carolingian, pode desativá-la. Nenhuma outra funcionalidade do módulo funcionará, exceto o estilo escuro nos cartões de chat - que pode ser desativado separadamente."
-      },
-      "uiScale": {
-        "label": "Escala Geral da Interface Carolingian",
-        "hint": "Se você usa uma resolução alta, isso ajustará o tamanho dos ícones na barra de controles à esquerda e alguns tamanhos de fonte. A configuração de 'tamanho dos ícones' será redefinida.",
-        "options": {
-          "small": "pequeno",
-          "regular": "normal",
-          "large": "grande"
-        }
       }
     }, 
     "dnd5e": {

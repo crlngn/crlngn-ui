@@ -16,6 +16,7 @@ export const HOOKS_CORE = {
   GET_SCENE_CONTROLS: "getSceneControlButtons",
   RENDER_SCENE_CONTROLS: "renderSceneControls",
   RENDER_PLAYERS_LIST: "renderPlayers",
+  ACTIVATE_SCENE_CONTROLS: "activateSceneControls",
 
   /* Scenes */
   RENDER_SCENE_NAV: "renderSceneNavigation",
@@ -41,6 +42,8 @@ export const HOOKS_CORE = {
 
   /* Right Side Panel */
   COLLAPSE_SIDE_BAR: "collapseSidebar",
+  EXPAND_SIDE_BAR: "expandSidebar",
+  RENDER_SIDE_BAR: "renderSidebar",
 
   /* Macros */
   RENDER_HOTBAR: "renderHotbar",

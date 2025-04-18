@@ -27,18 +27,18 @@ export class TopNavigation {
   static #navBtnsTimeout;
   static #navFirstLoad = true;
   static #sceneClickTimer = null;
+  static #previewedScene = '';
+  static #visitedScenes = [];
   // settings
   static sceneNavEnabled;
   static navFoldersEnabled;
   static navFoldersForPlayers;
   static navShowRootFolders;
   static navStartCollapsed;
-  static showFolderListOnClick;
   static showNavOnHover;
   static useSceneIcons;
   static useScenePreview;
-  static useNavBackButton;
-  static sceneNavAlias = "";
+  static useSceneBackButton;
   static sceneClickToView;
   static isCollapsed;
   static navPos;
@@ -57,7 +57,7 @@ export class TopNavigation {
     TopNavigation.useScenePreview = SettingsUtil.get(SETTINGS.useScenePreview.tag);
     TopNavigation.navFoldersEnabled = SettingsUtil.get(SETTINGS.navFoldersEnabled.tag);
     TopNavigation.navFoldersForPlayers = SettingsUtil.get(SETTINGS.navFoldersForPlayers.tag);
-    TopNavigation.showFolderListOnClick = SettingsUtil.get(SETTINGS.showFolderListOnClick.tag);
+    TopNavigation.isCollapsed = TopNavigation.navStartCollapsed;
     SceneNavFolders.init();
 
     LogUtil.log("SCENE NAV INIT", [TopNavigation.sceneNavEnabled]);
@@ -72,26 +72,29 @@ export class TopNavigation {
     // execute on render scene navigation
     Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, (nav, navHtml, navData) => {
       const SETTINGS = getSettings();
-      TopNavigation.handleSceneList(nav, navHtml, navData);
       TopNavigation.handleBackButton(nav, navHtml, navData);
+      TopNavigation.handleSceneList(nav, navHtml, navData);
       TopNavigation.handleFolderList(nav, navHtml, navData);
       const scenePage = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
 
       TopNavigation.resetLocalVars();
       TopNavigation.setNavPosition(scenePage, false);
-      TopNavigation.addListeners();
       TopNavigation.handleNavState();
       TopNavigation.addSceneListeners(navHtml);
+      TopNavigation.addListeners();
 
       if(TopNavigation.navShowRootFolders){
+        SceneNavFolders.init();
         SceneNavFolders.renderFolderList();
       }
+      
+      LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV);
       
       clearTimeout(TopNavigation.#timeout);
       TopNavigation.#timeout = setTimeout(()=>{
         LogUtil.log("NAV no transition remove");
         TopNavigation.placeNavButtons();
-      }, 750);
+      }, 300);
     });
     Hooks.on(HOOKS_CORE.CREATE_SCENE, () => {
       ui.nav.render();
@@ -102,6 +105,12 @@ export class TopNavigation {
     Hooks.on(HOOKS_CORE.DELETE_SCENE, () => {
       ui.nav.render();
     });
+    Hooks.on(HOOKS_CORE.CANVAS_INIT, ()=>{
+      const sceneId = game.scenes?.viewed?.id;
+      if(sceneId !== TopNavigation.#visitedScenes[TopNavigation.#visitedScenes.length-1]){
+        TopNavigation.#visitedScenes.push(sceneId);
+      }
+    })
 
     // add class to ui nav when sidebar changes state
     Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, (sidebar) => { 
@@ -115,12 +124,7 @@ export class TopNavigation {
       clearTimeout(TopNavigation.#timeout);
       TopNavigation.isCollapsed = collapsed;
       TopNavigation.#timeout = setTimeout(()=>{
-        if(collapsed){
-          TopNavigation.#uiLeft.classList.add('navigation-collapsed');
-        }else{
-          TopNavigation.#uiLeft.classList.remove('navigation-collapsed');
-          TopNavigation.placeNavButtons();
-        }
+        TopNavigation.setCollapsedClass(collapsed);
       }, 250);
     });
 
@@ -137,8 +141,8 @@ export class TopNavigation {
         const scene = game.scenes.get(sc.dataset.entryId);
         LogUtil.log(HOOKS_CORE.RENDER_SCENE_DIRECTORY,["directoryScenes", sc.dataset.entryId, TopNavigation.sceneClickToView]);
         if(TopNavigation.sceneClickToView){
-          sc.addEventListener("dblclick", TopNavigation.#onActivateScene); // onActivateScene
-          sc.addEventListener("click", TopNavigation.#onSelectScene);
+          sc.addEventListener("dblclick", TopNavigation.onActivateScene); // onActivateScene
+          sc.addEventListener("click", TopNavigation.onSelectScene);
         }
         
         if(TopNavigation.useSceneIcons && scene && game.user?.isGM){
@@ -167,6 +171,15 @@ export class TopNavigation {
     TopNavigation.placeNavButtons();
   }
 
+  static setCollapsedClass = (collapsed) => {
+    if(collapsed){
+      TopNavigation.#uiLeft.classList.add('navigation-collapsed');
+    }else{
+      TopNavigation.#uiLeft.classList.remove('navigation-collapsed');
+      TopNavigation.placeNavButtons();
+    }
+  }
+
   static checkSideBar = (isExpanded) => {
     TopNavigation.placeNavButtons(); 
     const body = document.querySelector("body");
@@ -191,27 +204,62 @@ export class TopNavigation {
   /**
    * Add scene preview to nav, if the setting is enabled
    */
-  static handleSceneList(nav, navHtml, navData){
-    if(TopNavigation.useScenePreview){
+  static handleSceneList = async (nav, navHtml, navData) =>{
+    if(TopNavigation.sceneNavEnabled){
       LogUtil.log("handleSceneList", [nav, navHtml, navData]);
 
       const allSceneLi = navHtml.querySelectorAll(".scene-navigation-menu li.scene");
-      allSceneLi.forEach(li => {
+      // allSceneLi.forEach(async (li) => {
+      for(const li of allSceneLi){
         const id = li.dataset.sceneId;
-        const sceneData = game.scenes.find(sc => sc.id === id);
-        LogUtil.log("sceneData", [sceneData]);
 
-        const span = document.createElement('span');
-        span.classList.add('scene-preview');
-        span.style = `background-image: url('${sceneData.thumbnail || ''}')`;
-        li.classList.add('nav-item');
-        li.append(span);
+        // add scene preview
+        if(TopNavigation.useScenePreview){
+          const sceneData = game.scenes.find(sc => sc.id === id);
+          sceneData.isGM = game.user?.isGM;
+          const previewTemplate = await renderTemplate(
+            `modules/${MODULE_ID}/templates/scene-nav-preview.hbs`, 
+            sceneData
+          );
+          LogUtil.log("sceneData", [sceneData]);
+          li.classList.add('nav-item');
+          li.insertAdjacentHTML('beforeend', previewTemplate);
+
+          if(sceneData.isGM && TopNavigation.#previewedScene === id){
+            const mouseEnterEvent = new MouseEvent('mouseenter');
+            li.dispatchEvent(mouseEnterEvent);
+          }
+          
+          // Add click handlers to the preview icons if user is GM
+          if (game.user?.isGM) {
+            TopNavigation.addPreviewIconListeners(li, sceneData);          
+          }
+        }
+        
+        // add custom scene icons
         if(TopNavigation.useSceneIcons){
           if(li.classList.contains('active') || li.classList.contains('view')){
             li.classList.add('crlngn');
           }
         }
+      }
+    }
+
+    if(TopNavigation.sceneNavEnabled){
+      const navToggle = navHtml.querySelector("#scene-navigation-expand");
+      const column2 = document.querySelector("#ui-left-column-2");
+      const existingToggle = document.querySelector("#crlngn-scene-navigation-expand");
+      if(existingToggle){ existingToggle.remove(); }
+      // 
+      const toggleClone = navToggle?.cloneNode(true);
+      toggleClone.id = "crlngn-scene-navigation-expand";
+      // toggleClone.attributes = navToggle.attributes;
+      toggleClone.addEventListener("click", () => {
+        navToggle.click(); // This will trigger the original handler
       });
+      LogUtil.log("toggle events", [nav, toggleClone]);
+
+      column2.prepend(toggleClone);
     }
   }
 
@@ -226,15 +274,14 @@ export class TopNavigation {
   static handleBackButton(nav, navHtml, navData){
     const SETTINGS = getSettings();
     LogUtil.log("handleBackButton",[nav, navHtml, navData]);
-    if(TopNavigation.useNavBackButton===SETTINGS.useNavBackButton.options.noButton){ return; }
-    const activeScenesMenu = navHtml.querySelector("#scene-navigation-active");
+    if(!TopNavigation.useSceneBackButton){ return; }
+    const sceneNav = navHtml.querySelector("#scene-navigation-active");
     const backButton = document.createElement("button");
-    backButton.classList.add("back-button");
+    backButton.id = "crlngn-back-button";
     backButton.innerHTML = "<i class='fa fa-turn-left'></i>";
-
     backButton.addEventListener("click", TopNavigation.#onBackButton);
 
-    activeScenesMenu.prepend(backButton);
+    sceneNav.prepend(backButton);
   }
 
   /**
@@ -258,6 +305,19 @@ export class TopNavigation {
   static #onBackButton = (evt) => {
     evt.stopPropagation();
     evt.preventDefault();
+
+    const length = TopNavigation.#visitedScenes.length
+    const previousSceneId = TopNavigation.#visitedScenes[length-2];
+    let scene;
+
+    LogUtil.log("#onBackButton before",[ length, previousSceneId, TopNavigation.#visitedScenes ]);
+    if(previousSceneId && previousSceneId !== game.scenes.current?.id){
+      scene = game.scenes.get(previousSceneId);
+      if(scene) scene.view();
+      TopNavigation.#visitedScenes.pop();
+    }
+    LogUtil.log("#onBackButton after",[ TopNavigation.#visitedScenes ]);
+
   }
 
   /**
@@ -338,8 +398,8 @@ export class TopNavigation {
    */
   static addListeners(){
     TopNavigation.#navElem?.addEventListener("mouseenter", (e)=>{
-      LogUtil.log("TopNavigation mouseenter", [ TopNavigation.isCollapsed, TopNavigation.showNavOnHover ]);
-    
+      LogUtil.log("TopNavigation mouseenter", [ TopNavigation.isCollapsed, TopNavigation.showNavOnHover ]);;
+
       if( !TopNavigation.isCollapsed ||
           !TopNavigation.showNavOnHover ){ 
             return;
@@ -372,32 +432,33 @@ export class TopNavigation {
    * Places navigation buttons for scrolling through scenes
    * Only adds buttons if navigation is overflowing and buttons don't already exist
    */
-  static placeNavButtons(){ 
+  static placeNavButtons = async() => { 
     const sceneNav = document.querySelector("#scene-navigation");
-    const inactiveList = sceneNav.querySelector("#scene-navigation-inactive");
-    const existingButtons = sceneNav.querySelectorAll("button.crlngn-btn");
+    const sceneList = sceneNav.querySelector("#scene-navigation-inactive");
+    const existingButtons = document.querySelectorAll(".crlngn-btn");
 
-    if(!sceneNav || !inactiveList){
+    if(!sceneNav){
       return;
     }
-    const btnWidth = (parseInt(existingButtons[0]?.clientWidth) * 2) || 0;
-    const isNavOverflowing = inactiveList ? (inactiveList.clientWidth - btnWidth) < inactiveList.scrollWidth : false;
-    LogUtil.log("isNavOverflowing", [isNavOverflowing, inactiveList.clientWidth, btnWidth, inactiveList.scrollWidth]);
-  
+    
+    const btnWidth = (TopNavigation.#navToggle?.offsetWidth * 2) || 0;
+    const isNavOverflowing = (sceneNav.offsetWidth - btnWidth) < sceneNav.scrollWidth;
+    LogUtil.log("placeNavButtons", [isNavOverflowing, existingButtons]);
+    
+    existingButtons.forEach(b => b.remove());
     if(!isNavOverflowing){
       return;
     }
-    existingButtons.forEach(b => b.remove());
-
-    // Insert the preloaded template HTML
-    if (typeof this.navButtonsTemplate === 'function') {
-      const buttonsHtml = this.navButtonsTemplate();
-      sceneNav.insertAdjacentHTML('beforeend', buttonsHtml);
-    }
+    // Render nav buttons template
+    const buttonsHtml = await renderTemplate(
+      `modules/${MODULE_ID}/templates/scene-nav-buttons.hbs`, 
+      {}
+    );
+    sceneNav.insertAdjacentHTML('afterend', buttonsHtml);
   
     // Add event listeners to the newly inserted buttons
-    const btnLast = sceneNav.querySelector("button.crlngn-btn.ui-nav-left");
-    const btnNext = sceneNav.querySelector("button.crlngn-btn.ui-nav-right");
+    const btnLast = sceneNav.parentNode.querySelector("button.crlngn-btn.ui-nav-left");
+    const btnNext = sceneNav.parentNode.querySelector("button.crlngn-btn.ui-nav-right");
   
     if (btnLast) btnLast.addEventListener("click", this.#onNavLast);
     if (btnNext) btnNext.addEventListener("click", this.#onNavNext);
@@ -413,8 +474,11 @@ export class TopNavigation {
     const itemsPerPage = await TopNavigation.getItemsPerPage();
     const currPos = TopNavigation.navPos || 0;
 
+    if(!TopNavigation.#scenesList || !TopNavigation.#navElem){ return; }
+
     let newPos = currPos - (itemsPerPage - 1);
-    LogUtil.log("onNavLast", ["pos", currPos, newPos]);
+    LogUtil.log("onNavLast", ["pos", newPos, TopNavigation.#navElem.scrollWidth]);
+    
     newPos = newPos < 0 ? 0 : newPos;
     TopNavigation.setNavPosition(newPos);
   }
@@ -427,93 +491,99 @@ export class TopNavigation {
    */
   static #onNavNext = async (e) => {
     const itemsPerPage = await TopNavigation.getItemsPerPage();
-    const scenes = TopNavigation.#scenesList?.querySelectorAll("li.nav-item") || [];
+    // const scenes = TopNavigation.#scenesList?.querySelectorAll("li.nav-item") || [];
     const currPos = TopNavigation.navPos || 0;
+    const firstScene = TopNavigation.#navElem?.querySelector("li.nav-item:first-of-type");
+    const itemWidth = firstScene?.offsetWidth || 0;
+    const scrollWidth = TopNavigation.#navElem?.scrollWidth || 0;
+
+    if(!itemWidth || !TopNavigation.#navElem){ return; }
 
     let newPos = currPos + (itemsPerPage - 1);
-    LogUtil.log("onNavNext", ["pos", currPos, newPos, itemsPerPage]);
-    newPos = newPos > scenes.length - itemsPerPage - 1 ? scenes.length - itemsPerPage - 1 : newPos;
+    let newPosPx = newPos * itemWidth;
+    LogUtil.log("onNavNext", ["pos", currPos, newPos, firstScene?.offsetWidth, newPosPx, scrollWidth]);
+
+    if(newPosPx >= scrollWidth){
+      newPos = Math.floor(scrollWidth/itemWidth);
+    }
     TopNavigation.setNavPosition(newPos);
   }
 
   /**
-   * Sets the position of the scene navigation list
+   * Sets the position of the scene navigation list, with or without animation
    * @param {number} [pos] - The position to scroll to. If undefined, uses stored position
    * @param {boolean} [animate=true] - Whether to animate the scroll
-   * @param {number} [duration=300] - Duration of the animation in milliseconds (only used when animate is true)
+   * @param {number} [duration=400] - Duration of the animation in milliseconds (only used when animate is true)
    */
-  static setNavPosition(pos=null, animate=true, duration=300) { 
+  static setNavPosition(pos=null, animate=true, duration=400) { 
     try {
       const SETTINGS = getSettings();
       
-      if(!TopNavigation.#scenesList){ return; }
+      if(!TopNavigation.#navElem){ return; }
 
-      const scenes = TopNavigation.#scenesList?.querySelectorAll("li.nav-item") || [];
+      const scenes = TopNavigation.#navElem?.querySelectorAll("li.nav-item") || [];
       const extrasWidth = 0;//this.#isRipperSceneNavOn ? this.#navExtras?.offsetWidth || 0 : 0;
-      const position = pos!==undefined ? pos : TopNavigation.navPos || 0;
+      const position = pos!==null ? pos : TopNavigation.navPos || 0;
+      const firstScene = TopNavigation.#navElem?.querySelector("li.nav-item:first-of-type");
       
-      if (scenes.length === 0 || position >= scenes.length) { return; }
+      if(!firstScene){ return; }
+      // if (scenes.length === 0 || position > Math.ceil(TopNavigation.#navElem.scrollWidth/itemWidth)) { return; }
       // const firstScene = scenes[0];
 
       const targetScene = scenes[position];
-      const w = targetScene?.offsetWidth || 0;
+      const w = firstScene.offsetWidth || 0;
       const offsetLeft = parseInt(w) * position; //parseInt(targetScene?.offsetLeft);
-      if (typeof offsetLeft !== 'number') { return; }
+      LogUtil.log("setNavPosition", ['position', position, offsetLeft, TopNavigation.#navElem.scrollWidth ]);
+      
+      // if (typeof offsetLeft !== 'number') { return; }
 
-      const newMargin = (offsetLeft - extrasWidth) * 1;
-      LogUtil.log("setNavPosition", ['Calculated margin:', position, offsetLeft, newMargin ]);
+      const newMargin = (offsetLeft - extrasWidth);
+      if(newMargin > TopNavigation.#navElem.scrollWidth){ return; }
       
       TopNavigation.navPos = position;
       SettingsUtil.set(SETTINGS.sceneNavPos.tag, position);
-      if(newMargin > TopNavigation.#scenesList.scrollWidth){ return; }
       
       if (animate) {
         // Use custom animation with specified duration from GeneralUtil
-        GeneralUtil.smoothScrollTo(TopNavigation.#scenesList, newMargin, "horizontal", duration);
+        GeneralUtil.smoothScrollTo(TopNavigation.#navElem, newMargin, "horizontal", duration);
+        // TopNavigation.#navElem.scrollTo({
+        //   left: newMargin,
+        //   behavior: "smooth"
+        // })
       } else {
         // Use instant scroll without animation
-        TopNavigation.#scenesList.scrollTo({
+        TopNavigation.#navElem.scrollTo({
           left: newMargin,
           behavior: "instant"
         });
       }
-      
-      LogUtil.log("setNavPosition", ['Complete']);
     } catch (error) {
       LogUtil.log("setNavPosition", ['Error:', error]);
       console.error('Error in setNavPosition:', error);
     }
   }
 
+  /**
+   * Calculates the number of scenes that can fit in the navigation area
+   * @returns {Promise<number>} The number of scenes that can fit in the navigation area
+   */
   static getItemsPerPage = async () => {
     try {
       LogUtil.log('getItemsPerPage', ['Starting']);
       TopNavigation.resetLocalVars();
-      // if(!TopNavigation.#navElem) {
-      // //   LogUtil.log('getItemsPerPage', ['No nav element, resetting vars']);
-      //   TopNavigation.resetLocalVars();
-      // //   // Ensure DOM is ready before accessing element dimensions
-      // //   await new Promise(resolve => setTimeout(resolve, 100));
-      // }
 
-      // if (!TopNavigation.#navElem) {
-      //   LogUtil.log('getItemsPerPage', ['Nav element not found']);
-      //   return 0;
-      // }
-
-      const folderListWidth = 0; // this.#navElem?.querySelector("#crlngn-scene-folders")?.offsetWidth || 0;
-      const extrasWidth = 0; // this.#isRipperSceneNavOn ? this.#navExtras?.offsetWidth || 0 : 0;
+      const folderListWidth = 0; 
+      const extrasWidth = 0; 
       const toggleWidth = TopNavigation.#navToggle?.offsetWidth || 0;
-      const firstScene = TopNavigation.#scenesList?.querySelector("li:first-child");
+      const firstScene = TopNavigation.#navElem?.querySelector("li.nav-item:first-of-type");
       
-      if (!firstScene) {
-        LogUtil.log('getItemsPerPage', [TopNavigation.#scenesList, 'No scene items found']);
+      if (!firstScene || !TopNavigation.#navElem) {
+        LogUtil.log('getItemsPerPage', ['No scene items found']);
         return 0;
       }
 
       const itemWidth = firstScene.offsetWidth;
-      // const currPos = TopNavigation.navPos || 0;
-      const navWidth = TopNavigation.#scenesList?.clientWidth;
+      const navWidth = TopNavigation.#navElem.offsetWidth;
       if (!navWidth) {
         LogUtil.log('getItemsPerPage', ['Nav element has no width']);
         return 0;
@@ -535,13 +605,13 @@ export class TopNavigation {
    */
   static preloadTemplates = async () => {
     try {
-      const templatePath = `modules/${MODULE_ID}/templates/scene-nav-buttons.hbs`;
+      const templatePaths = [
+        `modules/${MODULE_ID}/templates/scene-nav-buttons.hbs`,
+        `modules/${MODULE_ID}/templates/scene-nav-preview.hbs`
+      ];
       
-      // Load the template
-      await loadTemplates([templatePath]);
-      
-      // Store the compiled template function
-      this.navButtonsTemplate = Handlebars.compile(await fetch(templatePath).then(r => r.text()));
+      // Load the templates
+      await loadTemplates(templatePaths);
       
       return true;
     } catch (error) {
@@ -550,16 +620,14 @@ export class TopNavigation {
     }
   }
 
-
-
   static getCurrScenePosition = async (id) => {
     try {
-      if (!TopNavigation.#scenesList || !id) {
+      if (!TopNavigation.#navElem || !id) {
         return 0;
       }
 
       const itemsPerPage = await TopNavigation.getItemsPerPage() || 1;
-      const sceneItems = TopNavigation.#scenesList.querySelectorAll("li.nav-item");
+      const sceneItems = TopNavigation.#navElem.querySelectorAll("li.nav-item");
 
       if (!sceneItems || sceneItems.length === 0) {
         return 0;
@@ -584,13 +652,14 @@ export class TopNavigation {
     }
   }
 
-  static #onActivateScene = (evt) => {
+  static onActivateScene = (evt) => {
     evt.stopPropagation();
     evt.preventDefault();
     const target = evt.currentTarget;
-    const data = target.dataset;
+    const isInner = target.classList.contains("scene-name");
+    const data = isInner ? target.parentNode.dataset : target.dataset;
     const scene = game.scenes.get(data.entryId || data.sceneId);
-    LogUtil.log("#onActivateScene",[data, scene]);
+    LogUtil.log("onActivateScene",[data, scene]);
     scene.activate();
     // Clear the single-click timer if it exists
     if (TopNavigation.#sceneClickTimer) {
@@ -600,26 +669,27 @@ export class TopNavigation {
     
   }
 
-  static #onSelectScene = (evt) => {
+  static onSelectScene = (evt) => {
     evt.preventDefault();
     evt.stopPropagation();
-    
-    // document.removeEventListener('click', SceneNavFolders.#onOutsideClick);
     const target = evt.currentTarget;
-    const data = target.dataset;
+    const isInner = target.classList.contains("scene-name");
+    const data = isInner ? target.parentNode.dataset : target.dataset;
     const scene = game.scenes.get(data.entryId || data.sceneId);
     // const isSearchResult = target.parentElement?.classList.contains('search-results');
     
-    LogUtil.log("#onSelectScene",[scene]);
+    TopNavigation.#previewedScene = '';
+    LogUtil.log("onSelectScene",[scene, target, isInner]);
+
     // Temporarily override the sheet.render method to prevent scene configuration
     if (scene && scene.sheet) {
       const originalRender = scene.sheet.render;
-      LogUtil.log("#onSelectScene - originalRender",[originalRender]);
+      LogUtil.log("onSelectScene - originalRender",[originalRender]);
       scene.sheet.render = function() { return this; };
       // Restore the original method after a short delay
       setTimeout(() => {
         scene.sheet.render = originalRender;
-      }, 300);
+      }, 250);
     }
 
     // Clear any existing timer
@@ -630,18 +700,33 @@ export class TopNavigation {
 
     // Set a new timer for the click action
     TopNavigation.#sceneClickTimer = setTimeout(() => {
-      // if(isSearchResult){
-      //   scene.navigation = true;
-      //   // SceneNavFolders.selectedFolder = SceneNavFolders.selectFolder(DEFAULT_FOLDER_ID);
-      // }
       scene.view();
-      // SceneNavFolders.refreshFolderView();
       TopNavigation.#sceneClickTimer = null;
-      
-    }, 500); // 350ms delay to wait for potential double-click
+    }, 250); // 250ms delay to wait for potential double-click
   }
 
-    /**
+  static onScenePreviewOn = (evt) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+    const target = evt.currentTarget;
+    const data = target.dataset;
+    TopNavigation.#previewedScene = data.sceneId;
+    LogUtil.log("onScenePreviewOn", [TopNavigation.#previewedScene]);
+
+    target.querySelector(".scene-preview").classList.add('open');
+  }
+
+  static onScenePreviewOff = (evt) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+    const target = evt.currentTarget;
+    TopNavigation.#previewedScene = '';
+    LogUtil.log("onScenePreviewOff", []);
+
+    target.querySelector(".scene-preview").classList.remove('open');
+  }
+
+  /**
    * Adds click event listeners to scene items in the scene folders UI
    * @param {HTMLElement} html - The HTML element containing the scene folders UI
    */
@@ -649,9 +734,101 @@ export class TopNavigation {
     const sceneItems = html.querySelectorAll("li.scene");
     sceneItems.forEach(li => {
       const isFolder = li.classList.contains("folder");
-      li.addEventListener("click", TopNavigation.#onSelectScene);
-      li.addEventListener("dblclick", TopNavigation.#onActivateScene);
+      li.querySelector(".scene-name").addEventListener("click", TopNavigation.onSelectScene);
+      li.querySelector(".scene-name").addEventListener("dblclick", TopNavigation.onActivateScene);
+      li.addEventListener("mouseenter", TopNavigation.onScenePreviewOn);
+      li.addEventListener("mouseleave", TopNavigation.onScenePreviewOff);
     });
+  }
+  
+  /**
+   * Adds click event listeners to the icons in the scene preview
+   * @param {HTMLElement} sceneElement - The scene element containing the preview
+   * @param {Scene} sceneData - The scene data
+   */
+  static addPreviewIconListeners = (sceneElement, sceneData) => {
+    if (!sceneElement || !sceneData) return;
+    
+    const scene = game.scenes.get(sceneData.id);
+    if (!scene) return;
+    
+    const previewDiv = sceneElement.querySelector('.scene-preview');
+    if (!previewDiv) return;
+    
+    // Global illumination icon
+    const ilumIcon = previewDiv.querySelector('.ilum');
+    if (ilumIcon) {
+      ilumIcon.addEventListener('click', async (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        
+        // Toggle global illumination
+        const currentValue = scene.environment.globalLight.enabled;
+        
+        // Update the scene
+        await scene.update({
+          'environment.globalLight.enabled': !currentValue
+        });
+        LogUtil.log("Toggled global illumination", [!currentValue]);
+      });
+    }
+    
+    // Token vision icon
+    const tokenVisionIcon = previewDiv.querySelector('.token-vision');
+    if (tokenVisionIcon) {
+      tokenVisionIcon.addEventListener('click', async (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        
+        // Toggle token vision
+        const currentValue = scene.tokenVision;
+        
+        // Update the scene
+        await scene.update({
+          'tokenVision': !currentValue
+        });
+        LogUtil.log("Toggled token vision", [!currentValue]);
+      });
+    }
+    
+    // Sound icon - only if there's a playlist sound
+    const soundIcon = previewDiv.querySelector('.sound');
+    if (soundIcon && scene.playlistSound) {
+      soundIcon.addEventListener('click', async (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        
+        // Toggle playlist sound
+        const playlistSound = scene.playlistSound;
+        if (playlistSound) {
+          const playing = playlistSound.sound.playing;
+          
+          // Toggle the sound
+          if (playing) {
+            await playlistSound.sound.pause();
+          } else {
+            await playlistSound.sound.play();
+          }
+          ui.nav.render();
+          LogUtil.log("Toggled playlist sound", [!playing]);
+        }
+      });
+    }
+    
+    // Config icon
+    const configIcon = previewDiv.querySelector('.config');
+    if (configIcon) {
+      configIcon.addEventListener('click', (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        
+        // Open scene configuration
+        scene.sheet.render(true);
+        LogUtil.log("Opened scene configuration");
+      });
+    }
+    
+
   }
   
 }

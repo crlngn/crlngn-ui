@@ -11,6 +11,37 @@
   {{#each scenes}}
   <li class="ui-control scene gm" data-scene-id="{{this.id}}">
     <span class="scene-name ellipsis">{{this.name}}</span>
+    <div class="scene-preview" data-scene-id="{{id}}" 
+      style="background-image: url({{#if this.thumb}}{{this.thumb}}{{else}}''{{/if}})">
+      
+      <div class="icons">
+        {{!-- global ilumination icon --}}
+        {{#if this.environment.globalLight.enabled }}
+        <i class="fa-solid fa-lightbulb-on ilum" data-tooltip="Global illumination is on"></i>
+        {{else}}
+        <i class="fa-solid fa-lightbulb-slash ilum" data-tooltip="Global illumination is off"></i>
+        {{/if}}
+
+        {{!-- Token vision icon --}}
+        {{#if this.tokenVision }}
+        <i class="fa-solid fa-user token-vision" data-tooltip="Token Vision is on"></i>
+        {{else}}
+        <i class="fa-solid fa-user-slash token-vision" data-tooltip="Token Vision is off"></i>
+        {{/if}}
+
+        {{!-- sound icon --}}
+        {{#if this.playlistSound }}
+          {{#if this.playlistSound.sound.playing }}
+          <i class="fa-solid fa-music sound" data-tooltip="Playlist sound is on"></i>
+          {{else}}
+          <i class="fa-solid fa-music-slash sound" data-tooltip="Playlist sound is off"></i>
+          {{/if}}
+        {{/if}}
+
+        {{!-- config icon --}}
+        <i class="fas fa-cog config" data-tooltip="Scene Configuration"></i>
+      </div>
+    </div>
   </li>
   {{/each}}
 </menu>

@@ -1,6 +1,6 @@
 body{
   /* vars */
-  --crlngn-border-radius: calc(var(--control-item-size) / 6);
+  --crlngn-border-radius: 4px; /*calc(var(--control-item-size) / 6);*/
   --control-item-size: 38px; /* size of control icon buttons */
 }
 body.crlngn-ui  {
@@ -372,7 +372,7 @@ body.crlngn-ui{
       overflow-y: auto;
       z-index: 1000;
       display: none;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+      box-shadow: 0 2px 4px var(--color-dark-bg-15);
     }
   
     .dropdown-options.active {
@@ -510,6 +510,8 @@ body.crlngn-ui{
       &.info {
         background: var(--color-secondary-90);
         border: 1px solid rgba(0,0,0);
+        color: var(--color-text-secondary);
+        text-shadow: none;
       } 
     }
   }

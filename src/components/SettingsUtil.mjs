@@ -135,11 +135,7 @@ export class SettingsUtil {
     const controlFields = SETTINGS.leftControlsMenu.fields;
     controlFields.forEach(fieldName => {
       SettingsUtil.applyLeftControlsSettings(SETTINGS[fieldName].tag);
-    }); 
-
-    // apply general scale
-    SettingsUtil.applyUiScale();
-
+    });
 
     LogUtil.log("game settings", [game.settings]);
   }
@@ -248,8 +244,6 @@ export class SettingsUtil {
       case SETTINGS.journalFontTitles.tag:
         SettingsUtil.applyCustomFonts(settingTag, value);
         break;
-      case SETTINGS.controlsBottomBuffer.tag:
-      case SETTINGS.controlsIconSize.tag:
       case SETTINGS.controlsAutoHide.tag:
         SettingsUtil.applyLeftControlsSettings(settingTag, value);
         break;
@@ -306,43 +300,30 @@ export class SettingsUtil {
         break;
       case SETTINGS.sceneClickToView.tag:
         TopNavigation.sceneClickToView = value;
-        // game.scenes?.directory.render();
-        // SceneNavFolders.refreshFolderView();
+        ui.nav?.render();
+        game.scenes?.directory?.render();
         break;
       case SETTINGS.useSceneIcons.tag:
         TopNavigation.useSceneIcons = value;
-        // game.scenes?.directory.render();
-        // SceneNavFolders.refreshFolderView();
-        break;
-      case SETTINGS.useNavBackButton.tag:
-        TopNavigation.useNavBackButton = value;
         ui.nav?.render();
-        // SceneNavFolders.refreshFolderView();
+        game.scenes?.directory?.render();
+        break;
+      case SETTINGS.useSceneBackButton.tag:
+        TopNavigation.useSceneBackButton = value;
+        ui.nav?.render();
         break;
       case SETTINGS.useScenePreview.tag:
         TopNavigation.useScenePreview = value;
         ui.nav?.render();
-        // SceneNavFolders.refreshFolderView();
-        break;
-      case SETTINGS.sceneNavAlias.tag:
-        TopNavigation.sceneNavAlias = value;
-        // SceneNavFolders.refreshFolderView();
         break;
       case SETTINGS.navStartCollapsed.tag:
         TopNavigation.navStartCollapsed = value;
-        break;
-      case SETTINGS.showFolderListOnClick.tag:
-        TopNavigation.showFolderListOnClick = value;
-        // SceneNavFolders.refreshFolderView();
         break;
       case SETTINGS.showNavOnHover.tag:
         TopNavigation.showNavOnHover = value;
         break;
       case SETTINGS.sceneNavCollapsed.tag:
         TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag);
-        break;
-      case SETTINGS.sceneNavPos.tag:
-        // SettingsUtil.applySceneNavPos();
         break;
       case SETTINGS.colorTheme.tag:
         SettingsUtil.applyThemeSettings();
@@ -355,9 +336,6 @@ export class SettingsUtil {
         break;
       case SETTINGS.otherModulesList.tag:
         SettingsUtil.applyOtherModulesList();
-        break;
-      case SETTINGS.uiScale.tag:
-        SettingsUtil.applyUiScale(value);
         break;
       default:
         // do nothing
@@ -409,14 +387,18 @@ export class SettingsUtil {
   static applyHotBarSettings(){
     const SETTINGS = getSettings();
     const macroSizeOption = SettingsUtil.get(SETTINGS.enableMacroLayout.tag);
+    const body = document.querySelector("body.crlngn-ui");
     const hotbar = document.querySelector("#hotbar");
 
-    if(!macroSizeOption && hotbar){
-      hotbar.classList.add("foundry-default");
-    }else if(hotbar){
-      hotbar.classList.remove("foundry-default");
+    if(!hotbar){return;}
+
+    if(macroSizeOption){
+      hotbar.classList.add("crlngn-macro");
+    }else{
+      hotbar.classList.remove("crlngn-macro");
     }
   }
+  
   /**
    * Applies collapse state to the macro hotbar
    * Controls visibility and expansion state of the macro bar
@@ -452,12 +434,6 @@ export class SettingsUtil {
           controls.classList.remove("auto-hide"); 
         }
         break;
-      case SETTINGS.controlsBottomBuffer.tag:
-        SettingsUtil.applyControlsBuffer();
-        break;
-      case SETTINGS.controlsIconSize.tag:
-        SettingsUtil.applyControlIconSize();
-        break;
       default:
         //
     }
@@ -487,39 +463,6 @@ export class SettingsUtil {
     GeneralUtil.addCSSVars('--icon-font-size', getIconFontSize(iconSize));
     GeneralUtil.addCSSVars('--control-item-size', size);
     SettingsUtil.applyLeftControlsSettings();
-  }
-
-  static applyUiScale(value){
-    const SETTINGS = getSettings();
-    const currSize = value || SettingsUtil.get(SETTINGS.uiScale.tag);
-    if(currSize===UI_SCALE.regular.name){
-      document.querySelector("#interface")?.classList.add("scale-regular");
-      document.querySelector("#interface")?.classList.remove("scale-large");
-      SettingsUtil.set(SETTINGS.controlsIconSize.tag,currSize);
-      GeneralUtil.addCSSVars('--macro-size', '50px');
-    }else if(currSize===UI_SCALE.large.name){
-      document.querySelector("#interface")?.classList.remove("scale-regular");
-      document.querySelector("#interface")?.classList.add("scale-large");
-      SettingsUtil.set(SETTINGS.controlsIconSize.tag,currSize);
-      GeneralUtil.addCSSVars('--macro-size', '54px');
-    }else{
-      document.querySelector("#interface")?.classList.remove("scale-regular");
-      document.querySelector("#interface")?.classList.remove("scale-large");
-      SettingsUtil.set(SETTINGS.controlsIconSize.tag,currSize);
-      GeneralUtil.addCSSVars('--macro-size', '42px');
-    }
-  }
-
-  /**
-   * Applies bottom buffer spacing to left controls
-   * Adjusts the spacing at the bottom of the controls panel
-   */
-  static applyControlsBuffer(){
-    const SETTINGS = getSettings();
-    const leftControls = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
-    // const root = document.querySelector("body.crlngn-ui");
-    const buffer = isNaN(leftControls.bottomBuffer) ? SETTINGS.leftControlsMenu.default.bottomBuffer : leftControls.bottomBuffer;
-    GeneralUtil.addCSSVars('--controls-bottom-buffer', `${buffer || 0}px`);
   }
 
   /**

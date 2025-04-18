@@ -34,8 +34,7 @@ export class TopNavigation {
   static showNavOnHover;
   static useSceneIcons;
   static useScenePreview;
-  static useNavBackButton;
-  static sceneNavAlias = "";
+  static useSceneBackButton;
   static sceneClickToView;
   static isCollapsed;
   static navPos;

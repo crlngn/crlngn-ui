@@ -16,6 +16,8 @@ const DEFAULT_FOLDER_ID = "root";
 export class SceneNavFolders {
   static selectedFolder = DEFAULT_FOLDER_ID;
   static #currSceneSortMode = "a";
+  static #activeSceneFolders = [];
+  static searchValue = "";
 
   /**
    * Initializes the scene folders functionality by setting up event hooks
@@ -24,8 +26,24 @@ export class SceneNavFolders {
   static init() {
     if (SceneNavFolders.noFolderView() || !ui.scenes) { return; }
     SceneNavFolders.preloadTemplates();
-    SceneNavFolders.folderListData = SceneNavFolders.getFolders(ui.scenes.folders);
-    SceneNavFolders.selectedFolder = SceneNavFolders.selectFolder(DEFAULT_FOLDER_ID);
+    
+    // Initialize user flags for active scene folders if they don't exist
+    if (!game.user.getFlag(MODULE_ID, "activeSceneFolders")) {
+      game.user.setFlag(MODULE_ID, "activeSceneFolders", []);
+    }
+
+    const inactiveList = document.querySelector("#scene-navigation-inactive");
+    const folderItems = inactiveList?.querySelectorAll("li.folder") || [];
+    folderItems.forEach(ff => {
+      ff.remove();
+    });
+
+    
+    Hooks.on(HOOKS_CORE.RENDER_SCENE_DIRECTORY, (app, html) => {
+      SceneNavFolders.#updateSortMode();
+      ui.nav.render();
+    });
+    // SceneNavFolders.#activeSceneFolders = game.user.getFlag(MODULE_ID, "activeSceneFolders") || [];
   }
 
   /**
@@ -41,11 +59,12 @@ export class SceneNavFolders {
     const folderLookup = document.createElement("div");
     const folderToggle = document.createElement("div");
 
-    folderLookup.id = "folder-lookup";
-    folderLookup.dataset.tooltip = `Search Scenes`;
-    folderLookup.innerHTML = `<button class='folder-expand'><i class='fa-solid fa-magnifying-glass'></i></button>`;
-    folderToggle.id = "folder-toggle";
+    folderLookup.id = "crlngn-scene-lookup";
+    folderLookup.innerHTML = `<button class='folder-expand' tooltip='Search Scenes'>
+      <i class='fa-solid fa-magnifying-glass'></i>
+    </button>`;
     folderToggle.dataset.tooltip = TopNavigation.navShowRootFolders ? `Hide Scene Folders` : `Show Scene Folders`;
+    folderToggle.id = "crlngn-folder-toggle";
     folderToggle.innerHTML = `<i class='fa-solid icon'></i>`;
 
     if(TopNavigation.navShowRootFolders){
@@ -54,45 +73,76 @@ export class SceneNavFolders {
       activeScenesMenu.classList.remove('with-folders');
     }
 
-    folderLookup.addEventListener("click", SceneNavFolders.toggleFolderLookup);
+    folderLookup.querySelector(".folder-expand").addEventListener("click", SceneNavFolders.toggleFolderLookup);
     folderToggle.addEventListener("click", ()=>{
       TopNavigation.setNavPosition(0);
       SettingsUtil.set(SETTINGS.navShowRootFolders.tag, !TopNavigation.navShowRootFolders );
+      TopNavigation.placeNavButtons();
     });
     activeScenesMenu.insertBefore(folderLookup, firstActiveItem);
     activeScenesMenu.append(folderToggle);
+    SceneNavFolders.handleFolderLookup(nav, navHtml, navData);
   }
 
-  // static addRootFolders(){
-  //   const rootFolders = document.createElement("li");
-  //   rootFolders.id = "root-folders";
-  //   rootFolders.classList.add('folder');
-    
-  //   const templateData = SceneNavFolders.buildFolderData(DEFAULT_FOLDER_ID);
-    
-  // }
+  static renderFolderList = async (folderElement) => {
+    SceneNavFolders.#activeSceneFolders = game.user.getFlag(MODULE_ID, "activeSceneFolders") || [];
 
-  static renderFolderList = async(folderElement) => {
     let targetElement;
-    const folder = folderElement ? game.scenes.get(parentFolder.dataset.sceneId) : { name: "", id: DEFAULT_FOLDER_ID };
+    const allFolders = ui.scenes.collection.folders;
+    const folder = folderElement ? allFolders.get(folderElement.dataset.folderId) : { name: "", id: DEFAULT_FOLDER_ID };
     const templateData = SceneNavFolders.buildTemplateData(folder);
     const renderedHtml = await renderTemplate(
-      `modules/${MODULE_ID}/templates/scene-nav-folder-list.hbs`, 
+      `modules/${MODULE_ID}/templates/scene-nav-folders.hbs`, 
       templateData
     );
-
-    LogUtil.log("renderedHtml",[renderedHtml]);
+    LogUtil.log("renderFolderList",[folder, SceneNavFolders.#activeSceneFolders, renderedHtml]);
 
     if(!folderElement){ // if root folder
       targetElement = document.querySelector("#scene-navigation-inactive");
     }else{
-      targetElement = folderElement.parentNode();
+      targetElement = folderElement.parentNode;
     }
     targetElement.insertAdjacentHTML('afterbegin', renderedHtml);
 
     const folderItems = targetElement.querySelectorAll("li.folder");
-    folderItems.forEach(item => {
+    SceneNavFolders.addFolderListeners(folderItems);
+    TopNavigation.placeNavButtons();
+  }
+
+  static handleFolderLookup = async() => {
+    // const templateData = SceneNavFolders.buildLookupData();
+    const renderedHtml = await renderTemplate(
+      `modules/${MODULE_ID}/templates/scene-nav-lookup.hbs`, 
+      {}
+    );
+    const lookupList =  document.querySelector("#crlngn-lookup-list");
+    if(lookupList) lookupList.remove();
+
+    const targetElement = document.querySelector("#crlngn-scene-lookup");
+    targetElement.insertAdjacentHTML('beforeend', renderedHtml);
+
+    const searchInput = targetElement.querySelector('.search-container .input-scene-search');
+    searchInput.addEventListener("keyup", SceneNavFolders.onSearchInput);
+    searchInput.addEventListener('keydown', evt => {
+      evt.stopPropagation();
+    });
+  }
+
+  static addFolderListeners = (folderItems) => {
+    const allFolders = ui.scenes.collection.folders;
+
+    if(!folderItems){return;}
+    folderItems.forEach( item => {
       item.querySelector(".folder-item").addEventListener('click', SceneNavFolders.#onNavFolderClick);
+      const id = item.dataset.folderId;
+      const itemFolder = allFolders.get(id);
+      const isActive = SceneNavFolders.#activeSceneFolders.includes(id);
+      
+      LogUtil.log("addFolderListeners isActive", [isActive, id, itemFolder.name]);
+      if(isActive){
+        item.classList.add('crlngn-folder-active');
+        SceneNavFolders.injectSubfolders(itemFolder, item);
+      }
     });
   }
 
@@ -101,9 +151,14 @@ export class SceneNavFolders {
    * @param {Event} event 
    */
   static toggleFolderLookup(event){
-    
-  }
+    const parent = event.target.parentNode;
 
+    if(parent.classList.contains('open')){
+      parent.classList.remove('open');
+    }else{
+      parent.classList.add('open');
+    }
+  }
 
   static #onNavFolderClick = async(event) => {
     event.preventDefault();
@@ -112,39 +167,98 @@ export class SceneNavFolders {
     const offsetLeft = target.offsetLeft;
     const renderedSubmenu = '';
     const activeFolders = target.parentNode.parentNode.querySelectorAll('.crlngn-folder-active');
-    activeFolders.forEach(item => {
-      if(item !== target){
-        item.classList.remove('crlngn-folder-active');
-      }
-    });
-
-    const id = target.dataset.folderId;
+  
+    const id = target.dataset.folderId || target.parentNode.dataset.folderId;
     const allFolders = ui.scenes.collection.folders;
     const folder = id ? allFolders.get(id) : null;
-    LogUtil.log("#onNavFolderClick", [id]);
+
     if(!folder){ return; }
 
+    await SceneNavFolders.injectSubfolders(folder, target.parentNode);
+
+    TopNavigation.addSceneListeners(target.parentNode);
+    LogUtil.log("onNavFolderClick", [target, target.parentNode, target.parentNode.dataset]);
+
+    const isActive = target.classList.contains("crlngn-folder-active") || target.parentNode.classList.contains("crlngn-folder-active");
+    // target.parentNode.style.setProperty('--parent-offset-left', offsetLeft + 'px');
+
+    if(isActive){
+      SceneNavFolders.updateActiveFolders(id, true);
+    }else{
+      SceneNavFolders.updateActiveFolders(id, false);
+    }
+  }
+
+  static injectSubfolders = async(folder, targetElement) => {
     const folderData = SceneNavFolders.buildTemplateData(folder);
     const renderedSubfolders = await renderTemplate(
       `modules/${MODULE_ID}/templates/scene-nav-subfolders.hbs`, 
       folderData
     );
-    const contents = target.parentNode.querySelector(".contents");
+    const contents = targetElement.querySelector(".contents");
     if(contents) contents.remove();
-    target.parentNode.insertAdjacentHTML('beforeend', renderedSubfolders);
+    targetElement.insertAdjacentHTML('beforeend', renderedSubfolders);
 
-    const folderItems = target.parentNode.querySelectorAll("li.folder");
-    folderItems.forEach(item => {
-      item.querySelector(".folder-item").addEventListener('click', SceneNavFolders.#onNavFolderClick);
-    });
-    TopNavigation.addSceneListeners(target.parentNode);
-    
-    target.parentNode.style.setProperty('--parent-offset-left', offsetLeft + 'px');
-    target.parentNode.classList.toggle('crlngn-folder-active');
+    const folderItems = targetElement.querySelectorAll("li.folder");
+    SceneNavFolders.addFolderListeners(folderItems);
+    TopNavigation.addSceneListeners(targetElement.querySelector(".contents"));
   }
 
+  static updateActiveFolders = async (id, remove=false) => {
+    const inactiveList = document.querySelector("#scene-navigation-inactive");
+    const target = inactiveList.querySelector(`li.folder[data-folder-id=${id}]`);
+    const idIndex = SceneNavFolders.#activeSceneFolders.indexOf(id);
+    
+    LogUtil.log("updateActiveFolders A", [idIndex, id, game.user.getFlag(MODULE_ID, "activeSceneFolders"), SceneNavFolders.#activeSceneFolders]);
 
+    if(remove){
+      SceneNavFolders.#activeSceneFolders = SceneNavFolders.#activeSceneFolders.filter(fid => fid !== id);
+      target.classList.remove('crlngn-folder-active');
+    }else if(!SceneNavFolders.#activeSceneFolders.includes(id)){
+      const siblings = target.parentNode.querySelectorAll("li.folder");
+      siblings.forEach(sibling => {
+        if(sibling !== target){
+          SceneNavFolders.#activeSceneFolders = SceneNavFolders.#activeSceneFolders.filter(fid => fid !== sibling.dataset.folderId);
+          sibling.classList.remove('crlngn-folder-active');
+        }
+      });
+      SceneNavFolders.#activeSceneFolders.push(id);
+      target.classList.add('crlngn-folder-active');
+    }
 
+    await game.user.setFlag(MODULE_ID, "activeSceneFolders", SceneNavFolders.#activeSceneFolders);
+    LogUtil.log("updateActiveFolders B", [remove, id, game.user.getFlag(MODULE_ID, "activeSceneFolders"), SceneNavFolders.#activeSceneFolders]);
+  }
+
+  /**
+   * Retrieves and sorts top-level folders from the provided folder list
+   * @param {object[]} fromList - Array of folder objects to filter
+   * @returns {object[]} Sorted array of top-level folders
+   */
+  // static getFolders = (fromList) => {
+  //   // Helper function to recursively set isOpen state
+  //   const setFolderOpenState = (folder) => {
+  //     folder.isOpen = SceneNavFolders.#folderToggleStates[folder.id] ?? false;
+  //     folder.children.forEach(setFolderOpenState);
+  //   };
+
+  //   // Get top-level folders
+  //   let folders = fromList.filter(f => f.folder === null);
+  //   // Process each top-level folder and its children
+  //   folders.forEach(setFolderOpenState);
+  //   LogUtil.log("getFolders / sortOrder", [SceneNavFolders.#currSceneSortMode]);
+  //   if(SceneNavFolders.#currSceneSortMode === "a"){
+  //     // alphabetical sort order
+  //     folders.sort((a, b) => {
+  //       return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+  //     });
+  //   }else{
+  //     // manual sort order
+  //     folders.sort((a, b) => a.sort - b.sort);
+  //   }
+
+  //   return folders;
+  // }
 
   /**
    * Selects a folder by its ID
@@ -162,7 +276,7 @@ export class SceneNavFolders {
    */
   static buildTemplateData(targetFolder){
     if(!targetFolder || !ui.scenes) return {};
-
+    const allFolders = ui.scenes.collection.folders;
     let templateData = {}, folderList = [];
     let folderScenes = targetFolder.contents ? [...targetFolder.contents] : []; 
     folderScenes = folderScenes.filter(sc => sc.permission >= 2); // only show scenes with appropriate permission
@@ -170,8 +284,9 @@ export class SceneNavFolders {
     SceneNavFolders.#currSceneSortMode = game.scenes.sortingMode;
 
     // Folder-specific data
+    LogUtil.log("buildFolderData A", [targetFolder.name, targetFolder]);
     if (targetFolder.id === DEFAULT_FOLDER_ID) {
-      folderList = ui.scenes.collection.folders.filter(f => f.folder===null) || [];
+      folderList = allFolders.filter(f => f.folder===null) || [];
     } else {
       folderList = targetFolder.children;
     }
@@ -205,8 +320,9 @@ export class SceneNavFolders {
    */
   static preloadTemplates = async () => {
     const templatePath = [
-      `modules/${MODULE_ID}/templates/scene-nav-folder-list.hbs`,
-      `modules/${MODULE_ID}/templates/scene-nav-subfolders.hbs`
+      `modules/${MODULE_ID}/templates/scene-nav-folders.hbs`,
+      `modules/${MODULE_ID}/templates/scene-nav-subfolders.hbs`,
+      `modules/${MODULE_ID}/templates/scene-nav-lookup.hbs`
     ];
     
     // This returns an object with paths as keys and template functions as values
@@ -233,5 +349,142 @@ export class SceneNavFolders {
     }
     
     return folderList;
+  }
+
+  /**
+   * @private
+   * Updates the current scene sorting mode by checking game.scenes.sortingMode
+   */
+  static #updateSortMode() {
+    try {
+      // sortingMode is either "a" for alphabetical or "m" for manual
+      if (game.scenes && game.scenes.sortingMode !== undefined) {
+        SceneNavFolders.#currSceneSortMode = game.scenes.sortingMode;
+        ui.nav.render();
+        return;
+      }
+    } catch (error) {
+      console.error("Error checking scene directory sort mode:", error);
+    }
+    
+    // Fallback to default (alphabetical)
+    SceneNavFolders.#currSceneSortMode = "a";
+    LogUtil.log("updateSortMode fallback", [SceneNavFolders.#currSceneSortMode]);
+  }
+
+  /**
+   * @private
+   * Handles search input changes
+   * @param {Event} evt - The triggering event
+   */
+  static onSearchInput = (evt) => {
+    evt.stopPropagation();
+    
+    const input = evt.currentTarget;
+    const value = input.value;
+    
+    SceneNavFolders.searchValue = value;
+    SceneNavFolders.updateSearchResults(value);
+  }
+
+  /**
+   * Updates the search results container with filtered scenes and folders
+   * @param {string} searchValue - The search query to filter by
+   */
+  static updateSearchResults = (searchValue) => {
+    if(SceneNavFolders.noFolderView()){ return; }
+    const searchResultsContainer = document.querySelector('#crlngn-scene-lookup .search-container .search-results');
+    if (!searchResultsContainer) return;
+    
+    // Clear previous results
+    searchResultsContainer.innerHTML = '';
+    if (!searchValue) {
+      searchResultsContainer.classList.add('hidden');
+      return;
+    }
+    
+    // Filter scenes and folders
+    const filteredScenes = game.scenes?.filter(sc => {
+      return sc.name.toLowerCase().includes(searchValue.toLowerCase()) && sc.permission >= 2;
+    }) || [];
+    filteredScenes.sort((a, b) => {
+      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+    });
+    
+    const filteredFolders = game.scenes?.folders.filter(f => {
+      return f.name.toLowerCase().includes(searchValue.toLowerCase());
+    }) || [];
+    filteredFolders.sort((a, b) => {
+      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+    });
+    
+    // Show the results container
+    searchResultsContainer.classList.remove('hidden');
+    
+    // Add folders to results
+    filteredFolders.forEach(folder => {
+      const li = document.createElement('li');
+      li.className = 'search-folder';
+      li.dataset.folderId = folder.id;
+      li.innerHTML = `<a><i class="fas fa-folder"></i> ${folder.name}</a>`;
+      li.addEventListener('click', SceneNavFolders.onSelectSearchedFolder);
+      searchResultsContainer.appendChild(li);
+    });
+    
+    // Add scenes to results
+    filteredScenes.forEach(scene => {
+      const li = document.createElement('li');
+      li.className = 'search-scene';
+      li.dataset.sceneId = scene.id;
+      li.innerHTML = `<a><i class="fas fa-map"></i> ${scene.name}</a>`;
+      li.querySelector(".scene-name").addEventListener('dblclick', TopNavigation.onActivateScene);
+      li.querySelector(".scene-name").addEventListener('click', TopNavigation.onSelectScene);
+      searchResultsContainer.appendChild(li);
+    });
+    
+    // If no results found
+    if (filteredFolders.length === 0 && filteredScenes.length === 0) {
+      const li = document.createElement('li');
+      li.className = 'no-results';
+      li.textContent = 'No matching results found';
+      searchResultsContainer.appendChild(li);
+    }
+  }
+
+  /**
+   * @private
+   * Handles folder selection
+   * @param {Event} evt - The triggering event
+   */
+  static onSelectSearchedFolder = async(evt) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    const target = evt.currentTarget;
+    const folderId = target.dataset.folderId;
+    const folderToggle = document.querySelector("#crlngn-folder-toggle");
+
+    if(!TopNavigation.navShowRootFolders){
+      folderToggle.click();
+    }
+    if(!folderId){
+      return;
+    }
+
+    const allFolders = ui.scenes.collection.folders;
+    const folder = allFolders.get(folderId);
+    const ancestors = [...folder.ancestors];
+    SceneNavFolders.#activeSceneFolders = [];
+
+    for(const af of ancestors){
+      SceneNavFolders.#activeSceneFolders.push(af.id);
+    }
+    SceneNavFolders.#activeSceneFolders.push(folderId);
+    await game.user.setFlag(MODULE_ID, "activeSceneFolders", SceneNavFolders.#activeSceneFolders);
+
+    const timer = setTimeout(async()=>{
+      ui.nav.render();
+    }, 200);
+
   }
 }

@@ -24,7 +24,8 @@
       "updates": {
         "label": "最新更新ID",
         "hint": "跟踪最后显示的更新通知"
-      }
+      },
+      "toggleChatBox": "切换聊天框"
     },
     "settings": {
       "hideInterface": {
@@ -198,10 +199,6 @@
             "label": "启动时折叠",
             "hint": "启用此选项可在加载 Foundry 时折叠场景导航，无论之前保存的状态如何。"
           },
-          "showFolderListOnClick": {
-            "label": "点击时显示文件夹列表",
-            "hint": "默认情况下，导航栏上的文件夹列表在悬停时切换。启用此选项可将此行为更改为点击时切换。"
-          },
           "sceneClickToView": {
             "label": "启用单击和双击",
             "hint": "启用后，单击场景将打开该场景。双击则激活它。"
@@ -210,18 +207,9 @@
             "label": "使用场景图标",
             "hint": "在场景名称旁显示图标：<i class='fas fa-lock'></i> 激活前对玩家不可见；<i class='fas fa-crown'></i> GM当前正在查看；<i class='fas fa-bullseye'></i> 当前对玩家激活；"
           },
-          "sceneNavAlias": {
-            "label": "默认导航别名",
-            "hint": "如果你想，你可以在文件夹树图标旁添加一个标签，以标识默认的导航，例如，'收藏'"
-          },
-          "useNavBackButton": {
+          "useSceneBackButton": {
             "label": "启用返回按钮",
             "hint": "<b>'返回到上一个场景'</b>: 点击返回到之前查看的场景，<b>'返回到默认场景'</b>: 只在文件夹视图中出现，点击打开默认场景导航，<b>禁用</b>: 无返回按钮",
-            "options": {
-              "noButton": "禁用",
-              "lastScene": "返回到上一个场景",
-              "defaultScenes": "返回到默认场景"
-            }
           },
           "useScenePreview": {
             "label": "使用场景预览",
@@ -275,15 +263,6 @@
       "disableUI":{
         "label": "在此客户端禁用界面",
         "hint": "如果玩家不想使用卡罗琳界面，可以禁用它。除了聊天卡片中的深色样式（可以单独禁用）外，模组的其他功能将不会生效。"
-      },
-      "uiScale": {
-        "label": "卡罗琳界面通用缩放",
-        "hint": "如果您使用大分辨率，这将调整左侧控件栏图标大小和一些字体大小。'图标大小'设置将被重置。",
-        "options": {
-          "small": "小",
-          "regular": "正常",
-          "large": "大"
-        }
       }
     },
     "dnd5e": {

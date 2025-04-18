@@ -22,6 +22,7 @@ body.crlngn-ui{
     margin-bottom: var(--crlngn-taskbar-height, 0px) !important;
   }
 
+  /*
   &.players-hidden{
     --macro-bar-left: calc((var(--ui-controls-margin-left, 0px) * -1) - var(--max-players-width, 0px));
   }
@@ -31,6 +32,7 @@ body.crlngn-ui{
   &.with-players-hide{
     --macro-bar-left: calc((var(--ui-controls-margin-left, 0px) * -1) - var(--max-players-width, 0px) + var(--control-item-size, 0px));
   }
+  */
 
   #ui-bottom {
     /*transition: margin 0.3s ease-out;*/
@@ -50,8 +52,7 @@ body.crlngn-ui{
     .bar-controls, 
     .macro,
     #macro-list,
-    #hotbar-page .macro-list, #hotbar-page .action-bar /* Monk's Hotbar Expansion */
-    {
+    #hotbar-page .macro-list, #hotbar-page .action-bar {
       border-radius: 0;
       margin: 0;
     }
@@ -82,7 +83,7 @@ body.crlngn-ui{
       .bar-controls {
         min-height: var(--macro-size);
         justify-content: center;
-        background: rgba(0,0,0,0.75);
+        background: var(--color-dark-bg-75);
       }
   
       #hotbar-page {
@@ -134,7 +135,7 @@ body.crlngn-ui{
           width: 50%;
   
           &:hover{
-            background: rgba(0,0,0,0.5);
+            background: var(--color-dark-bg-50);
           }
         }
         span.page-number {
@@ -149,7 +150,7 @@ body.crlngn-ui{
           height: 100%;
           min-height: 100%;
           align-content: center;
-          background: rgba(0,0,0,0.25);
+          background: var(--color-dark-bg-25);
           cursor: pointer;
         }
       }

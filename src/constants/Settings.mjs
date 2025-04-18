@@ -170,14 +170,10 @@ export function getSettings() {
       propType: Object,
       inputType: SETTING_INPUT.button,
       fields: [
-        "controlsBottomBuffer",
-        "controlsIconSize",
         "controlsAutoHide"
       ],
-      default: { /* old names */
-        bottomBuffer: 200,
-        iconSize: ICON_SIZES.small.name,
-        autoHideSecondary: false
+      default: { 
+        controlsAutoHide: false
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -241,14 +237,12 @@ export function getSettings() {
       fields: [
         "sceneNavEnabled",
         "navFoldersEnabled",
-        "showFolderListOnClick",
         "navShowRootFolders",
         "sceneClickToView",
         "useSceneIcons",
-        "sceneNavAlias",
         "navStartCollapsed",
         "showNavOnHover",
-        "useNavBackButton",
+        "useSceneBackButton",
         "useScenePreview"
       ],
       default: {
@@ -257,12 +251,10 @@ export function getSettings() {
         navStartCollapsed: false,
         sceneClickToView: true,
         useSceneIcons: false,
-        sceneNavAlias: "",
-        showFolderListOnClick: true,
         navShowRootFolders: false,
         showNavOnHover: false,
         useScenePreview: true,
-        useNavBackButton: BACK_BUTTON_OPTIONS.lastScene.name
+        useSceneBackButton: true
       },
       scope: SETTING_SCOPE.client,
       config: false, 
@@ -277,22 +269,6 @@ export function getSettings() {
       scope: SETTING_SCOPE.client,
       config: true,
       default: false
-    },
-
-    uiScale: {
-      tag: 'ui-scale',
-      label: game.i18n.localize("CRLNGN_UI.settings.uiScale.label"),
-      hint: game.i18n.localize("CRLNGN_UI.settings.uiScale.hint"),
-      choices: {
-        small: game.i18n.localize("CRLNGN_UI.settings.uiScale.options.small"), 
-        regular: game.i18n.localize("CRLNGN_UI.settings.uiScale.options.regular"), 
-        large: game.i18n.localize("CRLNGN_UI.settings.uiScale.options.large")
-      },
-      inputType: SETTING_INPUT.select,
-      propType: String, 
-      default: UI_SCALE.small.name,
-      scope: SETTING_SCOPE.client,
-      config: true
     },
 
     sceneNavEnabled: { 
@@ -340,17 +316,6 @@ export function getSettings() {
       config: false 
     },
 
-    showFolderListOnClick: { 
-      tag: "nav-folders-list-on-click", 
-      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showFolderListOnClick.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showFolderListOnClick.hint"), 
-      propType: Boolean, 
-      inputType: SETTING_INPUT.checkbox, 
-      default: true, 
-      scope: SETTING_SCOPE.client, 
-      config: false 
-    },
-
     navShowRootFolders: { 
       tag: "nav-show-root-folders", 
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navShowRootFolders.label"), 
@@ -358,6 +323,18 @@ export function getSettings() {
       propType: Boolean, 
       inputType: SETTING_INPUT.checkbox, 
       default: false, 
+      scope: SETTING_SCOPE.client, 
+      config: false 
+    },
+
+    sceneNavItemWidth: { 
+      tag: "scene-nav-item-width", 
+      oldName: "showNavOnHover",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavItemWidth.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavItemWidth.hint"), 
+      propType: String, 
+      inputType: SETTING_INPUT.number, 
+      default: '', 
       scope: SETTING_SCOPE.client, 
       config: false 
     },
@@ -398,19 +375,13 @@ export function getSettings() {
       config: false 
     },
 
-    useNavBackButton: {
-      tag: "use-nav-back-button", 
-      oldName: "useNavBackButton",
-      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.hint"), 
+    useSceneBackButton: {
+      tag: "use-scene-back-button",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneBackButton.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneBackButton.hint"), 
       propType: String, 
-      inputType: SETTING_INPUT.select, 
-      options: {
-        noButton: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.options.noButton"), 
-        lastScene: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.options.lastScene"), 
-        defaultScenes: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.options.defaultScenes")
-      },
-      default: BACK_BUTTON_OPTIONS.lastScene.name, 
+      inputType: SETTING_INPUT.select,
+      default: true, 
       scope: SETTING_SCOPE.world, 
       config: false 
     },
@@ -423,18 +394,6 @@ export function getSettings() {
       propType: Boolean, 
       inputType: SETTING_INPUT.checkbox,
       default: true, 
-      scope: SETTING_SCOPE.world, 
-      config: false 
-    },
-
-    sceneNavAlias: {
-      tag: "scene-nav-alias", 
-      oldName: "sceneNavAlias",
-      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavAlias.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavAlias.hint"), 
-      propType: String, 
-      inputType: SETTING_INPUT.text, 
-      default: "", 
       scope: SETTING_SCOPE.world, 
       config: false 
     },
@@ -660,33 +619,6 @@ export function getSettings() {
     },
 
     /* CONTROLS SETTINGS */
-    controlsBottomBuffer:{
-      tag: "control-bottom-buffer",
-      oldName: "bottomBuffer",
-      label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.bottomBuffer.label"),
-      hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.bottomBuffer.hint"),
-      propType: Number,
-      inputType: SETTING_INPUT.number,
-      default: 200,
-      scope: SETTING_SCOPE.client,
-      config: false
-    }, 
-    controlsIconSize: {
-      tag: "control-icon-size",
-      oldName: "iconSize",
-      label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.label"),
-      hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.hint"),
-      inputType: SETTING_INPUT.select, 
-      options: {
-        small: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.options.small"), 
-        regular: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.options.regular"), 
-        large: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.iconSize.options.large")
-      },
-      propType: String,
-      default: ICON_SIZES.small.name,
-      scope: SETTING_SCOPE.client,
-      config: false
-    },
     controlsAutoHide: {
       tag: "auto-hide-secondary-controls",
       oldName: "autoHideSecondary",

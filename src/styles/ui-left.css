@@ -33,9 +33,60 @@ body.crlngn-ui{
         border: 1px solid transparent;
         font-size: 0.9em;
       }
+
+      &.more-tools{
+        menu#scene-controls-layers{
+          li:last-child{
+            .ui-control {
+              border-bottom-right-radius: 0;
+            }
+          }
+        }
+        menu#scene-controls-tools{
+          li:last-child{
+            .ui-control {
+              border-bottom-right-radius: var(--crlngn-border-radius);
+              border-bottom-left-radius: var(--crlngn-border-radius);
+            }
+          }
+        }
+        &.extra-columns{
+          menu#scene-controls-layers{
+            li:last-child{
+              .ui-control {
+                border-bottom-right-radius: 0;
+              }
+            }
+          }
+          menu#scene-controls-tools{
+            li:last-child{
+              .ui-control {
+                border-bottom-right-radius: var(--crlngn-border-radius);
+                border-bottom-left-radius: 0;
+              }
+            }
+          }
+        }
+      }
       
     }
     #scene-controls-layers {
+      overflow: visible;
+      z-index: 0;
+      li{
+        pointer-events: all;
+        overflow: visible;
+        position: relative;
+        &:after{
+          content: "";
+          position: absolute;
+          width: var(--control-item-size);
+          height: var(--control-item-size);
+          left: var(--control-item-size);
+          top: 0;
+          z-index: 0;
+        }
+      }
       .ui-control{
         &[aria-pressed=true]{
           border: 1px solid var(--color-highlights);
@@ -43,16 +94,17 @@ body.crlngn-ui{
       }
     }
     #scene-controls-tools {
+      z-index: 1;
       .ui-control{
         --control-bg-color: var(--color-secondary-65);
 
         &:hover{
-          border: 1px solid transparent;
           background: var(--color-secondary-75);
           border: 1px solid var(--color-secondary-bright);
         }
     
         &[aria-pressed=true]{
+          cursor: pointer;
           background: var(--color-secondary-90);
           border: 1px solid var(--color-secondary-bright-50);
           &:hover{
@@ -61,6 +113,7 @@ body.crlngn-ui{
         }
     
         &.toggle{
+          cursor: pointer;
           /*background: var(--color-secondary-75);*/
           background: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
           border: 1px solid var(--color-secondary-50);
@@ -77,6 +130,17 @@ body.crlngn-ui{
 
       }
       
+    }
+
+    #ui-left.auto-hide {
+      #scene-controls-tools {
+        opacity: 0;
+      }
+      #scene-controls:hover {
+        #scene-controls-tools {
+          opacity: 1;
+        }
+      }
     }
   }
 

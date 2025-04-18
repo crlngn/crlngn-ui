@@ -20,9 +20,30 @@ export class LeftControls {
   static init(){
     LogUtil.log("LeftControls - init", []);
     Hooks.on(HOOKS_CORE.RENDER_SCENE_CONTROLS, LeftControls.initSceneControls);
-
+    Hooks.on(HOOKS_CORE.ACTIVATE_SCENE_CONTROLS, LeftControls.onActivateSceneControls);
+    window.addEventListener("resize", LeftControls.onActivateSceneControls)
     LeftControls.initSceneControls()
   } 
+
+  /**
+     * Preloads the Handlebars templates used by this component
+     * @returns {Promise<boolean>} True when templates are successfully loaded
+     */
+    static preloadTemplates = async () => {
+      try {
+        const templatePaths = [
+          `modules/${MODULE_ID}/templates/chat-toggle-button.hbs`
+        ];
+        
+        // Load the templates
+        await loadTemplates(templatePaths);
+        
+        return true;
+      } catch (error) {
+        LogUtil.log("Error loading navigation button templates:", [error]);
+        return false;
+      }
+    }
 
   /**
    * Resets and updates the local DOM element references
@@ -41,8 +62,9 @@ export class LeftControls {
   static initSceneControls(){
     LogUtil.log("initSceneControls", [])
     LeftControls.resetLocalVars();
-    LeftControls.observeControlsWidth();   
+    LeftControls.observeControlsWidth();
   }
+
 
   /**
    * Sets up a ResizeObserver to monitor changes in the controls width
@@ -90,5 +112,23 @@ export class LeftControls {
     if(!isNaN(controlsWidth) && !isNaN(leftOffset)){
       GeneralUtil.addCSSVars('--ui-controls-margin-left', controlsMarginLeft + 'px');
     }
+  }
+
+  static onActivateSceneControls(nav, buttons) {
+    const mainButtons = document.querySelectorAll("#scene-controls-layers .ui-control");
+    const secondaryButtons = document.querySelectorAll("#scene-controls-tools .ui-control");
+    const columns = getComputedStyle(document.querySelector("#ui-left")).getPropertyValue("--control-columns");
+    if(secondaryButtons.length >= mainButtons.length){
+      document.querySelector("#scene-controls").classList.add("more-tools");
+      if(Number(columns) > 2){
+        document.querySelector("#scene-controls").classList.add("extra-columns");
+      }else{
+        document.querySelector("#scene-controls").classList.remove("extra-columns");
+      }
+    }else{
+      document.querySelector("#scene-controls").classList.remove("more-tools");
+      document.querySelector("#scene-controls").classList.remove("extra-columns");
+    }
+    LogUtil.log("onActivateSceneControls", [columns, secondaryButtons.length, mainButtons.length]);
   }
 }
