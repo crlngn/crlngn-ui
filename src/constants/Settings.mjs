@@ -15,7 +15,7 @@ export const MODULE_SETTINGS = {
 }
 
 export const ICON_SIZES = {
-  small: { name: 'small', size: '36px'},
+  small: { name: 'small', size: '38px'},
   regular: { name: 'regular', size: '42px'},
   large: { name: 'large', size: '48px'},
 }
@@ -87,6 +87,14 @@ export const THEMES = [
     colorPreview: [
       'rgb(40, 31, 49)',
       'rgb(220, 120, 43)'
+    ]
+  },
+  {
+    label: "Gambit's Blue",
+    className: 'crlngn-theme-gambits-blue',
+    colorPreview: [
+      'rgb(40, 31, 49)',
+      'rgb(49, 140, 231)'
     ]
   }
 ];
