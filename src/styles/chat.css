@@ -233,14 +233,16 @@ body.crlngn-chat {
   }
 
   .chat-message a.content-link, 
-  .chat-message a.inline-roll {
-    background: var(--);
-    padding: 2px 6px;
+  .chat-message a.inline-roll, 
+  .chat-message a.roll-link {
     line-height: 1.6;
     border: none;
     border-radius: 3px;
     white-space: nowrap;
     word-break: break-all; 
+    font-weight: 600;
+    color: inherit;
+    background: transparent;
   }
 
   .chat-message .cards-notification{
@@ -678,10 +680,16 @@ body.crlngn-chat {
       opacity: 0.2;
     }
     .chat-message a.content-link, 
-    .chat-message a.inline-roll {
-      background: var(--crlngn-chat-button-bg-50);
-      color: var(--color-text-light-5);
-      opacity: 0.8;
+    .chat-message a.inline-roll, 
+    .chat-message a.roll-link {
+      color: var(--color-light-2);
+      background: transparent;
+      font-weight: 600;
+
+      i.fa-dice-d20{
+        color: var(--color-light-2);
+        filter: invert();
+      }
     }
     .chat-message .message-content,
     .chat-message .message-content > * {
@@ -896,15 +904,14 @@ body.crlngn-chat {
     :is(.card-tray, .effects-tray) .roll-link a>i, 
     :is(.card-tray, .effects-tray) a.content-link>i, 
     :is(.card-tray, .effects-tray) a.inline-roll>i, 
-    /*.dnd5e2-journal .reference-link a>i, 
+    .dnd5e2-journal .reference-link a>i, 
     .dnd5e2-journal .roll-link a>i, 
     .dnd5e2-journal a.content-link>i, 
-    .dnd5e2-journal a.inline-roll>i,*/
+    .dnd5e2-journal a.inline-roll>i,
     :is(.dnd5e2) .message a > i {
       border: none;
-      text-underline-offset: 2px;
-      color: var(--color-text-dark-1);
-      filter: brightness(100);
+      text-transform: none;
+      color: inherit;
     }
   
     .message-metadata {
