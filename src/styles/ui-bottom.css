@@ -74,6 +74,12 @@ body.crlngn-ui{
         line-height: 2.25;
       }
     }
+
+    &.foundry-default {
+      --macro-size: 50px;
+      --hotbar-height: var(--macro-size);
+      --hotbar-width: calc(var(--macro-size) * 11 + 64px);
+    }
   
     &:not(.foundry-default) {
       /*--macro-size: 42px;*/
