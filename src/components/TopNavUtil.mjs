@@ -253,6 +253,7 @@ export class TopNavigation {
       // 
       const toggleClone = navToggle?.cloneNode(true);
       toggleClone.id = "crlngn-scene-navigation-expand";
+      toggleClone.classList.add("faded-ui");
       // toggleClone.attributes = navToggle.attributes;
       toggleClone.addEventListener("click", () => {
         navToggle.click(); // This will trigger the original handler
