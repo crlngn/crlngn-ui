@@ -32,7 +32,7 @@ export class Main {
       document.querySelector("body").classList.add(MODULE_ID); 
       document.querySelector("#ui-middle")?.classList.add(MODULE_ID);
 
-      Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, TopNavigation.onRender);
+      // Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, TopNavigation.onRender);
 
       LogUtil.log("Initiating module...", [], true); 
       // Create namespace

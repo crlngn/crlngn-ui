@@ -56,14 +56,9 @@ export class SceneNavFolders {
     const SETTINGS = getSettings();
     // if button already exists, remove it
     const existingLookupBtn = document.querySelector("#crlngn-scene-lookup");
-    if(existingLookupBtn){
-      existingLookupBtn.remove();
-    }
-
-    // if button already exists, remove it
     const existingFolderToggle = document.querySelector("#crlngn-folder-toggle");
-    if(existingFolderToggle){
-      existingFolderToggle.remove();
+    if(existingLookupBtn || existingFolderToggle){
+      return;
     }
 
     const activeScenesMenu = navHtml.querySelector("#scene-navigation-active");
