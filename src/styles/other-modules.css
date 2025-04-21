@@ -386,7 +386,7 @@ body.crlngn-ui{
   }
 
   /* MONK'S WALL ENHANCEMENTS */
-  #ui-left #wall-ctrls {
+  #ui-left.crlngn-ui #wall-ctrls {
     position: absolute;
     width: 0;
     height: auto;

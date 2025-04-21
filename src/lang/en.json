@@ -32,6 +32,27 @@
         "label": "Toggle Hide/Show Interface",
         "hint": "Hides or shows the UI. This will affect all elements inside the `#interface` html block"
       },
+      "interfaceOptionsMenu": {
+        "label": "Interface Fading & Layout",
+        "title": "Configure Interface",
+        "hint": "Disable 'fade out' behavior of interface elements individually. You may also disable Carolingian UI custom layout for them.",
+        "description": "<b>'Fade Out' column:</b> Uncheck to prevent element from fading out when not hovered. <b>'Custom Layout' column:</b> Uncheck to disable Carolingian UI styles for that particular element. Color theming and fonts will still apply.",
+        "fields": {
+          "sceneControls": "Control Buttons (Left Side)",
+          "sidebarTabs": "Sidebar Buttons (Right Side)",
+          "playerList": "Player List",
+          "cameraDock": "Camera Dock",
+          "macroHotbar": "Macros Hotbar",
+          "sceneNav": "Scene Navigation",
+          "chatLogControls": "Chat Log Controls",
+          "fadeOutColumn": "Fade Out",
+          "hideColumn": "Hide",
+          "customLayoutColumn": "Custom Layout",
+          "elementColumn": "Interface Element"
+        },
+        "reset": "Reset",
+        "save": "Save"
+      },
       "customFontsMenu": {
         "label": "Custom Fonts",
         "title": "Configure Fonts",

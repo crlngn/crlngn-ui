@@ -3,8 +3,8 @@ import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs"; 
 import { TopNavigation } from "./TopNavUtil.mjs"; 
 import { ChatUtil } from "./ChatUtil.mjs";
-import { CameraUtil } from "./CameraUtil.mjs";
-import { PlayersListUtil } from "./PlayersListUtil.mjs";
+import { CameraDockUtil } from "./CameraDockUtil.mjs";
+import { PlayersList } from "./PlayersListUtil.mjs";
 import { getSettings } from "../constants/Settings.mjs";
 import { LeftControls } from "./LeftControlsUtil.mjs";
 import { MODULE_ID } from "../constants/General.mjs";
@@ -13,6 +13,7 @@ import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
 import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
 import { UpdateNewsUtil } from "./UpdateNewsUtil.mjs";
 import { CustomHandlebarsHelpers } from "./CustomHandlebarsHelpers.mjs";
+import { SidebarTabs } from "./SidebarUtil.mjs";
 
 /**
  * Main class handling core module initialization and setup
@@ -51,8 +52,8 @@ export class Main {
       }
 
       TopNavigation.init();
-      CameraUtil.init(); 
-      PlayersListUtil.init(); 
+      CameraDockUtil.init(); 
+      PlayersList.init(); 
       LeftControls.init();
       ChatUtil.init();
 

@@ -8,16 +8,47 @@ import { SettingsUtil } from "./SettingsUtil.mjs";
 /**
  * Utility class for managing the players list functionality and appearance
  */
-export class PlayersListUtil {
+export class PlayersList {
+  static useFadeOut = true;
+  static customStylesEnabled = true;
 
   /**
    * Initializes the players list functionality by setting up event hooks
    * @static
    */
   static init(){
-    Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, PlayersListUtil.onRender); 
-    PlayersListUtil.applyPlayersListSettings();
+    Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, PlayersList.onRender); 
+    PlayersList.applyPlayersListSettings();
+    PlayersList.handleFadeOut();
     LogUtil.log("PlayersList init");
+  }
+
+  static applyFadeOut(useFadeOut){
+    PlayersList.useFadeOut = useFadeOut;
+    PlayersList.handleFadeOut();
+  }
+
+  static handleFadeOut(component, html, data){
+    const element = html ? html : document.querySelector("#players");
+
+    if(PlayersList.useFadeOut){
+      element?.classList.add("faded-ui");
+    } else {
+      element?.classList.remove("faded-ui");
+    }
+    LogUtil.log("PlayersList handle fade out", [PlayersList.useFadeOut]);
+  }
+
+  static applyCustomStyle(enabled){
+    PlayersList.customStylesEnabled = enabled;
+    if(ui.players) ui.players.render();
+    /*
+    if(PlayersList.customStylesEnabled){ 
+      document.querySelector("#players").classList.add("crlngn-ui");
+    }else{
+      document.querySelector("#players").classList.remove("crlngn-ui");
+    }
+    */
   }
 
   /**
@@ -26,10 +57,17 @@ export class PlayersListUtil {
    * @static
    * @private
    */
-  static onRender(playersList, html, playerData){
+  static onRender(component, html, data){
     const SETTINGS = getSettings();
-    PlayersListUtil.applyPlayersListSettings();
-    PlayersListUtil.applyAvatars();
+    if(PlayersList.customStylesEnabled){ 
+      html.classList.add("crlngn-ui");
+    }else{
+      html.classList.remove("crlngn-ui");
+      return;
+    }
+    PlayersList.applyPlayersListSettings();
+    PlayersList.applyAvatars();
+    PlayersList.handleFadeOut(component, html, data);
   }
 
   /**

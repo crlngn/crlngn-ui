@@ -1,4 +1,367 @@
 body.crlngn-ui{
+  #av-holder{
+    --av-width: 160px;
+    --av-height: 140px;
+
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: max-content;
+    height: max-content;
+    min-width: calc(var(--av-width) + 30px);
+    min-height: calc(var(--av-height) + 5px);
+    max-width: min(max-content, calc(100vw - var(--sidebar-width)));
+    max-height: min(max-content, calc(100vh - 80px));
+    overflow: hidden;
+    cursor: move;
+    cursor: grab;
+    z-index: 100;
+    background-color: transparent;
+    border-radius: var(--crlngn-border-radius);
+
+    &:hover{
+      background-color: var(--color-dark-bg-75);
+      .resize-handle{
+        display: flex;
+      }
+      .user-controls{
+        display: flex;
+        background: transparent;
+        opacity: 1;
+      }
+    }
+
+    .resize-handle {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      bottom: 0;
+      right: 0;
+      border-left: 7px solid transparent;
+      border-top: 7px solid transparent;
+      border-right: 7px solid var(--color-warm-2);
+      border-bottom: 7px solid var(--color-warm-2);
+      cursor: nwse-resize;
+      z-index: 1000;
+      opacity: 1;
+      display: none;
+      cursor: pointer;
+    }
+  }
+
+  /* EXTERNAL STRUCTURE */
+  #av-holder{
+    #camera-views,
+    #camera-views.vertical,
+    #camera-views.horizontal,
+    #camera-views.minimized{
+      --av-width: 160px;
+      --av-height: calc(var(--av-width, 160px)* 0.75);
+      background: transparent;
+      border: 0;
+      gap: 0;
+      width: 100%;
+      height: 100%;
+      min-width: 100%;
+      min-height: 100%;
+
+      .camera-view {
+        margin-right: auto;
+        width: var(--av-width);
+        height: var(--av-height);
+        min-width: var(--av-width);
+        min-height: var(--av-height);
+        border-left: 3px solid var(--player-color);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+        border-radius: 0;
+  
+        .video-container .user-avatar {
+          width: 100%;
+          background-color: var(--color-dark-bg-50);
+          border-radius: 0;
+        }
+        
+      }
+    }
+    #camera-views.minimized{
+      display: none;
+    }
+
+    .scrollable {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      overflow: auto;
+      order: 1;
+
+      .camera-container {
+        gap: 6px;
+        padding: 6px;
+        border-radius: 4px;
+        pointer-events: all;
+        display: grid;
+        justify-content: flex-start;
+        align-content: flex-start;
+        grid-auto-rows: auto;
+        grid-auto-columns: auto;
+        grid-template-columns: repeat(auto-fit, minmax(var(--av-width, 160px), var(--av-width, 160px)));
+        overflow: auto;
+        width: max-content;
+        height: max-content;
+      }
+    }
+  }
+
+  /* horizontal layout */
+  #av-holder.horizontal {
+    flex-direction: row;
+
+    .camera-container {
+      overflow: initial;
+      width: auto;
+      height: auto;
+      display: grid;
+      grid-auto-flow: row;
+      grid-auto-rows: var(--av-height);
+      grid-template-rows: var(--av-height);
+      grid-template-columns: repeat(auto-fit, minmax(var(--av-width), var(--av-width)));
+      max-width: calc(100vw - var(--sidebar-width));
+    }
+
+    .user-controls {
+      flex-direction: column;
+      order: 2;
+
+      button.icon{
+        --button-size: 20px;
+      }
+    }
+  }
+
+  /* vertical layout */
+  #av-holder.vertical {
+    min-height: calc(var(--av-height) + 36px);
+    min-width: calc(var(--av-width) + 12px);
+
+    #camera-views {
+      flex-direction: column;
+      padding-top: 4px;
+    }
+
+    .camera-container { 
+      overflow: initial;
+      width: auto;
+      height: auto;
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: var(--av-width);
+      grid-template-columns: var(--av-width);
+      grid-template-rows: repeat(auto-fit, minmax(var(--av-height), var(--av-height)));
+      max-height: calc(100vh - 100px);
+    }
+    .user-controls {
+      flex-direction: row;
+      order: 0;
+
+      button.icon{
+        --button-size: 24px;
+      }
+    }
+
+  }
+
+  /* CONTROLS AND ICONS */
+  #av-holder{
+    .user-controls {
+      justify-content: flex-start;
+      flex-direction: column;
+      padding-inline: 0;
+      gap: 0px;
+      padding: 0 3px;
+      order: 2;
+      opacity: 0;
+  
+      button.icon{
+        font-size: var(--font-size-12);
+        border: 1px solid transparent;
+        padding: 2px;
+      }
+      
+      button[data-action=toggleDock]{
+        &:after{
+          content: "";
+          opacity: 0;
+          display: none;
+          transition: all 0.2s ease-out 0.5s;
+        }
+        &:before{
+          font-weight: 600;
+        }
+      }
+    }
+
+    .control-bar {
+      height: 100%;
+      gap: 0;
+      padding: 3px;
+      background: linear-gradient(90deg, var(--color-dark-bg-50), transparent);
+      button{
+        border: 1px solid transparent;
+        font-size: var(--font-size-12);
+        padding: 6px;
+        background: transparent;
+      }
+    }
+
+    .notification-bar i {
+      font-size: var(--font-size-12);
+    }
+
+    .bottom {
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.45) 55%, transparent);
+      
+      .player-name{
+        font-size: var(--font-size-12);
+        &:before{
+          display: none;
+        }
+      }
+    }
+
+    /* video specific controls */
+    .camera-view{
+      .bottom .user-controls{
+        position: absolute;
+        top: auto;
+        bottom: 0;
+        z-index: 10;
+        display: none;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 65%, transparent);
+      }
+
+      &:hover .bottom .user-controls{
+        display: flex;
+      }
+    }
+  }
+
+  /* minimized */
+  #av-holder.minimized,
+  #av-holder.vertical.minimized,
+  #av-holder.horizontal.minimized {
+    width: max-content !important;
+    height: max-content !important;
+    min-width: max-content !important;
+    min-height: max-content !important;
+    position: static;
+
+    #camera-views.minimized{
+      display: flex;
+    }
+
+    #camera-views {
+      min-width: max-content;
+      min-height: max-content;
+      z-index:10;
+      width: 100%;
+      height: var(--control-item-size);
+      border-radius: 0;
+
+      .resize-handle{
+        display: none;
+      }
+
+      .camera-view {
+        margin-right: auto;
+        width: var(--control-item-size);
+        height: var(--control-item-size);
+        min-width: var(--control-item-size);
+        min-height: var(--control-item-size);
+        border: 1px solid var(--user-color);
+        border-radius: 0;
+
+        img{
+          border-radius: 0;
+        }
+        &:after{
+          display: none;
+          border-radius: 0;
+        }
+      }
+
+      .camera-container {
+        width: max-content;
+        height: calc(var(--control-item-size) + 6px);
+        min-width: max-content;
+        min-height: calc(var(--control-item-size) + 6px);
+        grid-auto-flow: row;
+        grid-auto-rows: var(--control-item-size);
+        grid-template-rows: var(--control-item-size);
+        grid-template-columns: repeat(auto-fit, var(--control-item-size));
+        max-width: calc(100vw - var(--sidebar-width));
+      }
+
+      .scrollable{
+        display: none;
+      }
+
+      > .user-controls{
+        height: max-content;
+        flex-direction: row;
+        height: 32px;
+        align-items: center;
+        pointer-events: all;
+        width: 100%;
+        margin: 3px 0;
+        padding: 0;
+        display: flex;
+        opacity: 1;
+
+        &:hover{
+          background: transparent;
+        }
+
+        button[data-action=toggleDock]{
+          width: auto;
+          display: flex;
+          flex: 1 1 auto;
+          padding: 0;
+          padding-right: 5px;
+          text-align: left;
+          justify-content: flex-start;
+          margin-right: auto;
+
+          &.fa-camera:before{
+            width: calc(var(--control-item-size) - 12px);
+            text-align: center;
+            font-weight: 600;
+          }
+
+          &:after {
+            content: "Show Cameras";
+            font-size: var(--font-size-12);
+            font-weight: 600;
+            line-height: 20px;
+            vertical-align: middle;
+            text-transform: uppercase;
+            font-family: var(--crlngn-font-family);
+            opacity: 1;
+            display: inline-block;
+            transition: opacity 0.25s ease-out 0.25s;
+            margin-left: 3px;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+
+
+/*
+body.crlngn-ui{
   .inline-control {
     --button-size: 21px;
   }
@@ -6,48 +369,77 @@ body.crlngn-ui{
   template#camera-views{
     display: none;
   }
+  #players #av-holder{
+    position: static;
+  }
 
-  #camera-views,
-  #camera-views.horizontal,
-  #camera-views.vertical {
-    --av-width: 160px;
-    --av-height: calc(var(--av-width, 160px)* 0.75);
+  #av-holder{
     position: absolute;
+    left: 0;
     bottom: 0;
-    left: 0 !important;
-    min-width: calc(var(--av-width) + 40px);
-    min-height: calc(var(--av-height) + 10px);
-    flex-direction: row;
     width: max-content;
     height: max-content;
-    border-radius: var(--crlngn-border-radius);
-    border: 0;
-    gap: 0;
+    min-width: calc(var(--av-width) + 40px);
+    min-height: calc(var(--av-height) + 10px);
+    max-width: min(max-content, calc(100vw - var(--sidebar-width)));
+    max-height: min(max-content, calc(100vh - 80px));
     cursor: move;
     cursor: grab;
     z-index: 100;
-    max-width: min(max-content, calc(100vw - var(--sidebar-width)));
-    max-height: min(max-content, calc(100vh - 80px));
-    transform: translateX(0);
     background-color: transparent;
-    box-shadow: none;
+    border-radius: var(--crlngn-border-radius);
 
     &:hover{
-      background-color: var(--color-dark-bg-90);
-      .user-controls{
-        display: flex;
-        background: transparent;
-      }
+      background-color: var(--color-dark-bg-75);
       .resize-handle{
         display: flex;
       }
+      .user-controls{
+        display: flex;
+        background: transparent;
+        opacity: 1;
+      }
     }
 
+    .resize-handle {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      bottom: 0;
+      right: 0;
+      border-left: 7px solid transparent;
+      border-top: 7px solid transparent;
+      border-right: 7px solid var(--color-warm-2);
+      border-bottom: 7px solid var(--color-warm-2);
+      cursor: nwse-resize;
+      z-index: 1000;
+      opacity: 1;
+      display: none;
+      cursor: pointer;
+    }
+  }
+
+  #av-holder #camera-views,
+  #av-holder.horizontal #camera-views,
+  #av-holder.vertical #camera-views {
+    --av-width: 160px;
+    --av-height: calc(var(--av-width, 160px)* 0.75);
+    position: static;
+    top: 0 !important;
+    left: 0 !important;
+    flex-direction: row;
+    width: max-content;
+    height: max-content;
+    border: 0;
+    gap: 0;
+    z-index: 100;
+    background-color: transparent;
+    box-shadow: none;
+    pointer-events: all;
+
     > .scrollable {
-      width: 100%;
-      height: 100%;
-      max-height: 100%;
-      max-width: 100%;
+      width: max-content;
+      height: max-content;
       overflow: auto;
       order: 1;
     }
@@ -59,7 +451,7 @@ body.crlngn-ui{
       gap: 0px;
       padding: 0 3px;
       order: 2;
-      display: none;
+      opacity: 0;
   
       button.icon{
         font-size: var(--font-size-12);
@@ -89,6 +481,11 @@ body.crlngn-ui{
       min-height: var(--av-height);
       border-left: 3px solid var(--user-color);
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+
+      .video-container .user-avatar {
+        width: 100%;
+        background-color: var(--color-dark-bg-50);
+      }
 
       .control-bar {
         height: 100%;
@@ -149,145 +546,126 @@ body.crlngn-ui{
         order: 2;
       }
     }
+  }
+  #av-holder.vertical #camera-views {
+    flex-direction: column;
+    min-width: calc(var(--av-width) + 10px);
+    min-height: calc(var(--av-height) + 30px);
 
-    &.vertical {
-      flex-direction: column;
-      min-width: calc(var(--av-width) + 10px);
-      min-height: calc(var(--av-height) + 30px);
-
-      .camera-container { 
-        overflow: initial;
-        width: auto;
-        height: auto;
-        display: grid;
-        grid-auto-flow: column;
-        grid-auto-columns: var(--av-width);
-        grid-template-columns: var(--av-width);
-        grid-template-rows: repeat(auto-fit, minmax(var(--av-height), var(--av-height)));
-        max-height: calc(100vh - 100px);
-      }
-
-      > .user-controls {
-        flex-direction: row;
-        order: 0;
-
-        button.icon{
-          --button-size: 24px;
-        }
-      }
+    .camera-container { 
+      overflow: initial;
+      width: auto;
+      height: auto;
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: var(--av-width);
+      grid-template-columns: var(--av-width);
+      grid-template-rows: repeat(auto-fit, minmax(var(--av-height), var(--av-height)));
+      max-height: calc(100vh - 100px);
     }
 
-    .resize-handle {
-      position: absolute;
-      width: 15px;
-      height: 15px;
-      bottom: 0;
-      right: 0;
-      border-left: 7px solid transparent;
-      border-top: 7px solid transparent;
-      border-right: 7px solid var(--color-warm-2);
-      border-bottom: 7px solid var(--color-warm-2);
-      cursor: nwse-resize;
-      z-index: 1000;
-      opacity: 1;
-      display: none;
+    > .user-controls {
+      flex-direction: row;
+      order: 0;
+
+      button.icon{
+        --button-size: 24px;
+      }
     }
   }
 
-  #camera-views.minimized,
-  #camera-views.vertical.minimized,
-  #camera-views.horizontal.minimized {
-    min-width: max-content;
-    min-height: max-content;
-    width: 100%;
-    height: var(--control-item-size);
-    border-radius: 0;
-
-    .resize-handle{
-      display: none;
-    }
-
-    .camera-view {
-      margin-right: auto;
-      width: var(--control-item-size);
+  #av-holder{
+    #camera-views.minimized {
+      min-width: max-content;
+      min-height: max-content;
+      width: 100%;
       height: var(--control-item-size);
-      min-width: var(--control-item-size);
-      min-height: var(--control-item-size);
-      border: 1px solid var(--user-color);
       border-radius: 0;
 
-      img{
-        border-radius: 0;
-      }
-      &:after{
+      .resize-handle{
         display: none;
-        border-radius: 0;
-      }
-    }
-
-    .camera-container {
-      width: max-content;
-      height: calc(var(--control-item-size) + 6px);
-      min-width: max-content;
-      min-height: calc(var(--control-item-size) + 6px);
-      grid-auto-flow: row;
-      grid-auto-rows: var(--control-item-size);
-      grid-template-rows: var(--control-item-size);
-      grid-template-columns: repeat(auto-fit, var(--control-item-size));
-      max-width: calc(100vw - var(--sidebar-width));
-    }
-
-    .scrollable{
-      display: none;
-    }
-
-    > .user-controls{
-      height: max-content;
-      flex-direction: row;
-      height: 32px;
-      align-items: center;
-      pointer-events: all;
-      width: 100%;
-      margin: 3px 0;
-      padding: 0;
-      display: flex;
-
-      &:hover{
-        background: transparent;
       }
 
-      button[data-action=toggleDock]{
-        width: auto;
-        display: flex;
-        flex: 1 1 auto;
-        padding: 0;
-        text-align: left;
-        justify-content: flex-start;
+      .camera-view {
         margin-right: auto;
+        width: var(--control-item-size);
+        height: var(--control-item-size);
+        min-width: var(--control-item-size);
+        min-height: var(--control-item-size);
+        border: 1px solid var(--user-color);
+        border-radius: 0;
 
-        &.fa-camera:before{
-          width: calc(var(--control-item-size) - 12px);
-          text-align: center;
-          font-weight: 600;
+        img{
+          border-radius: 0;
+        }
+        &:after{
+          display: none;
+          border-radius: 0;
+        }
+      }
+
+      .camera-container {
+        width: max-content;
+        height: calc(var(--control-item-size) + 6px);
+        min-width: max-content;
+        min-height: calc(var(--control-item-size) + 6px);
+        grid-auto-flow: row;
+        grid-auto-rows: var(--control-item-size);
+        grid-template-rows: var(--control-item-size);
+        grid-template-columns: repeat(auto-fit, var(--control-item-size));
+        max-width: calc(100vw - var(--sidebar-width));
+      }
+
+      .scrollable{
+        display: none;
+      }
+
+      > .user-controls{
+        height: max-content;
+        flex-direction: row;
+        height: 32px;
+        align-items: center;
+        pointer-events: all;
+        width: 100%;
+        margin: 3px 0;
+        padding: 0;
+        display: flex;
+
+        &:hover{
+          background: transparent;
         }
 
-        &:after {
-          content: "Show Cameras";
-          font-size: var(--font-size-12);
-          font-weight: 600;
-          line-height: 20px;
-          vertical-align: middle;
-          text-transform: uppercase;
-          font-family: var(--crlngn-font-family);
-          opacity: 1;
-          display: inline-block;
-          transition: opacity 0.25s ease-out 0.25s;
-          margin-left: 3px;
+        button[data-action=toggleDock]{
+          width: auto;
+          display: flex;
+          flex: 1 1 auto;
+          padding: 0;
+          text-align: left;
+          justify-content: flex-start;
+          margin-right: auto;
+
+          &.fa-camera:before{
+            width: calc(var(--control-item-size) - 12px);
+            text-align: center;
+            font-weight: 600;
+          }
+
+          &:after {
+            content: "Show Cameras";
+            font-size: var(--font-size-12);
+            font-weight: 600;
+            line-height: 20px;
+            vertical-align: middle;
+            text-transform: uppercase;
+            font-family: var(--crlngn-font-family);
+            opacity: 1;
+            display: inline-block;
+            transition: opacity 0.25s ease-out 0.25s;
+            margin-left: 3px;
+          }
         }
       }
     }
   }
-
-  
-
 }
+*/

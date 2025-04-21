@@ -44,6 +44,8 @@ export const HOOKS_CORE = {
   COLLAPSE_SIDE_BAR: "collapseSidebar",
   EXPAND_SIDE_BAR: "expandSidebar",
   RENDER_SIDE_BAR: "renderSidebar",
+  ACTIVATE_CHAT_LOG: "activateChatLog",
+  ACTIVATE_CHAT_LOG_5E: "activateChatLog5e",
 
   /* Macros */
   RENDER_HOTBAR: "renderHotbar",
@@ -52,10 +54,32 @@ export const HOOKS_CORE = {
   RENDER_CAMERA_VIEWS: "renderCameraViews",
   WEBRTC_USER_STATE_CHANGED: "webrtcUserStateChanged",
   WEBRTC_SETTINGS_CHANGED: "webrtcSettingsChanged",
+  RTC_SETTINGS_CHANGED: "rtcSettingsChanged",
+  RTC_MODE_CHANGED: "rtcModeChanged",
+  RTC_VOICE_SETTINGS_CHANGED: "rtcVoiceSettingsChanged",
+  RTC_LOCAL_STREAM_ESTABLISHED: "rtcLocalStreamEstablished",
+  RTC_LOCAL_STREAM_ERROR: "rtcLocalStreamError",
+  RTC_PEER_CONNECTED: "rtcPeerConnected",
+  RTC_PEER_DISCONNECTED: "rtcPeerDisconnected",
+  RTC_PEER_ERROR: "rtcPeerError",
+  RTC_SIGNALING_EVENT: "rtcSignalingEvent",
+  
+  /* AV Configuration */
+  RENDER_AV_CONFIG: "renderAVConfig",
+  RENDER_AV_MASTER: "renderAVMaster",
+  RENDER_AV_CLIENT: "renderAVClient",
+  
+  /* User Connection */
+  USER_CONNECTED: "userConnected",
+  USER_DISCONNECTED: "userDisconnected",
 
   /* Update user */
   UPDATE_USER: "updateUser",
-  UPDATE_DOCUMENT: "updateDocument"
+  UPDATE_DOCUMENT: "updateDocument",
+
+  /* Settings */
+  UPDATE_SETTING: "updateSetting",
+  CLIENT_SETTING_CHANGED: "clientSettingChanged"
 }
 
 /**

@@ -2,13 +2,17 @@ import { MODULE_ID } from "../constants/General.mjs";
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { getSettingMenus } from "../constants/SettingMenus.mjs";
 import { BORDER_COLOR_TYPES, getSettings, ICON_SIZES, THEMES, UI_SCALE } from "../constants/Settings.mjs";
-import { CameraUtil } from "./CameraUtil.mjs";
+import { CameraDockUtil } from "./CameraDockUtil.mjs";
+import { ChatLogControls } from "./ChatLogControlsUtil.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
+import { LeftControls } from "./LeftControlsUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
+import { MacroHotbar } from "./MacroHotbarUtil.mjs";
 import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
-import { PlayersListUtil } from "./PlayersListUtil.mjs";
+import { PlayersList } from "./PlayersListUtil.mjs";
 import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
+import { SidebarTabs } from "./SidebarUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
 
 /**
@@ -25,15 +29,15 @@ export class SettingsUtil {
    */
   static registerSettings(){
     const SETTINGS = getSettings();
-    LogUtil.log("registerSettings - test", [SETTINGS], true);
     
     /**
      * Register each of the settings defined in the SETTINGS constant 
      */
     const settingsList = Object.entries(SETTINGS);
+    LogUtil.log("registerSettings - test", [settingsList], true);
     settingsList.forEach(async(entry) => {
       const setting = entry[1]; 
-      LogUtil.log("Registering... ",[entry], true);
+      LogUtil.log("Registering... ", [entry], true); 
 
       const settingObj = { 
         name: setting.label,
@@ -98,7 +102,7 @@ export class SettingsUtil {
 
 
     Hooks.on(HOOKS_CORE.RENDER_SCENE_CONTROLS, SettingsUtil.applyLeftControlsSettings);
-    Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, PlayersListUtil.applyPlayersListSettings); 
+    Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, PlayersList.applyPlayersListSettings); 
     Hooks.on(HOOKS_CORE.RENDER_HOTBAR, () => {
       if(SettingsUtil.firstLoad){
         SettingsUtil.firstLoad = false;
@@ -137,7 +141,14 @@ export class SettingsUtil {
       SettingsUtil.applyLeftControlsSettings(SETTINGS[fieldName].tag);
     });
 
-    LogUtil.log("game settings", [game.settings]);
+    // apply interface elements settings
+    const interfaceFields = SETTINGS.interfaceOptionsMenu.fields;
+    interfaceFields.forEach(fieldName => {
+      LogUtil.log("TEST",[fieldName, SETTINGS]);
+      SettingsUtil.apply(SETTINGS[fieldName].tag);
+    });
+
+    // LogUtil.log("game settings", [game.settings]);
   }
 
   /**
@@ -173,6 +184,7 @@ export class SettingsUtil {
 
     return setting;
   }
+
   /**
    * Retrieve the value of a setting for this module
    * @param {String} settingName 
@@ -233,10 +245,10 @@ export class SettingsUtil {
         SettingsUtil.applyHotBarCollapse();
         break;
       case SETTINGS.playerListAvatars.tag:
-        PlayersListUtil.applyAvatars();
+        PlayersList.applyAvatars();
         break;
       case SETTINGS.autoHidePlayerList.tag:
-        PlayersListUtil.applyPlayersListSettings();
+        PlayersList.applyPlayersListSettings();
         break;
       case SETTINGS.uiFontBody.tag:
       case SETTINGS.uiFontTitles.tag:
@@ -247,96 +259,98 @@ export class SettingsUtil {
       case SETTINGS.controlsAutoHide.tag:
         SettingsUtil.applyLeftControlsSettings(settingTag, value);
         break;
-      case SETTINGS.enableFloatingDock.tag:
-        CameraUtil.currSettings.enableFloatingDock = value;
-        break;
       case SETTINGS.dockHeight.tag:
-        CameraUtil.currSettings.dockHeight = value;
+        CameraDockUtil.currSettings.dockHeight = value;
         SettingsUtil.applyCameraHeight(value); 
         break;
       case SETTINGS.dockWidth.tag:
-        CameraUtil.currSettings.dockWidth = value;
-        SettingsUtil.applyCameraWidth(value); 
-        break;
+        CameraDockUtil.currSettings.dockWidth = value;
+        SettingsUtil.applyCameraWidth(value); break;
       case SETTINGS.dockPosX.tag:
-        CameraUtil.currSettings.dockPosX = value;
-        SettingsUtil.applyCameraPosX(value); 
-        break;
+        CameraDockUtil.currSettings.dockPosX = value;
+        SettingsUtil.applyCameraPosX(value); break;
       case SETTINGS.dockPosY.tag:
-        CameraUtil.currSettings.dockPosY = value;
-        SettingsUtil.applyCameraPosY(value); 
-        break;
+        CameraDockUtil.currSettings.dockPosY = value;
+        SettingsUtil.applyCameraPosY(value); break;
       case SETTINGS.defaultVideoWidth.tag:
-        CameraUtil.currSettings.defaultVideoWidth = value;
-        CameraUtil.applyVideoWidth(value); 
-        break;
+        CameraDockUtil.currSettings.defaultVideoWidth = value;
+        CameraDockUtil.applyVideoWidth(value); break;
       case SETTINGS.dockResizeOnUserJoin.tag:
-        CameraUtil.currSettings.dockResizeOnUserJoin = value;
-        CameraUtil.applyDockResize(value); 
-        break;
+        CameraDockUtil.currSettings.dockResizeOnUserJoin = value;
+        CameraDockUtil.applyDockResize(value); break;
       case SETTINGS.chatBorderColor.tag:
         ChatUtil.chatBorderColor = SettingsUtil.get(SETTINGS.chatBorderColor.tag);
-        SettingsUtil.applyBorderColors();
-        break;
+        SettingsUtil.applyBorderColors(); break;
       case SETTINGS.enableChatStyles.tag:
         ChatUtil.enableChatStyles = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
-        SettingsUtil.applyChatStyles();
-        break;
+        SettingsUtil.applyChatStyles(); break;
       case SETTINGS.enforceDarkMode.tag:
-        SettingsUtil.resetFoundryThemeSettings();
-        break;
+        SettingsUtil.resetFoundryThemeSettings(); break;
       case SETTINGS.debugMode.tag:
-        SettingsUtil.applyDebugSettings();
-        break;
-      case SETTINGS.sceneNavEnabled.tag:
-        TopNavigation.sceneNavEnabled = value;
-        break;
+        SettingsUtil.applyDebugSettings(); break;
       case SETTINGS.navFoldersEnabled.tag:
-        TopNavigation.navFoldersEnabled = value;
-        break;
+        TopNavigation.navFoldersEnabled = value; break;
       case SETTINGS.navShowRootFolders.tag:
         TopNavigation.navShowRootFolders = value;
-        ui.nav?.render();
-        break;
+        ui.nav?.render(); break;
       case SETTINGS.sceneClickToView.tag:
         TopNavigation.sceneClickToView = value;
         ui.nav?.render();
-        game.scenes?.directory?.render();
-        break;
+        game.scenes?.directory?.render(); break;
       case SETTINGS.useSceneIcons.tag:
         TopNavigation.useSceneIcons = value;
         ui.nav?.render();
-        game.scenes?.directory?.render();
-        break;
+        game.scenes?.directory?.render(); break;
       case SETTINGS.useSceneBackButton.tag:
         TopNavigation.useSceneBackButton = value;
-        ui.nav?.render();
-        break;
+        ui.nav?.render(); break;
       case SETTINGS.useScenePreview.tag:
         TopNavigation.useScenePreview = value;
-        ui.nav?.render();
-        break;
+        ui.nav?.render(); break;
       case SETTINGS.navStartCollapsed.tag:
-        TopNavigation.navStartCollapsed = value;
-        break;
+        TopNavigation.navStartCollapsed = value; break;
       case SETTINGS.showNavOnHover.tag:
-        TopNavigation.showNavOnHover = value;
-        break;
+        TopNavigation.showNavOnHover = value; break;
       case SETTINGS.sceneNavCollapsed.tag:
-        TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag);
-        break;
+        TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag); break;
       case SETTINGS.colorTheme.tag:
-        SettingsUtil.applyThemeSettings();
-        break;
+        SettingsUtil.applyThemeSettings(); break;
       case SETTINGS.customStyles.tag:
-        SettingsUtil.applyCustomCSS();
-        break;
+        SettingsUtil.applyCustomCSS(); break;
       case SETTINGS.adjustOtherModules.tag:
-        SettingsUtil.applyModuleAdjustments();
-        break;
+        SettingsUtil.applyModuleAdjustments(); break;
       case SETTINGS.otherModulesList.tag:
-        SettingsUtil.applyOtherModulesList();
-        break;
+        SettingsUtil.applyOtherModulesList(); break;
+      // Interface enable options
+      case SETTINGS.enablePlayerList.tag:
+        PlayersList.applyCustomStyle(value); break;
+      case SETTINGS.sceneNavEnabled.tag:
+        TopNavigation.applyCustomStyle(value); break;
+      case SETTINGS.enableMacroLayout.tag:
+        MacroHotbar.applyCustomStyle(value); break;
+      case SETTINGS.enableFloatingDock.tag:
+        CameraDockUtil.applyCustomStyle(value); break;
+      case SETTINGS.enableSidebarTabs.tag:
+        SidebarTabs.applyCustomStyle(value); break;
+      case SETTINGS.enableChatLogControls.tag:
+        ChatLogControls.applyCustomStyle(value); break;
+      case SETTINGS.enableSceneControls.tag:
+        LeftControls.applyCustomStyle(value); break;
+      // FadeOut options
+      case SETTINGS.sceneControlsFadeOut.tag:
+        LeftControls.applyFadeOut(value); break;
+      case SETTINGS.playerListFadeOut.tag:
+        PlayersList.applyFadeOut(value); break;
+      case SETTINGS.sidebarTabsFadeOut.tag:
+        SidebarTabs.applyFadeOut(value); break;
+      case SETTINGS.cameraDockFadeOut.tag:
+        CameraDockUtil.applyFadeOut(value); break;
+      case SETTINGS.macroHotbarFadeOut.tag:
+        MacroHotbar.applyFadeOut(value); break;
+      case SETTINGS.chatLogControlsFadeOut.tag:
+        ChatLogControls.applyFadeOut(value); break;
+      case SETTINGS.sceneNavFadeOut.tag:
+        TopNavigation.applyFadeOut(value); break;
       default:
         // do nothing
     }
@@ -482,7 +496,7 @@ export class SettingsUtil {
     const SETTINGS = getSettings();
     const cameraSettings = SettingsUtil.get(SETTINGS.dockPosX.tag);
     const xPos = pos || cameraSettings; 
-    CameraUtil.resetPositionAndSize({ x: xPos });
+    CameraDockUtil.resetPositionAndSize({ x: xPos });
   }
 
   /**
@@ -493,7 +507,7 @@ export class SettingsUtil {
     const SETTINGS = getSettings();
     const cameraSettings = SettingsUtil.get(SETTINGS.dockPosY.tag);
     const yPos = pos || cameraSettings;
-    CameraUtil.resetPositionAndSize({ y: yPos });
+    CameraDockUtil.resetPositionAndSize({ y: yPos });
   }
 
   /**
@@ -504,7 +518,7 @@ export class SettingsUtil {
     const SETTINGS = getSettings();
     const cameraSettings = SettingsUtil.get(SETTINGS.dockWidth.tag);
     const width = value || cameraSettings;
-    CameraUtil.resetPositionAndSize({ w: width });
+    CameraDockUtil.resetPositionAndSize({ w: width });
   }
 
   /**
@@ -515,7 +529,7 @@ export class SettingsUtil {
     const SETTINGS = getSettings();
     const cameraSettings = SettingsUtil.get(SETTINGS.dockHeight.tag);
     const height = value || cameraSettings;
-    CameraUtil.resetPositionAndSize({ h: height });
+    CameraDockUtil.resetPositionAndSize({ h: height });
   }
 
   /**

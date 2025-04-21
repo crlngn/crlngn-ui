@@ -30,6 +30,7 @@ export class TopNavigation {
   static #previewedScene = '';
   static #visitedScenes = [];
   // settings
+  static useFadeOut = true;
   static sceneNavEnabled;
   static navFoldersEnabled;
   static navFoldersForPlayers;
@@ -69,33 +70,15 @@ export class TopNavigation {
       return;
     }
 
+    Hooks.on(HOOKS_CORE.READY, () => {
+      TopNavigation.handleSceneFadeOut();
+      // TopNavigation.#timeout = setTimeout(()=>{
+      //   TopNavigation.handleSceneFadeOut();
+      // }, 1250);
+    })
+
     // execute on render scene navigation
-    Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, (nav, navHtml, navData) => {
-      const SETTINGS = getSettings();
-      TopNavigation.handleBackButton(nav, navHtml, navData);
-      TopNavigation.handleSceneList(nav, navHtml, navData);
-      TopNavigation.handleFolderList(nav, navHtml, navData);
-      const scenePage = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
-
-      TopNavigation.resetLocalVars();
-      TopNavigation.setNavPosition(scenePage, false);
-      TopNavigation.handleNavState();
-      TopNavigation.addSceneListeners(navHtml);
-      TopNavigation.addListeners();
-
-      if(TopNavigation.navShowRootFolders){
-        SceneNavFolders.init();
-        SceneNavFolders.renderFolderList();
-      }
-      
-      LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV);
-      
-      clearTimeout(TopNavigation.#timeout);
-      TopNavigation.#timeout = setTimeout(()=>{
-        LogUtil.log("NAV no transition remove");
-        TopNavigation.placeNavButtons();
-      }, 300);
-    });
+    Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, TopNavigation.onRender);
     Hooks.on(HOOKS_CORE.CREATE_SCENE, () => {
       ui.nav.render();
     });
@@ -110,6 +93,7 @@ export class TopNavigation {
       if(sceneId !== TopNavigation.#visitedScenes[TopNavigation.#visitedScenes.length-1]){
         TopNavigation.#visitedScenes.push(sceneId);
       }
+      TopNavigation.handleSceneFadeOut();
     })
 
     // add class to ui nav when sidebar changes state
@@ -123,6 +107,11 @@ export class TopNavigation {
     Hooks.on(HOOKS_CORE.COLLAPSE_SCENE_NAV, (nav, collapsed) => {
       clearTimeout(TopNavigation.#timeout);
       TopNavigation.isCollapsed = collapsed;
+      if(collapsed){
+        const existingButtons = document.querySelectorAll("#ui-left .crlngn-btn");
+        existingButtons.forEach(b => b.remove());
+      }
+      
       TopNavigation.#timeout = setTimeout(()=>{
         TopNavigation.setCollapsedClass(collapsed);
       }, 250);
@@ -171,6 +160,54 @@ export class TopNavigation {
     TopNavigation.placeNavButtons();
   }
 
+  static applyFadeOut(useFadeOut){
+    TopNavigation.useFadeOut = useFadeOut;
+
+    LogUtil.log("applyFadeOut", [useFadeOut]);
+    TopNavigation.handleSceneFadeOut();
+  }
+
+  static applyCustomStyle(enabled){
+    TopNavigation.sceneNavEnabled = enabled;
+    LogUtil.log("applyCustomStyle - TopNavigation", [TopNavigation.sceneNavEnabled, ui.nav]);
+    // if(ui.nav) ui.nav.render();
+  }
+
+  static onRender = (nav, navHtml, navData) => {
+    const SETTINGS = getSettings();
+    const scenePage = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
+    LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV , [navHtml]);
+
+    TopNavigation.resetLocalVars();
+    TopNavigation.handleSceneFadeOut(nav, navHtml, navData);
+    if(TopNavigation.sceneNavEnabled){
+      TopNavigation.handleBackButton(nav, navHtml, navData);
+      TopNavigation.handleSceneList(nav, navHtml, navData);
+      TopNavigation.handleFolderList(nav, navHtml, navData);
+      TopNavigation.setNavPosition(scenePage, false);
+      TopNavigation.handleNavState();
+    }
+    
+    TopNavigation.addSceneListeners(navHtml);
+    TopNavigation.addListeners();
+    TopNavigation.resetLocalVars();
+
+    if(TopNavigation.sceneNavEnabled && TopNavigation.navShowRootFolders){
+      SceneNavFolders.init();
+      SceneNavFolders.renderFolderList();
+    }
+    
+    LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV);
+    
+    if(TopNavigation.sceneNavEnabled){
+      clearTimeout(TopNavigation.#timeout);
+      TopNavigation.#timeout = setTimeout(()=>{
+        LogUtil.log("NAV no transition remove");
+        TopNavigation.placeNavButtons();
+      }, 500);
+    }
+  }
+
   static setCollapsedClass = (collapsed) => {
     if(collapsed){
       TopNavigation.#uiLeft.classList.add('navigation-collapsed');
@@ -185,7 +222,6 @@ export class TopNavigation {
     const body = document.querySelector("body");
     if(isExpanded){
       body.classList.add("sidebar-expanded");
-
     }else{
       body.classList.remove("sidebar-expanded");
     }
@@ -253,14 +289,36 @@ export class TopNavigation {
       // 
       const toggleClone = navToggle?.cloneNode(true);
       toggleClone.id = "crlngn-scene-navigation-expand";
-      toggleClone.classList.add("faded-ui");
-      // toggleClone.attributes = navToggle.attributes;
       toggleClone.addEventListener("click", () => {
         navToggle.click(); // This will trigger the original handler
       });
       LogUtil.log("toggle events", [nav, toggleClone]);
 
       column2.prepend(toggleClone);
+    }
+  }
+
+  static handleSceneFadeOut(nav, navHtml, navData){
+    const uiLeftColumn2 = document.querySelector("#ui-left-column-2");
+    const currNav = navHtml ? navHtml : document.querySelector("#ui-left-column-2 #scene-navigation") || null;
+
+    LogUtil.log("handleSceneFadeOut",[navHtml, currNav, document.querySelector("#ui-left-column-2 #scene-navigation")]);
+    
+    if(TopNavigation.sceneNavEnabled){
+      // Custom layout is enabled
+      currNav?.classList.remove("faded-ui");
+      if(TopNavigation.useFadeOut){
+        uiLeftColumn2?.classList.add("faded-ui");
+      }else{
+        uiLeftColumn2?.classList.remove("faded-ui");
+      }
+    }else{
+      // Custom layout is disabled
+      if(TopNavigation.useFadeOut){
+        currNav?.classList.add("faded-ui");
+      }else{
+        currNav?.classList.remove("faded-ui");
+      }
     }
   }
 
@@ -342,22 +400,20 @@ export class TopNavigation {
   static toggleNav(collapsed){
     clearTimeout(TopNavigation.#collapseTimeout);
     TopNavigation.#collapseTimeout = setTimeout(()=>{
-      // if(!ui.nav){ 
-      //   TopNavigation.toggleNav(collapsed);
-      //   return; 
-      // }
       TopNavigation.resetLocalVars();
 
       if(collapsed===true){
-        // ui.nav.collapse();
-        LogUtil.log("toggleNav collapse", [collapsed, TopNavigation.navStartCollapsed])
-        // TopNavigation.#uiLeft.classList.add('navigation-collapsed');
+        ui.nav.collapse();
+        TopNavigation.isCollapsed = true;
+        LogUtil.log("toggleNav collapse", [collapsed, TopNavigation.navStartCollapsed]);
+        const existingButtons = document.querySelectorAll("#ui-left .crlngn-btn");
+        existingButtons.forEach(b => b.remove());
       }else if(collapsed===false){
+        TopNavigation.isCollapsed = false;
         ui.nav.expand();
-        LogUtil.log("toggleNav expand", [collapsed, TopNavigation.navStartCollapsed])
-        // TopNavigation.#uiLeft.classList.remove('navigation-collapsed');
+        LogUtil.log("toggleNav expand", [collapsed, TopNavigation.navStartCollapsed]);
       }
-    }, 500);
+    }, 300);
     
   }
 
@@ -436,7 +492,7 @@ export class TopNavigation {
   static placeNavButtons = async() => { 
     const sceneNav = document.querySelector("#scene-navigation");
     const sceneList = sceneNav.querySelector("#scene-navigation-inactive");
-    const existingButtons = document.querySelectorAll(".crlngn-btn");
+    const existingButtons = document.querySelectorAll("#ui-left .crlngn-btn");
 
     if(!sceneNav){
       return;
@@ -444,10 +500,12 @@ export class TopNavigation {
     
     const btnWidth = (TopNavigation.#navToggle?.offsetWidth * 2) || 0;
     const isNavOverflowing = (sceneNav.offsetWidth - btnWidth) < sceneNav.scrollWidth;
-    LogUtil.log("placeNavButtons", [isNavOverflowing, existingButtons]);
+    LogUtil.log("placeNavButtons *", [TopNavigation.isCollapsed, isNavOverflowing, existingButtons]);
     
     existingButtons.forEach(b => b.remove());
-    if(!isNavOverflowing){
+    if(!isNavOverflowing 
+      || TopNavigation.isCollapsed 
+      || TopNavigation.#uiLeft.classList.contains('navigation-collapsed')){
       return;
     }
     // Render nav buttons template

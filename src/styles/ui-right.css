@@ -7,24 +7,50 @@ body.crlngn-ui{
   --sidebar-tab-height: 48px;
   --crlngn-sidebar-bottom: 0px;
 
-
-  #sidebar-tabs {
-    padding: 0;
-
-    > menu {
-      gap: 0;
-
-      li:last-child button {
-        border-bottom-left-radius: var(--crlngn-border-radius);
+  #ui-right.crlngn-tabs{
+    #sidebar-tabs {
+      padding: 0;
+  
+      > menu {
+        gap: 0;
+  
+        li:last-child button {
+          border-bottom-left-radius: var(--crlngn-border-radius);
+        }
+      }
+  
+      .ui-control{
+        &[aria-pressed=true]{
+          border: 1px solid var(--color-highlights);
+        }
       }
     }
 
-    .ui-control{
-      &[aria-pressed=true]{
-        border: 1px solid var(--color-highlights);
+    #roll-privacy{
+      button[data-action=toggleChat]{
+        display: none;
+        visibility: hidden;
+  
+        &:focus{
+          border: 1px solid transparent; 
+          border-color: transparent;
+          outline: 0;
+        }
+      }
+      &.vertical {
+        button {
+          width: var(--control-item-size);
+          height: var(--control-item-size);
+        }
+        button[data-action=toggleChat]{
+          display: flex;
+          visibility: visible;
+        }
       }
     }
   }
+
+  
   .sidebar-tab:not(.sidebar-popout) {
     border-radius: 0;
   }
@@ -93,8 +119,8 @@ body.crlngn-ui{
       box-shadow: 0 0 10px inset var(--color-dark-bg-50);; 
       transition: all ease-in-out 0.25s; 
       position: relative; 
-      min-height: calc(var(--input-height) * 1.2);
-      font-size: var(--font-size-13); 
+      min-height: calc(var(--input-height) * 1.35);
+      font-size: var(--font-size-14); 
       font-weight: 600; 
       margin: 0;    
       min-width: max-content;
@@ -112,10 +138,17 @@ body.crlngn-ui{
         border: 1px solid var(--color-highlights-50); 
       }
 
+      
       > i {
         font-size: var(--font-size-10);
         margin: 0 5px 0 0;
       }
+    }
+  }
+
+  #settings .dnd5e2 {
+    .unlist a {
+      text-decoration: none;
     }
   }
 
@@ -153,14 +186,17 @@ body.crlngn-ui{
     border-bottom-left-radius: 0;
     visibility: visible;
 
-    &.hidden{
+    &:hover, &:focus {
+      border-bottom-color: transparent;
+    }
+  }
+  
+  #chat-notifications.input-hidden{
+    #chat-message {
       display: none;
       visibility: hidden;
     }
 
-    &:hover, &:focus {
-      border-bottom-color: transparent;
-    }
   }
 
   .themed.theme-dark .combat-tracker {
@@ -187,23 +223,6 @@ body.crlngn-ui{
     .compendium-name{
       font-weight: 600;
       font-size: 0.9em;
-    }
-  }
-
-  #roll-privacy{
-    button[data-action=toggleChat]{
-      display: none;
-      visibility: hidden;
-    }
-    &.vertical {
-      button {
-        width: var(--control-item-size);
-        height: var(--control-item-size);
-      }
-      button[data-action=toggleChat]{
-        display: flex;
-        visibility: visible;
-      }
     }
   }
 

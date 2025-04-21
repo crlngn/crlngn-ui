@@ -3,8 +3,7 @@ import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs"; 
 import { TopNavigation } from "./TopNavUtil.mjs"; 
 import { ChatUtil } from "./ChatUtil.mjs";
-import { CameraUtil } from "./CameraUtil.mjs";
-import { PlayersListUtil } from "./PlayersListUtil.mjs";
+import { PlayersList } from "./PlayersListUtil.mjs";
 import { getSettings } from "../constants/Settings.mjs";
 import { LeftControls } from "./LeftControlsUtil.mjs";
 import { MODULE_ID } from "../constants/General.mjs";
@@ -13,6 +12,10 @@ import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
 import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
 import { UpdateNewsUtil } from "./UpdateNewsUtil.mjs";
 import { CustomHandlebarsHelpers } from "./CustomHandlebarsHelpers.mjs";
+import { CameraDockUtil } from "./CameraDockUtil.mjs";
+import { SidebarTabs } from "./SidebarUtil.mjs";
+import { MacroHotbar } from "./MacroHotbarUtil.mjs";
+import { ChatLogControls } from "./ChatLogControlsUtil.mjs";
 
 /**
  * Main class handling core module initialization and setup
@@ -28,6 +31,8 @@ export class Main {
     Hooks.once(HOOKS_CORE.INIT, () => { 
       document.querySelector("body").classList.add(MODULE_ID); 
       document.querySelector("#ui-middle")?.classList.add(MODULE_ID);
+
+      Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, TopNavigation.onRender);
 
       LogUtil.log("Initiating module...", [], true); 
       // Create namespace
@@ -52,10 +57,13 @@ export class Main {
       // }
 
       TopNavigation.init();
-      CameraUtil.init(); 
+      CameraDockUtil.init(); 
       LeftControls.init();
+      ChatLogControls.init();
       ChatUtil.init();
-      PlayersListUtil.init(); 
+      SidebarTabs.init();
+      PlayersList.init(); 
+      MacroHotbar.init(); 
 
       Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
     });
@@ -73,7 +81,7 @@ export class Main {
       if(isDebugOn){CONFIG.debug.hooks = true};
 
       CustomHandlebarsHelpers.init();
-      PlayersListUtil.applyPlayersListSettings(); 
+      PlayersList.applyPlayersListSettings(); 
       ModuleCompatUtil.init();
       // TopNavigation.checkSceneNavCompat();
       UpdateNewsUtil.init();

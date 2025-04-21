@@ -5,11 +5,11 @@ import { SettingsUtil } from "../SettingsUtil.mjs";
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 /**
- * Scene Navigation Settings application for managing scene navigation configurations.
- * Provides a form interface for customizing the behavior and appearance of the scene navigation bar.
+ * Left Controls Settings application for managing left sidebar control configurations.
+ * Provides a form interface for customizing the behavior and appearance of left-side controls.
  * @extends {HandlebarsApplicationMixin(ApplicationV2)}
  */
-export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) {
+export class InterfaceElementsSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   static #element;
   /**
    * Default application options
@@ -19,22 +19,23 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
   static get DEFAULT_OPTIONS() {
     const SETTINGS = getSettings();
     return {
-      id: SETTINGS.sceneNavMenu.tag,
+      id: SETTINGS.interfaceOptionsMenu.tag,
       actions: {
-        redefine: SceneNavSettings.#onReset,
+        redefine: InterfaceElementsSettings.#onReset,
       },
+      // classes: ["standard-form"],
       form: {
-        handler: SceneNavSettings.#onSubmit,
+        handler: InterfaceElementsSettings.#onSubmit,
         closeOnSubmit: true,
       },
       position: {
-        width: 480,
+        width: 540,
         height: "auto",
       },
       tag: "form",
       window: {
-        icon: "fas fa-map",
-        title: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.title"),
+        icon: "fas fa-table",
+        title: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.title"),
         contentClasses: ["standard-form", "crlngn"],
         resizable: false
       }
@@ -48,11 +49,10 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
    */
   static PARTS = {
     content: {
-      template: "modules/crlngn-ui/templates/scene-nav-settings.hbs",
+      template: "modules/crlngn-ui/templates/interface-elements-settings.hbs",
     },
     footer: {
       template: "templates/generic/form-footer.hbs"
-      // "templates/generic/custom-fonts-settings-footer.hbs",
     },
   };
   
@@ -61,17 +61,16 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
    * @returns {string} Localized title string
    */
   get title() {
-    return game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.title");
-    // return `My Module: ${game.i18n.localize(this.options.window.title)}`;
+    return game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.title");
   }
 
-
+  // location.reload();
   /** 
    * Handles form submission and updates FoundryVTT settings.
    * Uses `foundry.utils.expandObject()` to parse form data.
    */
   /**
-   * Handles form submission and updates scene navigation settings
+   * Handles form submission and updates left controls settings
    * @private
    * @static
    * @param {Event} event - The form submission event
@@ -83,8 +82,9 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
     event.preventDefault();
     event.stopPropagation();
     const SETTINGS = getSettings(); 
-    const fieldNames = SETTINGS.sceneNavMenu.fields;
+    const fieldNames = SETTINGS.interfaceOptionsMenu.fields;
     let navEnabledBefore = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
+    let foldersEnabledBefore = SettingsUtil.get(SETTINGS.navFoldersEnabled.tag);
     
     // Convert FormData into an object with proper keys
     const settings = foundry.utils.expandObject(formData.object);
@@ -95,7 +95,8 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
         SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
       }
     });
-    let navEnabledAfter = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
+    let navEnabledAfter = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag); 
+    let foldersEnabledAfter = SettingsUtil.get(SETTINGS.navFoldersEnabled.tag);
 
     LogUtil.log("Saving settings...", [navEnabledBefore, navEnabledAfter]); // Debugging
     await SettingsUtil.set(SETTINGS.sceneNavMenu.tag, settings);
@@ -105,6 +106,26 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
     if( navEnabledBefore !== navEnabledAfter ){
       location.reload();
     }
+    
+    // const SETTINGS = getSettings();
+    // event.preventDefault();
+    // event.stopPropagation();
+    // const fieldNames = SETTINGS.interfaceOptionsMenu.fields;
+    
+    // // Convert FormData into an object with proper keys
+    // const settings = foundry.utils.expandObject(formData.object);
+
+    // fieldNames.forEach((fieldName) => {
+    //   if(settings[fieldName] !== undefined) {
+    //     LogUtil.log("Saving setting:", [settings[fieldName]]);
+    //     SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
+    //   }
+    // });
+
+    // // For compatibility - to be removed in future version
+    // // await SettingsUtil.set(SETTINGS.interfaceOptionsMenu.tag, settings);
+
+    // ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
   }
 
   /**
@@ -119,7 +140,7 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
     const SETTINGS = getSettings();
     const html = this.element;
     const inputs = html.querySelectorAll("input, select");
-    const defaults = SETTINGS.sceneNavMenu.default;
+    const defaults = SETTINGS.interfaceOptionsMenu.default;
 
     inputs.forEach(inputField => {
       inputField.value = defaults[inputField.name];
@@ -128,7 +149,8 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
       }
     })
 
-    LogUtil.log("#onReset", [a, b, SETTINGS.sceneNavMenu.default]);
+    LogUtil.log("#onReset", [a, b, SETTINGS.interfaceOptionsMenu.default]);
+    // await SettingsUtil.set(SETTINGS.interfaceOptionsMenu.tag, SETTINGS.interfaceOptionsMenu.default);
   }
 
   /**
@@ -144,7 +166,7 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
    */
   _prepareContext(options) {
     const SETTINGS = getSettings();
-    const fieldNames = SETTINGS.sceneNavMenu.fields;
+    const fieldNames = SETTINGS.interfaceOptionsMenu.fields;
     const fields = {};
     const fieldValues = {};
     const fieldDefaults = {};
@@ -164,12 +186,11 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
       fields: { 
         ...fields
       },
-      buttons: [ 
-        { type: "button", icon: "", label: "CRLNGN_UI.settings.sceneNavMenu.reset", action: 'redefine' },
-        { type: "submit", icon: "", label: "CRLNGN_UI.settings.sceneNavMenu.save" }
+      buttons: [
+        { type: "button", icon: "", label: "CRLNGN_UI.settings.interfaceOptionsMenu.reset", action: 'redefine' },
+        { type: "submit", icon: "", label: "CRLNGN_UI.settings.interfaceOptionsMenu.save" }
       ]
     }
-    // game.settings.get("foo", "config");
 
     LogUtil.log("_prepareContext", [setting, options]);
     return setting;
@@ -200,34 +221,18 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
    * @param {object} options - The render options
    */
   _onRender(context, options) {
-    LogUtil.log("_onRender", [context, options]);
-    SceneNavSettings.element = this.element;
+    const SETTINGS = getSettings();
+    InterfaceElementsSettings.element = this.element;
 
     // add listener to .toggle-hint 
-    const hintToggle = SceneNavSettings.element.querySelector('.toggle-hint');
+    const hintToggle = InterfaceElementsSettings.element.querySelector('.toggle-hint');
     hintToggle.addEventListener('click', () => {
-      SceneNavSettings.element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
+      InterfaceElementsSettings.element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
     });
-    
-    // Add event listener for sceneNavEnabled checkbox
-    const sceneNavCheckbox = this.element?.querySelector('input[name="sceneNavEnabled"]');
-    LogUtil.log('_onRender', [this.element, sceneNavCheckbox])
-    if (sceneNavCheckbox) {
-      sceneNavCheckbox.addEventListener('change', this.#onSceneNavEnabledChange.bind(this));
-      // Initial state
-      this.#onSceneNavEnabledChange({ target: sceneNavCheckbox });
-    }
+
+    const controlSettings = SettingsUtil.get(SETTINGS.interfaceOptionsMenu.tag);
+    LogUtil.log("_onRender", [context, options, controlSettings]);
   }
 
-  /**
-   * Handles changes to the sceneNavEnabled checkbox
-   * @private
-   * @param {Event} event - The change event
-   */
-  #onSceneNavEnabledChange(event) {
-    const otherInputs = this.element?.querySelectorAll('input:not([name="sceneNavEnabled"])');
-    otherInputs.forEach(input => input.disabled = !event.target.checked);
-    LogUtil.log('onSceneNavEnabledChange', [this.element, otherInputs])
-  }
 
 }

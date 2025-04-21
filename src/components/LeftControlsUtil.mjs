@@ -12,6 +12,8 @@ export class LeftControls {
   static #uiLeft;
   /** @type {ResizeObserver} @private @static */
   static #resizeObserver;
+  static useFadeOut = true;
+  static customStylesEnabled = true;
 
   /**
    * Initializes the left controls functionality and sets up event hooks
@@ -24,6 +26,30 @@ export class LeftControls {
     window.addEventListener("resize", LeftControls.onActivateSceneControls)
     LeftControls.initSceneControls()
   } 
+
+  static applyFadeOut(useFadeOut){
+    LeftControls.useFadeOut = useFadeOut;
+    LogUtil.log("applyFadeOut", [useFadeOut]);
+    LeftControls.handleFadeOut();
+  }
+
+  static handleFadeOut(component, html, data){
+    const element = html ? html : document.querySelector("#scene-controls");
+
+    if(LeftControls.useFadeOut){
+      element?.classList.add("faded-ui");
+    }else{
+      element?.classList.remove("faded-ui");
+    }
+
+    LogUtil.log("handle FadeOut", [LeftControls.customStylesEnabled, LeftControls.useFadeOut]);
+  }
+
+  static applyCustomStyle(enabled){
+    LeftControls.customStylesEnabled = enabled;
+    LogUtil.log("applyCustomStyle", [LeftControls.customStylesEnabled, ui.controls]);
+    ui.controls?.render();
+  }
 
   /**
      * Preloads the Handlebars templates used by this component
@@ -59,10 +85,16 @@ export class LeftControls {
    * Initializes the scene controls by resetting variables and setting up width observation
    * @static
    */
-  static initSceneControls(){
+  static initSceneControls(component, html, data){
     LogUtil.log("initSceneControls", [])
     LeftControls.resetLocalVars();
-    LeftControls.observeControlsWidth();
+    if(LeftControls.customStylesEnabled){
+      LeftControls.#uiLeft.classList.add("crlngn-controls");
+      // LeftControls.observeControlsWidth();
+    }else{
+      LeftControls.#uiLeft.classList.remove("crlngn-controls");
+    }
+    LeftControls.handleFadeOut(component, html, data);
   }
 
 

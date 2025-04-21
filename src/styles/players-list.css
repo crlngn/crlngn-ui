@@ -2,17 +2,22 @@ body.crlngn-ui {
   --max-players-width: 230px;
   --crlngn-avatar-size: calc(var(--control-item-size) - 10px); 
 
-  #players {
+  #players{
+    margin-left: 16px;
+    margin-bottom: 16px;
+  }
+  #players.crlngn-ui {
     gap: 0;
+    margin-left: 0;
+    margin-bottom: 0;
 
-    #players-active .players-list{
+    #players-active .players-list {
       padding-bottom: 0;
       margin-bottom: 4px;
 
       li {
         margin-bottom: 0;
       }
-
     }
 
     #performance-stats {
@@ -27,7 +32,7 @@ body.crlngn-ui {
       box-shadow: none;
     }
 
-    #players-active, #players-inactive{
+    #players-active, #players-inactive {
       width: var(--max-players-width);
       padding: 10px;
       border-radius: 0;
@@ -163,8 +168,12 @@ body.crlngn-ui {
         padding: 6px;
       }
 
-      li {
+      li:last-child{
         border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+        border-spacing: 5px;
+      }
+
+      li {
 
         > img.avatar {
           width: var(--crlngn-avatar-size);

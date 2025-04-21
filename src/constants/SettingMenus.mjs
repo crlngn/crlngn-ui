@@ -6,10 +6,20 @@ import { CustomFontsSettings } from '../components/settings-dialogs/CustomFontSe
 import { LeftControlsSettings } from '../components/settings-dialogs/LeftControlsSettings.mjs';
 import { SceneNavSettings } from '../components/settings-dialogs/SceneNavSettings.mjs';
 import { ThemeAndStyleSettings } from '../components/settings-dialogs/ThemeAndStylesSettings.mjs';
+import { InterfaceElementsSettings } from '../components/settings-dialogs/InterfaceElementsSettings.mjs';
 // import * as lang from '../lang/en.json' assert { type: "json" };
 
 export function getSettingMenus() {
   return {
+    interfaceOptionsMenu: {
+      tag: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.label"),
+      name: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.title"),
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.title"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.hint"),
+      icon: "fa-solid fa-table-layout",  
+      propType: InterfaceElementsSettings,
+      restricted: false 
+    },
     customFonts: {
       tag: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.label"),
       name: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.title"),

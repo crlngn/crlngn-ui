@@ -3,6 +3,7 @@ body.crlngn-ui{
 
     #hotbar.crlngn-macro{
       --hotbar-size: 60px;
+      gap: 0;
       margin: 0;
 
       &.sm, &.md.offset {
@@ -11,13 +12,43 @@ body.crlngn-ui{
 
       button { 
         border: 1px solid transparent;
+        background: transparent;
+        font-size: var(--font-size-12);
         &:hover, &:focus {
           border: 1px solid transparent;
         }
 
-        &.hotbar-page-control{
-          transform:scaleY(0.65);
+        &.hotbar-page-control::before {
+          transform: scaleY(0.65);
         }
+        &.hotbar-page-control.page-prev::before {
+          transform: scaleY(-0.65);
+        }
+      }
+
+      &.compact #action-bar, &.md.offset #action-bar, &.sm #action-bar {
+        width: calc((var(--hotbar-size) * 5) - 5px);
+    }
+      
+      .hotbar-controls{
+        background: var(--control-bg-color);
+        padding: 0 3px;
+        height: 100%;
+      }
+      #hotbar-controls-left{
+        border-top-left-radius: var(--crlngn-border-radius);
+        justify-content: center;
+        gap: 2px;
+      }
+      #hotbar-controls-right{
+        border-top-right-radius: var(--crlngn-border-radius);
+        > div.flexcol {
+          justify-content: center;
+          gap: 2px;
+        }
+      }
+      #hotbar-page-controls {
+        gap: 2px;
       }
 
       #action-bar {
@@ -39,30 +70,6 @@ body.crlngn-ui{
           .key {
             border-radius: 0 0 8px 0;
           }
-        }
-      }
-
-      &.md #action-bar {
-        .slot:nth-child(1) {
-          border-top-left-radius: var(--crlngn-border-radius);
-        }
-        .slot:nth-child(5) {
-          border-top-right-radius: 0;
-        }
-        .slot:nth-child(10) {
-          border-top-right-radius: var(--crlngn-border-radius);
-        }
-      }
-
-      &.sm #action-bar, &.md.offset #action-bar {
-        .slot:nth-child(1) {
-          border-top-left-radius: var(--crlngn-border-radius);
-        }
-        .slot:nth-child(5) {
-          border-top-right-radius: var(--crlngn-border-radius);
-        }
-        .slot:nth-child(10) {
-          border-top-right-radius: 0;
         }
       }
 
