@@ -54,6 +54,18 @@ export class SceneNavFolders {
    */
   static addFolderButtons(nav, navHtml, navData){
     const SETTINGS = getSettings();
+    // if button already exists, remove it
+    const existingLookupBtn = document.querySelector("#crlngn-scene-lookup");
+    if(existingLookupBtn){
+      existingLookupBtn.remove();
+    }
+
+    // if button already exists, remove it
+    const existingFolderToggle = document.querySelector("#crlngn-folder-toggle");
+    if(existingFolderToggle){
+      existingFolderToggle.remove();
+    }
+
     const activeScenesMenu = navHtml.querySelector("#scene-navigation-active");
     const firstActiveItem = activeScenesMenu.querySelector("li.scene:first-of-type");
     const folderLookup = document.createElement("div");
