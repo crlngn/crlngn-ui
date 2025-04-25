@@ -4,6 +4,13 @@
       "clientSettingsLabel": "Player Settings (Client)",
       "worldSettingsLabel": "World Settings (GM)",
       "toggleHints": "Toggle Help",
+      "navDisabled": "Scene Navigation is disabled in the 'Elements' tab. The settings below will only have effect if Custom Layout is enabled for Scene Navigation.",
+      "reloadRequiredTitle": "Reload Foundry",
+      "reloadRequiredLabel": "A reload is required. Reload now?",
+      "reset": "Reset",
+      "save": "Save",
+      "reloadButton": "Reload",
+      "cancelButton": "Cancel",
       "notifications": {
         "settingsUpdated": "Settings updated",
         "minimalUiNotSupported": "Carolingian UI is not compatible with Minimal UI, and offers most of its features. Please disable that module to avoid performance issues.",
@@ -28,13 +35,30 @@
       "toggleChatBox": "Toggle Chat Box"
     },
     "settings": {
+      "moduleSettingsMenu": {
+        "label": "Interface Settings",
+        "title": "Configure Options",
+        "hint": "Customize Carolingian UI, enable or disable custom styles and other options.",
+        "tabs": {
+          "interface": "Elements",
+          "fonts": "Fonts",
+          "themes": "Theme & Styles",
+          "chat": "Chat Log",
+          "controls": "Scene Controls",
+          "scenes": "Scenes",
+          "players": "Players List",
+          "camera": "Camera Dock"
+        },
+        "reset": "Reset",
+        "save": "Save"
+      },
       "hideInterface": {
         "label": "Toggle Hide/Show Interface",
         "hint": "Hides or shows the UI. This will affect all elements inside the `#interface` html block"
       },
       "interfaceOptionsMenu": {
-        "label": "Interface Fading & Layout",
-        "title": "Configure Interface",
+        "label": "Fade-out & Layout",
+        "title": "Interface Fade-out & Layout",
         "hint": "Disable 'fade out' behavior of interface elements individually. You may also disable Carolingian UI custom layout for them.",
         "description": "<b>'Fade Out' column:</b> Uncheck to prevent element from fading out when not hovered. <b>'Custom Layout' column:</b> Uncheck to disable Carolingian UI styles for that particular element. Color theming and fonts will still apply.",
         "fields": {
@@ -54,7 +78,7 @@
         "save": "Save"
       },
       "customFontsMenu": {
-        "label": "Custom Fonts",
+        "label": "Fonts",
         "title": "Configure Fonts",
         "hint": "Configure the font families used throughout the interface",
         "description": "Select or type the name of a custom font, if already loaded on Foundry core. ",
@@ -78,7 +102,7 @@
       },
 
       "themeAndStylesMenu": {
-        "label": "Theme and Styles",
+        "label": "Theme",
         "title": "Configure Styles",
         "hint": "Select a color theme for the UI, and add custom CSS styles.",
         "fields": {
@@ -107,7 +131,7 @@
         "save": "Save"
       },
       "chatMessagesMenu": {
-        "label": "Chat Message Options",
+        "label": "Chat",
         "title": "Configure Chat",
         "hint": "Modify the look and behavior of the chat message cards on right side panel",
         "fields": {
@@ -129,7 +153,7 @@
         "save": "Save"
       },
       "leftControlsMenu": {
-        "label": "Control Bars",
+        "label": "Control Bar",
         "title": "Configure Controls",
         "hint": "Modify the look and behavior of scene control buttons, on the left side of screen",
         "fields": {
@@ -159,7 +183,7 @@
         "save": "Save"
       },
       "cameraDockMenu": {
-        "label": "Camera",
+        "label": "Camera Dock",
         "title": "Configure Dock",
         "hint": "Enable a floating camera dock that you can position anywhere",
         "fields": {
@@ -201,7 +225,7 @@
         "save": "Save"
       },
       "sceneNavMenu": {
-        "label": "Scene Navigation",
+        "label": "Scene Nav",
         "title": "Configure Scene Nav",
         "hint": "Change options for the scene navigation menu, on the top bar.",
         "fields": {

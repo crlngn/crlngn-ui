@@ -457,4 +457,43 @@ export class GeneralUtil {
     element.dataset.scrollAnimationId = newAnimationId;
     return newAnimationId;
   }
+
+  /**
+   * Opens a confirmation dialog to reload the page using DialogV2
+   * @param {string} [title=""] - The title of the confirmation dialog
+   * @param {string} [content=""] - The content message
+   * @param {Object} [options={}] - Additional dialog options
+   * @returns {Promise<boolean>} Resolves to true if confirmed, false otherwise
+   */
+  static confirmReload(
+    title = game.i18n.localize("CRLNGN_UI.ui.reloadRequiredTitle"), 
+    content = game.i18n.localize("CRLNGN_UI.ui.reloadRequiredLabel"),
+    options = {}) {
+    
+    // Configure the dialog options
+    const dialogConfig = {
+      title,
+      content,
+      yes: {
+        label: game.i18n.localize("CRLNGN_UI.ui.reloadButton"),
+        callback: () => {
+          LogUtil.log("Reloading page after confirmation");
+          window.location.reload();
+          return true;
+        }
+      },
+      no: {
+        label: game.i18n.localize("CRLNGN_UI.ui.cancelButton"),
+        callback: () => false
+      },
+      defaultYes: false,
+      rejectClose: false
+    };
+    
+    // Merge any custom options
+    mergeObject(dialogConfig, options);
+    
+    // Create and return the DialogV2 confirm promise
+    return foundry.applications.api.DialogV2.confirm(dialogConfig);
+  }
 }

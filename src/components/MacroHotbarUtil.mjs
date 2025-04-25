@@ -7,12 +7,18 @@ export class MacroHotbar {
   static customStylesEnabled = true;
 
   static init(){
-    Hooks.on(HOOKS_CORE.RENDER_HOTBAR, MacroHotbar.handleFadeOut);
+    Hooks.on(HOOKS_CORE.RENDER_HOTBAR, MacroHotbar.onRender);
   }
 
   static applyFadeOut(useFadeOut){
     MacroHotbar.useFadeOut = useFadeOut;
     MacroHotbar.handleFadeOut();
+  }
+
+  static onRender(component, html, data){
+    LogUtil.log("MacroHotbar onRender", [MacroHotbar.customStylesEnabled]);
+    MacroHotbar.applyCustomStyle(MacroHotbar.customStylesEnabled);
+    MacroHotbar.handleFadeOut(component, html, data);
   }
 
   static handleFadeOut(component, html, data){

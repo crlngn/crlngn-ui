@@ -4,6 +4,13 @@
       "clientSettingsLabel": "Configurações do Jogador (Cliente)",
       "worldSettingsLabel": "Configurações do Mundo (GM)",
       "toggleHints": "Alternar Ajuda",
+      "navDisabled": "A navegação de cenas está desativada na aba 'Elementos'. As configurações abaixo só terão efeito se o Layout Personalizado estiver ativado para a Navegação de Cenas.",
+      "reloadRequiredTitle": "Recarregar Foundry",
+      "reloadRequiredLabel": "É necessário recarregar. Recarregar agora?",
+      "reset": "Redefinir",
+      "save": "Salvar",
+      "reloadButton": "Recarregar",
+      "cancelButton": "Cancelar",
       "notifications": {
         "settingsUpdated": "Configurações atualizadas",
         "minimalUiNotSupported": "Carolingian UI não é compatível com Minimal UI, e oferece a maioria de suas funcionalidades. Por favor, desabilite Minimal UI para evitar problemas de performance.",
@@ -28,9 +35,47 @@
       "toggleChatBox": "Caixa de Mensagens"
     },
     "settings": {
+      "moduleSettingsMenu": {
+        "label": "Configurações de Interface",
+        "title": "Configurar Opções",
+        "hint": "Personalize Carolingian UI, ative ou desative estilos personalizados e outras opções.",
+        "tabs": {
+          "interface": "Elementos",
+          "fonts": "Fontes",
+          "themes": "Tema e Estilos",
+          "chat": "Chat",
+          "controls": "Controles de Cena",
+          "scenes": "Cenas",
+          "players": "Lista de Jogadores",
+          "camera": "Dock de Câmera"
+        },
+        "reset": "Redefinir",
+        "save": "Salvar"
+      },
       "hideInterface": {
         "label": "Ocultar/Mostrar Interface",
         "hint": "Oculta ou mostra a interface. Isso afetará todos os elementos dentro do bloco html #interface"
+      },
+      "interfaceOptionsMenu": {
+        "label": "Desvanecimento e Layout",
+        "title": "Desvanecimento e Layout da Interface",
+        "hint": "Desative o comportamento de 'desvanecimento' dos elementos da interface individualmente. Você também pode desativar o layout personalizado do Carolingian UI para eles.",
+        "description": "<b>Coluna 'Desvanecimento':</b> Desmarque para impedir que o elemento desvaneça quando não estiver sob o cursor. <b>Coluna 'Layout Personalizado':</b> Desmarque para desativar os estilos do Carolingian UI para esse elemento específico. O tema de cores e fontes ainda serão aplicados.",
+        "fields": {
+          "sceneControls": "Botões de Controle (Lado Esquerdo)",
+          "sidebarTabs": "Botões da Barra Lateral (Lado Direito)",
+          "playerList": "Lista de Jogadores",
+          "cameraDock": "Dock de Câmera",
+          "macroHotbar": "Barra de Macros",
+          "sceneNav": "Navegação de Cenas",
+          "chatLogControls": "Controles do Chat",
+          "fadeOutColumn": "Desvanecimento",
+          "hideColumn": "Ocultar",
+          "customLayoutColumn": "Layout Personalizado",
+          "elementColumn": "Elemento da Interface"
+        },
+        "reset": "Redefinir",
+        "save": "Salvar"
       },
       "customFontsMenu": {
         "label": "Fontes Personalizadas",

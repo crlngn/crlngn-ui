@@ -102,11 +102,12 @@ body.crlngn-ui{
 
   .sidebar-tab .header-actions,
   .sidebar-tab .settings,
+  .sidebar-tab.combat-sidebar,
   .sidebar-tab .documentation,
   .sidebar-tab .access {
-    button:not(.dice-tray button, .chat-message button, .dice-tray-container button),
+    button:not(.dice-tray button, .chat-message button, .dice-tray-container button, .icon, .roll),
     a.button {
-      padding: 6px 4px; 
+      padding: 8px 4px; 
       border-radius: 0; 
       background: var(--color-dark-bg-25);
       border: 1px solid var(--color-secondary-50);
@@ -116,7 +117,7 @@ body.crlngn-ui{
       justify-content: center; 
       /*color: var(--control-icon-color);*/
       font-weight: 500; 
-      box-shadow: 0 0 10px inset var(--color-dark-bg-50);; 
+      box-shadow: 0 0 10px inset var(--control-bg-color);
       transition: all ease-in-out 0.25s; 
       position: relative; 
       min-height: calc(var(--input-height) * 1.35);
@@ -159,12 +160,17 @@ body.crlngn-ui{
     gap: 3px;
 
     h4{
-      font-size: var(--font-size-18);
+      font-size: var(--font-size-15);
       font-weight: 600;
       font-family: var(--crlngn-font-titles);
+      text-transform: uppercase;
       margin-bottom: 6px;
       letter-spacing: 0.02em;
       color: var(--color-highlights);
+
+      &:before, &:after{
+        display: none;
+      }
     }
   }
 

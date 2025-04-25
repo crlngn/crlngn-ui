@@ -27,7 +27,7 @@ export class SettingsUtil {
    * Registers all module settings with Foundry VTT
    * Initializes settings, registers menus, and sets up hooks for settings changes
    */
-  static registerSettings(){
+  static registerSettings = async() => {
     const SETTINGS = getSettings();
     
     /**
@@ -39,29 +39,31 @@ export class SettingsUtil {
       const setting = entry[1]; 
       LogUtil.log("Registering... ", [entry], true); 
 
-      const settingObj = { 
-        name: setting.label,
-        hint: setting.hint,
-        default: setting.default,
-        type: setting.propType,
-        scope: setting.scope,
-        config: setting.config,
-        requiresReload: setting.requiresReload || false,
-        onChange: value => SettingsUtil.apply(setting.tag, value)
+      if((setting.showOnRoot && setting.isMenu) || !setting.isMenu){
+        const settingObj = { 
+          name: setting.label,
+          hint: setting.hint,
+          default: setting.default,
+          type: setting.propType,
+          scope: setting.scope,
+          config: setting.config,
+          requiresReload: setting.requiresReload || false,
+          onChange: value => SettingsUtil.apply(setting.tag, value)
+        }
+  
+        if(setting.choices || setting.options){
+          settingObj.choices = setting.choices || setting.options;
+        }
+  
+        // @ts-ignore - Valid module ID for settings registration
+        await game.settings.register(MODULE_ID, setting.tag, settingObj);
+  
+        if(SettingsUtil.get(setting.tag) === undefined){
+          LogUtil.log('resetting...', [setting.tag]);
+          SettingsUtil.set(setting.tag, setting.default);
+        }
       }
 
-      if(setting.choices || setting.options){
-        settingObj.choices = setting.choices || setting.options;
-      }
-
-      // @ts-ignore - Valid module ID for settings registration
-      await game.settings.register(MODULE_ID, setting.tag, settingObj);
-
-      if(SettingsUtil.get(setting.tag) === undefined){
-        LogUtil.log('resetting...', [setting.tag]);
-        SettingsUtil.set(setting.tag, setting.default);
-      }
-      // LogUtil.log("registerSettings",[setting.tag, SettingsUtil.get(setting.tag)]);
     });
 
     game.keybindings.register(MODULE_ID, "hideInterface", {
@@ -84,22 +86,46 @@ export class SettingsUtil {
     SettingsUtil.applyModuleAdjustments();
 
     /**
-     * Register subsetting menus
+     * Register the tabbed settings menu as the main entry point
      */
     const settingMenus = Object.entries(getSettingMenus());
-    settingMenus.forEach(async(entry) => {
-      const settingMenu = entry[1]; 
-      const settingMenuObj = {
-        name: settingMenu.tag,
-        label: settingMenu.label, 
-        hint: settingMenu.hint,
-        icon: settingMenu.icon, 
-        type: settingMenu.propType,
-        restricted: settingMenu.restricted
-      }
-      await game.settings.registerMenu(MODULE_ID, settingMenu.tag, settingMenuObj); 
-    });
-
+    
+    // First register the main tabbed settings menu
+    const tabbedMenu = settingMenus.find(entry => entry[0] === 'moduleSettingsMenu');
+    if (tabbedMenu) {
+      const tabbedMenuData = tabbedMenu[1];
+      const tabbedMenuObj = {
+        name: tabbedMenuData.tag,
+        label: tabbedMenuData.label, 
+        hint: tabbedMenuData.hint,
+        icon: tabbedMenuData.icon, 
+        type: tabbedMenuData.propType,
+        restricted: tabbedMenuData.restricted
+      };
+      await game.settings.registerMenu(MODULE_ID, tabbedMenuData.tag, tabbedMenuObj);
+    }
+    
+    // Register individual setting menus (hidden from the settings tab but still accessible for direct calls)
+    // settingMenus.forEach(async(entry) => {
+    //   const menuKey = entry[0];
+    //   const settingMenu = entry[1];
+      
+    //   // Skip the tabbed menu as we've already registered it
+    //   if (menuKey === 'ModuleSettingsMenu') return;
+      
+    //   const settingMenuObj = {
+    //     name: settingMenu.tag,
+    //     label: settingMenu.label, 
+    //     hint: settingMenu.hint,
+    //     icon: settingMenu.icon, 
+    //     type: settingMenu.propType,
+    //     restricted: settingMenu.restricted,
+    //     // Hide individual menus from the settings tab
+    //     scope: 'client',
+    //     config: false
+    //   };
+    //   await game.settings.registerMenu(MODULE_ID, settingMenu.tag, settingMenuObj); 
+    // });
 
     Hooks.on(HOOKS_CORE.RENDER_SCENE_CONTROLS, SettingsUtil.applyLeftControlsSettings);
     Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, PlayersList.applyPlayersListSettings); 
@@ -241,9 +267,9 @@ export class SettingsUtil {
       case SETTINGS.enableMacroLayout.tag:
         SettingsUtil.applyHotBarSettings();
         break;
-      case SETTINGS.collapseMacroBar.tag:
-        SettingsUtil.applyHotBarCollapse();
-        break;
+      // case SETTINGS.collapseMacroBar.tag:
+      //   SettingsUtil.applyHotBarCollapse();
+      //   break;
       case SETTINGS.playerListAvatars.tag:
         PlayersList.applyAvatars();
         break;
@@ -284,8 +310,8 @@ export class SettingsUtil {
       case SETTINGS.enableChatStyles.tag:
         ChatUtil.enableChatStyles = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
         SettingsUtil.applyChatStyles(); break;
-      case SETTINGS.enforceDarkMode.tag:
-        SettingsUtil.resetFoundryThemeSettings(); break;
+      // case SETTINGS.enforceDarkMode.tag:
+      //   SettingsUtil.resetFoundryThemeSettings(); break;
       case SETTINGS.debugMode.tag:
         SettingsUtil.applyDebugSettings(); break;
       case SETTINGS.navFoldersEnabled.tag:
@@ -418,12 +444,12 @@ export class SettingsUtil {
    * Controls visibility and expansion state of the macro bar
    */
   static applyHotBarCollapse(){
-    const SETTINGS = getSettings();
-    const macroCollapseOption = SettingsUtil.get(SETTINGS.collapseMacroBar.tag);
+  //   const SETTINGS = getSettings();
+  //   // const macroCollapseOption = SettingsUtil.get(SETTINGS.collapseMacroBar.tag);
 
-    // if(macroCollapseOption){
-    //   ui.hotbar.collapse();
-    // }
+  //   // if(macroCollapseOption){
+  //   //   ui.hotbar.collapse();
+  //   // }
   }
 
   /**
@@ -571,42 +597,34 @@ export class SettingsUtil {
    * Used when enforcing dark mode or other theme changes
    */
   static resetFoundryThemeSettings(){
-    const SETTINGS = getSettings();
-    const isMonksSettingsOn = GeneralUtil.isModuleOn('monks-player-settings');
-    const isForceSettingsOn = GeneralUtil.isModuleOn('force-client-settings');
-    const forceDarkModeOn = SettingsUtil.get(SETTINGS.enforceDarkMode.tag);
-    if(forceDarkModeOn && isMonksSettingsOn){
-      if(game.user?.isGM) {
-        ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.monksPlayerSettingsConflict"), {permanent: true});
-        SettingsUtil.set(SETTINGS.enforceDarkMode.tag, false);
-      }
-      return;
-    }
-    if(forceDarkModeOn && isForceSettingsOn){
-      if(game.user?.isGM) {
-        ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.forceClientSettingsConflict"), {permanent: true});
-        SettingsUtil.set(SETTINGS.enforceDarkMode.tag, false);
-      }
-      return;
-    }
+    // const SETTINGS = getSettings();
+    // const isMonksSettingsOn = GeneralUtil.isModuleOn('monks-player-settings');
+    // const isForceSettingsOn = GeneralUtil.isModuleOn('force-client-settings');
+    // const forceDarkModeOn = SettingsUtil.get(SETTINGS.enforceDarkMode.tag);
+    // if(isForceSettingsOn){
+    //   if(game.user?.isGM) {
+    //     ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.forceClientSettingsConflict"), {permanent: true});
+    //     SettingsUtil.set(SETTINGS.enforceDarkMode.tag, false);
+    //   }
+    //   return;
+    // }
 
     // LogUtil.log("resetFoundryThemeSettings", [game.settings]);
-    const foundryUiConfig = game.settings.get('core','uiConfig') || null;
+    // const foundryUiConfig = game.settings.get('core','uiConfig') || null;
 
-    // applications or interface
-
-    LogUtil.log("resetFoundryThemeSettings", [foundryUiConfig, game.settings])
+    // // applications or interface
+    // LogUtil.log("resetFoundryThemeSettings", [foundryUiConfig, game.settings])
     
-    if(forceDarkModeOn){
-      const enforcedThemes = {
-        ...foundryUiConfig,
-        colorScheme: {
-          application: foundryUiConfig.colorScheme.applications===''? 'dark' : foundryUiConfig.colorScheme.applications,
-          interface: foundryUiConfig.colorScheme.interface===''? 'dark' : foundryUiConfig.colorScheme.interface
-        }
-      }
-      game.settings.set('core','uiConfig', enforcedThemes);
-    }
+    // if(forceDarkModeOn){
+    //   const enforcedThemes = {
+    //     ...foundryUiConfig,
+    //     colorScheme: {
+    //       application: foundryUiConfig.colorScheme.applications===''? 'dark' : foundryUiConfig.colorScheme.applications,
+    //       interface: foundryUiConfig.colorScheme.interface===''? 'dark' : foundryUiConfig.colorScheme.interface
+    //     }
+    //   }
+    //   game.settings.set('core','uiConfig', enforcedThemes);
+    // }
   }
 
   /**

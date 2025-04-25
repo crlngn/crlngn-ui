@@ -63,7 +63,7 @@ body.crlngn-ui{
     margin: 6px 0;
   }
 
-  .application:not(.dnd5e2) .dialog-buttons button,
+  .application:not(.dnd5e2) .dialog-buttons button, 
   .combat-controls button:not(.inline-control),
   form.application .form-footer button,
   .application:not(.dnd5e2) .standard-form button {
@@ -211,7 +211,19 @@ body.crlngn-ui{
   }
 
   &.theme-dark {
-
+    #context-menu{
+      background: var(--color-dark-bg);
+      border: 1px solid var(--color-secondary-50);
+      color: var(--color-light-1);
+      .context-item{
+        padding: 8px 12px;
+        &:hover{
+          border: 1px solid var(--color-secondary-75);
+          background: var(--color-secondary-75);
+          color: var(--color-light-1);
+        }
+      }
+    }
     input[type=checkbox]:disabled{
       opacity: 0.7;
       filter:saturate(0.25);
@@ -257,17 +269,57 @@ body.crlngn-ui{
 
 /* FORMS FOR CRLNGN UI SETTINGS */
 .standard-form.crlngn {
+  padding: 2em;
+
   h4{
-    font-family: var(--crlngn-font-titles);
+    font-family: var(--crlngn-font-family);
     font-size: var(--font-size-18);
-    line-height: var(--font-size-21);
+    line-height: 1.2;
     display: flex;
     align-items: center;
+    margin-bottom: 0.25em;
 
     i{
       font-size: var(--font-size-12);
       margin-right: 5px;
     }
+  }
+  > .tab {
+    gap: 0;
+
+    hr {
+      margin: 0.25em 0 0.5em 0;
+    }
+  }
+
+  nav.tabs { 
+    display: flex; 
+    border-bottom: 1px solid var(--color-fieldset-border);
+    margin-bottom: 10px;
+    align-items: stretch;
+    justify-content: stretch;
+    gap: 0px;
+    line-height: 1;
+  }
+  nav.tabs a[data-action=tab] {
+    padding: 12px 8px;
+    margin-right: 5px;
+    border: 1px solid var(--color-border-dark);
+    border-bottom: none;
+    border-radius: 3px 3px 0 0;
+    cursor: pointer;
+    line-height: 1;
+    align-items: center;
+    display: flex;
+
+    i{
+      display: none;
+    }
+  }
+  nav.tabs a[data-action=tab].active {
+    background: var(--color-secondary-50);
+    border-bottom: 0;
+    margin-bottom: 0;
   }
 
   span.toggle-hint {
@@ -295,6 +347,11 @@ body.crlngn-ui{
     &.shown{
       display: block;
     }
+  }
+  p.warn{
+    background: var(--color-level-warning-bg);
+    padding: 10px;
+    margin: 1em 0;
   }
 
   .form-content{
@@ -329,14 +386,10 @@ body.crlngn-ui{
       min-width: 50%;
       line-height: 1.5;
     }
-
-    .hint{
-      margin: 0.25em 0;
-      font-size: var(--font-size-12);
-    }
   }
   .hint{
-    line-height: 1.4;
+    line-height: 1.35;
+    margin: 0.5em 0;
   }
 }
 
@@ -472,7 +525,7 @@ body.crlngn-ui{
   }
 }
 
-.standard-form.crlngn.datalists {
+.standard-form.crlngn {
   .dropdown-wrapper {
     position: relative;
     width: 100%;
@@ -483,7 +536,7 @@ body.crlngn-ui{
     top: 100%;
     left: 0;
     right: 0;
-    background: var(--color-bg-btn-minor-inactive);
+    background: var(--color-cool-4);
     border: none;
     border-radius: 3px;
     max-height: 140px;
@@ -555,6 +608,10 @@ body.crlngn-ui{
   .application hr {
     background-image: linear-gradient(90deg, var(--color-warm-2) 0%, transparent 100%);
   }
+
+  .application .window-header .window-title {
+    font-family: var(--crlngn-font-family);
+  }
   
   #tooltip {
     font-family: var(--crlngn-font-family);
@@ -575,7 +632,7 @@ body.crlngn-ui{
       &.info {
         background: var(--color-secondary-90);
         border: 1px solid rgba(0,0,0);
-        color: var(--color-text-secondary);
+        color: var(--color-light-1);
         text-shadow: none;
       } 
     }

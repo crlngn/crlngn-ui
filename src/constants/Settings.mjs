@@ -78,7 +78,7 @@ export const THEMES = [
     className: 'crlngn-theme-dark-sorcery',
     colorPreview: [
       'rgb(31, 47, 49)',
-      'rgb(94, 57, 127)'
+      'rgb(130, 110, 160)'
     ]
   },
   {
@@ -88,13 +88,36 @@ export const THEMES = [
       'rgb(40, 31, 49)',
       'rgb(220, 120, 43)'
     ]
+  },
+  {
+    label: "Gambit's Blue",
+    className: 'crlngn-theme-gambits-blue',
+    colorPreview: [
+      'rgb(40, 31, 49)',
+      'rgb(45, 126, 207)'
+    ]
   }
 ];
 
 export function getSettings() { 
   return {
+    moduleSettingsMenu: {
+      isMenu: true,
+      showOnRoot: true, 
+      tag: "interface-options-menu",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.hint"),
+      propType: Object,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false,
+      fields: [],
+      default: {}
+    },
     interfaceOptionsMenu: {
-      tag: "interface-options-menu", 
+      isMenu: true,
+      showOnRoot: false, 
+      tag: "interface-options-menu",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.hint"),
       propType: Object,
@@ -179,6 +202,8 @@ export function getSettings() {
     },
 
     themeAndStylesMenu: {
+      isMenu: true,
+      showOnRoot: false, 
       tag: "theme-styles-menu", 
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.label"),
       title: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.title"),
@@ -205,6 +230,8 @@ export function getSettings() {
     },
 
     chatMessagesMenu: {
+      isMenu: true,
+      showOnRoot: false, 
       tag: "chat-messages-menu", 
       label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.hint"),
@@ -223,6 +250,8 @@ export function getSettings() {
     },
 
     leftControlsMenu: {
+      isMenu: true,
+      showOnRoot: false, 
       tag: "left-controls-menu", 
       label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.hint"),
@@ -239,6 +268,8 @@ export function getSettings() {
     },
 
     playersListMenu: {
+      isMenu: true,
+      showOnRoot: false, 
       tag: "players-list-menu", 
       label: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.hint"),
@@ -257,6 +288,8 @@ export function getSettings() {
     },
 
     cameraDockMenu: {
+      isMenu: true,
+      showOnRoot: false, 
       tag: "camera-dock-menu", 
       label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.hint"),
@@ -285,12 +318,14 @@ export function getSettings() {
     },
 
     sceneNavMenu: {
+      isMenu: true,
+      showOnRoot: false, 
       tag: "scene-nav-menu", 
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.hint"),
       propType: Object,
       fields: [
-        "sceneNavEnabled",
+        // "sceneNavEnabled",
         "navFoldersEnabled",
         "navShowRootFolders",
         "sceneClickToView",
@@ -301,11 +336,11 @@ export function getSettings() {
         "useScenePreview"
       ],
       default: {
-        sceneNavEnabled: true,
+        // sceneNavEnabled: true,
         navFoldersEnabled: true,
         navStartCollapsed: false,
         sceneClickToView: true,
-        useSceneIcons: false,
+        useSceneIcons: true,
         navShowRootFolders: false,
         showNavOnHover: false,
         useScenePreview: true,
@@ -313,7 +348,7 @@ export function getSettings() {
       },
       scope: SETTING_SCOPE.client,
       config: false, 
-      requiresReload: true 
+      requiresReload: false 
     },
 
     disableUI: {
@@ -451,26 +486,26 @@ export function getSettings() {
       config: false 
     },
 
-    collapseMacroBar: { 
-      tag: "collapse-macro-bar", 
-      label: game.i18n.localize("CRLNGN_UI.settings.collapseMacroBar.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.collapseMacroBar.hint"), 
-      propType: Boolean,
-      default: true, 
-      scope: SETTING_SCOPE.client, 
-      config: true, 
-      requiresReload: false 
-    },
+    // collapseMacroBar: { 
+    //   tag: "collapse-macro-bar", 
+    //   label: game.i18n.localize("CRLNGN_UI.settings.collapseMacroBar.label"), 
+    //   hint: game.i18n.localize("CRLNGN_UI.settings.collapseMacroBar.hint"), 
+    //   propType: Boolean,
+    //   default: true, 
+    //   scope: SETTING_SCOPE.client, 
+    //   config: true, 
+    //   requiresReload: false 
+    // },
 
-    enforceDarkMode: { 
-      tag: "enforce-dark-mode", 
-      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.enforceDarkMode.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.enforceDarkMode.hint"), 
-      propType: Boolean, 
-      default: true, 
-      scope: SETTING_SCOPE.world, 
-      config: true 
-    },
+    // enforceDarkMode: { 
+    //   tag: "enforce-dark-mode", 
+    //   label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.enforceDarkMode.label"), 
+    //   hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.enforceDarkMode.hint"), 
+    //   propType: Boolean, 
+    //   default: true, 
+    //   scope: SETTING_SCOPE.world, 
+    //   config: true 
+    // },
 
     debugMode: { 
       tag: "debug-mode", 
@@ -855,7 +890,8 @@ export function getSettings() {
       propType: Boolean, 
       default: true, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false,
+      requiresReload: true
     },
 
     enableSceneControls: { 

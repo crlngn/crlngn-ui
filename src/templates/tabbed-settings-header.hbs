@@ -1,0 +1,9 @@
+<div class="form-header">
+  <nav class="tabs" data-group="primary-tabs">
+    {{#each tabs as |tab tabId|}}
+    <a class="item {{#if (eq ../activeTab tabId)}}active{{/if}}" data-tab="{{tabId}}">
+      {{localize tab.menu.label}}
+    </a>
+    {{/each}}
+  </nav>
+</div>

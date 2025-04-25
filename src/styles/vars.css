@@ -68,7 +68,7 @@ Main Theme
     --color-light-bg-90: rgba(233, 233, 226, 0.9);
     --color-light-bg: rgba(233, 233, 226, 1);
     
-    &.theme-daark,
+    &.theme-dark,
     #interface.theme-dark{
       --color-control-bg: rgba(15, 15, 15, 0.15);
       --color-button-bg: rgba(32, 47, 58, 1);
@@ -134,7 +134,7 @@ Main Theme
     --color-level-success-bg: rgba(69, 117, 73, 0.8);
     --color-level-success-border: #4b8b4f;
     --color-level-warning: rgb(190, 140, 46);
-    --color-level-warning-bg: rgba(79, 58, 10, 0.8);
+    --color-level-warning-bg: rgba(164, 120, 20, 0.5);
     --color-level-warning-border: #b18404;
 
     --input-background-color: var(--color-input-bg);
@@ -205,20 +205,20 @@ Main Theme
         --color-fieldset-border: var(--color-cool-4);
       }
 
-      --color-secondary: rgba(62, 62, 88, 1);
+      --color-secondary: rgba(47, 47, 71, 1);
       --color-secondary-bright: rgba(122, 122, 148, 1);
       --color-secondary-bright-50: rgba(122, 122, 148, 0.5);
-      --color-secondary-15: rgba(62, 62, 88, 0.15);
-      --color-secondary-25: rgba(62, 62, 88, 0.25);
-      --color-secondary-50: rgba(62, 62, 88, 0.5);
-      --color-secondary-65: rgba(62, 62, 88, 0.65);
-      --color-secondary-75: rgba(62, 62, 88, 0.75);
-      --color-secondary-90: rgba(62, 62, 88, 0.9);
+      --color-secondary-15: rgba(47, 47, 71, 0.15);
+      --color-secondary-25: rgba(47, 47, 71, 0.25);
+      --color-secondary-50: rgba(47, 47, 71, 0.5);
+      --color-secondary-65: rgba(47, 47, 71, 0.65);
+      --color-secondary-75: rgba(47, 47, 71, 0.75);
+      --color-secondary-90: rgba(47, 47, 71, 0.9);
       --color-secondary-b: rgba(34, 34, 54, 1);
       --color-secondary-b-50: rgba(34, 34, 54, 0.5);
       --color-secondary-b-75: rgba(34, 34, 54, 0.75);
       --color-secondary-b-90: rgba(34, 34, 54, 0.90);
-      --color-text-secondary: rgb(139, 139, 161);
+      --color-text-secondary: rgb(179, 179, 192);
 
       --color-cool-3: rgb(83, 71, 107);
       --color-cool-4: rgb(54, 48, 59); 
@@ -289,7 +289,7 @@ body.crlngn-ui.crlngn-theme-gold-chocolate.game .app {
     --color-secondary-b-50: rgba(34, 34, 54, 0.5);
     --color-secondary-b-75: rgba(34, 34, 54, 0.75);
     --color-secondary-b-90: rgba(34, 34, 54, 0.90);
-    --color-text-secondary: rgb(174, 156, 133);
+    --color-text-secondary: rgb(203, 193, 180);
   }
   --color-warm-1: rgb(213, 190, 116);
   --color-warm-2: rgb(192, 165, 77);
@@ -351,7 +351,7 @@ body.crlngn-ui.crlngn-theme-royal-blood.game .app {
     --color-secondary-b-50: rgba(20, 17, 25, 0.5);
     --color-secondary-b-75: rgba(20, 17, 25, 0.75);
     --color-secondary-b-90: rgba(20, 17, 25, 0.9);
-    --color-text-secondary: rgb(145, 135, 159);
+    --color-text-secondary: rgb(190, 184, 199);
   }
   
   --color-warm-1: rgb(177, 51, 55);
@@ -381,22 +381,22 @@ body.crlngn-ui.crlngn-theme-royal-blood.game .app {
 /* THEME - DARK SORCERY */
 body.crlngn-ui.crlngn-theme-dark-sorcery,
 body.crlngn-ui.crlngn-theme-dark-sorcery.game .app {
-  --color-highlights: rgb(139, 98, 196);
-  --color-highlights-15: rgba(139, 98, 196, 0.15);
-  --color-highlights-25: rgba(139, 98, 196, 0.25);
-  --color-highlights-50: rgba(139, 98, 196, 0.5);
-  --color-highlights-75: rgba(139, 98, 196, 0.75);
-  --color-highlights-90: rgba(139, 98, 196, 0.9);
-  --color-scrollbar: rgba(139, 98, 196, 0.7);
-  --color-border-highlight-alt: rgba(139, 98, 196, 0.9); 
-	--color-border-highlight: rgba(139, 98, 196, 1);
-  --color-shadow-highlight: rgba(139, 98, 196, 0.5); 
-	--color-shadow-primary: rgba(139, 98, 196, 0.8);
-  --color-border-light-primary: rgba(139, 98, 196, 0.5);
-  --color-border-light-highlight: rgba(139, 98, 196, 1);
-  --color-underline-header: rgba(139, 98, 196, 1);
-  --color-underline-active: rgba(139, 98, 196, 1);
-	--color-text-hyperlink: rgb(151, 107, 190);
+  --color-highlights: rgb(126, 100, 165);
+  --color-highlights-15: rgba(126, 100, 165, 0.15);
+  --color-highlights-25: rgba(126, 100, 165, 0.25);
+  --color-highlights-50: rgba(126, 100, 165, 0.5);
+  --color-highlights-75: rgba(126, 100, 165, 0.75);
+  --color-highlights-90: rgba(126, 100, 165, 0.9);
+  --color-scrollbar: rgba(126, 100, 165, 0.7);
+  --color-border-highlight-alt: rgba(126, 100, 165, 0.9); 
+	--color-border-highlight: rgba(126, 100, 165, 1);
+  --color-shadow-highlight: rgba(126, 100, 165, 0.5); 
+	--color-shadow-primary: rgba(126, 100, 165, 0.8);
+  --color-border-light-primary: rgba(126, 100, 165, 0.5);
+  --color-border-light-highlight: rgba(126, 100, 165, 1);
+  --color-underline-header: rgba(126, 100, 165, 1);
+  --color-underline-active: rgba(126, 100, 165, 1);
+	--color-text-hyperlink: rgb(175, 145, 202);
 
   &.theme-dark,
   #interface.theme-dark{
@@ -414,12 +414,12 @@ body.crlngn-ui.crlngn-theme-dark-sorcery.game .app {
     --color-secondary-b-50: rgba(24, 34, 36, 0.5);
     --color-secondary-b-75: rgba(24, 34, 36, 0.75);
     --color-secondary-b-90: rgba(24, 34, 36, 0.9);
-    --color-text-secondary: rgb(140, 161, 164);
+    --color-text-secondary: rgb(187, 199, 201);
   }
   
-  --color-warm-1: rgb(159, 128, 189);
-  --color-warm-2: rgb(139, 98, 196);
-  --color-warm-3: rgb(97, 53, 135);
+  --color-warm-1: rgb(140, 125, 165);
+  --color-warm-2: rgb(126, 100, 165);
+  --color-warm-3: rgb(106, 72, 136);
 
   &.theme-light,
   #interface.theme-light {
@@ -478,7 +478,7 @@ body.crlngn-ui.crlngn-theme-pumpkin-patch.game .app {
     --color-secondary-b-50: rgba(20, 17, 25, 0.5);
     --color-secondary-b-75: rgba(20, 17, 25, 0.75);
     --color-secondary-b-90: rgba(20, 17, 25, 0.9);
-    --color-text-secondary: rgb(157, 150, 168);
+    --color-text-secondary: rgb(191, 187, 198);
   }
   
   --color-warm-1: rgb(221, 155, 104);
@@ -503,4 +503,69 @@ body.crlngn-ui.crlngn-theme-pumpkin-patch.game .app {
     --color-secondary-b-90: rgba(240, 238, 246, 0.9);
     --color-text-secondary: rgba(20, 17, 25, 1);
   }
+}
+
+/* THEME - GAMBIT'S BLUE */
+body.crlngn-ui.crlngn-theme-gambits-blue,
+body.crlngn-ui.crlngn-theme-gambits-blue.game .app {
+  --color-highlights: rgb(45, 126, 207);
+  --color-highlights-15: rgba(45, 126, 207, 0.15);
+  --color-highlights-25: rgba(45, 126, 207, 0.25);
+  --color-highlights-50: rgba(45, 126, 207, 0.5);
+  --color-highlights-75: rgba(45, 126, 207, 0.75);
+  --color-highlights-90: rgba(45, 126, 207, 0.9);
+  --color-scrollbar: rgba(45, 126, 207, 0.7);
+  --color-border-highlight-alt: rgba(45, 126, 207, 0.9); 
+	--color-border-highlight: rgba(45, 126, 207, 1);
+  --color-shadow-highlight: rgba(45, 126, 207, 0.5); 
+	--color-shadow-primary: rgba(45, 126, 207, 0.8);
+  --color-border-light-primary: rgba(45, 126, 207, 0.5);
+  --color-border-light-highlight: rgba(45, 126, 207, 1);
+  --color-underline-header: rgba(45, 126, 207, 1);
+  --color-underline-active: rgba(45, 126, 207, 1);
+	--color-text-hyperlink: rgb(175, 145, 202);
+
+  &.theme-dark,
+  #interface.theme-dark{
+    --color-secondary: rgb(40, 31, 49);
+    --color-secondary-bright: rgba(123, 111, 133, 0.75);
+    --color-secondary-bright-50: rgba(123, 111, 133, 0.5);
+    --color-secondary-15: rgba(40, 31, 49, 0.15);
+    --color-secondary-25: rgba(40, 31, 49, 0.25);
+    --color-secondary-50: rgba(40, 31, 49, 0.5);
+    --color-secondary-65: rgba(40, 31, 49, 0.65);
+    --color-secondary-75: rgba(40, 31, 49, 0.75);
+    --color-secondary-90: rgba(40, 31, 49, 0.9);
+    --color-secondary-b: rgba(20, 17, 25, 1);
+    --color-secondary-b-25: rgba(20, 17, 25, 0.5);
+    --color-secondary-b-50: rgba(20, 17, 25, 0.5);
+    --color-secondary-b-75: rgba(20, 17, 25, 0.75);
+    --color-secondary-b-90: rgba(20, 17, 25, 0.9);
+    --color-text-secondary: rgb(190, 184, 199);
+  }
+  
+  --color-warm-1: rgb(103, 158, 212);
+  --color-warm-2: rgb(45, 126, 207);
+  --color-warm-3: rgb(36, 101, 167);
+
+  
+  &.theme-light,
+  #interface.theme-light {
+    --color-secondary: rgb(204, 186, 204);
+    --color-secondary-bright: rgba(236, 224, 236, 0.75);
+    --color-secondary-bright-50: rgba(236, 224, 236, 0.5);
+    --color-secondary-15: rgba(204, 186, 204, 0.15);
+    --color-secondary-25: rgba(204, 186, 204, 0.25);
+    --color-secondary-50: rgba(204, 186, 204, 0.5);
+    --color-secondary-65: rgba(204, 186, 204, 0.65);
+    --color-secondary-75: rgba(204, 186, 204, 0.75);
+    --color-secondary-90: rgba(204, 186, 204, 0.9);
+    --color-secondary-b: rgba(237, 224, 237, 1);
+    --color-secondary-b-25: rgba(237, 224, 237, 0.5);
+    --color-secondary-b-50: rgba(237, 224, 237, 0.5);
+    --color-secondary-b-75: rgba(237, 224, 237, 0.75);
+    --color-secondary-b-90: rgba(237, 224, 237, 0.9);
+    --color-text-secondary: rgba(20, 17, 25, 1);
+  }
+
 }

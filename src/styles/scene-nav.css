@@ -133,6 +133,9 @@ body.crlngn-ui {
       }
 
       .scene-navigation-menu {
+        .scene, .folder{
+          cursor: pointer;
+        }
         .scene {
           height: var(--control-item-size);
           min-width: var(--scene-nav-item-width);

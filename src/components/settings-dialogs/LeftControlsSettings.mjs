@@ -53,7 +53,6 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
     },
     footer: {
       template: "templates/generic/form-footer.hbs"
-      // "templates/generic/custom-fonts-settings-footer.hbs",
     },
   };
   
@@ -69,9 +68,6 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
   /** 
    * Handles form submission and updates FoundryVTT settings.
    * Uses `foundry.utils.expandObject()` to parse form data.
-   */
-  /**
-   * Handles form submission and updates left controls settings
    * @private
    * @static
    * @param {Event} event - The form submission event
@@ -97,7 +93,6 @@ export class LeftControlsSettings extends HandlebarsApplicationMixin(Application
 
     // For compatibility - to be removed in future version
     // await SettingsUtil.set(SETTINGS.leftControlsMenu.tag, settings);
-
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
   }
 
