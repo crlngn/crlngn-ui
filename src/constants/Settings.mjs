@@ -618,7 +618,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.hint"),
       inputType: SETTING_INPUT.select,
       propType: String,
-      default:  "'monks-scene-nav','combat-carousel','dice-tray','hurry-up','crux'",
+      default:  "'monks-scene-nav','combat-carousel','dice-tray','crux'",
       options: {
         "Combat Carousel": "'combat-carousel'",
         "Crux": "'crux'",
