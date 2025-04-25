@@ -4,6 +4,13 @@
       "clientSettingsLabel": "玩家设置 (客户端)",
       "worldSettingsLabel": "世界设置 (游戏主持人)",
       "toggleHints": "切换帮助",
+      "navDisabled": "场景导航已在\"元素\"选项卡中禁用。以下设置将在自定义布局为场景导航时生效。",
+      "reloadRequiredTitle": "重新加载Foundry",
+      "reloadRequiredLabel": "需要重新加载。现在重新加载？",
+      "reset": "重置",
+      "save": "保存",
+      "reloadButton": "重新加载",
+      "cancelButton": "取消",
       "notifications": {
         "settingsUpdated": "设置已更新",
         "minimalUiNotSupported": "Carolingian UI与Minimal UI不兼容，并提供了大多数的功能。请禁用该模块以避免性能问题。",
@@ -28,9 +35,47 @@
       "toggleChatBox": "切换聊天框"
     },
     "settings": {
+      "moduleSettingsMenu": {
+        "label": "界面设置",
+        "title": "配置选项",
+        "hint": "自定义 Carolingian UI，启用或禁用自定义样式和其他选项。",
+        "tabs": {
+          "interface": "元素",
+          "fonts": "字体",
+          "themes": "主题 & 样式",
+          "chat": "聊天记录",
+          "controls": "场景控制",
+          "scenes": "场景",
+          "players": "玩家列表",
+          "camera": "摄像机停靠栏"
+        },
+        "reset": "重置",
+        "save": "保存"
+      },
       "hideInterface": {
         "label": "切换隐藏/显示界面",
         "hint": "隐藏或显示界面。这将影响 #interface 块中的所有元素"
+      },
+      "interfaceOptionsMenu": {
+        "label": "淡出 & 布局",
+        "title": "界面淡出 & 布局",
+        "hint": "单独禁用界面元素的“淡出”行为。您也可以禁用 Carolingian UI 对它们的自定义布局。",
+        "description": "<b>“淡出”列：</b> 取消勾选以防止元素在不被悬停时淡出。 <b>“自定义布局”列：</b> 取消勾选以禁用 Carolingian UI 对该特定元素的样式。颜色主题和字体仍将生效。",
+        "fields": {
+          "sceneControls": "控制按钮（左侧）",
+          "sidebarTabs": "侧边栏按钮（右侧）",
+          "playerList": "玩家列表",
+          "cameraDock": "摄像机停靠栏",
+          "macroHotbar": "宏快捷栏",
+          "sceneNav": "场景导航",
+          "chatLogControls": "聊天记录控制",
+          "fadeOutColumn": "淡出",
+          "hideColumn": "隐藏",
+          "customLayoutColumn": "自定义布局",
+          "elementColumn": "界面元素"
+        },
+        "reset": "重置",
+        "save": "保存"
       },
       "customFontsMenu": {
         "label": "自定义字体",
@@ -111,19 +156,6 @@
         "title": "配置控件",
         "hint": "修改场景控制按钮的外观和行为，位于屏幕左侧",
         "fields": {
-          "bottomBuffer": {
-            "label": "底部安全区域",
-            "hint": "如果左侧控制栏上的图标过多，可以通过定义底部缓冲区（以像素为单位）来设置控制栏的最大高度。如果图标超出该安全区域，它们将被推到下一列。使用 0 表示无缓冲区。"
-          },
-          "iconSize": {
-            "label": "控制图标大小",
-            "hint": "配置左侧控制栏上按钮的大小。其他一些 UI 元素将匹配此大小以保持对齐。",
-            "options": {
-              "small": "小",
-              "regular": "正常",
-              "large": "大"
-            }
-          }, 
           "autoHideSecondary": {
             "label": "自动隐藏次要控件",
             "hint": "启用后，左侧的次要控制栏将保持隐藏，直到您将鼠标悬停在该区域或单击某个项目。"
@@ -174,6 +206,23 @@
         "reset": "重置",
         "save": "保存"
       },
+      "playersListMenu": {
+        "label": "玩家列表",
+        "title": "玩家列表选项",
+        "hint": "更改玩家列表的行为或添加头像",
+        "fields": {
+          "autoHidePlayerList": {
+            "label": "自动隐藏玩家列表",
+            "hint": "启用后，左下角的玩家列表将保持最小化，除非悬停。"
+          },
+          "playerListAvatars": {
+            "label": "显示头像",
+            "hint": "显示玩家头像。它会查找角色图像，或者如果没有分配角色则查找用户图像。"
+          }
+        },
+        "reset": "重置",
+        "save": "保存"
+      },
       "sceneNavMenu": {
         "label": "场景导航",
         "title": "配置导航",
@@ -209,7 +258,7 @@
           },
           "useSceneBackButton": {
             "label": "启用返回按钮",
-            "hint": "<b>'返回到上一个场景'</b>: 点击返回到之前查看的场景，<b>'返回到默认场景'</b>: 只在文件夹视图中出现，点击打开默认场景导航，<b>禁用</b>: 无返回按钮",
+            "hint": "<b>'返回到上一个场景'</b>: 点击返回到之前查看的场景，<b>'返回到默认场景'</b>: 只在文件夹视图中出现，点击打开默认场景导航，<b>禁用</b>: 无返回按钮"
           },
           "useScenePreview": {
             "label": "使用场景预览",
@@ -218,6 +267,10 @@
           "navShowRootFolders": {
             "label": "在场景导航中显示根文件夹",
             "hint": "从场景目录的根文件夹将显示在默认场景导航中。如果你有很多根文件夹，你可能希望禁用此选项。"
+          },
+          "sceneNavItemWidth": {
+            "label": "Navigation item width",
+            "hint": "Leave empty to use default width, or define a new number. Minimum is 100px"
           }
         },
         "reset": "重置",
@@ -247,10 +300,6 @@
       "autoHideLeftControls": {
         "label": "自动隐藏左侧次要控件",
         "hint": "启用后，左侧的次要控制栏将保持隐藏，除非您将鼠标悬停在该区域或单击某个项目。"
-      },
-      "autoHidePlayersList": {
-        "label": "自动隐藏玩家列表",
-        "hint": "启用后，左下角的玩家列表将保持最小化，除非悬停。"
       },
       "collapseMacroBar": {
         "label": "折叠宏快捷栏",

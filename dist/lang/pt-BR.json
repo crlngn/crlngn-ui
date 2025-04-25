@@ -262,6 +262,10 @@
           "navShowRootFolders": {
             "label": "Mostrar pastas na navegação de cena",
             "hint": "Pastas serão mostradas na navegação de cena inicial. Se você tiver muitas pastas na raiz do diretório de cenas, pode querer desabilitar esta opção."
+          },
+          "sceneNavItemWidth": {
+            "label": "Largura do item de navegação",
+            "hint": "Deixe vazio para usar a largura padrão, ou defina um novo número. O mínimo é 100px"
           }
         },
         "reset": "Redefinir", 
