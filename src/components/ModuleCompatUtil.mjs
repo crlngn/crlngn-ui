@@ -3,7 +3,6 @@ import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
-import { MODULE_ID } from "src/constants/General.mjs";
 
 /**
  * Utility class for handling compatibility with other Foundry VTT modules
