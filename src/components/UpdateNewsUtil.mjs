@@ -26,6 +26,14 @@ export class UpdateNewsUtil {
     this.checkForUpdates();
   }
 
+  static getIdFromRawJson = async () => {
+    const rawUrl = "https://raw.githubusercontent.com/crlngn/crlngn-ui/refs/heads/main/news/module-updates.json";
+    const response = await fetch(rawUrl);
+    const json = response.ok ? await response.json() : null;
+
+    return json ? json.id || '' : '';
+  }
+
   // call to clean up this setting from local storage
   static cleanSetting(){
     const SETTINGS = getSettings();
@@ -41,10 +49,16 @@ export class UpdateNewsUtil {
     try {
       // Add a timeout to the fetch to prevent hanging
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 5 second timeout
       
       try {
-        const response = await fetch(this.getUpdateNewsUrl(), { 
+        const lastUpdateId = await SettingsUtil.get(SETTINGS.lastUpdateId.tag);
+        const rawVersion = await UpdateNewsUtil.getIdFromRawJson();
+        LogUtil.log('checkForUpdates...', [rawVersion, lastUpdateId]);
+        if(lastUpdateId === rawVersion){
+          return;
+        }
+        const response = await fetch(UpdateNewsUtil.getUpdateNewsUrl(), { 
           signal: controller.signal,
           // Prevent uncaught errors for network issues
           mode: 'cors',
@@ -60,18 +74,18 @@ export class UpdateNewsUtil {
         }
         
         const updateData = await response.json();
-        const lastUpdateId = SettingsUtil.get(SETTINGS.lastUpdateId.tag);
+        // const lastUpdateId = SettingsUtil.get(SETTINGS.lastUpdateId.tag);
         
-        LogUtil.log('checkForUpdates...', [updateData.id, lastUpdateId]);
-        // Check if this update has already been shown
-        if (updateData.id === lastUpdateId) return;
+        
+        // // Check if this update has already been shown
+        // if (updateData.id === lastUpdateId) return;
         
         // Create and display the chat message
         await this.displayUpdateNews(updateData);
         
         // Save the current update ID
         SettingsUtil.set(SETTINGS.lastUpdateId.tag, updateData.id);
-        LogUtil.log('checkForUpdates SUCCESS', [updateData.id]);
+        LogUtil.log('checkForUpdates | SUCCESS', [updateData.id]);
       } catch (fetchError) {
         clearTimeout(timeoutId);
         // Handle fetch-specific errors
