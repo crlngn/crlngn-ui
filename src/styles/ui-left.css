@@ -119,7 +119,7 @@ body.crlngn-ui{
     height: max-content;
     flex-wrap: nowrap;
     width: auto;
-    min-width: calc(var(--left-control-item-size) * 1.5);
+    min-width: calc(var(--left-control-item-size) * 2.15);
     padding: 0;
     overflow: visible;
     justify-items: flex-start;
