@@ -50,7 +50,12 @@ export const HOOKS_CORE = {
 
   /* Update user */
   UPDATE_USER: "updateUser",
-  UPDATE_DOCUMENT: "updateDocument"
+  UPDATE_DOCUMENT: "updateDocument",
+
+  /* Combat */
+  COMBAT_START: "combatStart",
+  COMBAT_ROUND_START: "combatRound",
+  COMBAT_TURN_START: "combatTurn"
 }
 
 /**

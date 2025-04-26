@@ -3,6 +3,7 @@ import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
+import { MODULE_ID } from "src/constants/General.mjs";
 
 /**
  * Utility class for handling compatibility with other Foundry VTT modules
@@ -19,7 +20,6 @@ export class ModuleCompatUtil {
    * Sets up hooks for players list and taskbar integration
    */
   static init(){
-
     Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, ModuleCompatUtil.checkPlayersList);
     Hooks.on(HOOKS_CORE.RENDER_HOTBAR, ModuleCompatUtil.checkPlayersList);
     // taskbar
@@ -29,32 +29,6 @@ export class ModuleCompatUtil {
     }
     ModuleCompatUtil.checkTaskbarLock();
     ModuleCompatUtil.addModuleClasses();
-
-    const hurryUp = document.querySelector('body.crlngn-hurry-up #hurry-up');
-    if(hurryUp){
-      // Add mouseup event listener to store position in flag
-      hurryUp.addEventListener('mouseup', async (event) => {
-        // Get the current top and left style properties
-        const topValue = hurryUp.style.top;
-        const leftValue = hurryUp.style.left;
-        
-        // Store values in a flag on the user document
-        await game.user.setFlag('crlngn-ui', 'hurryUpPosition', {
-          top: topValue,
-          left: leftValue
-        });
-        
-        LogUtil.log('hurryUp position saved', [topValue, leftValue]);
-      });
-      
-      // Restore position from flag if it exists
-      const savedPosition = game.user.getFlag('crlngn-ui', 'hurryUpPosition');
-      if (savedPosition) {
-        hurryUp.style.top = savedPosition.top;
-        hurryUp.style.left = savedPosition.left;
-        LogUtil.log('hurryUp position restored', [savedPosition]);
-      }
-    }
   }
 
   static addModuleClasses = () => {
