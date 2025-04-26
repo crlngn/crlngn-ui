@@ -37,7 +37,7 @@ body.crlngn-chat {
   }
   .chat-message .message-content:not(.dnd5e2) {
     font-size: var(--font-size-13);
-    p, ul, ol, li, span, a, b, strong {
+    p, ul, ol, li, a, b, strong {
       font-family: var(--crlngn-font-family);
     }
     h3, h4, h5, h6 {
@@ -367,7 +367,7 @@ body.crlngn-chat {
 
   
 
-  .chat-card .card-buttons > button {
+  &.system-dnd5e .chat-card .card-buttons > button {
     &[data-action=placeSummons],
     &[data-action=rollAttack],
     &[data-action=rollHealing],
@@ -950,6 +950,10 @@ body.crlngn-chat {
       --visibility-gm-bg: rgba(255,255,255,0.1)
       --visibility-owner-bg: rgba(235,235,235,0.1)
     }
+    &.system-pf2e .chat-message {
+      padding: 12px;
+    }
+    
     &.system-pf2e .chat-message .flavor-text > * {
       margin: 0.5em 0;
     }
@@ -1002,6 +1006,9 @@ body.crlngn-chat {
       font-weight: 600;
       text-transform: uppercase;
       padding: 0.15em 0;
+      line-height: 1.35;
+      flex-wrap: wrap;
+      min-height: 42px;
     }
     &.system-pf2e .chat-message .message-content .damage-application button {
       font-size: var(--font-size-16);
