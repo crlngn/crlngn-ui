@@ -116,15 +116,14 @@ body.crlngn-ui{
     display: flex;
     flex-direction: row;
     flex: 1 1 auto;
-    height: 100%;
+    height: max-content;
     flex-wrap: nowrap;
-    width: auto;/*calc(var(--left-control-item-size) * 2.25);*/
-    min-width: calc(var(--left-control-item-size) * 2.25);
-    /*max-width: 72px;*/
+    width: auto;
+    min-width: calc(var(--left-control-item-size) * 1.5);
     padding: 0;
     overflow: visible;
     justify-items: flex-start;
-    pointer-events: all;
+    pointer-events: none;
     margin: 0 0 auto 0; 
     position: absolute;
     top: var(--ui-top-padding);
@@ -172,10 +171,9 @@ body.crlngn-ui{
     visibility: hidden;
   }
   
-  
-  #ui-left #controls:hover,
-  #ui-left #controls:active,
-  #ui-left #controls:focus-within
+  #ui-left.auto-hide #controls:hover,
+  #ui-left.auto-hide #controls:active,
+  #ui-left.auto-hide #controls:focus-within
   {
     max-width: auto;
     ol:not(.main-controls).active {

@@ -29,6 +29,32 @@ export class ModuleCompatUtil {
     }
     ModuleCompatUtil.checkTaskbarLock();
     ModuleCompatUtil.addModuleClasses();
+
+    const hurryUp = document.querySelector('body.crlngn-hurry-up #hurry-up');
+    if(hurryUp){
+      // Add mouseup event listener to store position in flag
+      hurryUp.addEventListener('mouseup', async (event) => {
+        // Get the current top and left style properties
+        const topValue = hurryUp.style.top;
+        const leftValue = hurryUp.style.left;
+        
+        // Store values in a flag on the user document
+        await game.user.setFlag('crlngn-ui', 'hurryUpPosition', {
+          top: topValue,
+          left: leftValue
+        });
+        
+        LogUtil.log('hurryUp position saved', [topValue, leftValue]);
+      });
+      
+      // Restore position from flag if it exists
+      const savedPosition = game.user.getFlag('crlngn-ui', 'hurryUpPosition');
+      if (savedPosition) {
+        hurryUp.style.top = savedPosition.top;
+        hurryUp.style.left = savedPosition.left;
+        LogUtil.log('hurryUp position restored', [savedPosition]);
+      }
+    }
   }
 
   static addModuleClasses = () => {

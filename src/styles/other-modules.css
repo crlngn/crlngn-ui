@@ -713,11 +713,6 @@ body.crlngn-ui{
 
   &.crlngn-hurry-up {
     #hurry-up {
-      left: auto !important;
-      right: calc(var(--current-sidebar-width) + 10px) !important;
-      top: calc(var(--left-control-item-size) + 10px) !important;
-      bottom: auto !important;
-      transform-origin: top right;
       transform: scale(0.75);
     }
   }
