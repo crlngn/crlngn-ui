@@ -101,6 +101,10 @@
               "rollType": "Roll Type",
               "none": "None"
             }
+          },
+          "useLeftChatBorder": {
+            "label": "Use left border only",
+            "hint": "Your border color choice shows up on the left side of the chat card only - the other sides have no border."
           }
         },
         "reset": "Reset",

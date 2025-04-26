@@ -10,6 +10,7 @@ export class ChatUtil {
   static chatBorderColor;
   /** @type {boolean} Flag indicating if custom chat styles are enabled */
   static enableChatStyles;
+  static useLeftChatBorder;
 
   /**
    * Initializes chat utility settings
@@ -19,6 +20,7 @@ export class ChatUtil {
     const SETTINGS = getSettings();
     ChatUtil.enableChatStyles = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
     ChatUtil.chatBorderColor = SettingsUtil.get(SETTINGS.chatBorderColor.tag);
+    ChatUtil.useLeftChatBorder = SettingsUtil.get(SETTINGS.useLeftChatBorder.tag);
   }
 
   /**
@@ -35,6 +37,10 @@ export class ChatUtil {
     
     chatItem.classList.add(rollType);
     chatItem.classList.add('crlngn');
+
+    if(ChatUtil.useLeftChatBorder){
+      chatItem.classList.add("left-border");
+    }
 
     const saveButtons = chatItem.querySelectorAll('.card-buttons button[data-action=rollSave]');
     if (saveButtons.length > 0) {      

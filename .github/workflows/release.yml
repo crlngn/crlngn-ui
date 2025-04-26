@@ -24,35 +24,7 @@ jobs:
           echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Update module.json with the Release Version
-        run: |
-          jq --arg version "$VERSION" '.version = $version' dist/module.json > temp.json && mv temp.json dist/module.json
-
-      - name: Update README.md with the Latest Version
-        run: |
-          sed -i "1s/\*\*Latest Version:\*\* .*/\*\*Latest Version:\*\* $VERSION/" README.md
-
-      - name: Update package.json with the Latest Version
-        run: |
-          jq --arg version "$VERSION" '.version = $version' package.json > temp.json && mv temp.json package.json
-
-      - name: Commit and Push Version Updates
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          
-          git fetch --all
-
-          # Detect the default branch
-          DEFAULT_BRANCH=$(git remote show origin | awk '/HEAD branch/ {print $NF}')
-          echo "Default branch detected: $DEFAULT_BRANCH"
-
-          # Switch to the default branch before committing
-          git checkout $DEFAULT_BRANCH || git checkout -b $DEFAULT_BRANCH
-
-          git add README.md package.json
-          git commit -m "Update README and package.json to version $VERSION" || echo "No changes to commit"
-          git push origin $DEFAULT_BRANCH
+      # Version updates are handled by the npm run bump script before release
 
       - name: Prepare Release Artifacts
         run: |
@@ -66,6 +38,7 @@ jobs:
           files: |
             module.zip
             dist/module.json
+            news/module-updates.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

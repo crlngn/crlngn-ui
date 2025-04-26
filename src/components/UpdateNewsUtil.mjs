@@ -1,23 +1,33 @@
-
-
 import { getSettings } from '../constants/Settings.mjs';
 import { LogUtil } from './LogUtil.mjs';
 import { SettingsUtil } from './SettingsUtil.mjs';
 
 export class UpdateNewsUtil {
-  static UPDATE_NEWS_URL = 'https://raw.githubusercontent.com/crlngn/crlngn-ui/main/news/module-updates.json?v='+(new Date).getTime(); // GitHub raw JSON URL
+  /**
+   * Get the URL for the update news JSON file
+   * @returns {string} The URL to the module-updates.json file
+   */
+  static getUpdateNewsUrl() {
+    const moduleVersion = game.modules.get('crlngn-ui')?.version;
+    if(moduleVersion){
+      return `https://github.com/crlngn/crlngn-ui/releases/download/v${moduleVersion}/module-updates.json?v=${(new Date).getTime()}`;
+    }else{
+      return `https://github.com/crlngn/crlngn-ui/releases/latest/download/module-updates.json?v=${(new Date).getTime()}`;
+    }
+  }
   
   /**
    * Initialize the update news system
    */
   static init() {
-    // Hooks.once('ready', () => {
-      if (!game.user?.isGM) return;
-      // uncomment to clean up this setting
-      // const SETTINGS = getSettings();
-      // SettingsUtil.set(SETTINGS.lastUpdateId.tag, '');
-      this.checkForUpdates();
-    // });
+    if (!game.user?.isGM) return;
+    this.checkForUpdates();
+  }
+
+  // call to clean up this setting from local storage
+  static cleanSetting(){
+    const SETTINGS = getSettings();
+    SettingsUtil.set(SETTINGS.lastUpdateId.tag, '');
   }
 
   /**
@@ -27,7 +37,7 @@ export class UpdateNewsUtil {
   static async checkForUpdates() {
     const SETTINGS = getSettings();
     try {
-      const response = await fetch(this.UPDATE_NEWS_URL);
+      const response = await fetch(this.getUpdateNewsUrl());
       if (!response.ok) {
         LogUtil.warn("checkForUpdates | Failed to fetch update news", [response]);
         return;
@@ -46,7 +56,6 @@ export class UpdateNewsUtil {
       // Save the current update ID
       SettingsUtil.set(SETTINGS.lastUpdateId.tag, updateData.id);
       LogUtil.log('checkForUpdates SUCCESS', [updateData.id]);
-      // await game.settings.set('crlngn-ui', SETTINGS.lastUpdateId.tag, updateData.id);
     } catch (error) {
       LogUtil.warn('checkForUpdates | Failed to check for updates', [error]);
     }

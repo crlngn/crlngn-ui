@@ -101,6 +101,10 @@
               "rollType": "Tipo di Tiro",
               "none": "Nessuno"
             }
+          },
+          "useLeftChatBorder": {
+            "label": "Mostra solo il bordo sinistro",
+            "hint": "La tua scelta del colore del bordo appare solo sul lato sinistro del chat - gli altri lati non hanno bordo."
           }
         },
         "reset": "Ripristina",

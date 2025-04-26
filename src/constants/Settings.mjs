@@ -34,6 +34,11 @@ export const BORDER_COLOR_TYPES = {
   }
 }
 
+export const BORDER_TYPES = {
+  leftOnly: { name: 'leftOnly'},
+  fullBorder: { name: 'fullBorder'}
+}
+
 export const BACK_BUTTON_OPTIONS = {
   noButton: { name: 'noButton' },
   lastScene: { name: 'lastScene' },
@@ -160,11 +165,13 @@ export function getSettings() {
       inputType: SETTING_INPUT.button,
       fields: [
         "enableChatStyles",
-        "chatBorderColor"
+        "chatBorderColor",
+        "useLeftChatBorder"
       ],
       default: { 
         enableChatStyles: true,
-        chatBorderColor: BORDER_COLOR_TYPES.playerColor.name
+        chatBorderColor: BORDER_COLOR_TYPES.playerColor.name,
+        useLeftChatBorder: false
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -655,6 +662,16 @@ export function getSettings() {
       propType: String, 
       inputType: SETTING_INPUT.text, 
       default: BORDER_COLOR_TYPES.playerColor.name, 
+      scope: SETTING_SCOPE.client, 
+      config: false 
+    },
+    useLeftChatBorder:{
+      tag: "use-left-chat-border",
+      label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.useLeftChatBorder.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.useLeftChatBorder.hint"),
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox, 
+      default: false, 
       scope: SETTING_SCOPE.client, 
       config: false 
     },

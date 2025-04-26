@@ -105,16 +105,6 @@ body.crlngn-chat {
   .chat-message.crlngn .card-header {
     font-family: var(--crlngn-font-family);
   }
-  /*
-  &.no-borders{
-    :is(.chat-popout, #chat-log) .chat-message,
-    :is(.chat-popout, #chat-log) .chat-message.whisper,
-    :is(.chat-popout, #chat-log) .chat-message.blind{
-      border-width: 1px;
-      border-style: solid;
-      border-color: transparent;
-    }
-  }*/
 
   &.player-chat-borders,
   &.roll-chat-borders {
@@ -124,8 +114,14 @@ body.crlngn-chat {
       transition: border .2s ease-in-out; 
       border-width: 1px;
       border-style: solid;
+      border-color: transparent;
+    }
+    :is(.chat-popout, #chat-log) .chat-message.left-border {
+      border-width: 0;
+      border-left-width: 3px;
     }
   }
+  
   
   /* DND5e */
   /* use colors per roll type */
