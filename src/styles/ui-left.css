@@ -123,13 +123,17 @@ body.crlngn-ui{
     padding: 0;
     overflow: visible;
     justify-items: flex-start;
-    pointer-events: none;
+    pointer-events: auto;
     margin: 0 0 auto 0; 
     position: absolute;
     top: var(--ui-top-padding);
     max-height:  calc(100% - var(--ui-top-padding) - (var(--controls-bottom-buffer)));
     min-height: calc(var(--left-control-item-size) * 6);
   
+    .control-tools{
+      pointer-events: all;
+    }
+
     > *{
       flex: 0 0 auto;
   
