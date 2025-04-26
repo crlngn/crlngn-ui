@@ -9,11 +9,12 @@ export class UpdateNewsUtil {
    */
   static getUpdateNewsUrl() {
     const moduleVersion = game.modules.get('crlngn-ui')?.version;
-    if(moduleVersion){
-      return `https://github.com/crlngn/crlngn-ui/releases/download/v${moduleVersion}/module-updates.json?v=${(new Date).getTime()}`;
-    }else{
-      return `https://github.com/crlngn/crlngn-ui/releases/latest/download/module-updates.json?v=${(new Date).getTime()}`;
-    }
+    const baseUrl = moduleVersion 
+      ? `https://github.com/crlngn/crlngn-ui/releases/download/v${moduleVersion}/module-updates.json` 
+      : `https://github.com/crlngn/crlngn-ui/releases/latest/download/module-updates.json`;
+    
+    // Use our custom CORS proxy service
+    return `https://proxy.carolingian.io/proxy?url=${encodeURIComponent(baseUrl)}&v=${moduleVersion}`;
   }
   
   /**
@@ -21,6 +22,7 @@ export class UpdateNewsUtil {
    */
   static init() {
     if (!game.user?.isGM) return;
+    this.cleanSetting();
     this.checkForUpdates();
   }
 
@@ -37,27 +39,51 @@ export class UpdateNewsUtil {
   static async checkForUpdates() {
     const SETTINGS = getSettings();
     try {
-      const response = await fetch(this.getUpdateNewsUrl());
-      if (!response.ok) {
-        LogUtil.warn("checkForUpdates | Failed to fetch update news", [response]);
-        return;
+      // Add a timeout to the fetch to prevent hanging
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+      
+      try {
+        const response = await fetch(this.getUpdateNewsUrl(), { 
+          signal: controller.signal,
+          // Prevent uncaught errors for network issues
+          mode: 'cors',
+          // Don't send cookies or auth
+          credentials: 'omit'
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (!response.ok) {
+          LogUtil.warn("checkForUpdates | Failed to fetch update news", [response.status, response.statusText]);
+          return;
+        }
+        
+        const updateData = await response.json();
+        const lastUpdateId = SettingsUtil.get(SETTINGS.lastUpdateId.tag);
+        
+        LogUtil.log('checkForUpdates...', [updateData.id, lastUpdateId]);
+        // Check if this update has already been shown
+        if (updateData.id === lastUpdateId) return;
+        
+        // Create and display the chat message
+        await this.displayUpdateNews(updateData);
+        
+        // Save the current update ID
+        SettingsUtil.set(SETTINGS.lastUpdateId.tag, updateData.id);
+        LogUtil.log('checkForUpdates SUCCESS', [updateData.id]);
+      } catch (fetchError) {
+        clearTimeout(timeoutId);
+        // Handle fetch-specific errors
+        if (fetchError.name === 'AbortError') {
+          LogUtil.warn('checkForUpdates | Request timed out', [fetchError]);
+        } else {
+          LogUtil.warn('checkForUpdates | Fetch error', [fetchError.message]);
+        }
       }
-      
-      const updateData = await response.json();
-      const lastUpdateId = SettingsUtil.get(SETTINGS.lastUpdateId.tag);
-      
-      LogUtil.log('checkForUpdates...', [updateData.id, lastUpdateId]);
-      // Check if this update has already been shown
-      if (updateData.id === lastUpdateId) return;
-      
-      // Create and display the chat message
-      await this.displayUpdateNews(updateData);
-      
-      // Save the current update ID
-      SettingsUtil.set(SETTINGS.lastUpdateId.tag, updateData.id);
-      LogUtil.log('checkForUpdates SUCCESS', [updateData.id]);
     } catch (error) {
-      LogUtil.warn('checkForUpdates | Failed to check for updates', [error]);
+      // This outer try/catch will handle any other errors
+      LogUtil.warn('checkForUpdates | Unexpected error', [error]);
     }
   }
 

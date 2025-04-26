@@ -2,6 +2,6 @@
   "id":"1.16.7",
   "title":"New Updates to Carolingian UI!",
   "content":"<p>Updates from v1.16.7:</p>\n<ul><li><b>Discreet chat border:</b> Your choice of border color can now apply to left side of chat only - enable this in chat settings;</li><li><b>New theme color:</b> Added 'Gambit's Blue' theme in style settings;</li></ul><p>Features from v1.16.0:</p>\n<ul><li><b>Floating Camera Dock:</b> You can now choose to auto-resize the A/V floating camera dock horizontally or vertically based on the number of players online.</li></ul><p><b>And a few other details and settings options! Check more on <a href='https://github.com/crlngn/crlngn-ui/releases'>Github repo</a> or <a href='https://discord.gg/P5ygvHXE3R'>Discord</a></b></p>",
-  "imageUrl":"https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-1-16-6-chat-borders.png?raw=true",
+  "imageUrl":"https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-1-16-7-chat-borders.png?raw=true",
   "videoUrl":""
 }
