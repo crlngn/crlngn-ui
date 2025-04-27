@@ -25,7 +25,7 @@ body.crlngn-ui {
       content: '';
       display: block;
       position: fixed; 
-      background: var(--color-dark-bg-90);
+      background: var(--control-bg-color);
       width: 100%;
       height: var(--top-nav-height, 0px);
       padding: 0 0 1px 0;
@@ -79,7 +79,6 @@ body.crlngn-ui {
       right: auto;
       border-radius: 0;
       border: 1px solid transparent;
-      /*background: var(--color-dark-bg-90);*/
       background: var(--control-bg-color);
       cursor: pointer;
       pointer-events: all;
@@ -169,7 +168,7 @@ body.crlngn-ui {
           }
         }
         &#scene-navigation-active .scene{
-          border: 1px solid var(--color-dark-bg);
+          border: 1px solid var(--control-bg-color);
           background-color: var(--color-secondary);
           &:after{
             color: var(--color-text-secondary);
@@ -186,17 +185,17 @@ body.crlngn-ui {
           border: 1px solid transparent;
           border-radius: 0;
           margin: -2px 0 0 0;
-          background-color: var(--color-dark-bg-90);
+          background-color: var(--control-bg-color);
         }
         .scene > .scene-preview {
           display: flex;
           width: var(--scene-nav-item-width);
           height: 80px;
-          background-color: var(--color-dark-bg-50);
+          background-color: var(--control-bg-color);
           background-size: cover;
           background-position: center;
           position: absolute;
-          border: 4px solid var(--color-dark-bg-75);
+          border: 4px solid var(--control-bg-color);
           top: var(--control-item-size);
           margin-top: -1px;
           left: 0;
@@ -220,7 +219,7 @@ body.crlngn-ui {
               height: 20px;
               border-radius: 0px;
               border: 0;
-              background-color: var(--color-dark-bg-90);
+              background-color: var(--control-bg-color);
               display: flex;
               align-items: center;
               justify-content: center;
@@ -298,7 +297,7 @@ body.crlngn-ui {
       button.folder-expand {
         width: var(--control-item-size);
         height: var(--control-item-size, 0px);
-        background: var(--color-dark-bg);
+        background: var(--control-bg-color);
         box-shadow: none;
         display: flex;
         align-items: center;
@@ -335,7 +334,7 @@ body.crlngn-ui {
       z-index: 100;
       width: var(--control-item-size);
       height: var(--control-item-size, 0px);
-      background: var(--color-dark-bg);
+      background: var(--control-bg-color);
       box-shadow: none;
       display: flex;
       align-items: center;
@@ -385,7 +384,7 @@ body.crlngn-ui {
         width: auto;
         flex: 0 0 auto;
         max-width: max-content;
-        background-color: var(--color-dark-bg-90);
+        background-color: var(--control-bg-color);
       }
       #scene-navigation-inactive {
         flex: 0 0 auto;
@@ -449,7 +448,7 @@ body.crlngn-ui {
           border: 1px solid transparent;
           border-radius: 0;
           font-size: var(--font-size-14);
-          background-color: var(--color-dark-bg);
+          background-color: var(--control-bg-color);
           padding: 0;
 
           &:hover{
@@ -478,7 +477,7 @@ body.crlngn-ui {
           --scene-folders-width: calc(var(--folder-list-width) + 10px);
           padding: 5px 0 0 0;
           width: calc(var(--scene-folders-width) + 0px);
-          background-color: var(--color-dark-bg-90);
+          background-color: var(--control-bg-color);
           scrollbar-width: thin;
           display: none;
 
@@ -557,7 +556,7 @@ body.crlngn-ui {
     
                 &.scene{
                   font-weight: 300;
-                  background-color: var(--color-dark-bg-50);
+                  background-color: var(--control-bg-color);
                   a{
                     font-weight: 300;
                   }
@@ -566,7 +565,6 @@ body.crlngn-ui {
                   background: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
                 }
                 &:hover{
-                  /*background: repeating-linear-gradient( -45deg, var(--color-dark-bg-50) 0px, var(--color-dark-bg-50) 1px, rgba(60,60,80,0.5) 2px, rgba(60,60,80,0.5) 3px);*/
                   background: var(--color-highlights-50);
                 }
       
@@ -652,11 +650,11 @@ body.crlngn-ui {
           justify-content: center;
           font-size: var(--font-size-14);
           background-color: var(--color-secondary);
-          border: 1px solid var(--color-dark-bg-90);
+          border: 1px solid var(--control-bg-color);
           cursor: pointer;
 
           &:hover{
-            background-color: var(--color-dark-bg-90);
+            background-color: var(--control-bg-color);
           }
 
           i.icon:before{
@@ -702,7 +700,7 @@ body.crlngn-ui {
             overflow: hidden;
             text-overflow: ellipsis;
             pointer-events: all;
-            border: 1px solid var(--color-dark-bg-50);
+            border: 1px solid var(--control-bg-color);
             margin-top: -1px;
             transition: width 0.2s ease-out, max-width 0.2s ease-out;
             white-space: nowrap;
@@ -729,7 +727,7 @@ body.crlngn-ui {
             min-width: var(--scene-nav-item-width);
             max-width: max-content;
             background-color: var(--color-secondary-50);
-            background: repeating-linear-gradient( -45deg, var(--color-secondary-75) 0px, var(--color-secondary-75) 1px, var(--color-dark-bg-90) 2px, var(--color-dark-bg-90) 3px);
+            background: repeating-linear-gradient( -45deg, var(--color-secondary-75) 0px, var(--color-secondary-75) 1px, var(--control-bg-color) 2px, var(--control-bg-color) 3px);
             position: relative;
             z-index: 5;
           }
@@ -738,31 +736,18 @@ body.crlngn-ui {
             display: none;
             width: max-content;
             height: var(--control-item-size);
-            background: var(--color-dark-bg-90);
+            background: var(--control-bg-color);
             position: relative;
             flex-direction: row;
-
-            /*
-            &:before{
-              content: '';
-              position: absolute;
-              top: 0;
-              left: var(--control-item-size, 0px);
-              background: var(--color-dark-bg-90);
-              height: var(--control-item-size);
-              width: 100;
-            }
-            */
           }
 
           &.crlngn-folder-active{
-            background-color: var(--color-dark-bg-50);
+            background-color: var(--control-bg-color);
             z-index: 11;
 
             > .folder-item{
               border: 1px solid var(--color-secondary-b);
-              border-top: 1px solid var(--color-dark-bg);
-              /*border-bottom: 1px solid var(--color-dark-bg);*/
+              border-top: 1px solid var(--control-bg-color);
               background: var(--color-secondary);
               width: max-content;
 

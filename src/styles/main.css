@@ -31,6 +31,9 @@ body.crlngn-ui  {
     border-style: solid;
     border-width: 1px;
   }
+  .dnd5e-tooltip {
+    --dnd5e-color-parchment: rgb(244, 239, 237);
+  }
   
 }
 
@@ -64,31 +67,54 @@ body.crlngn-ui{
   }
 
   .application:not(.dnd5e2) .dialog-buttons button, 
-  .combat-controls button:not(.inline-control),
+  .combat-controls button,
   form.application .form-footer button,
   .application:not(.dnd5e2) .standard-form button {
     height: auto;
     min-height: var(--input-height);
     padding: 10px 6px;
     line-height: 125%;
-    border: 1px solid var(--color-secondary-50);
-    background: var(--dnd5e-background-card);
+    border: 1px solid var(--color-secondary-75);
+    background: var(--color-bg-button);
     
     &.default {
       border: 1px solid var(--color-secondary-90);
     }
     &:hover {
       border: 1px solid var(--color-warm-3);
-      background: var(--color-highlights-50);
+      background: var(--color-highlights-75);
     }
     &:focus {
       border: 1px solid var(--color-highlights-75);
-      background: var(--color-highlights-50);
+      background: var(--color-highlights-75);
     }
 
     i {
       font-size: var(--font-size-12);
       margin-right: 3px;
+    }
+  }
+  .application:not(.dnd5e2) .dialog-buttons button.icon, 
+  .combat-controls button.icon,
+  form.application .form-footer button.icon,
+  .application:not(.dnd5e2) .standard-form button.icon {
+    border: 1px solid transparent;
+    background: transparent;
+    color: inherit;
+
+    &.default {
+      border: 1px solid transparent;
+      color: var(--color-highlights);
+    }
+    &:hover {
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--color-highlights);
+    }
+    &:focus {
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--color-highlights);
     }
   }
   
@@ -113,7 +139,7 @@ body.crlngn-ui{
     background: transparent;
   }
   .code-editor-wrapper textarea{
-    --color-text-selection-bg: var(--color-cool-5);
+    --color-text-selection-bg: var(--color-secondary-15);
     font-family: monospace;
     white-space: pre;
     width: calc(100% - 4px);
@@ -121,7 +147,6 @@ body.crlngn-ui{
     padding: 6px;
     border: 1px solid rgba(0, 0, 0, 0.5);
     margin: 1px;
-    /*color: var(--color-text-light-highlight);*/
     box-shadow: none;
     background: var(--color-input-bg);
   }
@@ -300,39 +325,43 @@ body.crlngn-ui{
     justify-content: stretch;
     gap: 0px;
     line-height: 1;
+    color: inherit;
   }
   nav.tabs a[data-action=tab] {
     padding: 12px 8px;
     margin-right: 5px;
-    border: 1px solid var(--color-border-dark);
+    border: 1px solid transparent;
     border-bottom: none;
     border-radius: 3px 3px 0 0;
     cursor: pointer;
     line-height: 1;
     align-items: center;
     display: flex;
+    color: inherit;
 
     i{
       display: none;
     }
   }
   nav.tabs a[data-action=tab].active {
-    background: var(--color-secondary-50);
+    background: var(--color-secondary-75);
     border-bottom: 0;
     margin-bottom: 0;
+    border-radius: 0;
+    color: var(--color-light-1);
   }
 
   span.toggle-hint {
     width: auto;
     border: 0;
-    background-color: var(--color-dark-bg-50);
+    background-color: var(--color-dark-bg-15);
     display: inline-flex;
     margin-left: auto;
     justify-self: flex-end;
     font-size: var(--font-size-12);
     height: auto;
     padding: 5px 8px;
-    border: 1px solid var(--color-dark-bg-50);
+    border: 1px solid var(--color-dark-bg-15);
     border-radius: 4px;
     font-family: var(--crlngn-font-family);
     cursor: pointer;
@@ -404,7 +433,7 @@ body.crlngn-ui{
     overflow: auto;
     margin: 0 0 10px 0;
     padding: 10px;
-    background-color: var(--color-dark-bg-50);
+    background-color: var(--color-secondary-15);
     border: 1px solid var(--color-cool-4);
     border-radius: 6px;
 
@@ -502,8 +531,9 @@ body.crlngn-ui{
     flex-direction: row;
     flex: 1 1 100%;
     width: 100%;
-    padding: 6px 0 6px 6px;
-    background-color: var(--color-cool-4);
+    padding: 10px 0 10px 6px;
+    background-color: var(--color-secondary-25);
+    color: inherit;
 
     > label{
       flex: 1 1 16%;
@@ -572,19 +602,39 @@ body.crlngn-ui{
 body.crlngn-ui {
   .application.dnd5e2 .dialog-buttons button,
   .application.dnd5e2 .standard-form button {
-    border: 1px solid var(--color-dark-bg-90);
+    border: 1px solid var(--control-bg-color);
     &.default {
       border: 1px solid var(--color-highlights-75);
     }
     &:hover {
       border: 1px solid var(--color-warm-3);
-      background: var(--dnd5e-background-card);
+      background: var( --color-bg-button);
     }
     &:focus {
       border: 1px solid var(--color-highlights-75);
-      background: var(--dnd5e-background-card);
+      background: var( --color-bg-button);
     }
   }
+  .application .tabs.vertical{
+    padding: 10px 10px 6px 0;
+
+    button {
+      color: inherit;
+      padding: 6px;
+      border: 1px solid transparent;
+
+      &.default {
+        /*border-color: var(--color-highlights-25);*/
+      }
+      &:hover {
+        background: var( --color-highlights-25);
+      }
+      &:focus {
+        background: var( --color-highlights-25);
+      }
+    }
+  }
+
   .dnd5e2.application .window-header {
     h1{
       margin: 6px;

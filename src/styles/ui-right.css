@@ -68,7 +68,7 @@ body.crlngn-ui{
       .entry-name{
         font-weight: 600;
         font-size: 1.1em;
-        text-shadow: 0 0 6px var(--color-dark-bg);
+        text-shadow: 0 0 6px rgba(0,0,0,1);
       }
       .icon{
         position: absolute;
@@ -76,14 +76,24 @@ body.crlngn-ui{
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 20px;
+        width: auto;
         height: 20px;
         padding: 6px;
-        border-radius: 50%;
+        border-radius: 3px;
         top: 3px;
         left: 3px;
-        border-bottom-right-radius: 3px;
-        background-color: var(--color-dark-bg-75);
+        background-color: var(--color-cool-5-25);
+        color: var(--color-light-1);
+
+        &.fa-star:before{
+          content: '\f521';
+        }
+        &.fa-bullseye:before{
+          content: '\f140';
+        }
+        &.fa-bullseye.fa-star:before{
+          content: '\f521   \f140';
+        }
       }
       img{
         opacity: 0.5
@@ -109,7 +119,7 @@ body.crlngn-ui{
     a.button {
       padding: 8px 4px; 
       border-radius: 0; 
-      background: var(--color-dark-bg-25);
+      background: var(--color-control-bg);
       border: 1px solid var(--color-secondary-50);
       display: flex; 
       flex-direction: row; 

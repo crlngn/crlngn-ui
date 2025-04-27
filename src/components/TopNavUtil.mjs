@@ -795,8 +795,10 @@ export class TopNavigation {
       const isFolder = li.classList.contains("folder");
       li.querySelector(".scene-name").addEventListener("click", TopNavigation.onSelectScene);
       li.querySelector(".scene-name").addEventListener("dblclick", TopNavigation.onActivateScene);
-      li.addEventListener("mouseenter", TopNavigation.onScenePreviewOn);
-      li.addEventListener("mouseleave", TopNavigation.onScenePreviewOff);
+      if(TopNavigation.useScenePreview){
+        li.addEventListener("mouseenter", TopNavigation.onScenePreviewOn);
+        li.addEventListener("mouseleave", TopNavigation.onScenePreviewOff);
+      }
     });
   }
   

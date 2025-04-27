@@ -148,13 +148,13 @@ export function getSettings() {
       ],
       default: {
         // Fade out
-        sceneControlsFadeOut: true,
-        sidebarTabsFadeOut: true,
+        sceneControlsFadeOut: false,
+        sidebarTabsFadeOut: false,
         chatLogControlsFadeOut: true,
         playerListFadeOut: true,
         cameraDockFadeOut: true,
         macroHotbarFadeOut: true,
-        sceneNavFadeOut: true,
+        sceneNavFadeOut: false,
         // Hide
         sceneControlsHide: false,
         sidebarTabsHide: false,

@@ -16,6 +16,7 @@ import { CameraDockUtil } from "./CameraDockUtil.mjs";
 import { SidebarTabs } from "./SidebarUtil.mjs";
 import { MacroHotbar } from "./MacroHotbarUtil.mjs";
 import { ChatLogControls } from "./ChatLogControlsUtil.mjs";
+import { TokenWheel } from "./TokenWheelUtil.mjs";
 
 /**
  * Main class handling core module initialization and setup
@@ -64,6 +65,7 @@ export class Main {
       SidebarTabs.init();
       PlayersList.init(); 
       MacroHotbar.init(); 
+      // TokenWheel.init();
 
       Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
     });
@@ -71,11 +73,6 @@ export class Main {
     Hooks.once(HOOKS_CORE.READY, () => {
       LogUtil.log("Core Ready", []);
       const SETTINGS = getSettings();
-      // LogUtil.log('Available libraries:', [Object.keys(window).filter(key => 
-      //   typeof window[key] === 'function' && 
-      //   /^[A-Z]/.test(key) && 
-      //   key.length > 3
-      // )]);
 
       var isDebugOn = SettingsUtil.get(SETTINGS.debugMode.tag);
       if(isDebugOn){CONFIG.debug.hooks = true};
@@ -85,11 +82,6 @@ export class Main {
       ModuleCompatUtil.init();
       // TopNavigation.checkSceneNavCompat();
       UpdateNewsUtil.init();
-
-      // if(TopNavigation.navFoldersEnabled){
-      //   SceneNavFolders.init();
-      //   SceneNavFolders.registerHooks();
-      // }
       
       const chatStylesEnabled = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
       if(chatStylesEnabled){ 

@@ -50,8 +50,11 @@ Main Theme
   /*  Colors                                  */
   /* ---------------------------------------- */
   body.crlngn-ui {
-    --dnd5e-background-card: rgb(37, 40, 48); 
+    --color-bg-button: rgb(37, 40, 48); 
+    --dnd5e-background-card: rgba(244, 239, 237,0.8);
     --dnd5e-color-parchment: rgb(244, 239, 237);
+    --chat-dark-blue: var(--control-bg-color);
+    --sidebar-background: var(--control-bg-color);
 
     --color-dark-bg-15: rgba(15, 15, 15, 0.15);
     --color-dark-bg-25: rgba(15, 15, 15, 0.25);
@@ -67,8 +70,62 @@ Main Theme
     --color-light-bg-85: rgba(233, 233, 226, 0.85);
     --color-light-bg-90: rgba(233, 233, 226, 0.9);
     --color-light-bg: rgba(233, 233, 226, 1);
+  
+    --control-bg-color-90: var(--color-cool-5-90);
+
+    --color-border-highlight-alt: rgba(68, 147, 173, 0.9); 
+    --color-border-highlight: rgba(68, 147, 173, 1);
+    --color-shadow-highlight: rgba(90, 120, 150, 0.5); 
+    --color-shadow-primary: rgba(87, 183, 214, 0.8);
+    --color-border-light-primary: rgba(90,120,150, 0.5);
+    --color-border-light-highlight: rgba(68, 147, 173, 1);
+    --color-underline-header: rgba(68, 147, 173, 1);
+    --color-underline-active: rgba(68, 147, 173, 1);
+    --color-text-hyperlink: rgb(87, 172, 201);
+
+    --color-highlights: rgb(68, 147, 173);
+    --color-highlights-15: rgba(68, 147, 173, 0.15);
+    --color-highlights-25: rgba(68, 147, 173, 0.25);
+    --color-highlights-50: rgba(68, 147, 173, 0.5);
+    --color-highlights-75: rgba(68, 147, 173, 0.75);
+    --color-highlights-90: rgba(68, 147, 173, 0.9);
+
+    --color-scrollbar: var(--color-highlights-75);
+    --color-scrollbar-track: transparent;
+    --color-scrollbar-border: var(--color-highlights-75);
+    --color-shadow-primary: var(--color-highlights);
+    --toggle-active-bg-color: var(--color-secondary);
+    --toggle-active-border-color: var(--color-secondary);
+    --control-active-border-color: var(--color-highlights);
+    --color-text-accent: var(--color-highlights);
+    --color-fieldset-border: var(--color-cool-4);
+
+    --color-ownership-none: var(--color-secondary);
+    --color-ownership-observer: #7a7971;
+    --color-ownership-owner: #b5b3a4;
     
-    &.theme-dark,
+    --color-warm-1: rgb(122, 182, 196);
+    --color-warm-2: rgb(78, 139, 158);
+    --color-warm-3: rgb(60, 120, 146);
+
+    --color-secondary: rgba(47, 47, 71, 1);
+    --color-secondary-bright: rgba(122, 122, 148, 1);
+    --color-secondary-bright-50: rgba(122, 122, 148, 0.5);
+    --color-secondary-15: rgba(47, 47, 71, 0.15);
+    --color-secondary-25: rgba(47, 47, 71, 0.25);
+    --color-secondary-50: rgba(47, 47, 71, 0.5);
+    --color-secondary-65: rgba(47, 47, 71, 0.65);
+    --color-secondary-75: rgba(47, 47, 71, 0.75);
+    --color-secondary-90: rgba(47, 47, 71, 0.9);
+    --color-secondary-b: rgba(34, 34, 54, 1);
+    --color-secondary-b-50: rgba(34, 34, 54, 0.5);
+    --color-secondary-b-75: rgba(34, 34, 54, 0.75);
+    --color-secondary-b-90: rgba(34, 34, 54, 0.90);
+    --color-text-secondary: rgb(179, 179, 192);
+    --color-fieldset-border: var(--color-secondary-25);
+    
+    &.theme-dark
+    .chat-log.theme-dark,
     #interface.theme-dark{
       --color-control-bg: rgba(15, 15, 15, 0.15);
       --color-button-bg: rgba(32, 47, 58, 1);
@@ -105,6 +162,7 @@ Main Theme
       --color-text-dark-op: rgba(235,235,235,0.6);
       --color-text-light: rgba(235,235,235,1);
       --input-background-alt: var(--color-cool-5);
+      --color-text-secondary:rgba(34, 34, 54, 1);
     }
 
     --color-light-1: #f7f4f8;
@@ -146,16 +204,27 @@ Main Theme
     --color-text-selection-bg: var(--color-cool-5);
 
     &.theme-light,
+    .chat-log.theme-light,
     #interface.theme-light{
+
       --color-control-bg: rgba(250, 250, 250, 0.15);
-      --color-dark-bg-15: rgba(250, 250, 250, 0.15);
+      /*--color-dark-bg-15: rgba(250, 250, 250, 0.15);
       --color-dark-bg-25: rgba(250, 250, 250, 0.25);
       --color-dark-bg-50: rgba(250, 250, 250, 0.5);
       --color-dark-bg-75: rgba(250, 250, 250, 0.75);
       --color-dark-bg-85: rgba(250, 250, 250, 0.85);
       --color-dark-bg-90: rgba(250, 250, 250, 0.9);
-      --color-dark-bg: rgba(250, 250, 250, 1); 
-      --dnd5e-background-card: rgb(232, 226, 223); 
+      --color-dark-bg: rgba(250, 250, 250, 1); */
+      --color-bg-button: rgba(244, 239, 237,0.8);
+      --dnd5e-background-card: rgba(244, 239, 237,0.8);
+      --dnd5e-color-parchment: rgb(244, 239, 237);
+      --chat-dark-blue: var(--control-bg-color);
+    }
+
+    .application.theme-light, 
+    .themed.theme-light{
+      --sidebar-background: var(--control-bg-color);
+      --background: var(--control-bg-color) repeat;
     }
 
 
@@ -199,7 +268,7 @@ Main Theme
     --color-warm-2: rgb(78, 139, 158);
     --color-warm-3: rgb(60, 120, 146);
 
-    &.theme-dark,
+    .chat-log.theme-dark,
     #interface.theme-dark {
       .application{
         --color-fieldset-border: var(--color-cool-4);
@@ -228,25 +297,29 @@ Main Theme
       --color-cool-5-50: rgba(11, 10, 19, 0.5);
       --color-cool-5-75: rgba(11, 10, 19, 0.75);
       --color-cool-5-90: rgba(11, 10, 19, 0.9);
+  
+      --control-bg-color-90: var(--color-cool-5-90);
     }
+  }
 
-    &.theme-light,
-    #interface.theme-light {
-      --color-secondary: rgba(196, 196, 223, 1);
-      --color-secondary-bright: rgba(244, 244, 255, 1);
-      --color-secondary-bright-50: rgba(244, 244, 255, 0.5);
-      --color-secondary-15: rgba(196, 196, 223, 0.15);
-      --color-secondary-25: rgba(196, 196, 223, 0.25);
-      --color-secondary-50: rgba(196, 196, 223, 0.5);
-      --color-secondary-65: rgba(196, 196, 223, 0.65);
-      --color-secondary-75: rgba(196, 196, 223, 0.75);
-      --color-secondary-90: rgba(196, 196, 223, 0.9);
-      --color-secondary-b: rgba(202, 202, 229, 1);
-      --color-secondary-b-50: rgba(202, 202, 229, 0.5);
-      --color-secondary-b-75: rgba(202, 202, 229, 0.75);
-      --color-secondary-b-90: rgba(202, 202, 229, 0.90);
-      --color-text-secondary: rgba(34, 34, 54, 1);
-    }
+  &.theme-light
+  .chat-log.theme-light,
+  #interface.theme-light {
+    --color-secondary: rgba(196, 196, 223, 1);
+    --color-secondary-bright: rgba(244, 244, 255, 1);
+    --color-secondary-bright-50: rgba(244, 244, 255, 0.5);
+    --color-secondary-15: rgba(196, 196, 223, 0.15);
+    --color-secondary-25: rgba(196, 196, 223, 0.25);
+    --color-secondary-50: rgba(196, 196, 223, 0.5);
+    --color-secondary-65: rgba(196, 196, 223, 0.65);
+    --color-secondary-75: rgba(196, 196, 223, 0.75);
+    --color-secondary-90: rgba(196, 196, 223, 0.9);
+    --color-secondary-b: rgba(202, 202, 229, 1);
+    --color-secondary-b-50: rgba(202, 202, 229, 0.5);
+    --color-secondary-b-75: rgba(202, 202, 229, 0.75);
+    --color-secondary-b-90: rgba(202, 202, 229, 0.90);
+    --color-text-secondary: rgba(34, 34, 54, 1);
+    --control-bg-color: rgba(244, 244, 255, 0.75);
   }
 
 }
@@ -273,7 +346,7 @@ body.crlngn-ui.crlngn-theme-gold-chocolate.game .app {
   --color-underline-active: rgba(164, 138, 51, 1);
 	--color-text-hyperlink: rgb(172, 141, 40);
 
-  &.theme-dark,
+  .chat-log.theme-dark,
   #interface.theme-dark{
     --color-secondary: rgb(34, 25, 25);
     --color-secondary-bright: rgba(125, 109, 109, 0.75);
@@ -295,7 +368,7 @@ body.crlngn-ui.crlngn-theme-gold-chocolate.game .app {
   --color-warm-2: rgb(192, 165, 77);
   --color-warm-3: rgb(184, 153, 54);
 
-  &.theme-light,
+  .chat-log.theme-light,
   #interface.theme-light {
     --color-secondary: rgb(215, 196, 177);
     --color-secondary-bright: rgba(245, 229, 215, 0.75);
@@ -335,7 +408,7 @@ body.crlngn-ui.crlngn-theme-royal-blood.game .app {
   --color-underline-active: rgba(152, 33, 37, 1);
 	--color-text-hyperlink: rgb(186, 62, 62);
 
-  &.theme-dark,
+  .chat-log.theme-dark,
   #interface.theme-dark{
     --color-secondary: rgb(40, 31, 49);
     --color-secondary-bright: rgba(123, 111, 133, 0.75);
@@ -358,7 +431,7 @@ body.crlngn-ui.crlngn-theme-royal-blood.game .app {
   --color-warm-2: rgb(152, 33, 37);
   --color-warm-3: rgb(95, 22, 27);
 
-  &.theme-light,
+  .chat-log.theme-light,
   #interface.theme-light {
     --color-secondary: rgb(204, 186, 204);
     --color-secondary-bright: rgba(236, 224, 236, 0.75);
@@ -398,7 +471,7 @@ body.crlngn-ui.crlngn-theme-dark-sorcery.game .app {
   --color-underline-active: rgba(126, 100, 165, 1);
 	--color-text-hyperlink: rgb(175, 145, 202);
 
-  &.theme-dark,
+  .chat-log.theme-dark,
   #interface.theme-dark{
     --color-secondary: rgb(31, 47, 49);
     --color-secondary-bright: rgba(97, 121, 123, 0.75);
@@ -421,7 +494,7 @@ body.crlngn-ui.crlngn-theme-dark-sorcery.game .app {
   --color-warm-2: rgb(126, 100, 165);
   --color-warm-3: rgb(106, 72, 136);
 
-  &.theme-light,
+  .chat-log.theme-light,
   #interface.theme-light {
     --color-secondary: rgb(236, 224, 237);
     --color-secondary-bright: rgba(236, 224, 237, 0.75);
@@ -462,7 +535,7 @@ body.crlngn-ui.crlngn-theme-pumpkin-patch.game .app {
   --color-underline-active: rgba(220, 120, 43, 1);
 	--color-text-hyperlink: rgb(220, 120, 43);
 
-  &.theme-dark,
+  .chat-log.theme-dark,
   #interface.theme-dark{
     --color-secondary: rgb(40, 31, 49);
     --color-secondary-bright: rgba(126, 113, 138, 0.75);
@@ -485,7 +558,7 @@ body.crlngn-ui.crlngn-theme-pumpkin-patch.game .app {
   --color-warm-2: rgb(220, 120, 43);
   --color-warm-3: rgb(161, 86, 29);
 
-  &.theme-light,
+  .chat-log.theme-light,
   #interface.theme-light {
     --color-secondary: rgb(200, 198, 206);
     --color-secondary-bright: rgba(200, 198, 206, 0.75);
@@ -525,7 +598,7 @@ body.crlngn-ui.crlngn-theme-gambits-blue.game .app {
   --color-underline-active: rgba(45, 126, 207, 1);
 	--color-text-hyperlink: rgb(175, 145, 202);
 
-  &.theme-dark,
+  .chat-log.theme-dark,
   #interface.theme-dark{
     --color-secondary: rgb(40, 31, 49);
     --color-secondary-bright: rgba(123, 111, 133, 0.75);
@@ -549,7 +622,7 @@ body.crlngn-ui.crlngn-theme-gambits-blue.game .app {
   --color-warm-3: rgb(36, 101, 167);
 
   
-  &.theme-light,
+  .chat-log.theme-light,
   #interface.theme-light {
     --color-secondary: rgb(204, 186, 204);
     --color-secondary-bright: rgba(236, 224, 236, 0.75);

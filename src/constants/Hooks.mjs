@@ -79,7 +79,10 @@ export const HOOKS_CORE = {
 
   /* Settings */
   UPDATE_SETTING: "updateSetting",
-  CLIENT_SETTING_CHANGED: "clientSettingChanged"
+  CLIENT_SETTING_CHANGED: "clientSettingChanged",
+
+  /* Token */
+  RENDER_TOKEN_HUD: "renderTokenHUD"
 }
 
 /**
