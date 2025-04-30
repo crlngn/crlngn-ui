@@ -11,6 +11,8 @@ body.crlngn-ui {
   --scene-nav-full-width: calc( var(--interface-width) - var(--nav-btn-width));
   --scene-nav-partial-width: calc(var(--interface-width) - var(--nav-btn-width) - var(--sidebar-width));
   --scene-nav-curr-width: var(--scene-nav-full-width);
+  --default-color: var(--color-dark-1);
+  
 
   #ui-left-column-2{
     padding-top: 16px;
@@ -133,6 +135,7 @@ body.crlngn-ui {
 
       .scene-navigation-menu {
         .scene, .folder{
+          color: var(--default-color);
           cursor: pointer;
         }
         .scene {
@@ -171,7 +174,7 @@ body.crlngn-ui {
           border: 1px solid var(--control-bg-color);
           background-color: var(--color-secondary);
           &:after{
-            color: var(--color-text-secondary);
+            color: inherit;
             opacity: 0.4;
           }
         }
@@ -562,7 +565,7 @@ body.crlngn-ui {
                   }
                 }
                 &.active{
-                  background: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
+                  background: var(--striped-bg);
                 }
                 &:hover{
                   background: var(--color-highlights-50);
@@ -670,7 +673,7 @@ body.crlngn-ui {
 
       .scene-navigation-menu {
         .folder{
-          background: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
+          background: var( --striped-bg);
           align-items: center;
           display: grid;
           grid-template-columns: minmax(var(--scene-nav-item-width), max-content);
@@ -727,7 +730,7 @@ body.crlngn-ui {
             min-width: var(--scene-nav-item-width);
             max-width: max-content;
             background-color: var(--color-secondary-50);
-            background: repeating-linear-gradient( -45deg, var(--color-secondary-75) 0px, var(--color-secondary-75) 1px, var(--control-bg-color) 2px, var(--control-bg-color) 3px);
+            background: var(--striped-bg);
             position: relative;
             z-index: 5;
           }

@@ -305,10 +305,12 @@ export class SettingsUtil {
         CameraDockUtil.currSettings.dockResizeOnUserJoin = value;
         CameraDockUtil.applyDockResize(value); break;
       case SETTINGS.chatBorderColor.tag:
-        ChatUtil.chatBorderColor = SettingsUtil.get(SETTINGS.chatBorderColor.tag);
+        ChatUtil.chatBorderColor = value;
         SettingsUtil.applyBorderColors(); break;
+      case SETTINGS.useLeftChatBorder.tag:
+        ChatUtil.useLeftChatBorder = value;
       case SETTINGS.enableChatStyles.tag:
-        ChatUtil.enableChatStyles = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
+        ChatUtil.enableChatStyles = value;
         SettingsUtil.applyChatStyles(); break;
       // case SETTINGS.enforceDarkMode.tag:
       //   SettingsUtil.resetFoundryThemeSettings(); break;

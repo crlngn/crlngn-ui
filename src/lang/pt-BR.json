@@ -146,6 +146,10 @@
               "rollType": "Tipo de Rolagem",
               "none": "Nenhuma"
             }
+          },
+          "useLeftChatBorder": {
+            "label": "Mostrar apenas a borda esquerda",
+            "hint": "A sua escolha de cor de borda aparece apenas no lado esquerdo do chat - os outros lados não têm borda."
           }
         },
         "reset": "Redefinir",

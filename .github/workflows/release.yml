@@ -24,6 +24,16 @@ jobs:
           echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
+      # Version updates are handled by the npm run bump script before release
+
+      - name: Get Compatibility Versions
+        id: get_compatibility
+        run: |
+          MIN_VERSION=$(jq -r .compatibility.minimum src/module.json)
+          VERIFIED_VERSION=$(jq -r .compatibility.verified src/module.json)
+          echo "MIN_VERSION=$MIN_VERSION" >> $GITHUB_ENV
+          echo "VERIFIED_VERSION=$VERIFIED_VERSION" >> $GITHUB_ENV
+
       - name: Prepare Release Artifacts
         run: |
           mv dist "$REPO_NAME"
@@ -36,6 +46,7 @@ jobs:
           files: |
             module.zip
             dist/module.json
+            news/module-updates.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -51,11 +62,11 @@ jobs:
               "id": "'"$REPO_NAME"'",
               "release": {
                 "version": "'"$VERSION"'",
-                "manifest": "https://github.com/${{ github.repository }}/releases/latest/download/module.json",
+                "manifest": "https://github.com/${{ github.repository }}/releases/download/v'"$VERSION"'/module.json",
                 "notes": "https://github.com/${{ github.repository }}/releases/tag/v'"$VERSION"'",
                 "compatibility": {
-                  "minimum": "12.328",
-                  "verified": "12.331"
+                  "minimum": "${{ env.MIN_VERSION }}",
+                  "verified": "${{ env.VERIFIED_VERSION }}"
                 }
               }
             }')

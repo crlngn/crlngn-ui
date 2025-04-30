@@ -57,23 +57,52 @@ export class ChatLogControls {
     );
     const rollModeBox = document.querySelector("#ui-right #roll-privacy");
     rollModeBox.insertAdjacentHTML('afterbegin', buttonTemplate);
-    rollModeBox.querySelector("button[data-action=toggleChat]").addEventListener("click", ChatLogControls.onToggleChatBox);
+    
+    // Get the toggle button
+    const toggleButton = rollModeBox.querySelector("button[data-action=toggleChat]");
+    toggleButton.addEventListener("click", ChatLogControls.onToggleChatBox);
+    
+    // Apply saved state from flag if it exists
+    const chatBoxHidden = game.user.getFlag(MODULE_ID, "chatBoxHidden");
+    if (chatBoxHidden !== undefined) {
+      LogUtil.log("Applying saved chat box state", [chatBoxHidden]);
+      const chatBox = document.querySelector("#chat-notifications");
+      
+      if (chatBoxHidden) {
+        toggleButton.classList.remove("fa-comment-slash");
+        toggleButton.classList.add("fa-comment");
+        chatBox.classList.add("input-hidden");
+        GeneralUtil.addCSSVars("--chat-input-height", "0px");
+      } else {
+        toggleButton.classList.add("fa-comment-slash");
+        toggleButton.classList.remove("fa-comment");
+        chatBox.classList.remove("input-hidden");
+        GeneralUtil.addCSSVars("--chat-input-height", "100px");
+      }
+    }
   }
 
   static onToggleChatBox = (evt) => {
     const toggleButton = document.querySelector("#ui-right button[data-action=toggleChat]");
     const chatBox = document.querySelector("#chat-notifications");
+    let hidden = false;
 
     if(toggleButton.classList.contains("fa-comment-slash")){
       toggleButton.classList.remove("fa-comment-slash");
       toggleButton.classList.add("fa-comment");
       chatBox.classList.add("input-hidden");
       GeneralUtil.addCSSVars("--chat-input-height", "0px");
+      hidden = true;
     }else{
       toggleButton.classList.add("fa-comment-slash");
       toggleButton.classList.remove("fa-comment");
       chatBox.classList.remove("input-hidden");
       GeneralUtil.addCSSVars("--chat-input-height", "100px");
+      hidden = false;
     }
+    
+    // Save chat box state to user flag
+    game.user.setFlag(MODULE_ID, "chatBoxHidden", hidden);
+    LogUtil.log("Chat box state saved to flag", [hidden]);
   }
 }

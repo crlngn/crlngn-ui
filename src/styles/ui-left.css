@@ -133,15 +133,15 @@ body.crlngn-ui{
           &.toggle{
             cursor: pointer;
             /*background: var(--color-secondary-75);*/
-            background: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
+            background: var(--striped-bg); 
             border: 1px solid var(--color-secondary-50);
       
             &[aria-pressed=true]{
-              background: repeating-linear-gradient( -45deg, var(--color-secondary-b-90) 0px, var(--color-secondary-b-90) 1px, var(--color-secondary-90) 2px, var(--color-secondary-90) 3px);
+              background: var(--striped-bg); 
               border: 1px dashed var(--color-secondary-bright);
             }
             &:hover{
-              background: repeating-linear-gradient( -45deg, var(--color-secondary-b-90) 0px, var(--color-secondary-b-90) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
+              background: var(--striped-bg); 
               border: 1px solid var(--color-secondary-bright);
             }
           } 

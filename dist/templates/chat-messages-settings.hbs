@@ -23,4 +23,10 @@
     </select>
     <p class="hint">{{{fields.chatBorderColor.hint}}}</p> 
   </div>
+  
+  <div class="form-group">
+    <label for="useLeftChatBorder">{{fields.useLeftChatBorder.label}}</label>
+    <input type="checkbox" name="useLeftChatBorder" {{#if useLeftChatBorder}}checked{{/if}} />
+    <p class="hint">{{fields.useLeftChatBorder.hint}}</p> 
+  </div>
 </section>

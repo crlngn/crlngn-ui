@@ -2,6 +2,7 @@
 Chat card layout - start 
 ******************/
 body.crlngn-ui {
+
   .chat-sidebar:not(.sidebar-popout) {
     background: var(--sidebar-background, var(--color-cool-5-90));
     border-radius: 0;
@@ -13,6 +14,13 @@ body.crlngn-ui {
   }
 }
 body.crlngn-chat {
+  --default-color: var(--color-light-1);
+  #interface{
+    &.theme-light{
+      --default-color: var(--color-dark-1);
+    }
+  }
+
   /* variables for the custom dnd5e card buttons */
   --crlngn-i18n-attack: "attack";
   --crlngn-i18n-healing: "healing";
@@ -29,6 +37,10 @@ body.crlngn-chat {
     --dnd5e-color-gold: var(--color-warm-2);
     --checkbox-fill-color: var(--color-warm-2);
     --checkbox-border-color: var(--color-warm-2);
+  }
+
+  .chat-message{
+    color: var(--default-color);
   }
   .chat-message .message-content:not(.dnd5e2) {
     /*font-size: var(--font-size-13);*/
@@ -82,6 +94,30 @@ body.crlngn-chat {
     border: none;
     color: var(--color-highlights); 
   }
+  :is(.chat-popout, #chat-log, .chat-log) .chat-message {
+    .message-header time {
+      color: var(--default-color);
+      position: absolute;
+      top: 2.5em;
+      right: 0;
+      white-space: nowrap;
+      width: auto;
+      overflow: visible;
+      background: var(--chat-dark-blue);
+      padding: 1px 5px;
+      opacity: 0.8;
+      justify-content: flex-end;
+      display: none;
+      margin-left: -100%;
+      z-index: 1;
+    }
+    .message-delete{
+      z-index: 10;
+    }
+    &:hover .message-header time{
+      display: flex;
+    }
+  }
   .chat-message, .chat-message.whisper {
     border-radius: 6px;
     background: var(--dnd5e-background-card, #e8e8ef);
@@ -125,6 +161,10 @@ body.crlngn-chat {
       transition: border .2s ease-in-out; 
       border-width: 1px;
       border-style: solid;
+    }
+    :is(#chat-popout, #chat, #chat-notifications) .chat-message.left-border {
+      border-width: 0;
+      border-left-width: 3px;
     }
   }
   
@@ -175,6 +215,10 @@ body.crlngn-chat {
     &.system-dnd5e :is(#chat-popout, #chat, #chat-notifications) .chat-message.crlngn span.heal, 
     &.system-dnd5e :is(#chat-popout, #chat, #chat-notifications) .chat-message.crlngn span.save {
       color: var(--ddb-color-heal-roll);
+    }
+    &.system-dnd5e :is(#chat-popout, #chat, #chat-notifications) .chat-message.left-border {
+      border-width: 0;
+      border-left-width: 3px;
     }
   }
   
@@ -588,7 +632,18 @@ body.crlngn-chat {
   /*********
   DARK MODE 
   **********/
-  &.theme-dark, &[data-ddb-custom-style=dark] {
+  #interface.theme-light{
+    .chat-message p,
+    .chat-message span,
+    .chat-message div,
+    .chat-message table,
+    .chat-message ul,
+    .chat-message ol,
+    .chat-message li {
+      color: var(--color-text-dark);
+    }
+  }
+  #interface.theme-dark, &[data-ddb-custom-style=dark] {
 
     #chat-popout, #chat, #chat-notifications{
       --dnd5e-color-card: var(--chat-dark-blue);
@@ -678,11 +733,7 @@ body.crlngn-chat {
       border: none;
       background-color: rgba(235, 235, 255, 0.4);
     }
-  
-  
-    .chat-message.whisper {
-      border: 2px dotted var(--color-text-light);
-    }
+
     .chat-message:before {
       opacity: 0.2;
     }

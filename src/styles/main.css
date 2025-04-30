@@ -11,6 +11,7 @@ body.crlngn-ui  {
 
 /* HEADINGS */
 body.crlngn-ui  {
+  --color-text-selection-bg: var(--color-secondary-15);
   h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     border-bottom: 0;
@@ -33,6 +34,10 @@ body.crlngn-ui  {
   }
   .dnd5e-tooltip {
     --dnd5e-color-parchment: rgb(244, 239, 237);
+  }
+
+  &.theme-light input[type=checkbox], &.theme-light input[type=radio] {
+    --checkbox-checkmark-color: var(--color-light-1);
   }
   
 }
@@ -236,6 +241,7 @@ body.crlngn-ui{
   }
 
   &.theme-dark {
+    --color-text-selection-bg: var(--color-cool-5);
     #context-menu{
       background: var(--color-dark-bg);
       border: 1px solid var(--color-secondary-50);
@@ -282,6 +288,12 @@ body.crlngn-ui{
     }
     
   }
+  &.theme-light{
+    .standard-form.datalists .dropdown-options, .standard-form textarea  {
+      background: var(--color-bg-button);
+      color: var(--color-dark-1);
+    }
+  }
 
   #interface.theme-dark {
     .sidebar-tab search {
@@ -289,6 +301,9 @@ body.crlngn-ui{
         background: var(--color-input-bg);
       }
     }
+  }
+  #interface.theme-light {
+    color: var(--color-dark-1);
   }
 }
 
@@ -593,6 +608,12 @@ body.crlngn-ui{
   input[type="text"] {
     width: 100%;
     padding: 5px;
+  }
+}
+
+body.theme-light {
+  .standard-form.crlngn .dropdown-options {
+    background: var(--color-bg-button);
   }
 }
 

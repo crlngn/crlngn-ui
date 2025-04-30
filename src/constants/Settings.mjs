@@ -238,11 +238,13 @@ export function getSettings() {
       propType: Object,
       fields: [
         "enableChatStyles",
-        "chatBorderColor"
+        "chatBorderColor",
+        "useLeftChatBorder"
       ],
       default: { 
         enableChatStyles: true,
-        chatBorderColor: BORDER_COLOR_TYPES.playerColor.name
+        chatBorderColor: BORDER_COLOR_TYPES.playerColor.name,
+        useLeftChatBorder: true
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -642,6 +644,16 @@ export function getSettings() {
       }, 
       propType: String,  
       default: BORDER_COLOR_TYPES.playerColor.name, 
+      scope: SETTING_SCOPE.client, 
+      config: false 
+    },
+    useLeftChatBorder:{
+      tag: "use-left-chat-border",
+      label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.useLeftChatBorder.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.useLeftChatBorder.hint"),
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox, 
+      default: true, 
       scope: SETTING_SCOPE.client, 
       config: false 
     },

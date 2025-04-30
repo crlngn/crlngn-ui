@@ -175,7 +175,7 @@ body.crlngn-ui {
 
       li {
 
-        > img.avatar {
+        > img.crlngn-avatar {
           width: var(--crlngn-avatar-size);
           height: var(--crlngn-avatar-size);
           object-fit: cover;
@@ -195,7 +195,7 @@ body.crlngn-ui {
         }
       }
 
-      #players-inactive img.avatar{
+      #players-inactive img.crlngn-avatar{
         filter: saturate(0.2);
       }
 

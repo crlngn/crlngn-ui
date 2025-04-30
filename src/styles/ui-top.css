@@ -329,7 +329,7 @@ body.crlngn-ui {
               left: 0;
               width: 100%;
               height: 100%;
-              background: repeating-linear-gradient( -45deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 1px, rgba(60,60,80,1) 2px, rgba(60,60,80,1) 3px);
+              background: var(--striped-bg); 
               opacity: 0.65; 
               z-index: -1; 
             }
@@ -754,7 +754,7 @@ body.crlngn-ui {
             }
             &.active{
               /*border: 1px solid var(--color-dark-1);*/
-              background: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
+              background: var(--striped-bg); 
             }
   
             a{

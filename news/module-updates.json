@@ -1,7 +1,7 @@
 {
-  "id":"1.16.0",
-  "title":"New Updates to Carolingian UI!",
-  "content":"<p>New features from v1.16.0:</p>\n<ul><li><b>Floating Camera Dock:</b> You can now choose to auto-resize the floating camera dock horizontally or vertically based on the number of players online.</li></ul>\n<p>Updates from v1.15.1:</p>\n<ul><li><b>Scaling:</b> Option to resize elements and some fonts of Carolingian UI;</li><li><b>Root folders:</b> Show root folders from scene directory to Scene Navigation;</li></ul><p>Updates from v1.14.0:</p>\n<ul><li><b>Scene Preview:</b> shows thumbnail preview of the scene in navigation (turn off in settings);</li><li><b>Back Button:</b> click the button on top bar to go back to a previous scene (configure in settings);</li></ul><p><b>And a few other details and settings options! Check more on <a href='https://github.com/crlngn/crlngn-ui/releases'>Github repo</a> or <a href='https://discord.gg/P5ygvHXE3R'>Discord</a></b></p>",
-  "imageUrl":"https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-1-6-0-camera-dock.png?raw=true",
+  "id":"2.1.4",
+  "title":"Carolingian UI is reworked for v13!",
+  "content":"<p>News for version 2.1.4:</p>\n<ul><li><b>Fade Out Control:</b> Ability to enable or disable fade out behavior of interface elements individually.</li><li><b>Interface customization:</b> Foundry v13 looks nicer, and not everyone wants to use all elements from Carolingian UI. Now, you can enable/disable each part of the interface individually. Don't want to change the macro layout or sidebar tabs? Go ahead and disable it!</li><li><b>Reworked Scene Navigation:</b> Use the folder toggle on horizontal Scene Nav to navigate on your folders directly in scene nav Folder Navigation; Active / Viewed scenes are now separated as it's Foundry's default;</li><li><b>Shortcuts on Scene Preview:</b> View and toggle global illumination, token vision and scene sound from preview</li><li><b>Toggle Floating chat box:</b> Button to hide/show the chat input box</li></ul>\n<li><b>Players List avatars:</b> show miniature images of each player in Players List</li></ul>\n<p>More on <a href='https://discord.gg/P5ygvHXE3R'>Discord</a> or the <a href='https://github.com/crlngn/crlngn-ui/releases'>Github repository</a>.</p>",
+  "imageUrl":"https://github.com/crlngn/crlngn-ui/blob/rework-v13/demo/crlngn-ui-2.1-ui.png",
   "videoUrl":""
 }
