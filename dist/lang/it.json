@@ -1,6 +1,7 @@
 {
   "CRLNGN_UI": { 
     "ui": { 
+      "generalSettingsLabel": "Impostazioni generali",
       "clientSettingsLabel": "Impostazioni del Jiocatore (Cliente)",
       "worldSettingsLabel": "Impostazioni del Mondo (GM)",
       "toggleHints": "Attiva/Disattiva Aiuto",
@@ -298,16 +299,16 @@
         "hint": "Il modulo riduce la dimensione degli slot macro sulla barra delle scorciatoie e ingrandisce i numeri. Disabilita questa impostazione per utilizzare il layout predefinito di Foundry."
       },
       "autoHideLeftControls": {
-        "label": "Nascondi automaticamente i controlli secondari",
+        "label": "Nascondi i controlli secondari",
         "hint": "Abilita per mantenere la barra secondaria sui controlli a sinistra nascosta a meno che non passi con il mouse sulla regione o faccia clic su un elemento."
       },
       "autoHidePlayersList": {
-        "label": "Nascondi automaticamente la lista giocatori",
+        "label": "Nascondi la lista giocatori",
         "hint": "Abilita per mantenere la lista dei giocatori in basso a sinistra minimizzata, tranne quando ci passi sopra con il mouse."
       },
       "collapseMacroBar": {
-        "label": "Comprimi Barra Macro",
-        "hint": "Abilita per avere la barra delle scorciatoie macro inizialmente minimizzata per impostazione predefinita al caricamento del mondo."
+        "label": "Nascondi la barra delle macro",
+        "hint": "Abilita per avere la barra delle macro partire compressa per impostazione predefinita, e mostrarla al passaggio del mouse."
       },
       "debugMode": {
         "label": "Modalità Debug",

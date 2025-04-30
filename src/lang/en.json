@@ -1,6 +1,7 @@
 {
   "CRLNGN_UI": { 
     "ui": { 
+      "generalSettingsLabel": "General Settings",
       "clientSettingsLabel": "Player Settings (Client)",
       "worldSettingsLabel": "World Settings (GM)",
       "toggleHints": "Toggle Help",
@@ -306,8 +307,8 @@
         "hint": "Enable to keep the secondary bar on the left controls hidden unless you hover on the region or click on an item."
       },
       "collapseMacroBar": {
-        "label": "Collapse Macro Bar",
-        "hint": "Enable to have the macro hotbar start minimized by default on world load."
+        "label": "Auto-Hide Macro Bar",
+        "hint": "Enable to have the macro hotbar start collapsed by default, and show up on hover."
       },
       "debugMode": {
         "label": "Debug Mode",

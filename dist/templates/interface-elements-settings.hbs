@@ -6,7 +6,13 @@
     <span class="toggle-hint">{{localize 'CRLNGN_UI.ui.toggleHints'}}</span>
   </h4>
   <hr/>
-  <p class="hint">{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.hint"}}</p>
+
+  <div class="form-group">
+    <label for="collapseMacroBar">{{fields.collapseMacroBar.label}}</label>
+    <input type="checkbox" name="collapseMacroBar" {{#if collapseMacroBar}}checked{{/if}} />
+    <p class="hint">{{{fields.collapseMacroBar.hint}}}</p> 
+  </div>
+  <p>&nbsp;</p>
 
   <div class="form-group interface-elements">
     <header class="table-header flexrow">
@@ -61,4 +67,6 @@
       </li>
     </ul>
   </div>
+  <p class="hint">{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.hint"}}</p>
+
 </section>

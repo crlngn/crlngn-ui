@@ -1,6 +1,7 @@
 {
   "CRLNGN_UI": { 
     "ui": { 
+      "generalSettingsLabel": "通用设置",
       "clientSettingsLabel": "玩家设置 (客户端)",
       "worldSettingsLabel": "世界设置 (游戏主持人)",
       "toggleHints": "切换帮助",
@@ -306,8 +307,8 @@
         "hint": "启用后，左侧的次要控制栏将保持隐藏，除非您将鼠标悬停在该区域或单击某个项目。"
       },
       "collapseMacroBar": {
-        "label": "折叠宏快捷栏",
-        "hint": "启用后，宏快捷栏将在世界加载时默认最小化。"
+        "label": "自动隐藏宏快捷栏",
+        "hint": "启用后，宏快捷栏将默认折叠，并在悬停时显示。"
       },
       "debugMode": {
         "label": "调试模式",

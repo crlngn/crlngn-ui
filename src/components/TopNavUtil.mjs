@@ -75,6 +75,9 @@ export class TopNavigation {
       // TopNavigation.#timeout = setTimeout(()=>{
       //   TopNavigation.handleSceneFadeOut();
       // }, 1250);
+      if(GeneralUtil.isModuleOn("forien-quest-log")){
+        Hooks.on("questTrackerBoundaries", (boundaries) => boundaries.top = 42);
+      }
     })
 
     // execute on render scene navigation
@@ -211,9 +214,17 @@ export class TopNavigation {
   static setCollapsedClass = (collapsed) => {
     if(collapsed){
       TopNavigation.#uiLeft.classList.add('navigation-collapsed');
+
+      if(GeneralUtil.isModuleOn("forien-quest-log")){
+        Hooks.on("questTrackerBoundaries", (boundaries) => boundaries.top = 10);
+      }
     }else{
       TopNavigation.#uiLeft.classList.remove('navigation-collapsed');
       TopNavigation.placeNavButtons();
+
+      if(GeneralUtil.isModuleOn("forien-quest-log")){
+        Hooks.on("questTrackerBoundaries", (boundaries) => boundaries.top = 42);
+      }
     }
   }
 

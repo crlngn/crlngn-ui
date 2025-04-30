@@ -1,13 +1,37 @@
 import { getSettings } from "../constants/Settings.mjs";
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { LogUtil } from "./LogUtil.mjs";
+import { SettingsUtil } from "./SettingsUtil.mjs";
+import { MODULE_ID } from "../constants/General.mjs";
 
 export class MacroHotbar {
   static useFadeOut = true;
   static customStylesEnabled = true;
+  static macroStartCollapsed = false;
 
   static init(){
+    this.preloadTemplates();
     Hooks.on(HOOKS_CORE.RENDER_HOTBAR, MacroHotbar.onRender);
+  }
+
+  /**
+   * Preloads the Handlebars templates used by MacroHotbar
+   * @returns {Promise<boolean>} True when templates are successfully loaded
+   */
+  static preloadTemplates = async () => {
+    try {
+      const templatePaths = [
+        `modules/${MODULE_ID}/templates/macro-buttons.hbs`
+      ];
+      
+      // Load the templates
+      await loadTemplates(templatePaths);
+      
+      return true;
+    } catch (error) {
+      console.error("Error loading navigation button templates:", error);
+      return false;
+    }
   }
 
   static applyFadeOut(useFadeOut){
@@ -19,6 +43,37 @@ export class MacroHotbar {
     LogUtil.log("MacroHotbar onRender", [MacroHotbar.customStylesEnabled]);
     MacroHotbar.applyCustomStyle(MacroHotbar.customStylesEnabled);
     MacroHotbar.handleFadeOut(component, html, data);
+    MacroHotbar.addCollapseButton();
+    MacroHotbar.applyHotBarCollapse();
+  }
+
+  static addCollapseButton = async() => {
+    const macroControls = document.querySelector("body.crlngn-ui #hotbar-controls-right");
+    if(!macroControls) return;
+
+    // Render nav buttons template
+    const isCollapsed = game.user.getFlag(MODULE_ID, "hotbarCollapsed");
+    const buttonsHtml = await renderTemplate(
+      `modules/${MODULE_ID}/templates/macro-buttons.hbs`, 
+      {}
+    );
+    macroControls.insertAdjacentHTML('beforeend', buttonsHtml);
+
+    const collapseBtn = macroControls.querySelector("button[data-action=collapse]");
+    const directoryBtn = macroControls.querySelector("button[data-action=openDirectory]");
+
+    collapseBtn?.addEventListener("click", MacroHotbar.handleCollapse);
+    directoryBtn?.addEventListener("click", MacroHotbar.handleOpenDirectory);
+  }
+
+  static handleCollapse(evt){
+    const isCollapsed = game.user.getFlag(MODULE_ID, "hotbarCollapsed");
+    
+    MacroHotbar.applyHotBarCollapse(!isCollapsed);
+  }
+
+  static handleOpenDirectory(evt){
+    LogUtil.log("open directory");
   }
 
   static handleFadeOut(component, html, data){
@@ -29,12 +84,59 @@ export class MacroHotbar {
     } else {
       element?.classList.remove("faded-ui");
     }
-    LogUtil.log("MacroHotbat handle fade out", [MacroHotbar.useFadeOut]);
   }
 
-  static applyCustomStyle(enabled){
-    MacroHotbar.customStylesEnabled = enabled;
+  static applyCustomStyle(isEnabled){
+    const SETTINGS = getSettings();
+    MacroHotbar.customStylesEnabled = isEnabled !== undefined ? isEnabled : SettingsUtil.get(SETTINGS.enableMacroLayout.tag);
     LogUtil.log("applyCustomStyle", [MacroHotbar.customStylesEnabled]);
+    MacroHotbar.applyHotBarLayout();
   }
 
+  /**
+   * Applies layout setting for the macro hotbar
+   */
+  static applyHotBarLayout(){
+    const body = document.querySelector("body.crlngn-ui");
+    const hotbar = document.querySelector("#hotbar");
+
+    if(!hotbar){return;}
+
+    if(MacroHotbar.customStylesEnabled){
+      hotbar.classList.add("crlngn-macro");
+    }else{
+      hotbar.classList.remove("crlngn-macro");
+    }
+  }
+
+  /**
+   * Applies collapse state to the macro hotbar
+   * Controls visibility and expansion state of the macro bar
+   */
+  static applyHotBarCollapse = async(isCollapsed) => {
+    const SETTINGS = getSettings();
+    MacroHotbar.macroStartCollapsed = isCollapsed!==undefined ? isCollapsed : SettingsUtil.get(SETTINGS.collapseMacroBar.tag);
+    if(game.user){
+      await game.user.setFlag(MODULE_ID, "hotbarCollapsed", MacroHotbar.macroStartCollapsed);
+    }
+
+    const macroControls = document.querySelector("body.crlngn-ui #hotbar-controls-right");
+    const collapseBtn = macroControls?.querySelector("button[data-action=collapse]");
+
+    if(MacroHotbar.macroStartCollapsed){
+      document.querySelector("#hotbar")?.classList.add("collapsed");
+      if(collapseBtn){
+        collapseBtn.classList.remove("fa-angle-down");
+        collapseBtn.classList.add("fa-angle-up");
+        collapseBtn.dataset.tooltip = "Keep Open";
+      }
+    } else {
+      document.querySelector("#hotbar")?.classList.remove("collapsed");
+      if(collapseBtn){
+        collapseBtn.classList.add("fa-angle-down");
+        collapseBtn.classList.remove("fa-angle-up");
+        collapseBtn.dataset.tooltip = "Auto-Hide";
+      }
+    }
+  }
 }

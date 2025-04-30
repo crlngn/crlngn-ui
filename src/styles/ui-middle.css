@@ -5,6 +5,7 @@ body.crlngn-ui{
       --hotbar-size: 60px;
       gap: 0;
       margin: 0;
+      margin-bottom:0;
 
       &.sm, &.md.offset {
         height: calc(var(--hotbar-size)* 2);
@@ -28,12 +29,13 @@ body.crlngn-ui{
 
       &.compact #action-bar, &.md.offset #action-bar, &.sm #action-bar {
         width: calc((var(--hotbar-size) * 5) - 5px);
-    }
+      }
       
       .hotbar-controls{
         background: var(--control-bg-color);
         padding: 0 3px;
         height: 100%;
+        pointer-events: all;
       }
       #hotbar-controls-left{
         border-top-left-radius: var(--crlngn-border-radius);
@@ -77,6 +79,50 @@ body.crlngn-ui{
         border-radius: 0;
       }
       
+    }
+
+
+    #hotbar{
+      margin-bottom: 16px;
+      transition: margin-bottom 0.15s ease-out;
+      background: transparent;
+      pointer-events: all;
+      > * {
+        opacity: 1;
+      }
+      .hotbar-controls{
+        pointer-events: all;
+      }
+    }
+
+    #hotbar.collapsed, #hotbar.crlngn-macro.collapsed{
+      background: var(--control-bg-color);
+      margin-bottom: calc((var(--hotbar-size)* -1) + 10px);
+      border-top-left-radius: var(--crlngn-border-radius);
+      border-top-right-radius: var(--crlngn-border-radius);
+
+      > * {
+        opacity: 0;
+      }
+
+      &.sm, &.md.offset{
+        margin-bottom: calc((var(--hotbar-size)* -2) + 10px);
+      }
+
+      &:hover, &:focus {
+        margin-bottom: 0;
+        background: transparent;
+
+        > * {
+          opacity: 1;
+        }
+      }
+    }
+
+    #hotbar-collapse-btn{
+      margin: auto 0;
+      align-self: center;
+      justify-self: center;
     }
 
     #hotbar button {

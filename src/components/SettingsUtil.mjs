@@ -130,11 +130,11 @@ export class SettingsUtil {
     Hooks.on(HOOKS_CORE.RENDER_SCENE_CONTROLS, SettingsUtil.applyLeftControlsSettings);
     Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, PlayersList.applyPlayersListSettings); 
     Hooks.on(HOOKS_CORE.RENDER_HOTBAR, () => {
+      MacroHotbar.applyCustomStyle();
       if(SettingsUtil.firstLoad){
         SettingsUtil.firstLoad = false;
-        SettingsUtil.applyHotBarCollapse();
+        MacroHotbar.applyHotBarCollapse();
       }
-      SettingsUtil.applyHotBarSettings();
     });
     //apply debug Settings
     SettingsUtil.applyDebugSettings();
@@ -265,11 +265,11 @@ export class SettingsUtil {
         location.reload();
         break;
       case SETTINGS.enableMacroLayout.tag:
-        SettingsUtil.applyHotBarSettings();
+        MacroHotbar.applyCustomStyle(value);
         break;
-      // case SETTINGS.collapseMacroBar.tag:
-      //   SettingsUtil.applyHotBarCollapse();
-      //   break;
+      case SETTINGS.collapseMacroBar.tag:
+        MacroHotbar.applyHotBarCollapse();
+        break;
       case SETTINGS.playerListAvatars.tag:
         PlayersList.applyAvatars();
         break;
@@ -423,36 +423,6 @@ export class SettingsUtil {
     }
   }
 
-  /**
-   * Applies settings for the macro hotbar
-   */
-  static applyHotBarSettings(){
-    const SETTINGS = getSettings();
-    const macroSizeOption = SettingsUtil.get(SETTINGS.enableMacroLayout.tag);
-    const body = document.querySelector("body.crlngn-ui");
-    const hotbar = document.querySelector("#hotbar");
-
-    if(!hotbar){return;}
-
-    if(macroSizeOption){
-      hotbar.classList.add("crlngn-macro");
-    }else{
-      hotbar.classList.remove("crlngn-macro");
-    }
-  }
-  
-  /**
-   * Applies collapse state to the macro hotbar
-   * Controls visibility and expansion state of the macro bar
-   */
-  static applyHotBarCollapse(){
-  //   const SETTINGS = getSettings();
-  //   // const macroCollapseOption = SettingsUtil.get(SETTINGS.collapseMacroBar.tag);
-
-  //   // if(macroCollapseOption){
-  //   //   ui.hotbar.collapse();
-  //   // }
-  }
 
   /**
    * Applies settings to left controls bar

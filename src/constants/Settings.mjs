@@ -145,6 +145,8 @@ export function getSettings() {
         "enableMacroLayout",
         "enableFloatingDock",
         "enablePlayerList",
+
+        "collapseMacroBar"
       ],
       default: {
         // Fade out
@@ -170,7 +172,9 @@ export function getSettings() {
         sceneNavEnabled: true,
         enableMacroLayout: true,
         enableFloatingDock: true,
-        enablePlayerList: true
+        enablePlayerList: true,
+
+        collapseMacroBar: false
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -488,16 +492,16 @@ export function getSettings() {
       config: false 
     },
 
-    // collapseMacroBar: { 
-    //   tag: "collapse-macro-bar", 
-    //   label: game.i18n.localize("CRLNGN_UI.settings.collapseMacroBar.label"), 
-    //   hint: game.i18n.localize("CRLNGN_UI.settings.collapseMacroBar.hint"), 
-    //   propType: Boolean,
-    //   default: true, 
-    //   scope: SETTING_SCOPE.client, 
-    //   config: true, 
-    //   requiresReload: false 
-    // },
+    collapseMacroBar: { 
+      tag: "collapse-macro-bar", 
+      label: game.i18n.localize("CRLNGN_UI.settings.collapseMacroBar.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.collapseMacroBar.hint"), 
+      propType: Boolean,
+      default: true, 
+      scope: SETTING_SCOPE.client, 
+      config: false, 
+      requiresReload: false 
+    },
 
     // enforceDarkMode: { 
     //   tag: "enforce-dark-mode", 

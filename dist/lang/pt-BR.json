@@ -1,6 +1,7 @@
 {
   "CRLNGN_UI": { 
     "ui": { 
+      "generalSettingsLabel": "Configurações Gerais",
       "clientSettingsLabel": "Configurações do Jogador (Cliente)",
       "worldSettingsLabel": "Configurações do Mundo (GM)",
       "toggleHints": "Alternar Ajuda",
@@ -305,12 +306,12 @@
         "hint": "Ative para manter a lista de jogadores no canto inferior esquerdo minimizada, exceto quando passar o mouse sobre ela."
       },
       "collapseMacroBar": {
-        "label": "Recolher Barra de Macros",
-        "hint": "Ative para que a barra de macros inicie minimizada por padrão ao carregar o mundo."
+        "label": "Ocultar barra de macros",
+        "hint": "Ative para manter a barra de macros minimizada, exceto quando quando passar o mouse sobre ela."
       },
       "debugMode": {
         "label": "Modo de Depuração",
-        "hint": "Ative ou desative mensagens de depuração no console do navegador."
+        "hint": "Ative ou desative mensagens de depuração no console do navegador. Utilize apenas para debug."
       },
       "disableUI":{
         "label": "Desativar Interface neste Cliente",
