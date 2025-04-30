@@ -247,10 +247,10 @@ body.crlngn-ui{
       border: 1px solid var(--color-secondary-50);
       color: var(--color-light-1);
       .context-item{
-        padding: 8px 12px;
+        padding: 5px 10px;
         &:hover{
           border: 1px solid var(--color-secondary-75);
-          background: var(--color-secondary-75);
+          background: var(--color-cool-4);
           color: var(--color-light-1);
         }
       }

@@ -118,14 +118,14 @@ export class UpdateNewsUtil {
         </div>
       `;
 
-      LogUtil.error('displayUpdateNews | Chat message created', [resp]);
+      LogUtil.error('displayUpdateNews | Chat message created', [updateData]);
       const resp = await ChatMessage.create({
         content,
         whisper: [game.user.id],
         speaker: { alias: 'Carolingian UI' }
       });
       
-      LogUtil.error('displayUpdateNews | Chat message created', [resp]);
+      LogUtil.error('displayUpdateNews | Chat message created', [resp, updateData]);
 
     }catch(error){
       LogUtil.error('displayUpdateNews | Error creating chat message', [error]);
