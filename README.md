@@ -1,5 +1,7 @@
 **Latest Version:** 1.16.9
 
+**IMPORTANT: If you are using Foundry v12 install Carolingian UI v1.16.x. If you are using Foundry v13 you should install Carolingian UI v2.x**
+
 I have just created a Discord channel for users of my module to discuss it and seek help. It's pretty empty so far as I've just created it, but feel free to join:
 
 [![alt-text](https://img.shields.io/badge/-Discord-%235662f6?style=for-the-badge)](https://discord.gg/cAuTaTYda3) 
@@ -9,7 +11,7 @@ I have just created a Discord channel for users of my module to discuss it and s
 **Compatibility:** 
 - Foundry VTT version 12.328+
 - Mostly tested with DnD5e 4.x. Should work with other systems, but modules for those systems remain untested. 
-- Localization: English and Brazilian Portuguese (me), Chinese by [yyzitai](https://github.com/yyzitai)
+- Localization: English, Brazilian Portuguese, Chinese, Italian. Thanks to [yyzitai](https://github.com/yyzitai) for contributions to the Chinese language files.
 
 ## Carolingian UI
 A minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12, but also offering many quality of life features to the ui panels. 
