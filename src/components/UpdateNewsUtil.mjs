@@ -22,7 +22,7 @@ export class UpdateNewsUtil {
    */
   static init() {
     if (!game.user?.isGM) return;
-    this.cleanSetting();
+    // this.cleanSetting();
     this.checkForUpdates();
   }
 
