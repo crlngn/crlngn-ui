@@ -366,6 +366,7 @@ body.crlngn-ui {
     .form-content{
       max-height: 70vh;
       overflow: auto;
+      padding: 2px;
     }
     
     &:after{

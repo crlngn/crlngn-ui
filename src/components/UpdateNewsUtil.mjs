@@ -22,7 +22,7 @@ export class UpdateNewsUtil {
    */
   static init() {
     if (!game.user?.isGM) return;
-    // this.cleanSetting();
+    this.cleanSetting();
     this.checkForUpdates();
   }
 
@@ -74,11 +74,6 @@ export class UpdateNewsUtil {
         }
         
         const updateData = await response.json();
-        // const lastUpdateId = SettingsUtil.get(SETTINGS.lastUpdateId.tag);
-        
-        
-        // // Check if this update has already been shown
-        // if (updateData.id === lastUpdateId) return;
         
         // Create and display the chat message
         await this.displayUpdateNews(updateData);
@@ -111,21 +106,30 @@ export class UpdateNewsUtil {
    * @private
    */
   static async displayUpdateNews(updateData) {
-    const content = `
-      <div class="crlngn-news">
-        <h3>${updateData.title}</h3>
-        ${updateData.imageUrl ? `<img src="${updateData.imageUrl}" alt="Update Preview" />` : ''}
-        ${updateData.videoUrl ? `<div class="updates-media-container"><video controls autoplay loop src="${updateData.videoUrl}" alt="Update Preview" style="width: 100%"></video></div>` : ''}
-        <div class="crlngn-news-content">
-        ${updateData.content}
+    try{
+      const content = `
+        <div class="crlngn-news">
+          <h3>${updateData.title}</h3>
+          ${updateData.imageUrl ? `<img src="${updateData.imageUrl}" alt="Update Preview" />` : ''}
+          ${updateData.videoUrl ? `<div class="updates-media-container"><video controls autoplay loop src="${updateData.videoUrl}" alt="Update Preview" style="width: 100%"></video></div>` : ''}
+          <div class="crlngn-news-content">
+          ${updateData.content}
+          </div>
         </div>
-      </div>
-    `;
+      `;
 
-    await ChatMessage.create({
-      content,
-      whisper: [game.user.id],
-      speaker: { alias: 'Carolingian UI' }
-    });
+      LogUtil.error('displayUpdateNews | Chat message created', [updateData]);
+      const resp = await ChatMessage.create({
+        content,
+        whisper: [game.user.id],
+        speaker: { alias: 'Carolingian UI' }
+      });
+      
+      LogUtil.error('displayUpdateNews | Chat message created', [resp, updateData]);
+
+    }catch(error){
+      LogUtil.error('displayUpdateNews | Error creating chat message', [error]);
+    }
+    
   }
 }

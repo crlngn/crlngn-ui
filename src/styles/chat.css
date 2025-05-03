@@ -326,13 +326,24 @@ body.crlngn-chat {
   .chat-card .card-buttons {
     gap: 0.25em;
   }
-  .chat-card .card-buttons:not(.midi-buttons) > * {
-    flex: 1 1 calc((100% - 10px) / 2);
+  .chat-card .card-buttons:not(.midi-buttons) > button {
+    flex: 1 1 auto;
     min-width: calc((100% - 10px) / 2);
+    width: auto;
+    font-size: var(--font-size-12);
+    span{
+      font-size: var(--font-size-12);
+    }
+  }
+  .chat-card .card-buttons button[data-action=rollRequest] {
+    flex: 1 1 calc(100%);
+    min-width: calc(100%);
     width: 100%;
   }
+  
 
-  .chat-message .rsr-title dnd5e-icon {
+  .chat-message .rsr-title dnd5e-icon,
+  .chat-message button[data-type=skill] dnd5e-icon {
     display: none;
   }
   .chat-message .card-buttons > button[data-action=rollAttack],
@@ -360,6 +371,14 @@ body.crlngn-chat {
       color: var(--color-text-dark-1);
     }
   }
+  .chat-message button[data-type=skill] {
+    &:before{
+      content: '\f552';
+      font-family: var(--font-awesome);
+      font-size: var(--font-size-12);
+      color: var(--color-text-dark-1);
+    }
+  }
 
   
 
@@ -372,7 +391,7 @@ body.crlngn-chat {
     &[data-action=consumeResource],
     &[data-action=refundResource],
     &[data-action=executeMacro],
-    &[data-action=rollSave] {
+    &[data-action=rollSave]{
       span{
         font-size: 0;
         align-self: center;
@@ -418,7 +437,7 @@ body.crlngn-chat {
   &.system-dnd5e .chat-card .card-buttons > button span:before {
     content: "";
     display: flex;
-    font-size: 0.65rem;
+    font-size: var(--font-size-12);
   }
 /*
   &.system-dnd5e .chat-card {
@@ -473,41 +492,18 @@ body.crlngn-chat {
     content: var(--crlngn-i18n-macro);
   }
   
-  /*
-  &.system-dnd5e .chat-card .card-buttons > button[data-action=rollSave]:after {
-    content: attr(data-ability) var(--crlngn-i18n-save-dc) attr(data-dc);
-    text-transform: uppercase;
-  }
-  */
-  .chat-card .card-buttons button[data-action=rollSave] span.visible-dc:after {
-    content: attr(data-ability) " " var(--crlngn-i18n-save-dc) " " attr(data-dc);
-    text-transform: uppercase;
-    display: inherit;
-    font-size: 0.65rem;
-  }
-  
   .chat-card .card-buttons button[data-action=rollSave] span.visible-dc:after {
     content: attr(data-ability) " " var(--crlngn-i18n-save-dc) " " attr(data-dc);
     text-transform: uppercase;
     display: flex;
-    font-size: 0.65rem;
+    font-size: var(--font-size-12);
   }
   .chat-card .card-buttons button[data-action=rollSave] span.hidden-dc:after {
     content: attr(data-ability,'') " " var(--crlngn-i18n-save,'');
     text-transform: uppercase;
     display: flex;
-    font-size: 0.65rem;
+    font-size: var(--font-size-12);
   }
-  /*
-  .chat-card .card-buttons button[data-action=rollSave] span.hidden-dc:after {
-    content: 'Test';
-    text-transform: uppercase;
-    display: flex;
-    font-size: 0.65rem;
-  }
-    */
-  
-  /* effects / targets list */
   
   :is(.card-tray, .effects-tray) .effects .effect:not(:last-child),
   :is(.card-tray, .effects-tray) .targets .effect:not(:last-child),
@@ -520,13 +516,13 @@ body.crlngn-chat {
   }
   :is(.card-tray, .effects-tray) button:not(.unbutton),
   .chat-card button:not(.unbutton){
-    min-height: 26px;
+    min-height: 36px;
     font-size: 11px;
     padding: 5px;
     border: 1px solid var(--color-dark-bg-15);
     margin: 2px 0 0 0;
     width: 100%;
-    line-height: 26px;
+    line-height: 1.25;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -572,15 +568,6 @@ body.crlngn-chat {
   .chat-message .message-content .midi-results{
     line-height: 1.6;
   }
-  /*
-  :is(.chat-popout, #chat-log) .chat-message,
-  :is(.chat-popout, #chat-log) .chat-message.whisper,
-  :is(.chat-popout, #chat-log) .chat-message.blind{
-    transition: border .2s ease-in-out;
-    border-width: 1px;
-    border-style: solid;
-  }*/
-
   /* Chat card layout - end */
 
   /*********
@@ -604,11 +591,11 @@ body.crlngn-chat {
     .chat-message ul,
     .chat-message ol,
     .chat-message li {
-      color: var(--color-text-light-3);
+      color: var(--color-text-light-3, var(--color-light-3));
     }
     .chat-message .message-header .name-stacked .title,
     &.system-dnd5e .chat-message .name-stacked .title {
-      color: var(--color-text-light-1);
+      color: var(--color-text-light-1, var(--color-light-1));
     }
 
     .sidebar-tab{
@@ -634,10 +621,10 @@ body.crlngn-chat {
     .chat-message h1, 
     .chat-message h2, 
     .chat-message h3{
-      color: var(--color-text-light-1);
+      color: var(--color-text-light-1, var(--color-light-1));
       font-family: var(--crlngn-font-titles);
       &:hover{
-        color: var(--color-text-light-2);
+        color: var(--color-text-light-2, var(--color-light-2));
       }
     }
   
@@ -646,10 +633,10 @@ body.crlngn-chat {
     .chat-message h5,
     .chat-message h6,
     .chat-message .card-header {
-      color: var(--color-text-light-1);
+      color: var(--color-text-light-1, var(--color-light-1));
       font-family: var(--crlngn-font-family);
       &:hover{
-        color: var(--color-text-light-2);
+        color: var(--color-text-light-2, var(--color-light-2));
       }
     }
   
@@ -667,9 +654,7 @@ body.crlngn-chat {
       background-color: rgba(235, 235, 255, 0.4);
     }
   
-  
     .chat-message.whisper {
-      border: 2px dotted var(--color-text-light-2);
       background: repeating-linear-gradient( -45deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 1px, rgba(60,60,80,1) 2px, rgba(60,60,80,1) 3px);
     }
     .chat-message:before {
@@ -689,7 +674,7 @@ body.crlngn-chat {
     }
     .chat-message .message-content,
     .chat-message .message-content > * {
-      color: var(--color-text-light-2);
+      color: var(--color-text-light-1, var(--color-light-2));
     }
     .chat-message.ddb-game-log-message .message-content .ddb-card-content a {
       color: var(--color-text-hyperlink);
@@ -866,6 +851,8 @@ body.crlngn-chat {
       background: var(--crlngn-chat-button-bg-50);
       border: 1px solid var(--color-dark-bg-50);
       color: var(--color-text-dark); 
+      line-height: 1.25;
+      min-height: 36px;
     }
     :is(.card-tray, .effects-tray) button:hover {
       box-shadow: none;
@@ -874,9 +861,10 @@ body.crlngn-chat {
     .chat-message .chat-card > button[data-action=rollAttack],
     .chat-message .card-buttons > button[data-action=rollAttack],
     .chat-message .card-buttons > button[data-action=rollHealing],
+    .chat-message .card-buttons > button[data-type=skill],
     .chat-message .chat-card .rsr-title {
       &:before{
-        color: var(--color-text-light-1);
+        color: var(--color-text-light-1, var(--color-light-1));
       }
     }
     

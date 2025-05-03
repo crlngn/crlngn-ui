@@ -531,9 +531,9 @@ export class SettingsUtil {
    */
   static applyControlsBuffer(){
     const SETTINGS = getSettings();
-    const leftControls = SettingsUtil.get(SETTINGS.leftControlsMenu.tag);
-    // const root = document.querySelector("body.crlngn-ui");
-    const buffer = isNaN(leftControls.bottomBuffer) ? SETTINGS.leftControlsMenu.default.bottomBuffer : leftControls.bottomBuffer;
+    const bufferSetting = SettingsUtil.get(SETTINGS.controlsBottomBuffer.tag);
+    const buffer = isNaN(bufferSetting) ? SETTINGS.controlsBottomBuffer.default : bufferSetting;
+    LogUtil.log("applyControlsBuffer", [buffer, bufferSetting]);
     GeneralUtil.addCSSVars('--controls-bottom-buffer', `${buffer || 0}px`);
   }
 

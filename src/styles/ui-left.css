@@ -69,6 +69,7 @@ body.crlngn-ui{
       text-align: left;
       border-bottom: 1px solid var(--color-secondary-75);
       flex: 0 0 var(--left-control-item-size);
+      margin-bottom: var(--crlngn-taskbar-height, 0px) !important;
   
       > * {
         flex: 0 0 auto;
@@ -116,18 +117,18 @@ body.crlngn-ui{
     display: flex;
     flex-direction: row;
     flex: 1 1 auto;
-    height: max-content;
+    height: 100%;/*max-content;*/
     flex-wrap: nowrap;
     width: auto;
     min-width: calc(var(--left-control-item-size) * 2.15);
     padding: 0;
     overflow: visible;
     justify-items: flex-start;
-    pointer-events: auto;
+    pointer-events: none;
     margin: 0 0 auto 0; 
     position: absolute;
     top: var(--ui-top-padding);
-    max-height:  calc(100% - var(--ui-top-padding) - (var(--controls-bottom-buffer)));
+    max-height: calc(100% - var(--ui-top-padding) - (var(--controls-bottom-buffer)));
     min-height: calc(var(--left-control-item-size) * 6);
   
     .control-tools{
@@ -162,6 +163,10 @@ body.crlngn-ui{
       margin-right: 0;
       flex-wrap: wrap;
       max-height: 100%;
+
+      height: auto;
+      align-self: flex-start;
+      border-radius: 0;
     }
   
     ol:not(.main-controls) {
@@ -169,15 +174,17 @@ body.crlngn-ui{
     }
   }
   
-  #ui-left.auto-hide #controls ol:not(.main-controls) {
+  #ui-left.auto-hide nav#controls > ol:not(.main-controls) {
     opacity: 0;
     display: none;
     visibility: hidden;
+    height: max-content;
+    min-height: 50%;
   }
   
-  #ui-left.auto-hide #controls:hover,
-  #ui-left.auto-hide #controls:active,
-  #ui-left.auto-hide #controls:focus-within
+  #ui-left.auto-hide nav#controls:hover,
+  #ui-left.auto-hide nav#controls:active,
+  #ui-left.auto-hide nav#controls:focus-within
   {
     max-width: auto;
     ol:not(.main-controls).active {

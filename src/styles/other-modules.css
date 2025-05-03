@@ -386,20 +386,36 @@ body.crlngn-ui{
   }
 
   /* MONK'S WALL ENHANCEMENTS */
-  #ui-left #wall-ctrls {
-    position: absolute;
-    width: 0;
-    height: auto;
-    margin-left: -11px;
-    z-index: 100;
+  #ui-left.auto-hide {
+    #wall-ctrls {
+      margin-left: 0;
+    }
+  }
+  #ui-left{
+    #wall-ctrls {
+      position: absolute;
+      width: 0;
+      height: auto;
+      margin-left: calc(var(--left-control-item-size) * -1);
+      z-index: 100;
 
-    ol.control-tools {
-      li.control-tool {
-        width: var(--left-control-item-size);
-        height: var(--left-control-item-size);
+      ol.control-tools {
+        li.control-tool {
+          width: var(--left-control-item-size);
+          height: var(--left-control-item-size);
+        }
       }
     }
+    ol.control-tools li[data-tool="walltype"]:hover #wall-ctrls {
+      opacity: 1;
+      ol {
+        width: var(--left-control-item-size);
+        margin-left: var(--left-control-item-size);
+        opacity:1;
+      }
+    } 
 
+    
   }
 
   /* TIDY UI */
@@ -647,6 +663,23 @@ body.crlngn-ui{
         box-shadow: 0 0 6px inset var(--color-warm-3);
         background: transparent;
       }
+    }
+  }
+
+  &.crlngn-party-monitor-dock {
+    #party-monitor-dock .party-monitor-buttons {
+      gap: 0.25em;
+      padding: 0.5rem 0;
+    }
+    #party-monitor-dock .party-monitor-buttons i {
+      border: 0;
+      border-radius: 0;
+      width: 2rem;
+      height: 2rem;
+    }
+    /* fix for large portraits being cut on smaller screens*/
+    #party-monitor-dock #party-container {
+      align-items: flex-start;
     }
   }
 
