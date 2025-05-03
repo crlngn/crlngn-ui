@@ -1,18 +1,21 @@
 **Latest Version:** 1.16.10
 
-I have just created a Discord channel for users of my module to discuss it and seek help. It's pretty empty so far as I've just created it, but feel free to join:
+**IMPORTANT: If you are using Foundry v12 install Carolingian UI v1.16.x. If you are using Foundry v13 you should install Carolingian UI v2.x - there was a bug in Foundry which allowed incompatible versions to be installed, but it seems the bug has been patched. **
+
+I have just created a Discord channel for users of my module to discuss it and seek help. Not a lot of people yet as I've just created it, but feel free to join:
 
 [![alt-text](https://img.shields.io/badge/-Discord-%235662f6?style=for-the-badge)](https://discord.gg/cAuTaTYda3) 
 ![GitHub Downloads (specific asset, all releases)](https://img.shields.io/github/downloads/crlngn/crlngn-ui/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge)
 
 
 **Compatibility:** 
-- Foundry VTT version 12.328+
+- v1.x: Foundry VTT version 12.328+
+  v2.x: Foundry VTT version 13.341+
 - Mostly tested with DnD5e 4.x. Should work with other systems, but modules for those systems remain untested. 
-- Localization: English and Brazilian Portuguese (me), Chinese by [yyzitai](https://github.com/yyzitai)
+- Localization: English, Brazilian Portuguese, Chinese, Italian. Thanks to [yyzitai](https://github.com/yyzitai) for contributions to the Chinese language files.
 
 ## Carolingian UI
-A minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT v12, but also offering many quality of life features to the ui panels. 
+A minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT, but also offering many quality of life features to the ui panels. 
 
 <div style="display: flex; flex-direction: row;">
   <video src="https://github.com/user-attachments/assets/9cc3b4fb-9f9e-45a4-9367-1bc6d255679c" width="100%" height="auto">
@@ -26,9 +29,15 @@ A minimalist UI overhaul, focusing on saving space on screen and improving overa
   <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-2.webp?raw=true" width="49%" height="auto" />
 </div>
 
-  
+### FEATURES ON V13:
+- **Fade out:** ability to disable fade out behavior of interface elements individually
+- **Custom Styles:** ability to disable/enable Carolingian UI styles on interface elements individually and still take advantage of other features like scene navigation, color themes, custom fonts, etc.
+- **Reworked Scene Navigation** with a toggle for Folder Navigation and separated active/viewed scenes
+- **Scene Preview Shortcuts:** which allow user to view and toggle global illumination, token vision, scene sound and open config
+- **Toggle floating chat log:** button to hide/show the chat input box if you don't use it often
+- **Players List:** Avatar miniatures
 
-### FEATURES:
+### FEATURES ON V12:
 - **Scene Navigation** have folders and scene search. It can be scrolled horizontally, saving space, and there's improved icons and markers for players and GM;
 - **Custom Fonts** for UI and journal;
 - **Custom Color Themes** for highlights, inputs and secondary controls
@@ -54,10 +63,10 @@ A minimalist UI overhaul, focusing on saving space on screen and improving overa
 
 **Carolingian UI** is free to use and distribute under MIT License. If you reuse my code, please add mention to the original repo. 
 
-I am very opinionated about this module's look and feel, as it was created for my own use, and I overwrite some other modules' fonts and colors to look more uniform with mine. My setup of modules is relatively lean, with only 35-40 quality of life modules. If the aesthetics are too off or the module is too niche, I might not be interested in working on compatibility for it. That being said, I've specifically tested some modules by user request, and adapted their styling.
+I am very opinionated about this module's look and feel, as it was created for my own use, and I overwrite some other modules' fonts and colors to look more uniform with mine. My setup of modules is relatively lean, with only ~40 quality of life modules. If the aesthetics are too off or the module is too niche, I might not be interested in working on compatibility for it. That being said, I've specifically tested some modules by user request, and adapted their styling.
 
-### VERIFIED MODULE COMPATIBILITY (A-Z):
-**Note:** This is not an extensive list - I've only included modules that I personally checked and which might be particularly affected by changes in the UI.
+### VERIFIED v12 MODULE COMPATIBILITY (A-Z):
+**Note:** This is not an extensive list - I've only included modules that I personally checked and which might be particularly affected by changes in the UI. Hundreds of other modules may be compatible.
 - Are You Focused? 1.2.x
 - Break Time 12.0.x
 - Carousel Combat Tracker 3.1.x
@@ -96,4 +105,4 @@ If you want to use **Monk's Scene Navigation** you need to disable my horizontal
 
 ### BUGS AND FEATURE REQUESTS:
 - Please use the issue tracker to report any bugs and requests for enhancements using the appropriate labels.
-- When reporting bugs, please first try to disable unrelated modules. Disable modules one by one to see which one might cause the issue. Take screenshots of any errors and provide as much information as possible on your issue (Foundry version, game system, active modules). 
+- When reporting bugs, please first try to disable modules one by one to see which one might cause the issue. Take screenshots of any errors and provide as much information as possible on your issue (Foundry version, game system, active modules). 
