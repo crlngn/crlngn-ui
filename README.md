@@ -1,6 +1,6 @@
 **Latest Version:** 1.16.11
 
-**IMPORTANT: If you are using Foundry v12 install Carolingian UI v1.16.x. If you are using Foundry v13 you should install Carolingian UI v2.x - there was a bug in Foundry which allowed incompatible versions to be installed, but it seems the bug has been patched. **
+**IMPORTANT: If you are using Foundry v12 install Carolingian UI v1.16.x. If you are using Foundry v13 you should install Carolingian UI v2.x - there was a bug in Foundry which allowed incompatible versions to be installed, but it seems the bug has been patched.**
 
 I have just created a Discord channel for users of my module to discuss it and seek help. Not a lot of people yet as I've just created it, but feel free to join:
 
@@ -9,8 +9,8 @@ I have just created a Discord channel for users of my module to discuss it and s
 
 
 **Compatibility:** 
-- v1.x: Foundry VTT version 12.328+
-  v2.x: Foundry VTT version 13.341+
+- v1.16x: Foundry VTT version 12.328+
+  v2.1.x: Foundry VTT version 13.341+
 - Mostly tested with DnD5e 4.x. Should work with other systems, but modules for those systems remain untested. 
 - Localization: English, Brazilian Portuguese, Chinese, Italian. Thanks to [yyzitai](https://github.com/yyzitai) for contributions to the Chinese language files.
 
