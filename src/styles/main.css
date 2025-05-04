@@ -213,7 +213,7 @@ body.crlngn-ui  {
     appearance: none; 
     height: 10px;
     width: 10px;
-    background-color: #fff;
+    background-color: var(--color-light-1);
     border-radius: 50%;
     border: 0;
     box-shadow: -204px 0 0 200px var(--color-highlights);
@@ -225,7 +225,7 @@ body.crlngn-ui  {
   .package-configuration input[type=range]::-moz-range-thumb {
     height: 10px;
     width: 10px;
-    background-color: #fff;
+    background-color: var(--color-light-1);
     border-radius: 50%;
     border: 1px solid var(--color-highlights);
     box-shadow: -204px 0 0 200px var(--color-highlights);
@@ -234,6 +234,8 @@ body.crlngn-ui  {
   .dnd5e2:not(.actor) button:hover:not(:disabled), .dnd5e2:not(.actor) button:focus {
     box-shadow: 0 0 4px var(--color-shadow-primary);
     border: 1px solid var(--color-highlights);
+    background-color: var(--color-highlights);
+    color: var(--color-light-1);
   }
 }
 
@@ -456,6 +458,12 @@ body.crlngn-ui {
   form button {
     border: 1px solid var(--color-dark-1);
   }
+  .dialog .dialog-buttons button{
+    border: 2px solid var(--button-border-color);
+    &.default {
+      border: 2px solid var(--color-border-light-highlight);
+    }
+  }
 
   & > aside.application {
     transform: translateX(calc(var(--ui-controls-margin-left) * -1));
@@ -465,6 +473,20 @@ body.crlngn-ui {
   &.theme-dark form.application footer button,
   &.theme-dark .standard-form.crlngn button {
     border: 1px solid var(--color-light-bg-25);
+  }
+  &.theme-dark .dnd5e2:not(.actor) button:hover, 
+  &.theme-dark .dnd5e2:not(.actor) button:focus{
+    box-shadow: 0 0 4px var(--color-shadow-primary);
+    border: 1px solid var(--color-highlights);
+    background-color: var(--color-highlights);
+    color: var(--color-light-1);
+  }
+  &.theme-dark .dnd5e2 button:hover:disabled, 
+  &.theme-dark .dnd5e2 button:focus:disabled{
+    box-shadow: initial;
+    border: initial;
+    background-color: initial;
+    color: initial;
   }
 
   &.theme-dark {

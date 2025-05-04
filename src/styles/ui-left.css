@@ -147,7 +147,7 @@ body.crlngn-ui{
           background: var(--left-control-main-bg);
           border: 1px solid transparent;
           border-radius: 0;
-          color: #fff;
+          color: var(--color-light-1);
           font-size: var(--font-size-12);
           display: flex;
           align-items: center;

@@ -807,7 +807,7 @@ body.crlngn-chat {
     .chat-message .message-content button:not(.unbutton):hover,
     .chat-message .message-content button:not(.unbutton):focus {
       border-color: var(--color-highlights);
-      /*background: var(--color-dark-1);*/
+      background: var(--color-highlights);
       color: var(--color-text-gray-blue);
     }
   
@@ -854,7 +854,9 @@ body.crlngn-chat {
       line-height: 1.25;
       min-height: 36px;
     }
-    :is(.card-tray, .effects-tray) button:hover {
+    :is(.card-tray, .effects-tray) button:hover,
+    :is(.card-tray, .effects-tray) button:focus {
+      background: var(--color-highlights);
       box-shadow: none;
     }
 

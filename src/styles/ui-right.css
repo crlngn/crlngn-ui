@@ -99,7 +99,7 @@ body.crlngn-ui{
 
     h2 {
       border: 0;
-      color: #fff;
+      color: inherit;
       font-size: var(--font-size-12);
       text-transform: uppercase;
       font-weight: 500;
@@ -124,7 +124,7 @@ body.crlngn-ui{
       flex-direction: row; 
       align-items: center; 
       justify-content: center; 
-      color: #dcdcdc; 
+      color: var(--color-light-1); 
       font-weight: 500; 
       box-shadow: 0 0 10px inset rgb(0, 0, 0, 0.3); 
       transition: all ease-in-out 0.25s; 
@@ -135,14 +135,14 @@ body.crlngn-ui{
       margin: 2px 0;
 
       &:hover{
-        color: #fff; 
+        color: var(--color-light-1); 
         box-shadow: 0 0 8px inset rgb(0, 0, 0, 0.25); 
         background: var(--color-highlights-50); 
         border: 1px solid var(--color-highlights-50); 
       }
 
       &:active{
-        color: #fff;
+        color: var(--color-light-1);
         box-shadow: 0 0 8px inset rgb(0, 0, 0, 0.25);
         background: var(--color-highlights-25); 
       }

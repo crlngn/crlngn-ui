@@ -223,7 +223,7 @@ body.crlngn-ui{
         font-size: var(--font-size-10);
 
         i{
-          color: #fff;
+          color: var(--color-light-1);
           font-size: var(--font-size-10);
         }
       }
