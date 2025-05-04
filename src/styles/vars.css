@@ -123,6 +123,14 @@ Main Theme
     --color-secondary-b-90: rgba(34, 34, 54, 0.90);
     --color-text-secondary: rgb(179, 179, 192);
     --color-fieldset-border: var(--color-secondary-25);
+
+    --default-color: var(--color-light-1);
+    #interface.theme-light{
+      --default-color: var(--color-dark-1);
+    }
+    #interface.theme-dark{
+      --default-color: var(--color-light-1);
+    }
     
     &.theme-dark
     .chat-log.theme-dark,

@@ -710,7 +710,7 @@ body.crlngn-ui{
   }
 
   #ui-left.crlngn-controls #scene-controls .ui-control, 
-  #ui-right.crlngn-tabs .tabs .ui-control {
+  &.crlngn-tabs #ui-right .tabs .ui-control {
     --control-size: var(--control-item-size);
     border-radius: 0;
     border: 1px solid transparent;

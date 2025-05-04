@@ -46,10 +46,6 @@ export class TopNavigation {
 
   static init = () => {
     const SETTINGS = getSettings();
-    this.checkSceneNavCompat();
-    
-    // Preload the navigation buttons template
-    this.preloadTemplates();
 
     // Load settings first
     TopNavigation.navStartCollapsed = SettingsUtil.get(SETTINGS.navStartCollapsed.tag);
@@ -59,22 +55,21 @@ export class TopNavigation {
     TopNavigation.navFoldersEnabled = SettingsUtil.get(SETTINGS.navFoldersEnabled.tag);
     TopNavigation.navFoldersForPlayers = SettingsUtil.get(SETTINGS.navFoldersForPlayers.tag);
     TopNavigation.isCollapsed = TopNavigation.navStartCollapsed;
-    SceneNavFolders.init();
 
     LogUtil.log("SCENE NAV INIT", [TopNavigation.sceneNavEnabled]);
-    const uiLeft = document.querySelector("#ui-left");
-    if(TopNavigation.sceneNavEnabled && uiLeft){
-      uiLeft.classList.add("crlngn-nav");
-    }else if(uiLeft){
-      uiLeft.classList.remove("crlngn-nav");
+    const body = document.querySelector("body");
+    if(TopNavigation.sceneNavEnabled){
+      body.classList.add("crlngn-scene-nav");
+    }else{
+      body.classList.remove("crlngn-scene-nav");
       return;
     }
+    this.checkSceneNavCompat();
+    this.preloadTemplates();
+    SceneNavFolders.init();
 
     Hooks.on(HOOKS_CORE.READY, () => {
       TopNavigation.handleSceneFadeOut();
-      // TopNavigation.#timeout = setTimeout(()=>{
-      //   TopNavigation.handleSceneFadeOut();
-      // }, 1250);
       if(GeneralUtil.isModuleOn("forien-quest-log")){
         Hooks.on("questTrackerBoundaries", (boundaries) => boundaries.top = 42);
       }
@@ -292,12 +287,12 @@ export class TopNavigation {
       }
     }
 
-    if(TopNavigation.sceneNavEnabled){
+    if(TopNavigation.sceneNavEnabled && game.scenes.size > 1){
       const navToggle = navHtml.querySelector("#scene-navigation-expand");
       const column2 = document.querySelector("#ui-left-column-2");
       const existingToggle = document.querySelector("#crlngn-scene-navigation-expand");
       if(existingToggle){ existingToggle.remove(); }
-      // 
+      
       const toggleClone = navToggle?.cloneNode(true);
       toggleClone.id = "crlngn-scene-navigation-expand";
       toggleClone.addEventListener("click", () => {
@@ -342,6 +337,7 @@ export class TopNavigation {
    * @returns {void}
    */
   static handleBackButton(nav, navHtml, navData){
+    if(game.scenes.size < 2){ return; }
     const SETTINGS = getSettings();
     LogUtil.log("handleBackButton",[nav, navHtml, navData]);
     if(!TopNavigation.useSceneBackButton){ return; }

@@ -18,12 +18,9 @@ body.crlngn-ui{
       margin-top: 16px;
     }
   }
-
-  #ui-left:not(.crlngn-nav){
-
-    #ui-left-column-2{
-      margin-left: 16px;
-    }
+  
+  #ui-left-column-2{
+    margin-left: 16px;
   }
 
   #interface{

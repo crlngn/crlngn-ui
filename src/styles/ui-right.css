@@ -3,7 +3,10 @@ body.crlngn-ui{
   --sidebar-tab-height: 48px;
   --crlngn-sidebar-bottom: 0px;
 
-  #ui-right.crlngn-tabs{
+  &.crlngn-scene-nav #sidebar-tabs {
+    padding-top: 52px;
+  }
+  &.crlngn-tabs{
     #sidebar-tabs {
       padding: 0;
   
@@ -21,28 +24,9 @@ body.crlngn-ui{
         }
       }
     }
-
-    #roll-privacy{
-      button[data-action=toggleChat]{
-        display: none;
-        visibility: hidden;
-  
-        &:focus{
-          border: 1px solid transparent; 
-          border-color: transparent;
-          outline: 0;
-        }
-      }
-      &.vertical {
-        button {
-          width: var(--control-item-size);
-          height: var(--control-item-size);
-        }
-        button[data-action=toggleChat]{
-          display: flex;
-          visibility: visible;
-        }
-      }
+    &.crlngn-scene-nav #sidebar-tabs {
+      padding: 0;
+      padding-top: 0;
     }
   }
 
@@ -105,13 +89,36 @@ body.crlngn-ui{
       }
     }
   }
+  #ui-right #roll-privacy{
+    button[data-action=toggleChat]{
+      display: none;
+      visibility: hidden;
+
+      &:focus{
+        border: 1px solid transparent; 
+        border-color: transparent;
+        outline: 0;
+      }
+    }
+    &.vertical {
+      button {
+        width: var(--control-item-size);
+        height: var(--control-item-size);
+      }
+      button[data-action=toggleChat]{
+        display: flex;
+        visibility: visible;
+      }
+    }
+  }
 
   .sidebar-tab .header-actions,
   .sidebar-tab .settings,
+  .sidebar-tab.settings-sidebar section,
   .sidebar-tab.combat-sidebar,
   .sidebar-tab .documentation,
   .sidebar-tab .access {
-    button:not(.dice-tray button, .chat-message button, .dice-tray-container button, .icon, .roll),
+    button:not(.icon, .roll),
     a.button {
       padding: 8px 4px; 
       border-radius: 0; 
@@ -121,7 +128,6 @@ body.crlngn-ui{
       flex-direction: row; 
       align-items: center; 
       justify-content: center; 
-      /*color: var(--control-icon-color);*/
       font-weight: 500; 
       box-shadow: 0 0 10px inset var(--control-bg-color);
       transition: all ease-in-out 0.25s; 
@@ -144,7 +150,6 @@ body.crlngn-ui{
         box-shadow: 0 0 8px inset var(--color-dark-bg-25);;
         border: 1px solid var(--color-highlights-50); 
       }
-
       
       > i {
         font-size: var(--font-size-10);
@@ -159,7 +164,7 @@ body.crlngn-ui{
     }
   }
 
-  .sidebar-tab .settings,
+  .sidebar-tab.settings-sidebar,
   .sidebar-tab .documentation,
   .sidebar-tab .access,
   .sidebar-info {
@@ -170,7 +175,7 @@ body.crlngn-ui{
       font-weight: 600;
       font-family: var(--crlngn-font-titles);
       text-transform: uppercase;
-      margin-bottom: 6px;
+      margin: 1.5em 0 0.5em 0;
       letter-spacing: 0.02em;
       color: var(--color-highlights);
 

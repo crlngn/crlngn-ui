@@ -23,7 +23,7 @@ import { TokenWheel } from "./TokenWheelUtil.mjs";
  * Manages module lifecycle, hooks, and core functionality
  */
 export class Main {
-
+  static isIncompatible = false;
   /**
    * Initialize the module and set up core hooks
    * @static
@@ -32,6 +32,15 @@ export class Main {
     Hooks.once(HOOKS_CORE.INIT, () => { 
       document.querySelector("body").classList.add(MODULE_ID); 
       document.querySelector("#ui-middle")?.classList.add(MODULE_ID);
+
+      // Add notification if Foundry version is incompatible
+      const foundryVersion = game.data.version;
+      const minVersion = "13.339";
+      if(foundryVersion < minVersion){
+        ui.notifications.error(game.i18n.localize("CRLNGN_UI.notifications.incompatibleVersion"));
+        Main.isIncompatible = true;
+        return;
+      }
 
       // Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, TopNavigation.onRender);
 
@@ -72,6 +81,9 @@ export class Main {
 
     Hooks.once(HOOKS_CORE.READY, () => {
       LogUtil.log("Core Ready", []);
+      if(Main.isIncompatible){
+        return;
+      }
       const SETTINGS = getSettings();
 
       var isDebugOn = SettingsUtil.get(SETTINGS.debugMode.tag);

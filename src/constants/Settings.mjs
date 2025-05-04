@@ -104,7 +104,7 @@ export function getSettings() {
     moduleSettingsMenu: {
       isMenu: true,
       showOnRoot: true, 
-      tag: "interface-options-menu",
+      tag: "v2-interface-options-menu",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.hint"),
       propType: Object,
@@ -117,7 +117,7 @@ export function getSettings() {
     interfaceOptionsMenu: {
       isMenu: true,
       showOnRoot: false, 
-      tag: "interface-options-menu",
+      tag: "v2-interface-options-menu",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.hint"),
       propType: Object,
@@ -182,7 +182,7 @@ export function getSettings() {
     },
 
     customFontsMenu: {
-      tag: "custom-font-families", 
+      tag: "v2-custom-font-families", 
       label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.label"),
       title: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.title"),
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.hint"),
@@ -208,7 +208,7 @@ export function getSettings() {
     themeAndStylesMenu: {
       isMenu: true,
       showOnRoot: false, 
-      tag: "theme-styles-menu", 
+      tag: "v2-theme-styles-menu", 
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.label"),
       title: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.title"),
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.hint"),
@@ -236,7 +236,7 @@ export function getSettings() {
     chatMessagesMenu: {
       isMenu: true,
       showOnRoot: false, 
-      tag: "chat-messages-menu", 
+      tag: "v2-chat-messages-menu", 
       label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.hint"),
       propType: Object,
@@ -258,7 +258,7 @@ export function getSettings() {
     leftControlsMenu: {
       isMenu: true,
       showOnRoot: false, 
-      tag: "left-controls-menu", 
+      tag: "v2-left-controls-menu", 
       label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.hint"),
       propType: Object,
@@ -276,7 +276,7 @@ export function getSettings() {
     playersListMenu: {
       isMenu: true,
       showOnRoot: false, 
-      tag: "players-list-menu", 
+      tag: "v2-players-list-menu", 
       label: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.hint"),
       propType: Object,
@@ -296,7 +296,7 @@ export function getSettings() {
     cameraDockMenu: {
       isMenu: true,
       showOnRoot: false, 
-      tag: "camera-dock-menu", 
+      tag: "v2-camera-dock-menu", 
       label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.hint"),
       propType: Object,
@@ -326,7 +326,7 @@ export function getSettings() {
     sceneNavMenu: {
       isMenu: true,
       showOnRoot: false, 
-      tag: "scene-nav-menu", 
+      tag: "v2-scene-nav-menu", 
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.hint"),
       propType: Object,
@@ -368,7 +368,7 @@ export function getSettings() {
     },
 
     navFoldersEnabled: { 
-      tag: "nav-folders-enabled", 
+      tag: "v2-nav-folders-enabled", 
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navFoldersEnabled.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navFoldersEnabled.hint"), 
       propType: Boolean, 
@@ -378,7 +378,7 @@ export function getSettings() {
     },
 
     navFoldersForPlayers: { 
-      tag: "nav-folders-for-players", 
+      tag: "v2-nav-folders-for-players", 
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navFoldersForPlayers.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navFoldersForPlayers.hint"), 
       propType: Boolean, 
@@ -388,7 +388,7 @@ export function getSettings() {
     },
 
     navStartCollapsed: { 
-      tag: "nav-start-collapsed", 
+      tag: "v2-nav-start-collapsed", 
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navStartCollapsed.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navStartCollapsed.hint"), 
       propType: Boolean, 
@@ -398,7 +398,7 @@ export function getSettings() {
     },
 
     navShowRootFolders: { 
-      tag: "nav-show-root-folders", 
+      tag: "v2-nav-show-root-folders", 
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navShowRootFolders.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navShowRootFolders.hint"), 
       propType: Boolean, 
@@ -408,7 +408,7 @@ export function getSettings() {
     },
 
     sceneNavItemWidth: { 
-      tag: "scene-nav-item-width", 
+      tag: "v2-scene-nav-item-width", 
       oldName: "showNavOnHover",
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavItemWidth.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavItemWidth.hint"), 
@@ -419,7 +419,7 @@ export function getSettings() {
     },
 
     showNavOnHover: { 
-      tag: "show-nav-on-hover", 
+      tag: "v2-show-nav-on-hover", 
       oldName: "showNavOnHover",
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showNavOnHover.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showNavOnHover.hint"), 
@@ -430,7 +430,7 @@ export function getSettings() {
     },
 
     sceneClickToView: { 
-      tag: "scene-click-to-view", 
+      tag: "v2-scene-click-to-view", 
       oldName: "sceneClickToView",
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneClickToView.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneClickToView.hint"), 
@@ -441,7 +441,7 @@ export function getSettings() {
     },
 
     useSceneIcons: {
-      tag: "use-scene-icons", 
+      tag: "v2-use-scene-icons", 
       oldName: "useSceneIcons",
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneIcons.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneIcons.hint"), 
@@ -452,7 +452,7 @@ export function getSettings() {
     },
 
     useSceneBackButton: {
-      tag: "use-scene-back-button",
+      tag: "v2-use-scene-back-button",
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneBackButton.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneBackButton.hint"), 
       propType: String, 
@@ -462,7 +462,7 @@ export function getSettings() {
     },
 
     useScenePreview: {
-      tag: "use-scene-preview",
+      tag: "v2-use-scene-preview",
       oldName: "useScenePreview",
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useScenePreview.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useScenePreview.hint"), 
@@ -473,7 +473,7 @@ export function getSettings() {
     },
 
     sceneNavCollapsed: { 
-      tag: "scene-nav-collapsed", 
+      tag: "v2-scene-nav-collapsed", 
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavCollapsed.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavCollapsed.hint"), 
       propType: Boolean, 
@@ -483,7 +483,7 @@ export function getSettings() {
     },  
 
     sceneNavPos: { 
-      tag: "scene-nav-pos", 
+      tag: "v2-scene-nav-pos", 
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavPos.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavPos.hint"), 
       propType: Number, 
@@ -493,7 +493,7 @@ export function getSettings() {
     },
 
     collapseMacroBar: { 
-      tag: "collapse-macro-bar", 
+      tag: "v2-collapse-macro-bar", 
       label: game.i18n.localize("CRLNGN_UI.settings.collapseMacroBar.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.collapseMacroBar.hint"), 
       propType: Boolean,
@@ -504,7 +504,7 @@ export function getSettings() {
     },
 
     // enforceDarkMode: { 
-    //   tag: "enforce-dark-mode", 
+    //   tag: "v2-enforce-dark-mode", 
     //   label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.enforceDarkMode.label"), 
     //   hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.enforceDarkMode.hint"), 
     //   propType: Boolean, 
@@ -514,7 +514,7 @@ export function getSettings() {
     // },
 
     debugMode: { 
-      tag: "debug-mode", 
+      tag: "v2-debug-mode", 
       label: game.i18n.localize("CRLNGN_UI.settings.debugMode.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.debugMode.hint"), 
       propType: Boolean,
@@ -526,7 +526,7 @@ export function getSettings() {
     /* NON-CONFIG OR MENU SETTINGS */
     /* PLAYERS LIST */
     autoHidePlayerList: { 
-      tag: "auto-hide-player-list", 
+      tag: "v2-auto-hide-player-list", 
       label: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.autoHidePlayerList.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.autoHidePlayerList.hint"), 
       propType: Boolean,
@@ -536,7 +536,7 @@ export function getSettings() {
     },
 
     playerListAvatars: { 
-      tag: "player-list-avatars", 
+      tag: "v2-player-list-avatars", 
       label: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.playerListAvatars.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.playerListAvatars.hint"), 
       propType: Boolean,
@@ -547,7 +547,7 @@ export function getSettings() {
 
     /* FONTS */
     uiFontBody: {
-      tag: "ui-font-body",
+      tag: "v2-ui-font-body",
       oldName: "uiFont",
       label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiBody.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiBody.hint"),
@@ -557,7 +557,7 @@ export function getSettings() {
       config: false
     },
     uiFontTitles: {
-      tag: "ui-font-titles",
+      tag: "v2-ui-font-titles",
       oldName: "uiTitles",
       label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiTitles.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiTitles.hint"),
@@ -567,7 +567,7 @@ export function getSettings() {
       config: false
     },
     journalFontBody: {
-      tag: "journal-font-body",
+      tag: "v2-journal-font-body",
       oldName: "journalBody",
       label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalBody.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalBody.hint"),
@@ -577,7 +577,7 @@ export function getSettings() {
       config: false
     }, 
     journalFontTitles: {
-      tag: "journal-font-titles",
+      tag: "v2-journal-font-titles",
       oldName: "journalTitles",
       label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalTitles.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalTitles.hint"),
@@ -589,7 +589,7 @@ export function getSettings() {
 
     /* THEME AND STYLES */
     colorTheme:{
-      tag: "color-theme",
+      tag: "v2-color-theme",
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.colorTheme.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.colorTheme.hint"),
       propType: String,
@@ -599,7 +599,7 @@ export function getSettings() {
     },
 
     adjustOtherModules: {
-      tag: "adjust-other-modules",
+      tag: "v2-adjust-other-modules",
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.adjustOtherModules.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.adjustOtherModules.hint"),
       propType: Boolean,
@@ -609,7 +609,7 @@ export function getSettings() {
     },
 
     otherModulesList: {
-      tag: "other-modules-list",
+      tag: "v2-other-modules-list",
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.hint"),
       propType: String,
@@ -626,7 +626,7 @@ export function getSettings() {
     },
 
     customStyles:{
-      tag: "custom-styles",
+      tag: "v2-custom-styles",
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.customStyles.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.customStyles.hint"),
       propType: String,
@@ -637,7 +637,7 @@ export function getSettings() {
 
     /* CHAT STYLES */
     chatBorderColor: {
-      tag: "chat-border-color",
+      tag: "v2-chat-border-color",
       oldName: "borderColor",
       label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.hint"),
@@ -652,7 +652,7 @@ export function getSettings() {
       config: false 
     },
     useLeftChatBorder:{
-      tag: "use-left-chat-border",
+      tag: "v2-use-left-chat-border",
       label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.useLeftChatBorder.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.useLeftChatBorder.hint"),
       propType: Boolean, 
@@ -662,7 +662,7 @@ export function getSettings() {
       config: false 
     },
     enableChatStyles:{
-      tag: "enable-chat-styles", 
+      tag: "v2-enable-chat-styles", 
       oldName: "enableChatStyles",
       label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enableChatStyles.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.enableChatStyles.hint"), 
@@ -675,7 +675,7 @@ export function getSettings() {
 
     /* CONTROLS SETTINGS */
     controlsAutoHide: {
-      tag: "auto-hide-secondary-controls",
+      tag: "v2-auto-hide-secondary-controls",
       oldName: "autoHideSecondary",
       label: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.autoHideSecondary.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.autoHideSecondary.hint"), 
@@ -687,7 +687,7 @@ export function getSettings() {
 
     /* CAMERA DOCK */
     dockPosX: {
-      tag: "camera-dock-x",
+      tag: "v2-camera-dock-x",
       label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockPosX.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockPosX.hint"),
       propType: Number,
@@ -696,7 +696,7 @@ export function getSettings() {
       config: false
     },
     dockPosY: {
-      tag: "camera-dock-y",
+      tag: "v2-camera-dock-y",
       label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockPosY.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockPosY.hint"),
       propType: Number,
@@ -705,7 +705,7 @@ export function getSettings() {
       config: false
     },
     dockWidth: {
-      tag: "camera-dock-width",
+      tag: "v2-camera-dock-width",
       label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockWidth.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockWidth.hint"),
       propType: Number,
@@ -714,7 +714,7 @@ export function getSettings() {
       config: false
     },
     dockHeight: {
-      tag: "camera-dock-height",
+      tag: "v2-camera-dock-height",
       label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockHeight.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockHeight.hint"),
       propType: Number,
@@ -723,7 +723,7 @@ export function getSettings() {
       config: false
     },
     dockResizeOnUserJoin: {
-      tag: "dock-resize-on-user-join",
+      tag: "v2-dock-resize-on-user-join",
       label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockResizeOnUserJoin.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockResizeOnUserJoin.hint"), 
       options: {
@@ -737,7 +737,7 @@ export function getSettings() {
       config: false
     },
     defaultVideoWidth: {
-      tag: "default-video-width",
+      tag: "v2-default-video-width",
       label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.defaultVideoWidth.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.defaultVideoWidth.hint"),
       propType: Number,
@@ -758,7 +758,7 @@ export function getSettings() {
 
     /* INTERFACE ELEMENTS FADE OUT OPTIONS */
     sceneControlsFadeOut: { 
-      tag: "scene-controls-fade-out", 
+      tag: "v2-scene-controls-fade-out", 
       oldName: "sceneControlsFadeOut",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sceneControls"),
       propType: Boolean, 
@@ -768,7 +768,7 @@ export function getSettings() {
     },
 
     sidebarTabsFadeOut: { 
-      tag: "sidebar-tabs-fade-out", 
+      tag: "v2-sidebar-tabs-fade-out", 
       oldName: "sidebarTabsFadeOut",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sidebarTabs"),
       propType: Boolean, 
@@ -778,7 +778,7 @@ export function getSettings() {
     },
 
     chatLogControlsFadeOut: {
-      tag: "chat-log-controls-fade-out", 
+      tag: "v2-chat-log-controls-fade-out", 
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.chatLogControls"),
       propType: Boolean, 
       default: true, 
@@ -787,7 +787,7 @@ export function getSettings() {
     },
 
     playerListFadeOut: { 
-      tag: "player-list-fade-out", 
+      tag: "v2-player-list-fade-out", 
       oldName: "playerListFadeOut",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.playerList"), 
       propType: Boolean, 
@@ -797,7 +797,7 @@ export function getSettings() {
     },
 
     cameraDockFadeOut: { 
-      tag: "camera-dock-fade-out", 
+      tag: "v2-camera-dock-fade-out", 
       oldName: "cameraDockFadeOut",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.cameraDock"),
       propType: Boolean, 
@@ -807,7 +807,7 @@ export function getSettings() {
     },
 
     macroHotbarFadeOut: { 
-      tag: "macro-hotbar-fade-out", 
+      tag: "v2-macro-hotbar-fade-out", 
       oldName: "macroHotbarFadeOut",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.macroHotbar"),
       propType: Boolean, 
@@ -817,7 +817,7 @@ export function getSettings() {
     },
 
     sceneNavFadeOut: { 
-      tag: "scene-nav-fade-out", 
+      tag: "v2-scene-nav-fade-out", 
       oldName: "sceneNavFadeOut",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sceneNav"),
       propType: Boolean, 
@@ -828,7 +828,7 @@ export function getSettings() {
 
     /* INTERFACE ELEMENTS HIDE OPTIONS */
     sceneControlsHide: { 
-      tag: "scene-controls-hide", 
+      tag: "v2-scene-controls-hide", 
       oldName: "sceneControlsHide",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sceneControls"), 
       propType: Boolean, 
@@ -838,7 +838,7 @@ export function getSettings() {
     },
 
     sidebarTabsHide: { 
-      tag: "sidebar-tabs-hide", 
+      tag: "v2-sidebar-tabs-hide", 
       oldName: "sidebarTabsHide",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sidebarTabs"), 
       propType: Boolean, 
@@ -848,7 +848,7 @@ export function getSettings() {
     },
 
     chatLogControlsHide: {
-      tag: "chat-log-controls-hide", 
+      tag: "v2-chat-log-controls-hide", 
       oldName: "chatLogControlsHide",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.chatLogControls"),
       propType: Boolean, 
@@ -858,7 +858,7 @@ export function getSettings() {
     },
 
     playerListHide: { 
-      tag: "player-list-hide", 
+      tag: "v2-player-list-hide", 
       oldName: "playerListHide",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.playerList"), 
       propType: Boolean, 
@@ -868,7 +868,7 @@ export function getSettings() {
     },
 
     cameraDockHide: { 
-      tag: "camera-dock-hide", 
+      tag: "v2-camera-dock-hide", 
       oldName: "cameraDockHide",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.cameraDock"), 
       propType: Boolean, 
@@ -878,7 +878,7 @@ export function getSettings() {
     },
 
     macroHotbarHide: { 
-      tag: "macro-hotbar-hide", 
+      tag: "v2-macro-hotbar-hide", 
       oldName: "macroHotbarHide",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.macroHotbar"),
       propType: Boolean, 
@@ -888,7 +888,7 @@ export function getSettings() {
     },
 
     sceneNavHide: { 
-      tag: "scene-nav-hide", 
+      tag: "v2-scene-nav-hide", 
       oldName: "sceneNavHide",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sceneNav"), 
       propType: Boolean, 
@@ -900,7 +900,7 @@ export function getSettings() {
     /* INTERFACE ELEMENTS ENABLE OPTIONS */
 
     sceneNavEnabled: { 
-      tag: "scene-nav-enabled", 
+      tag: "v2-scene-nav-enabled", 
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavEnabled.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavEnabled.hint"), 
       propType: Boolean, 
@@ -911,7 +911,7 @@ export function getSettings() {
     },
 
     enableSceneControls: { 
-      tag: "enable-scene-controls", 
+      tag: "v2-enable-scene-controls", 
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sceneControls"), 
       propType: Boolean, 
       default: true, 
@@ -920,7 +920,7 @@ export function getSettings() {
     },
 
     enableSidebarTabs: { 
-      tag: "enable-sidebar-tabs", 
+      tag: "v2-enable-sidebar-tabs", 
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sidebarTabs"), 
       propType: Boolean, 
       default: true, 
@@ -930,7 +930,7 @@ export function getSettings() {
     },
 
     enableChatLogControls: {
-      tag: "enable-chat-log-controls", 
+      tag: "v2-enable-chat-log-controls", 
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.chatLogControls"),
       propType: Boolean, 
       default: true, 
@@ -939,7 +939,7 @@ export function getSettings() {
     },
 
     enableMacroLayout: { 
-      tag: "enable-macro-layout", 
+      tag: "v2-enable-macro-layout", 
       label: game.i18n.localize("CRLNGN_UI.settings.enableMacroLayout.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.enableMacroLayout.hint"), 
       propType: Boolean,
@@ -950,7 +950,7 @@ export function getSettings() {
     },
 
     enablePlayerList: { 
-      tag: "enable-player-list", 
+      tag: "v2-enable-player-list", 
       label: game.i18n.localize("CRLNGN_UI.settings.enablePlayerList.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.enablePlayerList.hint"), 
       propType: Boolean,
@@ -961,7 +961,7 @@ export function getSettings() {
     },
 
     enableFloatingDock: { 
-      tag: "enable-floating-camera-dock", 
+      tag: "v2-enable-floating-camera-dock", 
       label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.enableFloatingDock.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.enableFloatingDock.hint"), 
       propType: Boolean,

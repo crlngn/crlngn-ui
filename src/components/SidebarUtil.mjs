@@ -24,11 +24,13 @@ export class SidebarTabs {
   }
 
   static onRender(component, html, data){
-    const uiRight = document.querySelector("#ui-right");
+    // const uiRight = document.querySelector("#ui-right");
     if(SidebarTabs.customStylesEnabled){
-      uiRight.classList.add("crlngn-tabs");
+      // uiRight.classList.add("crlngn-tabs");
+      document.querySelector("body").classList.add("crlngn-tabs");
     }else{
-      uiRight.classList.remove("crlngn-tabs");
+      // uiRight.classList.remove("crlngn-tabs");
+      document.querySelector("body").classList.remove("crlngn-tabs");
     }
     SidebarTabs.handleFadeOut(component, html, data);
   }

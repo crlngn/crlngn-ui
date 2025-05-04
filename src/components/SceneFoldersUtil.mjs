@@ -53,6 +53,9 @@ export class SceneNavFolders {
    * @param {SceneNavData} navData - The scene navigation data
    */
   static addFolderButtons(nav, navHtml, navData){
+    if(!TopNavigation.navFoldersEnabled ||
+      game.scenes.size < 2 || game.scenes.folders.size < 1
+    ){ return; }
     const SETTINGS = getSettings();
     // if button already exists, remove it
     const existingLookupBtn = document.querySelector("#crlngn-scene-lookup");
@@ -213,7 +216,7 @@ export class SceneNavFolders {
 
   static updateActiveFolders = async (id, remove=false) => {
     const inactiveList = document.querySelector("#scene-navigation-inactive");
-    const target = inactiveList.querySelector(`li.folder[data-folder-id=${id}]`);
+    const target = inactiveList?.querySelector(`li.folder[data-folder-id="${id}"]`);
     const idIndex = SceneNavFolders.#activeSceneFolders.indexOf(id);
     
     LogUtil.log("updateActiveFolders A", [idIndex, id, game.user.getFlag(MODULE_ID, "activeSceneFolders"), SceneNavFolders.#activeSceneFolders]);
@@ -444,8 +447,8 @@ export class SceneNavFolders {
       li.className = 'search-scene';
       li.dataset.sceneId = scene.id;
       li.innerHTML = `<a><i class="fas fa-map"></i> ${scene.name}</a>`;
-      li.querySelector(".scene-name").addEventListener('dblclick', TopNavigation.onActivateScene);
-      li.querySelector(".scene-name").addEventListener('click', TopNavigation.onSelectScene);
+      li.querySelector(".scene-name")?.addEventListener('dblclick', TopNavigation.onActivateScene);
+      li.querySelector(".scene-name")?.addEventListener('click', TopNavigation.onSelectScene);
       searchResultsContainer.appendChild(li);
     });
     

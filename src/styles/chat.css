@@ -14,13 +14,6 @@ body.crlngn-ui {
   }
 }
 body.crlngn-chat {
-  --default-color: var(--color-light-1);
-  #interface{
-    &.theme-light{
-      --default-color: var(--color-dark-1);
-    }
-  }
-
   /* variables for the custom dnd5e card buttons */
   --crlngn-i18n-attack: "attack";
   --crlngn-i18n-healing: "healing";
