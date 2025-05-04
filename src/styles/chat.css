@@ -356,6 +356,10 @@ body.crlngn-chat {
       content: '\2694';
       font-size: var(--font-size-16);
       color: var(--color-text-dark-1);
+      
+    }
+    &:hover:before{
+      color: var(--color-light-1);
     }
   }
 
@@ -370,13 +374,21 @@ body.crlngn-chat {
       font-size: var(--font-size-16);
       color: var(--color-text-dark-1);
     }
+
+    &:hover:before{
+      color: var(--color-light-1);
+    }
   }
+
   .chat-message button[data-type=skill] {
     &:before{
       content: '\f552';
       font-family: var(--font-awesome);
       font-size: var(--font-size-12);
       color: var(--color-text-dark-1);
+    }
+    &:hover:before{
+      color: var(--color-light-1);
     }
   }
 
@@ -866,6 +878,9 @@ body.crlngn-chat {
     .chat-message .card-buttons > button[data-type=skill],
     .chat-message .chat-card .rsr-title {
       &:before{
+        color: var(--color-text-light-1, var(--color-light-1));
+      }
+      &:hover:before{
         color: var(--color-text-light-1, var(--color-light-1));
       }
     }
