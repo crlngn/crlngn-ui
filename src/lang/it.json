@@ -45,7 +45,7 @@
           "interface": "Elementi",
           "fonts": "Font",
           "themes": "Tema e Stili",
-          "chat": "Chat Log",
+          "chat": "Chat",
           "controls": "Controlli Scena",
           "scenes": "Scene",
           "players": "Lista Giocatori",
@@ -64,13 +64,13 @@
         "hint": "Disabilita il comportamento di 'dissolvenza' degli elementi dell'interfaccia individualmente. Puoi anche disabilitare il layout personalizzato di Carolingian UI per essi.",
         "description": "<b>Colonna 'Dissolvenza':</b> Deseleziona per impedire che l'elemento si dissolva quando non è sotto il cursore. <b>Colonna 'Layout Personalizzato':</b> Deseleziona per disabilitare gli stili di Carolingian UI per quel particolare elemento. Il tema dei colori e i font saranno comunque applicati.",
         "fields": {
-          "sceneControls": "Pulsanti di Controllo (Lato Sinistro)",
-          "sidebarTabs": "Pulsanti Sidebar (Lato Destro)",
+          "sceneControls": "Pulsanti Controllo (Lato Sinistro)",
+          "sidebarTabs": "Pulsanti Barra Laterale (Lato Destro)",
           "playerList": "Lista Giocatori",
           "cameraDock": "Dock Camera",
           "macroHotbar": "Barra Macro",
           "sceneNav": "Navigazione Scene",
-          "chatLogControls": "Controlli Chat Log",
+          "chatLogControls": "Controlli Chat",
           "fadeOutColumn": "Dissolvenza",
           "hideColumn": "Nascondi",
           "customLayoutColumn": "Layout Personalizzato",
@@ -180,7 +180,7 @@
             "hint": "Abilita questa opzione per mantenere l'elenco dei giocatori in basso a sinistra ridotto a icona, tranne quando si passa il mouse sopra."
           },
           "playerListAvatars": {
-            "label": "Mostra avatara",
+            "label": "Mostra avatar",
             "hint": "Mostra gli avatar dei giocatori nell'elenco. Cerca l'immagine del personaggio o l'immagine dell'utente se non è assegnato alcun personaggio."
           }
         },
