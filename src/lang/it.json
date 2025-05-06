@@ -2,7 +2,7 @@
   "CRLNGN_UI": { 
     "ui": { 
       "generalSettingsLabel": "Impostazioni generali",
-      "clientSettingsLabel": "Impostazioni del Jiocatore (Cliente)",
+      "clientSettingsLabel": "Impostazioni del Giocatore (Client)",
       "worldSettingsLabel": "Impostazioni del Mondo (GM)",
       "toggleHints": "Attiva/Disattiva Aiuto",
       "navDisabled": "La navigazione delle scene è disabilitata nella scheda 'Elementi'. Le impostazioni seguenti avranno effetto solo se il Layout Personalizzato è abilitato per la Navigazione Scene.",
@@ -13,8 +13,9 @@
       "reloadButton": "Ricarica",
       "cancelButton": "Annulla",
       "notifications": {
+        "incompatibleVersion": "Carolingian UI richiede Foundry v13.339 o versione successiva. Aggiorna Foundry o installa la versione 1.x di Carolingian UI.",
         "settingsUpdated": "Impostazioni aggiornate",
-        "minimalUiNotSupported": "Carolingian UI is not compatible with Minimal UI, and offers most of its features. Please disable that module to avoid performance issues.",
+        "minimalUiNotSupported": "Carolingian UI non è compatibile con Minimal UI e offre la maggior parte delle sue funzionalità. Disattiva il modulo per evitare problemi di prestazioni.",
         "monksScenesNotSupported": "La Navigazione Scene di Carolingian UI entrerà in conflitto con Monk's Scene Navigation. Questa funzionalità di Carolingian UI è stata disabilitata.",
         "ripperScenesCompat": "Carolingian UI ora ha la Navigazione Cartelle Scene e Ricerca Scene, che non possono essere utilizzate insieme alla Compact Scene Navigation. Disabilita l'altro modulo o disabilita 'Navigazione Cartelle Scene' nelle impostazioni di Carolingian UI.",
         "monksPlayerSettingsConflict": "Alcune impostazioni di Carolingian UI sono state disabilitate per evitare conflitti con il modulo Monk's Player Settings.",
@@ -101,7 +102,6 @@
         "reset": "Ripristina",
         "save": "Salva"
       },
-
       "themeAndStylesMenu": {
         "label": "Tema Colori e Stili",
         "title": "Configura Stili",
@@ -162,21 +162,26 @@
         "title": "Configura Controlli",
         "hint": "Modifica l'aspetto e il comportamento dei pulsanti di controllo scena, sul lato sinistro dello schermo",
         "fields": {
-          "bottomBuffer": {
-            "label": "Area Sicura Inferiore",
-            "hint": "Se hai troppe icone nella barra dei controlli a sinistra, puoi definire un'altezza massima per la barra dei controlli definendo un buffer inferiore, in pixel. Se le icone superano quell'area sicura, vengono spostate nella colonna successiva. Usa 0 per nessun buffer."
-          },
-          "iconSize": {
-            "label": "Dimensione delle icone di controllo",
-            "hint": "Configura la dimensione dei pulsanti sulla barra di controllo sinistra. Alcuni altri elementi dell'interfaccia corrisponderanno a questa dimensione per l'allineamento.",
-            "options": {
-              "small": "piccolo",
-              "regular": "normale"
-            }
-          }, 
           "autoHideSecondary": {
             "label": "Nascondi automaticamente i controlli secondari",
             "hint": "Abilita per mantenere la barra secondaria sui controlli a sinistra nascosta finché non passi con il mouse sulla regione o fai clic su un elemento."
+          }
+        },
+        "reset": "Ripristina",
+        "save": "Salva"
+      },
+      "playersListMenu": {
+        "label": "Elenco Giocatori",
+        "title": "Opzioni Elenco Giocatori",
+        "hint": "Cambia comportamento o aggiungi avatar all'elenco dei giocatori",
+        "fields": {
+          "autoHidePlayerList": {
+            "label": "Nascondi automaticamente l'elenco dei giocatori",
+            "hint": "Abilita questa opzione per mantenere l'elenco dei giocatori in basso a sinistra ridotto a icona, tranne quando si passa il mouse sopra."
+          },
+          "playerListAvatars": {
+            "label": "Mostra avatara",
+            "hint": "Mostra gli avatar dei giocatori nell'elenco. Cerca l'immagine del personaggio o l'immagine dell'utente se non è assegnato alcun personaggio."
           }
         },
         "reset": "Ripristina",
@@ -301,10 +306,6 @@
       "autoHideLeftControls": {
         "label": "Nascondi i controlli secondari",
         "hint": "Abilita per mantenere la barra secondaria sui controlli a sinistra nascosta a meno che non passi con il mouse sulla regione o faccia clic su un elemento."
-      },
-      "autoHidePlayersList": {
-        "label": "Nascondi la lista giocatori",
-        "hint": "Abilita per mantenere la lista dei giocatori in basso a sinistra minimizzata, tranne quando ci passi sopra con il mouse."
       },
       "collapseMacroBar": {
         "label": "Nascondi la barra delle macro",
