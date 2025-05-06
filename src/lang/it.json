@@ -124,7 +124,8 @@
             "hint": "Configura la dimensione dei pulsanti sulla barra di controllo sinistra. Alcuni altri elementi dell'interfaccia corrisponderanno a questa dimensione per l'allineamento.",
             "options": {
               "small": "piccolo",
-              "regular": "normale"
+              "regular": "normale",
+              "large": "grande"
             }
           }, 
           "autoHideSecondary": {
