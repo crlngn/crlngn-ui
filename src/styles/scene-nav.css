@@ -101,8 +101,8 @@ body.crlngn-ui {
     }
 
     #crlngn-back-button {
-      position: fixed;
-      left: var(--control-item-size);
+      position: absolute;
+      left: 0;
     }
 
     #scene-navigation{

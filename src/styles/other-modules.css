@@ -18,4 +18,8 @@ body.crlngn-ui{
 
   }
 
+  #token-action-hud-app.tah-style-docked-right-v13 {
+    margin-top: calc(var(--control-item-size) + 10px);
+  }
+
 }

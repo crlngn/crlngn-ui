@@ -92,40 +92,35 @@ export class ModuleCompatUtil {
    * Handles interaction between players list and taskbar module
    */
   static checkPlayersList = () => {
-    const body = document.querySelector('body');
-    const uiLeftPlayers = document.querySelector('#players');
-    const isTaskbarOn = GeneralUtil.isModuleOn('foundry-taskbar');
-    const isPlayersDocked = isTaskbarOn ? game.settings.get('foundry-taskbar','dockPlayersList') : false;
-    const isMacroDocked = isTaskbarOn ? game.settings.get('foundry-taskbar','dockMacroBar') : false;
-    LogUtil.log('checkPlayersList',[isPlayersDocked, isTaskbarOn, isMacroDocked, game.settings]);
-    let timeoutDelay = 0;
+    // const body = document.querySelector('body');
+    // const uiLeftPlayers = document.querySelector('#players');
+    // const isTaskbarOn = GeneralUtil.isModuleOn('foundry-taskbar');
+    // const isPlayersDocked = isTaskbarOn ? game.settings.get('foundry-taskbar','dockPlayersList') : false;
+    // const isMacroDocked = isTaskbarOn ? game.settings.get('foundry-taskbar','dockMacroBar') : false;
+    // LogUtil.log('checkPlayersList',[isPlayersDocked, isTaskbarOn, isMacroDocked, game.settings]);
+    // let timeoutDelay = 0;
     
-    if(isPlayersDocked){
-      timeoutDelay = 250;
-    }
-    const hotbar = document.querySelector('#hotbar');
-    // if(hotbar && hotbar instanceof HTMLElement) hotbar.style.setProperty('visibility', 'hidden');
-    // clearTimeout(ModuleCompatUtil.#checkPlayersTimeout);
-    // ModuleCompatUtil.#checkPlayersTimeout =  setTimeout(()=>{
-      if(isPlayersDocked){
+    // if(isPlayersDocked){
+    //   timeoutDelay = 250;
+    // }
+    // const hotbar = document.querySelector('#hotbar');
 
-        LogUtil.log('checkPlayersList TEST',[isPlayersDocked]);
-        body.classList.remove('with-players');
-        body.classList.remove('with-players-hide');
-        body.classList.add('players-hidden');
-      }else{
-        body.classList.remove('players-hidden');
-        if(body.querySelector('#players.minimized')){
-          body.classList.add('with-players-hide');
-          body.classList.remove('with-players');
-        }else if(uiLeftPlayers){
-          body.classList.add('with-players');
-          body.classList.remove('with-players-hide');
-        }
-      }
-      // if(hotbar && hotbar instanceof HTMLElement) hotbar.style.removeProperty('visibility');
-      // clearTimeout(ModuleCompatUtil.#checkPlayersTimeout);
-    // }, timeoutDelay);
+    // if(isPlayersDocked){
+
+    //   LogUtil.log('checkPlayersList TEST',[isPlayersDocked]);
+    //   body.classList.remove('with-players');
+    //   body.classList.remove('with-players-hide');
+    //   body.classList.add('players-hidden');
+    // }else{
+    //   body.classList.remove('players-hidden');
+    //   if(body.querySelector('#players.minimized')){
+    //     body.classList.add('with-players-hide');
+    //     body.classList.remove('with-players');
+    //   }else if(uiLeftPlayers){
+    //     body.classList.add('with-players');
+    //     body.classList.remove('with-players-hide');
+    //   }
+    // }
   }
 
 
