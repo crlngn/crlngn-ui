@@ -104,6 +104,10 @@ body.crlngn-ui {
         #latency, #fps {
           display: none;
         }
+
+        button#players-expand{
+          width: 26px;
+        }
       }
 
       #players-active:hover  #performance-stats{
@@ -160,13 +164,19 @@ body.crlngn-ui {
         margin-right: 4px;
       }
     }
+
+    #players-inactive{
+      padding: 0px 6px;
+    }
+    &.expanded #players-inactive{
+      padding: 6px;
+    }
     
+    #players-active {
+      padding: 6px;
+    }
 
     &.crlngn-avatars{
-
-      #players-active, #players-inactive{
-        padding: 6px;
-      }
 
       li:last-child{
         border-bottom: 1px solid rgba(255, 255, 255, 0.075);

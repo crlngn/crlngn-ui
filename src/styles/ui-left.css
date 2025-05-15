@@ -5,14 +5,17 @@ body.crlngn-ui{
 
   #ui-left.crlngn-controls{
     --color-secondary-75: rgba(50, 50, 70, 0.75);
-    --ui-top-padding: 0px;
-    --crlngn-top-offset: 0px;
     --icon-font-size: var(--font-size-14);
     --control-size: var(--control-item-size);
   }
   #ui-left{
     padding: 0;
     gap: 16px;
+
+    &:hover{
+      z-index: 1001;
+    }
+    
     #scene-controls{
       margin-left: 16px;
       margin-top: 16px;

@@ -1,7 +1,7 @@
 
 body.crlngn-ui{
   --sidebar-tab-height: 48px;
-  --crlngn-sidebar-bottom: 0px;
+  --crlngn-margin-bottom: 0px;
 
   &.crlngn-scene-nav #sidebar-tabs {
     padding-top: 52px;
@@ -10,10 +10,10 @@ body.crlngn-ui{
     #sidebar-tabs {
       padding: 0;
   
-      > menu {
+      menu {
         gap: 0;
   
-        li:last-child button {
+        li:last-child button.ui-control {
           border-bottom-left-radius: var(--crlngn-border-radius);
         }
       }
@@ -29,6 +29,8 @@ body.crlngn-ui{
       padding-top: 0;
     }
   }
+
+  
 
   
   .sidebar-tab:not(.sidebar-popout) {
@@ -90,7 +92,7 @@ body.crlngn-ui{
     }
   }
   #ui-right #roll-privacy{
-    button[data-action=toggleChat]{
+    button.ui-control[data-action=toggleChat]{
       display: none;
       visibility: hidden;
 
@@ -100,14 +102,23 @@ body.crlngn-ui{
         outline: 0;
       }
     }
+    
     &.vertical {
       button {
         width: var(--control-item-size);
         height: var(--control-item-size);
       }
-      button[data-action=toggleChat]{
+      button.ui-control[data-action=toggleChat]{
         display: flex;
         visibility: visible;
+      }
+      button.ui-control:first-child {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 0px;
+      }
+      button.ui-control:last-child {
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
       }
     }
   }

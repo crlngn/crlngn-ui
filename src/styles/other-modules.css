@@ -18,8 +18,213 @@ body.crlngn-ui{
 
   }
 
-  #token-action-hud-app.tah-style-docked-right-v13 {
-    margin-top: calc(var(--control-item-size) + 10px);
+  /* Token Action HUD */
+  #token-action-hud-app {
+    .tah-style-foundry-vtt-dark-compact{
+      --tah-button-hover-border: var(--color-highlights);
+      --tah-button-hover-box-shadow: 0 2px 0 -1px var(--color-highlights), 0 0 0 1px var(--color-highlights), 0 0 8px var(--color-highlights);
+    }
+    .tah-style-docked-right-v13 {
+      margin-top: calc(var(--control-item-size) + 10px);
+    }
+  }
+
+  /*Filepicker+ */
+  #no-filepicker {
+    padding: 1em 0.5em;
+    width: 100%;
+    text-align: left;
+  }
+  #filepicker .standard-form .form-group{
+    margin: 0;
+    padding: 0;
+    gap: 0;
+  }
+
+  /* Dice Tray */
+  .dice-tray {
+    button {
+      border-radius: 0;
+      box-shadow: 0 0 6px inset var(--color-secondary);
+      padding: 4px;
+
+      &:hover {
+        background: var(--color-cool-5);
+        color: var(--color-warm-2);
+        border-color: var(--color-warm-2);
+        box-shadow: 0 0 6px inset var(--color-warm-2);
+      }
+
+      div.dice{
+        height: 80%;
+      }
+    }
+    input[type=text] {
+      box-shadow: 0 0 6px inset rgba(255,255,255,0.35);
+      background-color: var(--color-secondary-50);
+      border-radius: 0;
+
+      &:hover{
+          border: 1px solid var(--color-warm-2);
+          box-shadow: 0 0 6px inset var(--color-warm-2);
+      }
+    }
+  }
+
+  /* Combat Carousel */
+  &.crlngn-combat-carousel {
+    &.navigation-collapsed{
+      --crlngn-top-offset: 0px;
+    }
+    
+    #ui-middle #combat-dock {
+      width: calc(100% - var(--current-sidebar-width) + 50px);
+      min-width: max-content;
+    }
+
+    #combat-dock {
+      margin-top: var(--crlngn-top-offset);
+      margin-left: calc(200px - var(--combatant-portrait-size));
+      pointer-events: none;
+      z-index: 0;
+  
+      &:hover{
+        z-index: 1001;
+      }
+  
+      > #combatants, .buttons-container {
+        pointer-events: all;
+      }
+  
+      .buttons-container {
+        justify-content: flex-start;
+        gap: 1px;
+    
+        i{
+          border: none;
+          border-radius: 0; 
+        }
+        
+      }
+    }
+
+    /* CAROUSEL COMBAT TRACKER TOOLTIPS */
+    #tooltip.combat-dock-tooltip {
+      padding: 12px !important;
+    }
+    #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper {
+      font-family: var(--crlngn-font-family);
+      font-size: var(--font-size-12);
+    }
+    #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper h2 {
+      font-family: var(--crlngn-font-titles);
+      font-size: var(--font-size-20);
+    }
+    #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper i {
+      font-size: var(--font-size-11);
+    }
+    #tooltip.combat-dock-tooltip{
+      padding: 0;
+      border: 0;
+      background: var(--color-dark-bg-90);
+      box-shadow: none;
+      max-width: 280px;
+      margin-top: 40px;
+      transform-origin: top center;
+    }
+    #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper {
+      padding: 0;
+      border: 0;
+      box-shadow: none;
+    }
+    #tooltip.combat-dock-tooltip{
+      .roll-link-group a, .roll-link a, .reference-link a {
+        background: var(--color-dark-bg-90);
+      }
+    }
+
+    #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper > ul {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 14px;
+
+      > li{ 
+        min-width: calc((100% - 14px) / 2);
+        max-width: 100%;
+        flex: 1 1 calc((100% - 14px) / 2);
+        background: var(--color-dark-bg-75);
+        outline: 5px solid var(--color-dark-bg-75);
+        padding: 0;
+        margin: 0;
+        line-height: 1.35;
+        
+        &.effects-list {
+          flex-wrap: wrap;
+        }
+
+        span{
+          flex: 1 1 calc(100% - 2em);
+        }
+        span.tooltip-duration {
+          display: flex;
+          line-height: 1;
+          min-width: 100%;
+          padding-left: 1.8em;
+          margin-top: 0.5em;
+        }
+        
+      }
+    }
+    
+    #tooltip.combat-dock-tooltip .effect-description {
+      background: transparent;
+      font-size: var(--font-size-11);
+      padding: 0;
+      line-height: 1.35;
+
+      ul{
+        padding: 0;
+
+        li{
+          display: block;
+        }
+      }
+    }
+    #tooltip.combat-dock-tooltip a.content-link {
+      display: inline-flex;
+    }
+  }
+
+  /* TheRipper93 youtube player widget */
+  #sidebar-video-player {
+    margin: 0 0 8px 0;
+    border-radius: 0;
+
+    &.tyw-docked{
+      width: calc(var(--max-players-width));
+    }
+
+  }
+  #sidebar-video-player .inner-resize-container {
+    border-radius: 0;
+    box-shadow: none;
+    border-top-right-radius: var(--crlngn-border-radius);
+    border-bottom-right-radius: var(--crlngn-border-radius);
+  }
+
+  /* TheRipper93 Dice Tray */
+  .dice-tray-container .buttons-stacked button{
+    height: 1.5em;
+    width: 2.5em;
+    min-height: 1.5em;
+    max-height: 1.5em;
+    padding: 4px;
+
+    &[data-button=count]{
+      height: 2em;
+      min-height: 2em;
+    }
   }
 
 }

@@ -222,11 +222,7 @@ export function getSettings() {
       default: {
         colorTheme: "",
         adjustOtherModules: true,
-        otherModulesList: {
-          "crux": false,
-          "monks-scene-navigation": true,
-          "combat-carousel": true
-        },
+        otherModulesList: "'monks-scene-nav','combat-carousel','dice-tray','hurry-up','crux'",
         customStyles: ""
       },
       scope: SETTING_SCOPE.world,

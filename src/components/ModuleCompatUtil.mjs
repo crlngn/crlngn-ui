@@ -14,6 +14,7 @@ export class ModuleCompatUtil {
    * Timeout handle for debouncing players list checks
    */
   static #checkPlayersTimeout;
+  static ytWigdetFadeOut = true;
   /**
    * Initializes module compatibility features
    * Sets up hooks for players list and taskbar integration
@@ -33,6 +34,15 @@ export class ModuleCompatUtil {
     if(isMinimalUiOn){
       ui.notifications.warn(game.i18n.localize('CRLNGN_UI.ui.notifications.minimalUiNotSupported'),{ permanent: true });
     }
+
+    const isYTPlayerOn = GeneralUtil.isModuleOn('fvtt-youtube-player');
+    if(isYTPlayerOn && ModuleCompatUtil.ytWigdetFadeOut){
+      LogUtil.log("ModuleCompatUtil.init", [document.querySelector('#sidebar-video-player')]);
+      setTimeout(() => {
+        document.querySelector('#sidebar-video-player')?.classList.add('faded-ui');
+      }, 1000);
+    }
+    
   }
 
   static addModuleClasses = () => {
@@ -58,22 +68,24 @@ export class ModuleCompatUtil {
    */
   static checkTaskbarLock = () => {
     const isTaskbarOn = GeneralUtil.isModuleOn('foundry-taskbar');
+    LogUtil.log("checkTaskbarLock #1",[isTaskbarOn]);
     // const body = document.querySelector('body.crlngn-ui');
     // const bodyStyle = document.querySelector('#crlngn-ui-vars');
     
     /** @type {{taskbarSettings?: {locked?: boolean, reduceSidebar?: boolean}} | undefined} */
     const taskbarFlag = game.user.flags?.['foundry-taskbar'];
-    LogUtil.log("checkTaskbarLock",[taskbarFlag]);
 
     if(!isTaskbarOn || !taskbarFlag?.taskbarSettings){
       return;
     }
 
     const taskbarReduceSidebar = game.settings.get('foundry-taskbar','reduceSidebar');
+    LogUtil.log("checkTaskbarLock #2",[taskbarFlag, taskbarReduceSidebar]);
+
     if(taskbarFlag.taskbarSettings?.locked){
-      GeneralUtil.addCSSVars('--crlngn-sidebar-bottom', taskbarReduceSidebar ? '50px' : '0px');
+      GeneralUtil.addCSSVars('--crlngn-margin-bottom', taskbarReduceSidebar ? '50px' : '0px');
     }else{
-      GeneralUtil.addCSSVars('--crlngn-sidebar-bottom', '0px');
+      GeneralUtil.addCSSVars('--crlngn-margin-bottom', taskbarReduceSidebar ? '10px' : '0px');
     }
 
     if(taskbarFlag.taskbarSettings?.locked){
@@ -81,6 +93,9 @@ export class ModuleCompatUtil {
     }else{
       GeneralUtil.addCSSVars('--crlngn-taskbar-height', '10px');
     }
+
+    GeneralUtil.addCustomCSS(`body.crlngn-ui #ui-right {height: calc((100% - var(--crlngn-margin-bottom)) / var(--ui-scale));}`);
+
     const ftMoveStyle = document.querySelector("#ft-move-players-macro");
     if(ftMoveStyle){ftMoveStyle.innerHTML = '';}
     ModuleCompatUtil.checkPlayersList();
@@ -92,9 +107,10 @@ export class ModuleCompatUtil {
    * Handles interaction between players list and taskbar module
    */
   static checkPlayersList = () => {
-    // const body = document.querySelector('body');
-    // const uiLeftPlayers = document.querySelector('#players');
-    // const isTaskbarOn = GeneralUtil.isModuleOn('foundry-taskbar');
+    const body = document.querySelector('body');
+    const uiLeftPlayers = document.querySelector('#players');
+    const isTaskbarOn = GeneralUtil.isModuleOn('foundry-taskbar');
+
     // const isPlayersDocked = isTaskbarOn ? game.settings.get('foundry-taskbar','dockPlayersList') : false;
     // const isMacroDocked = isTaskbarOn ? game.settings.get('foundry-taskbar','dockMacroBar') : false;
     // LogUtil.log('checkPlayersList',[isPlayersDocked, isTaskbarOn, isMacroDocked, game.settings]);

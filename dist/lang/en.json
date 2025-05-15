@@ -8,6 +8,8 @@
       "navDisabled": "Scene Navigation is disabled in the 'Elements' tab. The settings below will only have effect if Custom Layout is enabled for Scene Navigation.",
       "reloadRequiredTitle": "Reload Foundry",
       "reloadRequiredLabel": "A reload is required. Reload now?",
+      "macroBarTooltipKeepOpen": "Keep open",
+      "macroBarTooltipAutoHide": "Auto-hide",
       "reset": "Reset",
       "save": "Save",
       "reloadButton": "Reload",

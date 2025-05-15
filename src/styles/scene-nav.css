@@ -1,6 +1,8 @@
 body.crlngn-ui { 
   /* variables specific top scene nav */
   --top-nav-height: calc(var(--control-item-size) + 1px);
+  --ui-top-padding: var(--top-nav-height,0px);
+  --crlngn-top-offset: var(--top-nav-height,0px);
   --ui-controls-margin-left: -100px;
   --folder-header-width: 150px;
   --folder-list-width: 200px;
@@ -55,12 +57,12 @@ body.crlngn-ui {
     }
 
     #ui-left-column-1 {
-      /*order: 1;*/
       padding-top: var(--top-nav-height, 0px);
+      height: calc((100% - var(--crlngn-taskbar-height)) / var(--ui-scale));
+      gap: 0;
     }
 
     #ui-left-column-2{
-      /*order: 0;*/
       overflow: visible;
       display: flex;
       flex-direction: row;
@@ -802,6 +804,7 @@ body.crlngn-ui {
   }
   
   &.crlngn-scene-nav #ui-left.navigation-collapsed {
+    --crlngn-top-offset: 0px;
     #crlngn-back-button,
     button.crlngn-btn,
     #scene-navigation {

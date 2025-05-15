@@ -132,6 +132,8 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     context.selectedTheme = selectedTheme;
     context.themes = THEMES;
 
+
+
     /* add specific data for font fields */
     const fonts = await GeneralUtil.getAllFonts();
     context.fontList = fonts;
@@ -303,7 +305,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     fieldNames.forEach((fieldName) => {
       if(settings[fieldName] !== undefined) {
         const currSetting = SettingsUtil.set(SETTINGS[fieldName].tag);
-        LogUtil.log("Saving setting:", [settings[fieldName]]);
+        LogUtil.log("Saving setting:", [fieldName, settings[fieldName]]);
         SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
         if(SETTINGS[fieldName]?.requiresReload && currSetting !== settings[fieldName]){
           confirmReload = true;
@@ -502,7 +504,6 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
           const selectedTheme = THEMES.find(theme => {
             return theme.label === value;
           });
-          
           // Update any UI elements that depend on selectedTheme
           ModuleSettings.#updateThemePreview(selectedTheme);
         }
@@ -532,16 +533,17 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       })
     });
 
-    // listen for toggle all / untoggle all checkbox
-    const toggleModulesCheckbox = ModuleSettings.element.querySelector('input.adjustOtherModules');
-    toggleModulesCheckbox.addEventListener("change", (evt) => {
-      const checkboxes = ModuleSettings.element.querySelectorAll('.multiple-select.other-modules input[type="checkbox"]');
-      checkboxes.forEach(checkbox => {
-        checkbox.checked = evt.currentTarget.checked;
-        const event = new Event('change', { bubbles: true });
-        checkbox.dispatchEvent(event);
-      })
-    })
+
+      // listen for toggle all / untoggle all checkbox
+      const toggleModulesCheckbox = ThemeAndStyleSettings.element.querySelector('input.adjustOtherModules');
+      toggleModulesCheckbox.addEventListener("change", (evt) => {
+        const checkboxes = ThemeAndStyleSettings.element.querySelectorAll('.multiple-select.other-modules input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+          checkbox.checked = evt.currentTarget.checked;
+          const event = new Event('change', { bubbles: true });
+          checkbox.dispatchEvent(event);
+        })
+      });
   }
 
   /**

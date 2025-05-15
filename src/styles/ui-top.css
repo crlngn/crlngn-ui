@@ -5,9 +5,10 @@ body.crlngn-ui {
   --folder-list-width: 200px;
   --scene-nav-item-width: calc(var(--font-size-10) * 15);
   --folder-nav-item-width: var(--control-item-size);
+  --ui-top-padding: var(--top-nav-height,0px);
   /*--current-sidebar-width: var(--sidebar-width);*/
 
-  &.logo-visible.nav-collapsed {
+  &.nav-collapsed {
     --ui-top-padding: calc(72px + var(--top-nav-height,0px));
   }
 
@@ -40,7 +41,9 @@ body.crlngn-ui {
     &:hover{
       z-index:100;
     }
-
+  }
+  #ui-middle{
+    
   }
 
   #ui-middle.crlngn-ui{
@@ -57,19 +60,6 @@ body.crlngn-ui {
 
     #ui-top, #ui-top.offset{
       margin-left: 0;
-      /*
-      position: relative;
-      margin: 0;
-      margin-left: 0;
-      height: 100%;
-      max-height: 100%;
-      pointer-events: none;
-      */
-
-      /*
-      > * {
-        pointer-events: all;
-      }*/
 
       #navigation {
         --nav-width: calc(100% + var(--ui-controls-margin-left, 0px) + var(--max-players-width, 0px));

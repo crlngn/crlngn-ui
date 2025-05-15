@@ -363,13 +363,15 @@ export class GeneralUtil {
     
     // Update the style element
     bodyStyle.textContent = newCss;
+    LogUtil.log("addCSSVars", [varName, varValue, bodyStyle.textContent]);
   }
 
   /**
    * Adds custom CSS to a style element
-   * @param {string} content 
+   * @param {string} content - CSS content to add
+   * @param {boolean} [checkForDuplicates=true] - Whether to check for duplicate rules
    */
-  static addCustomCSS(content) {
+  static addCustomCSS(content, checkForDuplicates = true) {
     let customStyle = document.querySelector('#crlngn-ui-custom-css');
     
     if (!customStyle) {
@@ -377,11 +379,19 @@ export class GeneralUtil {
       const body = document.querySelector('body');
       customStyle = document.createElement('style');
       customStyle.id = 'crlngn-ui-custom-css';
-      customStyle.textContent = 'body.crlngn-ui {\n}\n';
+      customStyle.textContent = '';
       body.appendChild(customStyle);
     }
 
-    customStyle.textContent = content;
+    if (!checkForDuplicates) {
+      customStyle.textContent += content;
+      return;
+    }
+
+    // Check if the rule already exists
+    if (!customStyle.textContent.includes(content)) {
+      customStyle.textContent += content;
+    }
   }
   
   /**

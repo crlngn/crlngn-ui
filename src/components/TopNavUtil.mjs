@@ -207,14 +207,17 @@ export class TopNavigation {
   }
 
   static setCollapsedClass = (collapsed) => {
+    const body = document.querySelector("body");
     if(collapsed){
       TopNavigation.#uiLeft.classList.add('navigation-collapsed');
+      body.classList.add('navigation-collapsed');
 
       if(GeneralUtil.isModuleOn("forien-quest-log")){
         Hooks.on("questTrackerBoundaries", (boundaries) => boundaries.top = 10);
       }
     }else{
       TopNavigation.#uiLeft.classList.remove('navigation-collapsed');
+      body.classList.remove('navigation-collapsed');
       TopNavigation.placeNavButtons();
 
       if(GeneralUtil.isModuleOn("forien-quest-log")){
@@ -293,11 +296,13 @@ export class TopNavigation {
       const existingToggle = document.querySelector("#crlngn-scene-navigation-expand");
       if(existingToggle){ existingToggle.remove(); }
       
-      const toggleClone = navToggle?.cloneNode(true);
-      toggleClone.id = "crlngn-scene-navigation-expand";
-      toggleClone.addEventListener("click", () => {
-        navToggle.click(); // This will trigger the original handler
-      });
+      let toggleClone = navToggle?.cloneNode(true);
+      if(toggleClone){
+        toggleClone.id = "crlngn-scene-navigation-expand";
+        toggleClone.addEventListener("click", () => {
+          navToggle.click(); // This will trigger the original handler
+        });
+      }
       LogUtil.log("toggle events", [nav, toggleClone]);
 
       column2.prepend(toggleClone);

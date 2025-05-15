@@ -346,9 +346,9 @@ export class SettingsUtil {
       case SETTINGS.customStyles.tag:
         SettingsUtil.applyCustomCSS(); break;
       case SETTINGS.adjustOtherModules.tag:
-        SettingsUtil.applyModuleAdjustments(); break;
+        SettingsUtil.applyModuleAdjustments(value); break;
       case SETTINGS.otherModulesList.tag:
-        SettingsUtil.applyOtherModulesList(); break;
+        SettingsUtil.applyOtherModulesList(value); break;
       // Interface enable options
       case SETTINGS.enablePlayerList.tag:
         PlayersList.applyCustomStyle(value); break;
@@ -661,9 +661,10 @@ export class SettingsUtil {
   static applyOtherModulesList = (value) => {
     const SETTINGS = getSettings();
     const currSetting = value || SettingsUtil.get(SETTINGS.otherModulesList.tag);
-    LogUtil.log("applyOtherModulesList", [currSetting, currSetting.split(",")]);
+    LogUtil.log("applyOtherModulesList", [currSetting]);
     if(currSetting.split(",").length===0){
       SettingsUtil.set(SETTINGS.adjustOtherModules.tag, false);
+      SettingsUtil.set(SETTINGS.otherModulesList.tag, "");
     }else{
       SettingsUtil.set(SETTINGS.adjustOtherModules.tag, true);
     }

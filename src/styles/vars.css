@@ -363,7 +363,7 @@ body.crlngn-ui.crlngn-theme-gold-chocolate.game .app {
   .chat-log.theme-dark,
   #interface.theme-dark{
     --color-secondary: rgb(34, 25, 25);
-    --color-secondary-bright: rgba(125, 109, 109, 0.75);
+    --color-secondary-bright: rgba(125, 109, 109, 1);
     --color-secondary-bright-50: rgba(125, 109, 109, 0.5);
     --color-secondary-15: rgba(34, 25, 25, 0.15);
     --color-secondary-25: rgba(34, 25, 25, 0.25);
@@ -385,7 +385,7 @@ body.crlngn-ui.crlngn-theme-gold-chocolate.game .app {
   .chat-log.theme-light,
   #interface.theme-light {
     --color-secondary: rgb(215, 196, 177);
-    --color-secondary-bright: rgba(245, 229, 215, 0.75);
+    --color-secondary-bright: rgba(245, 229, 215, 1);
     --color-secondary-bright-50: rgba(245, 229, 215, 0.5);
     --color-secondary-15: rgba(215, 196, 177, 0.15);
     --color-secondary-25: rgba(215, 196, 177, 0.25);
@@ -425,7 +425,7 @@ body.crlngn-ui.crlngn-theme-royal-blood.game .app {
   .chat-log.theme-dark,
   #interface.theme-dark{
     --color-secondary: rgb(40, 31, 49);
-    --color-secondary-bright: rgba(123, 111, 133, 0.75);
+    --color-secondary-bright: rgba(123, 111, 133, 1);
     --color-secondary-bright-50: rgba(123, 111, 133, 0.5);
     --color-secondary-15: rgba(40, 31, 49, 0.15);
     --color-secondary-25: rgba(40, 31, 49, 0.25);
@@ -448,7 +448,7 @@ body.crlngn-ui.crlngn-theme-royal-blood.game .app {
   .chat-log.theme-light,
   #interface.theme-light {
     --color-secondary: rgb(204, 186, 204);
-    --color-secondary-bright: rgba(236, 224, 236, 0.75);
+    --color-secondary-bright: rgba(236, 224, 236, 1);
     --color-secondary-bright-50: rgba(236, 224, 236, 0.5);
     --color-secondary-15: rgba(204, 186, 204, 0.15);
     --color-secondary-25: rgba(204, 186, 204, 0.25);
@@ -488,7 +488,7 @@ body.crlngn-ui.crlngn-theme-dark-sorcery.game .app {
   .chat-log.theme-dark,
   #interface.theme-dark{
     --color-secondary: rgb(31, 47, 49);
-    --color-secondary-bright: rgba(97, 121, 123, 0.75);
+    --color-secondary-bright: rgba(97, 121, 123, 1);
     --color-secondary-bright-50: rgba(97, 121, 123, 0.5);
     --color-secondary-15: rgba(31, 47, 49, 0.15);
     --color-secondary-25: rgba(31, 47, 49, 0.25);
@@ -511,7 +511,7 @@ body.crlngn-ui.crlngn-theme-dark-sorcery.game .app {
   .chat-log.theme-light,
   #interface.theme-light {
     --color-secondary: rgb(236, 224, 237);
-    --color-secondary-bright: rgba(236, 224, 237, 0.75);
+    --color-secondary-bright: rgba(236, 224, 237, 1);
     --color-secondary-bright-50: rgba(236, 224, 237, 0.5);
     --color-secondary-15: rgba(236, 224, 237, 0.15);
     --color-secondary-25: rgba(236, 224, 237, 0.25);
@@ -552,7 +552,7 @@ body.crlngn-ui.crlngn-theme-pumpkin-patch.game .app {
   .chat-log.theme-dark,
   #interface.theme-dark{
     --color-secondary: rgb(40, 31, 49);
-    --color-secondary-bright: rgba(126, 113, 138, 0.75);
+    --color-secondary-bright: rgba(126, 113, 138, 1);
     --color-secondary-bright-50: rgba(126, 113, 138, 0.5);
     --color-secondary-15: rgba(40, 31, 49, 0.15);
     --color-secondary-25: rgba(40, 31, 49, 0.25);
@@ -575,7 +575,7 @@ body.crlngn-ui.crlngn-theme-pumpkin-patch.game .app {
   .chat-log.theme-light,
   #interface.theme-light {
     --color-secondary: rgb(200, 198, 206);
-    --color-secondary-bright: rgba(200, 198, 206, 0.75);
+    --color-secondary-bright: rgba(200, 198, 206, 1);
     --color-secondary-bright-50: rgba(200, 198, 206, 0.5);
     --color-secondary-15: rgba(200, 198, 206, 0.15);
     --color-secondary-25: rgba(200, 198, 206, 0.25);
@@ -615,7 +615,7 @@ body.crlngn-ui.crlngn-theme-gambits-blue.game .app {
   .chat-log.theme-dark,
   #interface.theme-dark{
     --color-secondary: rgb(40, 31, 49);
-    --color-secondary-bright: rgba(123, 111, 133, 0.75);
+    --color-secondary-bright: rgba(123, 111, 133, 1);
     --color-secondary-bright-50: rgba(123, 111, 133, 0.5);
     --color-secondary-15: rgba(40, 31, 49, 0.15);
     --color-secondary-25: rgba(40, 31, 49, 0.25);
@@ -639,7 +639,7 @@ body.crlngn-ui.crlngn-theme-gambits-blue.game .app {
   .chat-log.theme-light,
   #interface.theme-light {
     --color-secondary: rgb(204, 186, 204);
-    --color-secondary-bright: rgba(236, 224, 236, 0.75);
+    --color-secondary-bright: rgba(236, 224, 236, 1);
     --color-secondary-bright-50: rgba(236, 224, 236, 0.5);
     --color-secondary-15: rgba(204, 186, 204, 0.15);
     --color-secondary-25: rgba(204, 186, 204, 0.25);

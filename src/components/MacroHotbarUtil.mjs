@@ -128,14 +128,14 @@ export class MacroHotbar {
       if(collapseBtn){
         collapseBtn.classList.remove("fa-angle-down");
         collapseBtn.classList.add("fa-angle-up");
-        collapseBtn.dataset.tooltip = "Keep Open";
+        collapseBtn.dataset.tooltip = game.i18n.localize("CRLNGNUI.MacroBarTooltipKeepOpen");
       }
     } else {
       document.querySelector("#hotbar")?.classList.remove("collapsed");
       if(collapseBtn){
         collapseBtn.classList.add("fa-angle-down");
         collapseBtn.classList.remove("fa-angle-up");
-        collapseBtn.dataset.tooltip = "Auto-Hide";
+        collapseBtn.dataset.tooltip = game.i18n.localize("CRLNGNUI.MacroBarTooltipAutoHide");
       }
     }
   }

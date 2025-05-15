@@ -1,6 +1,10 @@
 body.crlngn-ui{
   #interface {
 
+    #ui-middle.crlngn-ui {
+      height: calc((100% - var(--crlngn-taskbar-height)) / var(--ui-scale));
+    }
+
     #hotbar.crlngn-macro{
       --hotbar-size: 60px;
       gap: 0;
@@ -110,6 +114,9 @@ body.crlngn-ui{
 
       &.sm, &.md.offset{
         margin-bottom: calc((var(--hotbar-size)* -2) + 10px);
+        &:hover{
+          margin-bottom: 0px;
+        }
       }
 
       &:hover, &:focus {

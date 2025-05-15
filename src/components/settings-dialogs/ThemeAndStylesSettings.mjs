@@ -94,13 +94,10 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
 
     fieldNames.forEach((fieldName) => {
       if(settings[fieldName] !== undefined) {
-        LogUtil.log("Saving setting:", [settings[fieldName]]);
         SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
       }
+      LogUtil.log("Saving setting:", [ SETTINGS[fieldName].tag, settings[fieldName] ]);
     });
-
-    // For compatibility - to be removed in future version
-    SettingsUtil.set(SETTINGS.themeAndStylesMenu.tag, settings);
 
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
   }
@@ -125,6 +122,7 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
         fields[fieldName] = SETTINGS[fieldName];
         fieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;
         fieldDefaults[fieldName] = SETTINGS[fieldName].default;
+        LogUtil.log("_prepareContext", [fieldName, value, fields[fieldName]]);
       }
     });
 
@@ -167,7 +165,7 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
    */
   async _preparePartContext(partId, context) {
     context.partId = `${partId}-${this.id}`;
-    // LogUtil.log("_preparePartContext",[partId, context]);
+    LogUtil.log("_preparePartContext",[partId, context]);
     return context;
   }
 

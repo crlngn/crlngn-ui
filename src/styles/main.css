@@ -22,6 +22,9 @@ body.crlngn-ui  {
   h4, h5, h6 {
     font-family: var(--crlngn-font-family);
   }
+  a.button:hover, button:hover{
+    border-color: var(--color-highlights);
+  }
   
   .sidebar-tab {
     h4.dice-total{
@@ -63,13 +66,17 @@ body.crlngn-ui  {
 *******************/  
 body.crlngn-ui{
 
-  input[type="color"]::-webkit-color-swatch-wrapper {
+  input[type=color]::-webkit-color-swatch-wrapper {
     padding: 1px;
   }
 
   .standard-form .form-group {
     margin: 6px 0;
   }
+
+  .sidebar-tab .standard-form .form-group {
+    gap: 0.25em;
+  } 
 
   .application:not(.dnd5e2) .dialog-buttons button, 
   .combat-controls button,
@@ -437,6 +444,7 @@ body.crlngn-ui{
   }
 }
 
+
 .standard-form.crlngn {
   .multiple-select {
     list-style-type: none;
@@ -557,10 +565,12 @@ body.crlngn-ui{
       text-align: center;
       font-weight: 600;
       line-height: 1.1;
+      
       &:hover{
         color: var(--color-light-1);
       }
     }
+
     > label:first-child{
       flex: 0 0 46%;
       width: 46%;
@@ -609,6 +619,10 @@ body.crlngn-ui{
     width: 100%;
     padding: 5px;
   }
+}
+
+.sidebar-tab .standard-form .form-group > label{
+  line-height: 1.2;
 }
 
 body.theme-light {

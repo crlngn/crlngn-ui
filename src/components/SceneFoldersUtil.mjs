@@ -447,8 +447,8 @@ export class SceneNavFolders {
       li.className = 'search-scene';
       li.dataset.sceneId = scene.id;
       li.innerHTML = `<a><i class="fas fa-map"></i> ${scene.name}</a>`;
-      li.querySelector(".scene-name")?.addEventListener('dblclick', TopNavigation.onActivateScene);
-      li.querySelector(".scene-name")?.addEventListener('click', TopNavigation.onSelectScene);
+      li.addEventListener('dblclick', TopNavigation.onActivateScene);
+      li.addEventListener('click', TopNavigation.onSelectScene);
       searchResultsContainer.appendChild(li);
     });
     
