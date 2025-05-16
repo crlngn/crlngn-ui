@@ -4,6 +4,8 @@ import { LogUtil } from "../LogUtil.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
 import { GeneralUtil } from "../GeneralUtil.mjs";
 
+const { FormDataExtended } = foundry.utils;
+
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 /**
@@ -283,57 +285,64 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
    * @returns {Promise<void>}
    */
   static async #onSubmit(event, form, formData) {
-    let confirmReload = false;
-    const SETTINGS = getSettings();
     event.preventDefault();
     event.stopPropagation();
 
+    let confirmReload = ModuleSettings.updateSettings(formData);
+    
+    if(confirmReload){
+      GeneralUtil.confirmReload();
+    }
+  }
+
+  static updateSettings(formData){
+    let confirmReload = false;
+    const SETTINGS = getSettings();
     const html = ModuleSettings.#element;
     const activeContent = html.querySelector(".form-content.active");
     const activeTab = activeContent.dataset.tab;
     ModuleSettings.#activeTab = activeTab;
-    const menuKey = ModuleSettings.PARTS[activeTab].menuKey;
-    if(!menuKey) {
-      console.warn("#onSubmit #0", ["menuKey not defined"]);
+
+    if(!formData){
       return;
     }
-    // Convert FormData into an object with proper keys
-    const settings = foundry.utils.expandObject(formData.object);
-    const fieldNames = SETTINGS[menuKey].fields || [];
 
-    LogUtil.log("#onSubmit #1", [settings]);
-    if(menuKey === ModuleSettings.PARTS.themes.menuKey){
-      const selectedTheme = THEMES.find(theme => theme.label===settings.colorTheme);
-      settings.colorTheme = selectedTheme ? selectedTheme.className : THEMES[0].className;
-    }
-    
-    fieldNames.forEach((fieldName) => {
+    // Convert FormData into an object with proper keys
+    let settings;
+    if (formData.object) {
+      settings = foundry.utils.expandObject(formData.object);
+    } 
+
+    LogUtil.log("#onSubmit #1", [settings, formData.object]);
+    let fieldNames = [];
+
+    const selectedTheme = THEMES.find(theme => theme.label===settings.colorTheme);
+    settings.colorTheme = selectedTheme ? selectedTheme.className : THEMES[0].className;
+
+    Object.entries(settings).forEach(([fieldName, value]) => {
       if(settings[fieldName] !== undefined) {
         const currSetting = SettingsUtil.get(SETTINGS[fieldName].tag);
         SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
         LogUtil.log("#onSubmit - Saving setting:", [SETTINGS[fieldName].tag, settings[fieldName]]);
+
         if(SETTINGS[fieldName]?.requiresReload && currSetting !== settings[fieldName]){
           confirmReload = true;
         }
       }
     });
+    
+    LogUtil.log("#onSubmit #2", [formData]);
 
-    LogUtil.log("#onSubmit #2", [event, form, formData]);
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
 
-    if(confirmReload){
-      GeneralUtil.confirmReload();
-    }
+    return confirmReload;
   }
 
   /** @inheritDoc */
   changeTab(tab, group, options) {
     super.changeTab(tab, group, options);
     ModuleSettings.#activeTab = tab;
-
-    LogUtil.log("changeTab", [tab, group, ModuleSettings.#activeTab]);
   }
-    
 
   /**
    * Resets form fields to their default values
