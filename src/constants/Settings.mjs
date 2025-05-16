@@ -222,7 +222,7 @@ export function getSettings() {
       default: {
         colorTheme: "crlngn-theme",
         adjustOtherModules: true,
-        otherModulesList: "'combat-carousel','dice-tray','hurry-up','crux'",
+        otherModulesList: "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player'",
         customStyles: ""
       },
       scope: SETTING_SCOPE.world,
@@ -609,12 +609,13 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.hint"),
       propType: String,
-      default:  "'combat-carousel','dice-tray','hurry-up','crux'",
+      default:  "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player'",
       options: {
         "Combat Carousel": "'combat-carousel'",
         "Crux": "'crux'",
         "Dice Tray": "'dice-tray'",
-        "Hurry Up": "'hurry-up'"
+        "Hurry Up": "'hurry-up'",
+        "Youtube Player": "'fvtt-youtube-player'"
       },
       scope: SETTING_SCOPE.world,
       config: false

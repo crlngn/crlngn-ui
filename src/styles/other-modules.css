@@ -212,22 +212,31 @@ body.crlngn-ui{
     }
   }
 
-  /* TheRipper93 youtube player widget */
-  #sidebar-video-player {
-    margin: 0 0 8px 0;
-    border-radius: 0;
-
-    &.tyw-docked{
-      width: calc(var(--max-players-width));
+  /* TheRipper93 Youtube Player widget */
+  #ui-left #sidebar-video-player{
+    margin: 0 16px 8px 16px;
+  }
+  &.crlngn-fvtt-youtube-player{
+    #ui-left.crlngn-controls #sidebar-video-player{
+      margin: 0 0 8px 0;
     }
 
+    #sidebar-video-player{
+      border-radius: 0;
+  
+      &.tyw-docked{
+        width: calc(var(--max-players-width));
+      }
+  
+    }
+    #sidebar-video-player .inner-resize-container {
+      border-radius: 0;
+      box-shadow: none;
+      border-top-right-radius: var(--crlngn-border-radius);
+      border-bottom-right-radius: var(--crlngn-border-radius);
+    }
   }
-  #sidebar-video-player .inner-resize-container {
-    border-radius: 0;
-    box-shadow: none;
-    border-top-right-radius: var(--crlngn-border-radius);
-    border-bottom-right-radius: var(--crlngn-border-radius);
-  }
+  
 
   /* TheRipper93 Dice Tray */
   .dice-tray-container .buttons-stacked button{
