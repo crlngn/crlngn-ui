@@ -2,7 +2,7 @@
   "CRLNGN_UI": { 
     "ui": { 
       "generalSettingsLabel": "Impostazioni generali",
-      "clientSettingsLabel": "Impostazioni del Jiocatore (Cliente)",
+      "clientSettingsLabel": "Impostazioni del Giocatore (Client)",
       "worldSettingsLabel": "Impostazioni del Mondo (GM)",
       "toggleHints": "Attiva/Disattiva Aiuto",
       "navDisabled": "La navigazione delle scene è disabilitata nella scheda 'Elementi'. Le impostazioni seguenti avranno effetto solo se il Layout Personalizzato è abilitato per la Navigazione Scene.",
@@ -47,7 +47,7 @@
           "interface": "Elementi",
           "fonts": "Font",
           "themes": "Tema e Stili",
-          "chat": "Chat Log",
+          "chat": "Chat",
           "controls": "Controlli Scena",
           "scenes": "Scene",
           "players": "Lista Giocatori",
@@ -67,12 +67,12 @@
         "description": "<b>Colonna 'Dissolvenza':</b> Deseleziona per impedire che l'elemento si dissolva quando non è sotto il cursore. <b>Colonna 'Layout Personalizzato':</b> Deseleziona per disabilitare gli stili di Carolingian UI per quel particolare elemento. Il tema dei colori e i font saranno comunque applicati.",
         "fields": {
           "sceneControls": "Pulsanti di Controllo (Lato Sinistro)",
-          "sidebarTabs": "Pulsanti Sidebar (Lato Destro)",
+          "sidebarTabs": "Pulsanti Barra Laterale (Lato Destro)",
           "playerList": "Lista Giocatori",
           "cameraDock": "Dock Camera",
           "macroHotbar": "Barra Macro",
           "sceneNav": "Navigazione Scene",
-          "chatLogControls": "Controlli Chat Log",
+          "chatLogControls": "Controlli Chat",
           "fadeOutColumn": "Dissolvenza",
           "hideColumn": "Nascondi",
           "customLayoutColumn": "Layout Personalizzato",
@@ -94,10 +94,10 @@
             "label": "Titoli UI"
           },
           "journalBody": {
-            "label": "Corpo Journal"
+            "label": "Corpo Diario"
           },
           "journalTitles": {
-            "label": "Titoli Journal"
+            "label": "Titoli Diario"
           }
         },
         "postDescription": "Per importare da <b>Google Fonts</b>, prima incolla il link @import nel campo \"CSS Personalizzato\" delle impostazioni di stile, e il font sarà elencato qui.",
@@ -140,10 +140,10 @@
         "fields": {
           "enableChatStyles": {
             "label": "Abilita stili per i messaggi chat",
-            "hint": "Aggiunge modifiche di stile alle carte chat. Quando la modalità scura è selezionata su Foundry, anche le carte chat saranno scure. PRINCIPALMENTE PER DND5E - supporto solo parziale per altri sistemi."
+            "hint": "Aggiunge modifiche di stile ai messaggi chat. Quando la modalità scura è selezionata su Foundry, anche i messaggi chat saranno scuri. PRINCIPALMENTE PER DND5E - supporto solo parziale per altri sistemi."
           },
           "borderColor": {
-            "label": "Colore del bordo della carta chat",
+            "label": "Colore del bordo del messaggio chat",
             "hint": "[Richiede ricaricamento] <b>Colore giocatore</b>: usa il colore del giocatore su Foundry; <b>Tipo di Tiro</b>: usa la codifica colori per attacco, salvezza, prova di abilità, ecc. <b>Nessuno:</b> nessun bordo (permetterà i bordi impostati da altri moduli).",
             "options": {
               "playerColor": "Colore Giocatore",
@@ -266,7 +266,7 @@
           },
           "useSceneBackButton": {
             "label": "Abilita pulsante torna indietro",
-            "hint": "<b>'Torna all'ultima scena'</b>: cliccando torna alla scena precedentemente visualizzata, <b>'Torna alle scene predefinite'</b>: appare solo nella vista cartelle, cliccando apre la navigazione scene predefinita, <b>'Disabilitato'</b>: Nessun pulsante torna indietro",
+            "hint": "<b>'Torna all'ultima scena'</b>: cliccando torna alla scena precedentemente visualizzata, <b>'Torna alle scene predefinite'</b>: appare solo nella vista cartelle, cliccando apre la navigazione scene predefinita, <b>'Disabilitato'</b>: Nessun pulsante torna indietro"
           },
           "useScenePreview": {
             "label": "Usa Anteprima Scena",
@@ -274,7 +274,7 @@
           },
           "navShowRootFolders": {
             "label": "Mostra le cartelle radice nella navigazione scene",
-            "hint": "Cartelle root dalla directory di scena saranno mostrate nella navigazione scene predefinita. Se hai tante cartelle root, potresti voler disabilitare questa opzione."
+            "hint": "Cartelle radice dalla directory di scena saranno mostrate nella navigazione scene predefinita. Se hai tante cartelle radice, potresti voler disabilitare questa opzione."
           },
           "sceneNavItemWidth": {
             "label": "Larghezza dell'elemento di navigazione",
@@ -311,7 +311,7 @@
       },
       "collapseMacroBar": {
         "label": "Nascondi la barra delle macro",
-        "hint": "Abilita per avere la barra delle macro partire compressa per impostazione predefinita, e mostrarla al passaggio del mouse."
+        "hint": "Abilita per avere la barra delle macro inizialmente compressa per impostazione predefinita e mostrarla al passaggio del mouse."
       },
       "debugMode": {
         "label": "Modalità Debug",
@@ -319,7 +319,7 @@
       },
       "disableUI":{
         "label": "Disabilita UI in questo client",
-        "hint": "Se un giocatore non vuole utilizzare l'interfaccia Carolingian, può disabilitarla. Nessun'altra funzionalità del modulo funzionerà eccetto lo stile scuro nelle carte chat - che può essere disabilitato separatamente."
+        "hint": "Se un giocatore non vuole utilizzare l'interfaccia Carolingian, può disabilitarla. Nessun'altra funzionalità del modulo funzionerà eccetto lo stile scuro nei messaggi chat che può essere disabilitato separatamente."
       }
     },
     "dnd5e": {
