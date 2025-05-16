@@ -1,7 +1,7 @@
 
 body.crlngn-ui{
   --sidebar-tab-height: 48px;
-  --crlngn-margin-bottom: 0px;
+  --current-sidebar-width: var(--right-control-item-size);
 
   &.crlngn-scene-nav #sidebar-tabs {
     padding-top: 52px;
@@ -29,9 +29,6 @@ body.crlngn-ui{
       padding-top: 0;
     }
   }
-
-  
-
   
   .sidebar-tab:not(.sidebar-popout) {
     border-radius: 0;
@@ -197,7 +194,7 @@ body.crlngn-ui{
   }
 
   .settings-sidebar .info .title {
-    font-size: var(--font-size-20);
+    font-size: var(--font-size-22);
     font-weight: 600;
     margin-bottom: 6px;
   }

@@ -29,6 +29,13 @@ body.crlngn-ui{
     }
   }
 
+  /* Hurry Up */
+  &.crlngn-hurry-up {
+    #hurry-up {
+      transform: scale(0.75);
+    }
+  }
+
   /*Filepicker+ */
   #no-filepicker {
     padding: 1em 0.5em;
@@ -46,7 +53,7 @@ body.crlngn-ui{
     button {
       border-radius: 0;
       box-shadow: 0 0 6px inset var(--color-secondary);
-      padding: 4px;
+      padding: 0px 4px;
 
       &:hover {
         background: var(--color-cool-5);
@@ -77,14 +84,20 @@ body.crlngn-ui{
       --crlngn-top-offset: 0px;
     }
     
+    /*
     #ui-middle #combat-dock {
       width: calc(100% - var(--current-sidebar-width) + 50px);
+      margin-left: calc(200px - var(--combatant-portrait-size));
+      min-width: max-content;
+    }*/
+
+    #ui-right #combat-dock {
+      margin-left: calc(200px - var(--combatant-portrait-size));
       min-width: max-content;
     }
 
     #combat-dock {
       margin-top: var(--crlngn-top-offset);
-      margin-left: calc(200px - var(--combatant-portrait-size));
       pointer-events: none;
       z-index: 0;
   
@@ -120,13 +133,16 @@ body.crlngn-ui{
       font-family: var(--crlngn-font-titles);
       font-size: var(--font-size-20);
     }
+    #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper h3 {
+      font-size: var(--font-size-20);
+    }
     #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper i {
-      font-size: var(--font-size-11);
+      font-size: var(--font-size-12);
     }
     #tooltip.combat-dock-tooltip{
       padding: 0;
       border: 0;
-      background: var(--color-dark-bg-90);
+      /*background: var(--color-dark-bg-90);*/
       box-shadow: none;
       max-width: 280px;
       margin-top: 40px;
@@ -226,5 +242,136 @@ body.crlngn-ui{
       min-height: 2em;
     }
   }
+
+  /* CRUX */
+
+  &.crux-taskbar-compat #crux, #crux{
+    --ft-height: var(--crlngn-margin-bottom);
+  }
+  &.crux-taskbar-compat #crux, #crux {
+    min-height: calc(100vh - var(--ft-height)) !important;
+  }
+
+  &.crlngn-crux {
+    /*
+    &.crux-taskbar-compat .crux__container, &.crlngn-crux.crux-taskbar-compat .crux__empty-tray {
+      height: calc(100vh - var(--ft-bottom)) !important;
+    }
+    #crux {
+      height: calc(100vh - var(--ft-bottom)) !important;
+    }*/
+    &.crux-taskbar-compat #crux, #crux {
+      .crux__container {
+        border-right: 1px solid rgba(0,0,0,0.75);
+        background-color: rgba(0,0,0,0.8);
+
+        h1{
+          font-family: var(--crlngn-font-titles) !important;
+          line-height: 1.15;
+        }
+      }
+
+      .crux__top-section{
+        padding: 0;
+      }
+      h2.crux__section-header{
+        font-family: var(--crlngn-font-titles) !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+
+        &:after {
+          content: "Width: " var(--crux-width) " | Ratio: " var(--crux-width-ratio) " | Multiplier: " var(--header-multiplier);
+          display: inline-block;
+        }
+      }
+      .crux__skill-header{
+        font-family: var(--crlngn-font-titles) !important;
+      }
+
+      .crux__group-header {
+        h3, h2 {
+          border-bottom: 1px solid rgba(255,255,255,0.15) !important;
+          font-family: var(--crlngn-font-titles) !important;
+          padding-bottom: 0.25em;
+
+        }
+      }
+
+      .crux__item {
+        padding: 0 4px !important;
+      }
+      .crux__item .item-name h4 {
+        font-family: var(--crlngn-font-family) !important;
+      }
+      .crux__item .item-name h3,
+      .crux__group-header h3 {
+        font-family: var(--crlngn-font-family) !important;
+      }
+
+      .crux__utility-button,
+      .crux__action-button,
+      .crux__end-turn-button {
+        font-family: var(--crlngn-font-family) !important;
+        padding: 4px !important;
+        border: none !important;
+      }
+
+      .crux__utility-button,
+      .crux__action-button,
+      .crux__action-button img {
+        border: none !important;
+      }
+
+      .crux__actor .group-dots .dot {
+        width: 8px !important;
+        height: 8px !important;
+        margin-left: 2px !important;
+      }
+
+      .crux__item .flag {
+        margin-left: 2px !important;
+        filter: saturate(0.7) !important;
+        transform: scale(0.9) !important;
+      }
+    }
+  }
+
+  /* Taskbar */
+  #taskbar #hotbar {
+    #hotbar-collapse-btn{
+      height: 100%;
+
+      &:before {
+        transform: rotate(-90deg);
+      }
+    }
+
+    button.hotbar-page-control::before {
+      transform: scaleY(0.65);
+    }
+    button.hotbar-page-control.page-prev::before {
+      transform: scaleY(-0.65);
+    }
+  }
+  
+  #taskbar #hotbar.collapsed {
+    > *:not(#hotbar-controls-right){
+      display: none;
+    }
+
+    #hotbar-controls-right{
+      > *{ 
+        display: none; 
+      }
+
+      #hotbar-collapse-btn{
+        display: flex;
+      }
+    }
+    
+  }
+
 
 }

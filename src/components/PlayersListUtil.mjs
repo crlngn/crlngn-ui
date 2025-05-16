@@ -75,7 +75,6 @@ export class PlayersList {
     }else{
       document.querySelector("#players.crlngn-ui")?.classList.remove("minimized");
     }
-    ModuleCompatUtil.checkPlayersList();
   }
 
   /**
@@ -113,8 +112,6 @@ export class PlayersList {
       });
       htmlPlayers?.classList.remove("crlngn-avatars");
     }
-
-    ModuleCompatUtil.checkPlayersList();
   }
 
 }

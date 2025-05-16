@@ -1,12 +1,12 @@
 // import * as lang from '../lang/en.json';
-import { PlayersListSettings } from '../components/settings-dialogs/PlayersListSettings.mjs';
-import { CameraDockSettings } from '../components/settings-dialogs/CameraDockSettings.mjs';
-import { ChatMessagesSettings } from '../components/settings-dialogs/ChatMessagesSettings.mjs';
-import { CustomFontsSettings } from '../components/settings-dialogs/CustomFontSettings.mjs';
-import { LeftControlsSettings } from '../components/settings-dialogs/LeftControlsSettings.mjs';
-import { SceneNavSettings } from '../components/settings-dialogs/SceneNavSettings.mjs';
-import { ThemeAndStyleSettings } from '../components/settings-dialogs/ThemeAndStylesSettings.mjs';
-import { InterfaceElementsSettings } from '../components/settings-dialogs/InterfaceElementsSettings.mjs';
+import { PlayersListSettings } from '../components/settings-dialogs/_bkp_PlayersListSettings.mjs';
+import { CameraDockSettings } from '../components/settings-dialogs/_bkp_CameraDockSettings.mjs';
+import { ChatMessagesSettings } from '../components/settings-dialogs/_bkp_ChatMessagesSettings.mjs';
+import { CustomFontsSettings } from '../components/settings-dialogs/_bkp_CustomFontSettings.mjs';
+import { LeftControlsSettings } from '../components/settings-dialogs/_bkp_LeftControlsSettings.mjs';
+import { SceneNavSettings } from '../components/settings-dialogs/_bkp_SceneNavSettings.mjs';
+import { ThemeAndStyleSettings } from '../components/settings-dialogs/_bkp_ThemeAndStylesSettings.mjs';
+import { InterfaceElementsSettings } from '../components/settings-dialogs/_bkp_InterfaceElementsSettings.mjs';
 import { ModuleSettings } from '../components/settings-dialogs/ModuleSettings.mjs';
 // import * as lang from '../lang/en.json' assert { type: "json" };
 
@@ -22,6 +22,7 @@ export function getSettingMenus() {
       propType: ModuleSettings,
       restricted: false
     },
+    /*
     interfaceOptionsMenu: {
       tab: 'interface',
       tag: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.label"),
@@ -102,5 +103,6 @@ export function getSettingMenus() {
       propType: CameraDockSettings,
       restricted: false
     }
+    */
   };
 }

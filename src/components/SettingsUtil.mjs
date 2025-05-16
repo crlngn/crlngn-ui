@@ -260,6 +260,7 @@ export class SettingsUtil {
       value = SettingsUtil.get(settingTag);
     }
     LogUtil.log("SettingsUtil.apply",[settingTag, value, SettingsUtil.get(settingTag)]); 
+    
     switch(settingTag){
       case SETTINGS.disableUI.tag:
         location.reload();

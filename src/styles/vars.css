@@ -15,6 +15,7 @@ Main Theme
     --crlngn-font-journal-body: "Work Sans", Arial, sans-serif;
     --crlngn-font-journal-title: "Quattrocento", Arial, sans-serif;
     --crlngn-font-serif: "Quattrocento", Arial, sans-serif;
+    --font-size-22: 1.325rem;
   }
 
   body.crlngn-ui {

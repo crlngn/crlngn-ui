@@ -9,7 +9,7 @@
       "reloadRequiredTitle": "Reload Foundry",
       "reloadRequiredLabel": "A reload is required. Reload now?",
       "macroBarTooltipKeepOpen": "Keep open",
-      "macroBarTooltipAutoHide": "Auto-hide",
+      "macroBarTooltipAutoHide": "Hide",
       "reset": "Reset",
       "save": "Save",
       "reloadButton": "Reload",

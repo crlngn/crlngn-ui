@@ -27,6 +27,7 @@ export class TopNavigation {
   static #navBtnsTimeout;
   static #navFirstLoad = true;
   static #sceneClickTimer = null;
+  static #sceneHoverTimeout = null;
   static #previewedScene = '';
   static #visitedScenes = [];
   // settings
@@ -194,8 +195,6 @@ export class TopNavigation {
       SceneNavFolders.init();
       SceneNavFolders.renderFolderList();
     }
-    
-    LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV);
     
     if(TopNavigation.sceneNavEnabled){
       clearTimeout(TopNavigation.#timeout);
@@ -417,7 +416,7 @@ export class TopNavigation {
       if(collapsed===true){
         ui.nav.collapse();
         TopNavigation.isCollapsed = true;
-        LogUtil.log("toggleNav collapse", [collapsed, TopNavigation.navStartCollapsed]);
+        LogUtil.log("toggleNav collapse", [ui.nav.collapse, collapsed, TopNavigation.navStartCollapsed]);
         const existingButtons = document.querySelectorAll("#ui-left .crlngn-btn");
         existingButtons.forEach(b => b.remove());
       }else if(collapsed===false){
@@ -779,17 +778,23 @@ export class TopNavigation {
   static onScenePreviewOn = (evt) => {
     evt.stopPropagation();
     evt.preventDefault();
+    if(!TopNavigation.showNavOnHover){ return; }
+
     const target = evt.currentTarget;
     const data = target.dataset;
     TopNavigation.#previewedScene = data.sceneId;
+    TopNavigation.#sceneHoverTimeout = setTimeout(() => {
+      clearTimeout(TopNavigation.#sceneHoverTimeout);
+      target.querySelector(".scene-preview").classList.add('open');
+    }, 200);
     LogUtil.log("onScenePreviewOn", [TopNavigation.#previewedScene]);
-
-    target.querySelector(".scene-preview").classList.add('open');
   }
 
   static onScenePreviewOff = (evt) => {
     evt.stopPropagation();
     evt.preventDefault();
+    clearTimeout(TopNavigation.#sceneHoverTimeout);
+    if(!TopNavigation.showNavOnHover){ return; }
     const target = evt.currentTarget;
     TopNavigation.#previewedScene = '';
     LogUtil.log("onScenePreviewOff", []);

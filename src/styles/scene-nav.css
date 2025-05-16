@@ -8,16 +8,23 @@ body.crlngn-ui {
   --folder-list-width: 200px;
   --scene-nav-item-width: calc(var(--font-size-10) * 18);
   --folder-nav-item-width: var(--control-item-size);
-  --nav-btn-width: calc(var(--control-item-size) * 3);
+  --nav-btn-width: calc(var(--control-item-size) * 2);
   --interface-width: calc(100vw / var(--ui-scale));
-  --scene-nav-full-width: calc( var(--interface-width) - 2px);
-  --scene-nav-partial-width: calc(var(--interface-width) - var(--sidebar-width));
   --scene-nav-curr-width: var(--scene-nav-full-width);
   --default-color: var(--color-dark-1);
 
-  &.crlngn-tabs{
-    --scene-nav-full-width: calc( var(--interface-width) - var(--nav-btn-width));
-    --scene-nav-partial-width: calc(var(--interface-width) - var(--nav-btn-width) - var(--sidebar-width));
+  #interface{
+    --crlngn-crux-width: 0px;
+    --scene-nav-full-width: calc( var(--interface-width) - var(--crlngn-crux-width, 0px) - 2px);
+    --scene-nav-partial-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--sidebar-width));
+    &.crux-active{
+      --crlngn-crux-width: var(--crux-width);
+    }
+  }
+
+  &.crlngn-tabs #interface{
+    --scene-nav-full-width: calc( var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--nav-btn-width));
+    --scene-nav-partial-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--nav-btn-width) - var(--sidebar-width));
   }
 
   #ui-left-column-2{
@@ -124,7 +131,8 @@ body.crlngn-ui {
       padding-left: var(--control-item-size);
       overflow: scroll;
       gap: 0;
-      transition: max-width 0.2s ease-out 0s, width 0.2s ease-out 0s;
+      /*transition: max-width 0.2s ease-out 0s, width 0.2s ease-out 0s;*/
+      transition: none;
       margin-left: calc((-1 * var(--controls-column-width)) - 16px);
 
       /* deal with scrollbar */
@@ -793,7 +801,8 @@ body.crlngn-ui {
       width: var(--scene-nav-partial-width);
       max-width: var(--scene-nav-partial-width);
       flex: 0 0 var(--scene-nav-partial-width);
-      transition: max-width 0.4s ease-out 0s, width 0.4s ease-out 0s;
+      /*transition: max-width 0.4s ease-out 0s, width 0.4s ease-out 0s;*/
+      transition: none;
     }
   }
 

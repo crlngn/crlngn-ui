@@ -31,7 +31,7 @@
   <div class="form-group">
     <label for="otherModulesList">{{fields.otherModulesList.label}}</label>
     <input type="checkbox" class="adjustOtherModules" name="adjustOtherModules" {{#if adjustOtherModules}}checked{{/if}} />
-    <input type="text" class="otherModulesList" name="otherModulesList" value="{{{otherModulesList}}}" hidden />
+    <input type="hidden" class="otherModulesList" name="otherModulesList" value="{{{otherModulesList}}}" />
     <p class="hint">{{{fields.otherModulesList.hint}}}</p> 
     <ul class="multiple-select other-modules">
       {{#each fields.otherModulesList.options}}
@@ -47,7 +47,7 @@
     <div class="code-editor-wrapper">
       <textarea name="customStyles" class="code-editor" 
       rows="8" cols="80" wrap="off" placeholder="Write your code here..." 
-      spellcheck="false">{{customStyles}}</textarea>
+      spellcheck="false">{{{customStyles}}}</textarea>
     </div>
     <p class="hint">{{fields.customStyles.hint}}</p>
   </div>

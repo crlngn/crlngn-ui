@@ -51,7 +51,7 @@ export const MIN_AV_WIDTH = 140;
 export const THEMES = [
   {
     label: 'Carolingian Teal',
-    className: '',
+    className: 'crlngn-theme',
     colorPreview: [
       'rgb(62, 62, 88)',
       'rgb(68, 147, 173)'
@@ -220,9 +220,9 @@ export function getSettings() {
         "customStyles"
       ],
       default: {
-        colorTheme: "",
+        colorTheme: "crlngn-theme",
         adjustOtherModules: true,
-        otherModulesList: "'monks-scene-nav','combat-carousel','dice-tray','hurry-up','crux'",
+        otherModulesList: "'combat-carousel','dice-tray','hurry-up','crux'",
         customStyles: ""
       },
       scope: SETTING_SCOPE.world,
@@ -589,7 +589,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.colorTheme.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.colorTheme.hint"),
       propType: String,
-      default: "",
+      default: "crlngn-theme",
       scope: SETTING_SCOPE.world,
       config: false
     },
@@ -599,7 +599,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.adjustOtherModules.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.adjustOtherModules.hint"),
       propType: Boolean,
-      default: false,
+      default: true,
       scope: SETTING_SCOPE.world,
       config: false
     },
@@ -609,13 +609,12 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.hint"),
       propType: String,
-      default:  "'monks-scene-nav','combat-carousel','dice-tray','hurry-up','crux'",
+      default:  "'combat-carousel','dice-tray','hurry-up','crux'",
       options: {
         "Combat Carousel": "'combat-carousel'",
         "Crux": "'crux'",
         "Dice Tray": "'dice-tray'",
-        "Hurry Up": "'hurry-up'",
-        "Monks Scene Navigation": "'monks-scene-nav'",
+        "Hurry Up": "'hurry-up'"
       },
       scope: SETTING_SCOPE.world,
       config: false

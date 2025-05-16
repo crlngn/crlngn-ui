@@ -54,9 +54,14 @@ body.crlngn-ui  {
   .sheet.journal-entry {
     h1, h2, h3 {
       font-family: var(--dnd5e-font-modesto);
+      margin: 1.5em 0 0.5em 0;
     }
     h4, h5, h6 {
       font-family: var(--dnd5e-font-roboto-slab);
+      margin: 1.5em 0 0.5em 0;
+    }
+    .stat-block-finder{
+      margin: 2em 0;
     }
   }
 }
@@ -151,7 +156,7 @@ body.crlngn-ui{
     background: transparent;
   }
   .code-editor-wrapper textarea{
-    --color-text-selection-bg: var(--color-secondary-15);
+    --color-text-selection-bg: var(--color-cool-5);
     font-family: monospace;
     white-space: pre;
     width: calc(100% - 4px);
@@ -408,6 +413,7 @@ body.crlngn-ui{
   .form-content{
     max-height: 70vh;
     overflow: auto;
+    padding: 2px;
   }
   
   &:after{

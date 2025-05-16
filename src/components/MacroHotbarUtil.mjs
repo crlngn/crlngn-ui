@@ -48,7 +48,7 @@ export class MacroHotbar {
   }
 
   static addCollapseButton = async() => {
-    const macroControls = document.querySelector("body.crlngn-ui #hotbar-controls-right");
+    const macroControls = document.querySelector("#hotbar #hotbar-controls-right");
     if(!macroControls) return;
 
     // Render nav buttons template
@@ -97,7 +97,6 @@ export class MacroHotbar {
    * Applies layout setting for the macro hotbar
    */
   static applyHotBarLayout(){
-    const body = document.querySelector("body.crlngn-ui");
     const hotbar = document.querySelector("#hotbar");
 
     if(!hotbar){return;}
@@ -120,22 +119,22 @@ export class MacroHotbar {
       await game.user.setFlag(MODULE_ID, "hotbarCollapsed", MacroHotbar.macroStartCollapsed);
     }
 
-    const macroControls = document.querySelector("body.crlngn-ui #hotbar-controls-right");
+    const macroControls = document.querySelector("#hotbar #hotbar-controls-right");
     const collapseBtn = macroControls?.querySelector("button[data-action=collapse]");
-
-    if(MacroHotbar.macroStartCollapsed){
-      document.querySelector("#hotbar")?.classList.add("collapsed");
+    const hotbar = document.querySelector("#hotbar");
+    if(MacroHotbar.macroStartCollapsed && hotbar){
+      hotbar.classList.add("collapsed");
       if(collapseBtn){
         collapseBtn.classList.remove("fa-angle-down");
         collapseBtn.classList.add("fa-angle-up");
-        collapseBtn.dataset.tooltip = game.i18n.localize("CRLNGNUI.MacroBarTooltipKeepOpen");
+        collapseBtn.dataset.tooltip = game.i18n.localize("CRLNGN_UI.ui.macroBarTooltipKeepOpen");
       }
     } else {
-      document.querySelector("#hotbar")?.classList.remove("collapsed");
+      hotbar?.classList.remove("collapsed");
       if(collapseBtn){
         collapseBtn.classList.add("fa-angle-down");
         collapseBtn.classList.remove("fa-angle-up");
-        collapseBtn.dataset.tooltip = game.i18n.localize("CRLNGNUI.MacroBarTooltipAutoHide");
+        collapseBtn.dataset.tooltip = game.i18n.localize("CRLNGN_UI.ui.macroBarTooltipAutoHide");
       }
     }
   }

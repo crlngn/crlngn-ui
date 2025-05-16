@@ -10,11 +10,12 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
  * Tabbed Settings Menu application for managing all module settings in a unified interface.
  * Provides a tabbed form interface for accessing all settings categories in one place.
  * @extends {HandlebarsApplicationMixin(ApplicationV2)}
- */
+ */ 
 export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   static #element;
   static #activeTab;
   static #requireReload;
+  static selectedTheme;
 
   /**
    * Default application options
@@ -116,23 +117,25 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const SETTINGS = getSettings();
 
     /* add specific data for theme and style fields */
-    const themeFieldNames = SETTINGS.themeAndStylesMenu.fields;
-    const themeFieldValues = {};
-    themeFieldNames.forEach((fieldName) => {
-      if(SETTINGS[fieldName]) {
-        const value = SettingsUtil.get(SETTINGS[fieldName].tag);
-        themeFieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;
-      }
-    });
-    const selectedTheme = THEMES.find(theme => {
-      return theme.className===themeFieldValues.colorTheme
-    });
-    LogUtil.log("selectedTheme", [selectedTheme?.label, THEMES[0].label]);
-    themeFieldValues.colorTheme = selectedTheme?.label || THEMES[0].label;
-    context.selectedTheme = selectedTheme;
+    // const themeFieldNames = SETTINGS.themeAndStylesMenu.fields;
+    // const themeFieldValues = {};
+
+    // themeFieldNames.forEach((fieldName) => {
+    // //   if(SETTINGS[fieldName]) {
+    // //     const value = SettingsUtil.get(SETTINGS[fieldName].tag);
+    // //     themeFieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;
+    // //   }
+
+    // //   if(fieldName==='colorTheme'){
+    // //     ModuleSettings.selectedTheme = THEMES.find(theme => {
+    // //       return theme.className === themeFieldValues.colorTheme;
+    // //     });
+    // //     themeFieldValues.colorTheme = ModuleSettings.selectedTheme?.label;
+    // //   }
+    // });
+    
+    // context.selectedTheme = ModuleSettings.selectedTheme || {};
     context.themes = THEMES;
-
-
 
     /* add specific data for font fields */
     const fonts = await GeneralUtil.getAllFonts();
@@ -148,6 +151,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const SETTINGS = getSettings();
     const SETTINGS_MENUS = getSettingMenus();
     const restrictedTabs = ModuleSettings.getRestrictedTabs();
+
     if(!game.user.isGM){
       restrictedTabs.forEach(tab => {
         delete partContext.tabs[tab];
@@ -191,7 +195,6 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
               const selectedTheme = THEMES.find(theme => {
                 return theme.className===menuContext.fieldValues.colorTheme
               });
-              LogUtil.log("selectedTheme", [selectedTheme?.label, THEMES[0].label]);
               menuContext.fieldValues.colorTheme = selectedTheme?.label || THEMES[0].label;
             }
             Object.assign(partContext, menuContext.fieldValues);
@@ -252,14 +255,14 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
    */
   _onRender = (context, options) => {
     const SETTINGS = getSettings();
-    ModuleSettings.element = this.element;
+    ModuleSettings.#element = this.element;
 
     // add listener to .toggle-hint 
-    const hintToggles = ModuleSettings.element.querySelectorAll('.toggle-hint');
+    const hintToggles = ModuleSettings.#element.querySelectorAll('.toggle-hint');
     LogUtil.log("_onRender", [context, options, this.element]);
     hintToggles.forEach(toggle => {
       toggle.addEventListener('click', () => {
-        ModuleSettings.element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
+        ModuleSettings.#element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
       });
     });
 
@@ -285,35 +288,37 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     event.preventDefault();
     event.stopPropagation();
 
-    const html = ModuleSettings.element;
+    const html = ModuleSettings.#element;
     const activeContent = html.querySelector(".form-content.active");
     const activeTab = activeContent.dataset.tab;
     ModuleSettings.#activeTab = activeTab;
     const menuKey = ModuleSettings.PARTS[activeTab].menuKey;
     if(!menuKey) {
-      console.warn("onSubmit", ["menuKey not defined"]);
+      console.warn("#onSubmit #0", ["menuKey not defined"]);
       return;
     }
     // Convert FormData into an object with proper keys
     const settings = foundry.utils.expandObject(formData.object);
     const fieldNames = SETTINGS[menuKey].fields || [];
+
+    LogUtil.log("#onSubmit #1", [settings]);
     if(menuKey === ModuleSettings.PARTS.themes.menuKey){
       const selectedTheme = THEMES.find(theme => theme.label===settings.colorTheme);
-      settings.colorTheme = selectedTheme ? selectedTheme.className : '';
+      settings.colorTheme = selectedTheme ? selectedTheme.className : THEMES[0].className;
     }
-
+    
     fieldNames.forEach((fieldName) => {
       if(settings[fieldName] !== undefined) {
-        const currSetting = SettingsUtil.set(SETTINGS[fieldName].tag);
-        LogUtil.log("Saving setting:", [fieldName, settings[fieldName]]);
+        const currSetting = SettingsUtil.get(SETTINGS[fieldName].tag);
         SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
+        LogUtil.log("#onSubmit - Saving setting:", [SETTINGS[fieldName].tag, settings[fieldName]]);
         if(SETTINGS[fieldName]?.requiresReload && currSetting !== settings[fieldName]){
           confirmReload = true;
         }
       }
     });
 
-    LogUtil.log("#onSubmit", [event, form, formData]);
+    LogUtil.log("#onSubmit #2", [event, form, formData]);
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
 
     if(confirmReload){
@@ -340,7 +345,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
    */
   static async #onReset(a, b){
     const SETTINGS = getSettings();
-    const html = ModuleSettings.element;
+    const html = ModuleSettings.#element;
     const activeContent = html.querySelector(".form-content.active");
     const activeTab = activeContent.dataset.tab;
     const menuKey = ModuleSettings.PARTS[activeTab].menuKey;
@@ -377,7 +382,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   }
 
   static handleCustomFontFields() {
-    const fontsContent = ModuleSettings.element.querySelector(`.form-content[data-tab=fonts]`);
+    const fontsContent = ModuleSettings.#element.querySelector(`.form-content[data-tab=fonts]`);
     
     if(!fontsContent){ return; }
 
@@ -409,7 +414,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     });
   
     // Handle option selection
-    const dropOptions = ModuleSettings.element.querySelectorAll('.dropdown-option');
+    const dropOptions = ModuleSettings.#element.querySelectorAll('.dropdown-option');
     dropOptions.forEach(option => {
       // Add mouse hover effect that syncs with keyboard highlighting
       option.addEventListener('mouseenter', () => {
@@ -446,7 +451,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   }
 
   static handleThemeAndStyleFields(){
-    const themesContent = ModuleSettings.element.querySelector(`.form-content[data-tab=themes]`);
+    const themesContent = ModuleSettings.#element.querySelector(`.form-content[data-tab=themes]`);
     if(!themesContent){ return; }
     
     // Handle input focus and blur
@@ -477,7 +482,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     });
   
     // Handle option selection
-    const dropOptions = ModuleSettings.element.querySelectorAll('.dropdown-option');
+    const dropOptions = ModuleSettings.#element.querySelectorAll('.dropdown-option');
     const that = this; // Store reference to this for use in event handlers
     
     dropOptions.forEach(option => {
@@ -490,11 +495,11 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         // Add highlight to current option
         option.classList.add('highlighted');
       });
-      
+
       option.addEventListener('click', function(e) {
         LogUtil.log('option', [option, option.querySelector('.theme-name')]);
-        const input = option.closest('.dropdown-wrapper').querySelector('input');
-        let value = option.querySelector('.theme-name').innerHTML.toString();
+        const input = option.closest('.dropdown-wrapper')?.querySelector('input');
+        let value = option.querySelector('.theme-name')?.innerHTML.toString();
         
         // Update the input value
         input.value = value;
@@ -504,6 +509,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
           const selectedTheme = THEMES.find(theme => {
             return theme.label === value;
           });
+          
           // Update any UI elements that depend on selectedTheme
           ModuleSettings.#updateThemePreview(selectedTheme);
         }
@@ -511,11 +517,12 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         const dropdown = option.closest('.dropdown-options');
         dropdown.classList.remove('active');
       });
+      
     });
 
     // add event listeners for each checkbox of 'other modules' list
-    const otherModulesChecks = ModuleSettings.element.querySelectorAll('.multiple-select.other-modules input[type="checkbox"]');
-    const hiddenInputOtherModules = ModuleSettings.element.querySelector('input.otherModulesList');
+    const otherModulesChecks = ModuleSettings.#element.querySelectorAll('.multiple-select.other-modules input[type="checkbox"]');
+    const hiddenInputOtherModules = ModuleSettings.#element.querySelector('input.otherModulesList[type="hidden"]');
     otherModulesChecks.forEach(checkbox => {
       checkbox.addEventListener("change", (evt) => {
         const tgt = evt.currentTarget;
@@ -533,17 +540,27 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       })
     });
 
-
-      // listen for toggle all / untoggle all checkbox
-      const toggleModulesCheckbox = ThemeAndStyleSettings.element.querySelector('input.adjustOtherModules');
-      toggleModulesCheckbox.addEventListener("change", (evt) => {
-        const checkboxes = ThemeAndStyleSettings.element.querySelectorAll('.multiple-select.other-modules input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-          checkbox.checked = evt.currentTarget.checked;
-          const event = new Event('change', { bubbles: true });
-          checkbox.dispatchEvent(event);
-        })
+    // listen for toggle all / untoggle all checkbox
+    const toggleModulesCheckbox = ModuleSettings.#element.querySelector('input.adjustOtherModules');
+    toggleModulesCheckbox.addEventListener("change", (evt) => {
+      const checkboxes = ModuleSettings.#element.querySelectorAll('.multiple-select.other-modules input[type="checkbox"]');
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = evt.currentTarget.checked;
+        const event = new Event('change', { bubbles: true });
+        checkbox.dispatchEvent(event);
+      })
+      const selectedValues = [];
+      const hiddenInputOtherModules = ModuleSettings.#element.querySelector('input.otherModulesList[type="hidden"]');
+      checkboxes.forEach(checkbox => {
+        if(checkbox.checked){
+          selectedValues.push(checkbox.value);
+        }
       });
+      hiddenInputOtherModules.value = selectedValues.join(",");
+      if(selectedValues.length === 0){
+        toggleModulesCheckbox.checked = false;
+      }
+    });
   }
 
   /**
@@ -552,7 +569,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
    * @static
    */
   static #closeAllDropdowns() {
-    ModuleSettings.element.querySelectorAll('.dropdown-options').forEach(dropdown => {
+    ModuleSettings.#element.querySelectorAll('.dropdown-options').forEach(dropdown => {
       dropdown.classList.remove('active');
     });
   }
@@ -618,7 +635,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     
     if (!theme) return;
     
-    const selectedThemeSpan = this.element.querySelectorAll('span.selected-theme');
+    const selectedThemeSpan = ModuleSettings.#element.querySelectorAll('span.selected-theme');
 
     selectedThemeSpan.forEach((span,i) => {
       span.style.setProperty('background-color', theme.colorPreview[i]);

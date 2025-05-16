@@ -8,11 +8,14 @@
       "navDisabled": "场景导航已在\"元素\"选项卡中禁用。以下设置将在自定义布局为场景导航时生效。",
       "reloadRequiredTitle": "重新加载Foundry",
       "reloadRequiredLabel": "需要重新加载。现在重新加载？",
+      "macroBarTooltipKeepOpen": "保持打开",
+      "macroBarTooltipAutoHide": "自动隐藏",
       "reset": "重置",
       "save": "保存",
       "reloadButton": "重新加载",
       "cancelButton": "取消",
       "notifications": {
+        "incompatibleVersion": "Carolingian UI 需要 Foundry v13.339 或更高版本。请更新 Foundry 或安装 Carolingian UI 的 1.x 版本。",
         "settingsUpdated": "设置已更新",
         "minimalUiNotSupported": "Carolingian UI与Minimal UI不兼容，并提供了大多数的功能。请禁用该模块以避免性能问题。",
         "monksScenesNotSupported": "Carolingian UI的水平场景导航将无法与Monk的场景导航一起使用，因此此功能已被禁用。",
@@ -156,6 +159,23 @@
         "reset": "重置",
         "save": "保存"
       },
+      "playersListMenu": {
+        "label": "玩家列表",
+        "title": "玩家列表选项",
+        "hint": "更改玩家列表的行为或添加头像",
+        "fields": {
+          "autoHidePlayerList": {
+            "label": "自动隐藏玩家列表",
+            "hint": "启用后，左下角的玩家列表将保持最小化，除非悬停。"
+          },
+          "playerListAvatars": {
+            "label": "显示头像",
+            "hint": "显示玩家头像。它会查找角色图像，或者如果没有分配角色则查找用户图像。"
+          }
+        },
+        "reset": "重置",
+        "save": "保存"
+      },
       "leftControlsMenu": {
         "label": "左侧控制栏",
         "title": "配置控件",
@@ -211,23 +231,6 @@
         "reset": "重置",
         "save": "保存"
       },
-      "playersListMenu": {
-        "label": "玩家列表",
-        "title": "玩家列表选项",
-        "hint": "更改玩家列表的行为或添加头像",
-        "fields": {
-          "autoHidePlayerList": {
-            "label": "自动隐藏玩家列表",
-            "hint": "启用后，左下角的玩家列表将保持最小化，除非悬停。"
-          },
-          "playerListAvatars": {
-            "label": "显示头像",
-            "hint": "显示玩家头像。它会查找角色图像，或者如果没有分配角色则查找用户图像。"
-          }
-        },
-        "reset": "重置",
-        "save": "保存"
-      },
       "sceneNavMenu": {
         "label": "场景导航",
         "title": "配置导航",
@@ -274,8 +277,8 @@
             "hint": "从场景目录的根文件夹将显示在默认场景导航中。如果你有很多根文件夹，你可能希望禁用此选项。"
           },
           "sceneNavItemWidth": {
-            "label": "Navigation item width",
-            "hint": "Leave empty to use default width, or define a new number. Minimum is 100px"
+            "label": "导航项目宽度",
+            "hint": "留空以使用默认宽度，或定义一个新数值。最小为100px"
           }
         },
         "reset": "重置",
@@ -330,8 +333,8 @@
           "consume": "消耗",
           "refund": "退还",
           "macro": "宏",
-          "savedc": "Save DC",
-          "save": "Save"
+          "savedc": "豁免DC",
+          "save": "豁免"
         }
       }
     }
