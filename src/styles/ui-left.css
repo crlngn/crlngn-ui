@@ -3,7 +3,7 @@
 ----------------- */
 body.crlngn-ui{
 
-  #ui-left.crlngn-controls{
+  #interface.crlngn-controls #ui-left {
     --color-secondary-75: rgba(50, 50, 70, 0.75);
     --icon-font-size: var(--font-size-14);
     --control-size: var(--control-item-size);
@@ -27,7 +27,7 @@ body.crlngn-ui{
   }
 
   #interface{
-    #ui-left.crlngn-controls{
+    &.crlngn-controls #ui-left{
       --control-size: var(--control-item-size);
       padding: 0;
 

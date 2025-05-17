@@ -3,6 +3,7 @@ import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
+import { PlayersList } from "./PlayersListUtil.mjs";
 
 /**
  * Utility class for handling compatibility with other Foundry VTT modules
@@ -14,7 +15,9 @@ export class ModuleCompatUtil {
    * Timeout handle for debouncing players list checks
    */
   static #checkPlayersTimeout;
-  static ytWigdetFadeOut = true;
+  static #ytPlayerInterval;
+  static #ytPlayerIntervalCount = 0;
+  // static ytWigdetFadeOut = true;
   /**
    * Initializes module compatibility features
    * Sets up hooks for players list and taskbar integration
@@ -32,14 +35,31 @@ export class ModuleCompatUtil {
       ui.notifications.warn(game.i18n.localize('CRLNGN_UI.ui.notifications.minimalUiNotSupported'),{ permanent: true });
     }
 
+    Hooks.on(HOOKS_CORE.CLIENT_SETTING_CHANGED, (settings)=>{
+      if(settings.includes('fvtt-youtube-player.windowPosition')) ModuleCompatUtil.handleYTPlayerFadeOut();
+    });
+
+    ModuleCompatUtil.#ytPlayerIntervalCount = 0;
+    ModuleCompatUtil.#ytPlayerInterval = setInterval(() => {
+      if(document.querySelector('#sidebar-video-player') || ModuleCompatUtil.#ytPlayerIntervalCount >= 10){
+        clearInterval(ModuleCompatUtil.#ytPlayerInterval);
+        ModuleCompatUtil.handleYTPlayerFadeOut();
+      }
+      ModuleCompatUtil.#ytPlayerIntervalCount++;
+    }, 200);
+  }
+
+  static handleYTPlayerFadeOut(){
     const isYTPlayerOn = GeneralUtil.isModuleOn('fvtt-youtube-player');
-    if(isYTPlayerOn && ModuleCompatUtil.ytWigdetFadeOut){
-      LogUtil.log("ModuleCompatUtil.init", [document.querySelector('#sidebar-video-player')]);
-      setTimeout(() => {
-        document.querySelector('#sidebar-video-player')?.classList.add('faded-ui');
-      }, 1000);
-    }
+    const ytPlayer = document.querySelector('#sidebar-video-player.tyw-docked');
     
+    
+    LogUtil.log("handleYTPlayerFadeOut", [isYTPlayerOn, PlayersList.useFadeOut, ytPlayer], true);
+    if(isYTPlayerOn && ytPlayer && PlayersList.useFadeOut){
+      document.querySelector('#sidebar-video-player.tyw-docked')?.classList.add('faded-ui');
+    }else if(isYTPlayerOn){
+      document.querySelector('#sidebar-video-player')?.classList.remove('faded-ui');
+    }
   }
 
   static addModuleClasses = () => {
@@ -96,6 +116,4 @@ export class ModuleCompatUtil {
     const ftMoveStyle = document.querySelector("#ft-move-players-macro");
     if(ftMoveStyle){ftMoveStyle.innerHTML = '';}
   }
-
-
 }

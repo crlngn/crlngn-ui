@@ -9,6 +9,7 @@ import { SettingsUtil } from "./SettingsUtil.mjs";
  * Utility class for managing the players list functionality and appearance
  */
 export class PlayersList {
+  static #timeout;
   static useFadeOut = true;
   static customStylesEnabled = true;
   static playerListAvatars = true;
@@ -18,10 +19,10 @@ export class PlayersList {
    * @static
    */
   static init(){
+    LogUtil.log("PlayersList init", [], true);
     Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, PlayersList.onRender); 
-    PlayersList.applyPlayersListSettings();
-    PlayersList.handleFadeOut();
-    LogUtil.log("PlayersList init");
+    // Hooks.on(HOOKS_CORE.READY, PlayersList.onRender); 
+    // PlayersList.applyPlayersListSettings();
   }
 
   static applyFadeOut(useFadeOut){
@@ -30,14 +31,17 @@ export class PlayersList {
   }
 
   static handleFadeOut(component, html, data){
-    const element = html ? html : document.querySelector("#players");
+    const element = html || document.querySelector("#players");
 
-    if(PlayersList.useFadeOut){
-      element?.classList.add("faded-ui");
-    } else {
-      element?.classList.remove("faded-ui");
-    }
-    LogUtil.log("PlayersList handle fade out", [PlayersList.useFadeOut]);
+    PlayersList.#timeout = setTimeout(() => {
+      LogUtil.log("handleFadeOut - PlayersList", [element, PlayersList.useFadeOut]);
+      if(PlayersList.useFadeOut){ 
+        element?.classList.add("faded-ui"); 
+      } else { 
+        element?.classList.remove("faded-ui"); 
+      }
+      ModuleCompatUtil.handleYTPlayerFadeOut();
+    }, 500);
   }
 
   static applyCustomStyle(enabled){
@@ -52,16 +56,17 @@ export class PlayersList {
    * @private
    */
   static onRender(component, html, data){
+    LogUtil.log("PlayersList onRender", [component, html, data]);
     const SETTINGS = getSettings();
+    const htmlPlayers = html || document.querySelector("#players");
     if(PlayersList.customStylesEnabled){ 
-      html.classList.add("crlngn-ui");
+      htmlPlayers?.classList.add("crlngn-ui");
     }else{
-      html.classList.remove("crlngn-ui");
-      return;
+      htmlPlayers?.classList.remove("crlngn-ui");
     }
     PlayersList.applyPlayersListSettings();
     PlayersList.applyAvatars();
-    PlayersList.handleFadeOut(component, html, data);
+    PlayersList.handleFadeOut(component, htmlPlayers, data);
   }
 
   /**
@@ -73,7 +78,7 @@ export class PlayersList {
     if(SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)){
       document.querySelector("#players.crlngn-ui")?.classList.add("minimized");
     }else{
-      document.querySelector("#players.crlngn-ui")?.classList.remove("minimized");
+      document.querySelector("#players")?.classList.remove("minimized");
     }
   }
 

@@ -44,7 +44,7 @@
         "title": "Configurar Opções",
         "hint": "Personalize Carolingian UI, ative ou desative estilos personalizados e outras opções.",
         "tabs": {
-          "interface": "Elementos",
+          "interface": "Elementos da Interface",
           "fonts": "Fontes",
           "themes": "Tema e Estilos",
           "chat": "Chat",
@@ -266,7 +266,7 @@
           },
           "useSceneBackButton": {
             "label": "Habilitar Botão Voltar",
-            "hint": "<b>'Voltar para Cena Anterior'</b>: ao clicar, retorna para a cena anteriormente visualizada, <b>'Voltar para Cenas Padrão'</b>: somente aparece na vista de pasta, ao clicar abre a navegação de cena padrão, <b>'Desabilitado'</b>: Nenhum botão Voltar",
+            "hint": "<b>'Voltar para Cena Anterior'</b>: ao clicar, retorna para a cena anteriormente visualizada, <b>'Voltar para Cenas Padrão'</b>: somente aparece na vista de pasta, ao clicar abre a navegação de cena padrão, <b>'Desabilitado'</b>: Nenhum botão Voltar"
           },
           "useScenePreview": {
             "label": "Usar Previsualização de Cena",

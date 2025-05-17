@@ -133,31 +133,40 @@ Main Theme
       --default-color: var(--color-light-1);
     }
     
-    &.theme-dark
-    .chat-log.theme-dark,
+    
+    &.theme-dark,
+    &.theme-dark .chat-log,
     #interface.theme-dark{
+      --chat-dark-blue: rgba(24, 32, 38, 1);
+      --input-background-alt: var(--color-dark-bg-50);
+      --color-text-secondary: var(--color-dark-1);
+
       --color-control-bg: rgba(15, 15, 15, 0.15);
-      --color-button-bg: rgba(32, 47, 58, 1);
+      --color-bg-button: rgba(37, 40, 48, 1);
       --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.35);
       --dnd5e-color-parchment: rgb(37, 40, 48);
       --dnd5e-background-card: rgb(37, 40, 48); 
-
+    }
+    
+    &.theme-dark,
+    &.theme-dark .chat-log,
+    #interface.theme-dark{
       --color-pf-alternate: rgba(82, 107, 120, 0.44);
       --color-text-gray-blue: rgb(168, 180, 188, 1);
       --color-text-gray-blue-b: rgb(138, 155, 168, 1);
-      --chat-button-bg: rgba(32, 47, 58, 1);
-      --chat-button-bg-15: rgba(32, 47, 58, 0.15);
-      --chat-button-bg-25: rgba(32, 47, 58, 0.25);
-      --chat-button-bg-50: rgba(32, 47, 58, 0.5);
-      --chat-button-bg-75: rgba(32, 47, 58, 0.75);
+      --chat-button-bg: rgba(37, 40, 48, 1);
+      --chat-button-bg-15: rgba(37, 40, 48, 0.15);
+      --chat-button-bg-25: rgba(37, 40, 48, 0.25);
+      --chat-button-bg-50: rgba(37, 40, 48, 0.5);
+      --chat-button-bg-75: rgba(37, 40, 48, 0.75);
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --chat-dark-blue-b: rgb(29, 36, 48, 1); 
       --chat-dark-bg: rgba(37, 40, 48, 1); 
-      --chat-dark-bg-15: rgba(32, 47, 58, 0.15);
-      --chat-dark-bg-25: rgba(32, 47, 58, 0.25);
-      --chat-dark-bg-50: rgba(32, 47, 58, 0.50); 
-      --chat-dark-bg-75: rgba(32, 47, 58, 0.75); 
-      --chat-dark-bg-90: rgba(32, 47, 58, 0.90); 
+      --chat-dark-bg-15: rgba(37, 40, 48, 0.15);
+      --chat-dark-bg-25: rgba(37, 40, 48, 0.25);
+      --chat-dark-bg-50: rgba(37, 40, 48, 0.50); 
+      --chat-dark-bg-75: rgba(37, 40, 48, 0.75); 
+      --chat-dark-bg-90: rgba(37, 40, 48, 0.90); 
 
       --color-input-bg: var(--color-dark-bg-50); 
     
@@ -213,7 +222,7 @@ Main Theme
     --color-text-selection-bg: var(--color-cool-5);
 
     &.theme-light,
-    .chat-log.theme-light,
+    &.theme-light .chat-log,
     #interface.theme-light{
       --color-control-bg: rgba(250, 250, 250, 0.15);
       --color-bg-button: rgba(244, 239, 237,0.9);
@@ -223,7 +232,6 @@ Main Theme
       --input-background-alt: rgba(244, 239, 237,1);
       --color-text-secondary: var(--color-dark-1);
     }
-
     .application.theme-light, 
     .themed.theme-light{
       --sidebar-background: var(--control-bg-color);
@@ -271,7 +279,7 @@ Main Theme
     --color-warm-2: rgb(78, 139, 158);
     --color-warm-3: rgb(60, 120, 146);
 
-    .chat-log.theme-dark,
+    &.theme-dark .chat-log,
     #interface.theme-dark {
       .application{
         --color-fieldset-border: var(--color-cool-4);
@@ -361,7 +369,7 @@ body.crlngn-ui.crlngn-theme-gold-chocolate.game .app {
   --color-underline-active: rgba(164, 138, 51, 1);
 	--color-text-hyperlink: rgb(172, 141, 40);
 
-  .chat-log.theme-dark,
+  &.theme-dark .chat-log,
   #interface.theme-dark{
     --color-secondary: rgb(34, 25, 25);
     --color-secondary-bright: rgba(125, 109, 109, 1);
@@ -423,7 +431,7 @@ body.crlngn-ui.crlngn-theme-royal-blood.game .app {
   --color-underline-active: rgba(152, 33, 37, 1);
 	--color-text-hyperlink: rgb(186, 62, 62);
 
-  .chat-log.theme-dark,
+  &.theme-dark .chat-log,
   #interface.theme-dark{
     --color-secondary: rgb(40, 31, 49);
     --color-secondary-bright: rgba(123, 111, 133, 1);
@@ -486,7 +494,7 @@ body.crlngn-ui.crlngn-theme-dark-sorcery.game .app {
   --color-underline-active: rgba(126, 100, 165, 1);
 	--color-text-hyperlink: rgb(175, 145, 202);
 
-  .chat-log.theme-dark,
+  &.theme-dark .chat-log,
   #interface.theme-dark{
     --color-secondary: rgb(31, 47, 49);
     --color-secondary-bright: rgba(97, 121, 123, 1);
@@ -550,7 +558,7 @@ body.crlngn-ui.crlngn-theme-pumpkin-patch.game .app {
   --color-underline-active: rgba(220, 120, 43, 1);
 	--color-text-hyperlink: rgb(220, 120, 43);
 
-  .chat-log.theme-dark,
+  &.theme-dark .chat-log,
   #interface.theme-dark{
     --color-secondary: rgb(40, 31, 49);
     --color-secondary-bright: rgba(126, 113, 138, 1);
@@ -613,7 +621,7 @@ body.crlngn-ui.crlngn-theme-gambits-blue.game .app {
   --color-underline-active: rgba(45, 126, 207, 1);
 	--color-text-hyperlink: rgb(175, 145, 202);
 
-  .chat-log.theme-dark,
+  &.theme-dark .chat-log,
   #interface.theme-dark{
     --color-secondary: rgb(40, 31, 49);
     --color-secondary-bright: rgba(123, 111, 133, 1);

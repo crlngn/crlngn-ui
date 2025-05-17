@@ -3,6 +3,7 @@ import { getSettingMenus } from "../../constants/SettingMenus.mjs";
 import { LogUtil } from "../LogUtil.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
 import { GeneralUtil } from "../GeneralUtil.mjs";
+import { LeftControls } from "../LeftControlsUtil.mjs";
 
 const { FormDataExtended } = foundry.utils;
 
@@ -33,7 +34,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       resizable: true
     },
     position: {
-      width: 640,
+      width: 700,
       height: "auto"
     },
     actions: {
@@ -76,6 +77,10 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     players: {
       menuKey: "playersListMenu",
       template: "modules/crlngn-ui/templates/players-list-settings.hbs"
+    },
+    controls: {
+      menuKey: "leftControlsMenu",
+      template: "modules/crlngn-ui/templates/left-controls-settings.hbs"
     },
     camera: {
       menuKey: "cameraDockMenu",
@@ -289,7 +294,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     event.stopPropagation();
 
     let confirmReload = ModuleSettings.updateSettings(formData);
-    
+
     if(confirmReload){
       GeneralUtil.confirmReload();
     }
@@ -323,18 +328,15 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       if(settings[fieldName] !== undefined) {
         const currSetting = SettingsUtil.get(SETTINGS[fieldName].tag);
         SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
-        LogUtil.log("#onSubmit - Saving setting:", [SETTINGS[fieldName].tag, settings[fieldName]]);
+        LogUtil.log("#onSubmit - setting:", [fieldName, settings[fieldName]]);
 
         if(SETTINGS[fieldName]?.requiresReload && currSetting !== settings[fieldName]){
           confirmReload = true;
         }
       }
     });
-    
-    LogUtil.log("#onSubmit #2", [formData]);
 
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
-
     return confirmReload;
   }
 

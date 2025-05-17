@@ -66,13 +66,13 @@ export class Main {
       //   SceneNavFolders.init();
       // }
 
+      PlayersList.init(); 
       TopNavigation.init();
       CameraDockUtil.init(); 
       LeftControls.init();
       ChatLogControls.init();
       ChatUtil.init();
       SidebarTabs.init();
-      PlayersList.init(); 
       MacroHotbar.init(); 
       // TokenWheel.init();
 
@@ -91,8 +91,8 @@ export class Main {
 
       CustomHandlebarsHelpers.init();
       PlayersList.applyPlayersListSettings(); 
-      ModuleCompatUtil.init();
       // TopNavigation.checkSceneNavCompat();
+      ModuleCompatUtil.init();
       UpdateNewsUtil.init();
       
       const chatStylesEnabled = SettingsUtil.get(SETTINGS.enableChatStyles.tag);

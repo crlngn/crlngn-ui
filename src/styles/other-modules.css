@@ -217,7 +217,7 @@ body.crlngn-ui{
     margin: 0 16px 8px 16px;
   }
   &.crlngn-fvtt-youtube-player{
-    #ui-left.crlngn-controls #sidebar-video-player{
+    #interface.crlngn-controls #sidebar-video-player{
       margin: 0 0 8px 0;
     }
 
@@ -313,10 +313,12 @@ body.crlngn-ui{
       }
       .crux__item .item-name h4 {
         font-family: var(--crlngn-font-family) !important;
+        font-weight: 500 !important;
       }
       .crux__item .item-name h3,
       .crux__group-header h3 {
         font-family: var(--crlngn-font-family) !important;
+        font-weight: 500 !important;
       }
 
       .crux__utility-button,

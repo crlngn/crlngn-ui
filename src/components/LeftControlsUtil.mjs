@@ -88,11 +88,11 @@ export class LeftControls {
   static initSceneControls(component, html, data){
     LogUtil.log("initSceneControls", [])
     LeftControls.resetLocalVars();
+    const ui = document.querySelector("#interface");
     if(LeftControls.customStylesEnabled){
-      LeftControls.#uiLeft.classList.add("crlngn-controls");
-      // LeftControls.observeControlsWidth();
+      ui?.classList.add("crlngn-controls");
     }else{
-      LeftControls.#uiLeft.classList.remove("crlngn-controls");
+      ui?.classList.remove("crlngn-controls");
     }
     LeftControls.handleFadeOut(component, html, data);
   }

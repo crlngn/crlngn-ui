@@ -337,7 +337,8 @@ export class SettingsUtil {
         TopNavigation.useScenePreview = value;
         ui.nav?.render(); break;
       case SETTINGS.navStartCollapsed.tag:
-        TopNavigation.navStartCollapsed = value; break;
+        TopNavigation.navStartCollapsed = value; 
+        ui.nav?.render(); break;
       case SETTINGS.showNavOnHover.tag:
         TopNavigation.showNavOnHover = value; break;
       case SETTINGS.sceneNavCollapsed.tag:
@@ -345,7 +346,7 @@ export class SettingsUtil {
       case SETTINGS.colorTheme.tag:
         SettingsUtil.applyThemeSettings(); break;
       case SETTINGS.customStyles.tag:
-        SettingsUtil.applyCustomCSS(); break;
+        SettingsUtil.applyCustomCSS(value); break;
       case SETTINGS.adjustOtherModules.tag:
         SettingsUtil.applyModuleAdjustments(value); break;
       case SETTINGS.otherModulesList.tag:

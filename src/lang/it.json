@@ -44,7 +44,7 @@
         "title": "Configura Opzioni",
         "hint": "Personalizza Carolingian UI, abilita o disabilita stili personalizzati e altre opzioni.",
         "tabs": {
-          "interface": "Elementi",
+          "interface": "Interfaccia Elementi",
           "fonts": "Font",
           "themes": "Tema e Stili",
           "chat": "Chat",

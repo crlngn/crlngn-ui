@@ -12,20 +12,36 @@ body.crlngn-ui {
   --interface-width: calc(100vw / var(--ui-scale));
   --scene-nav-curr-width: var(--scene-nav-full-width);
   --default-color: var(--color-dark-1);
+  --controls-width: calc(var(--control-item-size, 0px) * 0);
 
-  #interface{
-    --crlngn-crux-width: 0px;
-    --scene-nav-full-width: calc( var(--interface-width) - var(--crlngn-crux-width, 0px) - 2px);
-    --scene-nav-partial-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--sidebar-width));
-    &.crux-active{
-      --crlngn-crux-width: var(--crux-width);
+  &.crlngn-tabs{
+    --controls-width: calc(var(--control-item-size, 0px) * 1);
+  }
+
+  &.crlngn-tabs{
+    #interface.crlngn-controls{
+      --controls-width: calc(var(--control-item-size, 0px) * 2);
     }
   }
 
+  #interface{
+    &.crlngn-controls{
+      --controls-width: calc(var(--control-item-size, 0px) * 1);
+    }
+    
+    &.crux-active{
+      --crlngn-crux-width: var(--crux-width);
+    }
+    --crlngn-crux-width: 0px;
+    --scene-nav-full-width: calc( var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--controls-width));
+    --scene-nav-partial-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--sidebar-width) - var(--controls-width));
+  }
+
+  /*
   &.crlngn-tabs #interface{
     --scene-nav-full-width: calc( var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--nav-btn-width));
     --scene-nav-partial-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--nav-btn-width) - var(--sidebar-width));
-  }
+  }*/
 
   #ui-left-column-2{
     padding-top: 16px;
@@ -356,7 +372,7 @@ body.crlngn-ui {
       justify-content: center;
       border-radius: 0;
       border: 1px solid transparent;
-      right: calc(var(--control-item-size) * 2);
+      right: calc(var(--control-item-size) * 0);
       left: auto;
       top: 0;
       margin: 0;
@@ -365,7 +381,7 @@ body.crlngn-ui {
       position: absolute;
 
       &.ui-nav-left{
-        right: calc(var(--control-item-size) * 3);
+        right: calc(var(--control-item-size) * 1);
       }
 
       &:active,

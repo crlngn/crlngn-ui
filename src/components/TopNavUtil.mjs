@@ -48,6 +48,8 @@ export class TopNavigation {
   static init = () => {
     const SETTINGS = getSettings();
 
+    // execute on render scene navigation
+    Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, TopNavigation.onRender);
     // Load settings first
     TopNavigation.navStartCollapsed = SettingsUtil.get(SETTINGS.navStartCollapsed.tag);
     TopNavigation.showNavOnHover = SettingsUtil.get(SETTINGS.showNavOnHover.tag);
@@ -57,27 +59,51 @@ export class TopNavigation {
     TopNavigation.navFoldersForPlayers = SettingsUtil.get(SETTINGS.navFoldersForPlayers.tag);
     TopNavigation.isCollapsed = TopNavigation.navStartCollapsed;
 
-    LogUtil.log("SCENE NAV INIT", [TopNavigation.sceneNavEnabled]);
+    LogUtil.log("SCENE NAV INIT", [TopNavigation.sceneNavEnabled], true);
     const body = document.querySelector("body");
     if(TopNavigation.sceneNavEnabled){
       body.classList.add("crlngn-scene-nav");
     }else{
       body.classList.remove("crlngn-scene-nav");
-      return;
     }
-    this.checkSceneNavCompat();
-    this.preloadTemplates();
-    SceneNavFolders.init();
+    if(TopNavigation.sceneNavEnabled){
+      this.checkSceneNavCompat();
+      this.preloadTemplates();
+      SceneNavFolders.init();
+      
+      Hooks.on(HOOKS_CORE.READY, () => {
+        TopNavigation.handleSceneFadeOut();
+        if(GeneralUtil.isModuleOn("forien-quest-log")){
+          Hooks.on("questTrackerBoundaries", (boundaries) => boundaries.top = 42);
+        }
+      })
 
-    Hooks.on(HOOKS_CORE.READY, () => {
-      TopNavigation.handleSceneFadeOut();
-      if(GeneralUtil.isModuleOn("forien-quest-log")){
-        Hooks.on("questTrackerBoundaries", (boundaries) => boundaries.top = 42);
-      }
-    })
+      // add class to ui nav when sidebar changes state
+      Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, (sidebar) => { 
+        LogUtil.log(HOOKS_CORE.COLLAPSE_SIDE_BAR, [sidebar]);
+        if(sidebar){TopNavigation.checkSideBar(sidebar.expanded);}
+        TopNavigation.placeNavButtons();
+      }); 
 
-    // execute on render scene navigation
-    Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, TopNavigation.onRender);
+      // re-add buttons when scene nav collapses or expands
+      Hooks.on(HOOKS_CORE.COLLAPSE_SCENE_NAV, (nav, collapsed) => {
+        clearTimeout(TopNavigation.#timeout);
+        TopNavigation.isCollapsed = collapsed;
+        if(collapsed){
+          const existingButtons = document.querySelectorAll("#ui-left .crlngn-btn");
+          existingButtons.forEach(b => b.remove());
+        }
+        
+        TopNavigation.#timeout = setTimeout(()=>{
+          TopNavigation.setCollapsedClass(collapsed);
+        }, 250);
+      });
+
+      // execute once on start
+      if(ui.sidebar){TopNavigation.checkSideBar(ui.sidebar.expanded);}
+      TopNavigation.placeNavButtons();
+    }
+
     Hooks.on(HOOKS_CORE.CREATE_SCENE, () => {
       ui.nav.render();
     });
@@ -87,40 +113,19 @@ export class TopNavigation {
     Hooks.on(HOOKS_CORE.DELETE_SCENE, () => {
       ui.nav.render();
     });
+
     Hooks.on(HOOKS_CORE.CANVAS_INIT, ()=>{
       const sceneId = game.scenes?.viewed?.id;
       if(sceneId !== TopNavigation.#visitedScenes[TopNavigation.#visitedScenes.length-1]){
         TopNavigation.#visitedScenes.push(sceneId);
       }
       TopNavigation.handleSceneFadeOut();
-    })
-
-    // add class to ui nav when sidebar changes state
-    Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, (sidebar) => { 
-      LogUtil.log(HOOKS_CORE.COLLAPSE_SIDE_BAR, [sidebar]);
-      if(sidebar){TopNavigation.checkSideBar(sidebar.expanded);}
-      TopNavigation.placeNavButtons();
-    }); 
-
-    // re-add buttons when scene nav collapses or expands
-    Hooks.on(HOOKS_CORE.COLLAPSE_SCENE_NAV, (nav, collapsed) => {
-      clearTimeout(TopNavigation.#timeout);
-      TopNavigation.isCollapsed = collapsed;
-      if(collapsed){
-        const existingButtons = document.querySelectorAll("#ui-left .crlngn-btn");
-        existingButtons.forEach(b => b.remove());
-      }
-      
-      TopNavigation.#timeout = setTimeout(()=>{
-        TopNavigation.setCollapsedClass(collapsed);
-      }, 250);
     });
 
     // Hooks.on(HOOKS_CORE.RENDER_DOCUMENT_DIRECTORY, (directory) => {
     Hooks.on(HOOKS_CORE.RENDER_SCENE_DIRECTORY, (directory) => {
       LogUtil.log(HOOKS_CORE.RENDER_SCENE_DIRECTORY,[directory]);
       // if(directory.entryType !== "Scene") return;
-      
       const sceneNav = document.querySelector('#scenes .directory-list');
 
       // apply settings to scene directory
@@ -154,9 +159,6 @@ export class TopNavigation {
       });
     });
 
-    // execute once on start
-    if(ui.sidebar){TopNavigation.checkSideBar(ui.sidebar.expanded);}
-    TopNavigation.placeNavButtons();
   }
 
   static applyFadeOut(useFadeOut){
@@ -175,10 +177,9 @@ export class TopNavigation {
   static onRender = (nav, navHtml, navData) => {
     const SETTINGS = getSettings();
     const scenePage = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
-    LogUtil.log(HOOKS_CORE.RENDER_SCENE_NAV , [navHtml]);
+    LogUtil.log("onRender - "+HOOKS_CORE.RENDER_SCENE_NAV, [navHtml], true);
 
     TopNavigation.resetLocalVars();
-    TopNavigation.handleSceneFadeOut(nav, navHtml, navData);
     if(TopNavigation.sceneNavEnabled){
       TopNavigation.handleBackButton(nav, navHtml, navData);
       TopNavigation.handleSceneList(nav, navHtml, navData);
@@ -203,6 +204,7 @@ export class TopNavigation {
         TopNavigation.placeNavButtons();
       }, 500);
     }
+    TopNavigation.handleSceneFadeOut(nav, navHtml, navData);
   }
 
   static setCollapsedClass = (collapsed) => {
@@ -341,17 +343,21 @@ export class TopNavigation {
    * @returns {void}
    */
   static handleBackButton(nav, navHtml, navData){
-    if(game.scenes.size < 2){ return; }
     const SETTINGS = getSettings();
     LogUtil.log("handleBackButton",[nav, navHtml, navData]);
-    if(!TopNavigation.useSceneBackButton){ return; }
-    const sceneNav = navHtml.querySelector("#scene-navigation-active");
-    const backButton = document.createElement("button");
-    backButton.id = "crlngn-back-button";
-    backButton.innerHTML = "<i class='fa fa-turn-left'></i>";
-    backButton.addEventListener("click", TopNavigation.#onBackButton);
-
-    sceneNav.prepend(backButton);
+    if(TopNavigation.useSceneBackButton){ 
+      if(game.scenes.size < 2){ return; }
+      const sceneNav = navHtml.querySelector("#scene-navigation-active");
+      const backButton = document.createElement("button");
+      backButton.id = "crlngn-back-button";
+      backButton.innerHTML = "<i class='fa fa-turn-left'></i>";
+      backButton.addEventListener("click", TopNavigation.#onBackButton);
+      sceneNav.prepend(backButton);
+    }else{
+      const existingBackButton = document.querySelector("#crlngn-back-button");
+      if(existingBackButton){ existingBackButton.remove(); }
+    }
+    
   }
 
   /**
@@ -502,23 +508,29 @@ export class TopNavigation {
    */
   static placeNavButtons = async() => { 
     const sceneNav = document.querySelector("#scene-navigation");
-    const sceneList = sceneNav.querySelector("#scene-navigation-inactive");
-    const existingButtons = document.querySelectorAll("#ui-left .crlngn-btn");
-
     if(!sceneNav){
       return;
     }
+    
+    const sceneList = sceneNav.querySelector("#scene-navigation-inactive");
+    let existingButtons = document.querySelectorAll("button.crlngn-btn");
+    // existingButtons.forEach(b => b.remove());
     
     const btnWidth = (TopNavigation.#navToggle?.offsetWidth * 2) || 0;
     const isNavOverflowing = (sceneNav.offsetWidth - btnWidth) < sceneNav.scrollWidth;
     LogUtil.log("placeNavButtons *", [TopNavigation.isCollapsed, isNavOverflowing, existingButtons]);
     
-    existingButtons.forEach(b => b.remove());
     if(!isNavOverflowing 
       || TopNavigation.isCollapsed 
       || TopNavigation.#uiLeft.classList.contains('navigation-collapsed')){
+      existingButtons.forEach(b => {
+        LogUtil.log("placeNavButtons remove", [b.remove, b]);
+        b.remove();
+      });
+      existingButtons = [];
       return;
     }
+    if(existingButtons.length > 0){ return; }
     // Render nav buttons template
     const buttonsHtml = await renderTemplate(
       `modules/${MODULE_ID}/templates/scene-nav-buttons.hbs`, 
@@ -527,8 +539,8 @@ export class TopNavigation {
     sceneNav.insertAdjacentHTML('afterend', buttonsHtml);
   
     // Add event listeners to the newly inserted buttons
-    const btnLast = sceneNav.parentNode.querySelector("button.crlngn-btn.ui-nav-left");
-    const btnNext = sceneNav.parentNode.querySelector("button.crlngn-btn.ui-nav-right");
+    const btnLast = document.querySelector("#ui-left button.crlngn-btn.ui-nav-left");
+    const btnNext = document.querySelector("#ui-left button.crlngn-btn.ui-nav-right");
   
     if (btnLast) btnLast.addEventListener("click", this.#onNavLast);
     if (btnNext) btnNext.addEventListener("click", this.#onNavNext);
@@ -815,6 +827,9 @@ export class TopNavigation {
       if(TopNavigation.useScenePreview){
         li.addEventListener("mouseenter", TopNavigation.onScenePreviewOn);
         li.addEventListener("mouseleave", TopNavigation.onScenePreviewOff);
+      }else{
+        li.removeEventListener("mouseenter", TopNavigation.onScenePreviewOn);
+        li.removeEventListener("mouseleave", TopNavigation.onScenePreviewOff);
       }
     });
   }

@@ -10,12 +10,8 @@ export class ChatLogControls {
 
   static init(){
     Hooks.on(HOOKS_CORE.RENDER_SIDE_BAR, ChatLogControls.onRender);
-    // Hooks.on(HOOKS_CORE.ACTIVATE_CHAT_LOG, ChatLogControls.onRender);
-    // Hooks.on(HOOKS_CORE.ACTIVATE_CHAT_LOG_5e, ChatLogControls.onRender);
     Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, ChatLogControls.onRender);
     Hooks.on(HOOKS_CORE.READY, ChatLogControls.onRender);
-    // Hooks.on("renderAbstractSidebarTab", ChatLogControls.onRender);
-    
   }
 
   static applyFadeOut(useFadeOut){
@@ -51,6 +47,7 @@ export class ChatLogControls {
   }
 
   static addChatToggle = async(html) => {
+    if(!ChatLogControls.customStylesEnabled){ return; }
     const buttonTemplate = await renderTemplate(
       `modules/${MODULE_ID}/templates/chat-toggle-button.hbs`, 
       {}

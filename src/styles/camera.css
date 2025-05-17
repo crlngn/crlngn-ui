@@ -15,12 +15,13 @@ body.crlngn-ui{
     overflow: hidden;
     cursor: move;
     cursor: grab;
-    z-index: 100;
+    z-index: 1001;
     background-color: transparent;
     border-radius: var(--crlngn-border-radius);
 
     &:hover{
       background-color: var(--color-dark-bg-75);
+
       .resize-handle{
         display: flex;
       }

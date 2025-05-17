@@ -104,7 +104,7 @@ body.crlngn-ui{
 
     #hotbar.collapsed, #hotbar.crlngn-macro.collapsed{
       background: var(--control-bg-color);
-      margin-bottom: calc((var(--hotbar-size)* -1) + 16px);
+      margin-bottom: calc((var(--hotbar-size)* -1) + 10px);
       border-top-left-radius: var(--crlngn-border-radius);
       border-top-right-radius: var(--crlngn-border-radius);
 
@@ -113,7 +113,7 @@ body.crlngn-ui{
       }
 
       &.sm, &.md.offset{
-        margin-bottom: calc((var(--hotbar-size)* -2) + 16px);
+        margin-bottom: calc((var(--hotbar-size)* -2) + 10px);
         &:hover{
           margin-bottom: 0px;
         }

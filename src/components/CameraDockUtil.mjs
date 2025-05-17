@@ -39,11 +39,14 @@ export class CameraDockUtil {
   
   static applyFadeOut(useFadeOut){
     CameraDockUtil.useFadeOut = useFadeOut;
+    if(CameraDockUtil.cameraContainer){
+      CameraDockUtil.cameraContainer.classList.toggle("faded-ui", useFadeOut);
+    }
   }
 
   static applyCustomStyle(enabled){
     CameraDockUtil.enableFloatingDock = enabled;
-    LogUtil.log("applyCustomStyle", [CameraDockUtil.enableFloatingDock, ui, ui.webrtc]);
+    LogUtil.log("applyCustomStyle", ["enableFloatingDock", enabled, CameraDockUtil.enableFloatingDock, ui.webrtc]);
     ui.webrtc?.render();
   }
 
@@ -278,7 +281,6 @@ export class CameraDockUtil {
     const cam = document.querySelector('#camera-views');
     CameraDockUtil.cameraContainer = document.querySelector("#av-holder");
 
-
     if (CameraDockUtil.cameraContainer) {
       CameraDockUtil.cameraContainer.appendChild(cam);
     }else{
@@ -323,6 +325,7 @@ export class CameraDockUtil {
     }else{
       CameraDockUtil.checkMinimizedState();
     }
+    CameraDockUtil.applyFadeOut(CameraDockUtil.useFadeOut);
 
   }
 

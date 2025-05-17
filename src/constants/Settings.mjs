@@ -154,7 +154,7 @@ export function getSettings() {
         sidebarTabsFadeOut: false,
         chatLogControlsFadeOut: true,
         playerListFadeOut: true,
-        cameraDockFadeOut: true,
+        cameraDockFadeOut: false,
         macroHotbarFadeOut: true,
         sceneNavFadeOut: false,
         // Hide
@@ -226,7 +226,8 @@ export function getSettings() {
         customStyles: ""
       },
       scope: SETTING_SCOPE.world,
-      config: false
+      config: false, 
+      requiresReload: false 
     },
 
     chatMessagesMenu: {
@@ -297,7 +298,6 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.hint"),
       propType: Object,
       fields: [
-        "enableFloatingDock",
         "dockResizeOnUserJoin",
         "dockPosX",
         "dockPosY",
@@ -306,7 +306,6 @@ export function getSettings() {
         "defaultVideoWidth"
       ],
       default: {
-        enableFloatingDock: true,
         dockResizeOnUserJoin: DOCK_RESIZE_OPTIONS.horizontal.name,
         defaultVideoWidth: 160,
         dockPosX: 0,
@@ -360,7 +359,8 @@ export function getSettings() {
       propType: Boolean,
       scope: SETTING_SCOPE.client,
       config: true,
-      default: false
+      default: false, 
+      requiresReload: false 
     },
 
     navFoldersEnabled: { 
@@ -370,7 +370,8 @@ export function getSettings() {
       propType: Boolean, 
       default: true, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false, 
+      requiresReload: false 
     },
 
     navFoldersForPlayers: { 
@@ -380,7 +381,8 @@ export function getSettings() {
       propType: Boolean, 
       default: false, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false, 
+      requiresReload: false 
     },
 
     navStartCollapsed: { 
@@ -390,7 +392,8 @@ export function getSettings() {
       propType: Boolean, 
       default: false, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false, 
+      requiresReload: false 
     },
 
     navShowRootFolders: { 
@@ -400,7 +403,8 @@ export function getSettings() {
       propType: Boolean, 
       default: false, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false, 
+      requiresReload: false 
     },
 
     sceneNavItemWidth: { 
@@ -411,7 +415,8 @@ export function getSettings() {
       propType: String, 
       default: '', 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false, 
+      requiresReload: false 
     },
 
     showNavOnHover: { 
@@ -422,7 +427,8 @@ export function getSettings() {
       propType: Boolean, 
       default: false, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false, 
+      requiresReload: false 
     },
 
     sceneClickToView: { 
@@ -433,7 +439,8 @@ export function getSettings() {
       propType: Boolean, 
       default: true, 
       scope: SETTING_SCOPE.world, 
-      config: false 
+      config: false, 
+      requiresReload: false 
     },
 
     useSceneIcons: {
@@ -444,7 +451,8 @@ export function getSettings() {
       propType: Boolean, 
       default: true, 
       scope: SETTING_SCOPE.world, 
-      config: false 
+      config: false, 
+      requiresReload: false  
     },
 
     useSceneBackButton: {
@@ -454,7 +462,8 @@ export function getSettings() {
       propType: String, 
       default: true, 
       scope: SETTING_SCOPE.world, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },
 
     useScenePreview: {
@@ -465,7 +474,8 @@ export function getSettings() {
       propType: Boolean, 
       default: true, 
       scope: SETTING_SCOPE.world, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },
 
     sceneNavCollapsed: { 
@@ -475,7 +485,8 @@ export function getSettings() {
       propType: Boolean, 
       default: true, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },  
 
     sceneNavPos: { 
@@ -485,7 +496,8 @@ export function getSettings() {
       propType: Number, 
       default: 0, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },
 
     collapseMacroBar: { 
@@ -516,7 +528,8 @@ export function getSettings() {
       propType: Boolean,
       default: false,
       scope: SETTING_SCOPE.client,
-      config: true
+      config: true, 
+      requiresReload: false 
     },
 
     /* NON-CONFIG OR MENU SETTINGS */
@@ -528,7 +541,8 @@ export function getSettings() {
       propType: Boolean,
       default: false, 
       scope: SETTING_SCOPE.client, 
-      config: false
+      config: false, 
+      requiresReload: false 
     },
 
     playerListAvatars: { 
@@ -538,7 +552,8 @@ export function getSettings() {
       propType: Boolean,
       default: true, 
       scope: SETTING_SCOPE.client, 
-      config: false
+      config: false, 
+      requiresReload: false 
     },
 
     /* FONTS */
@@ -550,7 +565,8 @@ export function getSettings() {
       propType: String,
       default: `"Work Sans", Arial, sans-serif`,
       scope: SETTING_SCOPE.world,
-      config: false
+      config: false, 
+      requiresReload: false 
     },
     uiFontTitles: {
       tag: "v2-ui-font-titles",
@@ -560,7 +576,8 @@ export function getSettings() {
       propType: String,
       default: `"Roboto Slab", Arial, sans-serif`,
       scope: SETTING_SCOPE.world,
-      config: false
+      config: false, 
+      requiresReload: false 
     },
     journalFontBody: {
       tag: "v2-journal-font-body",
@@ -570,7 +587,8 @@ export function getSettings() {
       propType: String,
       default: `"Work Sans", Arial, sans-serif`,
       scope: SETTING_SCOPE.world,
-      config: false
+      config: false, 
+      requiresReload: false 
     }, 
     journalFontTitles: {
       tag: "v2-journal-font-titles",
@@ -580,7 +598,8 @@ export function getSettings() {
       propType: String,
       default: `"Roboto Slab", Arial, sans-serif`,
       scope: SETTING_SCOPE.world,
-      config: false
+      config: false, 
+      requiresReload: false 
     },
 
     /* THEME AND STYLES */
@@ -591,7 +610,8 @@ export function getSettings() {
       propType: String,
       default: "crlngn-theme",
       scope: SETTING_SCOPE.world,
-      config: false
+      config: false, 
+      requiresReload: false 
     },
 
     adjustOtherModules: {
@@ -601,7 +621,8 @@ export function getSettings() {
       propType: Boolean,
       default: true,
       scope: SETTING_SCOPE.world,
-      config: false
+      config: false, 
+      requiresReload: false 
     },
 
     otherModulesList: {
@@ -618,7 +639,8 @@ export function getSettings() {
         "Youtube Player": "'fvtt-youtube-player'"
       },
       scope: SETTING_SCOPE.world,
-      config: false
+      config: false, 
+      requiresReload: false 
     },
 
     customStyles:{
@@ -628,7 +650,8 @@ export function getSettings() {
       propType: String,
       default: "",
       scope: SETTING_SCOPE.world,
-      config: false
+      config: false, 
+      requiresReload: false 
     },
 
     /* CHAT STYLES */
@@ -645,7 +668,8 @@ export function getSettings() {
       propType: String,  
       default: BORDER_COLOR_TYPES.playerColor.name, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false, 
+      requiresReload: true 
     },
     useLeftChatBorder:{
       tag: "v2-use-left-chat-border",
@@ -655,7 +679,8 @@ export function getSettings() {
       inputType: SETTING_INPUT.checkbox, 
       default: true, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },
     enableChatStyles:{
       tag: "v2-enable-chat-styles", 
@@ -678,7 +703,8 @@ export function getSettings() {
       propType: Boolean,
       default: false,
       scope: SETTING_SCOPE.client,
-      config: false
+      config: false, 
+      requiresReload: false 
     },
 
     /* CAMERA DOCK */
@@ -689,7 +715,8 @@ export function getSettings() {
       propType: Number,
       default: 0,
       scope: SETTING_SCOPE.client,
-      config: false
+      config: false, 
+      requiresReload: false 
     },
     dockPosY: {
       tag: "v2-camera-dock-y",
@@ -698,7 +725,8 @@ export function getSettings() {
       propType: Number,
       default: 120,
       scope: SETTING_SCOPE.client,
-      config: false
+      config: false, 
+      requiresReload: false 
     },
     dockWidth: {
       tag: "v2-camera-dock-width",
@@ -707,7 +735,8 @@ export function getSettings() {
       propType: Number,
       default: 160,
       scope: SETTING_SCOPE.client,
-      config: false
+      config: false, 
+      requiresReload: false 
     },
     dockHeight: {
       tag: "v2-camera-dock-height",
@@ -716,7 +745,8 @@ export function getSettings() {
       propType: Number,
       default: 145,
       scope: SETTING_SCOPE.client,
-      config: false
+      config: false, 
+      requiresReload: false 
     },
     dockResizeOnUserJoin: {
       tag: "v2-dock-resize-on-user-join",
@@ -730,7 +760,8 @@ export function getSettings() {
       propType: String,
       default: DOCK_RESIZE_OPTIONS.horizontal.name,
       scope: SETTING_SCOPE.client,
-      config: false
+      config: false, 
+      requiresReload: false 
     },
     defaultVideoWidth: {
       tag: "v2-default-video-width",
@@ -739,7 +770,8 @@ export function getSettings() {
       propType: Number,
       default: 160,
       scope: SETTING_SCOPE.client,
-      config: false
+      config: false, 
+      requiresReload: false 
     },
     // NEWS UPDATE
     lastUpdateId: {
@@ -749,7 +781,8 @@ export function getSettings() {
       propType: String,
       scope: SETTING_SCOPE.world,
       config: false,
-      default: ''
+      default: '', 
+      requiresReload: false 
     },
 
     /* INTERFACE ELEMENTS FADE OUT OPTIONS */
@@ -760,7 +793,8 @@ export function getSettings() {
       propType: Boolean, 
       default: true, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },
 
     sidebarTabsFadeOut: { 
@@ -770,7 +804,8 @@ export function getSettings() {
       propType: Boolean, 
       default: true, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false, 
+      requiresReload: false  
     },
 
     chatLogControlsFadeOut: {
@@ -779,7 +814,8 @@ export function getSettings() {
       propType: Boolean, 
       default: true, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },
 
     playerListFadeOut: { 
@@ -789,17 +825,19 @@ export function getSettings() {
       propType: Boolean, 
       default: true, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },
 
     cameraDockFadeOut: { 
-      tag: "v2-camera-dock-fade-out", 
+      tag: "v2-camera-fade-out", 
       oldName: "cameraDockFadeOut",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.cameraDock"),
       propType: Boolean, 
-      default: true, 
+      default: false, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },
 
     macroHotbarFadeOut: { 
@@ -809,7 +847,8 @@ export function getSettings() {
       propType: Boolean, 
       default: true, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },
 
     sceneNavFadeOut: { 
@@ -819,7 +858,8 @@ export function getSettings() {
       propType: Boolean, 
       default: true, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },
 
     /* INTERFACE ELEMENTS HIDE OPTIONS */
@@ -830,7 +870,8 @@ export function getSettings() {
       propType: Boolean, 
       default: false, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false, 
+      requiresReload: false  
     },
 
     sidebarTabsHide: { 
@@ -840,7 +881,8 @@ export function getSettings() {
       propType: Boolean, 
       default: false, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },
 
     chatLogControlsHide: {
@@ -850,7 +892,8 @@ export function getSettings() {
       propType: Boolean, 
       default: false, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },
 
     playerListHide: { 
@@ -860,7 +903,8 @@ export function getSettings() {
       propType: Boolean, 
       default: false, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },
 
     cameraDockHide: { 
@@ -870,7 +914,8 @@ export function getSettings() {
       propType: Boolean, 
       default: false, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },
 
     macroHotbarHide: { 
@@ -880,7 +925,8 @@ export function getSettings() {
       propType: Boolean, 
       default: false, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },
 
     sceneNavHide: { 
@@ -890,7 +936,8 @@ export function getSettings() {
       propType: Boolean, 
       default: false, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },
 
     /* INTERFACE ELEMENTS ENABLE OPTIONS */
@@ -912,7 +959,8 @@ export function getSettings() {
       propType: Boolean, 
       default: true, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false , 
+      requiresReload: false 
     },
 
     enableSidebarTabs: { 
@@ -931,7 +979,8 @@ export function getSettings() {
       propType: Boolean, 
       default: true, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false, 
+      requiresReload: false 
     },
 
     enableMacroLayout: { 
@@ -957,13 +1006,14 @@ export function getSettings() {
     },
 
     enableFloatingDock: { 
-      tag: "v2-enable-floating-camera-dock", 
+      tag: "v2-enable-floating-dock", 
       label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.enableFloatingDock.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.enableFloatingDock.hint"), 
       propType: Boolean,
       default: true,
       scope: SETTING_SCOPE.client,
-      config: false
+      config: false, 
+      requiresReload: true 
     }
     
   }

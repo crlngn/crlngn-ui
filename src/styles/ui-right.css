@@ -4,7 +4,7 @@ body.crlngn-ui{
   --current-sidebar-width: var(--right-control-item-size);
 
   &.crlngn-scene-nav #sidebar-tabs {
-    padding-top: 52px;
+    padding-top: calc(var(--top-nav-height, 0px) + 15px);
   }
   &.crlngn-tabs{
     #sidebar-tabs {

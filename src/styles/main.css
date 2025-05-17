@@ -363,11 +363,19 @@ body.crlngn-ui{
     cursor: pointer;
     line-height: 1;
     align-items: center;
+    justify-content: center;
     display: flex;
     color: inherit;
+    width: 100%;
+    flex: 1 1 100%;
 
     i{
       display: none;
+    }
+    span{
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
   nav.tabs a[data-action=tab].active {
@@ -729,7 +737,7 @@ body.crlngn-ui{
     }
   }
 
-  #ui-left.crlngn-controls #scene-controls .ui-control, 
+  #interface.crlngn-controls #scene-controls .ui-control, 
   &.crlngn-tabs #ui-right .tabs .ui-control {
     --control-size: var(--control-item-size);
     border-radius: 0;
