@@ -4,14 +4,14 @@
   "version": "1.16.13",
   "description": "Style changes and tweaks to improve look and feel of Foundry UI",
   "url": "https://github.com/crlngn/crlngn-ui",
-  "manifest": "https://github.com/crlngn/crlngn-ui/releases/latest/download/module.json",
+  "manifest": "https://github.com/crlngn/crlngn-ui/releases/download/v1.16.13/module.json",
   "download": "https://github.com/crlngn/crlngn-ui/releases/download/v1.16.13/module.zip",
   "bugs": "https://github.com/crlngn/crlngn-ui/issues",
   "readme": "https://github.com/crlngn/crlngn-ui/main/README.md",
   "license": "https://mit-license.org/",
   "compatibility": {
     "minimum": "12.328",
-    "verified": "12.331"
+    "verified": "12.343"
   },
   "authors": [
     {
