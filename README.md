@@ -1,8 +1,6 @@
-**Latest Version:** 1.16.13
-
 **IMPORTANT: If you are using Foundry v12 install Carolingian UI v1.16.x. If you are using Foundry v13 you should install Carolingian UI v2.x - there was a bug in Foundry which allowed incompatible versions to be installed, but it seems the bug has been patched.**
 
-I have just created a Discord channel for users of my module to discuss it and seek help. Not a lot of people yet as I've just created it, but feel free to join:
+I have created a Discord channel for users of my module to discuss it and seek help. Not a lot of people yet as I've just created it, but feel free to join:
 
 [![alt-text](https://img.shields.io/badge/-Discord-%235662f6?style=for-the-badge)](https://discord.gg/cAuTaTYda3) 
 ![GitHub Downloads (specific asset, all releases)](https://img.shields.io/github/downloads/crlngn/crlngn-ui/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge)
