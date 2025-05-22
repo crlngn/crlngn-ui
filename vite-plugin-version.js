@@ -29,7 +29,7 @@ export default function vitePluginVersion() {
         const versionTag = `v${version}`;
         const baseUrl = 'https://github.com/crlngn/crlngn-ui/releases';
         
-        moduleJson.manifest = `${baseUrl}/latest/download/module.json`;
+        moduleJson.manifest = `${baseUrl}/download/${versionTag}/module.json`;
         moduleJson.download = `${baseUrl}/download/${versionTag}/module.zip`;
         
         writeFileSync(moduleJsonPath, JSON.stringify(moduleJson, null, 2) + '\n');
