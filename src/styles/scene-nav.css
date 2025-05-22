@@ -154,6 +154,10 @@ body.crlngn-ui {
       /* deal with scrollbar */
       -ms-overflow-style: none;  /* IE and Edge */
       scrollbar-width: none;  /* Firefox */
+      
+      &.no-back-button{
+        padding-left: 0px;
+      }
       &::-webkit-scrollbar {
         display: none;
       }

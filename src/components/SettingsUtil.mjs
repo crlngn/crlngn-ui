@@ -331,6 +331,7 @@ export class SettingsUtil {
         ui.nav?.render();
         game.scenes?.directory?.render(); break;
       case SETTINGS.useSceneBackButton.tag:
+        LogUtil.log("useSceneBackButton", [value]);
         TopNavigation.useSceneBackButton = value;
         ui.nav?.render(); break;
       case SETTINGS.useScenePreview.tag:

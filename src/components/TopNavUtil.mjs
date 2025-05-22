@@ -355,6 +355,7 @@ export class TopNavigation {
       sceneNav.prepend(backButton);
     }else{
       const existingBackButton = document.querySelector("#crlngn-back-button");
+      navHtml.classList.add("no-back-button");
       if(existingBackButton){ existingBackButton.remove(); }
     }
     

@@ -318,7 +318,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       settings = foundry.utils.expandObject(formData.object);
     } 
 
-    LogUtil.log("#onSubmit #1", [settings, formData.object]);
+    // LogUtil.log("updateSettings #1", [settings, formData.object]);
     let fieldNames = [];
 
     const selectedTheme = THEMES.find(theme => theme.label===settings.colorTheme);
@@ -328,8 +328,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       if(settings[fieldName] !== undefined) {
         const currSetting = SettingsUtil.get(SETTINGS[fieldName].tag);
         SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
-        LogUtil.log("#onSubmit - setting:", [fieldName, settings[fieldName]]);
-
+        
         if(SETTINGS[fieldName]?.requiresReload && currSetting !== settings[fieldName]){
           confirmReload = true;
         }
@@ -388,7 +387,6 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         })
       }
     })
-    LogUtil.log("getTabs", [tabList]);
     return tabList;
   }
 
@@ -411,7 +409,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       input.addEventListener('focus', onFocus);
       input.addEventListener('click', onFocus);
 
-      LogUtil.log("handleCustomFontFields", [input, wrapper, dropdown]);
+      // LogUtil.log("handleCustomFontFields", [input, wrapper, dropdown]);
 
       // Add keyboard navigation
       input.addEventListener('keydown', ModuleSettings.#onDropDownKeyDown);
@@ -425,7 +423,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     });
   
     // Handle option selection
-    const dropOptions = ModuleSettings.#element.querySelectorAll('.dropdown-option');
+    const dropOptions = fontsContent.querySelectorAll('.dropdown-option');
     dropOptions.forEach(option => {
       // Add mouse hover effect that syncs with keyboard highlighting
       option.addEventListener('mouseenter', () => {
@@ -454,7 +452,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         input.value = value;
         const dropdown = option.closest('.dropdown-options');
         dropdown.classList.remove('active');
-        
+        LogUtil.log("handleCustomFontFields", [value, input, dropdown]);
         // Return focus to input after selection
         // input.focus();
       });
@@ -493,7 +491,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     });
   
     // Handle option selection
-    const dropOptions = ModuleSettings.#element.querySelectorAll('.dropdown-option');
+    const dropOptions = themesContent.querySelectorAll('.dropdown-option');
     const that = this; // Store reference to this for use in event handlers
     
     dropOptions.forEach(option => {
@@ -508,7 +506,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       });
 
       option.addEventListener('click', function(e) {
-        LogUtil.log('option', [option, option.querySelector('.theme-name')]);
+        LogUtil.log('theme option', [option, option.querySelector('.theme-name')]);
         const input = option.closest('.dropdown-wrapper')?.querySelector('input');
         let value = option.querySelector('.theme-name')?.innerHTML.toString();
         

@@ -459,7 +459,7 @@ export function getSettings() {
       tag: "v2-use-scene-back-button",
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneBackButton.label"), 
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneBackButton.hint"), 
-      propType: String, 
+      propType: Boolean, 
       default: true, 
       scope: SETTING_SCOPE.world, 
       config: false , 
