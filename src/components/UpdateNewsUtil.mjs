@@ -9,12 +9,19 @@ export class UpdateNewsUtil {
    */
   static getUpdateNewsUrl() {
     const moduleVersion = game.modules.get('crlngn-ui')?.version;
-    const baseUrl = moduleVersion 
-      ? `https://github.com/crlngn/crlngn-ui/releases/download/v${moduleVersion}/module-updates.json` 
-      : `https://github.com/crlngn/crlngn-ui/releases/latest/download/module-updates.json`;
+    LogUtil.log('getUpdateNewsUrl', [moduleVersion]);
+    // const baseUrl = moduleVersion 
+    //   ? `https://github.com/crlngn/crlngn-ui/releases/download/v${moduleVersion}/module-updates.json` 
+    //   : `https://github.com/crlngn/crlngn-ui/releases/latest/download/module-updates.json`;
     
+    if(moduleVersion){
+      const baseUrl = `https://github.com/crlngn/crlngn-ui/releases/download/v${moduleVersion}/module-updates.json`;
+      return `https://proxy.carolingian.io/proxy?url=${encodeURIComponent(baseUrl)}&v=${moduleVersion}`;
+    }else{
+      return '';
+    }
     // Use our custom CORS proxy service
-    return `https://proxy.carolingian.io/proxy?url=${encodeURIComponent(baseUrl)}&v=${moduleVersion}`;
+    
   }
   
   /**
@@ -48,6 +55,8 @@ export class UpdateNewsUtil {
     const SETTINGS = getSettings();
     try {
       // Add a timeout to the fetch to prevent hanging
+      const newsUrl = UpdateNewsUtil.getUpdateNewsUrl();
+      if(!newsUrl){ return; }
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 5 second timeout
       
@@ -58,11 +67,9 @@ export class UpdateNewsUtil {
         if(lastUpdateId === rawVersion){
           return;
         }
-        const response = await fetch(UpdateNewsUtil.getUpdateNewsUrl(), { 
+        const response = await fetch(newsUrl, { 
           signal: controller.signal,
-          // Prevent uncaught errors for network issues
           mode: 'cors',
-          // Don't send cookies or auth
           credentials: 'omit'
         });
         

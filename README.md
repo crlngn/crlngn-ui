@@ -1,4 +1,4 @@
-**Latest Version:** 1.16.12
+**Latest Version:** 1.16.13
 
 **IMPORTANT: If you are using Foundry v12 install Carolingian UI v1.16.x. If you are using Foundry v13 you should install Carolingian UI v2.x - there was a bug in Foundry which allowed incompatible versions to be installed, but it seems the bug has been patched.**
 

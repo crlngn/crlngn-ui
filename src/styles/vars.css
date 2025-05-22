@@ -196,6 +196,7 @@ body.crlngn-ui {
   --font-sans: var(--crlngn-font-family); 
   --font-blockquote: var(--crlngn-font-journal-body);
   --font-size-17: 1.075rem;
+  --font-size-22: 1.325rem;
   --font-size-26: 1.65rem;
   --font-size-42: 2.8rem;
   --font-h1: var(--crlngn-font-titles);
@@ -331,6 +332,7 @@ body.crlngn-ui.crlngn-theme-dark-sorcery {
   --color-underline-active: rgba(139, 98, 196, 1);
 	--color-text-hyperlink: rgb(151, 107, 190);
 
+  /* CAROLINGIAN UI COLORS */
   --color-secondary: rgb(31, 47, 49);
   --color-secondary-bright: rgba(97, 121, 123, 0.75);
   --color-secondary-15: rgba(31, 47, 49, 0.15);
@@ -345,7 +347,6 @@ body.crlngn-ui.crlngn-theme-dark-sorcery {
   --color-warm-1: rgb(159, 128, 189);
   --color-warm-2: rgb(139, 98, 196);
   --color-warm-3: rgb(97, 53, 135);
-
 }
 
 /* THEME - tangerine */ 

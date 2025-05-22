@@ -202,7 +202,12 @@ export class SceneNavFolders {
     if (!SceneNavFolders.selectedFolder) { return; }
 
     SceneNavFolders.#defaultFolderName = game.i18n.localize("CRLNGN_UI.ui.sceneNav.favoritesFolder");
-
+    // Clear existing elements if they exist
+    SceneNavFolders.#folderElement = document.querySelector('#crlngn-scene-folders');
+    SceneNavFolders.#customList = document.querySelector('#crlngn-scene-list');
+    SceneNavFolders.#folderElement?.remove();
+    SceneNavFolders.#customList?.remove();
+    
     const folders = SceneNavFolders.getFolders(ui.scenes.folders);
     const backButtonLabel = `CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.options.${TopNavigation.useNavBackButton}`;
     const backToLabel = game.i18n.localize(`CRLNGN_UI.ui.sceneNav.backTo`);
@@ -269,16 +274,10 @@ export class SceneNavFolders {
       };
     }
 
-    // Check if cached elements are still in the document
-    // if (!SceneNavFolders.#folderElement?.isConnected || !SceneNavFolders.#customList?.isConnected) {
-
     
-    // Clear existing elements if they exist
-    SceneNavFolders.#folderElement = document.querySelector('#crlngn-scene-folders');
-    SceneNavFolders.#customList = document.querySelector('#crlngn-scene-list');
-    SceneNavFolders.#folderElement?.remove();
-    SceneNavFolders.#customList?.remove();
-    
+    if(document.querySelector('#crlngn-scene-list')){
+      return;
+    }
     const renderedHtml = await renderTemplate(
       `modules/${MODULE_ID}/templates/scene-folder-list.hbs`, 
       SceneNavFolders.#templateData

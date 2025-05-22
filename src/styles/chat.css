@@ -55,6 +55,9 @@ body.crlngn-chat {
   }
   */
 
+  .chat-message * {
+    color: inherit;
+  }
   .chat-message .message-content .gold-icon{
     border: 1px solid var(--color-dark-bg-50);
   }
@@ -228,6 +231,10 @@ body.crlngn-chat {
     box-shadow: 0 0 4px var(--color-dark-bg-50);
   }
 
+
+  .message p.supplement > strong {
+    color: inherit;
+  }
   .chat-message a.content-link, 
   .chat-message a.inline-roll, 
   .chat-message a.roll-link {
@@ -319,14 +326,17 @@ body.crlngn-chat {
   }
   
   /* card button layout */
-  .chat-card .card-buttons:not(.midi-buttons) {
+  .chat-card .card-buttons,
+  .chat-card .midi-buttons {
     flex-direction: row; 
     flex-wrap: wrap; 
   }
   .chat-card .card-buttons {
     gap: 0.25em;
   }
-  .chat-card .card-buttons:not(.midi-buttons) > button {
+  .chat-card .card-buttons > button:not(.unbutton),
+  .chat-card .card-buttons .midi-qol-attack-buttons,
+  .chat-card .card-buttons .midi-qol-damage-buttons {
     flex: 1 1 auto;
     min-width: calc((100% - 10px) / 2);
     width: auto;
@@ -335,9 +345,13 @@ body.crlngn-chat {
       font-size: var(--font-size-12);
     }
   }
-  .chat-card .card-buttons button[data-action=rollRequest] {
-    flex: 1 1 calc(100%);
-    min-width: calc(100%);
+  .chat-card .card-buttons > button[data-action=rollRequest] {
+    flex: 1 1 auto;
+    min-width: 100%;
+    width: auto;
+  }
+  .chat-card .card-buttons .midi-qol-attack-buttons > button,
+  .chat-card .card-buttons .midi-qol-damage-buttons > button {
     width: 100%;
   }
   
@@ -533,11 +547,19 @@ body.crlngn-chat {
     padding: 5px;
     border: 1px solid var(--color-dark-bg-15);
     margin: 2px 0 0 0;
-    width: 100%;
+    width: auto;
+    min-width: calc((100% - 10px) / 2);
     line-height: 1.25;
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  :is(.card-tray) button:not(.unbutton){
+    width: 100%;
+  }
+  :is(.effects-tray) button:not(.unbutton){
+    min-width: auto;
   }
   
   /* dnd5e buttons */
