@@ -3,7 +3,7 @@ Chat card layout - start
 ******************/
 body.crlngn-ui {
 
-  .chat-sidebar:not(.sidebar-popout) {
+  .chat-sidebar {
     background: var(--sidebar-background, var(--color-cool-5-90));
     border-radius: 0;
     width: var(--sidebar-width);
@@ -96,7 +96,7 @@ body.crlngn-chat {
       white-space: nowrap;
       width: auto;
       overflow: visible;
-      background: var(--chat-dark-blue);
+      background: var(--dnd5e-background-card, var(--color-cool-5-90));
       padding: 1px 5px;
       opacity: 0.8;
       justify-content: flex-end;
@@ -640,7 +640,7 @@ body.crlngn-chat {
 
     /*
     body.crlngn-ui #interface.theme-light,body.crlngn-ui .chat-log.theme-light,body.crlngn-ui.theme-light {
-      --color-control-bg: hsla(0,0%,98%,.15);
+      --crlngn-button-bg: hsla(0,0%,98%,.15);
       --color-bg-button: hsla(17,24%,94%,.9);
       --dnd5e-background-card: hsla(17,24%,94%,.8);
       --dnd5e-color-parchment: #f4efed;

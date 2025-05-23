@@ -51,11 +51,10 @@ Main Theme
   /*  Colors                                  */
   /* ---------------------------------------- */
   body.crlngn-ui {
-    --color-bg-button: rgb(37, 40, 48); 
+    --color-bg-button: rgb(40, 47, 54); 
     --dnd5e-background-card: rgba(244, 239, 237,0.8);
     --dnd5e-color-parchment: rgb(244, 239, 237);
     --chat-dark-blue: rgba(24, 32, 38, 1);
-    --sidebar-background: var(--control-bg-color);
 
     --color-dark-bg-15: rgba(15, 15, 15, 0.15);
     --color-dark-bg-25: rgba(15, 15, 15, 0.25);
@@ -72,7 +71,10 @@ Main Theme
     --color-light-bg-90: rgba(233, 233, 226, 0.9);
     --color-light-bg: rgba(233, 233, 226, 1);
   
+
+    --control-bg-color: rgba(244, 244, 255, 0.9);
     --control-bg-color-90: var(--color-cool-5-90);
+    --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
 
     --color-border-highlight-alt: rgba(68, 147, 173, 0.9); 
     --color-border-highlight: rgba(68, 147, 173, 1);
@@ -123,6 +125,7 @@ Main Theme
     --color-secondary-b-75: rgba(34, 34, 54, 0.75);
     --color-secondary-b-90: rgba(34, 34, 54, 0.90);
     --color-text-secondary: rgb(179, 179, 192);
+    --color-text-primary: var(--color-light-1);
     --color-fieldset-border: var(--color-secondary-25);
 
     --default-color: var(--color-light-1);
@@ -132,20 +135,41 @@ Main Theme
     #interface.theme-dark{
       --default-color: var(--color-light-1);
     }
+
+    &.theme-light {
+      --color-secondary: rgb(204, 186, 204);
+      --color-secondary-bright: rgba(236, 224, 236, 1);
+      --color-secondary-bright-50: rgba(236, 224, 236, 0.5);
+      --color-secondary-15: rgba(204, 186, 204, 0.15);
+      --color-secondary-25: rgba(204, 186, 204, 0.25);
+      --color-secondary-50: rgba(204, 186, 204, 0.5);
+      --color-secondary-65: rgba(204, 186, 204, 0.65);
+      --color-secondary-75: rgba(204, 186, 204, 0.75);
+      --color-secondary-90: rgba(204, 186, 204, 0.9);
+      --color-secondary-b: rgba(237, 224, 237, 1);
+      --color-secondary-b-25: rgba(237, 224, 237, 0.5);
+      --color-secondary-b-50: rgba(237, 224, 237, 0.5);
+      --color-secondary-b-75: rgba(237, 224, 237, 0.75);
+      --color-secondary-b-90: rgba(237, 224, 237, 0.9);
+      --color-text-secondary: rgba(20, 17, 25, 1);
+    }
     
     
     &.theme-dark,
     &.theme-dark .chat-log,
-    #interface.theme-dark{
+    #interface.theme-dark,
+    .sidebar-popout.theme-dark{
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --input-background-alt: var(--color-dark-bg-50);
-      --color-text-secondary: var(--color-dark-1);
+      --color-text-secondary: var(--color-light-1);
+      --color-text-primary: var(--color-light-1);
 
-      --color-control-bg: rgba(15, 15, 15, 0.15);
-      --color-bg-button: rgba(37, 40, 48, 1);
+      --crlngn-button-bg: rgba(15, 15, 15, 0.15);
+      --color-bg-button: rgba(40, 47, 54, 1);
       --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.35);
-      --dnd5e-color-parchment: rgb(37, 40, 48);
-      --dnd5e-background-card: rgb(37, 40, 48); 
+      --dnd5e-color-parchment: rgb(40, 47, 54);
+      --dnd5e-background-card: rgb(40, 47, 54); 
+      --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
     }
     
     &.theme-dark,
@@ -154,19 +178,19 @@ Main Theme
       --color-pf-alternate: rgba(82, 107, 120, 0.44);
       --color-text-gray-blue: rgb(168, 180, 188, 1);
       --color-text-gray-blue-b: rgb(138, 155, 168, 1);
-      --chat-button-bg: rgba(37, 40, 48, 1);
-      --chat-button-bg-15: rgba(37, 40, 48, 0.15);
-      --chat-button-bg-25: rgba(37, 40, 48, 0.25);
-      --chat-button-bg-50: rgba(37, 40, 48, 0.5);
-      --chat-button-bg-75: rgba(37, 40, 48, 0.75);
+      --chat-button-bg: rgba(40, 47, 54, 1);
+      --chat-button-bg-15: rgba(40, 47, 54, 0.15);
+      --chat-button-bg-25: rgba(40, 47, 54, 0.25);
+      --chat-button-bg-50: rgba(40, 47, 54, 0.5);
+      --chat-button-bg-75: rgba(40, 47, 54, 0.75);
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --chat-dark-blue-b: rgb(29, 36, 48, 1); 
-      --chat-dark-bg: rgba(37, 40, 48, 1); 
-      --chat-dark-bg-15: rgba(37, 40, 48, 0.15);
-      --chat-dark-bg-25: rgba(37, 40, 48, 0.25);
-      --chat-dark-bg-50: rgba(37, 40, 48, 0.50); 
-      --chat-dark-bg-75: rgba(37, 40, 48, 0.75); 
-      --chat-dark-bg-90: rgba(37, 40, 48, 0.90); 
+      --chat-dark-bg: rgba(40, 47, 54, 1); 
+      --chat-dark-bg-15: rgba(40, 47, 54, 0.15);
+      --chat-dark-bg-25: rgba(40, 47, 54, 0.25);
+      --chat-dark-bg-50: rgba(40, 47, 54, 0.50); 
+      --chat-dark-bg-75: rgba(40, 47, 54, 0.75); 
+      --chat-dark-bg-90: rgba(40, 47, 54, 0.90); 
 
       --color-input-bg: var(--color-dark-bg-50); 
     
@@ -175,12 +199,13 @@ Main Theme
       --color-border-dark-5: rgba(80, 80, 80, 1);
       --color-sidebar-font: rgba(213, 221, 230, 0.8);
       --dnd5e-color-beige: rgba(0,0,0,0.2);
-      --dnd5e-background-card: rgb(37, 40, 48); 
+      --dnd5e-background-card: rgb(40, 47, 54); 
       --color-text-dark: rgba(235,235,235,1);
       --color-text-dark-op: rgba(235,235,235,0.6);
       --color-text-light: rgba(235,235,235,1);
       --input-background-alt: var(--color-cool-5);
-      --color-text-secondary:rgba(34, 34, 54, 1);
+      --color-text-secondary:var(--color-light-3);
+      --color-text-primary: var(--color-light-1);
     }
 
     --color-light-1: #f7f4f8;
@@ -223,14 +248,19 @@ Main Theme
 
     &.theme-light,
     &.theme-light .chat-log,
-    #interface.theme-light{
-      --color-control-bg: rgba(250, 250, 250, 0.15);
+    #interface.theme-light,
+    &.theme-light .sidebar-popout:not(.theme-dark){
+      --color-border: rgba(244, 244, 255, 1);
+      --control-bg-color: rgba(244, 244, 255, 0.9);
+      --crlngn-button-bg: rgba(250, 250, 250, 0.15);
       --color-bg-button: rgba(244, 239, 237,0.9);
       --dnd5e-background-card: rgba(244, 239, 237,0.8);
       --dnd5e-color-parchment: rgb(244, 239, 237);
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --input-background-alt: rgba(244, 239, 237,1);
+      --color-text-primary: var(--color-dark-1);
       --color-text-secondary: var(--color-dark-1);
+      --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
     }
     .application.theme-light, 
     .themed.theme-light{
@@ -299,6 +329,7 @@ Main Theme
       --color-secondary-b-75: rgba(34, 34, 54, 0.75);
       --color-secondary-b-90: rgba(34, 34, 54, 0.90);
       --color-text-secondary: rgb(179, 179, 192);
+      --color-text-primary: var(--color-light-1);
 
       --color-cool-3: rgb(83, 71, 107);
       --color-cool-4: rgb(54, 48, 59); 
@@ -330,7 +361,13 @@ Main Theme
     --color-secondary-b-75: rgba(202, 202, 229, 0.75);
     --color-secondary-b-90: rgba(202, 202, 229, 0.90);
     --color-text-secondary: rgba(34, 34, 54, 1);
+    --color-text-primary: var(--color-dark-1);
     --control-bg-color: rgba(244, 244, 255, 0.75);
+    --color-cool-5-0: rgba(244, 244, 255, 0);
+    --color-cool-5-25: rgba(244, 244, 255, 0.25);
+    --color-cool-5-50: rgba(244, 244, 255, 0.5);
+    --color-cool-5-75: rgba(244, 244, 255, 0.75);
+    --color-cool-5-90: rgba(244, 244, 255, 0.9);
   }
 
 

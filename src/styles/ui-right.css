@@ -33,6 +33,13 @@ body.crlngn-ui{
   .sidebar-tab:not(.sidebar-popout) {
     border-radius: 0;
   }
+  .chat-sidebar.sidebar-popout {
+
+    width: calc(var(--sidebar-width) + 12px);
+    .window-content {
+      padding: 6px;
+    }
+  }
 
   .sidebar-tab {
     li.directory-item.folder{
@@ -88,7 +95,8 @@ body.crlngn-ui{
       }
     }
   }
-  #ui-right #roll-privacy{
+  #ui-right #roll-privacy,
+  #chat-popout #roll-privacy {
     button.ui-control[data-action=toggleChat]{
       display: none;
       visibility: hidden;
@@ -130,7 +138,7 @@ body.crlngn-ui{
     a.button {
       padding: 8px 4px; 
       border-radius: 0; 
-      background: var(--color-control-bg);
+      background: var(--crlngn-button-bg);
       border: 1px solid var(--color-secondary-50);
       display: flex; 
       flex-direction: row; 

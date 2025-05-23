@@ -668,7 +668,7 @@ body.crlngn-ui {
     padding: 10px 10px 6px 0;
 
     button {
-      color: inherit;
+      /*color: inherit;*/
       padding: 6px;
       border: 1px solid transparent;
 
