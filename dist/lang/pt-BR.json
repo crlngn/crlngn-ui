@@ -225,7 +225,7 @@
             "label": "Rótulo para a Navegação Padrão",
             "hint": "Se quiser, você pode adicionar um rótulo ao lado do ícone para identificar a navegação padrão, por exemplo, 'Favoritos'"
           },
-          "useNavBackButton": {
+          "useSceneBackButton": {
             "label": "Habilitar Botão Voltar",
             "hint": "<b>'Voltar para Cena Anterior'</b>: ao clicar, retorna para a cena anteriormente visualizada, <b>'Voltar para Cenas Padrão'</b>: somente aparece na vista de pasta, ao clicar abre a navegação de cena padrão, <b>'Desabilitado'</b>: Nenhum botão Voltar",
             "options": {

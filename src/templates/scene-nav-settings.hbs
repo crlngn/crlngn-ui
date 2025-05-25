@@ -47,15 +47,9 @@
   </div>
 
   <div class="form-group">
-    <label for="useNavBackButton">{{fields.useNavBackButton.label}}</label>
-    <select name="useNavBackButton">
-      {{#each fields.useNavBackButton.options}}
-      <option value="{{@key}}" {{#if (eq @key ../useNavBackButton)}}selected{{/if}}>
-        {{this}}
-      </option>
-      {{/each}}
-    </select>
-    <p class="hint">{{{fields.useNavBackButton.hint}}}</p>
+    <label for="useSceneBackButton">{{fields.useSceneBackButton.label}}</label>
+    <input type="checkbox" name="useSceneBackButton" {{#if useSceneBackButton}}checked{{/if}} {{#unless sceneNavEnabled}}disabled{{/unless}} />
+    <p class="hint">{{{fields.useSceneBackButton.hint}}}</p>
   </div>
 
   <div class="form-group">

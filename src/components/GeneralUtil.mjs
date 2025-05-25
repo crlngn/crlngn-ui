@@ -356,4 +356,80 @@ export class GeneralUtil {
 
     customStyle.textContent = content;
   }
+
+
+  /**
+     * Performs a smooth scroll with custom duration
+     * @param {HTMLElement} element - The element to scroll
+     * @param {number} to - The target scroll position
+     * @param {string} [direction="horizontal"] - The scroll direction ("horizontal" or "vertical")
+     * @param {number} [duration=300] - Duration of the animation in milliseconds
+     * @param {Function} [onComplete] - Optional callback to run when animation completes
+     * @returns {number} Animation ID that can be used to cancel the animation
+     */
+  static smoothScrollTo(element, to, direction = "horizontal", duration = 300, onComplete = null) {
+    // Cancel any existing animation if it has the same ID as the element
+    const animationId = element.dataset.scrollAnimationId;
+    if (animationId) {
+      cancelAnimationFrame(Number(animationId));
+    }
+    
+    // Determine if we're scrolling horizontally or vertically
+    const isHorizontal = direction === "horizontal";
+    const start = isHorizontal ? element.scrollLeft : element.scrollTop;
+    const change = to - start;
+    
+    // If there's no change or the element isn't scrollable, exit early
+    if (change === 0) {
+      if (onComplete) onComplete();
+      return null;
+    }
+    
+    const startTime = performance.now();
+    
+    // Animation function
+    const animateScroll = (currentTime) => {
+      const elapsedTime = currentTime - startTime;
+      
+      if (elapsedTime >= duration) {
+        // Set final position
+        if (isHorizontal) {
+          element.scrollLeft = to;
+        } else {
+          element.scrollTop = to;
+        }
+        
+        // Clear animation ID
+        delete element.dataset.scrollAnimationId;
+        
+        // Call completion callback if provided
+        if (onComplete) onComplete();
+        return;
+      }
+      
+      // Easing function: easeInOutQuad
+      const progress = elapsedTime / duration;
+      const easeProgress = progress < 0.5 
+        ? 2 * progress * progress 
+        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+      
+      // Apply scroll position
+      if (isHorizontal) {
+        element.scrollLeft = start + change * easeProgress;
+      } else {
+        element.scrollTop = start + change * easeProgress;
+      }
+      
+      // Continue animation
+      const newAnimationId = requestAnimationFrame(animateScroll);
+      element.dataset.scrollAnimationId = newAnimationId;
+      return newAnimationId;
+    };
+    
+    // Start animation
+    const newAnimationId = requestAnimationFrame(animateScroll);
+    element.dataset.scrollAnimationId = newAnimationId;
+    return newAnimationId;
+  }
+
 }

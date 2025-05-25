@@ -300,15 +300,15 @@ export class SettingsUtil {
       case SETTINGS.sceneClickToView.tag:
         TopNavigation.sceneClickToView = value;
         game.scenes?.directory.render();
-        SceneNavFolders.refreshFolderView();
+        // SceneNavFolders.refreshFolderView();
         break;
       case SETTINGS.useSceneIcons.tag:
         TopNavigation.useSceneIcons = value;
         game.scenes?.directory.render();
-        SceneNavFolders.refreshFolderView();
+        // SceneNavFolders.refreshFolderView();
         break;
-      case SETTINGS.useNavBackButton.tag:
-        TopNavigation.useNavBackButton = value;
+      case SETTINGS.useSceneBackButton.tag:
+        TopNavigation.useSceneBackButton = value;
         ui.nav?.render();
         // SceneNavFolders.refreshFolderView();
         break;
@@ -319,14 +319,14 @@ export class SettingsUtil {
         break;
       case SETTINGS.sceneNavAlias.tag:
         TopNavigation.sceneNavAlias = value;
-        SceneNavFolders.refreshFolderView();
+        // SceneNavFolders.refreshFolderView();
         break;
       case SETTINGS.navStartCollapsed.tag:
         TopNavigation.navStartCollapsed = value;
         break;
       case SETTINGS.showFolderListOnClick.tag:
         TopNavigation.showFolderListOnClick = value;
-        SceneNavFolders.refreshFolderView();
+        // SceneNavFolders.refreshFolderView();
         break;
       case SETTINGS.showNavOnHover.tag:
         TopNavigation.showNavOnHover = value;

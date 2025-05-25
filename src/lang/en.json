@@ -227,7 +227,7 @@
             "label": "Alias for default navigation",
             "hint": "If you want, you can add a label beside the folder tree icon to identify the default navigation, for example, `Favorites`"
           },
-          "useNavBackButton": {
+          "useSceneBackButton": {
             "label": "Enable Back Button",
             "hint": "<b>'Back to Last Scene'</b>: clicking takes you back to previously viewed scene, <b>'Back to Default Scenes'</b>: only appears in folder view, clicking opens the default scene navigation, <b>'OFF'</b>: No back button",
             "options": {

@@ -244,7 +244,7 @@ export function getSettings() {
         "sceneNavAlias",
         "navStartCollapsed",
         "showNavOnHover",
-        "useNavBackButton",
+        "useSceneBackButton",
         "useScenePreview"
       ],
       default: {
@@ -258,7 +258,7 @@ export function getSettings() {
         navShowRootFolders: false,
         showNavOnHover: false,
         useScenePreview: true,
-        useNavBackButton: BACK_BUTTON_OPTIONS.lastScene.name
+        useSceneBackButton: BACK_BUTTON_OPTIONS.lastScene.name
       },
       scope: SETTING_SCOPE.client,
       config: false, 
@@ -423,19 +423,14 @@ export function getSettings() {
       config: false 
     },
 
-    useNavBackButton: {
+    useSceneBackButton: {
       tag: "use-nav-back-button", 
       oldName: "useNavBackButton",
-      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.hint"), 
-      propType: String, 
-      inputType: SETTING_INPUT.select, 
-      options: {
-        noButton: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.options.noButton"), 
-        lastScene: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.options.lastScene"), 
-        defaultScenes: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useNavBackButton.options.defaultScenes")
-      },
-      default: BACK_BUTTON_OPTIONS.lastScene.name, 
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneBackButton.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneBackButton.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox, 
+      default: true, 
       scope: SETTING_SCOPE.world, 
       config: false 
     },
