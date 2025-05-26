@@ -57,6 +57,7 @@ export class SceneNavFolders {
     if(!TopNavigation.navFoldersEnabled ||
       TopNavigation.isRipperSceneNavOn ||
       TopNavigation.isMonksSceneNavOn ||
+      game.user.isGM === false ||
       game.scenes.size < 2 || game.scenes.folders.size < 1
     ){ return; }
     const SETTINGS = getSettings();
