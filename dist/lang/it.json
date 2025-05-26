@@ -240,8 +240,8 @@
             "hint": "Quando abilitato, l'anteprima della scena verrà mostrata quando si passa il mouse sulla navigazione"
           },
           "navShowSceneFolders": {
-            "label": "Mostra ricerca scene nella navigazione",
-            "hint": "Quando abilitato, un pulsante per cercare scene o cartelle apparirà nella navigazione scene."
+            "label": "Mostra cartelle scene nella navigazione",
+            "hint": "Quando abilitato, il pulsante di attivazione cartelle sarà attivato, mostrando le cartelle delle scene nella navigazione scene. Cliccando il pulsante si aggiornerà questa impostazione."
           }
         },
         "reset": "Ripristina",

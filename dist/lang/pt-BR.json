@@ -239,8 +239,8 @@
             "hint": "Quando ativado, a miniatura da cena será exibida quando passar o mouse sobre o item na barra de navegação"
           },
           "navShowSceneFolders": {
-            "label": "Mostrar pesquisa de cenas na navegação",
-            "hint": "Quando ativado, um botão para pesquisar cenas ou pastas será exibido na navegação de cenas."
+            "label": "Mostrar pastas na navegação de cenas",
+            "hint": "Quando ativado, o botão de diretórios será ativado, mostrando as pastas na navegação de cenas. Clicar no botão na interface atualizará esta configuração."
           }
         },
         "reset": "Redefinir", 
