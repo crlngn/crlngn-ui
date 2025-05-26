@@ -228,8 +228,13 @@ body.crlngn-ui {
           #scene-list {
             display: none !important;
           }
-          #crlngn-folder-toggle{
+          #crlngn-folder-toggle, 
+          #crlngn-back-button {
             display: none;
+          }
+          #crlngn-lookup-list{
+            margin-top: calc(var(--left-control-item-size) * -1);
+            margin-left: var(--left-control-item-size);
           }
         }
 

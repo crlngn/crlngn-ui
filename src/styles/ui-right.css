@@ -90,6 +90,8 @@ body.crlngn-ui{
     .dnd5e2.sidebar-heading{
       display: flex;
       flex-wrap: wrap;
+      background-color: transparent;
+      border: 0;
     }
     > ul, 
     > div:not(.sidebar-heading) > h2, 
@@ -99,11 +101,15 @@ body.crlngn-ui{
 
     h2 {
       border: 0;
-      color: inherit;
-      font-size: var(--font-size-12);
-      text-transform: uppercase;
-      font-weight: 500;
+      color: var(--color-warm-1);
+      font-size: var(--font-size-18);
+      font-family: var(--crlngn-font-titles);
+      font-weight: 600;
       margin: 14px 0 6px;
+      width: 100%;
+      text-transform: none;
+      text-align: center;
+      background: none;
     }
 
     #chat-form textarea {
@@ -233,6 +239,7 @@ body.crlngn-ui{
         a{
           text-decoration: none;
           font-weight: 500;
+          color: var(--color-light-1);
         }
     }
 

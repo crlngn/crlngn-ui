@@ -21,6 +21,10 @@ body.crlngn-ui  {
       font-weight: 600;
     }
   }
+
+  .app {
+    background: var(--left-control-main-bg);
+  }
   
   #tooltip {
     font-family: var(--crlngn-font-family);

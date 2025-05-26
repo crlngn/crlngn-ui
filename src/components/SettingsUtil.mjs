@@ -327,10 +327,13 @@ export class SettingsUtil {
       case SETTINGS.navStartCollapsed.tag:
         TopNavigation.navStartCollapsed = value;
         break;
-      case SETTINGS.showFolderListOnClick.tag:
-        TopNavigation.showFolderListOnClick = value;
-        // SceneNavFolders.refreshFolderView();
+      case SETTINGS.openFolderOnSceneLoad.tag:
+        TopNavigation.openFolderOnSceneLoad = value;
         break;
+      // case SETTINGS.showFolderListOnClick.tag:
+      //   TopNavigation.showFolderListOnClick = value;
+      //   // SceneNavFolders.refreshFolderView();
+      //   break;
       case SETTINGS.showNavOnHover.tag:
         TopNavigation.showNavOnHover = value;
         break;

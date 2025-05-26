@@ -237,7 +237,6 @@ export function getSettings() {
       fields: [
         "sceneNavEnabled",
         "navFoldersEnabled",
-        "showFolderListOnClick",
         "navShowSceneFolders",
         "sceneClickToView",
         "useSceneIcons",
@@ -254,7 +253,6 @@ export function getSettings() {
         sceneClickToView: true,
         useSceneIcons: false,
         sceneNavAlias: "",
-        showFolderListOnClick: true,
         navShowSceneFolders: false,
         showNavOnHover: false,
         useScenePreview: true,
@@ -353,6 +351,17 @@ export function getSettings() {
       scope: SETTING_SCOPE.client, 
       config: false 
     },
+    
+    openFolderOnSceneLoad: { 
+      tag: "open-folder-on-scene-load", 
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.openFolderOnSceneLoad.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.openFolderOnSceneLoad.hint"), 
+      propType: Boolean, 
+      inputType: SETTING_INPUT.checkbox, 
+      default: false, 
+      scope: SETTING_SCOPE.world, 
+      config: false 
+    },
 
     navStartCollapsed: { 
       tag: "nav-start-collapsed", 
@@ -365,16 +374,16 @@ export function getSettings() {
       config: false 
     },
 
-    showFolderListOnClick: { 
-      tag: "nav-folders-list-on-click", 
-      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showFolderListOnClick.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showFolderListOnClick.hint"), 
-      propType: Boolean, 
-      inputType: SETTING_INPUT.checkbox, 
-      default: true, 
-      scope: SETTING_SCOPE.client, 
-      config: false 
-    },
+    // showFolderListOnClick: { 
+    //   tag: "nav-folders-list-on-click", 
+    //   label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showFolderListOnClick.label"), 
+    //   hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showFolderListOnClick.hint"), 
+    //   propType: Boolean, 
+    //   inputType: SETTING_INPUT.checkbox, 
+    //   default: true, 
+    //   scope: SETTING_SCOPE.client, 
+    //   config: false 
+    // },
 
     navShowSceneFolders: { 
       tag: "v1-nav-show-root-folders", 

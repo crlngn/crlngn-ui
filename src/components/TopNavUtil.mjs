@@ -33,6 +33,7 @@ export class TopNavigation {
   // settings
   static sceneNavEnabled;
   static navFoldersEnabled;
+  static openFolderOnSceneLoad;
   static navFoldersForPlayers;
   static navShowSceneFolders;
   static navStartCollapsed;
@@ -113,13 +114,13 @@ export class TopNavigation {
     }
 
     Hooks.on(HOOKS_CORE.CREATE_SCENE, () => {
-      ui.nav.render();
+      ui.nav?.render();
     });
     Hooks.on(HOOKS_CORE.UPDATE_SCENE, () => {
-      ui.nav.render();
+      ui.nav?.render();
     });
     Hooks.on(HOOKS_CORE.DELETE_SCENE, () => {
-      ui.nav.render();
+      ui.nav?.render();
     });
 
     Hooks.on(HOOKS_CORE.CANVAS_INIT, ()=>{
@@ -127,10 +128,12 @@ export class TopNavigation {
       if(sceneId !== TopNavigation.#visitedScenes[TopNavigation.#visitedScenes.length-1]){
         TopNavigation.#visitedScenes.push(sceneId);
 
-        if(TopNavigation.navFoldersEnabled){
+        if(TopNavigation.navFoldersEnabled && TopNavigation.openFolderOnSceneLoad){
           const scene = game.scenes.get(sceneId);
           LogUtil.log(HOOKS_CORE.CANVAS_INIT, [scene]);
-          if(scene && scene.folder){ SceneNavFolders.activateFolder(scene.folder.id); }
+          if(scene?.folder && game.user?.isGM){ 
+            SceneNavFolders.activateFolder(scene.folder.id); 
+          }
         }
       }
     });
@@ -202,9 +205,9 @@ export class TopNavigation {
       SceneNavFolders.init();
       SceneNavFolders.renderFolderList();
     }
-    if(TopNavigation.isCollapsed){
-      TopNavigation.toggleNav(true);
-    }
+    // if(TopNavigation.isCollapsed){
+    //   TopNavigation.toggleNav(true);
+    // }
     
     if(TopNavigation.sceneNavEnabled){
       clearTimeout(TopNavigation.#timeout);
@@ -213,6 +216,17 @@ export class TopNavigation {
         TopNavigation.placeNavButtons();
       }, 500);
     }
+
+    if(TopNavigation.#navToggle){
+      TopNavigation.#navToggle.dataset.tooltipDirection = "RIGHT";
+    }
+
+    TopNavigation.scenesList?.addEventListener("scrollend", ()=>{
+      const closestPos = Math.floor(TopNavigation.scenesList.scrollLeft / TopNavigation.scenesList.offsetWidth) * TopNavigation.getItemsPerPage();
+      LogUtil.log("Scene list scroll position", [closestPos]);
+      TopNavigation.navPos = closestPos;
+      SettingsUtil.set(SETTINGS.sceneNavPos.tag, closestPos);
+    });
   }
 
   static setCollapsedClass = (collapsed) => {
@@ -391,14 +405,14 @@ export class TopNavigation {
       TopNavigation.resetLocalVars();
 
       if(collapsed===true){
-        ui.nav.collapse();
+        ui.nav?.collapse();
         TopNavigation.isCollapsed = true;
-        LogUtil.log("toggleNav collapse", [ui.nav.collapse, collapsed, TopNavigation.navStartCollapsed]);
+        LogUtil.log("toggleNav collapse", [ui.nav, collapsed, TopNavigation.navStartCollapsed]);
         const existingButtons = document.querySelectorAll("#ui-top .crlngn-btn");
         existingButtons.forEach(b => b.remove());
       }else if(collapsed===false){
         TopNavigation.isCollapsed = false;
-        ui.nav.expand();
+        ui.nav?.expand();
         LogUtil.log("toggleNav expand", [collapsed, TopNavigation.navStartCollapsed]);
       }
     }, 300);
@@ -453,11 +467,11 @@ export class TopNavigation {
       clearTimeout(TopNavigation.#navTimeout);
 
       const navigation = document.querySelector("#navigation");
-      navigation.classList.add("expanded");
+      navigation.classList.remove("collapsed");
     });
 
     TopNavigation.navElem?.addEventListener("mouseleave", (e)=>{
-      LogUtil.log("TopNavigation mouseleave", [ ]);
+      LogUtil.log("TopNavigation mouseleave", [ TopNavigation.isCollapsed, TopNavigation.showNavOnHover ]);
       if( !TopNavigation.isCollapsed ||
           !TopNavigation.showNavOnHover ){ 
           return;
@@ -468,7 +482,7 @@ export class TopNavigation {
         clearTimeout(TopNavigation.#navTimeout);
         TopNavigation.#navTimeout = null;
         const navigation = document.querySelector("#navigation");
-        navigation.classList.remove("expanded");
+        navigation.classList.add("collapsed");
       }, 700);
     });
   }

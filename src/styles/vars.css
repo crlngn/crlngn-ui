@@ -288,21 +288,21 @@ body.crlngn-ui.crlngn-theme-gold-chocolate {
 
 /* THEME - ROYAL BLOOD */ 
 body.crlngn-ui.crlngn-theme-royal-blood {
-  --color-highlights: rgb(152, 33, 37);
-  --color-highlights-15: rgba(152, 33, 37, 0.15);
-  --color-highlights-25: rgba(152, 33, 37, 0.25);
-  --color-highlights-50: rgba(152, 33, 37, 0.5);
-  --color-highlights-75: rgba(152, 33, 37, 0.75);
-  --color-highlights-90: rgba(152, 33, 37, 0.9);
-  --color-scrollbar: rgba(152, 33, 37, 0.7);
-  --color-border-highlight-alt: rgba(152, 33, 37, 0.9); 
-	--color-border-highlight: rgba(152, 33, 37, 1);
-  --color-shadow-highlight: rgba(152, 33, 37, 0.5); 
-	--color-shadow-primary: rgba(95, 22, 27, 0.8);
-  --color-border-light-primary: rgba(95, 22, 27, 0.5);
-  --color-border-light-highlight: rgba(152, 33, 37, 1);
-  --color-underline-header: rgba(152, 33, 37, 1);
-  --color-underline-active: rgba(152, 33, 37, 1);
+  --color-highlights: rgb(173, 46, 50);
+  --color-highlights-15: rgba(173, 46, 50, 0.15);
+  --color-highlights-25: rgba(173, 46, 50, 0.25);
+  --color-highlights-50: rgba(173, 46, 50, 0.5);
+  --color-highlights-75: rgba(173, 46, 50, 0.75);
+  --color-highlights-90: rgba(173, 46, 50, 0.9);
+  --color-scrollbar: rgba(173, 46, 50, 0.7);
+  --color-border-highlight-alt: rgba(173, 46, 50, 0.9); 
+	--color-border-highlight: rgba(173, 46, 50, 1);
+  --color-shadow-highlight: rgba(173, 46, 50, 0.5); 
+	--color-shadow-primary: rgba(126, 26, 29, 0.8);
+  --color-border-light-primary: rgba(126, 26, 29, 0.5);
+  --color-border-light-highlight: rgba(173, 46, 50, 1);
+  --color-underline-header: rgba(173, 46, 50, 1);
+  --color-underline-active: rgba(173, 46, 50, 1);
 	--color-text-hyperlink: rgb(186, 62, 62);
 
   --color-secondary: rgb(40, 31, 49);
@@ -318,8 +318,8 @@ body.crlngn-ui.crlngn-theme-royal-blood {
   --color-secondary-b-75: rgba(20, 17, 25, 0.75);
   --color-secondary-b-90: rgba(20, 17, 25, 0.9);
   
-  --color-warm-1: rgb(177, 51, 55);
-  --color-warm-2: rgb(152, 33, 37);
+  --color-warm-1: rgb(194, 65, 65);
+  --color-warm-2: rgb(173, 46, 50);
   --color-warm-3: rgb(95, 22, 27);
 }
 

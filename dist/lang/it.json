@@ -214,6 +214,10 @@
             "label": "Mostra elenco cartelle al clic",
             "hint": "Di default, l'elenco delle cartelle nella barra di navigazione si attiva al passaggio del mouse. Abilita questa opzione per cambiare questo comportamento al clic."
           },
+          "openFolderOnSceneLoad": {
+            "label": "Apri cartella al caricamento scena",
+            "hint": "Quando abilitato, la cartella contenente la scena verrà aperta quando la scena viene caricata. Se il pulsante di attivazione cartelle è disabilitato, la cartella verrà aperta quando il pulsante è attivato."
+          },
           "sceneClickToView": {
             "label": "Abilita Click e Doppio Click",
             "hint": "Quando abilitato, cliccare sulla scena nella vista scena apre quella scena. Cliccare due volte l'attiva."

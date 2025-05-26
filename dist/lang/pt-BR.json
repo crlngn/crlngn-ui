@@ -213,6 +213,10 @@
             "label": "Mostrar lista de pastas no click",
             "hint": "Por padrão, a lista aparece no hover. Ative esta opção para mudar o comportamento para o clique."
           },
+          "openFolderOnSceneLoad": {
+            "label": "Abrir pasta ao carregar cena",
+            "hint": "Quando ativado, a pasta onde a cena está contida será aberta quando a cena for carregada. Se o botão de ativação de pasta estiver desabilitado, a pasta será aberta quando o botão estiver ativado."
+          },
           "sceneClickToView": {
             "label": "Ativar Clique e Duplo Clique",
             "hint": "Quando ativado, um clique na cena a abre para visualização. Um duplo clique a ativa para os jogadores."
