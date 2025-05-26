@@ -290,43 +290,46 @@ export class SettingsUtil {
         break;
       case SETTINGS.sceneNavEnabled.tag:
         TopNavigation.sceneNavEnabled = value;
+        if(value===false){
+          SettingsUtil.set(SETTINGS.navFoldersEnabled.tag, false);
+        }
         break;
       case SETTINGS.navFoldersEnabled.tag:
         TopNavigation.navFoldersEnabled = value;
+        if(value===false){
+          SettingsUtil.set(SETTINGS.navShowSceneFolders.tag, false);
+        }
         break;
-      case SETTINGS.navShowRootFolders.tag:
-        TopNavigation.navShowRootFolders = value;
+      case SETTINGS.navShowSceneFolders.tag:
+        TopNavigation.navShowSceneFolders = value;
         break;
       case SETTINGS.sceneClickToView.tag:
         TopNavigation.sceneClickToView = value;
         game.scenes?.directory.render();
-        SceneNavFolders.refreshFolderView();
+        // SceneNavFolders.refreshFolderView();
         break;
       case SETTINGS.useSceneIcons.tag:
         TopNavigation.useSceneIcons = value;
-        game.scenes?.directory.render();
-        SceneNavFolders.refreshFolderView();
-        break;
-      case SETTINGS.useNavBackButton.tag:
-        TopNavigation.useNavBackButton = value;
         ui.nav?.render();
-        // SceneNavFolders.refreshFolderView();
+        game.scenes?.directory.render();
+        break;
+      case SETTINGS.useSceneBackButton.tag:
+        TopNavigation.useSceneBackButton = value;
+        ui.nav?.render();
         break;
       case SETTINGS.useScenePreview.tag:
         TopNavigation.useScenePreview = value;
         ui.nav?.render();
-        // SceneNavFolders.refreshFolderView();
         break;
       case SETTINGS.sceneNavAlias.tag:
         TopNavigation.sceneNavAlias = value;
-        SceneNavFolders.refreshFolderView();
         break;
       case SETTINGS.navStartCollapsed.tag:
         TopNavigation.navStartCollapsed = value;
         break;
       case SETTINGS.showFolderListOnClick.tag:
         TopNavigation.showFolderListOnClick = value;
-        SceneNavFolders.refreshFolderView();
+        // SceneNavFolders.refreshFolderView();
         break;
       case SETTINGS.showNavOnHover.tag:
         TopNavigation.showNavOnHover = value;

@@ -44,11 +44,9 @@ export class Main {
         return;
       }
 
-      if(TopNavigation.navFoldersEnabled){
-        // Add SceneNavFolders to window namespace
-        window.crlngnUI.SceneNavFolders = SceneNavFolders;
-        SceneNavFolders.init();
-      }
+      // if(TopNavigation.navFoldersEnabled){
+      //   SceneNavFolders.init();
+      // }
 
       TopNavigation.init();
       CameraUtil.init(); 
@@ -76,10 +74,10 @@ export class Main {
       TopNavigation.checkSceneNavCompat();
       UpdateNewsUtil.init();
 
-      if(TopNavigation.navFoldersEnabled){
-        SceneNavFolders.init();
-        SceneNavFolders.registerHooks();
-      }
+      // if(TopNavigation.navFoldersEnabled){
+      //   SceneNavFolders.init();
+      //   // SceneNavFolders.registerHooks();
+      // }
 
       const chatStylesEnabled = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
       if(chatStylesEnabled){ 

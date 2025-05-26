@@ -227,7 +227,7 @@
             "label": "Alias for default navigation",
             "hint": "If you want, you can add a label beside the folder tree icon to identify the default navigation, for example, `Favorites`"
           },
-          "useNavBackButton": {
+          "useSceneBackButton": {
             "label": "Enable Back Button",
             "hint": "<b>'Back to Last Scene'</b>: clicking takes you back to previously viewed scene, <b>'Back to Default Scenes'</b>: only appears in folder view, clicking opens the default scene navigation, <b>'OFF'</b>: No back button",
             "options": {
@@ -240,9 +240,9 @@
             "label": "Use Scene Preview",
             "hint": "When enabled, the thumbnail preview will be shown when hovering over scene navigation"
           },
-          "navShowRootFolders": {
-            "label": "Show root folders in scene navigation",
-            "hint": "Root folders from Scene Directory will be show in the default scene navigation. If you have many folders on root, you might want to disable this option."
+          "navShowSceneFolders": {
+            "label": "Show scene folders in navigation",
+            "hint": "When enabled, the folder toggle will be activated, showing your scene folders in the scene navigation. Clicking the toggle will update this setting."
           }
         },
         "reset": "Reset",
