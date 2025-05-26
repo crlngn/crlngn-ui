@@ -92,7 +92,7 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
 
     fieldNames.forEach((fieldName) => {
       if(settings[fieldName] !== undefined) {
-        LogUtil.log("Saving setting:", [settings[fieldName]]);
+        LogUtil.log("Saving setting:", [fieldName, settings[fieldName]]);
         SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
       }
     });

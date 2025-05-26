@@ -239,9 +239,9 @@
             "label": "Usa Anteprima Scena",
             "hint": "Quando abilitato, l'anteprima della scena verrà mostrata quando si passa il mouse sulla navigazione"
           },
-          "navShowRootFolders": {
-            "label": "Mostra le cartelle radice nella navigazione scene",
-            "hint": "Cartelle root dalla directory di scena saranno mostrate nella navigazione scene predefinita. Se hai tante cartelle root, potresti voler disabilitare questa opzione."
+          "navShowSceneFolders": {
+            "label": "Mostra ricerca scene nella navigazione",
+            "hint": "Quando abilitato, un pulsante per cercare scene o cartelle apparirà nella navigazione scene."
           }
         },
         "reset": "Ripristina",

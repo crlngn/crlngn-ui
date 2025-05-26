@@ -238,9 +238,9 @@
             "label": "Usar Previsualização de Cena",
             "hint": "Quando ativado, a miniatura da cena será exibida quando passar o mouse sobre o item na barra de navegação"
           },
-          "navShowRootFolders": {
-            "label": "Mostrar pastas na navegação de cena",
-            "hint": "Pastas serão mostradas na navegação de cena inicial. Se você tiver muitas pastas na raiz do diretório de cenas, pode querer desabilitar esta opção."
+          "navShowSceneFolders": {
+            "label": "Mostrar pesquisa de cenas na navegação",
+            "hint": "Quando ativado, um botão para pesquisar cenas ou pastas será exibido na navegação de cenas."
           }
         },
         "reset": "Redefinir", 

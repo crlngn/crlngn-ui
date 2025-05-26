@@ -34,7 +34,7 @@ export class TopNavigation {
   static sceneNavEnabled;
   static navFoldersEnabled;
   static navFoldersForPlayers;
-  static navShowRootFolders;
+  static navShowSceneFolders;
   static navStartCollapsed;
   static showNavOnHover;
   static useSceneIcons;
@@ -43,9 +43,15 @@ export class TopNavigation {
   static sceneClickToView;
   static isCollapsed;
   static navPos;
+  // compatibility
+  static isMonksSceneNavOn = false;
+  static isRipperSceneNavOn = false;
 
   static init = () => {
     const SETTINGS = getSettings();
+    
+    this.isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
+    this.isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
 
     // execute on render scene navigation
     Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, TopNavigation.onRender);
@@ -56,7 +62,11 @@ export class TopNavigation {
     TopNavigation.useScenePreview = SettingsUtil.get(SETTINGS.useScenePreview.tag);
     TopNavigation.navFoldersEnabled = SettingsUtil.get(SETTINGS.navFoldersEnabled.tag);
     TopNavigation.navFoldersForPlayers = SettingsUtil.get(SETTINGS.navFoldersForPlayers.tag);
+    TopNavigation.useSceneIcons = SettingsUtil.get(SETTINGS.useSceneIcons.tag);
     TopNavigation.isCollapsed = TopNavigation.navStartCollapsed;
+    if(TopNavigation.isCollapsed){
+      TopNavigation.toggleNav(TopNavigation.isCollapsed);
+    }
 
     LogUtil.log("SCENE NAV INIT", [TopNavigation.sceneNavEnabled], true);
     const body = document.querySelector("body");
@@ -68,7 +78,7 @@ export class TopNavigation {
     if(TopNavigation.sceneNavEnabled){
       this.checkSceneNavCompat(); 
       this.preloadTemplates();
-      // SceneNavFolders.init();
+      SceneNavFolders.init();
       
       Hooks.on(HOOKS_CORE.READY, () => {
         if(GeneralUtil.isModuleOn("forien-quest-log")){
@@ -94,7 +104,7 @@ export class TopNavigation {
         
         TopNavigation.#timeout = setTimeout(()=>{
           TopNavigation.setCollapsedClass(collapsed);
-        }, 250);
+        }, 1000);
       });
 
       // execute once on start
@@ -116,6 +126,12 @@ export class TopNavigation {
       const sceneId = game.scenes?.viewed?.id;
       if(sceneId !== TopNavigation.#visitedScenes[TopNavigation.#visitedScenes.length-1]){
         TopNavigation.#visitedScenes.push(sceneId);
+
+        if(TopNavigation.navFoldersEnabled){
+          const scene = game.scenes.get(sceneId);
+          LogUtil.log(HOOKS_CORE.CANVAS_INIT, [scene]);
+          if(scene && scene.folder){ SceneNavFolders.activateFolder(scene.folder.id); }
+        }
       }
     });
 
@@ -165,11 +181,11 @@ export class TopNavigation {
   }
 
   static onRender = (nav, navHtml, navData) => {
+    LogUtil.log("onRender - "+HOOKS_CORE.RENDER_SCENE_NAV, [navHtml], true);
     const SETTINGS = getSettings();
     const scenePage = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
-    LogUtil.log("onRender - "+HOOKS_CORE.RENDER_SCENE_NAV, [navHtml], true);
 
-    TopNavigation.resetLocalVars();
+    TopNavigation.resetLocalVars(navHtml);
     if(TopNavigation.sceneNavEnabled){
       TopNavigation.handleBackButton(nav, navHtml, navData);
       TopNavigation.handleSceneList(nav, navHtml, navData);
@@ -180,12 +196,15 @@ export class TopNavigation {
     
     TopNavigation.addSceneListeners(navHtml);
     TopNavigation.addListeners();
-    TopNavigation.resetLocalVars();
+    TopNavigation.resetLocalVars(navHtml);
 
-    // if(TopNavigation.sceneNavEnabled && TopNavigation.navShowRootFolders){
-    //   SceneNavFolders.init();
-    //   SceneNavFolders.renderFolderList();
-    // }
+    if(TopNavigation.sceneNavEnabled && TopNavigation.navShowSceneFolders){
+      SceneNavFolders.init();
+      SceneNavFolders.renderFolderList();
+    }
+    if(TopNavigation.isCollapsed){
+      TopNavigation.toggleNav(true);
+    }
     
     if(TopNavigation.sceneNavEnabled){
       clearTimeout(TopNavigation.#timeout);
@@ -199,14 +218,14 @@ export class TopNavigation {
   static setCollapsedClass = (collapsed) => {
     const body = document.querySelector("body");
     if(collapsed){
-      TopNavigation.#uiLeft.classList.add('navigation-collapsed');
+      TopNavigation.#navElem?.classList.add('collapsed');
       body.classList.add('navigation-collapsed');
 
       if(GeneralUtil.isModuleOn("forien-quest-log")){
         Hooks.on("questTrackerBoundaries", (boundaries) => boundaries.top = 10);
       }
     }else{
-      TopNavigation.#uiLeft.classList.remove('navigation-collapsed');
+      TopNavigation.#navElem?.classList.remove('collapsed');
       body.classList.remove('navigation-collapsed');
       TopNavigation.placeNavButtons();
 
@@ -229,11 +248,13 @@ export class TopNavigation {
   /**
    * Resets and reinitializes local DOM element references
    */
-  static resetLocalVars(){
-    TopNavigation.#navElem = document.querySelector("#navigation"); 
-    TopNavigation.#navToggle = document.querySelector("#nav-toggle"); 
-    TopNavigation.#uiLeft = document.querySelector("#ui-left");
-    TopNavigation.#scenesList = document.querySelector("#scene-list");
+  static resetLocalVars(navHtml){
+    let navElem = navHtml?.[0] || navHtml || document.querySelector("#navigation"); 
+
+    TopNavigation.navElem = navElem; 
+    TopNavigation.#navToggle = navElem.querySelector("#nav-toggle"); 
+    TopNavigation.#uiLeft = navElem.querySelector("#ui-left");
+    TopNavigation.scenesList = navElem.querySelector("#scene-list");
   }
 
   /**
@@ -274,9 +295,7 @@ export class TopNavigation {
         
         // add custom scene icons
         if(TopNavigation.useSceneIcons){
-          if(li.classList.contains('active') || li.classList.contains('view')){
-            li.classList.add('crlngn');
-          }
+          li.classList.add('crlngn-icons');
         }
       }
     }
@@ -322,7 +341,7 @@ export class TopNavigation {
     const SETTINGS = getSettings();
     if(!TopNavigation.navFoldersEnabled){ return; }
     
-    // SceneNavFolders.addFolderButtons(nav, navHtml, navData);
+    SceneNavFolders.addFolderButtons(nav, navHtml, navData);
   }
 
   /**
@@ -356,9 +375,10 @@ export class TopNavigation {
     if(TopNavigation.#navFirstLoad) {
       TopNavigation.#navFirstLoad = false;
       TopNavigation.toggleNav(TopNavigation.navStartCollapsed);
-    }else{
-      // TopNavigation.toggleNav(TopNavigation.navStartCollapsed);
     }
+    // else{
+    //   TopNavigation.toggleNav(TopNavigation.navStartCollapsed);
+    // }
   }
 
   /**
@@ -389,32 +409,32 @@ export class TopNavigation {
    * If Monk's Scene Navigation or Compact Scene Navigation are enabled, disable Carolingian UI Top Navigation
    */
   static checkSceneNavCompat(){
-    // const SETTINGS = getSettings();
-    // const uiLeft = document.querySelector("#ui-top");
-    /*
-    this.#isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
-    this.#isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
+    const SETTINGS = getSettings();
+    const uiMiddle = document.querySelector("#ui-middle");
+    
+    this.isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
+    this.isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
 
-    if(this.#isRipperSceneNavOn && TopNavigation.navFoldersEnabled){
-      if(game.user?.isGM && this.#isRipperSceneNavOn){
+    if(this.isRipperSceneNavOn && TopNavigation.navFoldersEnabled){
+      if(game.user?.isGM && this.isRipperSceneNavOn){
         ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.ripperScenesCompat"), {permanent: true});
       }
     }
-    if(TopNavigation.sceneNavEnabled){
-      uiLeft.classList.remove("crlngn-ui");
+    if((this.isMonksSceneNavOn) && TopNavigation.sceneNavEnabled){
+      uiMiddle.classList.remove("crlngn-ui");
       
       if(game.ready){
         SettingsUtil.set(SETTINGS.sceneNavEnabled.tag, false);
         TopNavigation.sceneNavEnabled = false;
       }
 
-      LogUtil.log("checkSceneNavCompat", [this.#isMonksSceneNavOn, this.#isRipperSceneNavOn]);
+      LogUtil.log("checkSceneNavCompat", [TopNavigation.isMonksSceneNavOn, TopNavigation.isRipperSceneNavOn]);
       
-      if(game.user?.isGM && this.#isMonksSceneNavOn){
+      if(game.user?.isGM && TopNavigation.isMonksSceneNavOn){
         ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.monksScenesNotSupported"), {permanent: true});
       }
+      
     }
-    */
   }
 
   /**
@@ -422,7 +442,7 @@ export class TopNavigation {
    * Handles hover and click events for navigation expansion/collapse
    */
   static addListeners(){
-    TopNavigation.#navElem?.addEventListener("mouseenter", (e)=>{
+    TopNavigation.navElem?.addEventListener("mouseenter", (e)=>{
       LogUtil.log("TopNavigation mouseenter", [ TopNavigation.isCollapsed, TopNavigation.showNavOnHover ]);;
 
       if( !TopNavigation.isCollapsed ||
@@ -432,11 +452,11 @@ export class TopNavigation {
       e.stopPropagation();
       clearTimeout(TopNavigation.#navTimeout);
 
-      const navigation = document.querySelector("#scene-navigation");
+      const navigation = document.querySelector("#navigation");
       navigation.classList.add("expanded");
     });
 
-    TopNavigation.#navElem?.addEventListener("mouseleave", (e)=>{
+    TopNavigation.navElem?.addEventListener("mouseleave", (e)=>{
       LogUtil.log("TopNavigation mouseleave", [ ]);
       if( !TopNavigation.isCollapsed ||
           !TopNavigation.showNavOnHover ){ 
@@ -447,7 +467,7 @@ export class TopNavigation {
       TopNavigation.#navTimeout = setTimeout(()=>{
         clearTimeout(TopNavigation.#navTimeout);
         TopNavigation.#navTimeout = null;
-        const navigation = document.querySelector("#scene-navigation");
+        const navigation = document.querySelector("#navigation");
         navigation.classList.remove("expanded");
       }, 700);
     });
@@ -494,8 +514,8 @@ export class TopNavigation {
     const btnLast = document.querySelector("#ui-top button.crlngn-btn.ui-nav-left");
     const btnNext = document.querySelector("#ui-top button.crlngn-btn.ui-nav-right");
   
-    if (btnLast) btnLast.addEventListener("click", this.#onNavLast);
-    if (btnNext) btnNext.addEventListener("click", this.#onNavNext);
+    if (btnLast) btnLast.addEventListener("click", TopNavigation.#onNavLast);
+    if (btnNext) btnNext.addEventListener("click", TopNavigation.#onNavNext);
   }
 
   /**
@@ -505,41 +525,46 @@ export class TopNavigation {
    * @param {Event} e - The pointer event
    */
   static #onNavLast = async (e) => {
+    e.preventDefault();
     const itemsPerPage = await TopNavigation.getItemsPerPage();
     const currPos = TopNavigation.navPos || 0;
 
-    if(!TopNavigation.#scenesList || !TopNavigation.#navElem){ return; }
+    if(currPos <= 0 || !TopNavigation.scenesList || !TopNavigation.navElem){ return; }
 
     let newPos = currPos - (itemsPerPage - 1);
-    LogUtil.log("onNavLast", ["pos", newPos, TopNavigation.#navElem.scrollWidth]);
+    LogUtil.log("onNavLast", ["pos", currPos, newPos, itemsPerPage]);
     
     newPos = newPos < 0 ? 0 : newPos;
     TopNavigation.setNavPosition(newPos);
   }
 
   /**
-   * @private
+   * @private 
    * Handles click on the 'next' navigation button
    * Scrolls the scene list forward by one page
    * @param {Event} e - The pointer event
    */
   static #onNavNext = async (e) => {
+    e.preventDefault();
     const itemsPerPage = await TopNavigation.getItemsPerPage();
-    // const scenes = TopNavigation.#scenesList?.querySelectorAll("li.nav-item") || [];
-    const currPos = TopNavigation.navPos || 0;
-    const firstScene = TopNavigation.#navElem?.querySelector("li.nav-item:first-of-type");
-    const itemWidth = firstScene?.offsetWidth || 0;
-    const scrollWidth = TopNavigation.#navElem?.scrollWidth || 0;
 
-    if(!itemWidth || !TopNavigation.#navElem){ return; }
+    const navElem = document.querySelector("#navigation");
+    const scenes = navElem?.querySelectorAll("li.nav-item") || [];
+    const currPos = TopNavigation.navPos || 0;
+    const firstScene = navElem?.querySelector("li.nav-item.scene.active");
+    const itemWidth = firstScene?.offsetWidth || 0;
+    const scrollWidth = navElem?.scrollWidth || 0; 
+    LogUtil.log("onNavNext", [itemsPerPage, itemWidth, firstScene, TopNavigation.navElem]);
+
+    if(!itemWidth || !TopNavigation.navElem){ return; }
 
     let newPos = currPos + (itemsPerPage - 1);
     let newPosPx = newPos * itemWidth;
-    LogUtil.log("onNavNext", ["pos", currPos, newPos, firstScene?.offsetWidth, newPosPx, scrollWidth]);
 
     if(newPosPx >= scrollWidth){
       newPos = Math.floor(scrollWidth/itemWidth);
     }
+    LogUtil.log("onNavNext", ["pos", currPos, newPos, itemWidth, newPosPx, scrollWidth]);
     TopNavigation.setNavPosition(newPos);
   }
 
@@ -553,40 +578,36 @@ export class TopNavigation {
     try {
       const SETTINGS = getSettings();
       
-      if(!TopNavigation.#navElem){ return; }
+      if(!TopNavigation.navElem){ return; }
 
-      const scenes = TopNavigation.#navElem?.querySelectorAll("li.nav-item") || [];
-      const extrasWidth = 0;//this.#isRipperSceneNavOn ? this.#navExtras?.offsetWidth || 0 : 0;
+      const scenes = TopNavigation.navElem?.querySelectorAll("li.nav-item") || [];
+      const extrasWidth = 0;//this.isRipperSceneNavOn ? this.#navExtras?.offsetWidth || 0 : 0;
       const position = pos!==null ? pos : TopNavigation.navPos || 0;
-      const firstScene = TopNavigation.#navElem?.querySelector("li.nav-item:first-of-type");
+      const firstScene = TopNavigation.navElem?.querySelector("li.nav-item.scene.active");
       
       if(!firstScene){ return; }
-      // if (scenes.length === 0 || position > Math.ceil(TopNavigation.#navElem.scrollWidth/itemWidth)) { return; }
+      // if (scenes.length === 0 || position > Math.ceil(TopNavigation.navElem.scrollWidth/itemWidth)) { return; }
       // const firstScene = scenes[0];
 
       const targetScene = scenes[position];
       const w = firstScene.offsetWidth || 0;
       const offsetLeft = parseInt(w) * position; //parseInt(targetScene?.offsetLeft);
-      LogUtil.log("setNavPosition", ['position', position, offsetLeft, TopNavigation.#navElem.scrollWidth ]);
+      LogUtil.log("setNavPosition", ['position', position, offsetLeft, TopNavigation.navElem.scrollWidth ]);
       
       // if (typeof offsetLeft !== 'number') { return; }
 
       const newMargin = (offsetLeft - extrasWidth);
-      if(newMargin > TopNavigation.#navElem.scrollWidth){ return; }
+      if(newMargin > TopNavigation.navElem.scrollWidth){ return; }
       
       TopNavigation.navPos = position;
       SettingsUtil.set(SETTINGS.sceneNavPos.tag, position);
       
       if (animate) {
         // Use custom animation with specified duration from GeneralUtil
-        GeneralUtil.smoothScrollTo(TopNavigation.#scenesList, newMargin, "horizontal", duration);
-        // TopNavigation.#navElem.scrollTo({
-        //   left: newMargin,
-        //   behavior: "smooth"
-        // })
+        GeneralUtil.smoothScrollTo(TopNavigation.scenesList, newMargin, "horizontal", duration);
       } else {
         // Use instant scroll without animation
-        TopNavigation.#scenesList.scrollTo({
+        TopNavigation.scenesList.scrollTo({
           left: newMargin,
           behavior: "instant"
         });
@@ -601,35 +622,33 @@ export class TopNavigation {
    * Calculates the number of scenes that can fit in the navigation area
    * @returns {Promise<number>} The number of scenes that can fit in the navigation area
    */
-  static getItemsPerPage = async () => {
+  static getItemsPerPage = () => {
+    // TopNavigation.resetLocalVars(); 
     try {
-      LogUtil.log('getItemsPerPage', ['Starting']);
-      TopNavigation.resetLocalVars();
-
       const folderListWidth = 0; 
       const extrasWidth = 0; 
-      const toggleWidth = TopNavigation.#navToggle?.offsetWidth || 0;
-      const firstScene = TopNavigation.#navElem?.querySelector("li.nav-item:first-of-type");
+      const toggleWidth = TopNavigation.#navToggle?.offsetWidth || TopNavigation.#navToggle?.clientWidth || 0;
+      const firstScene = document.querySelector("#navigation li.nav-item.scene.active");
       
-      if (!firstScene || !TopNavigation.#navElem) {
+      if (!firstScene) {
         LogUtil.log('getItemsPerPage', ['No scene items found']);
-        return 0;
+        return 1;
       }
 
       const itemWidth = firstScene.offsetWidth;
-      const navWidth = TopNavigation.#navElem.offsetWidth;
+      const navWidth = document.querySelector("#navigation").offsetWidth;
       if (!navWidth) {
         LogUtil.log('getItemsPerPage', ['Nav element has no width']);
-        return 0;
+        return 1;
       }
 
       const itemsPerPage = Math.floor((navWidth - (toggleWidth*2))/itemWidth);
-      LogUtil.log('getItemsPerPage', ['Calculated:', itemsPerPage, navWidth, itemWidth]);
-      return itemsPerPage || 0;
+      LogUtil.log('getItemsPerPage', ['Calculated:', itemsPerPage, navWidth, itemWidth, firstScene, firstScene.offsetWidth, firstScene.clientWidth]);
+      return itemsPerPage || 1;
     } catch (error) {
       LogUtil.log('getItemsPerPage', ['Error:', error]);
       LogUtil.error('Error in getItemsPerPage:', error);
-      return 0;
+      return 1;
     }
   }
 
@@ -656,12 +675,12 @@ export class TopNavigation {
 
   static getCurrScenePosition = async (id) => {
     try {
-      if (!TopNavigation.#navElem || !id) {
+      if (!TopNavigation.navElem || !id) {
         return 0;
       }
 
       const itemsPerPage = await TopNavigation.getItemsPerPage() || 1;
-      const sceneItems = TopNavigation.#navElem.querySelectorAll("li.nav-item");
+      const sceneItems = TopNavigation.navElem.querySelectorAll("li.nav-item");
 
       if (!sceneItems || sceneItems.length === 0) {
         return 0;

@@ -229,13 +229,13 @@ export class SceneNavFolders {
       useSceneIcons: TopNavigation.useSceneIcons,
       useScenePreview: TopNavigation.useScenePreview,
       sceneNavAlias: TopNavigation.sceneNavAlias,
-      showRootFolders: TopNavigation.navShowRootFolders
+      showRootFolders: TopNavigation.navShowSceneFolders
     };
     
     LogUtil.log("rootFolders", [ui.scenes?.folders, game.folders]);
     // Add folder-specific data
     if (SceneNavFolders.selectedFolder === DEFAULT_FOLDER_ID) {
-      const rootFolders = TopNavigation.navShowRootFolders ? ui.scenes?.folders.filter(f => f.folder===null) || [] : [];
+      const rootFolders = TopNavigation.navShowSceneFolders ? ui.scenes?.folders.filter(f => f.folder===null) || [] : [];
       
       if(SceneNavFolders.#currSceneSortMode === "a"){
         // alphabetical sort order

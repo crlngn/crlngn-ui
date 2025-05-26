@@ -56,6 +56,7 @@ body.crlngn-ui {
   --color-highlights-90: rgba(68, 147, 173, 0.9);
   --color-scrollbar: rgba(68, 147, 173, 0.7);
   --color-secondary: rgba(62, 62, 88, 1);
+  --color-secondary-b: rgb(31, 31, 47);
   --color-secondary-bright: rgba(122, 122, 148, 0.75);
   --color-secondary-15: rgba(62, 62, 88, 0.15);
   --color-secondary-25: rgba(62, 62, 88, 0.25);
@@ -111,6 +112,13 @@ body.crlngn-ui {
   --color-dark-5: #666;
   --color-dark-6: #777;
   --color-text-light:rgba(200,200,200,1);
+
+  #interface {
+    --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
+    &.theme-dark{
+      --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
+    }
+  }
 }
 
 body.crlngn-ui{
@@ -261,6 +269,7 @@ body.crlngn-ui.crlngn-theme-gold-chocolate {
 	--color-text-hyperlink: rgb(172, 141, 40);
 
   --color-secondary: rgb(34, 25, 25);
+  --color-secondary-b: rgb(20, 13, 13);
   --color-secondary-bright: rgba(125, 109, 109, 0.75);
   --color-secondary-15: rgba(34, 25, 25, 0.15);
   --color-secondary-25: rgba(34, 25, 25, 0.25);
@@ -297,6 +306,7 @@ body.crlngn-ui.crlngn-theme-royal-blood {
 	--color-text-hyperlink: rgb(186, 62, 62);
 
   --color-secondary: rgb(40, 31, 49);
+  --color-secondary-b: rgb(20, 15, 25);
   --color-secondary-bright: rgba(123, 111, 133, 0.75);
   --color-secondary-15: rgba(40, 31, 49, 0.15);
   --color-secondary-25: rgba(40, 31, 49, 0.25);
@@ -334,6 +344,7 @@ body.crlngn-ui.crlngn-theme-dark-sorcery {
 
   /* CAROLINGIAN UI COLORS */
   --color-secondary: rgb(31, 47, 49);
+  --color-secondary-b: rgb(15, 25, 27);
   --color-secondary-bright: rgba(97, 121, 123, 0.75);
   --color-secondary-15: rgba(31, 47, 49, 0.15);
   --color-secondary-25: rgba(31, 47, 49, 0.25);
@@ -369,6 +380,7 @@ body.crlngn-ui.crlngn-theme-tangerine {
 	--color-text-hyperlink: rgb(220, 120, 43);
 
   --color-secondary: rgb(40, 31, 49);
+  --color-secondary-b: rgb(22, 16, 28);
   --color-secondary-bright: rgba(126, 113, 138, 0.75);
   --color-secondary-15: rgba(40, 31, 49, 0.15);
   --color-secondary-25: rgba(40, 31, 49, 0.25);
@@ -405,6 +417,7 @@ body.crlngn-ui.crlngn-theme-gambits-blue {
 	--color-text-hyperlink: rgb(90, 171, 251);
 
   --color-secondary: rgb(40, 31, 49);
+  --color-secondary-b: rgb(21, 16, 27);
   --color-secondary-bright: rgba(126, 113, 138, 0.75);
   --color-secondary-15: rgba(40, 31, 49, 0.15);
   --color-secondary-25: rgba(40, 31, 49, 0.25);
