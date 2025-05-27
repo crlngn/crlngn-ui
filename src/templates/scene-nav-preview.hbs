@@ -4,28 +4,31 @@
   <div class="icons">
     {{!-- global ilumination icon --}}
     {{#if environment.globalLight.enabled }}
-    <i class="fa-solid fa-lightbulb-on ilum" data-tooltip="Global illumination is on" data-tooltip-direction="DOWN" data-tooltip-delay="200"></i>
+    <i class="fa-solid fa-lightbulb-on ilum" data-tooltip="Global illumination is on" data-tooltip-direction="UP" data-tooltip-delay="500"></i>
     {{else}}
-    <i class="fa-solid fa-lightbulb-slash ilum" data-tooltip="Global illumination is off" data-tooltip-direction="DOWN" data-tooltip-delay="200"></i>
+    <i class="fa-solid fa-lightbulb-slash ilum" data-tooltip="Global illumination is off" data-tooltip-direction="UP" data-tooltip-delay="500"></i>
     {{/if}}
 
     {{!-- Token vision icon --}}
     {{#if tokenVision }}
-    <i class="fa-solid fa-user token-vision" data-tooltip="Token Vision is on" data-tooltip-direction="DOWN" data-tooltip-delay="200"></i>
+    <i class="fa-solid fa-user token-vision" data-tooltip="Token Vision is on" data-tooltip-direction="UP" data-tooltip-delay="500"></i>
     {{else}}
-    <i class="fa-solid fa-user-slash token-vision" data-tooltip="Token Vision is off" data-tooltip-direction="DOWN" data-tooltip-delay="200"></i>
+    <i class="fa-solid fa-user-slash token-vision" data-tooltip="Token Vision is off" data-tooltip-direction="UP" data-tooltip-delay="500"></i>
     {{/if}}
 
     {{!-- sound icon --}}
-    {{#if playlistSound }}
+    {{!-- {{#if playlistSound }}
       {{#if playlistSound.sound.playing }}
-      <i class="fa-solid fa-music sound" data-tooltip="Playlist sound is on" data-tooltip-direction="DOWN" data-tooltip-delay="200"></i>
+      <i class="fa-solid fa-music sound" data-tooltip="Playlist sound is on" data-tooltip-direction="UP" data-tooltip-delay="500"></i>
       {{else}}
-      <i class="fa-solid fa-music-slash sound" data-tooltip="Playlist sound is off" data-tooltip-direction="DOWN" data-tooltip-delay="200"></i>
+      <i class="fa-solid fa-music-slash sound" data-tooltip="Playlist sound is off" data-tooltip-direction="UP" data-tooltip-delay="500"></i>
       {{/if}}
-    {{/if}}
+    {{/if}} --}}
+    {{#unless thumb }}
+      <i class="fas fa-image gen-thumb" data-tooltip="Generate Thumbnail" data-tooltip-direction="UP" data-tooltip-delay="500"></i>
+    {{/unless}}
 
     {{!-- config icon --}}
-    <i class="fas fa-cog config" data-tooltip="Scene Configuration" data-tooltip-direction="DOWN" data-tooltip-delay="200"></i>
+    <i class="fas fa-cog config" data-tooltip="Scene Configuration" data-tooltip-direction="UP" data-tooltip-delay="500"></i>
   </div>
 </div>

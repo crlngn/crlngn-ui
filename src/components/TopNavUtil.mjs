@@ -14,8 +14,8 @@ import { SettingsUtil } from "./SettingsUtil.mjs";
  * Handles scene navigation, folder organization, and UI state
  */
 export class TopNavigation {
-  static #navElem;
-  static #scenesList;
+  static navElem;
+  static scenesList;
   static #navTimeout;
   static #navExtras;
   static #navToggle;
@@ -30,6 +30,7 @@ export class TopNavigation {
   static #sceneHoverTimeout = null;
   static #previewedScene = '';
   static #visitedScenes = [];
+  static preventReposition = false;
   // settings
   static sceneNavEnabled;
   static navFoldersEnabled;
@@ -85,14 +86,15 @@ export class TopNavigation {
         if(GeneralUtil.isModuleOn("forien-quest-log")){
           Hooks.on("questTrackerBoundaries", (boundaries) => boundaries.top = 42);
         }
+        LogUtil.log(HOOKS_CORE.READY, [ui.sidebar]);
+        TopNavigation.checkSideBar(!ui.sidebar._collapsed);
       })
 
       // add class to ui nav when sidebar changes state
       Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, (sidebar) => { 
-        LogUtil.log(HOOKS_CORE.COLLAPSE_SIDE_BAR, [sidebar]);
-        if(sidebar){TopNavigation.checkSideBar(sidebar.expanded);}
-        TopNavigation.placeNavButtons();
-      }); 
+        LogUtil.log(HOOKS_CORE.COLLAPSE_SIDE_BAR, [sidebar, sidebar.expanded, sidebar._collapsed]);
+        if(sidebar){TopNavigation.checkSideBar(!sidebar._collapsed);}
+      });
 
       // re-add buttons when scene nav collapses or expands
       Hooks.on(HOOKS_CORE.COLLAPSE_SCENE_NAV, (nav, collapsed) => {
@@ -114,12 +116,15 @@ export class TopNavigation {
     }
 
     Hooks.on(HOOKS_CORE.CREATE_SCENE, () => {
+      TopNavigation.preventReposition = true;
       ui.nav?.render();
     });
     Hooks.on(HOOKS_CORE.UPDATE_SCENE, () => {
+      TopNavigation.preventReposition = true;
       ui.nav?.render();
     });
     Hooks.on(HOOKS_CORE.DELETE_SCENE, () => {
+      TopNavigation.preventReposition = true;
       ui.nav?.render();
     });
 
@@ -183,36 +188,43 @@ export class TopNavigation {
     // if(ui.nav) ui.nav.render();
   }
 
-  static onRender = (nav, navHtml, navData) => {
-    LogUtil.log("onRender - "+HOOKS_CORE.RENDER_SCENE_NAV, [navHtml], true);
+  static onRender = async(nav, navHtml, navData) => {
+    LogUtil.log("onRender", []);
+    navHtml = navHtml?.[0] || navHtml;
     const SETTINGS = getSettings();
-    const scenePage = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
+    const scenePos = TopNavigation.navPos;//SettingsUtil.get(SETTINGS.sceneNavPos.tag);
+    // TopNavigation.navPos = scenePos;
 
     TopNavigation.resetLocalVars(navHtml);
+    
     if(TopNavigation.sceneNavEnabled){
-      TopNavigation.handleBackButton(nav, navHtml, navData);
-      TopNavigation.handleSceneList(nav, navHtml, navData);
+      TopNavigation.handleExtraButtons(nav, navHtml, navData);
       TopNavigation.handleFolderList(nav, navHtml, navData);
-      TopNavigation.setNavPosition(scenePage, false);
-      TopNavigation.handleNavState();
+      TopNavigation.handleSceneList(nav, navHtml, navData);
+      if(TopNavigation.navShowSceneFolders){
+        SceneNavFolders.init();
+        await SceneNavFolders.renderFolderList();
+      }
+      TopNavigation.handleNavState(navHtml);
     }
     
     TopNavigation.addSceneListeners(navHtml);
     TopNavigation.addListeners();
     TopNavigation.resetLocalVars(navHtml);
 
-    if(TopNavigation.sceneNavEnabled && TopNavigation.navShowSceneFolders){
-      SceneNavFolders.init();
-      SceneNavFolders.renderFolderList();
-    }
     // if(TopNavigation.isCollapsed){
     //   TopNavigation.toggleNav(true);
     // }
     
     if(TopNavigation.sceneNavEnabled){
+      // console.trace("onRender - preventReposition?", TopNavigation.preventReposition);
+      if(TopNavigation.preventReposition){
+        TopNavigation.preventReposition = false;
+      }else{
+        TopNavigation.setNavPosition(scenePos, false);
+      }
       clearTimeout(TopNavigation.#timeout);
       TopNavigation.#timeout = setTimeout(()=>{
-        LogUtil.log("NAV no transition remove");
         TopNavigation.placeNavButtons();
       }, 500);
     }
@@ -221,8 +233,10 @@ export class TopNavigation {
       TopNavigation.#navToggle.dataset.tooltipDirection = "RIGHT";
     }
 
-    TopNavigation.scenesList?.addEventListener("scrollend", ()=>{
-      const closestPos = Math.floor(TopNavigation.scenesList.scrollLeft / TopNavigation.scenesList.offsetWidth) * TopNavigation.getItemsPerPage();
+    TopNavigation.navElem?.addEventListener("scrollend", ()=>{
+      const selectedItem = TopNavigation.navElem?.querySelector(`#scene-list > li.scene.view`);
+      const itemWidth = selectedItem.offsetWidth;
+      const closestPos = Math.floor(TopNavigation.navElem.scrollLeft / itemWidth);
       LogUtil.log("Scene list scroll position", [closestPos]);
       TopNavigation.navPos = closestPos;
       SettingsUtil.set(SETTINGS.sceneNavPos.tag, closestPos);
@@ -232,14 +246,14 @@ export class TopNavigation {
   static setCollapsedClass = (collapsed) => {
     const body = document.querySelector("body");
     if(collapsed){
-      TopNavigation.#navElem?.classList.add('collapsed');
+      TopNavigation.navElem?.classList.add('collapsed');
       body.classList.add('navigation-collapsed');
 
       if(GeneralUtil.isModuleOn("forien-quest-log")){
         Hooks.on("questTrackerBoundaries", (boundaries) => boundaries.top = 10);
       }
     }else{
-      TopNavigation.#navElem?.classList.remove('collapsed');
+      TopNavigation.navElem?.classList.remove('collapsed');
       body.classList.remove('navigation-collapsed');
       TopNavigation.placeNavButtons();
 
@@ -257,6 +271,7 @@ export class TopNavigation {
     }else{
       body.classList.remove("sidebar-expanded");
     }
+    // document.body.classList.toggle("sidebar-collapsed", !isExpanded);
   }
 
   /**
@@ -288,6 +303,7 @@ export class TopNavigation {
         if(TopNavigation.useScenePreview){
           const sceneData = game.scenes.find(sc => sc.id === id);
           sceneData.isGM = game.user?.isGM;
+          sceneData.thumb = sceneData.thumb || null;
           const previewTemplate = await renderTemplate(
             `modules/${MODULE_ID}/templates/scene-nav-preview.hbs`, 
             sceneData
@@ -323,24 +339,45 @@ export class TopNavigation {
    * @param {SceneNavData} navData - The scene navigation data
    * @returns {void}
    */
-  static handleBackButton(nav, navHtml, navData){
+  static handleExtraButtons = async(nav, navHtml, navData) => {
     const SETTINGS = getSettings();
     navHtml = navHtml[0] || navHtml; // get element from jquery object
-    LogUtil.log("handleBackButton",[nav, navHtml, navData]);
+    LogUtil.log("handleExtraButtons",[nav, navHtml, navData]);
 
-    if(TopNavigation.useSceneBackButton){
-      if(game.scenes.size < 2){ return; }
-      const sceneNav = navHtml.querySelector("#scene-list");
-      const backButton = document.createElement("button");
-      backButton.id = "crlngn-back-button";
-      backButton.innerHTML = "<i class='fa fa-turn-left'></i>";
+
+    const extraButtonsTemplate = await renderTemplate(
+      `modules/${MODULE_ID}/templates/scene-nav-extra-buttons.hbs`, 
+      {
+        useSceneBackButton: TopNavigation.useSceneBackButton,
+        navFoldersEnabled: TopNavigation.navFoldersEnabled,
+        backButtonTooltip: game.i18n.localize("CRLNGN_UI.ui.backButtonTooltip"),
+        sceneLookupTooltip: game.i18n.localize("CRLNGN_UI.ui.sceneLookupTooltip"),
+        isGM: game.user?.isGM,
+      }
+    );
+
+    navHtml.querySelector("#nav-toggle").insertAdjacentHTML("afterend", extraButtonsTemplate);
+    const backButton = navHtml.querySelector("#crlngn-back-button");
+    if(backButton){
       backButton.addEventListener("click", TopNavigation.#onBackButton);
-      navHtml.insertBefore(backButton, sceneNav);
-    }else{
-      const existingBackButton = document.querySelector("#crlngn-back-button");
-      navHtml.classList.add("no-back-button");
-      if(existingBackButton){ existingBackButton.remove(); }
     }
+
+    // folder lookup button and search block
+    SceneNavFolders.handleFolderLookup(nav, navHtml, navData);
+
+    // if(TopNavigation.useSceneBackButton){
+    //   if(game.scenes.size < 2){ return; }
+    //   const sceneNav = navHtml.querySelector("#scene-list");
+    //   const backButton = document.createElement("button");
+    //   backButton.id = "crlngn-back-button";
+    //   backButton.innerHTML = "<i class='fa fa-turn-left'></i>";
+    //   backButton.addEventListener("click", TopNavigation.#onBackButton);
+    //   navHtml.insertBefore(backButton, sceneNav);
+    // }else{
+    //   const existingBackButton = document.querySelector("#crlngn-back-button");
+    //   navHtml.classList.add("no-back-button");
+    //   if(existingBackButton){ existingBackButton.remove(); }
+    // }
     
   }
 
@@ -384,11 +421,21 @@ export class TopNavigation {
    * Handles the first load of the navigation bar
    * Only checks sceneNavCollapsed setting if not first load
    */
-  static handleNavState(){
+  static handleNavState(navHtml){
     const SETTINGS = getSettings();
+    navHtml = navHtml[0] || navHtml;
     if(TopNavigation.#navFirstLoad) {
       TopNavigation.#navFirstLoad = false;
       TopNavigation.toggleNav(TopNavigation.navStartCollapsed);
+      // try to set the initial scene position
+      const selectedItem = navHtml.querySelector(`#scene-list > li.scene.active`);
+      const sceneOffsetLeft = selectedItem ? selectedItem.offsetLeft : 0;
+      const itemWidth = selectedItem?.offsetWidth || 0;
+      const scenePos = Math.floor(sceneOffsetLeft / itemWidth);
+      LogUtil.log("onLoad - scenePos", [sceneOffsetLeft, scenePos]);
+      TopNavigation.navPos = scenePos;
+      SettingsUtil.set(SETTINGS.sceneNavPos.tag, scenePos);
+      TopNavigation.setNavPosition(scenePos, false);
     }
     // else{
     //   TopNavigation.toggleNav(TopNavigation.navStartCollapsed);
@@ -541,14 +588,23 @@ export class TopNavigation {
   static #onNavLast = async (e) => {
     e.preventDefault();
     const itemsPerPage = await TopNavigation.getItemsPerPage();
-    const currPos = TopNavigation.navPos || 0;
+    const navElem = document.querySelector("#navigation");
+    const scenes = navElem?.querySelectorAll("li.nav-item") || [];
+    const firstScene = Array.from(scenes)[0];
+    const activeScene = document.querySelector("#scene-list > li.scene.active");
+    const itemWidth = firstScene?.offsetWidth || 0;
+    const currPos = Math.floor(activeScene?.offsetLeft/itemWidth); // TopNavigation.navPos || 0;
+    TopNavigation.navPos = currPos;
+    // const foldersBlock = TopNavigation.navElem?.querySelector("#folders-group");
+    // const folderToggle = TopNavigation.navElem?.querySelector("#crlngn-folder-toggle");
+    // const extrasWidth = TopNavigation.navShowSceneFolders ? ((foldersBlock?.offsetWidth||0)) : 0;//+ (folderToggle?.offsetWidth||0)
 
     if(currPos <= 0 || !TopNavigation.scenesList || !TopNavigation.navElem){ return; }
 
     let newPos = currPos - (itemsPerPage - 1);
-    LogUtil.log("onNavLast", ["pos", currPos, newPos, itemsPerPage]);
+    LogUtil.log("onNavLast", ["pos", currPos, newPos, TopNavigation.navPos, itemsPerPage]);
     
-    newPos = newPos < 0 ? 0 : newPos;
+    // newPos = newPos < 0 ? 0 : newPos;
     TopNavigation.setNavPosition(newPos);
   }
 
@@ -565,7 +621,7 @@ export class TopNavigation {
     const navElem = document.querySelector("#navigation");
     const scenes = navElem?.querySelectorAll("li.nav-item") || [];
     const currPos = TopNavigation.navPos || 0;
-    const firstScene = navElem?.querySelector("li.nav-item.scene.active");
+    const firstScene = Array.from(scenes)[0];
     const itemWidth = firstScene?.offsetWidth || 0;
     const scrollWidth = navElem?.scrollWidth || 0; 
     LogUtil.log("onNavNext", [itemsPerPage, itemWidth, firstScene, TopNavigation.navElem]);
@@ -591,37 +647,42 @@ export class TopNavigation {
   static setNavPosition(pos=null, animate=true, duration=400) { 
     try {
       const SETTINGS = getSettings();
+      LogUtil.log("setNavPosition #1", [pos, TopNavigation.navElem]);
       
       if(!TopNavigation.navElem){ return; }
 
-      const scenes = TopNavigation.navElem?.querySelectorAll("li.nav-item") || [];
-      const extrasWidth = 0;//this.isRipperSceneNavOn ? this.#navExtras?.offsetWidth || 0 : 0;
-      const position = pos!==null ? pos : TopNavigation.navPos || 0;
-      const firstScene = TopNavigation.navElem?.querySelector("li.nav-item.scene.active");
+      const foldersBlock = TopNavigation.navElem?.querySelector("#folders-group");
+      const folderToggle = TopNavigation.navElem?.querySelector("#crlngn-folder-toggle");
+      const scenes = TopNavigation.navElem?.querySelectorAll("#scene-list > li.scene") || [];
+      const firstScene = Array.from(scenes)[0];
+      const itemWidth = firstScene?.offsetWidth || 0;
+      const extrasWidth = TopNavigation.navShowSceneFolders ? ((foldersBlock?.offsetWidth||0)) : 0;//+ (folderToggle?.offsetWidth||0)
+      const position = pos!==null ? pos : TopNavigation.navPos || 0; //
+      
       
       if(!firstScene){ return; }
       // if (scenes.length === 0 || position > Math.ceil(TopNavigation.navElem.scrollWidth/itemWidth)) { return; }
-      // const firstScene = scenes[0];
+      // const activeScene = scenes[0];
 
       const targetScene = scenes[position];
-      const w = firstScene.offsetWidth || 0;
-      const offsetLeft = parseInt(w) * position; //parseInt(targetScene?.offsetLeft);
-      LogUtil.log("setNavPosition", ['position', position, offsetLeft, TopNavigation.navElem.scrollWidth ]);
+      const w = firstScene?.offsetWidth || 0;
+      const offsetLeft = (parseInt(w) * position);
+      LogUtil.log("setNavPosition #2", [pos, position, extrasWidth, itemWidth, foldersBlock, folderToggle ]);
       
       // if (typeof offsetLeft !== 'number') { return; }
 
-      const newMargin = (offsetLeft - extrasWidth);
-      if(newMargin > TopNavigation.navElem.scrollWidth){ return; }
+      const newMargin = (offsetLeft + extrasWidth);
+      if(newMargin > TopNavigation.navElem?.scrollWidth){ return; }
       
       TopNavigation.navPos = position;
       SettingsUtil.set(SETTINGS.sceneNavPos.tag, position);
       
       if (animate) {
         // Use custom animation with specified duration from GeneralUtil
-        GeneralUtil.smoothScrollTo(TopNavigation.scenesList, newMargin, "horizontal", duration);
+        GeneralUtil.smoothScrollTo(TopNavigation.navElem, newMargin, "horizontal", duration);
       } else {
         // Use instant scroll without animation
-        TopNavigation.scenesList.scrollTo({
+        TopNavigation.navElem.scrollTo({
           left: newMargin,
           behavior: "instant"
         });
@@ -674,7 +735,8 @@ export class TopNavigation {
     try {
       const templatePaths = [
         `modules/${MODULE_ID}/templates/scene-nav-buttons.hbs`,
-        `modules/${MODULE_ID}/templates/scene-nav-preview.hbs`
+        `modules/${MODULE_ID}/templates/scene-nav-preview.hbs`,
+        `modules/${MODULE_ID}/templates/scene-nav-extra-buttons.hbs`
       ];
       
       // Load the templates
@@ -725,14 +787,17 @@ export class TopNavigation {
     const target = evt.currentTarget;
     const isInner = target.classList.contains("scene-name");
     const data = isInner ? target.parentNode.dataset : target.dataset;
+    const isOnFolder = isInner ? target.parentNode.classList.contains("on-folder") : target.classList.contains("on-folder");
     const scene = game.scenes.get(data.entryId || data.sceneId);
-    LogUtil.log("onActivateScene",[data, scene]);
+    LogUtil.log("onActivateScene",[data, scene, evt.currentTarget.classList, evt.target.classList]);
+    
     scene.activate();
-    // Clear the single-click timer if it exists
-    if (TopNavigation.#sceneClickTimer) {
-      clearTimeout(TopNavigation.#sceneClickTimer);
-      TopNavigation.#sceneClickTimer = null;
+    if(isOnFolder){
+      TopNavigation.preventReposition = true;
     }
+    
+    // Clear the single-click timer if it exists
+    clearTimeout(TopNavigation.#sceneClickTimer);
     
   }
 
@@ -742,16 +807,16 @@ export class TopNavigation {
     const target = evt.currentTarget;
     const isInner = target.classList.contains("scene-name");
     const data = isInner ? target.parentNode.dataset : target.dataset;
+    const isOnFolder = isInner ? target.parentNode.classList.contains("on-folder") : target.classList.contains("on-folder");
     const scene = game.scenes.get(data.entryId || data.sceneId);
     // const isSearchResult = target.parentElement?.classList.contains('search-results');
     
     TopNavigation.#previewedScene = '';
-    LogUtil.log("onSelectScene",[scene, target, isInner]);
+    LogUtil.log("onSelectScene",[scene, target, isOnFolder]);
 
     // Temporarily override the sheet.render method to prevent scene configuration
     if (scene && scene.sheet) {
       const originalRender = scene.sheet.render;
-      LogUtil.log("onSelectScene - originalRender",[originalRender]);
       scene.sheet.render = function() { return this; };
       // Restore the original method after a short delay
       setTimeout(() => {
@@ -760,14 +825,15 @@ export class TopNavigation {
     }
 
     // Clear any existing timer
-    if (TopNavigation.#sceneClickTimer) {
-      clearTimeout(TopNavigation.#sceneClickTimer);
-      TopNavigation.#sceneClickTimer = null;
-    }
+    clearTimeout(TopNavigation.#sceneClickTimer);
 
     // Set a new timer for the click action
     TopNavigation.#sceneClickTimer = setTimeout(() => {
       scene.view();
+      if(isOnFolder){
+        TopNavigation.preventReposition = true;
+      }
+      
       TopNavigation.#sceneClickTimer = null;
     }, 250); // 250ms delay to wait for potential double-click
   }
@@ -784,7 +850,6 @@ export class TopNavigation {
       clearTimeout(TopNavigation.#sceneHoverTimeout);
       target.querySelector(".scene-preview").classList.add('open');
     }, 200);
-    LogUtil.log("onScenePreviewOn", [TopNavigation.#previewedScene]);
   }
 
   static onScenePreviewOff = (evt) => {
@@ -794,7 +859,6 @@ export class TopNavigation {
     if(!TopNavigation.showNavOnHover){ return; }
     const target = evt.currentTarget;
     TopNavigation.#previewedScene = '';
-    LogUtil.log("onScenePreviewOff", []);
 
     target.querySelector(".scene-preview").classList.remove('open');
   }
@@ -808,6 +872,8 @@ export class TopNavigation {
     const sceneItems = html.querySelectorAll("li.scene");
     sceneItems.forEach(li => {
       const isFolder = li.classList.contains("folder");
+      li.querySelector(".scene-name").removeEventListener("click", TopNavigation.onSelectScene);
+      li.querySelector(".scene-name").removeEventListener("dblclick", TopNavigation.onActivateScene);
       li.querySelector(".scene-name").addEventListener("click", TopNavigation.onSelectScene);
       li.querySelector(".scene-name").addEventListener("dblclick", TopNavigation.onActivateScene);
       if(TopNavigation.useScenePreview){
@@ -871,28 +937,28 @@ export class TopNavigation {
     }
     
     // Sound icon - only if there's a playlist sound
-    const soundIcon = previewDiv.querySelector('.sound');
-    if (soundIcon && scene.playlistSound) {
-      soundIcon.addEventListener('click', async (event) => {
-        event.stopPropagation();
-        event.preventDefault();
+    // const soundIcon = previewDiv.querySelector('.sound');
+    // if (soundIcon && scene.playlistSound) {
+    //   soundIcon.addEventListener('click', async (event) => {
+    //     event.stopPropagation();
+    //     event.preventDefault();
         
-        // Toggle playlist sound
-        const playlistSound = scene.playlistSound;
-        if (playlistSound) {
-          const playing = playlistSound.sound.playing;
+    //     // Toggle playlist sound
+    //     const playlistSound = scene.playlistSound;
+    //     if (playlistSound) {
+    //       const playing = playlistSound.sound.playing;
           
-          // Toggle the sound
-          if (playing) {
-            await playlistSound.sound.pause();
-          } else {
-            await playlistSound.sound.play();
-          }
-          ui.nav.render();
-          LogUtil.log("Toggled playlist sound", [!playing]);
-        }
-      });
-    }
+    //       // Toggle the sound
+    //       if (playing) {
+    //         await playlistSound.sound.pause();
+    //       } else {
+    //         await playlistSound.sound.play();
+    //       }
+    //       ui.nav.render();
+    //       LogUtil.log("Toggled playlist sound", [!playing]);
+    //     }
+    //   });
+    // }
     
     // Config icon
     const configIcon = previewDiv.querySelector('.config');
@@ -904,6 +970,19 @@ export class TopNavigation {
         // Open scene configuration
         scene.sheet.render(true);
         LogUtil.log("Opened scene configuration");
+      });
+    }
+
+    // Generate thumbnail icon
+    const thumbIcon = previewDiv.querySelector('.gen-thumb');
+    if (thumbIcon) {
+      thumbIcon.addEventListener('click', (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        
+        // Generate thumbnail
+        scene.generateThumbnail();
+        LogUtil.log("Generated thumbnail");
       });
     }
     

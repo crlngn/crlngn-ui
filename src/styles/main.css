@@ -280,6 +280,9 @@ body.crlngn-ui{
     background-color: var(--color-secondary-75);
     border: 1px solid transparent;
     box-shadow: 0 0 4px var(--color-secondary-90);
+    position: relative;
+    top: 80px !important;
+    z-index: 1000;
   
     #loading-bar {
       background-color: rgba(240,240,240,1);

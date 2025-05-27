@@ -41,7 +41,7 @@ export class SceneNavFolders {
     
     Hooks.on(HOOKS_CORE.RENDER_SCENE_DIRECTORY, (app, html) => {
       SceneNavFolders.#updateSortMode();
-      ui.nav.render();
+      // ui.nav.render();
     });
     // SceneNavFolders.#activeSceneFolders = game.user.getFlag(MODULE_ID, "activeSceneFoldersV1") || [];
   }
@@ -62,21 +62,22 @@ export class SceneNavFolders {
     ){ return; }
     const SETTINGS = getSettings();
     // if button already exists, remove it
-    const existingLookupBtn = document.querySelector("#crlngn-scene-lookup");
+    // const existingLookupBtn = document.querySelector("#crlngn-scene-lookup");
     const existingFolderToggle = document.querySelector("#crlngn-folder-toggle");
-    if(existingLookupBtn || existingFolderToggle){
+    if(existingFolderToggle){
       return;
     }
 
     const activeScenesMenu = document.querySelector("#navigation");
     const sceneList = activeScenesMenu.querySelector("#scene-list");
-    const folderLookup = document.createElement("div");
     const folderToggle = document.createElement("div");
 
-    folderLookup.id = "crlngn-scene-lookup";
-    folderLookup.innerHTML = `<button class='scene-lookup-toggle' tooltip='Search Scenes' tooltip-direction='DOWN'>
-      <i class='fa-solid fa-magnifying-glass'></i>
-    </button>`;
+    // const folderLookup = document.createElement("div");
+    // folderLookup.id = "crlngn-scene-lookup";
+    // folderLookup.innerHTML = `<button class='scene-lookup-toggle' tooltip='Search Scenes' tooltip-direction='DOWN'>
+    //   <i class='fa-solid fa-magnifying-glass'></i>
+    // </button>`;
+
     folderToggle.dataset.tooltip = TopNavigation.navShowSceneFolders ? `Hide Scene Folders` : `Show Scene Folders`;
     folderToggle.dataset.tooltipDirection = "DOWN";
     folderToggle.id = "crlngn-folder-toggle";
@@ -88,16 +89,15 @@ export class SceneNavFolders {
       activeScenesMenu.classList.remove('with-folders');
     }
 
-    folderLookup.querySelector(".scene-lookup-toggle").addEventListener("click", SceneNavFolders.toggleFolderLookup);
     folderToggle.addEventListener("click", ()=>{
       TopNavigation.setNavPosition(0);
       SettingsUtil.set(SETTINGS.navShowSceneFolders.tag, !TopNavigation.navShowSceneFolders);
-      ui.nav.render();
+      TopNavigation.preventReposition = true;
+      ui.nav?.render();
       // TopNavigation.placeNavButtons();
     });
-    activeScenesMenu.insertBefore(folderLookup, sceneList);
+    // activeScenesMenu.insertBefore(folderLookup, sceneList);
     activeScenesMenu.insertBefore(folderToggle, sceneList);
-    SceneNavFolders.handleFolderLookup(nav, navHtml, navData);
   }
 
   static renderFolderList = async (folderElement) => {
@@ -142,6 +142,12 @@ export class SceneNavFolders {
     searchInput.addEventListener('keydown', evt => {
       evt.stopPropagation();
     });
+
+    const folderLookupBtn = targetElement.querySelector(".scene-lookup-toggle");
+    if(folderLookupBtn){
+      // folderLookupBtn.removeEventListener("click", SceneNavFolders.toggleFolderLookup);
+      folderLookupBtn.addEventListener("click", SceneNavFolders.toggleFolderLookup);
+    }
   }
 
   static addFolderListeners = (folderItems) => {
@@ -344,10 +350,10 @@ export class SceneNavFolders {
     const templatePath = [
       `modules/${MODULE_ID}/templates/scene-nav-folders.hbs`,
       `modules/${MODULE_ID}/templates/scene-nav-subfolders.hbs`,
-      `modules/${MODULE_ID}/templates/scene-nav-lookup.hbs`
+      `modules/${MODULE_ID}/templates/scene-nav-lookup.hbs`,
+      `modules/${MODULE_ID}/templates/scene-nav-preview.hbs`
     ];
     
-    // This returns an object with paths as keys and template functions as values
     await loadTemplates(templatePath);
   
     return true;
@@ -397,7 +403,7 @@ export class SceneNavFolders {
       // sortingMode is either "a" for alphabetical or "m" for manual
       if (game.scenes && game.scenes.sortingMode !== undefined) {
         SceneNavFolders.#currSceneSortMode = game.scenes.sortingMode;
-        ui.nav.render();
+        // ui.nav.render();
         return;
       }
     } catch (error) {

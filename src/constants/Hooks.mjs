@@ -41,6 +41,7 @@ export const HOOKS_CORE = {
 
   /* Right Side Panel */
   COLLAPSE_SIDE_BAR: "collapseSidebar",
+  RENDER_SIDE_BAR: "renderSidebar",
 
   /* Macros */
   RENDER_HOTBAR: "renderHotbar",

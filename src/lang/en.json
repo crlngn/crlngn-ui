@@ -19,7 +19,9 @@
         "favoritesFolder": "Selected Scenes",
         "addToFavorites": "Add to Navigation",
         "removeFromFavorites": "Remove from Navigation",
-        "initialViewBtn": "Set Initial View"
+        "initialViewBtn": "Set Initial View",
+        "backButtonTooltip": "Last Scene",
+        "sceneLookupTooltip": "Scene Search"
       },
       "updates": {
         "label": "Last Update ID",
