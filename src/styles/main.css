@@ -83,6 +83,10 @@ body.crlngn-ui{
     gap: 0.25em;
   } 
 
+  form.application .journal-sheet.theme-light{
+    --color-bg-button: initial;
+  }
+
   .application:not(.dnd5e2) .dialog-buttons button, 
   .combat-controls button,
   form.application .form-footer button,

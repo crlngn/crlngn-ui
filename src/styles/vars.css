@@ -51,9 +51,11 @@ Main Theme
   /*  Colors                                  */
   /* ---------------------------------------- */
   body.crlngn-ui {
+    &.crlngn-chat{
+      --dnd5e-background-card: rgba(244, 239, 237,0.8);
+      --dnd5e-color-parchment: rgb(244, 239, 237);
+    }
     --color-bg-button: rgb(40, 47, 54); 
-    --dnd5e-background-card: rgba(244, 239, 237,0.8);
-    --dnd5e-color-parchment: rgb(244, 239, 237);
     --chat-dark-blue: rgba(24, 32, 38, 1);
 
     --color-dark-bg-15: rgba(15, 15, 15, 0.15);
@@ -167,9 +169,11 @@ Main Theme
       --crlngn-button-bg: rgba(15, 15, 15, 0.15);
       --color-bg-button: rgba(40, 47, 54, 1);
       --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.35);
-      --dnd5e-color-parchment: rgb(40, 47, 54);
-      --dnd5e-background-card: rgb(40, 47, 54); 
       --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
+      &.crlngn-chat{
+        --dnd5e-color-parchment: rgb(40, 47, 54);
+        --dnd5e-background-card: rgb(40, 47, 54); 
+      }
     }
     
     &.theme-dark,
@@ -249,23 +253,36 @@ Main Theme
     &.theme-light,
     &.theme-light .chat-log,
     #interface.theme-light,
-    &.theme-light .sidebar-popout:not(.theme-dark){
+    &.theme-light .sidebar-popout:not(.theme-dark),
+    .application.theme-light{
       --color-border: rgba(244, 244, 255, 1);
       --control-bg-color: rgba(244, 244, 255, 0.9);
       --crlngn-button-bg: rgba(250, 250, 250, 0.15);
       --color-bg-button: rgba(244, 239, 237,0.9);
-      --dnd5e-background-card: rgba(244, 239, 237,0.8);
-      --dnd5e-color-parchment: rgb(244, 239, 237);
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --input-background-alt: rgba(244, 239, 237,1);
       --color-text-primary: var(--color-dark-1);
       --color-text-secondary: var(--color-dark-1);
       --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
+      &.crlngn-chat{
+        --dnd5e-background-card: rgba(244, 239, 237,0.8);
+        --dnd5e-color-parchment: rgb(244, 239, 237);
+        --color-hover-bg: inherit;
+      }
     }
-    .application.theme-light, 
-    .themed.theme-light{
+    
+    .application.theme-light,
+    .app.theme-light{
       --sidebar-background: var(--control-bg-color);
       --background: var(--control-bg-color) repeat;
+      --color-bg-button: rgba(244, 239, 237,0.9);
+      --dnd5e-background-card: rgba(244, 239, 237,0.8);
+      --dnd5e-color-parchment: rgb(244, 239, 237);
+
+      &.crlngn-chat{
+        --dnd5e-background-card: rgba(244, 239, 237,0.8);
+        --dnd5e-color-parchment: rgb(244, 239, 237);
+      }
     }
 
 

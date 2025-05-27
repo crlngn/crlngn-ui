@@ -638,7 +638,7 @@ body.crlngn-chat {
     --dnd5e-text-color-failure: #d8aeae;
     --dnd5e-color-crimson: var(--color-highlights-75);
 
-    /*
+    
     body.crlngn-ui #interface.theme-light,body.crlngn-ui .chat-log.theme-light,body.crlngn-ui.theme-light {
       --crlngn-button-bg: hsla(0,0%,98%,.15);
       --color-bg-button: hsla(17,24%,94%,.9);
@@ -648,7 +648,7 @@ body.crlngn-chat {
       --input-background-alt: #f4efed;
       --color-text-secondary: var(--color-dark-1)
     }
-    */
+    
 
     .chat-message p,
     .chat-message span,

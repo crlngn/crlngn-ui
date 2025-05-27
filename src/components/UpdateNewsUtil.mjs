@@ -11,7 +11,8 @@ export class UpdateNewsUtil {
     const moduleVersion = game.modules.get('crlngn-ui')?.version;
     const baseUrl = moduleVersion 
       ? `https://github.com/crlngn/crlngn-ui/releases/download/v${moduleVersion}/module-updates.json` 
-      : `https://github.com/crlngn/crlngn-ui/releases/latest/download/module-updates.json`;
+      : ``;
+      // `https://github.com/crlngn/crlngn-ui/releases/latest/download/module-updates.json`;
     
     // Use our custom CORS proxy service
     return `https://proxy.carolingian.io/proxy?url=${encodeURIComponent(baseUrl)}&v=${moduleVersion}`;
