@@ -165,6 +165,22 @@ export class SceneNavFolders {
         item.classList.add('crlngn-folder-active');
         SceneNavFolders.injectSubfolders(itemFolder, item);
       }
+
+      const allSceneLi = item.querySelectorAll("li.scene");
+      LogUtil.log("addFolderListeners allSceneLi", [allSceneLi]);
+      for(const li of allSceneLi){
+        const id = li.dataset.sceneId;
+
+        // add scene preview
+        if(TopNavigation.useScenePreview){
+          const sceneData = game.scenes.find(sc => sc.id === id);
+          
+          // Add click handlers to the preview icons if user is GM
+          if (game.user?.isGM) {
+            TopNavigation.addPreviewIconListeners(li, sceneData);          
+          }
+        }
+      }
     });
   }
 

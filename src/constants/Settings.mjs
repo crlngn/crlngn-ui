@@ -238,6 +238,7 @@ export function getSettings() {
         "sceneNavEnabled",
         "navFoldersEnabled",
         "navShowSceneFolders",
+        "openFolderOnSceneLoad",
         "sceneClickToView",
         "useSceneIcons",
         "sceneNavAlias",
@@ -254,6 +255,7 @@ export function getSettings() {
         useSceneIcons: false,
         sceneNavAlias: "",
         navShowSceneFolders: false,
+        openFolderOnSceneLoad: false,
         showNavOnHover: false,
         useScenePreview: true,
         useSceneBackButton: BACK_BUTTON_OPTIONS.lastScene.name

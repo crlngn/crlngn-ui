@@ -31,6 +31,7 @@ export class TopNavigation {
   static #previewedScene = '';
   static #visitedScenes = [];
   static preventReposition = false;
+  static preventRerender = false;
   // settings
   static sceneNavEnabled;
   static navFoldersEnabled;
@@ -115,16 +116,23 @@ export class TopNavigation {
       TopNavigation.placeNavButtons();
     }
 
-    Hooks.on(HOOKS_CORE.CREATE_SCENE, () => {
+    Hooks.on(HOOKS_CORE.CREATE_SCENE, (a, b) => {
       TopNavigation.preventReposition = true;
+      LogUtil.log("CREATE_SCENE", [a, b]);
       ui.nav?.render();
     });
-    Hooks.on(HOOKS_CORE.UPDATE_SCENE, () => {
+    Hooks.on(HOOKS_CORE.UPDATE_SCENE, (a, b) => {
       TopNavigation.preventReposition = true;
-      ui.nav?.render();
+      LogUtil.log("UPDATE_SCENE", [a, b]);
+      if(TopNavigation.preventRerender){
+        TopNavigation.preventRerender = false;
+      }else{
+        ui.nav?.render();
+      }
     });
-    Hooks.on(HOOKS_CORE.DELETE_SCENE, () => {
+    Hooks.on(HOOKS_CORE.DELETE_SCENE, (a, b) => {
       TopNavigation.preventReposition = true;
+      LogUtil.log("DELETE_SCENE", [a, b]);
       ui.nav?.render();
     });
 
@@ -863,6 +871,69 @@ export class TopNavigation {
     target.querySelector(".scene-preview").classList.remove('open');
   }
 
+  
+  /**
+   * Updates a scene preview with fresh data from the scene
+   * @param {HTMLElement} sceneElement - The scene element containing the preview
+   * @param {string} sceneId - The ID of the scene to update
+   */
+  static updateScenePreview = async (sceneElement, sceneId) => {
+    if (!sceneElement || !sceneId) return;
+    
+    // Get fresh scene data directly from the game.scenes collection
+    const scene = game.scenes.get(sceneId);
+    if (!scene) return;
+    
+    const oldPreview = sceneElement.querySelector('.scene-preview');
+    if (!oldPreview) return;
+    
+    // Store the open state before replacing
+    const wasOpen = oldPreview.classList.contains('open');
+    
+    // Log the scene data for debugging
+    LogUtil.log("Scene data for preview", [sceneId, scene.environment?.globalLight?.enabled, scene.tokenVision]);
+    
+    // Directly use the scene object for the template to ensure we have the latest data
+    // This is important for properties like environment.globalLight.enabled
+    const templateData = {
+      id: scene.id,
+      name: scene.name,
+      thumb: scene.thumb || null,
+      environment: scene.environment,
+      tokenVision: scene.tokenVision,
+      isGM: game.user?.isGM
+    };
+    
+    // Render the new preview with the direct data
+    const previewTemplate = await renderTemplate(
+      `modules/${MODULE_ID}/templates/scene-nav-preview.hbs`, 
+      templateData
+    );
+    
+    // Replace the old preview with the new one
+    oldPreview.outerHTML = previewTemplate;
+    
+    // Re-add event listeners to the new preview
+    const newPreview = sceneElement.querySelector('.scene-preview');
+    if (wasOpen && newPreview) {
+      newPreview.classList.add('open');
+    }
+    
+    // Re-attach all necessary event listeners
+    if (TopNavigation.useScenePreview) {
+      // Reattach hover events
+      sceneElement.removeEventListener("mouseenter", TopNavigation.onScenePreviewOn);
+      sceneElement.removeEventListener("mouseleave", TopNavigation.onScenePreviewOff);
+      sceneElement.addEventListener("mouseenter", TopNavigation.onScenePreviewOn);
+      sceneElement.addEventListener("mouseleave", TopNavigation.onScenePreviewOff);
+      
+      // Reattach icon click events
+      if (game.user?.isGM) {
+        TopNavigation.addPreviewIconListeners(sceneElement, templateData);
+      }
+    }
+  }
+  
   /**
    * Adds click event listeners to scene items in the scene folders UI
    * @param {HTMLElement} html - The HTML element containing the scene folders UI
@@ -879,11 +950,89 @@ export class TopNavigation {
       if(TopNavigation.useScenePreview){
         li.addEventListener("mouseenter", TopNavigation.onScenePreviewOn);
         li.addEventListener("mouseleave", TopNavigation.onScenePreviewOff);
+        const id = li.dataset.sceneId;
+        const sceneData = game.scenes.find(sc => sc.id === id);
+        if (game.user?.isGM) {
+          TopNavigation.addPreviewIconListeners(li, sceneData);          
+        }
       }else{
         li.removeEventListener("mouseenter", TopNavigation.onScenePreviewOn);
         li.removeEventListener("mouseleave", TopNavigation.onScenePreviewOff);
       }
     });
+  }
+
+  static onSceneConfigClick = async (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    const parent = event.currentTarget.closest("li.scene");
+    const scene = game.scenes.get(parent.dataset.sceneId);
+    scene.sheet.render(true);
+  }
+
+  static onIlumClick = async (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    TopNavigation.preventRerender = true;
+    const parent = event.currentTarget.closest("li.scene");
+    const sceneId = parent.dataset.sceneId;
+    let scene = game.scenes.get(sceneId);
+    
+    const currentValue = scene.environment.globalLight.enabled;
+  
+    // Update the scene
+    await scene.update({
+      'environment.globalLight.enabled': !currentValue
+    });
+    
+    // Get the updated scene after the update
+    scene = game.scenes.get(sceneId);
+    LogUtil.log("Toggled global illumination", [!currentValue, scene.environment.globalLight.enabled]);
+    
+    // Update the preview with fresh scene data
+    await TopNavigation.updateScenePreview(parent, sceneId);
+  }
+
+  static onTokenVisionClick = async (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    TopNavigation.preventRerender = true;
+    const parent = event.currentTarget.closest("li.scene");
+    const sceneId = parent.dataset.sceneId;
+    let scene = game.scenes.get(sceneId);
+    
+    const currentValue = scene.tokenVision;
+    
+    // Update the scene
+    await scene.update({
+      'tokenVision': !currentValue
+    });
+    
+    // Get the updated scene after the update
+    scene = game.scenes.get(sceneId);
+    LogUtil.log("Toggled token vision", [!currentValue, scene.tokenVision]);
+    
+    // Update the preview with fresh scene data
+    await TopNavigation.updateScenePreview(parent, sceneId);
+  }
+
+  static onGenerateThumbnailClick = async (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    TopNavigation.preventRerender = true;
+    const parent = event.currentTarget.closest("li.scene");
+    const sceneId = parent.dataset.sceneId;
+    let scene = game.scenes.get(sceneId);
+    
+    // Generate the thumbnail
+    await scene.generateThumbnail();
+    
+    // Get the updated scene after generating the thumbnail
+    scene = game.scenes.get(sceneId);
+    LogUtil.log("Generated thumbnail", [scene.thumb ? 'Thumbnail created' : 'No thumbnail']);
+    
+    // Update the preview with fresh scene data
+    await TopNavigation.updateScenePreview(parent, sceneId);
   }
   
   /**
@@ -903,90 +1052,28 @@ export class TopNavigation {
     // Global illumination icon
     const ilumIcon = previewDiv.querySelector('.ilum');
     if (ilumIcon) {
-      ilumIcon.addEventListener('click', async (event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        
-        // Toggle global illumination
-        const currentValue = scene.environment.globalLight.enabled;
-        
-        // Update the scene
-        await scene.update({
-          'environment.globalLight.enabled': !currentValue
-        });
-        LogUtil.log("Toggled global illumination", [!currentValue]);
-      });
+      ilumIcon.removeEventListener('click', TopNavigation.onIlumClick);
+      ilumIcon.addEventListener('click', TopNavigation.onIlumClick);
     }
     
     // Token vision icon
     const tokenVisionIcon = previewDiv.querySelector('.token-vision');
     if (tokenVisionIcon) {
-      tokenVisionIcon.addEventListener('click', async (event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        
-        // Toggle token vision
-        const currentValue = scene.tokenVision;
-        
-        // Update the scene
-        await scene.update({
-          'tokenVision': !currentValue
-        });
-        LogUtil.log("Toggled token vision", [!currentValue]);
-      });
+      tokenVisionIcon.removeEventListener('click', TopNavigation.onTokenVisionClick);
+      tokenVisionIcon.addEventListener('click', TopNavigation.onTokenVisionClick);
     }
-    
-    // Sound icon - only if there's a playlist sound
-    // const soundIcon = previewDiv.querySelector('.sound');
-    // if (soundIcon && scene.playlistSound) {
-    //   soundIcon.addEventListener('click', async (event) => {
-    //     event.stopPropagation();
-    //     event.preventDefault();
-        
-    //     // Toggle playlist sound
-    //     const playlistSound = scene.playlistSound;
-    //     if (playlistSound) {
-    //       const playing = playlistSound.sound.playing;
-          
-    //       // Toggle the sound
-    //       if (playing) {
-    //         await playlistSound.sound.pause();
-    //       } else {
-    //         await playlistSound.sound.play();
-    //       }
-    //       ui.nav.render();
-    //       LogUtil.log("Toggled playlist sound", [!playing]);
-    //     }
-    //   });
-    // }
     
     // Config icon
     const configIcon = previewDiv.querySelector('.config');
     if (configIcon) {
-      configIcon.addEventListener('click', (event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        
-        // Open scene configuration
-        scene.sheet.render(true);
-        LogUtil.log("Opened scene configuration");
-      });
+      configIcon.addEventListener('click', TopNavigation.onSceneConfigClick);
     }
 
     // Generate thumbnail icon
     const thumbIcon = previewDiv.querySelector('.gen-thumb');
     if (thumbIcon) {
-      thumbIcon.addEventListener('click', (event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        
-        // Generate thumbnail
-        scene.generateThumbnail();
-        LogUtil.log("Generated thumbnail");
-      });
+      thumbIcon.addEventListener('click', TopNavigation.onGenerateThumbnailClick);
     }
-    
-
   }
   
 }
