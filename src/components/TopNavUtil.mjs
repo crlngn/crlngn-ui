@@ -225,7 +225,7 @@ export class TopNavigation {
     // }
     
     if(TopNavigation.sceneNavEnabled){
-      // console.trace("onRender - preventReposition?", TopNavigation.preventReposition);
+      LogUtil.log("onRender - preventReposition?", [TopNavigation.preventReposition]);
       if(TopNavigation.preventReposition){
         TopNavigation.preventReposition = false;
       }else{
@@ -443,7 +443,7 @@ export class TopNavigation {
       LogUtil.log("onLoad - scenePos", [sceneOffsetLeft, scenePos]);
       TopNavigation.navPos = scenePos;
       SettingsUtil.set(SETTINGS.sceneNavPos.tag, scenePos);
-      TopNavigation.setNavPosition(scenePos, false);
+      // TopNavigation.setNavPosition(scenePos, false);
     }
     // else{
     //   TopNavigation.toggleNav(TopNavigation.navStartCollapsed);
@@ -799,10 +799,10 @@ export class TopNavigation {
     const scene = game.scenes.get(data.entryId || data.sceneId);
     LogUtil.log("onActivateScene",[data, scene, evt.currentTarget.classList, evt.target.classList]);
     
-    scene.activate();
     if(isOnFolder){
       TopNavigation.preventReposition = true;
     }
+    scene.activate();
     
     // Clear the single-click timer if it exists
     clearTimeout(TopNavigation.#sceneClickTimer);
@@ -837,10 +837,10 @@ export class TopNavigation {
 
     // Set a new timer for the click action
     TopNavigation.#sceneClickTimer = setTimeout(() => {
-      scene.view();
       if(isOnFolder){
         TopNavigation.preventReposition = true;
       }
+      scene.view();
       
       TopNavigation.#sceneClickTimer = null;
     }, 250); // 250ms delay to wait for potential double-click

@@ -160,26 +160,9 @@ export class SceneNavFolders {
       const itemFolder = allFolders.get(id);
       const isActive = SceneNavFolders.#activeSceneFolders.includes(id);
       
-      LogUtil.log("addFolderListeners isActive", [isActive, id, itemFolder.name]);
       if(isActive){
         item.classList.add('crlngn-folder-active');
         SceneNavFolders.injectSubfolders(itemFolder, item);
-      }
-
-      const allSceneLi = item.querySelectorAll("li.scene");
-      LogUtil.log("addFolderListeners allSceneLi", [allSceneLi]);
-      for(const li of allSceneLi){
-        const id = li.dataset.sceneId;
-
-        // add scene preview
-        if(TopNavigation.useScenePreview){
-          const sceneData = game.scenes.find(sc => sc.id === id);
-          
-          // Add click handlers to the preview icons if user is GM
-          if (game.user?.isGM) {
-            TopNavigation.addPreviewIconListeners(li, sceneData);          
-          }
-        }
       }
     });
   }
@@ -547,6 +530,7 @@ export class SceneNavFolders {
     await game.user.setFlag(MODULE_ID, "activeSceneFoldersV1", SceneNavFolders.#activeSceneFolders);
 
     const timer = setTimeout(async()=>{
+      TopNavigation.preventReposition = true;
       ui.nav.render();
     }, 200);
   }
