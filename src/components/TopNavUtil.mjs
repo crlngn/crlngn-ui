@@ -110,9 +110,10 @@ export class TopNavigation {
           existingButtons.forEach(b => b.remove());
         }
         
+        TopNavigation.setCollapsedClass(collapsed);
         TopNavigation.#timeout = setTimeout(()=>{
           TopNavigation.setCollapsedClass(collapsed);
-        }, 1000);
+        }, 500);
       });
 
       // execute once on start

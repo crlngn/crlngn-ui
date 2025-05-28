@@ -467,12 +467,13 @@ body.crlngn-ui{
   #ui-middle.crlngn-ui{
     #combat-dock {
       margin-top: calc(var(--crlngn-top-offset, 0px) + var(--left-control-item-size, 0px));
+      transition: margin-top 0.15s ease-out;
     }
+  }
 
-    &.navigation-collapsed, &.with-monks-scene {
-      #combat-dock {
-        margin-top: 0;
-      }
+  &.navigation-collapsed #ui-middle.crlngn-ui, &.with-monks-scene #ui-middle.crlngn-ui {
+    #combat-dock {
+      margin-top: 0;
     }
   }
 
