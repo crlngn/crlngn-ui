@@ -5,12 +5,49 @@ body.crlngn-ui{
   #camera-views.camera-position-top,
   #camera-views.camera-position-left,
   #camera-views.camera-position-right{
+    --av-frame-border-width: 1.5px;
+    --color-border-av-light: var(--color-warm-2);
+    --color-border-av-dark: var(--color-warm-3);
+    --color-border-av-speaking: var(--color-light-1);
+    background: var(--color-dark-bg-90);
     position: fixed;
-    top: -200vh;
+    /*top: -200vh;*/
 
     &.visible{
       position: relative;
       top: auto;
+    }
+
+    .camera-view .shadow{
+      box-shadow: none;
+    }
+
+    .camera-view .player-name {
+      bottom: var(--av-frame-border-width);
+      width: calc(100% - var(--av-frame-border-width) * 2);
+      border-radius: 0;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      color: var(--color-text-light-1) !important;
+      border: 0;
+      left: var(--av-frame-border-width);
+      right: var(--av-frame-border-width);
+      background-color: var(--color-dark-bg-90);
+      box-shadow: none;
+
+      span{
+        text-transform: lowercase !important;
+      }
+    }
+
+    .notification-bar i ,
+    .control-bar i {
+      font-size: 14px;
+      height: 20px;
+    }
+    .control-bar.bottom{
+      background: transparent;
+      border: 0;
     }
   }
   
