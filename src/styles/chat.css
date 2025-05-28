@@ -662,12 +662,12 @@ body.crlngn-chat {
 
     .chat-popout .chat-message.whisper, 
     #chat-log .chat-message.whisper {
-      background-image: var(--striped-bg-2);
+      background-image: var(--striped-bg);
     }
 
     .chat-popout .chat-message.blind, 
     #chat-log .chat-message.blind {
-      background-image: var(--striped-bg);
+      background-image: var(--striped-bg-2);
     }
     
     .chat-message h1, 

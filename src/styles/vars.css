@@ -116,10 +116,10 @@ body.crlngn-ui {
 
   #interface {
     --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
-    --striped-bg-2: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-highlights-15) 2px, var(--color-highlights-15) 3px);
+    --striped-bg-2: repeating-linear-gradient( -45deg, rgba(0,0,0,0.75) 0px, rgba(0,0,0,0.75) 1px, rgba(20,20,20,0.75) 2px, rgba(20,20,20,0.75) 3px);
     &.theme-dark{
       --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
-      --striped-bg-2: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-highlights-50) 2px, var(--color-highlights-50) 3px);
+      --striped-bg-2: repeating-linear-gradient( -45deg, rgba(0,0,0,0.75) 0px, rgba(0,0,0,0.75) 1px, rgba(20,20,20,0.75) 2px, rgba(20,20,20,0.75) 3px);
     }
   }
 }

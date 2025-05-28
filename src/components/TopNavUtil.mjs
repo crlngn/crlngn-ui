@@ -207,8 +207,8 @@ export class TopNavigation {
     // if(!TopNavigation.useSceneFolders){
     //   numButtons = 0;
     // }
-    if(TopNavigation.useSceneBackButton){ numButtons++; }
-    if(TopNavigation.useSceneLookup){ numButtons++; }
+    if(game.user?.isGM && TopNavigation.useSceneBackButton){ numButtons++; }
+    if(game.user?.isGM && TopNavigation.useSceneLookup){ numButtons++; }
     
     GeneralUtil.addCSSVars('--scene-list-left',`calc(var(--left-control-item-size) * ${numButtons})`);
   }
@@ -232,7 +232,7 @@ export class TopNavigation {
       }
       TopNavigation.handleNavState(navHtml);
     }
-    if(!TopNavigation.useSceneFolders){
+    if(!TopNavigation.useSceneFolders || !game.user?.isGM){
       document.body.classList.add("crlngn-no-folders");
     }
     
@@ -376,9 +376,9 @@ export class TopNavigation {
     const extraButtonsTemplate = await renderTemplate(
       `modules/${MODULE_ID}/templates/scene-nav-extra-buttons.hbs`, 
       {
-        useSceneBackButton: TopNavigation.useSceneBackButton,
-        useSceneFolders: TopNavigation.useSceneFolders,
-        useSceneLookup: TopNavigation.useSceneLookup,
+        useSceneBackButton: game.user.isGM ? TopNavigation.useSceneBackButton : false,
+        useSceneFolders: game.user.isGM ? TopNavigation.useSceneFolders : false,
+        useSceneLookup: game.user.isGM ? TopNavigation.useSceneLookup : false,
         backButtonTooltip: game.i18n.localize("CRLNGN_UI.ui.backButtonTooltip"),
         sceneLookupTooltip: game.i18n.localize("CRLNGN_UI.ui.sceneLookupTooltip"),
         isGM: game.user?.isGM,
@@ -392,7 +392,7 @@ export class TopNavigation {
     }
 
     // folder lookup button and search block
-    if(TopNavigation.sceneNavEnabled && TopNavigation.useSceneLookup){
+    if(TopNavigation.sceneNavEnabled && TopNavigation.useSceneLookup && game.user.isGM){
       SceneNavFolders.handleFolderLookup(nav, navHtml, navData);
     }
 
