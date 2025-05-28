@@ -464,14 +464,14 @@ body.crlngn-ui{
   }
 
   /* CAROUSEL COMBAT TRACKER */
-  #ui-middle.crlngn-ui{
+  &.crlngn-scene-nav #ui-middle {
     #combat-dock {
       margin-top: calc(var(--crlngn-top-offset, 0px) + var(--left-control-item-size, 0px));
       transition: margin-top 0.15s ease-out;
     }
   }
 
-  &.navigation-collapsed #ui-middle.crlngn-ui, &.with-monks-scene #ui-middle.crlngn-ui {
+  &.crlngn-scene-nav.navigation-collapsed #ui-middle {
     #combat-dock {
       margin-top: 0;
     }
