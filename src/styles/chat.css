@@ -64,6 +64,10 @@ body.crlngn-chat {
 
   #chat-log{
     padding: 1em 0;
+    font-family: var(--crlngn-font-family);
+  }
+  #chat-log .chat-message {
+    font-family: var(--crlngn-font-family);
   }
 
   .pill-lg{
@@ -199,6 +203,10 @@ body.crlngn-chat {
   }
   :is(.chat-popout, #chat-log) .crlngn .message-header .message-sender {
     gap: 0.5em;
+    font-family: var(--crlngn-font-family);
+  }
+  :is(.chat-popout, #chat-log) .crlngn .message-header .message-sender .avatar {
+    place-content: start;
   }
   :is(.chat-popout, #chat-log) .chat-message.message .message-header .message-sender img,
   :is(.chat-popout, #chat-log) .crlngn .message-header .message-sender img,
@@ -650,6 +658,16 @@ body.crlngn-chat {
       background: var(--crlngn-dark-blue); 
       color: var(--color-text-gray-blue-b);
       border-color: transparent;
+    }
+
+    .chat-popout .chat-message.whisper, 
+    #chat-log .chat-message.whisper {
+      background-image: var(--striped-bg-2);
+    }
+
+    .chat-popout .chat-message.blind, 
+    #chat-log .chat-message.blind {
+      background-image: var(--striped-bg);
     }
     
     .chat-message h1, 

@@ -21,6 +21,10 @@ body.crlngn-ui{
 
     #ui-middle {
       z-index: 10;
+
+      &:hover{
+        z-index: 11;
+      }
     }
     
   }

@@ -198,7 +198,7 @@
             "label": "Mostra navigazione scene al passaggio del mouse",
             "hint": "Se la navigazione scene è compressa, puoi mostrarla passando il mouse sulla parte superiore dello schermo."
           },
-          "navFoldersEnabled": {
+          "useSceneFolders": {
             "label": "Abilita cartelle scene nella navigazione",
             "hint": "Se la Navigazione Scene Personalizzata è abilitata, questa opzione aggiungerà un elenco di cartelle con ricerca scene alla barra di navigazione."
           },
@@ -232,12 +232,11 @@
           },
           "useSceneBackButton": {
             "label": "Abilita pulsante torna indietro",
-            "hint": "<b>'Torna all'ultima scena'</b>: cliccando torna alla scena precedentemente visualizzata, <b>'Torna alle scene predefinite'</b>: appare solo nella vista cartelle, cliccando apre la navigazione scene predefinita, <b>'Disabilitato'</b>: Nessun pulsante torna indietro",
-            "options": {
-              "noButton": "Disabilitato",
-              "lastScene": "Torna all'ultima scena",
-              "defaultScenes": "Torna alle scene predefinite"
-            }
+            "hint": "Aggiunge un pulsante alla navigazione che ti porta indietro alla scena precedente. Solo il GM può usare questo pulsante."
+          },
+          "useSceneLookup": {
+            "label": "Abilita ricerca scene",
+            "hint": "Aggiunge una barra di ricerca alla navigazione che ti permette di cercare scene e cartelle di scene. Solo il GM può usare questo pulsante."
           },
           "useScenePreview": {
             "label": "Usa Anteprima Scena",

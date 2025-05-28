@@ -85,7 +85,7 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
     const SETTINGS = getSettings(); 
     const fieldNames = SETTINGS.sceneNavMenu.fields;
     let navEnabledBefore = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
-    let foldersEnabledBefore = SettingsUtil.get(SETTINGS.navFoldersEnabled.tag);
+    let foldersEnabledBefore = SettingsUtil.get(SETTINGS.useSceneFolders.tag);
     
     // Convert FormData into an object with proper keys
     const settings = foundry.utils.expandObject(formData.object);
@@ -97,7 +97,7 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
       }
     });
     let navEnabledAfter = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag); 
-    let foldersEnabledAfter = SettingsUtil.get(SETTINGS.navFoldersEnabled.tag);
+    let foldersEnabledAfter = SettingsUtil.get(SETTINGS.useSceneFolders.tag);
 
     LogUtil.log("Saving settings...", [navEnabledBefore, navEnabledAfter]); // Debugging
     await SettingsUtil.set(SETTINGS.sceneNavMenu.tag, settings);

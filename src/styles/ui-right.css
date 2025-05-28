@@ -36,6 +36,8 @@ body.crlngn-ui{
   
       #sidebar-tabs{ 
         margin: 2px 0 0 0;
+        border-bottom: 1px solid var(--color-highlights);
+        box-shadow: none;
         --sidebar-tab-height: 36px;
   
         > .item{
@@ -44,9 +46,19 @@ body.crlngn-ui{
           width: 100%;
           flex: 1 1 100%;
           opacity: 0.7;
+
+          color: var(--color-text-light-1);
+          background: initial;
+          border: 1px solid transparent;
+          border-bottom: none;
+          box-shadow: none;
+          text-shadow: none;
         }
         > .item.active{
           opacity: 1;
+          background: initial;
+          border: 1px solid var(--color-highlights);
+          border-bottom: none;
         }
   
         > [data-tab] > * {
@@ -63,6 +75,11 @@ body.crlngn-ui{
     aside#players{
       margin-top: auto;
     }
+  }
+
+  #ui-right .sidebar-tab button,
+  .sidebar-popout button{
+    font-family: var(--crlngn-font-family);
   }
 
   #ui-right .sidebar-tab,

@@ -44,7 +44,7 @@ export class Main {
         return;
       }
 
-      // if(TopNavigation.navFoldersEnabled){
+      // if(TopNavigation.useSceneFolders){
       //   SceneNavFolders.init();
       // }
 
@@ -74,7 +74,7 @@ export class Main {
       TopNavigation.checkSceneNavCompat();
       UpdateNewsUtil.init();
 
-      // if(TopNavigation.navFoldersEnabled){
+      // if(TopNavigation.useSceneFolders){
       //   SceneNavFolders.init();
       //   // SceneNavFolders.registerHooks();
       // }

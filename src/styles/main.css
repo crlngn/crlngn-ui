@@ -22,7 +22,7 @@ body.crlngn-ui  {
     }
   }
 
-  .app {
+  .app#sidebar, .app.sidebar-popout {
     background: var(--left-control-main-bg);
   }
   

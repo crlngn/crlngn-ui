@@ -291,11 +291,13 @@ export class SettingsUtil {
       case SETTINGS.sceneNavEnabled.tag:
         TopNavigation.sceneNavEnabled = value;
         if(value===false){
-          SettingsUtil.set(SETTINGS.navFoldersEnabled.tag, false);
+          SettingsUtil.set(SETTINGS.useSceneFolders.tag, false);
         }
+        TopNavigation.applyButtonSettings();
+        ui.nav?.render();
         break;
-      case SETTINGS.navFoldersEnabled.tag:
-        TopNavigation.navFoldersEnabled = value;
+      case SETTINGS.useSceneFolders.tag:
+        TopNavigation.useSceneFolders = value;
         if(value===false){
           SettingsUtil.set(SETTINGS.navShowSceneFolders.tag, false);
         }
@@ -315,6 +317,11 @@ export class SettingsUtil {
         break;
       case SETTINGS.useSceneBackButton.tag:
         TopNavigation.useSceneBackButton = value;
+        ui.nav?.render();
+        break;
+      case SETTINGS.useSceneLookup.tag:
+        TopNavigation.useSceneLookup = value;
+        TopNavigation.applyButtonSettings();
         ui.nav?.render();
         break;
       case SETTINGS.useScenePreview.tag:

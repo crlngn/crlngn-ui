@@ -201,7 +201,7 @@
             "label": "Toggle scene navigation on hover",
             "hint": "If the scene navigation is collapsed, you can show it by hovering the mouse over the top of the screen."
           },
-          "navFoldersEnabled": {
+          "useSceneFolders": {
             "label": "Enable scene folders on navigation",
             "hint": "If Custom Scene Navigation is enabled, this option will add a list of folders with scene search to scene navigation bar."
           },
@@ -235,12 +235,11 @@
           },
           "useSceneBackButton": {
             "label": "Enable Back Button",
-            "hint": "<b>'Back to Last Scene'</b>: clicking takes you back to previously viewed scene, <b>'Back to Default Scenes'</b>: only appears in folder view, clicking opens the default scene navigation, <b>'OFF'</b>: No back button",
-            "options": {
-              "noButton": "OFF",
-              "lastScene": "Back to Last Scene",
-              "defaultScenes": "Back to Default Scenes"
-            }
+            "hint": "Adds a button to navigation which takes you back to previously viewed scene. GM only."
+          },
+          "useSceneLookup": {
+            "label": "Enable Scene Lookup",
+            "hint": "Adds a search bar to navigation which allows you to search for scenes and scene folders. GM only."
           },
           "useScenePreview": {
             "label": "Use Scene Preview",

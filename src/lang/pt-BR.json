@@ -197,7 +197,7 @@
             "label": "Alternar visibilidades",
             "hint": "Se a navegação de cenas estiver recolhida, você pode exibi-la passando o mouse sobre a parte superior da tela."
           },
-          "navFoldersEnabled": {
+          "useSceneFolders": {
             "label": "Ativar pastas na barra de navegação",
             "hint": "Se a navegação de cenas customizada estiver ativada, esta opção inclui uma lista de diretórios e busca de cenas na barra do topo."
           },
@@ -231,12 +231,11 @@
           },
           "useSceneBackButton": {
             "label": "Habilitar Botão Voltar",
-            "hint": "<b>'Voltar para Cena Anterior'</b>: ao clicar, retorna para a cena anteriormente visualizada, <b>'Voltar para Cenas Padrão'</b>: somente aparece na vista de pasta, ao clicar abre a navegação de cena padrão, <b>'Desabilitado'</b>: Nenhum botão Voltar",
-            "options": {
-              "noButton": "Desabilitado",
-              "lastScene": "Voltar para Cena Anterior",
-              "defaultScenes": "Voltar para Cenas Padrão"
-            }
+            "hint": "Adiciona um botão à navegação que te leva para a cena anteriormente visualizada. Para GMs."
+          },
+          "useSceneLookup": {
+            "label": "Habilitar Busca de Cena",
+            "hint": "Adiciona uma barra de busca à navegação que permite que você busque cenas e pastas de cenas. Para GMs."
           },
           "useScenePreview": {
             "label": "Usar Previsualização de Cena",

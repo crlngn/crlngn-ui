@@ -34,7 +34,7 @@ export class TopNavigation {
   static preventRerender = false;
   // settings
   static sceneNavEnabled;
-  static navFoldersEnabled;
+  static useSceneFolders;
   static openFolderOnSceneLoad;
   static navFoldersForPlayers;
   static navShowSceneFolders;
@@ -56,6 +56,11 @@ export class TopNavigation {
     this.isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
     this.isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
 
+    if(TopNavigation.sceneNavEnabled){
+      this.checkSceneNavCompat(); 
+      if(TopNavigation.isMonksSceneNavOn){ return; }
+    }
+
     // execute on render scene navigation
     Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, TopNavigation.onRender);
     // Load settings first
@@ -63,7 +68,7 @@ export class TopNavigation {
     TopNavigation.showNavOnHover = SettingsUtil.get(SETTINGS.showNavOnHover.tag);
     TopNavigation.sceneNavEnabled = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
     TopNavigation.useScenePreview = SettingsUtil.get(SETTINGS.useScenePreview.tag);
-    TopNavigation.navFoldersEnabled = SettingsUtil.get(SETTINGS.navFoldersEnabled.tag);
+    TopNavigation.useSceneFolders = SettingsUtil.get(SETTINGS.useSceneFolders.tag);
     TopNavigation.navFoldersForPlayers = SettingsUtil.get(SETTINGS.navFoldersForPlayers.tag);
     TopNavigation.useSceneIcons = SettingsUtil.get(SETTINGS.useSceneIcons.tag);
     TopNavigation.isCollapsed = TopNavigation.navStartCollapsed;
@@ -79,7 +84,6 @@ export class TopNavigation {
       body.classList.remove("crlngn-scene-nav");
     }
     if(TopNavigation.sceneNavEnabled){
-      this.checkSceneNavCompat(); 
       this.preloadTemplates();
       SceneNavFolders.init();
       
@@ -141,7 +145,7 @@ export class TopNavigation {
       if(sceneId !== TopNavigation.#visitedScenes[TopNavigation.#visitedScenes.length-1]){
         TopNavigation.#visitedScenes.push(sceneId);
 
-        if(TopNavigation.navFoldersEnabled && TopNavigation.openFolderOnSceneLoad){
+        if(TopNavigation.useSceneFolders && TopNavigation.openFolderOnSceneLoad){
           const scene = game.scenes.get(sceneId);
           LogUtil.log(HOOKS_CORE.CANVAS_INIT, [scene]);
           if(scene?.folder && game.user?.isGM){ 
@@ -196,12 +200,24 @@ export class TopNavigation {
     // if(ui.nav) ui.nav.render();
   }
 
+  static applyButtonSettings(){
+    const SETTINGS = getSettings();
+    let numButtons = 1;
+    // if(!TopNavigation.useSceneFolders){
+    //   numButtons = 0;
+    // }
+    if(TopNavigation.useSceneBackButton){ numButtons++; }
+    if(TopNavigation.useSceneLookup){ numButtons++; }
+    
+    GeneralUtil.addCSSVars('--scene-list-left',`calc(var(--left-control-item-size) * ${numButtons})`);
+  }
+
   static onRender = async(nav, navHtml, navData) => {
+    if(TopNavigation.isMonksSceneNavOn){ return; }
     LogUtil.log("onRender", []);
     navHtml = navHtml?.[0] || navHtml;
     const SETTINGS = getSettings();
-    const scenePos = TopNavigation.navPos;//SettingsUtil.get(SETTINGS.sceneNavPos.tag);
-    // TopNavigation.navPos = scenePos;
+    const scenePos = TopNavigation.navPos;
 
     TopNavigation.resetLocalVars(navHtml);
     
@@ -214,6 +230,9 @@ export class TopNavigation {
         await SceneNavFolders.renderFolderList();
       }
       TopNavigation.handleNavState(navHtml);
+    }
+    if(!TopNavigation.useSceneFolders){
+      document.body.classList.add("crlngn-no-folders");
     }
     
     TopNavigation.addSceneListeners(navHtml);
@@ -236,6 +255,7 @@ export class TopNavigation {
         TopNavigation.placeNavButtons();
       }, 500);
     }
+    TopNavigation.applyButtonSettings();
 
     if(TopNavigation.#navToggle){
       TopNavigation.#navToggle.dataset.tooltipDirection = "RIGHT";
@@ -352,12 +372,12 @@ export class TopNavigation {
     navHtml = navHtml[0] || navHtml; // get element from jquery object
     LogUtil.log("handleExtraButtons",[nav, navHtml, navData]);
 
-
     const extraButtonsTemplate = await renderTemplate(
       `modules/${MODULE_ID}/templates/scene-nav-extra-buttons.hbs`, 
       {
         useSceneBackButton: TopNavigation.useSceneBackButton,
-        navFoldersEnabled: TopNavigation.navFoldersEnabled,
+        useSceneFolders: TopNavigation.useSceneFolders,
+        useSceneLookup: TopNavigation.useSceneLookup,
         backButtonTooltip: game.i18n.localize("CRLNGN_UI.ui.backButtonTooltip"),
         sceneLookupTooltip: game.i18n.localize("CRLNGN_UI.ui.sceneLookupTooltip"),
         isGM: game.user?.isGM,
@@ -371,7 +391,9 @@ export class TopNavigation {
     }
 
     // folder lookup button and search block
-    SceneNavFolders.handleFolderLookup(nav, navHtml, navData);
+    if(TopNavigation.sceneNavEnabled && TopNavigation.useSceneLookup){
+      SceneNavFolders.handleFolderLookup(nav, navHtml, navData);
+    }
 
     // if(TopNavigation.useSceneBackButton){
     //   if(game.scenes.size < 2){ return; }
@@ -398,7 +420,7 @@ export class TopNavigation {
    */
   static handleFolderList(nav, navHtml, navData){
     const SETTINGS = getSettings();
-    if(!TopNavigation.navFoldersEnabled){ return; }
+    if(!TopNavigation.useSceneFolders){ return; }
     
     SceneNavFolders.addFolderButtons(nav, navHtml, navData);
   }
@@ -484,7 +506,7 @@ export class TopNavigation {
     this.isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
     this.isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
 
-    if(this.isRipperSceneNavOn && TopNavigation.navFoldersEnabled){
+    if(this.isRipperSceneNavOn && TopNavigation.useSceneFolders){
       if(game.user?.isGM && this.isRipperSceneNavOn){
         ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.ripperScenesCompat"), {permanent: true});
       }
@@ -559,7 +581,7 @@ export class TopNavigation {
     
     const btnWidth = (TopNavigation.#navToggle?.offsetWidth * 2) || 0;
     const isNavOverflowing = (sceneNav.offsetWidth - btnWidth) < sceneNav.scrollWidth;
-    LogUtil.log("placeNavButtons *", [sceneNav.offsetWidth, btnWidth, sceneNav.scrollWidth]);
+    LogUtil.log("placeNavButtons #2", [sceneNav.offsetWidth, btnWidth, sceneNav.scrollWidth]);
     
     if(!isNavOverflowing 
       || TopNavigation.isCollapsed 
@@ -580,11 +602,12 @@ export class TopNavigation {
     sceneNav.insertAdjacentHTML('beforeend', buttonsHtml);
   
     // Add event listeners to the newly inserted buttons
-    const btnLast = document.querySelector("#ui-top button.crlngn-btn.ui-nav-left");
-    const btnNext = document.querySelector("#ui-top button.crlngn-btn.ui-nav-right");
-  
-    if (btnLast) btnLast.addEventListener("click", TopNavigation.#onNavLast);
-    if (btnNext) btnNext.addEventListener("click", TopNavigation.#onNavNext);
+    const btnLast = document.querySelector("#ui-top .crlngn-btn.ui-nav-left");
+    const btnNext = document.querySelector("#ui-top .crlngn-btn.ui-nav-right");
+    LogUtil.log("placeNavButtons #3", [btnLast, btnNext]);
+    
+    btnLast?.addEventListener("click", TopNavigation.#onNavLast);
+    btnNext?.addEventListener("click", TopNavigation.#onNavNext);
   }
 
   /**
@@ -607,7 +630,7 @@ export class TopNavigation {
     // const folderToggle = TopNavigation.navElem?.querySelector("#crlngn-folder-toggle");
     // const extrasWidth = TopNavigation.navShowSceneFolders ? ((foldersBlock?.offsetWidth||0)) : 0;//+ (folderToggle?.offsetWidth||0)
 
-    if(currPos <= 0 || !TopNavigation.scenesList || !TopNavigation.navElem){ return; }
+    if(!TopNavigation.scenesList || !TopNavigation.navElem){ return; }
 
     let newPos = currPos - (itemsPerPage - 1);
     LogUtil.log("onNavLast", ["pos", currPos, newPos, TopNavigation.navPos, itemsPerPage]);
@@ -878,7 +901,7 @@ export class TopNavigation {
    * @param {string} sceneId - The ID of the scene to update
    */
   static updateScenePreview = async (sceneElement, sceneId) => {
-    if (!sceneElement || !sceneId) return;
+    if (!TopNavigation.sceneNavEnabled || !sceneElement || !sceneId) return;
     
     // Get fresh scene data directly from the game.scenes collection
     const scene = game.scenes.get(sceneId);
@@ -920,7 +943,7 @@ export class TopNavigation {
     }
     
     // Re-attach all necessary event listeners
-    if (TopNavigation.useScenePreview) {
+    if (TopNavigation.sceneNavEnabled && TopNavigation.useScenePreview) {
       // Reattach hover events
       sceneElement.removeEventListener("mouseenter", TopNavigation.onScenePreviewOn);
       sceneElement.removeEventListener("mouseleave", TopNavigation.onScenePreviewOff);
@@ -939,6 +962,7 @@ export class TopNavigation {
    * @param {HTMLElement} html - The HTML element containing the scene folders UI
    */
   static addSceneListeners = (html) => {
+    if(!TopNavigation.sceneNavEnabled){ return; }
     html = html[0] || html; // convert jquery object to dom element
     const sceneItems = html.querySelectorAll("li.scene");
     sceneItems.forEach(li => {

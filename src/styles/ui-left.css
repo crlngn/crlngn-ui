@@ -31,12 +31,12 @@ body.crlngn-ui{
     flex-direction: column;
     position: relative;
     justify-content: flex-end;
-    z-index: 101;
+    z-index: 9;
     min-width: var(--max-players-width, 200px);
     margin-top: 1px;
 
     &:hover{
-      z-index: 102; 
+      z-index: 11; 
     }
   }
 

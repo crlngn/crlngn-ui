@@ -6,6 +6,7 @@ body.crlngn-ui {
   --scene-nav-item-width: calc(var(--font-size-10) * 15);
   --folder-nav-item-width: var(--left-control-item-size);
   --current-sidebar-width: var(--left-control-item-size);
+  --scene-list-left: calc(var(--left-control-item-size) * 3);
 
   &.logo-visible.nav-collapsed {
     --ui-top-padding: calc(72px + var(--top-nav-height,0px));
@@ -50,6 +51,9 @@ body.crlngn-ui {
       
   }
 
+  &.crlngn-scene-nav&.no-folders{
+
+  }
 
   &.crlngn-scene-nav #ui-middle.crlngn-ui{
     margin-top: 0;
@@ -496,7 +500,7 @@ body.crlngn-ui {
           font-size: var(--font-size-14);
           background-color: var(--color-secondary);
           border: 1px solid var(--left-control-main-bg);
-          margin-left: calc(var(--left-control-item-size) * 3);
+          margin-left: var(--scene-list-left);
           z-index: 10;
           cursor: pointer;
 
@@ -678,8 +682,6 @@ body.crlngn-ui {
         ::-webkit-scrollbar {
           display: none;
         }*/
-
-        
 
         .sortable-ghost {
           opacity: 0.5;
@@ -983,7 +985,7 @@ body.crlngn-ui {
           box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
           visibility: hidden;
           opacity: 0;
-          /*transition: opacity 0.35s ease-out 0s, visibility 0s linear 0.35s;*/
+          transition: opacity 0s ease-out 0s, visibility 0s linear 0.3s;
 
           > .icons {
             display: flex;
@@ -1021,7 +1023,7 @@ body.crlngn-ui {
         li.scene:hover > .scene-preview {
           visibility: visible;
           opacity: 1;
-          /*transition: opacity 0.35s ease-out 0.35s, visibility 0s linear 0.35s;*/
+          transition: opacity 0s ease-out 0s, visibility 0s linear 0.3s;
         }
   
         li.scene > ul.scene-players {
@@ -1062,8 +1064,13 @@ body.crlngn-ui {
       
     }
   }
+  &.crlngn-scene-nav.crlngn-no-folders{
+    #ui-middle.crlngn-ui #ui-top ol#scene-list{
+      margin-left: var(--scene-list-left);
+    }
+  }
 
-  &.crlngn-scene-nav&.hide-player-ui-sceneList{
+  &.crlngn-scene-nav.hide-player-ui-sceneList{
     #ui-middle.crlngn-ui #ui-top.offset{
       #navigation{
         &:before{
