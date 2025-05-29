@@ -282,7 +282,7 @@
           },
           "useSceneBackButton": {
             "label": "Abilita pulsante torna indietro",
-            "hint": "<b>'Torna all'ultima scena'</b>: cliccando torna alla scena precedentemente visualizzata, <b>'Torna alle scena predefinita'</b>: appare solo nella vista cartelle, cliccando apre la navigazione scena predefinita, <b>'Disabilitato'</b>: Nessun pulsante torna indietro"
+            "hint": "<b>'Torna all'ultima scena'</b>: cliccando torna alla scena precedentemente visualizzata, <b>'Torna alla scena predefinita'</b>: appare solo nella vista cartelle, cliccando apre la navigazione scena predefinita, <b>'Disabilitato'</b>: Nessun pulsante torna indietro"
           },
           "useScenePreview": {
             "label": "Usa Anteprima Scena",
