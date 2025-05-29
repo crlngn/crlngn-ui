@@ -626,6 +626,7 @@ export class TopNavigation {
   
     if (btnLast) btnLast.addEventListener("click", this.#onNavLast);
     if (btnNext) btnNext.addEventListener("click", this.#onNavNext);
+    TopNavigation.handleHide();
   }
 
   /**
