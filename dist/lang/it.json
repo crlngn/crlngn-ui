@@ -5,7 +5,7 @@
       "clientSettingsLabel": "Impostazioni del Giocatore (Client)",
       "worldSettingsLabel": "Impostazioni del Mondo (GM)",
       "toggleHints": "Attiva/Disattiva Aiuto",
-      "navDisabled": "La navigazione delle scene è disabilitata nella scheda 'Elementi'. Le impostazioni seguenti avranno effetto solo se il Layout Personalizzato è abilitato per la Navigazione Scene.",
+      "navDisabled": "La navigazione delle scena è disabilitata nella scheda 'Elementi'. Le impostazioni seguenti avranno effetto solo se il Layout Personalizzato è abilitato per la Navigazione Scena.",
       "reloadRequiredTitle": "Ricarica Foundry",
       "reloadRequiredLabel": "È necessario un ricaricamento. Ricaricare ora?",
       "macroBarTooltipKeepOpen": "Aperto",
@@ -18,19 +18,31 @@
         "incompatibleVersion": "Carolingian UI richiede Foundry v13.339 o superiore. Si prega di aggiornare Foundry o installare la versione 1.x di Carolingian UI.",
         "settingsUpdated": "Impostazioni aggiornate",
         "minimalUiNotSupported": "Carolingian UI is not compatible with Minimal UI, and offers most of its features. Please disable that module to avoid performance issues.",
-        "monksScenesNotSupported": "La Navigazione Scene di Carolingian UI entrerà in conflitto con Monk's Scene Navigation. Questa funzionalità di Carolingian UI è stata disabilitata.",
-        "ripperScenesCompat": "Carolingian UI ora ha la Navigazione Cartelle Scene e Ricerca Scene, che non possono essere utilizzate insieme alla Compact Scene Navigation. Disabilita l'altro modulo o disabilita 'Navigazione Cartelle Scene' nelle impostazioni di Carolingian UI.",
+        "monksScenesNotSupported": "La Navigazione Scena di Carolingian UI entrerà in conflitto con Monk's Scena Navigation. Questa funzionalità di Carolingian UI è stata disabilitata.",
+        "ripperScenesCompat": "Carolingian UI ora ha la Navigazione Cartelle Scena e Ricerca Scena, che non possono essere utilizzate insieme alla Compact Scena Navigation. Disabilita l'altro modulo o disabilita 'Navigazione Cartelle Scena' nelle impostazioni di Carolingian UI.",
         "monksPlayerSettingsConflict": "Alcune impostazioni di Carolingian UI sono state disabilitate per evitare conflitti con il modulo Monk's Player Settings.",
         "forceClientSettingsConflict": "Alcune impostazioni di Carolingian UI sono state disabilitate per evitare conflitti con il modulo Force Client Settings.",
         "initialViewSet": "La vista iniziale di questa scena è stata impostata sulla vista corrente."
       },
       "sceneNav": {
-        "searchPlaceholder": "Cerca scene...",
+        "searchPlaceholder": "Cerca scena...",
         "backTo": "Torna a ",
-        "favoritesFolder": "Torna alle Scene Selezionate",
+        "favoritesFolder": "Torna alla Scena Selezionata",
         "addToFavorites": "Aggiungi alla Navigazione",
         "removeFromFavorites": "Rimuovi dalla Navigazione",
-        "initialViewBtn": "Imposta Vista Iniziale"
+        "initialViewBtn": "Imposta Vista Iniziale",
+        "backButtonTooltip": "Scena precedente",
+        "sceneLookupTooltip": "Cerca scena",
+        "hideSceneFoldersTooltip": "Nascondi cartelle",
+        "showSceneFoldersTooltip": "Mostra cartelle",
+        "globalLightOn": "Illuminazione globale attiva",
+        "globalLightOff": "Illuminazione globale spenta",
+        "tokenVisionOn": "Visione token attiva",
+        "tokenVisionOff": "Visione token spenta",
+        "playlistSoundOn": "Suono playlist attivo",
+        "playlistSoundOff": "Suono playlist spento",
+        "preloadScene": "Carica scena per i giocatori",
+        "sceneConfig": "Configurazione scena"
       },
       "updates": {
         "label": "Ultimo ID Aggiornamento",
@@ -49,7 +61,7 @@
           "themes": "Tema e Stili",
           "chat": "Chat",
           "controls": "Controlli Scena",
-          "scenes": "Scene",
+          "scenes": "Scena",
           "players": "Lista Giocatori",
           "camera": "Dock Camera"
         },
@@ -71,7 +83,7 @@
           "playerList": "Lista Giocatori",
           "cameraDock": "Dock Camera",
           "macroHotbar": "Barra Macro",
-          "sceneNav": "Navigazione Scene",
+          "sceneNav": "Navigazione Scena",
           "chatLogControls": "Controlli Chat",
           "fadeOutColumn": "Dissolvenza",
           "hideColumn": "Nascondi",
@@ -232,49 +244,49 @@
         "save": "Salva"
       },
       "sceneNavMenu": {
-        "label": "Navigazione Scene",
+        "label": "Navigazione Scena",
         "title": "Configura Navigazione",
-        "hint": "Cambia le opzioni per il menu di navigazione scene, nella barra superiore",
+        "hint": "Cambia le opzioni per il menu di navigazione scena, nella barra superiore",
         "fields": {
           "sceneNavEnabled": {
-            "label": "Abilita Navigazione Scene Orizzontale",
-            "hint": "[Richiede ricaricamento] Se stai avendo problemi di layout con un modulo non compatibile, puoi provare a disabilitare i miei stili personalizzati per la Navigazione Scene."
+            "label": "Abilita Navigazione Scena Orizzontale",
+            "hint": "[Richiede ricaricamento] Se stai avendo problemi di layout con un modulo non compatibile, puoi provare a disabilitare i miei stili personalizzati per la Navigazione Scena."
           }, 
           "showNavOnHover": {
-            "label": "Mostra navigazione scene al passaggio del mouse",
-            "hint": "Se la navigazione scene è compressa, puoi mostrarla passando il mouse sulla parte superiore dello schermo."
+            "label": "Mostra navigazione scena al passaggio del mouse",
+            "hint": "Se la navigazione scena è compressa, puoi mostrarla passando il mouse sulla parte superiore dello schermo."
           },
-          "navFoldersEnabled": {
-            "label": "Abilita cartelle scene nella navigazione",
-            "hint": "Se la Navigazione Scene Personalizzata è abilitata, questa opzione aggiungerà un elenco di cartelle con ricerca scene alla barra di navigazione."
+          "useSceneFolders": {
+            "label": "Abilita cartelle scena nella navigazione",
+            "hint": "Se la Navigazione Scena Personalizzata è abilitata, questa opzione aggiungerà un elenco di cartelle con ricerca scena alla barra di navigazione."
           },
           "navFoldersForPlayers": {
-            "label": "Abilita cartelle scene per i giocatori",
+            "label": "Abilita cartelle scena per i giocatori",
             "hint": "Abilita per permettere ai giocatori di vedere l'elenco delle cartelle. Se non hanno i permessi di visualizzazione per una cartella, questa non apparirà nell'elenco."
           },
           "navStartCollapsed": {
             "label": "Avvia compresso",
-            "hint": "Abilita questa opzione per comprimere la navigazione scene durante il caricamento di Foundry, indipendentemente dallo stato precedentemente salvato."
+            "hint": "Abilita questa opzione per comprimere la navigazione scena durante il caricamento di Foundry, indipendentemente dallo stato precedentemente salvato."
           },
           "sceneClickToView": {
             "label": "Abilita Click e Doppio Click",
             "hint": "Quando abilitato, cliccare sulla scena nella vista scena apre quella scena. Cliccare due volte l'attiva."
           },
           "useSceneIcons": {
-            "label": "Mostra icone scene",
+            "label": "Mostra icone scena",
             "hint": "Mostra icone vicino al nome della scena: <i class='fas fa-lock'></i> Invisibile ai giocatori fino all'attivazione; <i class='fas fa-crown'></i> Attualmente visualizzata dal GM; <i class='fas fa-bullseye'></i> Attualmente attiva per i giocatori;"
           },
           "useSceneBackButton": {
             "label": "Abilita pulsante torna indietro",
-            "hint": "<b>'Torna all'ultima scena'</b>: cliccando torna alla scena precedentemente visualizzata, <b>'Torna alle scene predefinite'</b>: appare solo nella vista cartelle, cliccando apre la navigazione scene predefinita, <b>'Disabilitato'</b>: Nessun pulsante torna indietro"
+            "hint": "<b>'Torna all'ultima scena'</b>: cliccando torna alla scena precedentemente visualizzata, <b>'Torna alle scena predefinite'</b>: appare solo nella vista cartelle, cliccando apre la navigazione scena predefinita, <b>'Disabilitato'</b>: Nessun pulsante torna indietro"
           },
           "useScenePreview": {
             "label": "Usa Anteprima Scena",
             "hint": "Quando abilitato, l'anteprima della scena verrà mostrata quando si passa il mouse sulla navigazione"
           },
           "navShowRootFolders": {
-            "label": "Mostra le cartelle radice nella navigazione scene",
-            "hint": "Cartelle radice dalla directory di scena saranno mostrate nella navigazione scene predefinita. Se hai tante cartelle radice, potresti voler disabilitare questa opzione."
+            "label": "Mostra le cartelle radice nella navigazione scena",
+            "hint": "Cartelle radice dalla directory di scena saranno mostrate nella navigazione scena predefinita. Se hai tante cartelle radice, potresti voler disabilitare questa opzione."
           },
           "sceneNavItemWidth": {
             "label": "Larghezza dell'elemento di navigazione",
@@ -294,11 +306,11 @@
         }
       },
       "sceneNavCollapsed": {
-        "label": "Navigazione Scene Compressa",
-        "hint": "Stato attuale del toggle di navigazione scene. È compressa?"
+        "label": "Navigazione Scena Compressa",
+        "hint": "Stato attuale del toggle di navigazione scena. È compressa?"
       },
       "sceneNavPos": {
-        "label": "Posizione Navigazione Scene",
+        "label": "Posizione Navigazione Scena",
         "hint": "Memorizza la posizione corrente della navigazione per il ripristino quando viene renderizzata nuovamente"
       },
       "enableMacroLayout": {
@@ -312,6 +324,10 @@
       "collapseMacroBar": {
         "label": "Nascondi la barra delle macro",
         "hint": "Abilita per avere la barra delle macro inizialmente compressa per impostazione predefinita e mostrarla al passaggio del mouse."
+      },
+      "useFolderStyle": {
+        "label": "Usa colori discreti",
+        "hint": "Abilita per avere colori discreti sui cartelle del pannello laterale, mostrando solo il colore selezionato sulle bordi."
       },
       "debugMode": {
         "label": "Modalità Debug",

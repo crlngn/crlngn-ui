@@ -35,12 +35,20 @@ export class CameraDockUtil {
   /** @type {number} How many times to try applying position */
   static positionAttempts = 5;
   static useFadeOut = true;
+  static hidden = false;
   static enableFloatingDock = true;
   
   static applyFadeOut(useFadeOut){
     CameraDockUtil.useFadeOut = useFadeOut;
     if(CameraDockUtil.cameraContainer){
       CameraDockUtil.cameraContainer.classList.toggle("faded-ui", useFadeOut);
+    }
+  }
+  
+  static applyHide(hidden){
+    CameraDockUtil.hidden = hidden;
+    if(CameraDockUtil.cameraContainer){
+      CameraDockUtil.cameraContainer.classList.toggle("hidden", hidden);
     }
   }
 

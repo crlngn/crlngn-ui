@@ -30,10 +30,12 @@ export class TopNavigation {
   static #sceneHoverTimeout = null;
   static #previewedScene = '';
   static #visitedScenes = [];
+  static #preventNavRender = false;
   // settings
   static useFadeOut = true;
+  static hidden = false;
   static sceneNavEnabled;
-  static navFoldersEnabled;
+  static useSceneFolders;
   static navFoldersForPlayers;
   static navShowRootFolders;
   static navStartCollapsed;
@@ -41,6 +43,7 @@ export class TopNavigation {
   static useSceneIcons;
   static useScenePreview;
   static useSceneBackButton;
+  static useSceneLookup;
   static sceneClickToView;
   static isCollapsed;
   static navPos;
@@ -55,7 +58,7 @@ export class TopNavigation {
     TopNavigation.showNavOnHover = SettingsUtil.get(SETTINGS.showNavOnHover.tag);
     TopNavigation.sceneNavEnabled = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
     TopNavigation.useScenePreview = SettingsUtil.get(SETTINGS.useScenePreview.tag);
-    TopNavigation.navFoldersEnabled = SettingsUtil.get(SETTINGS.navFoldersEnabled.tag);
+    TopNavigation.useSceneFolders = SettingsUtil.get(SETTINGS.useSceneFolders.tag);
     TopNavigation.navFoldersForPlayers = SettingsUtil.get(SETTINGS.navFoldersForPlayers.tag);
     TopNavigation.isCollapsed = TopNavigation.navStartCollapsed;
 
@@ -105,13 +108,18 @@ export class TopNavigation {
     }
 
     Hooks.on(HOOKS_CORE.CREATE_SCENE, () => {
-      ui.nav.render();
+      ui.nav?.render();
     });
     Hooks.on(HOOKS_CORE.UPDATE_SCENE, () => {
-      ui.nav.render();
+      if(TopNavigation.#preventNavRender){ 
+        TopNavigation.#preventNavRender = false;
+        return; 
+      }
+      LogUtil.log(HOOKS_CORE.UPDATE_SCENE, [TopNavigation.#preventNavRender]);
+      // ui.nav?.render();
     });
     Hooks.on(HOOKS_CORE.DELETE_SCENE, () => {
-      ui.nav.render();
+      ui.nav?.render();
     });
 
     Hooks.on(HOOKS_CORE.CANVAS_INIT, ()=>{
@@ -168,6 +176,31 @@ export class TopNavigation {
     TopNavigation.handleSceneFadeOut();
   }
 
+  static applyHide(hidden){
+    TopNavigation.hidden = hidden;
+    TopNavigation.handleHide();
+  }
+
+  static handleHide(){
+    const element = document.querySelector("#scene-navigation");
+    const toggle = document.querySelector("#crlngn-scene-navigation-expand");
+    const btns = document.querySelectorAll("#ui-left-column-2 .crlngn-btn");
+    if(TopNavigation.hidden){
+      element?.classList.add("hidden-ui");
+      toggle?.classList.add("hidden-ui");
+      btns.forEach((btn) => {
+        btn.classList.add("hidden-ui");
+      });
+    }else{
+      element?.classList.remove("hidden-ui");
+      toggle?.classList.remove("hidden-ui");
+      btns.forEach((btn) => {
+        btn.classList.remove("hidden-ui");
+      });
+    }
+    LogUtil.log("handle Hide", [TopNavigation.hidden]);
+  }
+
   static applyCustomStyle(enabled){
     TopNavigation.sceneNavEnabled = enabled;
     LogUtil.log("applyCustomStyle - TopNavigation", [TopNavigation.sceneNavEnabled, ui.nav]);
@@ -177,22 +210,23 @@ export class TopNavigation {
   static onRender = (nav, navHtml, navData) => {
     const SETTINGS = getSettings();
     const scenePage = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
+    if(TopNavigation.preventNavRender){ return; }
     LogUtil.log("onRender - "+HOOKS_CORE.RENDER_SCENE_NAV, [navHtml], true);
 
     TopNavigation.resetLocalVars();
     if(TopNavigation.sceneNavEnabled){
-      TopNavigation.handleBackButton(nav, navHtml, navData);
+      TopNavigation.handleExtraButtons(nav, navHtml, navData);
       TopNavigation.handleSceneList(nav, navHtml, navData);
       TopNavigation.handleFolderList(nav, navHtml, navData);
       TopNavigation.setNavPosition(scenePage, false);
       TopNavigation.handleNavState();
+      // TopNavigation.applyButtonSettings();
+      TopNavigation.addSceneListeners(navHtml);
     }
-    
-    TopNavigation.addSceneListeners(navHtml);
     TopNavigation.addListeners();
     TopNavigation.resetLocalVars();
 
-    if(TopNavigation.sceneNavEnabled && TopNavigation.navShowRootFolders){
+    if(TopNavigation.sceneNavEnabled && TopNavigation.navShowRootFolders && game.user.isGM){
       SceneNavFolders.init();
       SceneNavFolders.renderFolderList();
     }
@@ -242,7 +276,7 @@ export class TopNavigation {
    */
   static resetLocalVars(){
     TopNavigation.#navElem = document.querySelector("#scene-navigation"); 
-    TopNavigation.#navToggle = document.querySelector("#scene-navigation-expand"); 
+    TopNavigation.#navToggle = document.querySelector("#crlngn-scene-navigation-expand"); 
     TopNavigation.#uiLeft = document.querySelector("#ui-left");
     TopNavigation.#scenesList = document.querySelector("#scene-navigation-inactive");
   }
@@ -251,43 +285,39 @@ export class TopNavigation {
    * Add scene preview to nav, if the setting is enabled
    */
   static handleSceneList = async (nav, navHtml, navData) =>{
-    if(TopNavigation.sceneNavEnabled){
-      LogUtil.log("handleSceneList", [nav, navHtml, navData]);
+    LogUtil.log("handleSceneList", [nav, navHtml, navData]);
 
-      const allSceneLi = navHtml.querySelectorAll(".scene-navigation-menu li.scene");
-      // allSceneLi.forEach(async (li) => {
-      for(const li of allSceneLi){
-        const id = li.dataset.sceneId;
+    const allSceneLi = navHtml.querySelectorAll(".scene-navigation-menu li.scene");
+    // allSceneLi.forEach(async (li) => {
+    for(const li of allSceneLi){
+      const id = li.dataset.sceneId;
 
-        // add scene preview
-        if(TopNavigation.useScenePreview){
-          const sceneData = game.scenes.find(sc => sc.id === id);
-          sceneData.isGM = game.user?.isGM;
-          const previewTemplate = await renderTemplate(
-            `modules/${MODULE_ID}/templates/scene-nav-preview.hbs`, 
-            sceneData
-          );
-          LogUtil.log("sceneData", [sceneData]);
-          li.classList.add('nav-item');
-          li.insertAdjacentHTML('beforeend', previewTemplate);
+      // add scene preview
+      if(TopNavigation.useScenePreview){
+        const sceneData = game.scenes.find(sc => sc.id === id);
+        sceneData.isGM = game.user?.isGM;
 
-          if(sceneData.isGM && TopNavigation.#previewedScene === id){
-            const mouseEnterEvent = new MouseEvent('mouseenter');
-            li.dispatchEvent(mouseEnterEvent);
-          }
-          
-          // Add click handlers to the preview icons if user is GM
-          if (game.user?.isGM) {
-            TopNavigation.addPreviewIconListeners(li, sceneData);          
-          }
+        const previewTemplate = await renderTemplate(
+          `modules/${MODULE_ID}/templates/scene-nav-preview.hbs`, 
+          sceneData
+        );
+        li.classList.add('nav-item');
+        li.insertAdjacentHTML('beforeend', previewTemplate);
+
+        if(sceneData.isGM && TopNavigation.#previewedScene === id){
+          const mouseEnterEvent = new MouseEvent('mouseenter');
+          li.dispatchEvent(mouseEnterEvent);
         }
         
-        // add custom scene icons
-        if(TopNavigation.useSceneIcons){
-          if(li.classList.contains('active') || li.classList.contains('view')){
-            li.classList.add('crlngn');
-          }
+        // Add click handlers to the preview icons if user is GM
+        if (game.user?.isGM) {
+          TopNavigation.addPreviewIconListeners(li, sceneData);          
         }
+      }
+      
+      // add custom scene icons
+      if(TopNavigation.useSceneIcons){
+        li.classList.add('crlngn');
       }
     }
 
@@ -295,18 +325,20 @@ export class TopNavigation {
       const navToggle = navHtml.querySelector("#scene-navigation-expand");
       const column2 = document.querySelector("#ui-left-column-2");
       const existingToggle = document.querySelector("#crlngn-scene-navigation-expand");
+      if(!navToggle){ return; }
       if(existingToggle){ existingToggle.remove(); }
       
       let toggleClone = navToggle?.cloneNode(true);
       if(toggleClone){
         toggleClone.id = "crlngn-scene-navigation-expand";
         toggleClone.addEventListener("click", () => {
-          navToggle.click(); // This will trigger the original handler
+          navToggle?.click(); // This will trigger the original handler
         });
       }
       LogUtil.log("toggle events", [nav, toggleClone]);
 
       column2.prepend(toggleClone);
+      TopNavigation.handleHide();
     }
   }
 
@@ -334,32 +366,32 @@ export class TopNavigation {
     }
   }
 
-  /**
-   * Add back button to the active scenes menu,
-   * unless it is turned off in settings
-   * @param {SceneNavigation} nav - The scene navigation instance
-   * @param {HTMLElement} navHtml - The navigation HTML element
-   * @param {SceneNavData} navData - The scene navigation data
-   * @returns {void}
-   */
-  static handleBackButton(nav, navHtml, navData){
-    const SETTINGS = getSettings();
-    LogUtil.log("handleBackButton",[nav, navHtml, navData]);
-    if(TopNavigation.useSceneBackButton){ 
-      if(game.scenes.size < 2){ return; }
-      const sceneNav = navHtml.querySelector("#scene-navigation-active");
-      const backButton = document.createElement("button");
-      backButton.id = "crlngn-back-button";
-      backButton.innerHTML = "<i class='fa fa-turn-left'></i>";
-      backButton.addEventListener("click", TopNavigation.#onBackButton);
-      sceneNav.prepend(backButton);
-    }else{
-      const existingBackButton = document.querySelector("#crlngn-back-button");
-      navHtml.classList.add("no-back-button");
-      if(existingBackButton){ existingBackButton.remove(); }
-    }
+  // /**
+  //  * Add back button to the active scenes menu,
+  //  * unless it is turned off in settings
+  //  * @param {SceneNavigation} nav - The scene navigation instance
+  //  * @param {HTMLElement} navHtml - The navigation HTML element
+  //  * @param {SceneNavData} navData - The scene navigation data
+  //  * @returns {void}
+  //  */
+  // static handleBackButton(nav, navHtml, navData){
+  //   const SETTINGS = getSettings();
+  //   LogUtil.log("handleBackButton",[nav, navHtml, navData]);
+  //   if(TopNavigation.useSceneBackButton){ 
+  //     if(game.scenes.size < 2){ return; }
+  //     const sceneNav = navHtml.querySelector("#scene-navigation-active");
+  //     const backButton = document.createElement("button");
+  //     backButton.id = "crlngn-back-button";
+  //     backButton.innerHTML = "<i class='fa fa-turn-left'></i>";
+      
+  //     sceneNav.prepend(backButton);
+  //   }else{
+  //     const existingBackButton = document.querySelector("#crlngn-back-button");
+  //     navHtml.classList.add("no-back-button");
+  //     if(existingBackButton){ existingBackButton.remove(); }
+  //   }
     
-  }
+  // }
 
   /**
    * Handles the folder list in the scene navigation
@@ -369,10 +401,44 @@ export class TopNavigation {
    * @returns {void}
    */
   static handleFolderList(nav, navHtml, navData){
-    const SETTINGS = getSettings();
-    if(!TopNavigation.navFoldersEnabled){ return; }
-    
+    if(!TopNavigation.useSceneFolders || !game.user?.isGM){ return; }
     SceneNavFolders.addFolderButtons(nav, navHtml, navData);
+  }
+
+  /**
+   * Add back button to the active scenes menu,
+   * unless it is turned off in settings
+   * @param {SceneNavigation} nav - The scene navigation instance
+   * @param {HTMLElement} navHtml - The navigation HTML element
+   * @param {SceneNavData} navData - The scene navigation data
+   * @returns {void}
+   */
+  static handleExtraButtons = async(nav, navHtml, navData) => {
+    const SETTINGS = getSettings();
+    LogUtil.log("handleExtraButtons",[nav, navHtml, navData]);
+
+    const extraButtonsTemplate = await renderTemplate(
+      `modules/${MODULE_ID}/templates/scene-nav-extra-buttons.hbs`, 
+      {
+        useSceneBackButton: TopNavigation.useSceneBackButton,
+        useSceneFolders: game.user?.isGM ? TopNavigation.useSceneFolders : false,
+        useSceneLookup: game.user?.isGM ? TopNavigation.useSceneLookup : false,
+        backButtonTooltip: game.i18n.localize("CRLNGN_UI.ui.sceneNav.backButtonTooltip"),
+        sceneLookupTooltip: game.i18n.localize("CRLNGN_UI.ui.sceneNav.sceneLookupTooltip"),
+        isGM: game.user?.isGM,
+      }
+    );
+
+    navHtml.querySelector("#scene-navigation-active")?.insertAdjacentHTML("afterbegin", extraButtonsTemplate);
+    const backButton = navHtml.querySelector("#crlngn-back-button");
+    if(backButton){
+      backButton.addEventListener("click", TopNavigation.#onBackButton);
+    }
+
+    // folder lookup button and search block
+    if(TopNavigation.sceneNavEnabled && TopNavigation.useSceneLookup && game.user?.isGM){
+      SceneNavFolders.handleFolderLookup(nav, navHtml, navData);
+    }
   }
 
   /**
@@ -445,7 +511,7 @@ export class TopNavigation {
     this.#isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
     this.#isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
 
-    if(this.#isRipperSceneNavOn && TopNavigation.navFoldersEnabled){
+    if(this.#isRipperSceneNavOn && TopNavigation.useSceneFolders){
       if(game.user?.isGM && this.#isRipperSceneNavOn){
         ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.ripperScenesCompat"), {permanent: true});
       }
@@ -467,40 +533,55 @@ export class TopNavigation {
     */
   }
 
+  // static applyButtonSettings(){
+  //   const SETTINGS = getSettings();
+  //   let numButtons = 1;
+
+  //   if(TopNavigation.useSceneBackButton){ numButtons++; }
+  //   if(TopNavigation.useSceneLookup){ numButtons++; }
+    
+  //   // GeneralUtil.addCSSVars('--scene-list-left',`calc(var(--left-control-item-size) * ${numButtons})`);
+  // }
+
+  static #onSceneNavMouseOn = (e)=>{
+    LogUtil.log("TopNavigation mouseenter", [ ]);
+
+    if( !TopNavigation.isCollapsed ||
+        !TopNavigation.showNavOnHover ){ 
+          return;
+    }
+    e.stopPropagation();
+    clearTimeout(TopNavigation.#navTimeout);
+
+    const navigation = document.querySelector("#scene-navigation");
+    navigation.classList.add("expanded");
+  }
+
+  static #onSceneNavMouseOff = (e)=>{
+    LogUtil.log("TopNavigation mouseleave", [ ]);
+    if( !TopNavigation.isCollapsed ||
+        !TopNavigation.showNavOnHover ){ 
+        return;
+    }
+    e.stopPropagation();
+
+    TopNavigation.#navTimeout = setTimeout(()=>{
+      clearTimeout(TopNavigation.#navTimeout);
+      TopNavigation.#navTimeout = null;
+      const navigation = document.querySelector("#scene-navigation");
+      navigation.classList.remove("expanded");
+    }, 700);
+  }
+
   /**
    * Adds event listeners for navigation interactions
    * Handles hover and click events for navigation expansion/collapse
    */
   static addListeners(){
-    TopNavigation.#navElem?.addEventListener("mouseenter", (e)=>{
-      LogUtil.log("TopNavigation mouseenter", [ TopNavigation.isCollapsed, TopNavigation.showNavOnHover ]);;
-
-      if( !TopNavigation.isCollapsed ||
-          !TopNavigation.showNavOnHover ){ 
-            return;
-      }
-      e.stopPropagation();
-      clearTimeout(TopNavigation.#navTimeout);
-
-      const navigation = document.querySelector("#scene-navigation");
-      navigation.classList.add("expanded");
-    });
-
-    TopNavigation.#navElem?.addEventListener("mouseleave", (e)=>{
-      LogUtil.log("TopNavigation mouseleave", [ ]);
-      if( !TopNavigation.isCollapsed ||
-          !TopNavigation.showNavOnHover ){ 
-          return;
-      }
-      e.stopPropagation();
-
-      TopNavigation.#navTimeout = setTimeout(()=>{
-        clearTimeout(TopNavigation.#navTimeout);
-        TopNavigation.#navTimeout = null;
-        const navigation = document.querySelector("#scene-navigation");
-        navigation.classList.remove("expanded");
-      }, 700);
-    });
+    TopNavigation.#navElem?.removeEventListener("mouseenter", TopNavigation.#onSceneNavMouseOn);
+    TopNavigation.#navElem?.removeEventListener("mouseleave", TopNavigation.#onSceneNavMouseOff);
+    TopNavigation.#navElem?.addEventListener("mouseenter", TopNavigation.#onSceneNavMouseOn);
+    TopNavigation.#navElem?.addEventListener("mouseleave", TopNavigation.#onSceneNavMouseOff);
   }
 
   /**
@@ -789,30 +870,30 @@ export class TopNavigation {
   }
 
   static onScenePreviewOn = (evt) => {
-    evt.stopPropagation();
+    LogUtil.log("onScenePreviewOn", []);
+    // evt.stopPropagation();
     evt.preventDefault();
-    if(!TopNavigation.showNavOnHover){ return; }
+    if(TopNavigation.isCollapsed){ return; }
 
     const target = evt.currentTarget;
     const data = target.dataset;
     TopNavigation.#previewedScene = data.sceneId;
     TopNavigation.#sceneHoverTimeout = setTimeout(() => {
       clearTimeout(TopNavigation.#sceneHoverTimeout);
-      target.querySelector(".scene-preview").classList.add('open');
+      target.querySelector(".scene-preview")?.classList.add('open');
     }, 200);
-    LogUtil.log("onScenePreviewOn", [TopNavigation.#previewedScene]);
   }
 
   static onScenePreviewOff = (evt) => {
-    evt.stopPropagation();
+    LogUtil.log("onScenePreviewOff", []);
+    // evt.stopPropagation();
     evt.preventDefault();
     clearTimeout(TopNavigation.#sceneHoverTimeout);
-    if(!TopNavigation.showNavOnHover){ return; }
+    if(TopNavigation.isCollapsed){ return; }
     const target = evt.currentTarget;
     TopNavigation.#previewedScene = '';
-    LogUtil.log("onScenePreviewOff", []);
 
-    target.querySelector(".scene-preview").classList.remove('open');
+    target.querySelector(".scene-preview")?.classList.remove('open');
   }
 
   /**
@@ -822,15 +903,22 @@ export class TopNavigation {
   static addSceneListeners = (html) => {
     const sceneItems = html.querySelectorAll("li.scene");
     sceneItems.forEach(li => {
-      const isFolder = li.classList.contains("folder");
+      // const isFolder = li.classList.contains("folder");
+      LogUtil.log("addSceneListeners", [li]);
       li.querySelector(".scene-name").addEventListener("click", TopNavigation.onSelectScene);
       li.querySelector(".scene-name").addEventListener("dblclick", TopNavigation.onActivateScene);
+
+      li.removeEventListener("mouseenter", TopNavigation.onScenePreviewOn);
+      li.removeEventListener("mouseleave", TopNavigation.onScenePreviewOff);
+
       if(TopNavigation.useScenePreview){
+        const id = li.dataset.sceneId;
+        const sceneData = game.scenes.find(sc => sc.id === id);
+        if (game.user?.isGM) {
+          TopNavigation.addPreviewIconListeners(li, sceneData);          
+        }
         li.addEventListener("mouseenter", TopNavigation.onScenePreviewOn);
         li.addEventListener("mouseleave", TopNavigation.onScenePreviewOff);
-      }else{
-        li.removeEventListener("mouseenter", TopNavigation.onScenePreviewOn);
-        li.removeEventListener("mouseleave", TopNavigation.onScenePreviewOff);
       }
     });
   }
@@ -852,77 +940,196 @@ export class TopNavigation {
     // Global illumination icon
     const ilumIcon = previewDiv.querySelector('.ilum');
     if (ilumIcon) {
-      ilumIcon.addEventListener('click', async (event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        
-        // Toggle global illumination
-        const currentValue = scene.environment.globalLight.enabled;
-        
-        // Update the scene
-        await scene.update({
-          'environment.globalLight.enabled': !currentValue
-        });
-        LogUtil.log("Toggled global illumination", [!currentValue]);
-      });
+      ilumIcon.addEventListener('click', TopNavigation.#onIlumClick);
     }
     
     // Token vision icon
     const tokenVisionIcon = previewDiv.querySelector('.token-vision');
     if (tokenVisionIcon) {
-      tokenVisionIcon.addEventListener('click', async (event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        
-        // Toggle token vision
-        const currentValue = scene.tokenVision;
-        
-        // Update the scene
-        await scene.update({
-          'tokenVision': !currentValue
-        });
-        LogUtil.log("Toggled token vision", [!currentValue]);
-      });
+      tokenVisionIcon.addEventListener('click', TopNavigation.#onTokenVisionClick);
     }
     
     // Sound icon - only if there's a playlist sound
     const soundIcon = previewDiv.querySelector('.sound');
     if (soundIcon && scene.playlistSound) {
-      soundIcon.addEventListener('click', async (event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        
-        // Toggle playlist sound
-        const playlistSound = scene.playlistSound;
-        if (playlistSound) {
-          const playing = playlistSound.sound.playing;
-          
-          // Toggle the sound
-          if (playing) {
-            await playlistSound.sound.pause();
-          } else {
-            await playlistSound.sound.play();
-          }
-          ui.nav.render();
-          LogUtil.log("Toggled playlist sound", [!playing]);
-        }
-      });
+      soundIcon.addEventListener('click', TopNavigation.#onSoundClick);
     }
     
     // Config icon
+    const preloadIcon = previewDiv.querySelector('.preload');
+    if (preloadIcon) {
+      preloadIcon.addEventListener('click', TopNavigation.#onPreloadClick);
+    }
+
+    // Config icon
     const configIcon = previewDiv.querySelector('.config');
     if (configIcon) {
-      configIcon.addEventListener('click', (event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        
-        // Open scene configuration
-        scene.sheet.render(true);
-        LogUtil.log("Opened scene configuration");
-      });
+      configIcon.addEventListener('click', TopNavigation.#onConfigClick);
+    }
+
+  }
+
+  /**
+   * Event for when user opens scene configuration
+   * @param {Event} event 
+   */
+  static #onConfigClick = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    const target = event.currentTarget.closest("li.scene");
+    const scene = TopNavigation.getSceneFromElement(target);
+    scene.sheet.render(true);
+    LogUtil.log("Opened scene configuration");
+  }
+
+  /**
+   * Event for when user opens scene configuration
+   * @param {Event} event 
+   */
+  static #onPreloadClick = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    const target = event.currentTarget.closest("li.scene");
+    const scene = TopNavigation.getSceneFromElement(target);
+    game.scenes.preload(scene.id, true);
+    LogUtil.log("Preloaded scene");
+  }
+
+  /**
+   * Event for when user toggles playlist sound
+   * @param {Event} event 
+   */
+  static #onSoundClick = async (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    const target = event.currentTarget.closest("li.scene");
+    let scene = TopNavigation.getSceneFromElement(target);
+    const playlistSound = scene.playlistSound;
+    if (playlistSound) {
+      const playing = playlistSound.sound.playing;
+      if (playing) {
+        playlistSound.sound.pause();
+      } else {
+        playlistSound.sound.play();
+      }
+      // TopNavigation.#preventNavRender = true;
+      // Update the preview with fresh scene data
+      await TopNavigation.updateScenePreview(target, scene.id);
+      LogUtil.log("Toggled playlist sound", [!playing]);
+    }
+  }
+
+  /**
+   * Event for when user toggles global illumination
+   * @param {Event} event 
+   */
+  static #onIlumClick = async (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    const target = event.currentTarget.closest("li.scene");
+    let scene = TopNavigation.getSceneFromElement(target);
+    const currentValue = scene.environment.globalLight.enabled;
+    
+    TopNavigation.#preventNavRender = true;
+    // Update the scene
+    await scene.update({
+      'environment.globalLight.enabled': !currentValue
+    });
+    await TopNavigation.updateScenePreview(target, scene.id);
+    LogUtil.log("Toggled global illumination", [!currentValue]);
+  }
+
+  /**
+   * Event for when user toggles token vision
+   * @param {Event} event 
+   */
+  static #onTokenVisionClick = async (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    const target = event.currentTarget.closest("li.scene");
+    let scene = TopNavigation.getSceneFromElement(target);
+    const currentValue = scene.tokenVision;
+
+    TopNavigation.#preventNavRender = true;
+    await scene.update({
+      'tokenVision': !currentValue
+    });
+    // Update the preview with fresh scene data
+    await TopNavigation.updateScenePreview(target, scene.id);
+    LogUtil.log("Toggled token vision", [!currentValue]);
+  }
+
+  /**
+   * Gets the scene from the element
+   * @param {HTMLElement} element 
+   * @returns {Scene}
+   */
+  static getSceneFromElement = (target) => {
+    const sceneId = target.dataset.sceneId;
+    let scene = game.scenes.get(sceneId);
+    return scene;
+  }
+
+  /**
+   * Updates a scene preview with fresh data from the scene
+   * @param {HTMLElement} sceneElement - The scene element containing the preview
+   * @param {string} sceneId - The ID of the scene to update
+   */
+  static updateScenePreview = async (sceneElement, sceneId) => {
+    if (!TopNavigation.sceneNavEnabled || !sceneElement || !sceneId) return;
+    
+    // Get fresh scene data directly from the game.scenes collection
+    const scene = game.scenes.get(sceneId);
+    if (!scene) return;
+    
+    const oldPreview = sceneElement.querySelector('.scene-preview');
+    if (!oldPreview) return;
+    
+    // Store the open state before replacing
+    const wasOpen = oldPreview.classList.contains('open');
+    
+    // Log the scene data for debugging
+    LogUtil.log("Scene data for preview", [sceneId, scene.environment?.globalLight?.enabled, scene.tokenVision]);
+    
+    // Directly use the scene object for the template to ensure we have the latest data
+    // This is important for properties like environment.globalLight.enabled
+    const templateData = {
+      id: scene.id,
+      name: scene.name,
+      thumb: scene.thumb || "",
+      environment: scene.environment,
+      tokenVision: scene.tokenVision,
+      isGM: game.user?.isGM
+    };
+    
+    // Render the new preview with the direct data
+    const previewTemplate = await renderTemplate(
+      `modules/${MODULE_ID}/templates/scene-nav-preview.hbs`, 
+      templateData
+    );
+    
+    // Replace the old preview with the new one
+    oldPreview.outerHTML = previewTemplate;
+    
+    // Re-add event listeners to the new preview
+    const newPreview = sceneElement.querySelector('.scene-preview');
+    if (wasOpen && newPreview) {
+      newPreview.classList.add('open');
     }
     
-
+    // Re-attach all necessary event listeners
+    if (TopNavigation.sceneNavEnabled && TopNavigation.useScenePreview) {
+      // Reattach hover events
+      sceneElement.removeEventListener("mouseenter", TopNavigation.onScenePreviewOn);
+      sceneElement.removeEventListener("mouseleave", TopNavigation.onScenePreviewOff);
+      sceneElement.addEventListener("mouseenter", TopNavigation.onScenePreviewOn);
+      sceneElement.addEventListener("mouseleave", TopNavigation.onScenePreviewOff);
+      
+      // Reattach icon click events
+      if (game.user?.isGM) {
+        TopNavigation.addPreviewIconListeners(sceneElement, templateData);
+      }
+    }
   }
   
 }

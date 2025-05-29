@@ -30,7 +30,19 @@
         "favoritesFolder": "Selected Scenes",
         "addToFavorites": "Add to Navigation",
         "removeFromFavorites": "Remove from Navigation",
-        "initialViewBtn": "Set Initial View"
+        "initialViewBtn": "Set Initial View",
+        "backButtonTooltip": "Previous scene",
+        "sceneLookupTooltip": "Search scenes",
+        "hideSceneFoldersTooltip": "Hide scene folders",
+        "showSceneFoldersTooltip": "Show scene folders",
+        "globalLightOn": "Global illumination is on",
+        "globalLightOff": "Global illumination is off",
+        "tokenVisionOn": "Token vision is on",
+        "tokenVisionOff": "Token vision is off",
+        "playlistSoundOn": "Playlist sound is on",
+        "playlistSoundOff": "Playlist sound is off",
+        "preloadScene": "Preload scene for players",
+        "sceneConfig": "Scene Configuration"
       },
       "updates": {
         "label": "Last Update ID",
@@ -244,9 +256,13 @@
             "label": "Toggle scene navigation on hover",
             "hint": "If the scene navigation is collapsed, you can show it by hovering the mouse over the top of the screen."
           },
-          "navFoldersEnabled": {
+          "useSceneFolders": {
             "label": "Enable scene folders on navigation",
-            "hint": "If Custom Scene Navigation is enabled, this option will add a list of folders with scene search to scene navigation bar."
+            "hint": "If custom scene navigation is enabled, this option will add a list of folders with scene search to scene navigation bar."
+          },
+          "useSceneLookup": {
+            "label": "Enable scene lookup on navigation",
+            "hint": "If custom scene navigation is enabled, this option will add a button to search for scenes on the navigation bar."
           },
           "navFoldersForPlayers": {
             "label": "Enable scene folders for players",
@@ -313,9 +329,13 @@
         "label": "Auto-Hide Macro Bar",
         "hint": "Enable to have the macro hotbar start collapsed by default, and show up on hover."
       },
+      "useFolderStyle": {
+        "label": "Discreet folder colors on sidebar",
+        "hint": "Enable more discreet colors on sidebar directory folders, showing the selected color only on the borders, for a nicer look."
+      },
       "debugMode": {
         "label": "Debug Mode",
-        "hint": "Enable or disable debug messages on browser console."
+        "hint": "Enable or disable debug messages on browser console. This should be turned off unless the module developer asks you to turn it on for verification."
       },
       "disableUI":{
         "label": "Disable UI in this client",

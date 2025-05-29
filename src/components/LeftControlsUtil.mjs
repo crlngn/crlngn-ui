@@ -13,6 +13,7 @@ export class LeftControls {
   /** @type {ResizeObserver} @private @static */
   static #resizeObserver;
   static useFadeOut = true;
+  static hidden = false;
   static customStylesEnabled = true;
 
   /**
@@ -31,6 +32,23 @@ export class LeftControls {
     LeftControls.useFadeOut = useFadeOut;
     LogUtil.log("applyFadeOut", [useFadeOut]);
     LeftControls.handleFadeOut();
+  }
+
+  static applyHide(hidden){
+    LeftControls.hidden = hidden;
+    LeftControls.handleHide();
+  }
+
+  static handleHide(component, html, data){
+    const element = html ? html : document.querySelector("#scene-controls");
+
+    if(LeftControls.hidden){
+      element?.classList.add("hidden-ui");
+    }else{
+      element?.classList.remove("hidden-ui");
+    }
+
+    LogUtil.log("handle Hide", [LeftControls.hidden]);
   }
 
   static handleFadeOut(component, html, data){
@@ -95,6 +113,7 @@ export class LeftControls {
       ui?.classList.remove("crlngn-controls");
     }
     LeftControls.handleFadeOut(component, html, data);
+    LeftControls.handleHide(component, html, data);
   }
 
 

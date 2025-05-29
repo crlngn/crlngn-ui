@@ -8,6 +8,7 @@ export class MacroHotbar {
   static useFadeOut = true;
   static customStylesEnabled = true;
   static macroStartCollapsed = false;
+  static hidden = false;
 
   static init(){
     this.preloadTemplates();
@@ -39,10 +40,28 @@ export class MacroHotbar {
     MacroHotbar.handleFadeOut();
   }
 
+  static applyHide(hidden){
+    MacroHotbar.hidden = hidden;
+    MacroHotbar.handleHide();
+  }
+
+  static handleHide(component, html, data){
+    const element = html ? html : document.querySelector("#hotbar");
+
+    if(MacroHotbar.hidden){
+      element?.classList.add("hidden-ui");
+    }else{
+      element?.classList.remove("hidden-ui");
+    }
+
+    LogUtil.log("handle Hide", [MacroHotbar.hidden]);
+  }
+
   static onRender(component, html, data){
     LogUtil.log("MacroHotbar onRender", [MacroHotbar.customStylesEnabled]);
     MacroHotbar.applyCustomStyle(MacroHotbar.customStylesEnabled);
     MacroHotbar.handleFadeOut(component, html, data);
+    MacroHotbar.handleHide(component, html, data);
     MacroHotbar.addCollapseButton();
     MacroHotbar.applyHotBarCollapse();
   }

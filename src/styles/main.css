@@ -42,6 +42,14 @@ body.crlngn-ui  {
   &.theme-light input[type=checkbox], &.theme-light input[type=radio] {
     --checkbox-checkmark-color: var(--color-light-1);
   }
+
+  #interface .hidden-ui{
+    opacity: 0 !important;
+    pointer-events: none !important;
+    *{
+      pointer-events: none !important;
+    }
+  }
   
 }
 
@@ -78,6 +86,10 @@ body.crlngn-ui{
   .standard-form .form-group {
     margin: 6px 0;
   }
+  .standard-form,
+  .standard-form .tab.active {
+    overflow: auto;
+  }
 
   .sidebar-tab .standard-form .form-group {
     gap: 0.25em;
@@ -86,11 +98,23 @@ body.crlngn-ui{
   form.application .journal-sheet.theme-light{
     --color-bg-button: initial;
   }
+  .journal-sidebar .directory-item.entry {
+    padding: 4px 12px;
+  }
+  .app.journal-sheet .journal-sidebar input {
+    background: var(--color-cool-5-75);
+    border: 1px solid var(--color-cool-5);
+    /* padding: 8px; */
+    min-height: var(--input-height);
+    box-shadow: none;
+    color: inherit;
+  }
 
   .application:not(.dnd5e2) .dialog-buttons button, 
   .combat-controls button,
   form.application .form-footer button,
-  .application:not(.dnd5e2) .standard-form button {
+  .application:not(.dnd5e2) .standard-form button,
+  .journal-sheet-container .action-buttons button {
     height: auto;
     min-height: var(--input-height);
     padding: 10px 6px;

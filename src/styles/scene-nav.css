@@ -17,17 +17,19 @@ body.crlngn-ui {
   &.crlngn-tabs{
     --controls-width: calc(var(--control-item-size, 0px) * 1);
   }
-
+  /*
   &.crlngn-tabs{
     #interface.crlngn-controls{
       --controls-width: calc(var(--control-item-size, 0px) * 2);
     }
-  }
+  }*/
 
   #interface{
+    /*
     &.crlngn-controls{
       --controls-width: calc(var(--control-item-size, 0px) * 1);
     }
+    */
     
     &.crux-active{
       --crlngn-crux-width: var(--crux-width);
@@ -49,8 +51,10 @@ body.crlngn-ui {
 
   /*&.crlngn-scene-nav #ui-left {*/
   &.crlngn-scene-nav {
+    
     #ui-left{
       --controls-column-width: calc((var(--control-columns) * var(--control-size)) + ((var(--control-columns) - 1) * 8px));
+      --scene-nav-left: calc((var(--controls-column-width) * -1) - var(--control-item-size) - 16px);
       width: calc(var(--scene-nav-curr-width) + var(--nav-btn-width) - var(--control-item-size));
     }
 
@@ -149,7 +153,7 @@ body.crlngn-ui {
       gap: 0;
       /*transition: max-width 0.2s ease-out 0s, width 0.2s ease-out 0s;*/
       transition: none;
-      margin-left: calc((-1 * var(--controls-column-width)) - 16px);
+      margin-left: var(--scene-nav-left);
 
       /* deal with scrollbar */
       -ms-overflow-style: none;  /* IE and Edge */
@@ -242,7 +246,8 @@ body.crlngn-ui {
           box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
           visibility: hidden;
           opacity: 0;
-          transition: opacity 0.2s ease-out 0s, visibility 0s linear 0.2s;
+          transition: none;
+          transition: opacity 0.1s ease-out 0s, visibility 0s linear 0.2s;
 
           > .icons {
             display: flex;
@@ -281,7 +286,7 @@ body.crlngn-ui {
         .scene > .scene-preview.open {
           visibility: visible;
           opacity: 1;
-          transition: opacity 0.2s ease-out 0.2s, visibility 0s linear 0.2s;
+          transition: opacity 0.1s ease-out 0.2s, visibility 0s linear 0.2s;
         }
         
         .scene ul.scene-players {
@@ -331,10 +336,19 @@ body.crlngn-ui {
       }
     }
 
-    #scene-navigation{
-      /*button.crlngn-btn,
-      button.back-button,*/
-      button.folder-expand {
+    #crlngn-extra-btns {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-start;
+      width: auto;
+      flex-wrap: nowrap;
+      left: calc(var(--left-control-item-size) * 1);
+      top: 0;
+      z-index: 101;
+
+      button {
         width: var(--control-item-size);
         height: var(--control-item-size, 0px);
         background: var(--control-bg-color);
@@ -364,6 +378,7 @@ body.crlngn-ui {
         }
       }
     }
+
     #ui-left-column-2 button.crlngn-btn{
       pointer-events: all;
       z-index: 100;
@@ -472,6 +487,33 @@ body.crlngn-ui {
 
     /* folder lookup */
     #scene-navigation{
+      #crlngn-extra-btns {
+        .search-btn{
+          width: auto;
+          max-width: max-content;
+          flex: 0 0 auto;
+          height: var(--control-item-size);
+          border: 1px solid transparent;
+          border-radius: 0;
+          font-size: var(--font-size-14);
+          background-color: var(--control-bg-color);
+          padding: 0;
+  
+          &:hover{
+            background-color: var(--color-secondary);
+          }
+  
+          i.fa-magnifying-glass {
+            display: flex;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 var(--control-item-size);
+            width: var(--control-item-size);
+          }
+        }
+      }
+      
       #crlngn-scene-lookup{
         display: flex;
         flex-direction: row;
@@ -482,31 +524,6 @@ body.crlngn-ui {
         overflow: visible;
         font-size: var(--font-size-13);
         scrollbar-width: thin;
-
-        .folder-expand{
-          width: auto;
-          max-width: max-content;
-          flex: 0 0 auto;
-          height: var(--control-item-size);
-          border: 1px solid transparent;
-          border-radius: 0;
-          font-size: var(--font-size-14);
-          background-color: var(--control-bg-color);
-          padding: 0;
-
-          &:hover{
-            background-color: var(--color-secondary);
-          }
-
-          i.fa-magnifying-glass {
-            display: flex;
-            height: 100%;
-            align-items: center;
-            justify-content: center;
-            flex: 0 0 var(--control-item-size);
-            width: var(--control-item-size);
-          }
-        }
         display:flex;
         flex-direction: column;
 

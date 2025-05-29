@@ -13,6 +13,7 @@ export class PlayersList {
   static useFadeOut = true;
   static customStylesEnabled = true;
   static playerListAvatars = true;
+  static hidden = false;
 
   /**
    * Initializes the players list functionality by setting up event hooks
@@ -28,6 +29,23 @@ export class PlayersList {
   static applyFadeOut(useFadeOut){
     PlayersList.useFadeOut = useFadeOut;
     PlayersList.handleFadeOut();
+  }
+
+  static applyHide(hidden){
+    PlayersList.hidden = hidden;
+    PlayersList.handleHide();
+  }
+
+  static handleHide(component, html, data){
+    const element = html || document.querySelector("#players");
+
+    if(PlayersList.hidden){
+      element?.classList.add("hidden-ui");
+    }else{
+      element?.classList.remove("hidden-ui");
+    }
+
+    LogUtil.log("handle Hide", [PlayersList.hidden]);
   }
 
   static handleFadeOut(component, html, data){
@@ -67,6 +85,7 @@ export class PlayersList {
     PlayersList.applyPlayersListSettings();
     PlayersList.applyAvatars();
     PlayersList.handleFadeOut(component, htmlPlayers, data);
+    PlayersList.handleHide(component, htmlPlayers, data);
   }
 
   /**

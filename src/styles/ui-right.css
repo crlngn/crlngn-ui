@@ -41,16 +41,44 @@ body.crlngn-ui{
     }
   }
 
+  &.crlngn-folder-style{
+    li.directory-item.folder {
+      border-top: 1px solid transparent;
+    }
+    li.directory-item .folder-header:before {
+      content: '';
+      background-color: var(--control-bg-color);
+      display: flex;
+      width: calc(100% - var(--folder-padding, 0px) - 1px);
+      height: calc(100% - 1px);
+      z-index: -1;
+      position: absolute;
+    }
+    li.directory-item .folder-header {
+      color: var(--color-text-primary);
+      text-shadow: none;
+      .fa-folder-open{
+        margin-left: var(--folder-padding, 6px);
+      }
+      button{
+        color: inherit;
+      }
+    } 
+  }
+
   .sidebar-tab {
+    
     li.directory-item.folder{
       .folder-name {
-        font-weight: 700;
-        font-size: 1.1em;
-        text-shadow: 0 0 4px rgba(0,0,0,0.3);
+        font-weight: 600;
+        font-size: 1em;
+        text-shadow: none;
       }
+      
     }
     li.directory-item.scene{
       position: relative;
+      background-color: #000;
       .entry-name{
         font-weight: 600;
         font-size: 1.1em;
@@ -126,6 +154,10 @@ body.crlngn-ui{
         border-bottom-left-radius: 0;
       }
     }
+  }
+
+  .sidebar-tab.settings-sidebar section {
+    gap: 0.2rem;
   }
 
   .sidebar-tab .header-actions,

@@ -317,8 +317,9 @@ export class SettingsUtil {
       //   SettingsUtil.resetFoundryThemeSettings(); break;
       case SETTINGS.debugMode.tag:
         SettingsUtil.applyDebugSettings(); break;
-      case SETTINGS.navFoldersEnabled.tag:
-        TopNavigation.navFoldersEnabled = value; break;
+      case SETTINGS.useSceneFolders.tag:
+        TopNavigation.useSceneFolders = value;
+        ui.nav?.render(); break;
       case SETTINGS.navShowRootFolders.tag:
         TopNavigation.navShowRootFolders = value;
         ui.nav?.render(); break;
@@ -331,8 +332,10 @@ export class SettingsUtil {
         ui.nav?.render();
         game.scenes?.directory?.render(); break;
       case SETTINGS.useSceneBackButton.tag:
-        LogUtil.log("useSceneBackButton", [value]);
         TopNavigation.useSceneBackButton = value;
+        ui.nav?.render(); break;
+      case SETTINGS.useSceneLookup.tag:
+        TopNavigation.useSceneLookup = value;
         ui.nav?.render(); break;
       case SETTINGS.useScenePreview.tag:
         TopNavigation.useScenePreview = value;
@@ -382,6 +385,22 @@ export class SettingsUtil {
         ChatLogControls.applyFadeOut(value); break;
       case SETTINGS.sceneNavFadeOut.tag:
         TopNavigation.applyFadeOut(value); break;
+      case SETTINGS.sceneControlsHide.tag:
+        LeftControls.applyHide(value); break;
+      case SETTINGS.playerListHide.tag:
+        PlayersList.applyHide(value); break;
+      case SETTINGS.sidebarTabsHide.tag:
+        SidebarTabs.applyHide(value); break;
+      case SETTINGS.cameraDockHide.tag:
+        CameraDockUtil.applyHide(value); break;
+      case SETTINGS.macroHotbarHide.tag:
+        MacroHotbar.applyHide(value); break;
+      case SETTINGS.chatLogControlsHide.tag:
+        ChatLogControls.applyHide(value); break;
+      case SETTINGS.sceneNavHide.tag:
+        TopNavigation.applyHide(value); break;
+      case SETTINGS.useFolderStyle.tag:
+        SidebarTabs.applyFolderStyles(value); break;
       default:
         // do nothing
     }

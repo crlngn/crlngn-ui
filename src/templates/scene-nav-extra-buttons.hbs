@@ -1,0 +1,19 @@
+{{#if isGM}}
+<div id="crlngn-extra-btns">
+    {{#if useSceneBackButton}}
+    <button id="crlngn-back-button"
+      data-tooltip="{{backButtonTooltip}}" data-tooltip-direction="DOWN" data-tooltip-delay="500">
+      <i class="fas fa-turn-left"></i>
+    </button>
+    {{/if}}
+
+    {{#if useSceneLookup}}
+    <div id="crlngn-scene-lookup">
+      <button class="scene-lookup-toggle"
+        data-tooltip="{{sceneLookupTooltip}}" data-tooltip-direction="DOWN" data-tooltip-delay="500">
+        <i class="fas fa-magnifying-glass"></i>
+      </button>
+    </div>
+    {{/if}}
+</div>
+{{/if}}

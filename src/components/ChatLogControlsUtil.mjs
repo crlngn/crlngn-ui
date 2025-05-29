@@ -6,6 +6,7 @@ import { MODULE_ID } from "../constants/General.mjs";
 
 export class ChatLogControls {
   static useFadeOut = true;
+  static hidden = false;
   static customStylesEnabled = true;
 
   static init(){
@@ -19,6 +20,12 @@ export class ChatLogControls {
     ChatLogControls.handleFadeOut();
   }
 
+
+  static applyHide(hidden){
+    ChatLogControls.hidden = hidden;
+    ChatLogControls.handleHide();
+  }
+
   static applyCustomStyle(enabled){
     ChatLogControls.customStylesEnabled = enabled;
     LogUtil.log("applyCustomStyle", [ChatLogControls.customStylesEnabled]);
@@ -30,19 +37,28 @@ export class ChatLogControls {
     const existingToggle = root.querySelector("#roll-privacy button[data-action='toggleChat']");
     if(!existingToggle){ ChatLogControls.addChatToggle(root); }
     ChatLogControls.handleFadeOut(component, root, data);
+    ChatLogControls.handleHide(component, root, data);
   }
 
   static handleFadeOut(component, html, data){
     LogUtil.log("handle FadeOut, ChatLogControls", [ChatLogControls.useFadeOut]);
     const chatNotif = html ? html.querySelector("#chat-notifications") : document.querySelector("#ui-right #chat-notifications");
-    const element = html ? html.querySelector("#roll-privacy") : document.querySelector("#ui-right #roll-privacy");
-
+    
     if(ChatLogControls.useFadeOut){
       chatNotif?.classList.add("faded-ui");
-      // element?.classList.add("faded-ui");
     } else {
       chatNotif?.classList.remove("faded-ui");
-      // element?.classList.remove("faded-ui");
+    }
+  }
+
+  static handleHide(component, html, data){
+    LogUtil.log("handle Hide, ChatLogControls", [ChatLogControls.hidden]);
+    const chatNotif = html ? html.querySelector("#chat-notifications") : document.querySelector("#ui-right #chat-notifications");
+    
+    if(ChatLogControls.hidden){
+      chatNotif?.classList.add("hidden-ui");
+    } else {
+      chatNotif?.classList.remove("hidden-ui");
     }
   }
 

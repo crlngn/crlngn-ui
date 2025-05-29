@@ -146,7 +146,8 @@ export function getSettings() {
         "enableFloatingDock",
         "enablePlayerList",
 
-        "collapseMacroBar"
+        "collapseMacroBar",
+        "useFolderStyle"
       ],
       default: {
         // Fade out
@@ -174,7 +175,8 @@ export function getSettings() {
         enableFloatingDock: true,
         enablePlayerList: true,
 
-        collapseMacroBar: false
+        collapseMacroBar: false,
+        useFolderStyle: true
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -327,8 +329,9 @@ export function getSettings() {
       propType: Object,
       fields: [
         // "sceneNavEnabled",
-        "navFoldersEnabled",
+        "useSceneFolders",
         "navShowRootFolders",
+        "useSceneLookup",
         "sceneClickToView",
         "useSceneIcons",
         "navStartCollapsed",
@@ -338,11 +341,12 @@ export function getSettings() {
       ],
       default: {
         // sceneNavEnabled: true,
-        navFoldersEnabled: true,
+        useSceneFolders: true,
         navStartCollapsed: false,
         sceneClickToView: true,
         useSceneIcons: true,
         navShowRootFolders: false,
+        useSceneLookup: true,
         showNavOnHover: false,
         useScenePreview: true,
         useSceneBackButton: true
@@ -363,10 +367,10 @@ export function getSettings() {
       requiresReload: false 
     },
 
-    navFoldersEnabled: { 
+    useSceneFolders: { 
       tag: "v2-nav-folders-enabled", 
-      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navFoldersEnabled.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navFoldersEnabled.hint"), 
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneFolders.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneFolders.hint"), 
       propType: Boolean, 
       default: true, 
       scope: SETTING_SCOPE.client, 
@@ -403,6 +407,17 @@ export function getSettings() {
       propType: Boolean, 
       default: false, 
       scope: SETTING_SCOPE.client, 
+      config: false, 
+      requiresReload: false 
+    },
+
+    useSceneLookup: {
+      tag: "v2-use-scene-lookup", 
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneLookup.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneLookup.hint"), 
+      propType: Boolean, 
+      default: true, 
+      scope: SETTING_SCOPE.world, 
       config: false, 
       requiresReload: false 
     },
@@ -507,6 +522,17 @@ export function getSettings() {
       propType: Boolean,
       default: true, 
       scope: SETTING_SCOPE.client, 
+      config: false, 
+      requiresReload: false 
+    },
+
+    useFolderStyle: { 
+      tag: "v2-use-folder-style", 
+      label: game.i18n.localize("CRLNGN_UI.settings.useFolderStyle.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.useFolderStyle.hint"), 
+      propType: Boolean,
+      default: true, 
+      scope: SETTING_SCOPE.world, 
       config: false, 
       requiresReload: false 
     },

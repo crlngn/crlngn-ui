@@ -30,7 +30,19 @@
         "favoritesFolder": "Voltar às Cenas Selecionadas",
         "addToFavorites": "Adicionar à Navegação",
         "removeFromFavorites": "Remover da Navegação",
-        "initialViewBtn": "Definir Visualização"
+        "initialViewBtn": "Definir Visualização",
+        "backButtonTooltip": "Cena anterior",
+        "sceneLookupTooltip": "Buscar cena",
+        "hideSceneFoldersTooltip": "Ocultar pastas",
+        "showSceneFoldersTooltip": "Mostrar pastas",
+        "globalLightOn": "Iluminação global ativa",
+        "globalLightOff": "Iluminação global desativada",
+        "tokenVisionOn": "Visão do token ativa",
+        "tokenVisionOff": "Visão do token desativada",
+        "playlistSoundOn": "Som da playlist ativo",
+        "playlistSoundOff": "Som da playlist desativado",
+        "preloadScene": "Preload scene",
+        "sceneConfig": "Scene Configuration"
       },
       "updates": {
         "label": "Último ID de Atualização",
@@ -244,7 +256,7 @@
             "label": "Alternar visibilidades",
             "hint": "Se a navegação de cenas estiver recolhida, você pode exibi-la passando o mouse sobre a parte superior da tela."
           },
-          "navFoldersEnabled": {
+          "useSceneFolders": {
             "label": "Ativar pastas na barra de navegação",
             "hint": "Se a navegação de cenas customizada estiver ativada, esta opção inclui uma lista de diretórios e busca de cenas na barra do topo."
           },
@@ -312,6 +324,10 @@
       "collapseMacroBar": {
         "label": "Ocultar barra de macros",
         "hint": "Ative para manter a barra de macros minimizada, exceto quando quando passar o mouse sobre ela."
+      },
+      "useFolderStyle": {
+        "label": "Usar cores discretas nos diretórios",
+        "hint": "Ative para usar cores mais discretas nos diretórios do painel lateral, com a cor selecionada apenas nas bordas."
       },
       "debugMode": {
         "label": "Modo de Depuração",

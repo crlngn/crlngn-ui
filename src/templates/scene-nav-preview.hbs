@@ -4,28 +4,32 @@
   <div class="icons">
     {{!-- global ilumination icon --}}
     {{#if environment.globalLight.enabled }}
-    <i class="fa-solid fa-lightbulb-on ilum" data-tooltip="Global illumination is on"></i>
+    <i class="fa-solid fa-lightbulb-on ilum" data-tooltip="{{localize 'CRLNGN_UI.ui.sceneNav.globalLightOn'}}" data-tooltip-direction="DOWN" data-tooltip-delay="200"></i>
     {{else}}
-    <i class="fa-solid fa-lightbulb-slash ilum" data-tooltip="Global illumination is off"></i>
+    <i class="fa-solid fa-lightbulb-slash ilum" data-tooltip="{{localize 'CRLNGN_UI.ui.sceneNav.globalLightOff'}}" data-tooltip-direction="DOWN" data-tooltip-delay="200"></i>
     {{/if}}
 
     {{!-- Token vision icon --}}
     {{#if tokenVision }}
-    <i class="fa-solid fa-user token-vision" data-tooltip="Token Vision is on"></i>
+    <i class="fa-solid fa-user token-vision" data-tooltip="{{localize 'CRLNGN_UI.ui.sceneNav.tokenVisionOn'}}" data-tooltip-direction="DOWN" data-tooltip-delay="200"></i>
     {{else}}
-    <i class="fa-solid fa-user-slash token-vision" data-tooltip="Token Vision is off"></i>
+    <i class="fa-solid fa-user-slash token-vision" data-tooltip="{{localize 'CRLNGN_UI.ui.sceneNav.tokenVisionOff'}}" data-tooltip-direction="DOWN" data-tooltip-delay="200"></i>
     {{/if}}
 
     {{!-- sound icon --}}
     {{#if playlistSound }}
       {{#if playlistSound.sound.playing }}
-      <i class="fa-solid fa-music sound" data-tooltip="Playlist sound is on"></i>
+      <i class="fa-solid fa-music sound" data-tooltip="{{localize 'CRLNGN_UI.ui.sceneNav.playlistSoundOn'}}" data-tooltip-direction="DOWN" data-tooltip-delay="200"></i>
       {{else}}
-      <i class="fa-solid fa-music-slash sound" data-tooltip="Playlist sound is off"></i>
+      <i class="fa-solid fa-music-slash sound" data-tooltip="{{localize 'CRLNGN_UI.ui.sceneNav.playlistSoundOff'}}" data-tooltip-direction="DOWN" data-tooltip-delay="200"></i>
       {{/if}}
     {{/if}}
 
+
+    {{!-- Scene preload icon --}}
+    <i class="fa-solid fa-download preload" data-tooltip="{{localize 'CRLNGN_UI.ui.sceneNav.preloadScene'}}" data-tooltip-direction="DOWN" data-tooltip-delay="200"></i>
+
     {{!-- config icon --}}
-    <i class="fas fa-cog config" data-tooltip="Scene Configuration"></i>
+    <i class="fas fa-cog config" data-tooltip="{{localize 'CRLNGN_UI.ui.sceneNav.sceneConfig'}}" data-tooltip-direction="DOWN" data-tooltip-delay="200"></i>
   </div>
 </div>

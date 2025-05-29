@@ -30,7 +30,19 @@
         "favoritesFolder": "返回已选场景",
         "addToFavorites": "添加到导航",
         "removeFromFavorites": "从导航中移除",
-        "initialViewBtn": "设置初始视图"
+        "initialViewBtn": "设置初始视图",
+        "backButtonTooltip": "上一个场景",
+        "sceneLookupTooltip": "搜索场景",
+        "hideSceneFoldersTooltip": "隐藏场景文件夹",
+        "showSceneFoldersTooltip": "显示场景文件夹",
+        "globalLightOn": "全局照明打开",
+        "globalLightOff": "全局照明关闭",
+        "tokenVisionOn": "令牌视力打开",
+        "tokenVisionOff": "令牌视力关闭",
+        "playlistSoundOn": "播放列表声音打开",
+        "playlistSoundOff": "播放列表声音关闭",
+        "preloadScene": "预加载场景",
+        "sceneConfig": "场景配置"
       },
       "updates": {
         "label": "最新更新ID",
@@ -244,7 +256,7 @@
             "label": "悬停时显示导航",
             "hint": "如果场景导航已折叠，您可以通过将鼠标悬停在屏幕顶部来显示它。"
           },
-          "navFoldersEnabled": {
+          "useSceneFolders": {
             "label": "在导航栏启用场景文件夹",
             "hint": "如果启用了自定义场景导航，此选项将在场景导航栏中添加带有场景搜索功能的文件夹列表。"
           },
@@ -312,6 +324,10 @@
       "collapseMacroBar": {
         "label": "自动隐藏宏快捷栏",
         "hint": "启用后，宏快捷栏将默认折叠，并在悬停时显示。"
+      },
+      "useFolderStyle": {
+        "label": "侧边栏文件夹使用简洁颜色",
+        "hint": "启用后，侧边栏文件夹将使用更简洁的颜色，只在边框上显示选中的颜色。"
       },
       "debugMode": {
         "label": "调试模式",
