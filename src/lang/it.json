@@ -5,7 +5,7 @@
       "clientSettingsLabel": "Impostazioni del Giocatore (Client)",
       "worldSettingsLabel": "Impostazioni del Mondo (GM)",
       "toggleHints": "Attiva/Disattiva Aiuto",
-      "navDisabled": "La navigazione delle scena è disabilitata nella scheda 'Elementi'. Le impostazioni seguenti avranno effetto solo se il Layout Personalizzato è abilitato per la Navigazione Scena.",
+      "navDisabled": "La navigazione della scena è disabilitata nella scheda 'Elementi'. Le impostazioni seguenti avranno effetto solo se il Layout Personalizzato è abilitato per la Navigazione Scena.",
       "reloadRequiredTitle": "Ricarica Foundry",
       "reloadRequiredLabel": "È necessario un ricaricamento. Ricaricare ora?",
       "macroBarTooltipKeepOpen": "Aperto",
@@ -18,8 +18,8 @@
         "incompatibleVersion": "Carolingian UI richiede Foundry v13.339 o superiore. Si prega di aggiornare Foundry o installare la versione 1.x di Carolingian UI.",
         "settingsUpdated": "Impostazioni aggiornate",
         "minimalUiNotSupported": "Carolingian UI is not compatible with Minimal UI, and offers most of its features. Please disable that module to avoid performance issues.",
-        "monksScenesNotSupported": "La Navigazione Scena di Carolingian UI entrerà in conflitto con Monk's Scena Navigation. Questa funzionalità di Carolingian UI è stata disabilitata.",
-        "ripperScenesCompat": "Carolingian UI ora ha la Navigazione Cartelle Scena e Ricerca Scena, che non possono essere utilizzate insieme alla Compact Scena Navigation. Disabilita l'altro modulo o disabilita 'Navigazione Cartelle Scena' nelle impostazioni di Carolingian UI.",
+        "monksScenesNotSupported": "La Navigazione Scena di Carolingian UI entrerà in conflitto con Monk's Scene Navigation. Questa funzionalità di Carolingian UI è stata disabilitata.",
+        "ripperScenesCompat": "Carolingian UI ora ha la Navigazione Cartelle Scena e Ricerca Scena, che non possono essere utilizzate insieme alla Compact Scene Navigation. Disabilita l'altro modulo o disabilita 'Navigazione Cartelle Scena' nelle impostazioni di Carolingian UI.",
         "monksPlayerSettingsConflict": "Alcune impostazioni di Carolingian UI sono state disabilitate per evitare conflitti con il modulo Monk's Player Settings.",
         "forceClientSettingsConflict": "Alcune impostazioni di Carolingian UI sono state disabilitate per evitare conflitti con il modulo Force Client Settings.",
         "initialViewSet": "La vista iniziale di questa scena è stata impostata sulla vista corrente."
@@ -148,7 +148,7 @@
       "chatMessagesMenu": {
         "label": "Opzioni Messaggi Chat",
         "title": "Configura Chat",
-        "hint": "Modifica l'aspetto e il comportamento delle carte dei messaggi chat nel pannello laterale destro",
+        "hint": "Modifica l'aspetto e il comportamento dei riquadri dei messaggi chat nel pannello laterale destro",
         "fields": {
           "enableChatStyles": {
             "label": "Abilita stili per i messaggi chat",
@@ -165,7 +165,7 @@
           },
           "useLeftChatBorder": {
             "label": "Mostra solo il bordo sinistro",
-            "hint": "La tua scelta del colore del bordo appare solo sul lato sinistro del chat - gli altri lati non hanno bordo."
+            "hint": "La tua scelta del colore del bordo appare solo sul lato sinistro della chat - gli altri lati non hanno bordo."
           }
         },
         "reset": "Ripristina",
@@ -174,11 +174,11 @@
       "leftControlsMenu": {
         "label": "Barra Controlli Sinistra",
         "title": "Configura Controlli",
-        "hint": "Modifica l'aspetto e il comportamento dei pulsanti di controllo scena, sul lato sinistro dello schermo",
+        "hint": "Modifica l'aspetto e il comportamento dei pulsanti di controllo della scena, sul lato sinistro dello schermo",
         "fields": {
           "autoHideSecondary": {
             "label": "Nascondi automaticamente i controlli secondari",
-            "hint": "Abilita per mantenere la barra secondaria sui controlli a sinistra nascosta finché non passi con il mouse sulla regione o fai clic su un elemento."
+            "hint": "Abilita per mantenere la barra secondaria sui controlli a sinistra nascosta finché non passi con il mouse sulla zona o fai clic su un elemento."
           }
         },
         "reset": "Ripristina",
@@ -258,7 +258,11 @@
           },
           "useSceneFolders": {
             "label": "Abilita cartelle scena nella navigazione",
-            "hint": "Se la Navigazione Scena Personalizzata è abilitata, questa opzione aggiungerà un elenco di cartelle con ricerca scena alla barra di navigazione."
+            "hint": "Se la Navigazione Scena Personalizzata è abilitata, questa opzione aggiungerà un elenco di cartelle con la ricerca della scena alla barra di navigazione."
+          },
+          "useSceneLookup": {
+            "label": "Abilita Ricerca Scena durante la navigazione",
+            "hint": "Se è abilitata la navigazione personalizzata della scena, questa opzione aggiungerà un pulsante per cercare la scena sulla barra di navigazione."
           },
           "navFoldersForPlayers": {
             "label": "Abilita cartelle scena per i giocatori",
@@ -278,7 +282,7 @@
           },
           "useSceneBackButton": {
             "label": "Abilita pulsante torna indietro",
-            "hint": "<b>'Torna all'ultima scena'</b>: cliccando torna alla scena precedentemente visualizzata, <b>'Torna alle scena predefinite'</b>: appare solo nella vista cartelle, cliccando apre la navigazione scena predefinita, <b>'Disabilitato'</b>: Nessun pulsante torna indietro"
+            "hint": "<b>'Torna all'ultima scena'</b>: cliccando torna alla scena precedentemente visualizzata, <b>'Torna alle scena predefinita'</b>: appare solo nella vista cartelle, cliccando apre la navigazione scena predefinita, <b>'Disabilitato'</b>: Nessun pulsante torna indietro"
           },
           "useScenePreview": {
             "label": "Usa Anteprima Scena",
@@ -319,15 +323,15 @@
       },
       "autoHideLeftControls": {
         "label": "Nascondi i controlli secondari",
-        "hint": "Abilita per mantenere la barra secondaria sui controlli a sinistra nascosta a meno che non passi con il mouse sulla regione o faccia clic su un elemento."
+        "hint": "Abilita per mantenere la barra secondaria sui controlli a sinistra nascosta a meno che non passi con il mouse sulla zona o faccia clic su un elemento."
       },
       "collapseMacroBar": {
         "label": "Nascondi la barra delle macro",
         "hint": "Abilita per avere la barra delle macro inizialmente compressa per impostazione predefinita e mostrarla al passaggio del mouse."
       },
       "useFolderStyle": {
-        "label": "Usa colori discreti",
-        "hint": "Abilita per avere colori discreti sui cartelle del pannello laterale, mostrando solo il colore selezionato sulle bordi."
+        "label": "Usa colori assegnati",
+        "hint": "Abilita per avere colori assegnati sulle cartelle del pannello laterale, mostrando solo il colore selezionato sui bordi."
       },
       "debugMode": {
         "label": "Modalità Debug",
