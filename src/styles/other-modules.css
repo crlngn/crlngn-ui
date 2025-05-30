@@ -88,6 +88,9 @@ body.crlngn-ui{
           box-shadow: 0 0 6px inset var(--color-warm-2);
         }
       }
+      .dice-tray .dice-tray__math__buttons {
+        margin-top: 0;
+      }
       
     }
 

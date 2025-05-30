@@ -260,6 +260,10 @@
             "label": "Ativar pastas na barra de navegação",
             "hint": "Se a navegação de cenas customizada estiver ativada, esta opção inclui uma lista de diretórios e busca de cenas na barra do topo."
           },
+          "useSceneLookup": {
+            "label": "Ativar busca de cenas na barra de navegação",
+            "hint": "Se a navegação de cenas customizada estiver ativa, esta opção adiciona um botão para buscar cenas na barra de navegação."
+          },
           "navFoldersForPlayers": {
             "label": "Mostrar pastas para os jogadores",
             "hint": "Ative para permitir que a lista de pastas seja exibida aos jogadores. Se o jogador não tem permissão para ver uma past, ela não será exibida."

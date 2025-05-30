@@ -74,9 +74,9 @@ Main Theme
     --color-light-bg: rgba(233, 233, 226, 1);
   
 
-    --control-bg-color: rgba(244, 244, 255, 0.9);
+    --control-bg-color: rgba(244, 244, 255, 0.75);
     --control-bg-color-90: var(--color-cool-5-90);
-    --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
+    --sidebar-background: rgba(232, 232, 232, 0.95);
 
     --color-border-highlight-alt: rgba(68, 147, 173, 0.9); 
     --color-border-highlight: rgba(68, 147, 173, 1);
@@ -253,14 +253,14 @@ Main Theme
     .application.theme-light,
     .themed.theme-light{
       --color-border: rgba(244, 244, 255, 1);
-      --control-bg-color: rgba(244, 244, 255, 0.9);
+      --control-bg-color: rgba(244, 244, 255, 0.75);
       --crlngn-button-bg: rgba(250, 250, 250, 0.15);
       --color-bg-button: rgba(244, 239, 237,0.9);
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --input-background-alt: rgba(244, 239, 237,1);
       --color-text-primary: var(--color-dark-1);
       --color-text-secondary: var(--color-dark-1);
-      --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
+      --sidebar-background: rgba(232, 232, 232, 0.95);
       &.crlngn-chat{
         --dnd5e-background-card: rgba(244, 239, 237,0.8);
         --dnd5e-color-parchment: rgb(244, 239, 237);
@@ -345,6 +345,7 @@ Main Theme
       --color-secondary-b-90: rgba(34, 34, 54, 0.90);
       --color-text-secondary: rgb(179, 179, 192);
       --color-text-primary: var(--color-light-1);
+      --control-bg-color: var(--color-cool-5-90);
 
       --color-cool-3: rgb(83, 71, 107);
       --color-cool-4: rgb(54, 48, 59); 
@@ -387,6 +388,25 @@ Main Theme
 
 
   #interface {
+    --default-color: var(--color-light-1);
+
+    --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--control-bg-color) 2px, var(--control-bg-color) 3px);
+    --striped-bg-2: repeating-linear-gradient( -45deg, rgba(225, 225, 215, 0.25) 0px, rgba(225, 225, 215, 0.25) 1px, rgba(240,240,240,0.25) 2px, rgba(240,240,240,0.25) 3px);
+    
+    &.theme-dark{
+      --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
+      --striped-bg-2: repeating-linear-gradient( -45deg, rgba(0,0,0,0.35) 0px, rgba(0,0,0,0.35) 1px, rgba(35, 15, 15, 0.75) 2px, rgba(35, 25, 25, 0.75) 3px);
+    }
+
+    &.theme-light {
+      --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--control-bg-color) 2px, var(--control-bg-color) 3px);
+      --striped-bg-2: repeating-linear-gradient( -45deg, rgba(225, 225, 215, 0.25) 0px, rgba(225, 225, 215, 0.25) 1px, rgba(240,240,240,0.25) 2px, rgba(240,240,240,0.25) 3px);  
+    }
+  }
+
+  /*
+  #interface {
+    --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
     --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
     &.theme-light{
       --default-color: var(--color-light-1);
@@ -395,7 +415,7 @@ Main Theme
     &.theme-dark{
       --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
     }
-  }
+  }*/
 
 }
 

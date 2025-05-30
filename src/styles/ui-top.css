@@ -779,6 +779,7 @@ body.crlngn-ui {
   
                 &:hover{
                   background: var(--color-highlights-25);
+                  color: inherit;
                 }
               }
             }

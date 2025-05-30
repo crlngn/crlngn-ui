@@ -87,36 +87,44 @@ body.crlngn-chat {
     border: none;
     color: var(--color-highlights); 
   }
+  
   :is(#chat-popout, #chat-log, .chat-log) .chat-message {
     .message-header time {
       color: var(--default-color);
-      position: absolute;
-      top: 2.5em;
-      right: 0;
-      white-space: nowrap;
-      width: auto;
-      overflow: visible;
-      background: var(--dnd5e-background-card, var(--color-cool-5-90));
-      padding: 1px 5px;
-      opacity: 0.8;
-      justify-content: flex-end;
-      display: none;
-      margin-left: -100%;
-      z-index: 1;
-    }
-    .message-delete{
-      z-index: 10;
-    }
-    &:hover .message-header time{
-      display: flex;
     }
   }
-  .chat-message, .chat-message.whisper {
+  .chat-message, .chat-message.whisper, .chat-message.blind {
     border-radius: 6px;
-    background: var(--dnd5e-background-card, #e8e8ef);
+    background: var(--card-color-bg);
     box-shadow: 0 0 0px var(--dnd5e-shadow-45);
     border: 0;
   }
+  .chat-message.whisper{
+    background: var(--card-color-bg);
+    background-image: var(--striped-bg);
+  }
+  .chat-message.blind{
+    background: var(--card-color-bg);
+    background-image: var(--striped-bg-2);
+  }
+  .chat-message.whisper span.name-stacked:after,
+  .chat-message.blind span.name-stacked:after{
+    content: 'whisper';
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 24px;
+    background: rgba(0, 0, 0, 0.3);
+    font-size: 10px;
+    text-transform: uppercase;
+    padding: 2px 4px;
+    opacity: 0.7;
+  }
+
+  .chat-message.blind span.name-stacked:after{
+    content: 'blind';
+  }
+
   .chat-card .gold-icon,
   :is(.card-tray, .effects-tray) .targets .target > img {
     border: 0;
@@ -304,7 +312,7 @@ body.crlngn-chat {
   }
 
   .chat-card .description{
-    background: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.35);
     border: none;
     line-height: 1.35;
     padding: 0.5rem 0;
@@ -619,7 +627,8 @@ body.crlngn-chat {
   /*********
   DARK MODE 
   **********/
-  &.theme-dark,#interface.theme-light{
+  #interface.theme-dark {
+    color: var(--default-color);
     .chat-message p,
     .chat-message span,
     .chat-message div,
@@ -627,38 +636,46 @@ body.crlngn-chat {
     .chat-message ul,
     .chat-message ol,
     .chat-message li {
-      color: var(--color-text-dark);
+      color: var(--default-color);
     }
   }
-  &.theme-dark, &.theme-dark .chat-log, #interface.theme-dark, &[data-ddb-custom-style=dark] {
-    --dnd5e-color-card: var(--chat-dark-blue);
+  #interface.theme-light{
+    color: var(--default-color);
+    .chat-message p,
+    .chat-message span,
+    .chat-message div,
+    .chat-message table,
+    .chat-message ul,
+    .chat-message ol,
+    .chat-message li {
+      color: var(--default-color);
+    }
+  }
+
+  
+  #interface.theme-light, #interface.theme-light .chat-log, #interface.theme-light {
+    --dnd5e-background-card: rgba(244, 239, 237,0.8);
+    --dnd5e-color-parchment: rgba(244, 239, 237, 1);
+    --card-color-bg: var(--dnd5e-background-card, #e8e8ef);
+    /*
     --dnd5e-color-success-background: rgba(98, 184, 117, 0.35);
     --dnd5e-color-failure-background: rgba(209, 67, 67, 0.35);
     --dnd5e-text-color-success: #c1e6a7;
     --dnd5e-text-color-failure: #d8aeae;
     --dnd5e-color-crimson: var(--color-highlights-75);
-
-    
-    body.crlngn-ui #interface.theme-light,body.crlngn-ui .chat-log.theme-light,body.crlngn-ui.theme-light {
-      --crlngn-button-bg: hsla(0,0%,98%,.15);
-      --color-bg-button: hsla(17,24%,94%,.9);
-      --dnd5e-background-card: hsla(17,24%,94%,.8);
-      --dnd5e-color-parchment: #f4efed;
-      --chat-dark-blue: #182026;
-      --input-background-alt: #f4efed;
-      --color-text-secondary: var(--color-dark-1)
-    }
-    
-
-    .chat-message p,
-    .chat-message span,
-    .chat-message div,
-    .chat-message table,
-    .chat-message ul,
-    .chat-message ol,
-    .chat-message li {
-      color: var(--color-text-light-3, var(--color-light-3));
-    }
+    */
+  }
+  #interface.theme-dark, #interface.theme-dark .chat-log, #interface.theme-dark {
+    --dnd5e-color-parchment: rgb(40, 47, 54);
+    --dnd5e-background-card: rgb(40, 47, 54); 
+    --card-color-bg: var(--chat-dark-blue);
+    --dnd5e-color-success-background: rgba(98, 184, 117, 0.35);
+    --dnd5e-color-failure-background: rgba(209, 67, 67, 0.35);
+    --dnd5e-text-color-success: #c1e6a7;
+    --dnd5e-text-color-failure: #d8aeae;
+    --dnd5e-color-crimson: var(--color-highlights-75);
+  }
+  #interface.theme-dark {
     .chat-message .message-header .name-stacked .title,
     &.system-dnd5e .chat-message .name-stacked .title {
       color: var(--color-text-light-1, var(--color-light-1));
@@ -680,9 +697,23 @@ body.crlngn-chat {
     #chat .chat-message.whisper,
     #chat-popout .chat-message.blind,
     #chat .chat-message.blind {
-      background: var(--chat-dark-blue); 
+      background: var(--card-color-bg); 
       color: var(--color-text-gray-blue-b);
       border-color: transparent;
+    }
+
+
+    /*:is(.chat-popout, #chat-log, .chat-log) .chat-message.whisper,*/
+    #chat-popout .chat-message.whisper,
+    #chat .chat-message.whisper {
+      background: var(--card-color-bg); 
+      background-image: var(--striped-bg);
+    }
+    /*:is(.chat-popout, #chat-log, .chat-log) .chat-message.blind,*/
+    #chat-popout .chat-message.blind,
+    #chat .chat-message.blind {
+      background: var(--card-color-bg); 
+      background-image: var(--striped-bg-2);
     }
     
     .chat-message h1, 

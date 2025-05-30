@@ -86,8 +86,8 @@ body.crlngn-ui{
   .standard-form .form-group {
     margin: 6px 0;
   }
-  .standard-form,
-  .standard-form .tab.active {
+  
+  .dependency-resolution .standard-form {
     overflow: auto;
   }
 
@@ -123,15 +123,17 @@ body.crlngn-ui{
     background: var(--color-bg-button);
     
     &.default {
-      border: 1px solid var(--color-secondary-90);
+      border: 1px solid var(--color-highlights-75);
     }
     &:hover {
       border: 1px solid var(--color-warm-3);
       background: var(--color-highlights-75);
+      color: var(--color-text-light-0);
     }
     &:focus {
       border: 1px solid var(--color-highlights-75);
       background: var(--color-highlights-75);
+      color: var(--color-text-light-0);
     }
 
     i {
@@ -280,11 +282,31 @@ body.crlngn-ui{
     transform: translateX(calc(var(--ui-controls-margin-left) * -1));
   }
 
+  &.theme-light {
+    #loading{
+      color: var(--default-color);
+    }
+    .application {
+      --background: rgb(233, 233, 233, 0.95);
+    }
+  }
+
   &.theme-dark {
     --color-text-selection-bg: var(--color-cool-5);
+
+    ol#notifications {
+      .notification{
+        color: var(--color-light-1);
+    
+        &.info {
+          color: var(--color-light-1);
+        } 
+      }
+    }
+
     #context-menu{
       background: var(--color-dark-bg);
-      border: 1px solid var(--color-secondary-50);
+      border: 1px solid transparent;
       color: var(--color-light-1);
       .context-item{
         padding: 5px 10px;
@@ -411,7 +433,8 @@ body.crlngn-ui{
     border-bottom: 0;
     margin-bottom: 0;
     border-radius: 0;
-    color: var(--color-light-1);
+    color: inherit;
+    text-shadow: none;
   }
 
   span.toggle-hint {
@@ -679,17 +702,21 @@ body.theme-light {
 body.crlngn-ui {
   .application.dnd5e2 .dialog-buttons button,
   .application.dnd5e2 .standard-form button {
-    border: 1px solid var(--control-bg-color);
+    border: 1px solid transparent;
     &.default {
-      border: 1px solid var(--color-highlights-75);
+      border: 1px solid var(--color-highlights);
+      background: var(--color-highlights);
+      color: var(--color-light-1);
     }
     &:hover {
-      border: 1px solid var(--color-warm-3);
-      background: var( --color-bg-button);
+      border: 1px solid var(--color-highlights-75);
+      background: var(--color-highlights-75);
+      color: var(--color-light-1);
     }
     &:focus {
-      border: 1px solid var(--color-highlights-75);
-      background: var( --color-bg-button);
+      border: 1px solid var(--color-highlights);
+      background: var(--color-highlights);
+      color: var(--color-light-1);
     }
   }
   .application .tabs.vertical{
@@ -702,12 +729,15 @@ body.crlngn-ui {
 
       &.default {
         /*border-color: var(--color-highlights-25);*/
+        color: inherit;
       }
       &:hover {
-        background: var( --color-highlights-25);
+        background: var( --color-highlights-15);
+        color: inherit;
       }
       &:focus {
-        background: var( --color-highlights-25);
+        background: var( --color-highlights-15);
+        color: inherit;
       }
     }
   }
@@ -755,11 +785,12 @@ body.crlngn-ui{
     .notification{
       padding: 12px; 
       line-height: 125%;
+      color: var(--color-dark-1);
   
       &.info {
         background: var(--color-secondary-90);
         border: 1px solid rgba(0,0,0);
-        color: var(--color-light-1);
+        color: var(--color-dark-1);
         text-shadow: none;
       } 
     }
