@@ -7,7 +7,7 @@ body.crlngn-chat {
   --crlngn-chat-button-bg-25: rgba(32, 47, 58, 0.25);
   --crlngn-chat-button-bg-50: rgba(32, 47, 58, 0.5);
   --crlngn-chat-button-bg-15: rgba(32, 47, 58, 0.15);
-  --crlngn-dark-blue: rgba(24, 32, 38, 1); 
+  --crlngn-dark-blue: rgba(26, 31, 35, 1);
   --crlngn-dark-blue-b: rgb(29, 36, 48, 1); 
   --crlngn-dark-bg: rgba(32, 47, 58, 1); 
   --crlngn-dark-bg-15: rgba(32, 47, 58, 0.15);
@@ -90,10 +90,39 @@ body.crlngn-chat {
   }
   .chat-message, .chat-message.whisper {
     border-radius: 6px;
-    background: var(--dnd5e-background-card, #e8e8ef);
+    background: var(--card-bg-color);
     box-shadow: 0 0 0px var(--dnd5e-shadow-45);
     border: 0;
   }
+  .chat-message.whisper {
+    background: var(--card-bg-color-whisper);
+    background-image: var(--striped-bg-light);
+  }
+  .chat-message.blind {
+    background: var(--card-bg-color-blind);
+    background-image: var(--striped-bg-light-2);
+  }
+
+  .chat-message.whisper span.name-stacked:after,
+  .chat-message.blind span.name-stacked:after{
+    content: 'whisper';
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 24px;
+    background: rgba(0, 0, 0, 0.3);
+    font-size: 10px;
+    text-transform: uppercase;
+    padding: 2px 4px;
+    opacity: 0.7;
+  }
+
+  .chat-message.blind span.name-stacked:after{
+    content: 'blind';
+  }
+
+
+
   .chat-card .gold-icon,
   :is(.card-tray, .effects-tray) .targets .target > img {
     border: 0;
@@ -125,7 +154,7 @@ body.crlngn-chat {
     }
     :is(.chat-popout, #chat-log) .chat-message.left-border {
       border-width: 0;
-      border-left-width: 3px;
+      border-left-width: 2px;
     }
   }
   
@@ -204,6 +233,9 @@ body.crlngn-chat {
   :is(.chat-popout, #chat-log) .crlngn .message-header .message-sender {
     gap: 0.5em;
     font-family: var(--crlngn-font-family);
+  }
+  :is(.chat-popout, #chat-log) .crlngn .message-header .message-metadata {
+    margin-top: 4px;
   }
   :is(.chat-popout, #chat-log) .crlngn .message-header .message-sender .avatar {
     place-content: start;
@@ -660,11 +692,13 @@ body.crlngn-chat {
       border-color: transparent;
     }
 
+    :is(.chat-popout, #chat-log) .chat-message.whisper,
     .chat-popout .chat-message.whisper, 
     #chat-log .chat-message.whisper {
       background-image: var(--striped-bg);
     }
 
+    :is(.chat-popout, #chat-log) .chat-message.blind,
     .chat-popout .chat-message.blind, 
     #chat-log .chat-message.blind {
       background-image: var(--striped-bg-2);
@@ -710,7 +744,7 @@ body.crlngn-chat {
       background: repeating-linear-gradient( -45deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 1px, rgba(60,60,80,1) 2px, rgba(60,60,80,1) 3px);
     }
     .chat-message:before {
-      opacity: 0.2;
+      opacity: 0.12;
     }
     .chat-message a.content-link, 
     .chat-message a.inline-roll, 
@@ -1050,6 +1084,10 @@ body.crlngn-chat {
       line-height: 1.35;
       flex-wrap: wrap;
       min-height: 42px;
+    }
+    &.system-pf2e .chat-message .message-content .dice-total button{
+      min-height: 26px;
+      min-width: 26px;
     }
     &.system-pf2e .chat-message .message-content .damage-application button {
       font-size: var(--font-size-16);
