@@ -29,6 +29,10 @@ body.crlngn-ui{
       padding-top: 0;
     }
   }
+
+  .playlists-sidebar .sound {
+    padding: 4px 0;
+  }
   
   .sidebar-tab:not(.sidebar-popout) {
     border-radius: 0;

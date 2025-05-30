@@ -325,7 +325,9 @@ Main Theme
     --color-warm-3: rgb(60, 120, 146);
 
     &.theme-dark .chat-log,
-    #interface.theme-dark {
+    #interface.theme-dark,
+    #chat-popout.theme-dark,
+    .sidebar-popout.theme-dark {
       .application{
         --color-fieldset-border: var(--color-cool-4);
       }
@@ -362,7 +364,9 @@ Main Theme
 
   &.theme-light
   .chat-log.theme-light,
-  #interface.theme-light {
+  #interface.theme-light,
+  #chat-popout.theme-light,
+  .sidebar-popout.theme-light {
     --color-secondary: rgba(196, 196, 223, 1);
     --color-secondary-bright: rgba(244, 244, 255, 1);
     --color-secondary-bright-50: rgba(244, 244, 255, 0.5);
@@ -386,8 +390,7 @@ Main Theme
     --color-cool-5-90: rgba(244, 244, 255, 0.9);
   }
 
-
-  #interface {
+  #interface, #chat-popout, .sidebar-popout {
     --default-color: var(--color-light-1);
 
     --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--control-bg-color) 2px, var(--control-bg-color) 3px);

@@ -627,8 +627,9 @@ body.crlngn-chat {
   /*********
   DARK MODE 
   **********/
-  #interface.theme-dark {
-    color: var(--default-color);
+  #interface.theme-dark,
+  #chat-popout.theme-dark {
+    color: var(--color-light-1);
     .chat-message p,
     .chat-message span,
     .chat-message div,
@@ -636,11 +637,12 @@ body.crlngn-chat {
     .chat-message ul,
     .chat-message ol,
     .chat-message li {
-      color: var(--default-color);
+      color: var(--color-light-1);
     }
   }
-  #interface.theme-light{
-    color: var(--default-color);
+  #interface.theme-light,
+  #chat-popout.theme-light {
+    color: var(--color-dark-1);
     .chat-message p,
     .chat-message span,
     .chat-message div,
@@ -648,12 +650,12 @@ body.crlngn-chat {
     .chat-message ul,
     .chat-message ol,
     .chat-message li {
-      color: var(--default-color);
+      color: var(--color-dark-1);
     }
   }
-
   
-  #interface.theme-light, #interface.theme-light .chat-log, #interface.theme-light {
+  #interface.theme-light, #interface.theme-light .chat-log, 
+  #interface.theme-light, #chat-popout.theme-light {
     --dnd5e-background-card: rgba(244, 239, 237,0.8);
     --dnd5e-color-parchment: rgba(244, 239, 237, 1);
     --card-color-bg: var(--dnd5e-background-card, #e8e8ef);
@@ -665,7 +667,8 @@ body.crlngn-chat {
     --dnd5e-color-crimson: var(--color-highlights-75);
     */
   }
-  #interface.theme-dark, #interface.theme-dark .chat-log, #interface.theme-dark {
+  #interface.theme-dark, #interface.theme-dark .chat-log, 
+  #interface.theme-dark, #chat-popout.theme-dark {
     --dnd5e-color-parchment: rgb(40, 47, 54);
     --dnd5e-background-card: rgb(40, 47, 54); 
     --card-color-bg: var(--chat-dark-blue);
@@ -675,7 +678,8 @@ body.crlngn-chat {
     --dnd5e-text-color-failure: #d8aeae;
     --dnd5e-color-crimson: var(--color-highlights-75);
   }
-  #interface.theme-dark {
+  #interface.theme-dark,
+  #chat-popout.theme-dark {
     .chat-message .message-header .name-stacked .title,
     &.system-dnd5e .chat-message .name-stacked .title {
       color: var(--color-text-light-1, var(--color-light-1));
@@ -689,8 +693,8 @@ body.crlngn-chat {
       }
     }
 
-    :is(.chat-popout, #chat-log, .chat-log) .message,
-    :is(.chat-popout, #chat-log, .chat-log) .chat-message,
+    /*:is(.chat-popout, #chat-log, .chat-log) .message,
+    :is(.chat-popout, #chat-log, .chat-log) .chat-message,*/
     #chat-popout .chat-message,
     #chat .chat-message,
     #chat-popout .chat-message.whisper,
