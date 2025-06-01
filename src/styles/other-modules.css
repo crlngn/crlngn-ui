@@ -448,5 +448,14 @@ body.crlngn-ui{
     
   }
 
+  /* BG3 Inspired Hotbar */
+  &.crlngn-bg3-inspired-hotbar {
+    --bg3-hotbar-drag-color: var(--color-warm-2);
+    --bg3-hotbar-drag-color-hover: var(--color-warm-1);
+
+    #bg3-hotbar-container .menu-item-content .menu-item-label i {
+      color: var(--color-warm-1);
+    }
+  }
 
 }

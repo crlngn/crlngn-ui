@@ -94,7 +94,7 @@ export class SceneNavFolders {
     const allFolders = ui.scenes.collection.folders;
     const folder = folderElement ? allFolders.get(folderElement.dataset.folderId) : { name: "", id: DEFAULT_FOLDER_ID };
     const templateData = SceneNavFolders.buildTemplateData(folder);
-    const renderedHtml = await renderTemplate(
+    const renderedHtml = await GeneralUtil.renderTemplate(
       `modules/${MODULE_ID}/templates/scene-nav-folders.hbs`, 
       templateData
     );
@@ -114,7 +114,7 @@ export class SceneNavFolders {
 
   static handleFolderLookup = async() => {
     // const templateData = SceneNavFolders.buildLookupData();
-    const renderedHtml = await renderTemplate(
+    const renderedHtml = await GeneralUtil.renderTemplate(
       `modules/${MODULE_ID}/templates/scene-nav-lookup.hbs`, 
       {}
     );
@@ -199,7 +199,7 @@ export class SceneNavFolders {
 
   static injectSubfolders = async(folder, targetElement) => {
     const folderData = SceneNavFolders.buildTemplateData(folder);
-    const renderedSubfolders = await renderTemplate(
+    const renderedSubfolders = await GeneralUtil.renderTemplate(
       `modules/${MODULE_ID}/templates/scene-nav-subfolders.hbs`, 
       folderData
     );

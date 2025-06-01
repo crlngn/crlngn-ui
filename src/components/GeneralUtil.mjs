@@ -506,4 +506,23 @@ export class GeneralUtil {
     // Create and return the DialogV2 confirm promise
     return foundry.applications.api.DialogV2.confirm(dialogConfig);
   }
+
+  /**
+   * Alias for Foundry's method to render Handlebars template
+   * @param {string} templatePath 
+   * @param {Object} data 
+   * @returns {Promise<string>} Rendered template HTML
+   */
+  static renderTemplate(templatePath, data){
+    return foundry.applications.handlebars.renderTemplate(templatePath, data);
+  }
+
+  /**
+   * Alias for Foundry's method to load Handlebars template
+   * @param {string} templatePath 
+   * @returns {Promise<HandlebarsTemplate>} Loaded template object
+   */
+  static loadTemplate(templatePath){
+    return foundry.applications.handlebars.loadTemplate(templatePath);
+  }
 }

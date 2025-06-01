@@ -34,6 +34,7 @@ body.crlngn-ui  {
   fieldset{
     border-style: solid;
     border-width: 1px;
+    border-color: var(--color-secondary-75);
   }
   .dnd5e-tooltip {
     --dnd5e-color-parchment: rgb(244, 239, 237);
@@ -273,9 +274,26 @@ body.crlngn-ui{
     border: 1px solid var(--color-highlights);
   }
 
-  .notification.warning {
-    background: var(--color-level-warning-bg);
-    border: 1px solid var(--color-level-warning);
+
+  ol#notifications {
+    .notification.warning {
+      background: var(--color-level-warning-bg);
+      border: 1px solid var(--color-level-warning-bg);
+    }
+    .notification{
+      color: var(--color-light-1);
+  
+      &.warning, &.error {
+        color: var(--color-light-1);
+      } 
+      &.info {
+        color: var(--color-dark-1);
+      } 
+    }
+  }
+  
+  .notification.warning, .notification.error {
+    color: var(--color-light-1);
   }
 
   & > aside.application {
@@ -291,19 +309,8 @@ body.crlngn-ui{
     }
   }
 
-  &.theme-dark {
-    --color-text-selection-bg: var(--color-cool-5);
 
-    ol#notifications {
-      .notification{
-        color: var(--color-light-1);
-    
-        &.info {
-          color: var(--color-light-1);
-        } 
-      }
-    }
-
+  #interface.theme-dark {
     #context-menu{
       background: var(--color-dark-bg);
       border: 1px solid transparent;
@@ -317,6 +324,38 @@ body.crlngn-ui{
         }
       }
     }
+  }
+
+  &.theme-light {
+    --color-text-selection-bg: var(--color-cool-5);
+
+    ol#notifications {
+      .notification{
+        color: var(--color-dark-1);
+    
+        &.info, &.warning, &.error {
+          
+          color: var(--color-light-1);
+        } 
+      }
+    }
+  }
+  
+
+  &.theme-dark {
+    --color-text-selection-bg: var(--color-cool-5);
+
+    ol#notifications {
+      .notification{
+        color: var(--color-light-1);
+    
+        &.info, &.warning, &.error {
+
+          color: var(--color-light-1);
+        } 
+      }
+    }
+
     input[type=checkbox]:disabled{
       opacity: 0.7;
       filter:saturate(0.25);
@@ -348,8 +387,8 @@ body.crlngn-ui{
     input:disabled{
       --input-text-color: rgba(200,200,200,0.7);
     }
-    
   }
+
   &.theme-light{
     .standard-form.datalists .dropdown-options, .standard-form textarea  {
       background: var(--color-bg-button);
@@ -364,6 +403,7 @@ body.crlngn-ui{
       }
     }
   }
+
   #interface.theme-light {
     color: var(--color-dark-1);
   }
@@ -440,14 +480,14 @@ body.crlngn-ui{
   span.toggle-hint {
     width: auto;
     border: 0;
-    background-color: var(--color-dark-bg-15);
+    background-color: var(--color-dark-bg-10);
     display: inline-flex;
     margin-left: auto;
     justify-self: flex-end;
     font-size: var(--font-size-12);
     height: auto;
     padding: 5px 8px;
-    border: 1px solid var(--color-dark-bg-15);
+    border: 1px solid var(--color-dark-bg-10);
     border-radius: 4px;
     font-family: var(--crlngn-font-family);
     cursor: pointer;
@@ -664,7 +704,7 @@ body.crlngn-ui{
     overflow-y: auto;
     z-index: 1000;
     display: none;
-    box-shadow: 0 2px 4px var(--color-dark-bg-15);
+    box-shadow: 0 2px 4px var(--color-dark-bg-10);
   }
 
   .dropdown-options.active {
@@ -788,7 +828,7 @@ body.crlngn-ui{
       color: var(--color-dark-1);
   
       &.info {
-        background: var(--color-secondary-90);
+        background: var(--color-secondary);
         border: 1px solid rgba(0,0,0);
         color: var(--color-dark-1);
         text-shadow: none;
@@ -835,6 +875,322 @@ body.crlngn-ui {
     .chat-message .message-content .dice-roll .dice-total {
       padding: 0.5em 0.1em;
     }
+  }
+
+/**************************/
+/* DnD5e sheets */
+/**************************/
+/*&.sheet-styles{*/
+  .dnd5e2.actor .meter{
+    border: 1px solid transparent;
+  }
+  .dnd5e2.actor fieldset {
+    border: 1px solid transparent;
+  }
+
+  .dnd5e2.sheet.actor.character .tab[data-tab="spells"] .top .card.spellcasting {
+    width: 300px;
+  }
+  &:is(.dnd5e-theme-light, .theme-light) {
+    .dnd5e2.sheet.actor.character .sheet-header{
+      position: relative;
+      background: transparent;
+    }
+    .dnd5e2.sheet.actor.character .window-content .sheet-header:before{
+      content: '';
+      background: transparent url(/systems/dnd5e/ui/official/banner-character.jpg) no-repeat center / cover;
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      border-radius: 5px 5px 0 0;
+      filter: grayscale(1) contrast(1) brightness(3);
+    }
+    .dnd5e2.sheet.actor.character .window-content .sheet-header:after{
+      content: '';
+      position: absolute;
+      background: var(--color-highlights);
+      display: block;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      mix-blend-mode: multiply;
+      border-radius: 5px 5px 0 0;
+    }
+    /*
+    .dnd5e2.sheet.actor.character .window-content > * {
+      z-index: 2;
+    }*/
+  }
+  &:is(.dnd5e-theme-dark, .theme-dark) .dnd5e2.sheet.actor.character .window-content::before,
+  .dnd5e2.sheet.actor.character.dnd5e-theme-dark .window-content::before {
+    filter: grayscale(1) contrast(1) brightness(3);
+    z-index: -2;
+    pointer-events: none;
+    border-radius: 5px 5px 0 0;
+  }
+  &:is(.dnd5e-theme-dark, .theme-dark) .dnd5e2.sheet.actor.character .window-content:after{
+    content: '';
+    position: absolute;
+    background: linear-gradient(to bottom, var(--color-highlights), var(--color-highlights-15));
+    display: block;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    mix-blend-mode: multiply;
+    border-radius: 6px;
+    pointer-events: none;
+  }
+  .dnd5e2.sheet.actor .card .header, .dnd5e2.dnd5e-theme-dark.sheet .card .header, 
+  .dnd5e2.application .card .header, .dnd5e2.dnd5e-theme-dark.application .card .header {
+    background: linear-gradient(to right, var(--color-warm-3), var(--color-warm-2));
+  }
+
+  /* sheet tabs */
+  .dnd5e2.sheet.actor.character{
+    --dnd5e-sheet-header-height: 150px;
+  }
+  .dnd5e2.sheet.actor > *,
+  .dnd5e2.sheet.actor.character .sheet-body{
+    order: 2;
+  }
+
+  .dnd5e2.vertical-tabs nav.tabs {
+    --tab-full-width: auto;
+    --tab-inactive-width: auto;
+    flex-direction: row;
+    gap: 20px;
+    left: 0;
+    padding: 5px 3rem;
+    order: 0;
+    position: relative;
+    top: 0;
+    width: 100%;
+    justify-content: flex-start;
+    overflow: scroll;
+    z-index: 1;
+    background-color: var(--color-dark-bg-25);
+    font-size: var(--font-size-14);
+    /* deal with scrollbar */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tabs-right{
+      flex-direction: row;
+    }
+    > a.item{
+      align-items: center;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid transparent;
+      border-radius: 0;
+      display: block;
+      flex: 0 0 auto;
+      padding: 6px 0;
+      gap: 3px;
+      line-height: 1.25;
+      width: auto;
+      height: auto;
+      box-shadow: none;
+      font-weight: 500;
+      filter: brightness(3);
+      opacity: 0.8;
+
+      &:hover, &.active{
+        box-shadow: none;
+        opacity: 1;
+      }
+      &.active{
+        filter: none;
+        opacity: 1;
+      }
+    }
+    > a.item i{
+      display: inline-flex;
+      position: relative;
+      line-height: 1.1;
+      margin: 0;
+      font-size: var(--font-size-12);
+    }
+    > a.item::after {
+      content: attr(aria-label);
+      display: inline-flex;
+      border-radius: 0;
+      border: none;
+      width: auto;
+      height: auto;
+      position: relative;
+      line-height: 1.1;
+      inset: 0;
+    }
+  } 
+
+  &.theme-light{
+    .dnd5e2.vertical-tabs nav.tabs {
+      background-color: var(--dnd5e-color-parchment);
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
+      > a.item {
+        filter: brightness(0.5);
+
+        &.active{
+          filter: brightness(0);
+          border-bottom: 1px solid var(--dnd5e-color-gold);
+        }
+      }
+    }
+  } 
+
+  .dnd5e2.sheet.actor:not(.minimized) .window-header {
+    margin-top: -1px;
+  }
+  .dnd5e2.sheet.actor.character section.window-content {
+    order: 2;
+    z-index: 0;
+  }
+  .dnd5e2.sheet.actor.character.tab-details .tab-body {
+    padding-top: 106px;
+  }
+  .dnd5e2 .items-section .items-header .item-image, 
+  .dnd5e2 .items-section .item .item-image,
+  .dnd5e2.sheet.actor .classes.pills-lg .class .icons img {
+    border: 0;
+    box-shadow: none;
+  } 
+
+  .dnd5e2 .gold-button::after, .dnd5e2.standard-form button.gold-button::after {
+    inset: 1px;
+  }
+
+  
+  .dnd5e2.sheet.actor.character .ability-scores {
+    z-index: 10;
+    transition: opacity 0.15s ease-out;
+
+    &.fadeout{
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .rows {
+      padding: 150px 0 0 30px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      .top {
+        min-height: 72px;
+        order: 0;
+      }
+    }
+    .ability-score {
+      font-weight: 600;
+    }
+  }
+
+  @container (min-width: 700px) {
+    .dnd5e2.sheet.actor.character .ability-scores.optional-ability-0 .rows .top {
+      min-height: 72px;
+      order: 0;
+    }
+  }
+  
+  .dnd5e2.sheet.actor.character.sidebar-collapsed .ability-scores {
+    .rows {
+      padding: 200px 0 0 0;
+    }
+  }
+  .dnd5e2.sheet.actor .window-resize-handle {
+    z-index: 10;
+  }
+  .dnd5e2.sheet:is(.item, .actor) form:is(.tab-inventory, .tab-features, .tab-spells, .tab-effects, .tab-advancement, .tab-activities) .create-child, 
+  .dnd5e2.sheet:is(.item, .actor):is(.tab-inventory, .tab-features, .tab-spells, .tab-effects, .tab-advancement, .tab-activities) .create-child {
+    order: 4;
+    z-index: 10;
+  }
+  .dnd5e2.sheet.actor.character .sheet-body .main-content{
+    padding: 2em 8px;
+  }
+
+  /* NPC */
+  &:is(.dnd5e-theme-dark, .theme-dark) .dnd5e2.sheet.actor.npc:not(.minimized)::before, 
+  .dnd5e2.sheet.actor.npc.dnd5e-theme-dark:not(.minimized)::before ,
+  &:is(.dnd5e-theme-light, .theme-light) .dnd5e2.sheet.actor.npc:not(.minimized)::before, 
+  .dnd5e2.sheet.actor.npc.dnd5e-theme-light:not(.minimized)::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 300px;
+    border-radius: 5px 5px 0 0;
+    opacity: 0.2;
+    background: url(/systems/dnd5e/ui/official/banner-npc-dark.webp) no-repeat top center / cover;
+    mask-image: linear-gradient(to bottom, black, transparent);
+    z-index: -1;
+  }
+  &:is(.dnd5e-theme-dark, .theme-dark) .dnd5e2.sheet.actor.npc:not(.minimized)::after, 
+  .dnd5e2.sheet.actor.npc.dnd5e-theme-dark:not(.minimized)::after,
+  &:is(.dnd5e-theme-light, .theme-light) .dnd5e2.sheet.actor.npc:not(.minimized)::after, 
+  .dnd5e2.sheet.actor.npc.dnd5e-theme-light:not(.minimized)::after{
+    border-radius: 5px 5px 0 0;
+    background: linear-gradient(to bottom, var(--color-highlights) 0%, transparent 340px);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .dnd5e2.vertical-tabs.sheet.actor.npc nav.tabs {
+    margin-top: 0.5em;
+    padding-left: 16px;
+  }
+  .dnd5e2.sheet.actor.npc .sheet-header .portrait > img {
+    border: 4px solid var(--dnd5e-color-groove);
+  }
+
+  .dnd5e2.sheet.actor.npc .sheet-body {
+    order: 2;
+    margin-top: 1em;
+  }
+  .dnd5e2.sheet.actor.npc .sheet-header .top {
+    color: var(--color-light-1);
+}
+  .dnd5e2.sheet.actor.npc .sheet-body .main-content{
+    --sidebar-padding: 16px;
+  }
+  .dnd5e2.sheet.actor.npc .sheet-body .main-content .sidebar {
+    gap: 1.6em;
+    line-height: 1.4;
+
+    .pills-group h3 {
+      font-family: var(--crlngn-font-titles);
+      font-size: var(--font-size-13);
+      color: inherit;
+    }
+
+    .pills-group .pill {
+      border: 0;
+      font-weight: 500;
+      font-size: var(--font-size-12);
+      text-transform: none;
+    }
+  }
+  .dnd5e2.sheet.actor.npc .sheet-header .legendary :is(.legact, .legres) .pip {
+    --pip-size: 20px;
+  }
+  .dnd5e2.sheet.actor.npc .window-header > *,
+  .dnd5e2.sheet.actor.npc .sheet-header .legendary > label > span.label, 
+  .dnd5e2.sheet.actor.npc .sheet-header .legendary > div > span.label,
+  .dnd5e2.sheet.actor.npc.editable .sheet-header .labels, 
+  .dnd5e2.sheet.actor.npc.editable .sheet-header > .left {
+    color: inherit;
+  }
+  .dnd5e2 .standard-form :is(select, input):not([type="range"]), 
+  .dnd5e2.standard-form :is(select, input):not([type="range"]) {
+    --input-text-color: inherit;
+  }
+  .dnd5e2.sheet.actor.npc > header slide-toggle {
+    --slide-toggle-track-color-unchecked: var(--color-dark-bg-50);
   }
   
 }

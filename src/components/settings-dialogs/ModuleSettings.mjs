@@ -86,6 +86,10 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       menuKey: "cameraDockMenu",
       template: "modules/crlngn-ui/templates/camera-dock-settings.hbs"
     },
+    sheets5e: {
+      menuKey: "sheets5eMenu",
+      template: "modules/crlngn-ui/templates/actor-sheets-5e-settings.hbs"
+    },
     footer: {
       template: "templates/generic/form-footer.hbs"
     }
@@ -375,8 +379,12 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
   static #getTabs() {
     const tabList = [];
-
-    Object.entries(ModuleSettings.PARTS).forEach(([key, value]) => {
+    const relevantTabs = ModuleSettings.PARTS;
+    LogUtil.log("#getTabs", [game, relevantTabs]);
+    if(game.system?.id!=='dnd5e'){
+      delete relevantTabs.sheets5e;
+    }
+    Object.entries(relevantTabs).forEach(([key, value]) => {
       
       if(value.menuKey) {
         tabList.push({

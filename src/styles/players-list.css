@@ -123,13 +123,15 @@ body.crlngn-ui {
         }
       }
 
-      li{
-        > span {
-          margin-left: 5px;
-        }
-        &:before {
-          --color-margin: calc((var(--crlngn-avatar-size) - 10px) / 2);
-          margin: 0 var(--color-margin);
+      #players-active, #players-inactive {
+        .player{
+          > span {
+            margin-left: 5px;
+          }
+          &:before {
+            --color-margin: calc((var(--crlngn-avatar-size) - 10px) / 2);
+            margin: 0 var(--color-margin);
+          }
         }
       }
       

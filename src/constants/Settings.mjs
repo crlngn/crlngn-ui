@@ -224,7 +224,7 @@ export function getSettings() {
       default: {
         colorTheme: "crlngn-theme",
         adjustOtherModules: true,
-        otherModulesList: "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player'",
+        otherModulesList: "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar'",
         customStyles: ""
       },
       scope: SETTING_SCOPE.world,
@@ -286,6 +286,26 @@ export function getSettings() {
       default: {
         autoHidePlayerList: false,
         playerListAvatars: true
+      },
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+
+    sheets5eMenu: {
+      isMenu: true,
+      showOnRoot: false, 
+      tag: "v2-sheets-5e-menu", 
+      label: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.hint"),
+      propType: Object,
+      fields: [
+        "applyThemeAndStyles",
+        "useHorizontalTabs"
+      ],
+      default: {
+        applyThemeAndStyles: true,
+        useHorizontalTabs: true
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -656,8 +676,9 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.hint"),
       propType: String,
-      default:  "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player'",
+      default:  "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar'",
       options: {
+        "BG3 Inspired Hotbar": "'bg3-inspired-hotbar'",
         "Combat Carousel": "'combat-carousel'",
         "Crux": "'crux'",
         "Dice Tray": "'dice-tray'",
@@ -1040,6 +1061,28 @@ export function getSettings() {
       scope: SETTING_SCOPE.client,
       config: false, 
       requiresReload: true 
+    },
+
+    /* 5e SHEETS */
+    applyThemeAndStyles: { 
+      tag: "v2-apply-theme-and-styles", 
+      label: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.fields.applyThemeAndStyles.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.fields.applyThemeAndStyles.hint"), 
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.world,
+      config: false, 
+      requiresReload: false 
+    },
+    useHorizontalTabs: { 
+      tag: "v2-use-horizontal-tabs", 
+      label: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.fields.useHorizontalTabs.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.fields.useHorizontalTabs.hint"), 
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.client,
+      config: false, 
+      requiresReload: false 
     }
     
   }

@@ -300,6 +300,23 @@
         "reset": "Reset",
         "save": "Save"
       },
+      "sheets5eMenu": {
+        "label": "5e Sheets",
+        "title": "Configure 5e Sheets",
+        "hint": "Change options for the 5e sheets",
+        "fields": {
+          "applyThemeAndStyles": {
+            "label": "Apply theme and styles",
+            "hint": "Enable to apply global color theme and styles to 5e actor sheets"
+          },
+          "useHorizontalTabs": {
+            "label": "Use horizontal tabs with labels",
+            "hint": "Enable to use horizontal tabs with labels on 5e actor sheets instead of the lateral icon tabs"
+          }
+        },
+        "reset": "Reset",
+        "save": "Save"
+      },
       "controlIconSize": {
         "label": "Size of control icons",
         "hint": "If you use a large resolution, you may want to change the size of the icons on left controls. This may affect some other UI elements",

@@ -3,7 +3,7 @@ export const MODULE_TITLE = "Carolingian UI";
 export const MODULE_SHORT = "crlngn-ui";
 export const DEBUG_TAG = [
   `%cCarolingian UI`,
-  `color:rgb(54, 0, 119); font-weight: bold;`,
+  `color:rgb(107, 72, 149); font-weight: bold;`,
   `|`,
 ];
 

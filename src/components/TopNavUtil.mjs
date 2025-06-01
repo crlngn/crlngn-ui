@@ -297,7 +297,7 @@ export class TopNavigation {
         const sceneData = game.scenes.find(sc => sc.id === id);
         sceneData.isGM = game.user?.isGM;
 
-        const previewTemplate = await renderTemplate(
+        const previewTemplate = await GeneralUtil.renderTemplate(
           `modules/${MODULE_ID}/templates/scene-nav-preview.hbs`, 
           sceneData
         );
@@ -417,7 +417,7 @@ export class TopNavigation {
     const SETTINGS = getSettings();
     LogUtil.log("handleExtraButtons",[nav, navHtml, navData]);
 
-    const extraButtonsTemplate = await renderTemplate(
+    const extraButtonsTemplate = await GeneralUtil.renderTemplate(
       `modules/${MODULE_ID}/templates/scene-nav-extra-buttons.hbs`, 
       {
         useSceneBackButton: TopNavigation.useSceneBackButton,
@@ -614,7 +614,7 @@ export class TopNavigation {
     }
     if(existingButtons.length > 0){ return; }
     // Render nav buttons template
-    const buttonsHtml = await renderTemplate(
+    const buttonsHtml = await GeneralUtil.renderTemplate(
       `modules/${MODULE_ID}/templates/scene-nav-buttons.hbs`, 
       {}
     );
@@ -1104,7 +1104,7 @@ export class TopNavigation {
     };
     
     // Render the new preview with the direct data
-    const previewTemplate = await renderTemplate(
+    const previewTemplate = await GeneralUtil.renderTemplate(
       `modules/${MODULE_ID}/templates/scene-nav-preview.hbs`, 
       templateData
     );

@@ -359,7 +359,7 @@ body.crlngn-chat {
   .chat-message.ddb-game-log-message .dice-formula {
     border: 1px solid transparent;
     box-shadow: none;
-    background: var(--color-dark-bg-15);
+    background: var(--color-dark-bg-10);
   }
   .chat-message .message-content .dice-formula, 
   .chat-message.ddb-game-log-message .dice-formula{
@@ -574,7 +574,7 @@ body.crlngn-chat {
     min-height: 36px;
     font-size: var(--font-size-12);
     padding: 5px;
-    border: 1px solid var(--color-dark-bg-15);
+    border: 1px solid var(--color-dark-bg-10);
     margin: 2px 0 0 0;
     line-height: 1.25;
     display: flex;
@@ -585,7 +585,7 @@ body.crlngn-chat {
   /* dnd5e buttons */
   :is(.card-tray, .effects-tray) .targets .target .damage-multipliers button, 
   .card-tray .targets .target .damage-multipliers button {
-    border: 1px solid var(--color-dark-bg-15);
+    border: 1px solid var(--color-dark-bg-10);
   }
   :is(.card-tray, .effects-tray) .targets .target .damage-multipliers button::after, 
   .card-tray .targets .target .damage-multipliers button::after {
@@ -593,7 +593,7 @@ body.crlngn-chat {
   }
   :is(.card-tray, .effects-tray) .targets .target .damage-multipliers button[aria-pressed="true"], 
   .card-tray .targets .target .damage-multipliers button[aria-pressed="true"] {
-    box-shadow: 0 0 102px var(--color-dark-bg-15);
+    box-shadow: 0 0 102px var(--color-dark-bg-10);
     border: 1px solid var(--color-text-hyperlink);
   }
   :is(.card-tray, .effects-tray) .targets .target .damage-multipliers::before, 
@@ -655,7 +655,7 @@ body.crlngn-chat {
   }
   
   #interface.theme-light, #interface.theme-light .chat-log, 
-  #interface.theme-light, #chat-popout.theme-light {
+  #interface.theme-light, #chat-popout.theme-light, #chat-popout.theme-light button {
     --dnd5e-background-card: rgba(244, 239, 237,0.8);
     --dnd5e-color-parchment: rgba(244, 239, 237, 1);
     --card-color-bg: var(--dnd5e-background-card, #e8e8ef);
@@ -668,7 +668,7 @@ body.crlngn-chat {
     */
   }
   #interface.theme-dark, #interface.theme-dark .chat-log, 
-  #interface.theme-dark, #chat-popout.theme-dark {
+  #interface.theme-dark, #chat-popout.theme-dark, #chat-popout.theme-dark button {
     --dnd5e-color-parchment: rgb(40, 47, 54);
     --dnd5e-background-card: rgb(40, 47, 54); 
     --card-color-bg: var(--chat-dark-blue);
@@ -884,7 +884,7 @@ body.crlngn-chat {
   
     /* description and details */
     .chat-card .description {
-      background: var(--color-dark-bg-15);
+      background: var(--color-dark-bg-10);
       border: 0;
       padding: 0.5rem 0;
     }

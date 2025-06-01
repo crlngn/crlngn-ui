@@ -58,7 +58,7 @@ Main Theme
     --color-bg-button: rgb(40, 47, 54); 
     --chat-dark-blue: rgba(24, 32, 38, 1);
 
-    --color-dark-bg-15: rgba(15, 15, 15, 0.15);
+    --color-dark-bg-10: rgba(15, 15, 15, 0.1);
     --color-dark-bg-25: rgba(15, 15, 15, 0.25);
     --color-dark-bg-50: rgba(15, 15, 15, 0.5);
     --color-dark-bg-75: rgba(15, 15, 15, 0.75);
@@ -129,12 +129,16 @@ Main Theme
     --color-text-secondary: rgb(179, 179, 192);
     --color-text-primary: var(--color-light-1);
     --color-fieldset-border: var(--color-secondary-25);
+    --dnd5e-color-maroon: var(--color-highlights);
+    --dnd5e-shadow-45: rgba(0, 0, 0, 0.25); /* make these shadows more nuanced */
+    /*--dnd5e-border-gold: 1px solid transparent;*/
+    --dnd5e-border-gold: none;
 
     --default-color: var(--color-light-1);
-    #interface.theme-light{
+    #interface.theme-light, .sidebar-popout.theme-light, #chat-popout.theme-light{
       --default-color: var(--color-dark-1);
     }
-    #interface.theme-dark{
+    #interface.theme-dark, .sidebar-popout.theme-dark, #chat-popout.theme-dark{
       --default-color: var(--color-light-1);
     }
 
@@ -234,9 +238,9 @@ Main Theme
     --color-level-success: #59a05f;
     --color-level-success-bg: rgba(69, 117, 73, 0.8);
     --color-level-success-border: #4b8b4f;
-    --color-level-warning: rgb(190, 140, 46);
-    --color-level-warning-bg: rgba(164, 120, 20, 0.5);
-    --color-level-warning-border: #b18404;
+    --color-level-warning: rgb(184, 151, 4);
+    --color-level-warning-bg: rgba(141, 116, 0, 0.7);
+    --color-level-warning-border: rgba(141, 116, 0, 1);
 
     --input-background-color: var(--color-input-bg);
     --input-background-alt: var(--color-cool-5);
@@ -261,6 +265,7 @@ Main Theme
       --color-text-primary: var(--color-dark-1);
       --color-text-secondary: var(--color-dark-1);
       --sidebar-background: rgba(232, 232, 232, 0.95);
+      
       &.crlngn-chat{
         --dnd5e-background-card: rgba(244, 239, 237,0.8);
         --dnd5e-color-parchment: rgb(244, 239, 237);

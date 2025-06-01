@@ -223,10 +223,9 @@ body.crlngn-ui{
     gap: 3px;
 
     h4{
-      font-size: var(--font-size-15);
+      font-size: var(--font-size-18);
       font-weight: 600;
       font-family: var(--crlngn-font-titles);
-      text-transform: uppercase;
       margin: 1.5em 0 0.5em 0;
       letter-spacing: 0.02em;
       color: var(--color-highlights);

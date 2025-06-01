@@ -300,6 +300,23 @@
         "reset": "Redefinir", 
         "save": "Salvar" 
       },
+      "sheets5eMenu": {
+        "label": "Fichas DnD5e",
+        "title": "Configurar Fichas de DnD5e",
+        "hint": "Alterar opções para as fichas de personagens np sistema DnD5e",
+        "fields": {
+          "applyThemeAndStyles": {
+            "label": "Aplicar tema e estilos",
+            "hint": "Ative para aplicar o tema de cores global e estilos às fichas de personagens de DnD5e"
+          },
+          "useHorizontalTabs": {
+            "label": "Usar abas horizontais com rótulos",
+            "hint": "Ative para usar abas horizontais com rótulos nas fichas de personagens de DnD5e em vez das abas laterais com ícones"
+          }
+        },
+        "reset": "Redefinir",
+        "save": "Salvar"
+      },
       "controlIconSize": {
         "label": "Tamanho dos ícones de controle",
         "hint": "Se você usa uma tela muito grande, pode querer alterar o tamanho dos ícones nos controles à esquerda. Isso pode afetar alguns outros elementos da interface",

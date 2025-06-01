@@ -3,6 +3,7 @@ import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 import { MODULE_ID } from "../constants/General.mjs";
+import { GeneralUtil } from "./GeneralUtil.mjs";
 
 export class MacroHotbar {
   static useFadeOut = true;
@@ -72,7 +73,7 @@ export class MacroHotbar {
 
     // Render nav buttons template
     const isCollapsed = game.user.getFlag(MODULE_ID, "hotbarCollapsed");
-    const buttonsHtml = await renderTemplate(
+    const buttonsHtml = await GeneralUtil.renderTemplate(
       `modules/${MODULE_ID}/templates/macro-buttons.hbs`, 
       {}
     );

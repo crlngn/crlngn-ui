@@ -64,7 +64,7 @@ export class ChatLogControls {
 
   static addChatToggle = async(html) => {
     if(!ChatLogControls.customStylesEnabled){ return; }
-    const buttonTemplate = await renderTemplate(
+    const buttonTemplate = await GeneralUtil.renderTemplate(
       `modules/${MODULE_ID}/templates/chat-toggle-button.hbs`, 
       {}
     );

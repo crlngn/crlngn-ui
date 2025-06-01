@@ -34,10 +34,9 @@ export class SettingsUtil {
      * Register each of the settings defined in the SETTINGS constant 
      */
     const settingsList = Object.entries(SETTINGS);
-    LogUtil.log("registerSettings - test", [settingsList], true);
     settingsList.forEach(async(entry) => {
       const setting = entry[1]; 
-      LogUtil.log("Registering... ", [entry], true); 
+      // LogUtil.log("Registering... ", [entry], true); 
 
       if((setting.showOnRoot && setting.isMenu) || !setting.isMenu){
         const settingObj = { 

@@ -17,6 +17,7 @@ import { SidebarTabs } from "./SidebarUtil.mjs";
 import { MacroHotbar } from "./MacroHotbarUtil.mjs";
 import { ChatLogControls } from "./ChatLogControlsUtil.mjs";
 import { TokenWheel } from "./TokenWheelUtil.mjs";
+import { SheetsUtil } from "./SheetsUtil.mjs";
 
 /**
  * Main class handling core module initialization and setup
@@ -94,6 +95,7 @@ export class Main {
       // TopNavigation.checkSceneNavCompat();
       ModuleCompatUtil.init();
       UpdateNewsUtil.init();
+      SheetsUtil.init();
       
       const chatStylesEnabled = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
       if(chatStylesEnabled){ 
@@ -132,8 +134,8 @@ export class Main {
    * @param {ChatMessage} chatMessage - The chat message being rendered
    * @param {jQuery} html - The HTML element of the chat message
    */
-  static #onRenderChatMessage = (chatMessage, html) => { 
-    LogUtil.log(HOOKS_CORE.RENDER_CHAT_MESSAGE,[chatMessage, html]);
+  static #onRenderChatMessage = (chatMessage, html, c) => { 
+    LogUtil.log(HOOKS_CORE.RENDER_CHAT_MESSAGE,[chatMessage, html, c]);
   
     ChatUtil.enrichCard(chatMessage, html);
   }

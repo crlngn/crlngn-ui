@@ -300,6 +300,23 @@
         "reset": "Ripristina",
         "save": "Salva"
       },
+      "sheets5eMenu": {
+        "label": "Fogli DnD5e",
+        "title": "Configurare Fogli di DnD5e",
+        "hint": "Modificare opzioni per le schede dei personaggi nel sistema DnD5e",
+        "fields": {
+          "applyThemeAndStyles": {
+            "label": "Applica tema e stili",
+            "hint": "Attiva per applicare il tema di colore globale e stili alle schede dei personaggi di DnD5e"
+          },
+          "useHorizontalTabs": {
+            "label": "Usa schede orizzontali con etichette",
+            "hint": "Attiva per utilizzare schede orizzontali con etichette sulle schede dei personaggi di DnD5e anziché le schede laterali con icone"
+          }
+        },
+        "reset": "Ripristina",
+        "save": "Salva"
+      },
       "controlIconSize": {
         "label": "Dimensione delle icone di controllo",
         "hint": "Se usi uno schermo molto grande, potresti voler cambiare la dimensione delle icone sui controlli a sinistra. Questo potrebbe influenzare alcuni altri elementi dell'interfaccia",

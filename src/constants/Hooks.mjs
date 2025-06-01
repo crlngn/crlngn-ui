@@ -10,7 +10,7 @@ export const HOOKS_CORE = {
   CANVAS_INIT: "canvasInit",
 
   /* Chat Messages */
-  RENDER_CHAT_MESSAGE: "renderChatMessage" ,
+  RENDER_CHAT_MESSAGE: "renderChatMessageHTML" ,
 
   /* Left Side Controls */
   GET_SCENE_CONTROLS: "getSceneControlButtons",
@@ -82,7 +82,11 @@ export const HOOKS_CORE = {
   CLIENT_SETTING_CHANGED: "clientSettingChanged",
 
   /* Token */
-  RENDER_TOKEN_HUD: "renderTokenHUD"
+  RENDER_TOKEN_HUD: "renderTokenHUD",
+
+  /* Sheets */
+  RENDER_ACTOR_SHEET: "renderActorSheetV2",
+  RENDER_ITEM_SHEET: "renderItemSheetV2",
 }
 
 /**
@@ -93,4 +97,5 @@ export const HOOKS_DND5E = {
   /* Example hooks - add real ones as needed */
   // ROLL_ABILITY_TEST: "dnd5e.rollAbilityTest",
   // ROLL_SKILL_TEST: "dnd5e.rollSkillTest"
+  // RENDER_ACTOR_SHEET: "renderActorSheet",
 }
