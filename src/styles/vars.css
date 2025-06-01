@@ -81,7 +81,7 @@ Main Theme
     --color-border-highlight-alt: rgba(68, 147, 173, 0.9); 
     --color-border-highlight: rgba(68, 147, 173, 1);
     --color-shadow-highlight: rgba(90, 120, 150, 0.5); 
-    --color-shadow-primary: rgba(87, 183, 214, 0.8);
+    --color-shadow-primary: rgba(90, 120, 150, 0.5); 
     --color-border-light-primary: rgba(90,120,150, 0.5);
     --color-border-light-highlight: rgba(68, 147, 173, 1);
     --color-underline-header: rgba(68, 147, 173, 1);
@@ -98,7 +98,7 @@ Main Theme
     --color-scrollbar: var(--color-highlights-75);
     --color-scrollbar-track: transparent;
     --color-scrollbar-border: var(--color-highlights-75);
-    --color-shadow-primary: var(--color-highlights);
+    --color-shadow-primary: var(--color-highlights-50);
     --toggle-active-bg-color: var(--color-secondary);
     --toggle-active-border-color: var(--color-secondary);
     --control-active-border-color: var(--color-highlights);
@@ -131,8 +131,6 @@ Main Theme
     --color-fieldset-border: var(--color-secondary-25);
     --dnd5e-color-maroon: var(--color-highlights);
     --dnd5e-shadow-45: rgba(0, 0, 0, 0.25); /* make these shadows more nuanced */
-    /*--dnd5e-border-gold: 1px solid transparent;*/
-    --dnd5e-border-gold: none;
 
     --default-color: var(--color-light-1);
     #interface.theme-light, .sidebar-popout.theme-light, #chat-popout.theme-light{
@@ -314,7 +312,7 @@ Main Theme
     --color-scrollbar: var(--color-highlights-75);
     --color-scrollbar-track: transparent;
     --color-scrollbar-border: var(--color-highlights-75);
-    --color-shadow-primary: var(--color-highlights);
+    --color-shadow-primary: var(--color-highlights-50);
     --toggle-active-bg-color: var(--color-secondary);
     --toggle-active-border-color: var(--color-secondary);
     --control-active-border-color: var(--color-highlights);

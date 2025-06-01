@@ -305,11 +305,11 @@
         "title": "配置DnD5e 角色表",
         "hint": "更改DnD5e 角色表的选项",
         "fields": {
-          "applyThemeAndStyles": {
-            "label": "应用主题和样式",
+          "applyThemeToSheets": {
+            "label": "将颜色和样式应用于DnD5e角色表",
             "hint": "启用以应用全局颜色主题和样式到DnD5e 角色表"
           },
-          "useHorizontalTabs": {
+          "useHorizontalSheetTabs": {
             "label": "使用带有标签的水平标签",
             "hint": "启用以使用带有标签的水平标签在DnD5e 角色表上，而不是使用侧边栏图标标签"
           }

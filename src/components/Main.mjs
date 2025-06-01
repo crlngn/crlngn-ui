@@ -81,7 +81,7 @@ export class Main {
     });
 
     Hooks.once(HOOKS_CORE.READY, () => {
-      LogUtil.log("Core Ready", []);
+      LogUtil.log("Core Ready", [game]);
       if(Main.isIncompatible){
         return;
       }

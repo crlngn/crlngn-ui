@@ -301,15 +301,15 @@
         "save": "Save"
       },
       "sheets5eMenu": {
-        "label": "5e Sheets",
-        "title": "Configure 5e Sheets",
+        "label": "DnD5e Sheets",
+        "title": "Configure styling options for DnD5e Sheets",
         "hint": "Change options for the 5e sheets",
         "fields": {
-          "applyThemeAndStyles": {
-            "label": "Apply theme and styles",
-            "hint": "Enable to apply global color theme and styles to 5e actor sheets"
+          "applyThemeToSheets": {
+            "label": "Apply colors and styles to DnD5e sheets",
+            "hint": "Enable to apply global color theme and styles to DnD 5e actor sheets (PC and NPC)"
           },
-          "useHorizontalTabs": {
+          "useHorizontalSheetTabs": {
             "label": "Use horizontal tabs with labels",
             "hint": "Enable to use horizontal tabs with labels on 5e actor sheets instead of the lateral icon tabs"
           }

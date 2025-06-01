@@ -65,6 +65,12 @@
   <hr/>
 
   <div class="form-group">
+    <label for="controlsAutoHide">{{fields.controlsAutoHide.label}}</label>
+    <input type="checkbox" name="controlsAutoHide" {{#if controlsAutoHide}}checked{{/if}} />
+    <p class="hint">{{fields.controlsAutoHide.hint}}</p> 
+  </div>
+  
+  <div class="form-group">
     <label for="collapseMacroBar">{{fields.collapseMacroBar.label}}</label>
     <input type="checkbox" name="collapseMacroBar" {{#if collapseMacroBar}}checked{{/if}} />
     <p class="hint">{{{fields.collapseMacroBar.hint}}}</p> 
@@ -75,5 +81,6 @@
     <input type="checkbox" name="useFolderStyle" {{#if useFolderStyle}}checked{{/if}} />
     <p class="hint">{{{fields.useFolderStyle.hint}}}</p> 
   </div>
+  
 
 </section>

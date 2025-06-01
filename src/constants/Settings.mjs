@@ -147,7 +147,8 @@ export function getSettings() {
         "enablePlayerList",
 
         "collapseMacroBar",
-        "useFolderStyle"
+        "useFolderStyle",
+        "controlsAutoHide"
       ],
       default: {
         // Fade out
@@ -176,7 +177,8 @@ export function getSettings() {
         enablePlayerList: true,
 
         collapseMacroBar: false,
-        useFolderStyle: true
+        useFolderStyle: true,
+        controlsAutoHide: false
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -219,13 +221,17 @@ export function getSettings() {
         "colorTheme", 
         "adjustOtherModules", 
         "otherModulesList",
-        "customStyles"
+        "customStyles",
+        "useHorizontalSheetTabs",
+        "applyThemeToSheets"
       ],
       default: {
         colorTheme: "crlngn-theme",
         adjustOtherModules: true,
         otherModulesList: "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar'",
-        customStyles: ""
+        customStyles: "",
+        useHorizontalSheetTabs: true,
+        applyThemeToSheets: true
       },
       scope: SETTING_SCOPE.world,
       config: false, 
@@ -300,12 +306,12 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.hint"),
       propType: Object,
       fields: [
-        "applyThemeAndStyles",
-        "useHorizontalTabs"
+        "applyThemeToSheets",
+        "useHorizontalSheetTabs"
       ],
       default: {
-        applyThemeAndStyles: true,
-        useHorizontalTabs: true
+        applyThemeToSheets: true,
+        useHorizontalSheetTabs: true
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -1064,20 +1070,20 @@ export function getSettings() {
     },
 
     /* 5e SHEETS */
-    applyThemeAndStyles: { 
+    applyThemeToSheets: { 
       tag: "v2-apply-theme-and-styles", 
-      label: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.fields.applyThemeAndStyles.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.fields.applyThemeAndStyles.hint"), 
+      label: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.fields.applyThemeToSheets.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.fields.applyThemeToSheets.hint"), 
       propType: Boolean,
       default: true,
       scope: SETTING_SCOPE.world,
       config: false, 
       requiresReload: false 
     },
-    useHorizontalTabs: { 
+    useHorizontalSheetTabs: { 
       tag: "v2-use-horizontal-tabs", 
-      label: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.fields.useHorizontalTabs.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.fields.useHorizontalTabs.hint"), 
+      label: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.fields.useHorizontalSheetTabs.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.fields.useHorizontalSheetTabs.hint"), 
       propType: Boolean,
       default: true,
       scope: SETTING_SCOPE.client,

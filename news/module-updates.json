@@ -1,7 +1,7 @@
 {
-  "id": "2.2.0",
-  "title": "Updates on Carolingian UI for v13",
-  "content": "<p>Version 2.2.0:</p>\n<ul><li><b>Hide UI:</b> Added settings that allow completely hiding interface elements.</li></ul><p>Version 2.1.12:</p>\n<ul><li><b>Module Compatibility:</b> Added style adjustments for modules from TheRipper93 and a few others.</li><li><b>Settings:</b> Fixed bugs and adjusted issues with settings.</li></ul>\n<p>Check more on <a href='https://discord.gg/P5ygvHXE3R'>Discord</a> or the <a href='https://github.com/crlngn/crlngn-ui/releases'>Github repository</a>.</p><p>Note: Version 2.x of Carolingian UI is for Foundry v13. If you are using v12, install version that starts with 1.</p>",
-  "imageUrl": "",
+  "id": "2.3.0",
+  "title": "Updates on Carolingian UI",
+  "content": "<p>Version 2.3.0:</p>\n<ul><li><b>Themes applied to actor sheets:</b> Your chosen color theme is now applied to actor sheets, both PC and NPC. I've also added horizontal tabs for sheets, as many people forget which icon means what (myself included). You can disable this is style settings.</li></ul><p>Version 2.2.0:</p>\n<ul><li><b>Hide UI:</b> Added settings that allow completely hiding interface elements.</li></ul>\n<p>Check more on <a href='https://discord.gg/P5ygvHXE3R'>Discord</a> or the <a href='https://github.com/crlngn/crlngn-ui/releases'>Github repository</a>.</p><p>Note: Version 2.x of Carolingian UI is for Foundry v13. If you are using v12, install a version that starts with 1.x.</p>",
+  "imageUrl": "https://github.com/crlngn/crlngn-ui/blob/v2/demo/crlngn-ui-theme-on-sheets.png?raw=true",
   "videoUrl": ""
 }

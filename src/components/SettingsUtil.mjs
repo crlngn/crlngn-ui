@@ -12,6 +12,7 @@ import { MacroHotbar } from "./MacroHotbarUtil.mjs";
 import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
 import { PlayersList } from "./PlayersListUtil.mjs";
 import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
+import { SheetsUtil } from "./SheetsUtil.mjs";
 import { SidebarTabs } from "./SidebarUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
 
@@ -400,6 +401,10 @@ export class SettingsUtil {
         TopNavigation.applyHide(value); break;
       case SETTINGS.useFolderStyle.tag:
         SidebarTabs.applyFolderStyles(value); break;
+      case SETTINGS.applyThemeToSheets.tag:
+        SheetsUtil.applyThemeToSheets(value); break;
+      case SETTINGS.useHorizontalSheetTabs.tag:
+        SheetsUtil.applyHorizontalSheetTabs(value); break;
       default:
         // do nothing
     }

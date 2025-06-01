@@ -78,18 +78,18 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       menuKey: "playersListMenu",
       template: "modules/crlngn-ui/templates/players-list-settings.hbs"
     },
-    controls: {
-      menuKey: "leftControlsMenu",
-      template: "modules/crlngn-ui/templates/left-controls-settings.hbs"
-    },
+    // controls: {
+    //   menuKey: "leftControlsMenu",
+    //   template: "modules/crlngn-ui/templates/left-controls-settings.hbs"
+    // },
     camera: {
       menuKey: "cameraDockMenu",
       template: "modules/crlngn-ui/templates/camera-dock-settings.hbs"
     },
-    sheets5e: {
-      menuKey: "sheets5eMenu",
-      template: "modules/crlngn-ui/templates/actor-sheets-5e-settings.hbs"
-    },
+    // sheets5e: {
+    //   menuKey: "sheets5eMenu",
+    //   template: "modules/crlngn-ui/templates/actor-sheets-5e-settings.hbs"
+    // },
     footer: {
       template: "templates/generic/form-footer.hbs"
     }
@@ -380,10 +380,10 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   static #getTabs() {
     const tabList = [];
     const relevantTabs = ModuleSettings.PARTS;
-    LogUtil.log("#getTabs", [game, relevantTabs]);
-    if(game.system?.id!=='dnd5e'){
+    if(game.system?.id !== 'dnd5e'){
       delete relevantTabs.sheets5e;
     }
+    LogUtil.log("#getTabs", [relevantTabs, ModuleSettings.PARTS]);
     Object.entries(relevantTabs).forEach(([key, value]) => {
       
       if(value.menuKey) {

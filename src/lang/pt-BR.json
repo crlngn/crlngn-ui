@@ -56,14 +56,14 @@
         "title": "Configurar Opções",
         "hint": "Personalize Carolingian UI, ative ou desative estilos personalizados e outras opções.",
         "tabs": {
-          "interface": "Elementos da Interface",
+          "interface": "Interface",
           "fonts": "Fontes",
-          "themes": "Tema e Estilos",
-          "chat": "Chat",
+          "themes": "Tema e Estilo",
+          "chat": "Mensagens do Chat",
           "controls": "Controles de Cena",
-          "scenes": "Cenas",
+          "scenes": "Navegação de Cenas",
           "players": "Lista de Jogadores",
-          "camera": "Dock de Câmera"
+          "camera": "Câmeras"
         },
         "reset": "Redefinir",
         "save": "Salvar"
@@ -177,8 +177,8 @@
         "hint": "Essas configurações modificam a aparência e o comportamento dos botões de controle de cena, no lado esquerdo da tela",
         "fields": {
           "autoHideSecondary": {
-            "label": "Ocultar automaticamente os controles secundários",
-            "hint": "Ative para manter a barra secundária oculta até passar o mouse sobre a região ou clicar em um item."
+            "label": "Auto-ocultar controles secundários",
+            "hint": "Ative para mostrar apenas os controles primários - os controles da barra secundária aparecem apenas ao passar o mouse sobre a região."
           }
         },
         "reset": "Redefinir",
@@ -305,11 +305,11 @@
         "title": "Configurar Fichas de DnD5e",
         "hint": "Alterar opções para as fichas de personagens np sistema DnD5e",
         "fields": {
-          "applyThemeAndStyles": {
-            "label": "Aplicar tema e estilos",
-            "hint": "Ative para aplicar o tema de cores global e estilos às fichas de personagens de DnD5e"
+          "applyThemeToSheets": {
+            "label": "Aplicar estilos a fichas de personagem",
+            "hint": "Ative para aplicar o tema de cores global e ajustes de estilo às fichas de personagens de DnD5e"
           },
-          "useHorizontalTabs": {
+          "useHorizontalSheetTabs": {
             "label": "Usar abas horizontais com rótulos",
             "hint": "Ative para usar abas horizontais com rótulos nas fichas de personagens de DnD5e em vez das abas laterais com ícones"
           }
@@ -356,7 +356,7 @@
       },
       "disableUI":{
         "label": "Desativar Interface neste Cliente",
-        "hint": "Se um jogador não quiser usar a Interface Carolingian, pode desativá-la. Nenhuma outra funcionalidade do módulo funcionará, exceto o estilo escuro nos cartões de chat - que pode ser desativado separadamente."
+        "hint": "Se um jogador não quiser usar a interface de Carolingian UI, pode desativá-la. Nenhuma outra funcionalidade do módulo funcionará, exceto o estilo escuro nos cartões de chat - que pode ser desativado separadamente."
       }
     }, 
     "dnd5e": {

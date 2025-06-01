@@ -8,13 +8,13 @@
 
   <p class="hint">{{localize "CRLNGN_UI.settings.playersListMenu.hint"}}</p>
 
-  {{#if isGM}}
+  {{#unless isGM}}
     <div class="form-group">
-      <label for="applyThemeAndStyles">{{fields.applyThemeAndStyles.label}}</label>
-      <input type="checkbox" name="applyThemeAndStyles" {{#if applyThemeAndStyles}}checked{{/if}} />
-      <p class="hint">{{fields.applyThemeAndStyles.hint}}</p> 
+      <label for="applyThemeToSheets">{{fields.applyThemeToSheets.label}}</label>
+      <input type="checkbox" name="applyThemeToSheets" {{#if applyThemeToSheets}}checked{{/if}} />
+      <p class="hint">{{fields.applyThemeToSheets.hint}}</p> 
     </div>
-  {{/if}}
+  {{/unless}}
   <p>&nbsp;</p>
 
   <h4>
@@ -22,8 +22,8 @@
   </h4>
   <hr/>
   <div class="form-group">
-    <label for="useHorizontalTabs">{{fields.useHorizontalTabs.label}}</label>
-    <input type="checkbox" name="useHorizontalTabs" {{#if useHorizontalTabs}}checked{{/if}} />
-    <p class="hint">{{fields.useHorizontalTabs.hint}}</p>
+    <label for="useHorizontalSheetTabs">{{fields.useHorizontalSheetTabs.label}}</label>
+    <input type="checkbox" name="useHorizontalSheetTabs" {{#if useHorizontalSheetTabs}}checked{{/if}} />
+    <p class="hint">{{fields.useHorizontalSheetTabs.hint}}</p>
   </div>
 </section>

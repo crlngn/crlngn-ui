@@ -305,11 +305,11 @@
         "title": "Configurare Fogli di DnD5e",
         "hint": "Modificare opzioni per le schede dei personaggi nel sistema DnD5e",
         "fields": {
-          "applyThemeAndStyles": {
-            "label": "Applica tema e stili",
+          "applyThemeToSheets": {
+            "label": "Applica tema e stili per le schede dei personaggi",
             "hint": "Attiva per applicare il tema di colore globale e stili alle schede dei personaggi di DnD5e"
           },
-          "useHorizontalTabs": {
+          "useHorizontalSheetTabs": {
             "label": "Usa schede orizzontali con etichette",
             "hint": "Attiva per utilizzare schede orizzontali con etichette sulle schede dei personaggi di DnD5e anziché le schede laterali con icone"
           }
