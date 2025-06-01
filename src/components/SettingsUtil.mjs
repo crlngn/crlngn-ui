@@ -677,9 +677,9 @@ export class SettingsUtil {
 
     const foundryColorScheme = game.settings.get('core','colorScheme');
 
-    LogUtil.log("resetFoundryThemeSettings", [foundryColorScheme, forceDarkModeOn])
+    LogUtil.log("resetFoundryThemeSettings", ["color scheme", foundryColorScheme, " / dark mode",  forceDarkModeOn])
 
-    if(foundryColorScheme===false && forceDarkModeOn){
+    if(!foundryColorScheme && forceDarkModeOn){
       game.settings.set('core','colorScheme','dark');
     }
   }

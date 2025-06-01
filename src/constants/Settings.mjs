@@ -536,7 +536,7 @@ export function getSettings() {
       propType: Boolean, 
       inputType: SETTING_INPUT.checkbox, 
       default: true, 
-      scope: SETTING_SCOPE.world, 
+      scope: SETTING_SCOPE.world,
       config: true 
     },  
 
