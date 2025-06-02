@@ -806,13 +806,10 @@ body.crlngn-ui {
 **************/
 body.crlngn-ui{
 
-  /*
-  .application hr {
+  .standard-form.crlngn hr{
     background-image: linear-gradient(90deg, var(--color-warm-2) 0%, transparent 100%);
-    &.ampersand {
-      background-image: none;
-    }
-  }*/
+    min-height: 2px;
+  }
 
   .application .window-header .window-title {
     font-family: var(--crlngn-font-family);

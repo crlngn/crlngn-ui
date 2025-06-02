@@ -6,6 +6,57 @@ body.crlngn-ui {
     margin-left: 16px;
     margin-bottom: 16px;
   }
+
+  #players.crlngn-ui, #players.crlngn-ui.minimized {
+    button { 
+      border: 1px solid rgba(0, 0, 0, 0.25);
+      background-color: var(--button-background-color);
+      margin: 4px 0;
+    }
+    button:hover {
+      background-color: var(--color-highlights);
+      color: var(--color-light-1);
+      font-weight: 500;
+      transition: none;
+
+      i{
+        color: var(--color-light-1);
+        transition: none;
+      }
+    }
+  }
+
+  #players.crlngn-ui.minimized {
+    button {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: clip;
+      display: flex;
+      justify-content: flex-start;
+      padding: 0 5px;
+
+      i {
+        margin-right: 3px;
+      }
+    }
+  }
+
+  #players.crlngn-ui.minimized:hover {
+    button {
+      display: flex;
+      align-items: center;
+      overflow: auto;
+      justify-content: center;
+      white-space:initial;
+      background: var(--button-background-color);
+
+      &:hover {
+        background-color: var(--color-highlights);
+        color: var(--color-light-1);
+      }
+    }
+  }
+
   #players.crlngn-ui {
     gap: 0;
     margin-left: 0;
@@ -106,7 +157,8 @@ body.crlngn-ui {
         }
 
         button#players-expand{
-          width: 26px;
+          min-width: 28px;
+          padding: 0 10px;
         }
       }
 
@@ -137,36 +189,6 @@ body.crlngn-ui {
       
     }
 
-    .rest-recovery-prompt-rest-button {
-      width: 100%;
-      flex: 1 1 100%;
-      background: var(--color-secondary-50);
-      padding: 4px 0;
-      margin: 2px 0;
-      justify-content: flex-start;
-      height: var(--crlngn-avatar-size);
-      border: 0;
-      font-size: 1em;
-      font-weight: 600;
-
-      &:hover {
-        background: var(--color-dark-bg-50);
-      }
-
-      &:focus {
-        border: 0;
-        outline: 0;
-        box-shadow: none;
-      }
-
-      i {
-        width: var(--crlngn-avatar-size);
-        flex: 0 0 var(--crlngn-avatar-size);
-        height: auto;
-        margin-right: 4px;
-      }
-    }
-
     #players-inactive{
       padding: 0px 6px;
     }
@@ -192,8 +214,9 @@ body.crlngn-ui {
           height: var(--crlngn-avatar-size);
           object-fit: cover;
           overflow: hidden;
-          border-bottom: 2px solid var(--player-color);
-          border-radius: 0;
+          border: 1px solid rgba(0, 0, 0, 0.25);
+          border-bottom: 4px solid var(--player-color);
+          border-radius: 4px;
           background-color: rgba(255,255,255,0.15);
           flex: 0 0 var(--crlngn-avatar-size);
           padding: 0;

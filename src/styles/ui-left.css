@@ -4,7 +4,7 @@
 body.crlngn-ui{
 
   #interface.crlngn-controls #ui-left {
-    --color-secondary-75: rgba(50, 50, 70, 0.75);
+    /*--color-secondary-75: rgba(50, 50, 70, 0.75);*/
     --icon-font-size: var(--font-size-14);
     --control-size: var(--control-item-size);
   }

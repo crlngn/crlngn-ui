@@ -142,6 +142,37 @@ body.crlngn-ui{
 
   }
 
+  /* Rest and Recovery 5e */
+  .rest-recovery-prompt-rest-button {
+    width: 100%;
+    flex: 1 1 100%;
+    background: var(--color-secondary-50);
+    padding: 4px 0;
+    margin: 2px 0;
+    justify-content: flex-start;
+    height: var(--crlngn-avatar-size);
+    border: 0;
+    font-size: 1em;
+    font-weight: 600;
+
+    &:hover {
+      background: var(--color-dark-bg-50);
+    }
+
+    &:focus {
+      border: 0;
+      outline: 0;
+      box-shadow: none;
+    }
+
+    i {
+      width: var(--crlngn-avatar-size);
+      flex: 0 0 var(--crlngn-avatar-size);
+      height: auto;
+      margin-right: 4px;
+    }
+  }
+
   /* Combat Carousel */
   &.crlngn-combat-carousel {
     &.navigation-collapsed{
@@ -457,5 +488,5 @@ body.crlngn-ui{
       color: var(--color-warm-1);
     }
   }
-
+  
 }
