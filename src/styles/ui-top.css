@@ -461,6 +461,13 @@ body.crlngn-ui {
           }
         }
         &.collapsed {
+          #crlngn-scene-lookup {
+            opacity: 0.2;
+
+            &:hover {
+              opacity: 1;
+            }
+          }
           &:before{
             opacity: 0;
             height: 10px;
