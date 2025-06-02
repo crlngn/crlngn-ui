@@ -13,7 +13,7 @@ I have created a Discord channel for users of my module to discuss it and seek h
 - Localization: English, Brazilian Portuguese, Chinese, Italian. Thanks to [yyzitai](https://github.com/yyzitai) for contributions to the Chinese language files.
 
 ## Carolingian UI
-A minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT, but also offering many quality of life features to the ui panels. 
+A UI overhaul, focusing on removing clutter from screen and improving overall look and feel of Foundry VTT, but also offering many quality of life features to the UI panels. 
 
 <div style="display: flex; flex-direction: row;">
   <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-ui-1.x-sheet-themes.png?raw=true" width="100%" height="auto" />
@@ -27,18 +27,20 @@ A minimalist UI overhaul, focusing on saving space on screen and improving overa
   <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-2.webp?raw=true" width="49%" height="auto" />
 </div>
 
-### FEATURES ON V13:
+### EXTRA FEATURES ON V13:
 - **Fade out:** ability to disable fade out behavior of interface elements individually
 - **Custom Styles:** ability to disable/enable Carolingian UI styles on interface elements individually and still take advantage of other features like scene navigation, color themes, custom fonts, etc.
 - **Reworked Scene Navigation** with a toggle for Folder Navigation and separated active/viewed scenes
 - **Scene Preview Shortcuts:** which allow user to view and toggle global illumination, token vision, scene sound and open config
 - **Toggle floating chat log:** button to hide/show the chat input box if you don't use it often
 - **Players List:** Avatar miniatures
+- Most of the options present in v12 (below) are also available
 
 ### FEATURES ON V12:
 - **Scene Navigation** have folders and scene search. It can be scrolled horizontally, saving space, and there's improved icons and markers for players and GM;
 - **Custom Fonts** for UI and journal;
-- **Custom Color Themes** for highlights, inputs and secondary controls
+- **Custom Color Themes** for highlights, inputs, secondary controls and 5e actor sheets
+- **Horizontal Tabs for 5e Actor Sheets** - many people get confused with the lateral icon tabs in 5e sheets. I've added an option to use horizontal tabs with labels;
 - **Compact left controls:** small or regular sized icons; secondary bars can be hidden until hovered;
 - **Wrapping control icons** set a safe area at the bottom and the left controls will wrap to avoid it - great if you have lots of modules that add icons to left bar; 
 - **Secondary controls bar** has different styles to make it clearer;
@@ -47,9 +49,9 @@ A minimalist UI overhaul, focusing on saving space on screen and improving overa
 - **Floating camera dock** - drag and position it anywhere on screen, resize automatically or manually;
 - **Right panel** buttons, sliders and headers have modified dark styles for a more uniform feel;
 - **Settings** allow you to configure macro bar, left controls, camera dock and scene navigation;
-- **Dark style for chat messages** if the selected Foundry theme is Dark (tested on DnD5e 4.x, partial support for other systems); 
+- **Dark style for chat messages** - applied if the selected Foundry theme is Dark (tested on DnD5e 4.x/5.x and Pathfinder2e, partial support for other systems); 
 - **Compact chat messages** (DnD5e) compact usage buttons to save some space on chat log;
-- **Chat Border Colors** - Select if you want the borders to show player color, roll type, or none;
+- **Chat Border Colors** - Select if you want the borders to show player color, roll type (5e), or none;
 - **Custom CSS Field** to load your own style modifications to your world
 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-ui-folder-tree.gif?raw=true" width="300px" height="auto" />
