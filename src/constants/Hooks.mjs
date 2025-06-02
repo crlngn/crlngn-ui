@@ -56,7 +56,9 @@ export const HOOKS_CORE = {
   /* Combat */
   COMBAT_START: "combatStart",
   COMBAT_ROUND_START: "combatRound",
-  COMBAT_TURN_START: "combatTurn"
+
+  /* Actor Sheets */
+  RENDER_ACTOR_SHEET: "renderActorSheet"
 }
 
 /**

@@ -78,6 +78,14 @@
           "enforceDarkMode": {
             "label": "强制暗色模式",
             "hint": "在玩家客户端上将Foundry UI主题设置为暗色。如果你使用任何模块如'强制客户端设置'，你可能需要关闭此选项。"
+          },
+          "applyThemeToSheets": {
+            "label": "将颜色和样式应用于DnD5e角色表",
+            "hint": "启用以应用全局颜色主题和样式到DnD5e 角色表"
+          },
+          "useHorizontalSheetTabs": {
+            "label": "使用带有标签的水平标签",
+            "hint": "启用以使用带有标签的水平标签在DnD5e 角色表上，而不是使用侧边栏图标标签"
           }
         },
         "reset": "重置",

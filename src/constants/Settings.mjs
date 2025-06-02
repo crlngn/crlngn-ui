@@ -141,13 +141,17 @@ export function getSettings() {
         "colorTheme", 
         "adjustOtherModules", 
         "otherModulesList",
-        "customStyles"
+        "customStyles",
+        "useHorizontalSheetTabs",
+        "applyThemeToSheets"
       ],
       default: {
         colorTheme: "",
         adjustOtherModules: true,
         otherModulesList: "'monks-scene-nav','combat-carousel','dice-tray','crux','party-monitor-dock'",
-        customStyles: ""
+        customStyles: "",
+        useHorizontalSheetTabs: true,
+        applyThemeToSheets: true
       },
       scope: SETTING_SCOPE.world,
       config: false
@@ -849,6 +853,28 @@ export function getSettings() {
       scope: SETTING_SCOPE.world,
       config: false,
       default: ''
+    },
+
+    /* 5e SHEET STYLES */
+    applyThemeToSheets: { 
+      tag: "v1-apply-theme-and-styles", 
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.applyThemeToSheets.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.applyThemeToSheets.hint"), 
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.world,
+      config: false, 
+      requiresReload: false 
+    },
+    useHorizontalSheetTabs: { 
+      tag: "v1-use-horizontal-tabs", 
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.useHorizontalSheetTabs.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.useHorizontalSheetTabs.hint"), 
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.client,
+      config: false, 
+      requiresReload: false 
     }
     
   }

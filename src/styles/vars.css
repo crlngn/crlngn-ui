@@ -29,6 +29,10 @@ body.crlngn-ui {
   --card-bg-color: var(--dnd5e-background-card, #efe8e9);
   --card-bg-color-whisper: rgb(215, 217, 235);
   --card-bg-color-blind: rgb(222, 230, 220);
+	--dnd5e-border-groove: 1px solid rgba(0,0,0,0.35);
+	--dnd5e-color-parchment: rgb(244, 239, 237);
+	--dnd5e-color-beige: rgb(222, 230, 220);
+  --dnd5e-sheet-bg: rgb(244, 239, 237);
 
   &.theme-dark{
     --color-button-bg: rgba(90,120,150,0.5);
@@ -37,16 +41,15 @@ body.crlngn-ui {
     --color-sidebar-font: rgba(213, 221, 230, 0.8);
     --color-input-bg: rgba(0,0,0,0.5); 
     --card-bg-color: var(--dnd5e-background-card, #efe8e9);
-    --card-bg-color-whisper: rgb(215, 217, 235);
-    --card-bg-color-blind: rgb(222, 230, 220);
+    --card-bg-color-whisper: rgb(37, 40, 48);
+    --card-bg-color-blind: rgb(37, 40, 48);
+    --dnd5e-sheet-bg: rgb(37, 40, 48);
+    /*--dnd5e-color-parchment: rgba(26, 31, 35, 1);*/
   }
 
-	--dnd5e-color-beige: rgba(0,0,0,0.2);
 	--color-text-dark: rgba(235,235,235,1);
 	--color-text-dark-op: rgba(235,235,235,0.6);
 	--color-control-bg: rgba(255,255,255,0.35);
-	--dnd5e-border-groove: 1px solid rgba(0,0,0,0.35);
-	--dnd5e-color-parchment: rgb(244, 239, 237);
 
   --color-border-highlight-alt: rgba(68, 147, 173, 0.9); 
 	--color-border-highlight: rgba(68, 147, 173, 1);
@@ -94,6 +97,8 @@ body.crlngn-ui {
   --color-warm-3: rgb(122, 182, 196);
   --color-warm-2: rgb(111, 169, 187);
   --color-warm-1: rgb(75, 144, 173);
+
+  --dnd5e-color-maroon: var(--color-warm-2);
   
   &.theme-dark{
     --color-warm-1: rgb(122, 182, 196); 
@@ -107,6 +112,9 @@ body.crlngn-ui {
     --color-cool-5-50: rgba(11, 10, 19, 0.5);
     --color-cool-5-75: rgba(11, 10, 19, 0.75);
     --color-cool-5-90: rgba(11, 10, 19, 0.9);
+
+    /*--dnd5e-color-parchment: rgba(26, 31, 35, 1);*/
+		--dnd5e-color-parchment: rgb(244, 239, 237);
   }
 
   --color-light-1: #f7f4f8; 

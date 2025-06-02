@@ -79,7 +79,16 @@
           "enforceDarkMode": {
             "label": "Forza Modalità Scura",
             "hint": "<b>Non abilitare questo se si utilizza Force Client Settings o moduli simili.</b> Imposta il tema dell'interfaccia Foundry sul client del giocatore su Scuro se il giocatore l'ha impostato su 'Predefinito Browser'. Se l'hanno specificamente impostato su 'Chiaro', la loro scelta sarà comunque rispettata."
+          },
+          "applyThemeToSheets": {
+            "label": "Applica tema e stili per le schede dei personaggi",
+            "hint": "Attiva per applicare il tema di colore globale e stili alle schede dei personaggi di DnD5e"
+          },
+          "useHorizontalSheetTabs": {
+            "label": "Usa schede orizzontali con etichette",
+            "hint": "Attiva per utilizzare schede orizzontali con etichette sulle schede dei personaggi di DnD5e anziché le schede laterali con icone"
           }
+
         },
         "reset": "Ripristina",
         "save": "Salva"

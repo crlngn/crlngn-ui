@@ -81,6 +81,14 @@
           "enforceDarkMode": {
             "label": "Enforce Dark Mode to Players",
             "hint": "Do not enable this if using Force Client Settings or similar modules. This sets Foundry's UI theme on player's client to Dark if they have it set to 'Browser Default'. If they specifically set it to 'Light', their choice will be respected."
+          },
+          "applyThemeToSheets": {
+            "label": "Apply colors and styles to DnD5e sheets",
+            "hint": "Enable to apply global color theme and styles to DnD 5e actor sheets (PC and NPC)"
+          },
+          "useHorizontalSheetTabs": {
+            "label": "Use horizontal tabs with labels",
+            "hint": "Enable to use horizontal tabs with labels on 5e actor sheets instead of the lateral icon tabs"
           }
         },
         "reset": "Reset",

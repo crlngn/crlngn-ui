@@ -78,6 +78,14 @@
           "enforceDarkMode": {
             "label": "Forçar Modo Escuro",
             "hint": "<b>Não habilite se usar Force Client Settings ou módulos semelhantes.</b> Define o tema da interface do Foundry para o jogador como Escuro caso o tema atual seja 'Padrão do Navegador'. Se o jogador selecionar modo claro, sua opção será respeitada"
+          },
+          "applyThemeToSheets": {
+            "label": "Aplicar estilos a fichas de personagem",
+            "hint": "Ative para aplicar o tema de cores global e ajustes de estilo às fichas de personagens de DnD5e"
+          },
+          "useHorizontalSheetTabs": {
+            "label": "Usar abas horizontais com rótulos",
+            "hint": "Ative para usar abas horizontais com rótulos nas fichas de personagens de DnD5e em vez das abas laterais com ícones"
           }
         },
         "reset": "Redefinir",

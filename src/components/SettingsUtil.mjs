@@ -8,6 +8,7 @@ import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
 import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
+import { SheetsUtil } from "./SheetsUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
 
 /**
@@ -135,6 +136,10 @@ export class SettingsUtil {
     controlFields.forEach(fieldName => {
       SettingsUtil.applyLeftControlsSettings(SETTINGS[fieldName].tag);
     }); 
+    // //
+    // SheetsUtil.applyThemeToSheets();
+    // //
+    // SheetsUtil.applyHorizontalSheetTabs();
 
     // apply general scale
     SettingsUtil.applyUiScale();
@@ -365,6 +370,10 @@ export class SettingsUtil {
       case SETTINGS.uiScale.tag:
         SettingsUtil.applyUiScale(value);
         break;
+      case SETTINGS.applyThemeToSheets.tag:
+        SheetsUtil.applyThemeToSheets(value); break;
+      case SETTINGS.useHorizontalSheetTabs.tag:
+        SheetsUtil.applyHorizontalSheetTabs(value); break;
       default:
         // do nothing
     }

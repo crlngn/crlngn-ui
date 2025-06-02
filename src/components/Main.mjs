@@ -13,6 +13,7 @@ import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
 import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
 import { UpdateNewsUtil } from "./UpdateNewsUtil.mjs";
 import { CustomHandlebarsHelpers } from "./CustomHandlebarsHelpers.mjs";
+import { SheetsUtil } from "./SheetsUtil.mjs";
 
 /**
  * Main class handling core module initialization and setup
@@ -28,6 +29,7 @@ export class Main {
     Hooks.once(HOOKS_CORE.INIT, () => { 
       document.querySelector("body").classList.add(MODULE_ID); 
       document.querySelector("#ui-middle")?.classList.add(MODULE_ID);
+      document.querySelector("body").classList.add('crlngn-sheets'); 
 
       LogUtil.log("Initiating module...", [], true); 
       // Create namespace
@@ -73,6 +75,7 @@ export class Main {
       ModuleCompatUtil.init();
       TopNavigation.checkSceneNavCompat();
       UpdateNewsUtil.init();
+      SheetsUtil.init();
 
       // if(TopNavigation.useSceneFolders){
       //   SceneNavFolders.init();

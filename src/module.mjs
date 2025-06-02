@@ -9,6 +9,7 @@ import "./styles/camera.css";
 import "./styles/chat.css";
 import "./styles/players-list.css";
 import "./styles/other-modules.css"; 
+import "./styles/sheets.css"; 
 
 import { Main } from "./components/Main.mjs";
 
