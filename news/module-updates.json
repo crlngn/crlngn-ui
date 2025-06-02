@@ -1,7 +1,7 @@
 {
-  "id":"1.17.1",
+  "id":"1.18.0",
   "title":"New Updates to Carolingian UI!",
-  "content":"<p><br/>Updates from v1.17.1:</p>\n<ul><li><b>Reworked Scene Navigation:</b> I've added folder structure directly on scene navigation. Toggle the Folder icon to see your folders and go to scenes directly from there. Untoggle to quickly hide the folders. There's also some icons on scene preview to check global illumination and token vision.</li></ul><p><b>And a few other details and settings options! Check more on <a href='https://github.com/crlngn/crlngn-ui/releases'>Github repo</a> or <a href='https://discord.gg/P5ygvHXE3R'>Discord</a></b> <br/>Note: Only update to v2.x of my module after you upgrade Foundry to v13.</p>",
-  "imageUrl":"https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-ui-1-17-0.png?raw=true",
+  "content":"<p>Updates from v1.18.0:</p>\n<ul><li><b>Themes on Actor Sheets:</b> Your chosen color theme now applies to actor sheets, both PC and NPC. I've also added an option for using horizontal navigation on sheets, and many people get confused with the icon tabs. You can disable that in style settings.</li></ul><p><br/>Updates from v1.17.1:</p>\n<ul><li><b>Reworked Scene Navigation:</b> I've added folder structure directly on scene navigation. Toggle the Folder icon to see your folders and go to scenes directly from there. Untoggle to quickly hide the folders. There's also some icons on scene preview to check global illumination and token vision.</li></ul><p><b>Check more on <a href='https://github.com/crlngn/crlngn-ui/releases'>Github repo</a> or <a href='https://discord.gg/P5ygvHXE3R'>Discord</a></b> <br/>Note: Only update to v2.x of my module after you upgrade Foundry to v13.</p>",
+  "imageUrl":"https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-ui-1.x-sheet-themes.png?raw=true",
   "videoUrl": ""
 }
