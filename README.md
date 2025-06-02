@@ -1,4 +1,4 @@
-**IMPORTANT: If you are using Foundry v12 install Carolingian UI v1.17.x. If you are using Foundry v13 you should install Carolingian UI v2.x - there was a bug in Foundry which allowed incompatible versions to be installed, but it seems the bug has been patched.**
+**IMPORTANT: If you are using Foundry v12 install Carolingian UI v1.18.x. If you are using Foundry v13 you should install Carolingian UI v2.x - there was a bug in Foundry which allowed incompatible versions to be installed, but it seems the bug has been patched.**
 
 I have created a Discord channel for users of my module to discuss it and seek help. Not a lot of people yet as I've just created it, but feel free to join:
 
@@ -7,8 +7,8 @@ I have created a Discord channel for users of my module to discuss it and seek h
 
 
 **Compatibility:** 
-- v1.16x: Foundry VTT version 12.328+
-  v2.1.x: Foundry VTT version 13.341+
+- v1.18.x: Foundry VTT version 12.328+
+  v2.3.x: Foundry VTT version 13.341+
 - Mostly tested with DnD5e 4.x. Should work with other systems, but modules for those systems remain untested. 
 - Localization: English, Brazilian Portuguese, Chinese, Italian. Thanks to [yyzitai](https://github.com/yyzitai) for contributions to the Chinese language files.
 
@@ -16,9 +16,9 @@ I have created a Discord channel for users of my module to discuss it and seek h
 A minimalist UI overhaul, focusing on saving space on screen and improving overall look and feel of Foundry VTT, but also offering many quality of life features to the ui panels. 
 
 <div style="display: flex; flex-direction: row;">
+  <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-ui-1.x-sheet-themes.png?raw=true" width="100%" height="auto" />
+
   <video src="https://github.com/user-attachments/assets/9cc3b4fb-9f9e-45a4-9367-1bc6d255679c" width="100%" height="auto">
-  </video>
-  <video src="https://github.com/user-attachments/assets/417afe41-82fc-4fd7-928e-95368c8a72ab" width="48%" height="auto">
   </video>
 </div>
   
