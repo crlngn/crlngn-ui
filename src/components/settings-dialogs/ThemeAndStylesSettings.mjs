@@ -1,4 +1,4 @@
-import { getSettings, THEMES } from "../../constants/Settings.mjs";
+import { getSettings, SETTING_SCOPE, THEMES } from "../../constants/Settings.mjs";
 import { LogUtil } from "../LogUtil.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
 
@@ -118,9 +118,11 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
     const fields = {};
     const fieldValues = {};
     const fieldDefaults = {};
+    const isGM = game.user.isGM;
 
     fieldNames.forEach((fieldName) => {
-      if(SETTINGS[fieldName]) {
+      let hasPermission = isGM || SETTINGS[fieldName].scope === SETTING_SCOPE.client;
+      if(SETTINGS[fieldName] && hasPermission) {
         const value = SettingsUtil.get(SETTINGS[fieldName].tag);
         fields[fieldName] = SETTINGS[fieldName];
         fieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;
@@ -139,6 +141,7 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
       fields: { 
         ...fields
       },
+      isGM: game.user?.isGM,
       selectedTheme: selectedTheme,
       themes: THEMES,
       buttons: [

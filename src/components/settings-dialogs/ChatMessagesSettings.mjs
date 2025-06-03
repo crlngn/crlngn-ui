@@ -1,4 +1,5 @@
-import { getSettings } from "../../constants/Settings.mjs";
+import { getSettings, SETTING_SCOPE } from "../../constants/Settings.mjs";
+import { GeneralUtil } from "../GeneralUtil.mjs";
 import { LogUtil } from "../LogUtil.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
 
@@ -107,7 +108,7 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
 
     const borderSettings = settings.chatBorderColor;
     if(borderSettings !== currBorderSettings){
-      location.reload();
+      GeneralUtil.showReloadDialog();
     }
 
     ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsUpdated'));
@@ -154,10 +155,12 @@ export class ChatMessagesSettings extends HandlebarsApplicationMixin(Application
     const fields = {};
     const fieldValues = {};
     const fieldDefaults = {};
+    const isGM = game.user.isGM;
 
     fieldNames.forEach((fieldName) => {
+      let hasPermission = isGM || SETTINGS[fieldName].scope === SETTING_SCOPE.client;
       LogUtil.log("_prepareContext", [SETTINGS[fieldName].oldName]);
-      if(SETTINGS[fieldName]) {
+      if(SETTINGS[fieldName] && hasPermission) {
         const value = SettingsUtil.get(SETTINGS[fieldName].tag);
         fields[fieldName] = SETTINGS[fieldName];
         fieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;

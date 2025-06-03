@@ -5,13 +5,18 @@
       "worldSettingsLabel": "Configurações do Mundo (GM)",
       "toggleHints": "Alternar Ajuda",
       "notifications": {
+        "incompatibleVersion": "Esta versão do Carolingian UI não é compatível com Foundry v13. Por favor, atualize Carolingian UI para a última versão.",
         "settingsUpdated": "Configurações atualizadas",
         "minimalUiNotSupported": "Carolingian UI não é compatível com Minimal UI, e oferece a maioria de suas funcionalidades. Por favor, desabilite Minimal UI para evitar problemas de performance.",
         "monksScenesNotSupported": "A Navegação Horizontal do módulo Carolingian UI foi desabilitada, pois terá conflitos com Monk's Scene Navigation.",
         "ripperScenesCompat": "Carolingian UI agora tem Navegação de Cenas com Pastas e Busca de Cenas, que não podem ser usados junto com a Compact Scene Navigation. Desative o outro módulo ou desative 'Ativar pastas na barra de navegação' nas configurações de Carolingian UI.",
         "monksPlayerSettingsConflict": "Algumas configurações do módulo Carolingian UI foram desativadas para evitar conflitos com o módulo Monk's Player Settings.",
         "forceClientSettingsConflict": "Algumas configurações do módulo Carolingian UI foram desativadas para evitar conflitos com o módulo Force Client Settings.",
-        "initialViewSet": "A visualização inicial desta cena foi definida para a visualização atual."
+        "initialViewSet": "A visualização inicial desta cena foi definida para a visualização atual.",
+        "reloadConfirm": "Alguns ajustes requerem recarregamento para ter efeito. Confirmar?",
+        "reloadConfirmTitle": "Recarregar mundo",
+        "reloadConfirmYes": "Recarregar",
+        "reloadConfirmNo": "Cancelar"
       },
       "sceneNav": {
         "searchPlaceholder": "Buscar cenas...",
@@ -306,6 +311,10 @@
           "regular": "normal",
           "large": "grande"
         }
+      },
+      "enforceGMSettings": {
+        "label": "Salvar configurações do GM como padrão para os jogadores",
+        "hint": "Habilitar esta opção para usar as configurações do GM como padrão para os jogadores. Os jogadores ainda poderão mudar as configurações do cliente, a menos que você use um módulo externo como Force Client Settings."
       }
     }, 
     "dnd5e": {

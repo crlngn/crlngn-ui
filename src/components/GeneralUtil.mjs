@@ -432,4 +432,60 @@ export class GeneralUtil {
     return newAnimationId;
   }
 
+  /**
+   * Shows a confirmation dialog for reloading the application
+   * @param {Object} [options] - Configuration options for the dialog
+   * @param {string} [options.title="Confirm Reload"] - Dialog title
+   * @param {string} [options.content=""] - Dialog content
+   * @param {string} [options.yes="Reload"] - Text for the confirm button
+   * @param {string} [options.no="Cancel"] - Text for the cancel button
+   * @param {Function} [options.onConfirm] - Optional callback to run before reloading
+   * @returns {Promise<boolean>} Returns true if confirmed, false if canceled
+   */
+  static async showReloadDialog() {
+    // Default options
+    const title = game.i18n.localize("CRLNGN_UI.ui.notifications.reloadConfirmTitle");
+    const content = game.i18n.localize("CRLNGN_UI.ui.notifications.reloadConfirm");
+    const yes = game.i18n.localize("CRLNGN_UI.ui.notifications.reloadConfirmYes");
+    const no = game.i18n.localize("CRLNGN_UI.ui.notifications.reloadConfirmNo");
+    
+    // Show the dialog and wait for user response
+    let confirmed;
+    
+    try {
+      // Foundry V12 approach
+      if (typeof foundry !== "undefined" && foundry.applications?.api?.DialogV2) {
+        confirmed = await foundry.applications.api.DialogV2.confirm({
+          window: { title: title },
+          content: `<p>${content}</p>`
+        });
+      }
+      // Foundry V10/V11 approach
+      else if (typeof Dialog !== "undefined") {
+        confirmed = await Dialog.confirm({
+          title: title,
+          content: `<p>${content}</p>`,
+          yes: yes,
+          no: no,
+          defaultYes: false
+        });
+      }
+      // Absolute fallback
+      else {
+        confirmed = window.confirm(content);
+      }
+    } catch (error) {
+      console.error("Error showing reload dialog:", error);
+      confirmed = window.confirm(content);
+    }
+    
+    // If confirmed, reload
+    if (confirmed) {
+      window.location.reload();
+    }else{
+      SettingsUtil.reloadRequired = false;
+    }
+    
+    return confirmed;
+  }
 }

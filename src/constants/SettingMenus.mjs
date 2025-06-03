@@ -25,7 +25,7 @@ export function getSettingMenus() {
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.hint"),
       icon: "fas fa-brush",
       propType: ThemeAndStyleSettings,
-      restricted: true 
+      restricted: false 
     },
     chatMessagesMenu: {
       tag: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.label"),

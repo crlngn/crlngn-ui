@@ -5,13 +5,18 @@
       "worldSettingsLabel": "Impostazioni del Mondo (GM)",
       "toggleHints": "Attiva/Disattiva Aiuto",
       "notifications": {
+        "incompatibleVersion": "Questa versione di Carolingian UI non  compatibile con Foundry v13. Per favore, aggiorna Carolingian UI all'ultima versione.",
         "settingsUpdated": "Impostazioni aggiornate",
-        "minimalUiNotSupported": "Carolingian UI is not compatible with Minimal UI, and offers most of its features. Please disable that module to avoid performance issues.",
+        "minimalUiNotSupported": "Carolingian UI non è compatibile con Minimal UI, e offre la maggior parte delle sue funzionalità. Disabilita il modulo per evitare problemi di prestazioni.",
         "monksScenesNotSupported": "La Navigazione Scene di Carolingian UI entrerà in conflitto con Monk's Scene Navigation. Questa funzionalità di Carolingian UI è stata disabilitata.",
         "ripperScenesCompat": "Carolingian UI ora ha la Navigazione Cartelle Scene e Ricerca Scene, che non possono essere utilizzate insieme alla Compact Scene Navigation. Disabilita l'altro modulo o disabilita 'Navigazione Cartelle Scene' nelle impostazioni di Carolingian UI.",
         "monksPlayerSettingsConflict": "Alcune impostazioni di Carolingian UI sono state disabilitate per evitare conflitti con il modulo Monk's Player Settings.",
         "forceClientSettingsConflict": "Alcune impostazioni di Carolingian UI sono state disabilitate per evitare conflitti con il modulo Force Client Settings.",
-        "initialViewSet": "La vista iniziale di questa scena è stata impostata sulla vista corrente."
+        "initialViewSet": "La vista iniziale di questa scena è stata impostata sulla vista corrente.",
+        "reloadConfirm": "Alcune modifiche richiedono un ricaricamento per essere applicate. Conferma?",
+        "reloadConfirmTitle": "Ricarica Richiesta",
+        "reloadConfirmYes": "Ricarica",
+        "reloadConfirmNo": "Annulla"
       },
       "sceneNav": {
         "searchPlaceholder": "Cerca scene...",
@@ -308,6 +313,10 @@
           "regular": "normale",
           "large": "grande"
         }
+      },
+      "enforceGMSettings": {
+        "label": "Salva le impostazioni GM come predefinite per i giocatori",
+        "hint": "Abilita questa opzione per utilizzare le impostazioni GM come predefinite per i giocatori. I giocatori potranno ancora modificare le impostazioni del client, a meno che non utilizzi un modulo esterno come Force Client Settings."
       }
     },
     "dnd5e": {

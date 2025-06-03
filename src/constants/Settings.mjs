@@ -104,6 +104,34 @@ export const THEMES = [
   }
 ];
 
+export const DEFAULT_SETTINGS = {
+  useHorizontalSheetTabs: true,
+  applyThemeToSheets: true,
+  defaultVideoWidth: 160,
+  dockPosX: 0,
+  dockPosY: 120,
+  dockWidth: 160,
+  dockHeight: 145,
+  dockWasResized: false,
+  dockResizeOnUserJoin: DOCK_RESIZE_OPTIONS.horizontal.name,
+  controlsIconSize: ICON_SIZES.regular.name,
+  controlsAutoHide: false,
+  hideFoundryLogo: true,
+  controlsBottomBuffer: 200,
+  enableChatStyles: true,
+  useLeftChatBorder: false,
+  chatBorderColor: BORDER_COLOR_TYPES.playerColor.name,
+  autoHidePlayerList: false,
+  collapseMacroBar: false,
+  enableFloatingDock: true,
+  enableMacroLayout: true,
+  sceneNavCollapsed: false,
+  showNavOnHover: false,
+  sceneNavEnabled: true,
+  navStartCollapsed: false,
+  uiScale: UI_SCALE.regular.name
+}
+
 export function getSettings() { 
   return {
     customFontsMenu: {
@@ -214,8 +242,7 @@ export function getSettings() {
         "dockPosY",
         "dockWidth",
         "dockHeight",
-        "defaultVideoWidth",
-        "dockWasResized"
+        "defaultVideoWidth"
       ],
       default: {
         enableFloatingDock: true,
@@ -224,8 +251,7 @@ export function getSettings() {
         dockPosX: 0,
         dockPosY: 120,
         dockWidth: 160,
-        dockHeight: 140,
-        dockWasResized: false
+        dockHeight: 140
       },
       scope: SETTING_SCOPE.client,
       config: false, 
@@ -269,34 +295,26 @@ export function getSettings() {
       requiresReload: true 
     },
 
-    // sceneNavMenu: {
-    //   tag: "scene-nav-menu", 
-    //   label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.label"),
-    //   hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.hint"),
-    //   propType: Object,
-    //   inputType: SETTING_INPUT.button,
-    //   fields: {
-    //     sceneNavEnabled: { 
-    //       tag: "scene-nav-enabled", 
-    //       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavEnabled.label"), 
-    //       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavEnabled.hint"), 
-    //       inputType: SETTING_INPUT.checkbox
-    //     },
-    //     showNavOnHover: {
-    //       tag: "show-nav-on-hover", 
-    //       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showNavOnHover.label"), 
-    //       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showNavOnHover.hint"), 
-    //       inputType: SETTING_INPUT.checkbox
-    //     }
-    //   },
-    //   default: {
-    //     sceneNavEnabled: true,
-    //     showNavOnHover: false
-    //   },
-    //   scope: SETTING_SCOPE.client,
-    //   config: false, 
-    //   requiresReload: true 
-    // },
+    enforceGMSettings: {
+      tag: "enforce-gm-settings",
+      label: game.i18n.localize("CRLNGN_UI.settings.enforceGMSettings.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.enforceGMSettings.hint"), 
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.world,
+      config: true, 
+      requiresReload: false
+    },  
+    defaultSettings: {
+      tag: "default-settings",
+      label: game.i18n.localize("CRLNGN_UI.settings.defaultSettings.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.defaultSettings.hint"), 
+      propType: Object,
+      default: null,
+      scope: SETTING_SCOPE.world,
+      config: false, 
+      requiresReload: false 
+    },
 
     disableUI: {
       tag: 'disable-ui',
@@ -319,7 +337,7 @@ export function getSettings() {
       },
       inputType: SETTING_INPUT.select,
       propType: String, 
-      default: UI_SCALE.small.name,
+      default: UI_SCALE.regular.name,
       scope: SETTING_SCOPE.client,
       config: true
     },
@@ -343,7 +361,7 @@ export function getSettings() {
       propType: Boolean, 
       inputType: SETTING_INPUT.checkbox, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.world, 
       config: false 
     },
 
@@ -354,7 +372,7 @@ export function getSettings() {
       propType: Boolean, 
       inputType: SETTING_INPUT.checkbox, 
       default: false, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.world, 
       config: false 
     },
     
@@ -379,17 +397,6 @@ export function getSettings() {
       scope: SETTING_SCOPE.client, 
       config: false 
     },
-
-    // showFolderListOnClick: { 
-    //   tag: "nav-folders-list-on-click", 
-    //   label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showFolderListOnClick.label"), 
-    //   hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showFolderListOnClick.hint"), 
-    //   propType: Boolean, 
-    //   inputType: SETTING_INPUT.checkbox, 
-    //   default: true, 
-    //   scope: SETTING_SCOPE.client, 
-    //   config: false 
-    // },
 
     navShowSceneFolders: { 
       tag: "v1-nav-show-root-folders", 
@@ -541,7 +548,8 @@ export function getSettings() {
       inputType: SETTING_INPUT.checkbox, 
       default: true, 
       scope: SETTING_SCOPE.world,
-      config: true 
+      config: true, 
+      requiresReload: false
     },  
 
     autoHidePlayerList: { 
@@ -682,7 +690,8 @@ export function getSettings() {
       inputType: SETTING_INPUT.text, 
       default: BORDER_COLOR_TYPES.playerColor.name, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false,
+      requiresReload: true
     },
     useLeftChatBorder:{
       tag: "use-left-chat-border",
@@ -692,7 +701,8 @@ export function getSettings() {
       inputType: SETTING_INPUT.checkbox, 
       default: false, 
       scope: SETTING_SCOPE.client, 
-      config: false 
+      config: false,
+      requiresReload: true 
     },
     enableChatStyles:{
       tag: "enable-chat-styles", 
@@ -704,7 +714,7 @@ export function getSettings() {
       default: true, 
       scope: SETTING_SCOPE.client, 
       config: false,
-      requiresReload: true 
+      requiresReload: false 
     },
 
     /* CONTROLS SETTINGS */
@@ -830,7 +840,7 @@ export function getSettings() {
         vertical: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockResizeOnUserJoin.options.vertical")
       },
       propType: String,
-      default: DOCK_RESIZE_OPTIONS.off.name,
+      default: DOCK_RESIZE_OPTIONS.horizontal.name,
       scope: SETTING_SCOPE.client,
       config: false
     },

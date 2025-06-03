@@ -1,4 +1,5 @@
-import { getSettings } from "../../constants/Settings.mjs";
+import { getSettings, SETTING_SCOPE } from "../../constants/Settings.mjs";
+import { GeneralUtil } from "../GeneralUtil.mjs";
 import { LogUtil } from "../LogUtil.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
 
@@ -106,7 +107,7 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
 
     if( navEnabledBefore !== navEnabledAfter ||
       foldersEnabledBefore !== foldersEnabledAfter ){
-      location.reload();
+        GeneralUtil.showReloadDialog();
     }
   }
 
@@ -151,9 +152,11 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
     const fields = {};
     const fieldValues = {};
     const fieldDefaults = {};
+    const isGM = game.user.isGM;
 
     fieldNames.forEach((fieldName) => {
-      if(SETTINGS[fieldName]) {
+      let hasPermission = isGM || SETTINGS[fieldName].scope === SETTING_SCOPE.client;
+      if(SETTINGS[fieldName] && hasPermission) {
         const value = SettingsUtil.get(SETTINGS[fieldName].tag);
         fields[fieldName] = SETTINGS[fieldName];
         fieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;
@@ -167,6 +170,7 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
       fields: { 
         ...fields
       },
+      isGM: game.user?.isGM,
       buttons: [ 
         { type: "button", icon: "", label: "CRLNGN_UI.settings.sceneNavMenu.reset", action: 'redefine' },
         { type: "submit", icon: "", label: "CRLNGN_UI.settings.sceneNavMenu.save" }

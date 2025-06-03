@@ -20,6 +20,7 @@ import { SheetsUtil } from "./SheetsUtil.mjs";
  * Manages module lifecycle, hooks, and core functionality
  */
 export class Main {
+  static isIncompatible = false;
 
   /**
    * Initialize the module and set up core hooks
@@ -27,13 +28,19 @@ export class Main {
    */
   static init(){
     Hooks.once(HOOKS_CORE.INIT, () => { 
+      // Add notification if Foundry version is incompatible
+      const foundryVersion = game.data.version;
+      const maxVersion = Number("12.999");
+      if(foundryVersion > maxVersion){
+        Main.isIncompatible = true;
+        return;
+      }
+
       document.querySelector("body").classList.add(MODULE_ID); 
       document.querySelector("#ui-middle")?.classList.add(MODULE_ID);
       document.querySelector("body").classList.add('crlngn-sheets'); 
 
-      LogUtil.log("Initiating module...", [], true); 
-      // Create namespace
-      window.crlngnUI = window.crlngnUI || {};
+      LogUtil.log("Initiating module...", [], true);
 
       SettingsUtil.registerSettings();
       const SETTINGS = getSettings();
@@ -61,12 +68,14 @@ export class Main {
 
     Hooks.once(HOOKS_CORE.READY, () => {
       LogUtil.log("Core Ready", []);
+      // Add notification if Foundry version is incompatible
+      if(Main.isIncompatible){
+        ui.notifications.error(game.i18n.localize("CRLNGN_UI.notifications.incompatibleVersion"));
+        return;
+      }
+
       const SETTINGS = getSettings();
-      // LogUtil.log('Available libraries:', [Object.keys(window).filter(key => 
-      //   typeof window[key] === 'function' && 
-      //   /^[A-Z]/.test(key) && 
-      //   key.length > 3
-      // )]);
+      SettingsUtil.applySettings();
 
       var isDebugOn = SettingsUtil.get(SETTINGS.debugMode.tag);
       if(isDebugOn){CONFIG.debug.hooks = true};
@@ -98,6 +107,7 @@ export class Main {
         ui.notifications.warn(game.i18n.localize('CRLNGN_UI.ui.notifications.minimalUiNotSupported'),{ permanent: true });
       }
 
+      SettingsUtil.firstLoad = false;
     });
   }
 

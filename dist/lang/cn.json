@@ -5,13 +5,18 @@
       "worldSettingsLabel": "世界设置 (游戏主持人)",
       "toggleHints": "切换帮助",
       "notifications": {
+        "incompatibleVersion": "此版本的 Carolingian UI 不与 Foundry v13 兼容。请更新 Carolingian UI 到最新版本。",
         "settingsUpdated": "设置已更新",
         "minimalUiNotSupported": "Carolingian UI与Minimal UI不兼容，并提供了大多数的功能。请禁用该模块以避免性能问题。",
         "monksScenesNotSupported": "Carolingian UI的水平场景导航将无法与Monk的场景导航一起使用，因此此功能已被禁用。",
         "ripperScenesCompat": "Carolingian UI现在包含场景文件夹导航和场景搜索功能，这些功能无法与紧凑场景导航一起使用。请禁用其他模块或在Carolingian UI设置中禁用“场景文件夹导航”。",
         "monksPlayerSettingsConflict": "Carolingian UI的“强制暗黑模式”设置已被禁用，以防止与Monk's Player Settings发生冲突。",
         "forceClientSettingsConflict": "Carolingian UI的“强制暗黑模式”设置已被禁用，以防止与Force Client Settings发生冲突。",
-        "initialViewSet": "此场景的初始视图已设置为当前视图。"
+        "initialViewSet": "此场景的初始视图已设置为当前视图。",
+        "reloadConfirm": "某些更改需要重新加载以生效。确认？",
+        "reloadConfirmTitle": "需要重新加载",
+        "reloadConfirmYes": "重新加载",
+        "reloadConfirmNo": "取消"
       },
       "sceneNav": {
         "searchPlaceholder": "搜索场景...",
@@ -307,6 +312,10 @@
           "regular": "正常",
           "large": "大"
         }
+      },
+      "enforceGMSettings": {
+        "label": "将GM设置保存为默认设置",
+        "hint": "启用此选项以使用GM设置作为玩家的默认设置。玩家仍将能够更改客户端设置，除非您使用外部模块，如Force Client Settings。"
       }
     },
     "dnd5e": {

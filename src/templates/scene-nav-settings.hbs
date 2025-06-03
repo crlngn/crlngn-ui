@@ -31,7 +31,7 @@
     <p class="hint">{{{fields.showNavOnHover.hint}}}</p> 
   </div>
 
-  {{#unless isGM}}
+  {{#if isGM}}
   <h4><i class="fas fa-globe"></i> {{localize "CRLNGN_UI.ui.worldSettingsLabel"}}</h4>
   <hr/>
 
@@ -77,6 +77,6 @@
     <p class="hint">{{{fields.useSceneIcons.hint}}}</p> 
   </div>
 
-  {{/unless}}
+  {{/if}}
 
 </div>

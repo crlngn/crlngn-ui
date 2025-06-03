@@ -1,7 +1,7 @@
 import { MODULE_ID } from "../constants/General.mjs";
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { getSettingMenus } from "../constants/SettingMenus.mjs";
-import { BORDER_COLOR_TYPES, getSettings, ICON_SIZES, THEMES, UI_SCALE } from "../constants/Settings.mjs";
+import { BORDER_COLOR_TYPES, DEFAULT_SETTINGS, getSettings, ICON_SIZES, SETTING_SCOPE, THEMES, UI_SCALE } from "../constants/Settings.mjs";
 import { CameraUtil } from "./CameraUtil.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
@@ -18,6 +18,8 @@ import { TopNavigation } from "./TopNavUtil.mjs";
 export class SettingsUtil {
   static #uiHidden = false;
   static firstLoad = true;
+  static reloadRequired = false;
+  static reloadTimeout = null;
 
   /**
    * Registers all module settings with Foundry VTT
@@ -32,8 +34,9 @@ export class SettingsUtil {
      */
     const settingsList = Object.entries(SETTINGS);
     settingsList.forEach(async(entry) => {
+      const key = entry[0];
       const setting = entry[1]; 
-      LogUtil.log("Registering... ",[entry], true);
+      LogUtil.log("Registering... ",[entry, setting.label, setting.scope], true);
 
       const settingObj = { 
         name: setting.label,
@@ -52,12 +55,6 @@ export class SettingsUtil {
 
       // @ts-ignore - Valid module ID for settings registration
       await game.settings.register(MODULE_ID, setting.tag, settingObj);
-
-      if(SettingsUtil.get(setting.tag) === undefined){
-        LogUtil.log('resetting...', [setting.tag]);
-        SettingsUtil.set(setting.tag, setting.default);
-      }
-      // LogUtil.log("registerSettings",[setting.tag, SettingsUtil.get(setting.tag)]);
     });
 
     game.keybindings.register(MODULE_ID, "hideInterface", {
@@ -74,11 +71,6 @@ export class SettingsUtil {
       restricted: false, // Restrict this Keybinding to gamemaster only?
     });
 
-    // Apply custom theme and CSS
-    SettingsUtil.applyThemeSettings();
-    SettingsUtil.applyCustomCSS();
-    SettingsUtil.applyModuleAdjustments();
-
     /**
      * Register subsetting menus
      */
@@ -93,23 +85,54 @@ export class SettingsUtil {
         type: settingMenu.propType,
         restricted: settingMenu.restricted
       }
+      // if(game.user.isGM || !settingMenu.restricted){
       await game.settings.registerMenu(MODULE_ID, settingMenu.tag, settingMenuObj); 
+      // }
     });
-
 
     Hooks.on(HOOKS_CORE.RENDER_SCENE_CONTROLS, SettingsUtil.applyLeftControlsSettings);
     Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, SettingsUtil.applyPlayersListSettings); 
     Hooks.on(HOOKS_CORE.RENDER_HOTBAR, () => {
       if(SettingsUtil.firstLoad){
-        SettingsUtil.firstLoad = false;
         SettingsUtil.applyHotBarCollapse();
       }
       SettingsUtil.applyHotBarSettings();
     });
-    //apply debug Settings
-    SettingsUtil.applyDebugSettings();
+
+    // Apply custom theme and CSS
+    SettingsUtil.applyThemeSettings();
     // apply chat style settings
     SettingsUtil.applyChatStyles();
+
+    // apply custom font settings
+    const fontFields = SETTINGS.customFontsMenu.fields;
+    fontFields.forEach(fieldName => {
+      SettingsUtil.applyCustomFonts(SETTINGS[fieldName].tag);
+    });   
+  }
+
+  static applySettings(){
+    const SETTINGS = getSettings();
+    LogUtil.log("registerSettings - test", [SETTINGS], true);
+    
+    /**
+     * Register each of the settings defined in the SETTINGS constant 
+     */
+    const settingsList = Object.entries(SETTINGS);
+    settingsList.forEach(async(entry) => {
+      const key = entry[0];
+      const setting = entry[1];
+
+      if(SettingsUtil.get(setting.tag) === undefined){ 
+        SettingsUtil.set(setting.tag, setting.default);
+      }
+    });
+    const enforceGMSettings = !game.user?.isGM && SettingsUtil.get(SETTINGS.enforceGMSettings.tag); 
+    if(enforceGMSettings){
+      SettingsUtil.enforceGMSettings();
+    }
+    //apply debug Settings
+    SettingsUtil.applyDebugSettings();
     // aply border colors
     SettingsUtil.applyBorderColors();
 
@@ -119,30 +142,23 @@ export class SettingsUtil {
       SettingsUtil.apply(SETTINGS[fieldName].tag);
     });
 
+    // apply left controls settings
+    const controlFields = SETTINGS.leftControlsMenu.fields;
+    controlFields.forEach(fieldName => {
+      SettingsUtil.applyLeftControlsSettings(SETTINGS[fieldName].tag);
+    });
+    
+    // apply general scale
+    SettingsUtil.applyUiScale();
+    SettingsUtil.applyCustomCSS();
+    SettingsUtil.applyModuleAdjustments();
+
+
     // apply camera dock settings
     const cameraDockFields = SETTINGS.cameraDockMenu.fields;
     cameraDockFields.forEach(fieldName => {
       SettingsUtil.apply(SETTINGS[fieldName].tag);
     });
-
-    // apply custom font settings
-    const fontFields = SETTINGS.customFontsMenu.fields;
-    fontFields.forEach(fieldName => {
-      SettingsUtil.applyCustomFonts(SETTINGS[fieldName].tag);
-    });   
-
-    // apply left controls settings
-    const controlFields = SETTINGS.leftControlsMenu.fields;
-    controlFields.forEach(fieldName => {
-      SettingsUtil.applyLeftControlsSettings(SETTINGS[fieldName].tag);
-    }); 
-    // //
-    // SheetsUtil.applyThemeToSheets();
-    // //
-    // SheetsUtil.applyHorizontalSheetTabs();
-
-    // apply general scale
-    SettingsUtil.applyUiScale();
   }
 
   /**
@@ -226,10 +242,15 @@ export class SettingsUtil {
     if(value===undefined){
       value = SettingsUtil.get(settingTag);
     }
+    if(value!==undefined){
+      const settingKey = Object.keys(SETTINGS).find((key)=>SETTINGS[key].tag===settingTag);
+      SettingsUtil.saveDefaultSettings(settingKey, value);
+    }
+    
     LogUtil.log("SettingsUtil.apply",[settingTag, value, SettingsUtil.get(settingTag)]); 
     switch(settingTag){
       case SETTINGS.disableUI.tag:
-        location.reload();
+        SettingsUtil.reloadRequired = SettingsUtil.firstLoad ? false : true;
         break;
       case SETTINGS.enableMacroLayout.tag:
         SettingsUtil.applyHotBarSettings();
@@ -282,6 +303,7 @@ export class SettingsUtil {
       case SETTINGS.chatBorderColor.tag:
         ChatUtil.chatBorderColor = SettingsUtil.get(SETTINGS.chatBorderColor.tag);
         SettingsUtil.applyBorderColors();
+        SettingsUtil.reloadRequired = SettingsUtil.firstLoad ? false : true;
         break;
       case SETTINGS.enableChatStyles.tag:
         ChatUtil.enableChatStyles = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
@@ -299,7 +321,7 @@ export class SettingsUtil {
           SettingsUtil.set(SETTINGS.useSceneFolders.tag, false);
         }
         TopNavigation.applyButtonSettings();
-        ui.nav?.render();
+        SettingsUtil.reloadRequired = SettingsUtil.firstLoad ? false : true;
         break;
       case SETTINGS.useSceneFolders.tag:
         TopNavigation.useSceneFolders = value;
@@ -374,8 +396,23 @@ export class SettingsUtil {
         SheetsUtil.applyThemeToSheets(value); break;
       case SETTINGS.useHorizontalSheetTabs.tag:
         SheetsUtil.applyHorizontalSheetTabs(value); break;
+      case SETTINGS.enforceGMSettings.tag:
+        if(value) {
+          Object.entries(SETTINGS).forEach(([key, setting])=>{
+            if(setting.scope === SETTING_SCOPE.client && DEFAULT_SETTINGS[key] !== undefined){
+              SettingsUtil.saveDefaultSettings(key, SettingsUtil.get(setting.tag));
+            }
+          });
+        }
+        break;
       default:
         // do nothing
+    }
+    if(SettingsUtil.reloadRequired){
+      clearTimeout(SettingsUtil.reloadTimeout);
+      SettingsUtil.reloadTimeout = setTimeout(()=>{
+        GeneralUtil.showReloadDialog()
+      }, 1000);
     }
     
   }
@@ -441,7 +478,7 @@ export class SettingsUtil {
     const macroCollapseOption = SettingsUtil.get(SETTINGS.collapseMacroBar.tag);
 
     if(macroCollapseOption){
-      ui.hotbar.collapse();
+      ui.hotbar?.collapse();
     }
   }
 
@@ -690,6 +727,60 @@ export class SettingsUtil {
 
     if(!foundryColorScheme && forceDarkModeOn){
       game.settings.set('core','colorScheme','dark');
+    }
+  }
+
+  /* Enforce GM settings to client */
+  static enforceGMSettings(){
+    LogUtil.log("enforceGMSettings - start", []);
+    const SETTINGS = getSettings();
+    const isMonksSettingsOn = GeneralUtil.isModuleOn('monks-player-settings');
+    const isForceSettingsOn = GeneralUtil.isModuleOn('force-client-settings');
+    const enforceGMSettingsOn = SettingsUtil.get(SETTINGS.enforceGMSettings.tag);
+    const defaultSettings = SettingsUtil.get(SETTINGS.defaultSettings.tag);
+    if(!enforceGMSettingsOn || !defaultSettings){ 
+      LogUtil.log("enforceGMSettings - disabled", [enforceGMSettingsOn, defaultSettings]);
+      return; 
+    }
+
+    // if(enforceGMSettingsOn && defaultSettings && isMonksSettingsOn){
+    //   if(game.user?.isGM) {
+    //     ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.monksPlayerSettingsConflict"), {permanent: true});
+    //     SettingsUtil.set(SETTINGS.enforceGMSettings.tag, false);
+    //   }
+    //   return;
+    // }
+    // if(enforceGMSettingsOn && defaultSettings && isForceSettingsOn){
+    //   if(game.user?.isGM) {
+    //     ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.forceClientSettingsConflict"), {permanent: true});
+    //     SettingsUtil.set(SETTINGS.enforceGMSettings.tag, false);
+    //   }
+    //   return;
+    // }
+    // // if(game.user?.isGM){ return; }
+
+    for(const key in defaultSettings){
+      const setting = defaultSettings[key];
+      
+      if(SETTINGS[key]){
+        SettingsUtil.set(SETTINGS[key].tag, setting);
+        LogUtil.log("enforcedGMSettings - setting", [key, setting]);
+      }
+    }
+  }
+
+  static saveDefaultSettings(settingKey, value){
+    const SETTINGS = getSettings();
+    if(!game.user?.isGM || settingKey === SETTINGS.defaultSettings.tag){ return; }
+    
+    const modifiedSettings = {...(SettingsUtil.get(SETTINGS.defaultSettings.tag) || {})};
+    if(DEFAULT_SETTINGS[settingKey] !== undefined){
+      modifiedSettings[settingKey] = value;
+    }
+
+    LogUtil.log("saveDefaultSettings", [settingKey]);
+    if(game.user?.isGM){
+      SettingsUtil.set(SETTINGS.defaultSettings.tag, modifiedSettings);
     }
   }
 

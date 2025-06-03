@@ -166,7 +166,7 @@ export class TopNavigation {
       const directoryScenes = sceneNav.querySelectorAll(".directory-item.scene");
       directoryScenes.forEach(sc => {
         const scene = game.scenes.get(sc.dataset.entryId);
-        LogUtil.log(HOOKS_CORE.RENDER_SCENE_DIRECTORY,["directoryScenes", sc.dataset.entryId, TopNavigation.sceneClickToView]);
+        // LogUtil.log(HOOKS_CORE.RENDER_SCENE_DIRECTORY,["directoryScenes", sc.dataset.entryId, TopNavigation.sceneClickToView]);
         if(TopNavigation.sceneClickToView){
           sc.addEventListener("dblclick", TopNavigation.onActivateScene); // onActivateScene
           sc.addEventListener("click", TopNavigation.onSelectScene);
@@ -237,7 +237,6 @@ export class TopNavigation {
     }
     
     TopNavigation.addSceneListeners(navHtml);
-    TopNavigation.addListeners();
     TopNavigation.resetLocalVars(navHtml);
 
     // if(TopNavigation.isCollapsed){
@@ -245,6 +244,7 @@ export class TopNavigation {
     // }
     
     if(TopNavigation.sceneNavEnabled){
+      TopNavigation.addListeners();
       LogUtil.log("onRender - preventReposition?", [TopNavigation.preventReposition]);
       if(TopNavigation.preventReposition){
         TopNavigation.preventReposition = false;
@@ -337,7 +337,7 @@ export class TopNavigation {
             `modules/${MODULE_ID}/templates/scene-nav-preview.hbs`, 
             sceneData
           );
-          LogUtil.log("sceneData", [sceneData]);
+          // LogUtil.log("sceneData", [sceneData]);
           li.classList.add('nav-item');
           li.insertAdjacentHTML('beforeend', previewTemplate);
 

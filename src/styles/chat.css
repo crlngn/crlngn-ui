@@ -153,8 +153,8 @@ body.crlngn-chat {
       border-color: transparent;
     }
     :is(.chat-popout, #chat-log) .chat-message.left-border {
-      border-width: 0;
-      border-left-width: 2px;
+      border-width: 0 !important;
+      border-left-width: 2px !important;
     }
   }
   

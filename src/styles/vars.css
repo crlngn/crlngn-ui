@@ -5,6 +5,7 @@
 Main Theme
 *************/
 :root {
+  --font-body: '"Work Sans", Arial, sans-serif';
   /* crlngn-fonts */
   --crlngn-font-family: var(--font-body, '"Work Sans", Arial, sans-serif');
   --crlngn-font-titles: "Roboto Slab", Arial, sans-serif;

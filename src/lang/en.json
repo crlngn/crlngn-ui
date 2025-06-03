@@ -5,13 +5,18 @@
       "worldSettingsLabel": "World Settings (GM)",
       "toggleHints": "Toggle Help",
       "notifications": {
+        "incompatibleVersion": "This version of Carolingian UI is not compatible with Foundry v13. Please update Carolingian UI to the latest version.",
         "settingsUpdated": "Settings updated",
         "minimalUiNotSupported": "Carolingian UI is not compatible with Minimal UI, and offers most of its features. Please disable that module to avoid performance issues.",
         "monksScenesNotSupported": "Carolingian UI's Scene Navigation will conflict with Monk's Scene Navigation. This functionality of Carolingian UI has been disabled.",
         "ripperScenesCompat": "Carolingian UI now has Scene Folder Navigation and Scene Search, which cannot be used together with Compact Scene Navigation. Either disable the other module or disable 'Scene Folder Navigation' on Carolingian UI settings.",
         "monksPlayerSettingsConflict": "Carolingian UI's setting 'Enforce Dark Mode' has been disabled to prevent conflict with the module Monk's Player Settings.",
         "forceClientSettingsConflict": "Carolingian UI's setting 'Enforce Dark Mode' has been disabled to prevent conflict with Force Client Settings.",
-        "initialViewSet": "This scene's initial view was set to the current view."
+        "initialViewSet": "This scene's initial view was set to the current view.",
+        "reloadConfirm": "Some changes require a reload to take effect. Confirm?",
+        "reloadConfirmTitle": "Reload Required",
+        "reloadConfirmYes": "Reload",
+        "reloadConfirmNo": "Cancel"
       },
       "sceneNav": {
         "searchPlaceholder": "Search scenes...",
@@ -310,6 +315,10 @@
           "regular": "regular",
           "large": "large"
         }
+      },
+      "enforceGMSettings": {
+        "label": "Use GM settings as default",
+        "hint": "Apply GM settings for all players. Players may change client settings momentarily, but they will be reset on reload. If you want more fine grained control, use an external module such as 'Force Client Settings'."
       }
     },
     "dnd5e": {

@@ -77,6 +77,7 @@ body.crlngn-ui{
     }
   }
 
+  
   #ui-right .sidebar-tab button,
   .sidebar-popout button{
     font-family: var(--crlngn-font-family);
@@ -86,6 +87,23 @@ body.crlngn-ui{
   .sidebar-popout {
     line-height: 1.5;
     font-size: var(--font-size-13);
+
+    #game-details li {
+      text-align: center;
+    }
+    #game-details span {
+      float: none;
+      display: block;
+    }
+    #game-details .build span,
+    #game-details .version span,
+    #game-details .modules span {
+      margin: 0 5px;
+      display: inline-block;
+    }
+    #game-details .version span {
+      font-weight: 600;
+    }
 
     #chat-controls {
       align-items: center;

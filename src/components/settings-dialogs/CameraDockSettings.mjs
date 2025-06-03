@@ -1,4 +1,5 @@
-import { getSettings } from "../../constants/Settings.mjs";
+import { getSettings, SETTING_SCOPE } from "../../constants/Settings.mjs";
+import { GeneralUtil } from "../GeneralUtil.mjs";
 import { LogUtil } from "../LogUtil.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
 
@@ -110,7 +111,7 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
 
     const dockSettings = settings.enableFloatingDock;
     if(dockSettings !== currDockSettings){
-      location.reload();
+      GeneralUtil.showReloadDialog();
     }
     
   }
@@ -158,11 +159,14 @@ export class CameraDockSettings extends HandlebarsApplicationMixin(ApplicationV2
     const fields = {};
     const fieldValues = {};
     const fieldDefaults = {};
+    const isGM = game.user.isGM;
 
     fieldNames.forEach((fieldName) => {
-      LogUtil.log("_prepareContext", [SETTINGS[fieldName].oldName]);
-      if(SETTINGS[fieldName]) {
+      let hasPermission = isGM || SETTINGS[fieldName].scope === SETTING_SCOPE.client;
+      
+      if(SETTINGS[fieldName] && hasPermission) {
         const value = SettingsUtil.get(SETTINGS[fieldName].tag);
+        LogUtil.log("_prepareContext", [fieldName, value]);
         fields[fieldName] = SETTINGS[fieldName];
         fieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;
         fieldDefaults[fieldName] = SETTINGS[fieldName].default;
