@@ -38,7 +38,6 @@ export class Main {
       const foundryVersion = game.data.version;
       const minVersion = "13.339";
       if(foundryVersion < minVersion){
-        ui.notifications.error(game.i18n.localize("CRLNGN_UI.notifications.incompatibleVersion"));
         Main.isIncompatible = true;
         return;
       }
@@ -83,6 +82,7 @@ export class Main {
     Hooks.once(HOOKS_CORE.READY, () => {
       LogUtil.log("Core Ready", [game]);
       if(Main.isIncompatible){
+        ui.notifications.error(game.i18n.localize("CRLNGN_UI.notifications.incompatibleVersion"), {permanent: true});
         return;
       }
       const SETTINGS = getSettings();
