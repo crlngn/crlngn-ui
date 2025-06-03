@@ -66,7 +66,8 @@ jobs:
                 "notes": "https://github.com/${{ github.repository }}/releases/tag/v'"$VERSION"'",
                 "compatibility": {
                   "minimum": "${{ env.MIN_VERSION }}",
-                  "verified": "${{ env.VERIFIED_VERSION }}"
+                  "verified": "${{ env.VERIFIED_VERSION }}",
+                  "maximum": "${{ env.MAX_VERSION }}"
                 }
               }
             }')

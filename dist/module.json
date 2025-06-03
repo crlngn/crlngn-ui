@@ -4,7 +4,7 @@
   "version": "1.18.2",
   "description": "Style changes and tweaks to improve look and feel of Foundry UI",
   "url": "https://github.com/crlngn/crlngn-ui",
-  "manifest": "https://github.com/crlngn/crlngn-ui/releases/latest/download/module.json",
+  "manifest": "https://github.com/crlngn/crlngn-ui/releases/download/v1.18.2/module.json",
   "download": "https://github.com/crlngn/crlngn-ui/releases/download/v1.18.2/module.zip",
   "bugs": "https://github.com/crlngn/crlngn-ui/issues",
   "readme": "https://github.com/crlngn/crlngn-ui/main/README.md",
@@ -12,7 +12,7 @@
   "compatibility": {
     "minimum": "12.328",
     "verified": "12.343",
-    "maximum": "12.343"
+    "maximum": "12.999"
   },
   "authors": [
     {
