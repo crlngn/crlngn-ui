@@ -314,7 +314,7 @@
       },
       "enforceGMSettings": {
         "label": "Salvar configurações do GM como padrão para os jogadores",
-        "hint": "Habilitar esta opção para usar as configurações do GM como padrão para os jogadores. Os jogadores ainda poderão mudar as configurações do cliente, a menos que você use um módulo externo como Force Client Settings."
+        "hint": "Habilite para aplicar as configurações do GM a todos os jogadores. Players ainda poderão mudar as configurações momentaneamente, mas elas serão redefinidas ao recarregar o mundo. Se desejar mais controle, use um módulo externo como Force Client Settings."
       }
     }, 
     "dnd5e": {

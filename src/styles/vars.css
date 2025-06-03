@@ -223,7 +223,7 @@ body.crlngn-ui{
   
 }
 
-body.crlngn-ui {
+body {
   --font-body: var(--crlngn-font-family); 
   --font-sans: var(--crlngn-font-family); 
   --font-blockquote: var(--crlngn-font-journal-body);
