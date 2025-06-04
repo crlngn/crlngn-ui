@@ -201,24 +201,77 @@ export class SceneNavSettings extends HandlebarsApplicationMixin(ApplicationV2) 
   }
 
   /**
-   * Handles post-render operations
+   * Handles post-render operations, including attaching event listeners.
    * @protected
-   * @param {object} context - The render context
-   * @param {object} options - The render options
+   * @param {ApplicationRenderContext} context The data change which caused the render.
+   * @param {ApplicationRenderOptions} options Rendering options.
    */
   _onRender(context, options) {
+    super._onRender(context, options);
     LogUtil.log("_onRender", [context, options]);
     SceneNavSettings.element = this.element;
+    const htmlElement = this.element; // Or SceneNavSettings.element
 
-    // add listener to .toggle-hint 
-    const hintToggle = SceneNavSettings.element.querySelector('.toggle-hint');
-    hintToggle.addEventListener('click', () => {
-      SceneNavSettings.element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
-    });
+    // Range input value display and synchronization
+    const rangeInput = htmlElement.querySelector('input[type="range"][name="sceneItemWidth"]');
+    const valueInput = htmlElement.querySelector('input[type="number"].range-value-input[name="sceneItemWidth_value"]');
+
+    if (rangeInput && valueInput) {
+      const min = parseInt(rangeInput.min, 10);
+      const max = parseInt(rangeInput.max, 10);
+
+      // Listener for the range slider's input event
+      rangeInput.addEventListener('input', () => {
+        valueInput.value = rangeInput.value;
+      });
+
+      // Listener for the number input's input event (while typing)
+      valueInput.addEventListener('input', () => {
+        const currentValueString = valueInput.value;
+        // Allow empty string or just a minus sign during typing
+        if (currentValueString === "" || currentValueString === "-") {
+          // Potentially clear slider or set to a neutral state if desired, or do nothing
+          // For now, do nothing and let 'change' event handle it if left empty.
+          return;
+        }
+        const currentValue = parseInt(currentValueString, 10);
+        if (!isNaN(currentValue) && currentValue >= min && currentValue <= max) {
+          rangeInput.value = currentValue;
+        }
+        // If it's NaN (e.g. "12a") or outside min/max during typing,
+        // do nothing to rangeInput yet. Let the user continue typing.
+        // The 'change' event will handle final validation.
+      });
+
+      // Listener for the number input's change event (after typing/blur/enter)
+      valueInput.addEventListener('change', () => {
+        let value = parseInt(valueInput.value, 10);
+
+        if (isNaN(value) || value < min) {
+          value = min;
+        } else if (value > max) {
+          value = max;
+        }
+        
+        valueInput.value = value; // Update the input field to the clamped/validated value
+        rangeInput.value = value; // Sync the slider
+      });
+
+      // Set initial value for the number input from the range slider
+      valueInput.value = rangeInput.value;
+    }
+
+    // Toggle hint listener
+    const hintToggle = htmlElement.querySelector('.toggle-hint');
+    if (hintToggle) { // Added null check for robustness
+      hintToggle.addEventListener('click', () => {
+        htmlElement.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
+      });
+    }
     
-    // Add event listener for sceneNavEnabled checkbox
-    const sceneNavCheckbox = this.element?.querySelector('input[name="sceneNavEnabled"]');
-    LogUtil.log('_onRender', [this.element, sceneNavCheckbox])
+    // SceneNavEnabled checkbox listener
+    const sceneNavCheckbox = htmlElement.querySelector('input[name="sceneNavEnabled"]');
+    LogUtil.log('_onRender sceneNavCheckbox', [htmlElement, sceneNavCheckbox]);
     if (sceneNavCheckbox) {
       sceneNavCheckbox.addEventListener('change', this.#onSceneNavEnabledChange.bind(this));
       // Initial state

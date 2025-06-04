@@ -120,7 +120,7 @@
     </a>
     <ul class="scene-players">
       {{#each ../users}}
-        {{#if (eq this.viewedScene ../this.id) }}
+        {{#if (eq ../viewedSceneId this.id) }}
           <li class="scene-player" style="background-color: {{this.color}};">{{this.viewedScene}} {{../this.id}}</li>
         {{/if}}
       {{/each}}

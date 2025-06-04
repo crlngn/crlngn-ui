@@ -242,7 +242,7 @@ export class SettingsUtil {
     if(value===undefined){
       value = SettingsUtil.get(settingTag);
     }
-    if(value!==undefined){
+    if(value!==undefined && !SettingsUtil.firstLoad){
       const settingKey = Object.keys(SETTINGS).find((key)=>SETTINGS[key].tag===settingTag);
       SettingsUtil.saveDefaultSettings(settingKey, value);
     }
@@ -322,6 +322,10 @@ export class SettingsUtil {
         }
         TopNavigation.applyButtonSettings();
         SettingsUtil.reloadRequired = SettingsUtil.firstLoad ? false : true;
+        break;
+      case SETTINGS.sceneItemWidth.tag:
+        TopNavigation.sceneItemWidth = value || 100;
+        TopNavigation.applySceneItemWidth();
         break;
       case SETTINGS.useSceneFolders.tag:
         TopNavigation.useSceneFolders = value;

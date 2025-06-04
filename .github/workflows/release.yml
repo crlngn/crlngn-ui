@@ -67,7 +67,7 @@ jobs:
                 "compatibility": {
                   "minimum": "${{ env.MIN_VERSION }}",
                   "verified": "${{ env.VERIFIED_VERSION }}",
-                  "maximum": "${{ env.MAX_VERSION }}"
+                  "maximum": "${{ env.VERIFIED_VERSION }}"
                 }
               }
             }')

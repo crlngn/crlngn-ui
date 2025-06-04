@@ -9,7 +9,12 @@
   {{/each}}
   
   {{#each scenes}}
-  <li class="nav-item scene on-folder gm{{#if ../useIcons}} crlngn-icons{{/if}}" data-scene-id="{{this.id}}">
+  <li class="nav-item scene on-folder 
+  gm{{#if ../useIcons}} crlngn-icons{{/if}}
+  {{#if this.active}} active{{/if}}
+  {{#if this.isView}} view{{/if}}" 
+
+  data-scene-id="{{this.id}}">
     <a class="scene-name ellipsis"> {{this.name}} </a>
     {{> "modules/crlngn-ui/templates/scene-nav-preview.hbs" scene=this}}
   </li>

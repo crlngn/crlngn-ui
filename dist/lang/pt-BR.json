@@ -24,7 +24,15 @@
         "favoritesFolder": "Voltar às Cenas Selecionadas",
         "addToFavorites": "Adicionar à Navegação",
         "removeFromFavorites": "Remover da Navegação",
-        "initialViewBtn": "Definir Visualização"
+        "initialViewBtn": "Definir Área Inicial",
+        "backButtonTooltip": "Ultima Cena",
+        "sceneLookupTooltip": "Buscar Cena",
+        "preloadScene": "Carregar Cena",
+        "sceneConfig": "Configurar Cena",
+        "globalLightOn": "Iluminação global ativada",
+        "globalLightOff": "Iluminação global desativada",
+        "tokenVisionOn": "Visão do token ativada",
+        "tokenVisionOff": "Visão do token desativada"
       },
       "updates": {
         "label": "Último ID de Atualização",
@@ -206,6 +214,10 @@
             "label": "Ativar navegação de cenas",
             "hint": "Se você estiver enfrentando problemas de layout com um módulo incompatível, pode desativar meus estilos personalizados para Navegação de Cenas."
           }, 
+          "sceneItemWidth": {
+            "label": "Largura elemento scena",
+            "hint": "Largura de cada cena na barra de navegação, em pixels. A largura mínima é 100px, a máxima é 400px."
+          },
           "showNavOnHover": {
             "label": "Alternar visibilidades",
             "hint": "Se a navegação de cenas estiver recolhida, você pode exibi-la passando o mouse sobre a parte superior da tela."

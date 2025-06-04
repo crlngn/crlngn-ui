@@ -348,7 +348,6 @@ body.crlngn-ui {
         max-height: 60vh;
         min-height: max(200px, 60vh);
         pointer-events: none;
-        overflow: hidden;
         margin-left: var(--nav-margin-left);
         width: var(--nav-width);
         max-width: var(--nav-width);
@@ -541,7 +540,7 @@ body.crlngn-ui {
           padding: 0;
 
           .scene{
-            z-index: 101;
+            /*z-index: 101;*/
             &.view.crlngn:after{
               content: '\f521';
             }
@@ -572,7 +571,7 @@ body.crlngn-ui {
             border: 1px solid transparent;
             border-right: 1px solid var(--left-control-main-bg);
             border-left: 1px solid var(--left-control-main-bg);
-            z-index: 0;
+            z-index: 10;
   
             .folder-item{
               width: var(--scene-nav-item-width);
@@ -960,9 +959,16 @@ body.crlngn-ui {
           border-bottom: 0;
           border-top: 0;
           width: auto;
+
           a.scene-name {
             width: auto;
             min-width: 10px;
+            /* hide scrollbar */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            ::-webkit-scrollbar {
+              display: none;
+            }
           }
         }
 

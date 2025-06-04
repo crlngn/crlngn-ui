@@ -4,16 +4,16 @@
   <div class="icons">
     {{!-- global ilumination icon --}}
     {{#if environment.globalLight.enabled }}
-    <i class="fa-solid fa-lightbulb-on ilum" data-tooltip="Global illumination is on" data-tooltip-direction="UP" data-tooltip-delay="500"></i>
+    <i class="fa-solid fa-lightbulb-on ilum" data-tooltip="{{localize 'CRLNGN_UI.ui.sceneNav.globalLightOn'}}" data-tooltip-direction="UP" data-tooltip-delay="200"></i>
     {{else}}
-    <i class="fa-solid fa-lightbulb-slash ilum" data-tooltip="Global illumination is off" data-tooltip-direction="UP" data-tooltip-delay="500"></i>
+    <i class="fa-solid fa-lightbulb-slash ilum" data-tooltip="{{localize 'CRLNGN_UI.ui.sceneNav.globalLightOff'}}" data-tooltip-direction="UP" data-tooltip-delay="200"></i>
     {{/if}}
 
     {{!-- Token vision icon --}}
     {{#if tokenVision }}
-    <i class="fa-solid fa-user token-vision" data-tooltip="Token Vision is on" data-tooltip-direction="UP" data-tooltip-delay="500"></i>
+    <i class="fa-solid fa-user token-vision" data-tooltip="{{localize 'CRLNGN_UI.ui.sceneNav.tokenVisionOn'}}" data-tooltip-direction="UP" data-tooltip-delay="200"></i>
     {{else}}
-    <i class="fa-solid fa-user-slash token-vision" data-tooltip="Token Vision is off" data-tooltip-direction="UP" data-tooltip-delay="500"></i>
+    <i class="fa-solid fa-user-slash token-vision" data-tooltip="{{localize 'CRLNGN_UI.ui.sceneNav.tokenVisionOff'}}" data-tooltip-direction="UP" data-tooltip-delay="200"></i>
     {{/if}}
 
     {{!-- sound icon --}}
@@ -25,10 +25,13 @@
       {{/if}}
     {{/if}} --}}
     {{#unless thumb }}
-      <i class="fas fa-image gen-thumb" data-tooltip="Generate Thumbnail" data-tooltip-direction="UP" data-tooltip-delay="500"></i>
+      <i class="fas fa-image gen-thumb" data-tooltip="Generate Thumbnail" data-tooltip-direction="UP" data-tooltip-delay="200"></i>
     {{/unless}}
 
+    {{!-- Scene preload icon --}}
+    <i class="fa-solid fa-download preload" data-tooltip="{{localize 'CRLNGN_UI.ui.sceneNav.preloadScene'}}" data-tooltip-direction="UP" data-tooltip-delay="200"></i>
+
     {{!-- config icon --}}
-    <i class="fas fa-cog config" data-tooltip="Scene Configuration" data-tooltip-direction="UP" data-tooltip-delay="500"></i>
+    <i class="fas fa-cog config" data-tooltip="{{localize 'CRLNGN_UI.ui.sceneNav.sceneConfig'}}" data-tooltip-direction="UP" data-tooltip-delay="200"></i>
   </div>
 </div>

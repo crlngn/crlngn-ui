@@ -26,7 +26,13 @@
         "removeFromFavorites": "Remove from Navigation",
         "initialViewBtn": "Set Initial View",
         "backButtonTooltip": "Last Scene",
-        "sceneLookupTooltip": "Scene Search"
+        "sceneLookupTooltip": "Scene Search",
+        "preloadScene": "Preload Scene",
+        "sceneConfig": "Scene Configuration",
+        "globalLightOn": "Global illumination is on",
+        "globalLightOff": "Global illumination is off",
+        "tokenVisionOn": "Token Vision is on",
+        "tokenVisionOff": "Token Vision is off"
       },
       "updates": {
         "label": "Last Update ID",
@@ -210,6 +216,10 @@
             "label": "Enable custom scene navigation",
             "hint": "[Requires reload] If you are having layout issues with a non-compatible module, you can try to disable my custom styles for Scene Navigation."
           }, 
+          "sceneItemWidth": {
+            "label": "Scene item width",
+            "hint": "Width of each scene item in navigation, in pixels. Minimum width is 100px, maximum is 400px."
+          },
           "showNavOnHover": {
             "label": "Toggle scene navigation on hover",
             "hint": "If the scene navigation is collapsed, you can show it by hovering the mouse over the top of the screen."

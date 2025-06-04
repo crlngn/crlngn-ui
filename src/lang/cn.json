@@ -24,7 +24,15 @@
         "favoritesFolder": "返回已选场景",
         "addToFavorites": "添加到导航",
         "removeFromFavorites": "从导航中移除",
-        "initialViewBtn": "设置初始视图"
+        "initialViewBtn": "设置初始视图",
+        "backButtonTooltip": "上一个场景",
+        "sceneLookupTooltip": "场景搜索",
+        "preloadScene": "预加载场景",
+        "sceneConfig": "场景配置",
+        "globalLightOn": "全局照明已打开",
+        "globalLightOff": "全局照明已关闭",
+        "tokenVisionOn": "代币视觉已开启",
+        "tokenVisionOff": "令牌视觉已关闭"
       },
       "updates": {
         "label": "最新更新ID",
@@ -207,6 +215,10 @@
             "label": "启用水平场景导航",
             "hint": "[需要重新加载] 如果您与非兼容模块存在布局问题，可以尝试禁用我对场景导航的自定义样式。"
           }, 
+          "sceneItemWidth": {
+            "label": "场景项目宽度",
+            "hint": "导航中每个场景项目的宽度，单位为像素。最小宽度为100像素，最大宽度为400像素。"
+          },
           "showNavOnHover": {
             "label": "悬停时显示导航",
             "hint": "如果场景导航已折叠，您可以通过将鼠标悬停在屏幕顶部来显示它。"

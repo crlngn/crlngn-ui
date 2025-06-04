@@ -416,6 +416,9 @@ body.crlngn-ui {
         margin: 0.25em 0;
         font-size: var(--font-size-12);
       }
+      .range-value-input{
+        max-width: 45px;
+      }
     }
     .hint{
       line-height: 1.4;

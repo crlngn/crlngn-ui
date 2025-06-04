@@ -19,12 +19,20 @@
         "reloadConfirmNo": "Annulla"
       },
       "sceneNav": {
-        "searchPlaceholder": "Cerca scene...",
+        "searchPlaceholder": "Cerca scena...",
         "backTo": "Torna a ",
         "favoritesFolder": "Torna alle Scene Selezionate",
         "addToFavorites": "Aggiungi alla Navigazione",
         "removeFromFavorites": "Rimuovi dalla Navigazione",
-        "initialViewBtn": "Imposta Vista Iniziale"
+        "initialViewBtn": "Imposta Vista Iniziale",
+        "backButtonTooltip": "Ultima Scena",
+        "sceneLookupTooltip": "Cerca Scena",
+        "preloadScene": "Carica Scena",
+        "sceneConfig": "Configura Scena",
+        "globalLightOn": "Illuminazione globale attiva",
+        "globalLightOff": "Illuminazione globale spenta",
+        "tokenVisionOn": "Visione token attiva",
+        "tokenVisionOff": "Visione token spenta"
       },
       "updates": {
         "label": "Ultimo ID Aggiornamento",
@@ -208,6 +216,10 @@
             "label": "Abilita Navigazione Scene Orizzontale",
             "hint": "[Richiede ricaricamento] Se stai avendo problemi di layout con un modulo non compatibile, puoi provare a disabilitare i miei stili personalizzati per la Navigazione Scene."
           }, 
+          "sceneItemWidth": {
+            "label": "Larghezza elemento scena",
+            "hint": "Larghezza di ogni singola scena nella navigazione, in pixel. La larghezza minima è 100px, la massima è 400px."
+          },
           "showNavOnHover": {
             "label": "Mostra navigazione scene al passaggio del mouse",
             "hint": "Se la navigazione scene è compressa, puoi mostrarla passando il mouse sulla parte superiore dello schermo."

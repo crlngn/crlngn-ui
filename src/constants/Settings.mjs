@@ -128,6 +128,7 @@ export const DEFAULT_SETTINGS = {
   sceneNavCollapsed: false,
   showNavOnHover: false,
   sceneNavEnabled: true,
+  sceneItemWidth: 150,
   navStartCollapsed: false,
   uiScale: UI_SCALE.regular.name
 }
@@ -275,7 +276,8 @@ export function getSettings() {
         "showNavOnHover",
         "useSceneBackButton",
         "useSceneLookup",
-        "useScenePreview"
+        "useScenePreview",
+        "sceneItemWidth"
       ],
       default: {
         sceneNavEnabled: true,
@@ -288,7 +290,8 @@ export function getSettings() {
         showNavOnHover: false,
         useScenePreview: true,
         useSceneLookup: true,
-        useSceneBackButton: true
+        useSceneBackButton: true,
+        sceneItemWidth: 150
       },
       scope: SETTING_SCOPE.client,
       config: false, 
@@ -350,6 +353,18 @@ export function getSettings() {
       propType: Boolean, 
       inputType: SETTING_INPUT.checkbox, 
       default: true, 
+      scope: SETTING_SCOPE.client, 
+      config: false 
+    },
+
+    sceneItemWidth: {
+      tag: "scene-item-width", 
+      oldName: "sceneItemWidth",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneItemWidth.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneItemWidth.hint"), 
+      propType: Number, 
+      inputType: SETTING_INPUT.number, 
+      default: 150, 
       scope: SETTING_SCOPE.client, 
       config: false 
     },

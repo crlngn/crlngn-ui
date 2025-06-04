@@ -89,7 +89,9 @@ export class SceneNavFolders {
       activeScenesMenu.classList.remove('with-folders');
     }
 
-    folderToggle.addEventListener("click", ()=>{
+    folderToggle.addEventListener("click", (e)=>{
+      e.stopPropagation();
+      e.preventDefault();
       TopNavigation.setNavPosition(0);
       SettingsUtil.set(SETTINGS.navShowSceneFolders.tag, !TopNavigation.navShowSceneFolders);
       TopNavigation.preventReposition = true;
@@ -311,7 +313,7 @@ export class SceneNavFolders {
     let sortMode = "a";
 
     // Folder-specific data
-    LogUtil.log("buildFolderData A", [targetFolder.name, targetFolder]);
+    LogUtil.log("buildFolderData A", [targetFolder.name, folderScenes]);
 
     if (targetFolder.id === DEFAULT_FOLDER_ID) {
       folderList = allFolders.filter(f => f.folder===null) || [];
@@ -329,7 +331,8 @@ export class SceneNavFolders {
       folders: folderList,
       scenes: folderScenes,
       useIcons: TopNavigation.useSceneIcons,
-      usePreview: TopNavigation.useScenePreview
+      usePreview: TopNavigation.useScenePreview,
+      viewedSceneId: game.scenes.viewed?.id
     };
 
     LogUtil.log("buildFolderData", [folderList, templateData]);
