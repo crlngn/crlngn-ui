@@ -378,8 +378,8 @@ export class TopNavigation {
         useSceneBackButton: game.user.isGM ? TopNavigation.useSceneBackButton : false,
         useSceneFolders: game.user.isGM ? TopNavigation.useSceneFolders : false,
         useSceneLookup: game.user.isGM ? TopNavigation.useSceneLookup : false,
-        backButtonTooltip: game.i18n.localize("CRLNGN_UI.ui.backButtonTooltip"),
-        sceneLookupTooltip: game.i18n.localize("CRLNGN_UI.ui.sceneLookupTooltip"),
+        backButtonTooltip: game.i18n.localize("CRLNGN_UI.ui.sceneNav.backButtonTooltip"),
+        sceneLookupTooltip: game.i18n.localize("CRLNGN_UI.ui.sceneNav.sceneLookupTooltip"),
         isGM: game.user?.isGM,
       }
     );
