@@ -60,8 +60,8 @@
           "fonts": "Font",
           "themes": "Tema e Stili",
           "chat": "Chat",
-          "controls": "Controlli Scena",
-          "scenes": "Scena",
+          "controls": "Comandi a sinistra",
+          "scenes": "Navigazione Scena",
           "players": "Lista Giocatori",
           "camera": "Dock Camera"
         },
