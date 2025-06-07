@@ -549,7 +549,7 @@ export class TopNavigation {
     });
 
     TopNavigation.navElem?.addEventListener("mouseleave", (e)=>{
-      LogUtil.log("TopNavigation mouseleave", [TopNavigation.isCollapsed, TopNavigation.showNavOnHover, e.relatedTarget?.id || e.relatedTarget?.tagName]);
+      // LogUtil.log("TopNavigation mouseleave", [TopNavigation.isCollapsed, TopNavigation.showNavOnHover, e.relatedTarget?.id || e.relatedTarget?.tagName]);
 
       // Only apply hover-based collapse if:
       // 1. The nav is supposed to be collapsed by default (TopNavigation.isCollapsed is true)
@@ -577,9 +577,9 @@ export class TopNavigation {
         // Re-check conditions before actually collapsing, as state might have changed during the timeout
         if (TopNavigation.isCollapsed && TopNavigation.showNavOnHover) {
           navigation.classList.add("collapsed");
-          LogUtil.log("TopNavigation mouseleave: timeout executed, collapsing.");
+          // LogUtil.log("TopNavigation mouseleave: timeout executed, collapsing.");
         } else {
-          LogUtil.log("TopNavigation mouseleave: timeout executed, but conditions no longer met for collapsing.");
+          // LogUtil.log("TopNavigation mouseleave: timeout executed, but conditions no longer met for collapsing.");
         }
       }, 700);
     });

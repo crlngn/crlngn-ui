@@ -19,12 +19,22 @@ body.crlngn-ui{
       /*var(--crlngn-taskbar-height, 0px);*/
       height: calc(100% - var(--crlngn-sidebar-bottom, 0px)); 
       padding-bottom: 10px; 
+
+      /* adjustment for always-chat */
+      .sidebar-tab[data-tab=chat]:not(.active) {
+        margin-top: calc(var(--left-control-item-size) + 10px);
+      }
   
       &.collapsed{
         width: var(--right-control-item-size);
         min-width: var(--right-control-item-size);
         height: auto;
         /*transition: height 0s;*/
+
+        #sidebar-tabs{
+          border-bottom: 1px solid transparent;
+          margin-bottom: -1px;
+        }
   
         > nav > .item{
           order: 1;
@@ -50,7 +60,7 @@ body.crlngn-ui{
           color: var(--color-text-light-1);
           background: initial;
           border: 1px solid transparent;
-          border-bottom: none;
+          /*border-bottom: none;*/
           box-shadow: none;
           text-shadow: none;
         }
@@ -58,7 +68,7 @@ body.crlngn-ui{
           opacity: 1;
           background: initial;
           border: 1px solid var(--color-highlights);
-          border-bottom: none;
+          /*border-bottom: none;*/
         }
   
         > [data-tab] > * {

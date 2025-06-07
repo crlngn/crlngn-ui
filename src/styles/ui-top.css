@@ -673,7 +673,7 @@ body.crlngn-ui {
         height: auto;
         max-height: 100%;
         gap: 0;
-        padding: 0 250px 0 0;
+        padding: 0;
         margin: 0;
         transition: margin-left 0.5s ease-in-out;
         z-index: 1;
@@ -773,8 +773,7 @@ body.crlngn-ui {
       ol#scene-list{
         > li:last-child:after{
           content: "";
-          width: 150px;
-          height: 10px;
+          margin-right: 80px;
         }
       }
 

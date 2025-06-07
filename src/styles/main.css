@@ -1,5 +1,7 @@
 body.crlngn-ui  {
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  /*font-size-adjust: ex-height from-font;*/
 
   h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
@@ -243,6 +245,17 @@ body.crlngn-ui  {
     &:before   {
       color: var(--color-light-1);
     }
+  }
+  .dnd5e2.roll-configuration .window-header h1 {
+    padding: 0 1.5em;
+    font-size: var(--font-size-20);
+  }
+  .dnd5e2.roll-configuration .window-subtitle {
+    opacity: 0.65;
+    padding: 0.5em 0 0 0;
+  }
+  .dnd5e2.application.roll-configuration .rolls .dice {
+    margin-top: 1.5em;
   }
   
 }
