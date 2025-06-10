@@ -488,5 +488,26 @@ body.crlngn-ui{
       color: var(--color-warm-1);
     }
   }
+
+  /* DFreds Effects panel */
+  #effects-panel {
+    margin-top: calc(var(--control-item-size) + 10px);
+  }
+
+  .effect-panel .effects-panel-container .effect-item .icon.temporary {
+    background-size: 86%;
+    background-position: center;
+  }
+
+  &.theme-light #effects-panel a.content-link {
+    color: var(--color-dark-1);
+    border: 0;
+    font-weight: 600;
+  }
+  &.theme-dark #effects-panel a.content-link {
+    color: var(--color-light-1);
+    border: 0;
+    font-weight: 600;
+  }
   
 }

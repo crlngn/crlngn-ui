@@ -8,6 +8,7 @@ body.crlngn-ui {
   }
 
   #players.crlngn-ui, #players.crlngn-ui.minimized {
+
     button { 
       border: 1px solid rgba(0, 0, 0, 0.25);
       background-color: var(--button-background-color);
@@ -28,11 +29,11 @@ body.crlngn-ui {
 
   #players.crlngn-ui.minimized {
     button {
-      white-space: nowrap;
       overflow: hidden;
       text-overflow: clip;
       display: flex;
       justify-content: flex-start;
+      white-space: nowrap;
       padding: 0 5px;
 
       i {
@@ -42,7 +43,7 @@ body.crlngn-ui {
   }
 
   #players.crlngn-ui.minimized:hover {
-    button {
+    .players-list button {
       display: flex;
       align-items: center;
       overflow: auto;

@@ -4,6 +4,7 @@ body{
   --control-item-size: 38px; /* size of control icon buttons */
 }
 body.crlngn-ui  {
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   font-family: var(--crlngn-font-family);
   font-weight: 400;
@@ -79,6 +80,11 @@ body.crlngn-ui  {
 * FORMS & FIELDS
 *******************/  
 body.crlngn-ui{
+  /* fix issue with windows */
+  .scene-config .tab.active {
+    overflow: auto;
+    padding: 0.3em;
+  }
 
   input[type=color]::-webkit-color-swatch-wrapper {
     padding: 1px;
