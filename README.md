@@ -10,8 +10,8 @@ I have just created a Discord channel for users of my module to discuss it and s
 
 **Compatibility:** 
 - v1.17x: Foundry VTT version 12.328+
-  v2.2.x: Foundry VTT version 13.341+
-- Mostly tested with DnD5e 4.x. Should work with other systems, but modules for those systems remain untested. 
+- v2.2.x: Foundry VTT version 13.341+
+- Mostly tested with DnD5e 4.x and a bit of PF2e. Works with other systems, with some conflict for those systems that also modify the UI. Modules specific to those systems remain untested. 
 - Localization: English, Brazilian Portuguese, Chinese, Italian. Thanks to [yyzitai](https://github.com/yyzitai) for contributions to the Chinese language files.
 
 ## Carolingian UI
