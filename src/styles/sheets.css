@@ -82,6 +82,10 @@ body.crlngn-ui {
       order: 2;
     }
 
+    .dnd5e2.sheet.actor.character .sheet-header > .left {
+      padding: 2em 1.5rem 0 3rem;
+    }
+
     .dnd5e2.sheet.actor.character .ability-scores {
       z-index: 2;
 
@@ -363,6 +367,9 @@ body.crlngn-ui {
       }
     }
 
+    .dnd5e2.sheet.actor .pills-group {
+      margin-bottom: 1em;
+    }
 
     .dnd5e2.sheet.actor .pills-group .pill {
       font-weight: 500;
