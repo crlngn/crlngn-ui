@@ -47,6 +47,17 @@ export class ModuleCompatUtil {
       }
       ModuleCompatUtil.#ytPlayerIntervalCount++;
     }, 200);
+
+    // check Chat Pins module
+    const isChatPinsOn = GeneralUtil.isModuleOn('dfreds-chat-pins');
+    if(isChatPinsOn){
+      const chatPinsPopout = document.querySelector('#chat-pins');
+      const uiConfig = game.settings.get('core', 'uiConfig');
+      const currentTheme = uiConfig?.colorScheme?.interface;
+
+      LogUtil.log("currentTheme", [currentTheme, chatPinsPopout]);
+      chatPinsPopout?.classList.add(`theme-${currentTheme}`);
+    }
   }
 
   static handleYTPlayerFadeOut(){

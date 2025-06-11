@@ -140,7 +140,7 @@ body.crlngn-ui {
           pointer-events: all;
           width: var(--control-item-size);
           background: transparent;
-          color: var(--color-text-light-1);
+          color: var(--color-light-1);
           border: none;
           border-radius: 0;
           width: var(--control-item-size);
@@ -262,7 +262,7 @@ body.crlngn-ui {
             min-width: var(--scene-nav-item-width);
             max-width: var(--scene-nav-item-width);
             width: var(--scene-nav-item-width);
-            color: var(--color-text-light-1);
+            color: var(--color-light-1);
             opacity: 1;
             transition: max-width 0.35s ease-out 0.25s;
 
@@ -748,7 +748,7 @@ body.crlngn-ui {
               position: relative;
               display: flex;
               align-items: baseline;
-              color: var(--color-text-light-1);
+              color: var(--color-light-1);
               opacity: 1;
               max-width: 100%;
               width: 100%;
