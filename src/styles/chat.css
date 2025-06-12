@@ -88,7 +88,6 @@ body.crlngn-chat {
     color: var(--color-highlights); 
   }
   
-  
   :is(.chat-popout, #chat-log, .chat-log) .chat-message {
     .message-header time {
       color: inherit;

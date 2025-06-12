@@ -31,6 +31,7 @@ export class TopNavigation {
   static #previewedScene = '';
   static #visitedScenes = [];
   static #preventNavRender = false;
+  static #originalRenderMethod;
   // settings
   static useFadeOut = true;
   static hidden = false;
@@ -826,6 +827,8 @@ export class TopNavigation {
     const scene = game.scenes.get(data.entryId || data.sceneId);
     LogUtil.log("onActivateScene",[data, scene]);
     scene.activate();
+    scene.sheet.render = TopNavigation.#originalRenderMethod;
+
     // Clear the single-click timer if it exists
     if (TopNavigation.#sceneClickTimer) {
       clearTimeout(TopNavigation.#sceneClickTimer);
@@ -847,27 +850,29 @@ export class TopNavigation {
     LogUtil.log("onSelectScene",[scene, target, isInner]);
 
     // Temporarily override the sheet.render method to prevent scene configuration
-    if (scene && scene.sheet) {
-      const originalRender = scene.sheet.render;
-      LogUtil.log("onSelectScene - originalRender",[originalRender]);
-      scene.sheet.render = function() { return this; };
+    if (scene && scene.sheet && !TopNavigation.#sceneClickTimer) {
+      TopNavigation.#originalRenderMethod = scene?.sheet?.render;
+      LogUtil.log("onSelectScene - originalRender",[TopNavigation.#originalRenderMethod]);
+      scene.sheet.render = () => { };
       // Restore the original method after a short delay
       setTimeout(() => {
-        scene.sheet.render = originalRender;
-      }, 250);
+        scene.sheet.render = TopNavigation.#originalRenderMethod;
+      }, 500);
     }
 
     // Clear any existing timer
     if (TopNavigation.#sceneClickTimer) {
       clearTimeout(TopNavigation.#sceneClickTimer);
+      scene.sheet.render = TopNavigation.#originalRenderMethod;
       TopNavigation.#sceneClickTimer = null;
     }
 
     // Set a new timer for the click action
     TopNavigation.#sceneClickTimer = setTimeout(() => {
       scene.view();
+      scene.sheet.render = TopNavigation.#originalRenderMethod;
       TopNavigation.#sceneClickTimer = null;
-    }, 250); // 250ms delay to wait for potential double-click
+    }, 350); // 350ms delay to wait for potential double-click
   }
 
   static onScenePreviewOn = (evt) => {
