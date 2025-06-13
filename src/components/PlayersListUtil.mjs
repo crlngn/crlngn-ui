@@ -96,8 +96,10 @@ export class PlayersList {
     LogUtil.log("applyPlayersListSettings",[SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)]); 
     if(SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)){
       document.querySelector("#players.crlngn-ui")?.classList.add("minimized");
+      document.querySelector("body")?.classList.add("crlngn-players-minimized");
     }else{
       document.querySelector("#players")?.classList.remove("minimized");
+      document.querySelector("body")?.classList.remove("crlngn-players-minimized");
     }
   }
 
