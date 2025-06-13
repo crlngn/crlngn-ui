@@ -120,7 +120,67 @@ body.crlngn-ui.crlngn-sheets {
     }*/
   }
 
+  .dnd5e2.sheet.actor.character .ability-scores {
+    z-index: 10;
+    transition: opacity 0.15s ease-out, left 0.35s ease-out 0.1s;
+    height: 72px;
+
+    &.flipped {
+      padding: 12px 0 0;
+      justify-content: space-between;
+      gap: unset;
+    }
+
+    &.fadeout{
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .rows {
+      padding: 150px 10px 0 20px;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: stretch;
+      flex-wrap: nowrap;
+      width: auto;
+      gap: 15px;
+
+      .top {
+        min-height: 72px;
+        order: 0;
+        min-width: 0;
+        flex: 0 1 auto;
+        width: auto;
+        padding-right: 0;
+        gap: 5px;
+        margin: 0;
+
+        .ability-score::before{
+          border: 1px solid var(--dnd5e-color-gold);
+        }
+      }
+      .bottom {
+        order: 1;
+        flex: 0 1 auto;
+        width: auto;
+        gap: 5px;
+        margin: 0;
+      }
+    }
+  }
+
+  @container (min-width: 700px) {
+    .dnd5e2.sheet.actor.character .ability-scores.optional-ability-0 .rows .top {
+      min-height: 72px;
+      order: 0;
+    }
+  }
+
   &.crlngn-sheet-tabs {
+    .dnd5e2.sheet.actor.character .ability-scores .rows {
+      padding: 215px 10px 0 20px;
+    }
+
     .dnd5e2.sheet.actor.character{
       --dnd5e-sheet-header-height: 160px;
     }
@@ -199,62 +259,6 @@ body.crlngn-ui.crlngn-sheets {
 
     .dnd5e2.sheet.actor.character.tab-details .tab-body {
       padding-top: 106px;
-    }
-
-    .dnd5e2.sheet.actor.character .ability-scores {
-      z-index: 10;
-      transition: opacity 0.15s ease-out, left 0.35s ease-out 0.1s;
-      height: 72px;
-
-      &.flipped {
-        padding: 12px 0 0;
-        justify-content: space-between;
-        gap: unset;
-      }
-
-      &.fadeout{
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      .rows {
-        padding: 215px 10px 0 20px;
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: stretch;
-        flex-wrap: nowrap;
-        width: auto;
-        gap: 15px;
-
-        .top {
-          min-height: 72px;
-          order: 0;
-          min-width: 0;
-          flex: 0 1 auto;
-          width: auto;
-          padding-right: 0;
-          gap: 5px;
-          margin: 0;
-
-          .ability-score::before{
-            border: 1px solid var(--dnd5e-color-gold);
-          }
-        }
-        .bottom {
-          order: 1;
-          flex: 0 1 auto;
-          width: auto;
-          gap: 5px;
-          margin: 0;
-        }
-      }
-    }
-
-    @container (min-width: 700px) {
-      .dnd5e2.sheet.actor.character .ability-scores.optional-ability-0 .rows .top {
-        min-height: 72px;
-        order: 0;
-      }
     }
 
     &.theme-light {
