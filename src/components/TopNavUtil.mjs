@@ -861,7 +861,7 @@ export class TopNavigation {
 
   static onSelectScene = (evt) => {
     evt.preventDefault();
-    evt.stopPropagation();
+    // evt.stopPropagation();
     const target = evt.currentTarget;
     const isInner = target.classList.contains("scene-name");
     const data = isInner ? target.parentNode.dataset : target.dataset;
@@ -870,16 +870,15 @@ export class TopNavigation {
     // const isSearchResult = target.parentElement?.classList.contains('search-results');
     
     TopNavigation.#previewedScene = '';
-    LogUtil.log("onSelectScene",[]);
+    LogUtil.log("onSelectScene",[scene.sheet.render]);
 
     // Temporarily override the sheet.render method to prevent scene configuration
     if (scene && scene.sheet) {
       const originalRender = scene.sheet.render;
-      scene.sheet.render = function() { return this; };
+      scene.sheet.render = () => { }
       // Restore the original method after a short delay
       setTimeout(() => {
         scene.sheet.render = originalRender;
-        LogUtil.log("onSelectScene test",[]);
       }, 500);
     }
 
