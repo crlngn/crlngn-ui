@@ -827,13 +827,14 @@ body.crlngn-ui{
   }
   
   #tooltip {
+    --tooltip-color: var(--default-color);
     font-family: var(--crlngn-font-family);
     font-size: var(--font-size-12);
     padding: 6px;
     box-shadow: 0 1px 6px rgba(40,40,65,0.7);
     &:not(.dnd5e2, .dnd5e-tooltip) {
       background: var(--control-bg-color);
-      color: var(--default-color);
+      color: var(--tooltip-color);
     }
   
     > div, > p, > section, > button, > span {
@@ -841,11 +842,11 @@ body.crlngn-ui{
     }
 
     &.theme-dark:not(.dnd5e2, .dnd5e-tooltip) {
-      --default-color: var(--color-light-1);
+      --tooltip-color: var(--color-light-1);
     }
 
     &.theme-light:not(.dnd5e2, .dnd5e-tooltip) {
-      --default-color: var(--color-dark-1);
+      --tooltip-color: var(--color-dark-1);
     }
   }
   
