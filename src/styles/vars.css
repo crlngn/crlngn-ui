@@ -332,6 +332,8 @@ Main Theme
       --color-border-physical: var(--color-light-2);
       --visibility-gm-bg: rgba(232, 232, 239,0.15);
       --visibility-owner-bg: rgba(221, 235, 225, 0.15);
+      --content-link-background: rgba(221, 221, 221, 0.15);
+      --content-link-text-color: var(--color-light-2);
       
       .damage{
         --color-border-physical: rgba(232, 232, 239,0.25);

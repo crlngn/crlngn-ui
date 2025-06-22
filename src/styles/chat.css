@@ -635,7 +635,7 @@ body.crlngn-chat {
   #chat-pins.theme-dark {
     color: var(--color-light-1);
 
-    .chat-message div:not(.target-dc-result, .result) span:not(.tag),
+    .chat-message div:not(.target-dc-result, .result, .target-dc) span:not(.tag),
     .chat-message div,
     .chat-message p,
     .chat-message div,
@@ -653,7 +653,7 @@ body.crlngn-chat {
   #chat-pins.theme-light {
     color: var(--color-dark-1);
 
-    .chat-message div:not(.target-dc-result, .result) span:not(.tag),
+    .chat-message div:not(.target-dc-result, .result, .target-dc) span:not(.tag),
     .chat-message p,
     .chat-message div,
     .chat-message table,
