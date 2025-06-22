@@ -372,25 +372,63 @@ export class GeneralUtil {
    * @param {boolean} [checkForDuplicates=true] - Whether to check for duplicate rules
    */
   static addCustomCSS(content, checkForDuplicates = true) {
+    if (!content) return;
+    
     let customStyle = document.querySelector('#crlngn-ui-custom-css');
     
     if (!customStyle) {
-      // Create style element if it doesn't exist
-      const body = document.querySelector('body');
+      // Create style element if it doesn't exist and append to head
       customStyle = document.createElement('style');
       customStyle.id = 'crlngn-ui-custom-css';
       customStyle.textContent = '';
-      body.appendChild(customStyle);
+      document.head.appendChild(customStyle);
     }
 
+    // Process content to ensure @import statements are at the top
+    const importRegex = /@import\s+(?:url\()?\s*['"]?[^'")]+['"]?\s*\)?\s*;/g;
+    const imports = [];
+    let contentWithoutImports = content;
+    
+    // Extract all import statements
+    let match;
+    while ((match = importRegex.exec(content)) !== null) {
+      imports.push(match[0]);
+    }
+    
+    // Remove import statements from original content
+    contentWithoutImports = content.replace(importRegex, '').trim();
+    
     if (!checkForDuplicates) {
-      customStyle.textContent += content;
+      // Combine imports at the top followed by other CSS
+      customStyle.textContent = imports.join('\n') + (imports.length ? '\n\n' : '') + contentWithoutImports;
       return;
     }
-
-    // Check if the rule already exists
-    if (!customStyle.textContent.includes(content)) {
-      customStyle.textContent += content;
+    
+    // When checking for duplicates
+    if (!customStyle.textContent.includes(contentWithoutImports)) {
+      // Get existing content
+      const currentContent = customStyle.textContent;
+      
+      // Extract existing imports
+      const existingImports = [];
+      let currentMatch;
+      while ((currentMatch = importRegex.exec(currentContent)) !== null) {
+        existingImports.push(currentMatch[0]);
+      }
+      
+      // Get content without existing imports
+      const currentContentWithoutImports = currentContent.replace(importRegex, '').trim();
+      
+      // Filter out imports that already exist
+      const newImports = imports.filter(imp => !existingImports.includes(imp));
+      
+      // Combine all imports at the top, followed by content
+      const allImports = [...existingImports, ...newImports];
+      customStyle.textContent = allImports.join('\n') + 
+                               (allImports.length ? '\n\n' : '') + 
+                               currentContentWithoutImports +
+                               (currentContentWithoutImports && contentWithoutImports ? '\n\n' : '') +
+                               contentWithoutImports;
     }
   }
   

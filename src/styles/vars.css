@@ -73,7 +73,6 @@ Main Theme
     --color-light-bg-90: rgba(233, 233, 226, 0.9);
     --color-light-bg: rgba(233, 233, 226, 1);
   
-
     --control-bg-color: rgba(244, 244, 255, 0.75);
     --control-bg-color-90: var(--color-cool-5-90);
     --sidebar-background: rgba(232, 232, 232, 0.95);
@@ -131,6 +130,7 @@ Main Theme
     --color-fieldset-border: var(--color-secondary-25);
     --dnd5e-color-maroon: var(--color-highlights);
     --dnd5e-shadow-45: rgba(0, 0, 0, 0.25); /* make these shadows more nuanced */
+    --dnd5e-sheet-bg: rgb(244, 239, 237);
 
     --default-color: var(--color-light-1);
     #interface.theme-light, .sidebar-popout.theme-light, #chat-popout.theme-light, #chat-pins.theme-light{
@@ -158,6 +158,7 @@ Main Theme
       --color-secondary-b-75: rgba(237, 224, 237, 0.75);
       --color-secondary-b-90: rgba(237, 224, 237, 0.9);
       --color-text-secondary: rgba(20, 17, 25, 1);
+      --dnd5e-sheet-bg: rgb(244, 239, 237);
     }
     
     &.theme-dark,
@@ -171,6 +172,7 @@ Main Theme
       --crlngn-button-bg: rgba(15, 15, 15, 0.15);
       --color-bg-button: rgba(40, 47, 54, 1);
       --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.35);
+      --dnd5e-sheet-bg: rgb(37, 40, 48);
       --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
       &.crlngn-chat .sidebar-content{
         --dnd5e-color-parchment: rgb(40, 47, 54);

@@ -63,9 +63,6 @@ body.crlngn-ui  {
 /*************/
 /* JOURNALS */
 body.crlngn-ui  {
-  .sheet.journal-entry .journal-entry-page p {
-    /*font-size: var(--font-size-14);*/
-  }
   .sheet.journal-entry {
     h1, h2, h3 {
       font-family: var(--dnd5e-font-modesto);

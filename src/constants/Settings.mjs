@@ -704,7 +704,7 @@ export function getSettings() {
       default: "",
       scope: SETTING_SCOPE.world,
       config: false, 
-      requiresReload: false 
+      requiresReload: true 
     },
 
     /* CHAT STYLES */

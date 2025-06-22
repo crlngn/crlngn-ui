@@ -309,7 +309,7 @@ body.crlngn-ui.crlngn-sheets {
     padding: 2em 8px;
   }
   .dnd5e2.sheet.actor.character .ability-scores .ability-score::before {
-    background: var(--dnd5e-color-parchment);
+    background: var(--dnd5e-sheet-bg);
     border-radius: 5px;
   }
   .dnd5e2.sheet.actor.character .ability-scores .ability-score .score {
