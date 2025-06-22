@@ -628,17 +628,24 @@ body.crlngn-chat {
   /*********
   DARK MODE 
   **********/
+  #interface.theme-dark .chat-message {
+    color: var(--color-light-1);
+  }
   #interface.theme-dark,
   #chat-popout.theme-dark,
   #chat-pins.theme-dark {
     color: var(--color-light-1);
+
+    .chat-message div:not(.target-dc-result, .result) span:not(.tag),
+    .chat-message div,
     .chat-message p,
-    .chat-message span,
     .chat-message div,
     .chat-message table,
     .chat-message ul,
     .chat-message ol,
-    .chat-message li {
+    .chat-message li,
+    .chat-message header,
+    .chat-message .message-header {
       color: var(--color-light-1);
     }
   }
@@ -646,13 +653,16 @@ body.crlngn-chat {
   #chat-popout.theme-light,
   #chat-pins.theme-light {
     color: var(--color-dark-1);
+
+    .chat-message div:not(.target-dc-result, .result) span:not(.tag),
     .chat-message p,
-    .chat-message span,
     .chat-message div,
     .chat-message table,
     .chat-message ul,
     .chat-message ol,
-    .chat-message li {
+    .chat-message li,
+    .chat-message header,
+    .chat-message .message-header {
       color: var(--color-dark-1);
     }
   }
@@ -1039,161 +1049,159 @@ body.crlngn-chat {
         }
       }
     }
+  }
+  /*******
+  PF2e 
+  *******/
+  &.system-pf2e #interface.theme-dark .damage {
+    --color-border-physical: rgb(255, 255, 255, 0.5);
+    --color-text-dark-secondary: rgb(255, 255, 255, 0.75); 
+    --color-text-physical: rgb(255, 255, 255, 0.75); 
+    --color-text-acid: rgb(59, 114, 59);
+    --color-text-bleed: rgb(97, 64, 70);
+    --color-text-chaotic: rgb(109, 80, 109);
+    --color-text-cold: rgb(79, 79, 110);
+    --color-text-electricity: rgb(127, 118, 97);
+    --color-text-evil: rgb(84, 71, 94);
+    --color-text-fire: rgb(105, 84, 76);
+    --color-text-force: rgb(107, 85, 123);
+    --color-text-good: rgb(119, 109, 85);
+    --color-text-lawful: rgb(77, 77, 77);
+    --color-text-mental: rgb(58, 58, 76);
+    --color-text-physical: rgb(186, 186, 186); 
+    --color-text-poison: rgb(151, 175, 113);
+    --color-text-sonic: rgb(70, 112, 112); 
+    --color-text-spirit: rgb(92, 87, 128);  
+    --color-text-vitality: rgb(193, 193, 141);
+    --color-text-void:rgb(111, 107, 132);
+    --pfe-color-success: rgb(105 177 231);
+  }
+  &.system-pf2e #interface.theme-dark  {
+    --visibility-gm-bg: rgba(255,255,255,0.1)
+    --visibility-owner-bg: rgba(235,235,235,0.1)
+  }
+  &.system-pf2e #interface.theme-dark .chat-message .flavor-text > * {
+    margin: 0.5em 0;
+  }
 
-    /*******
-    PF2e 
-    *******/
-    &.system-pf2e .damage {
-      --color-border-physical: rgb(255, 255, 255, 0.5);
-      --color-text-dark-secondary: rgb(255, 255, 255, 0.75); 
-      --color-text-physical: rgb(255, 255, 255, 0.75); 
-      --color-text-acid: rgb(59, 114, 59);
-      --color-text-bleed: rgb(97, 64, 70);
-      --color-text-chaotic: rgb(109, 80, 109);
-      --color-text-cold: rgb(79, 79, 110);
-      --color-text-electricity: rgb(127, 118, 97);
-      --color-text-evil: rgb(84, 71, 94);
-      --color-text-fire: rgb(105, 84, 76);
-      --color-text-force: rgb(107, 85, 123);
-      --color-text-good: rgb(119, 109, 85);
-      --color-text-lawful: rgb(77, 77, 77);
-      --color-text-mental: rgb(58, 58, 76);
-      --color-text-physical: rgb(186, 186, 186); 
-      --color-text-poison: rgb(151, 175, 113);
-      --color-text-sonic: rgb(70, 112, 112); 
-      --color-text-spirit: rgb(92, 87, 128);  
-      --color-text-vitality: rgb(193, 193, 141);
-      --color-text-void:rgb(111, 107, 132);
-      --pfe-color-success: rgb(105 177 231);
-    }
-    &.system-pf2e  {
-      --visibility-gm-bg: rgba(255,255,255,0.1)
-      --visibility-owner-bg: rgba(235,235,235,0.1)
-    }
-    &.system-pf2e .chat-message .flavor-text > * {
-      margin: 0.5em 0;
-    }
-
-    &.system-pf2e .chat-message .message-header .tag {
+  &.system-pf2e #interface.theme-dark .chat-message .message-header .tag {
+    color: rgba(255,255,255,0.6);
+    font-size: var(--font-size-10);
+    padding: 3px;
+  }
+  &.system-pf2e #interface.theme-dark .chat-message .message-header .flavor-text .modifiers {
+    margin: 1em 0;
+    .tag {
+      background: var(--chat-button-bg-50);
       color: rgba(255,255,255,0.6);
-      font-size: var(--font-size-10);
-      padding: 1px 3px;
     }
-    &.system-pf2e .chat-message .message-header .flavor-text .modifiers {
-      margin: 1em 0;
-      .tag {
-        background: var(--chat-button-bg-50);
-        color: rgba(255,255,255,0.6);
-      }
-    }
-    &.system-pf2e .chat-message .message-sender {
-      font-weight: 600;
-    }
+  }
+  &.system-pf2e #interface.theme-dark .chat-message .message-sender {
+    font-weight: 600;
+  }
 
-    /*
-    &.system-pf2e #interface.theme-dark,
-    &.system-pf2e #chat-popout.theme-dark {
+  
+  &.system-pf2e #interface.theme-dark,
+  &.system-pf2e #chat-popout.theme-dark {
+    color: var(--color-light-1);
+    background-color: transparent;
+    .chat-message p,
+    /*.chat-message span,*/
+    .chat-message div,
+    .chat-message table,
+    .chat-message ul,
+    .chat-message ol,
+    .chat-message li,
+    .chat-message header,
+    .chat-message .message-header {
       color: var(--color-light-1);
       background-color: transparent;
-      .chat-message p,
-      .chat-message span,
-      .chat-message div,
-      .chat-message table,
-      .chat-message ul,
-      .chat-message ol,
-      .chat-message li {
-        color: var(--color-light-1);
-        background-color: transparent;
-      }
-    }*/
-    &.system-pf2e .chat-message > .message-header .flavor-text .degree-of-success .success {
-      color: var(--pfe-color-success);
     }
-    &.system-pf2e .chat-message i.fa-solid {
-      color: rgb(255,255,255);
-    }
-    &.system-pf2e .chat-message .message-content {
-      font-size: var(--font-size-12);
-    }
-    &.system-pf2e .chat-message .dice-tooltip .part-header {
-      line-height: 1.5em;
-      border-bottom: 1px solid var(--color-text-dark-1);
-    }
-    &.system-pf2e .chat-message .dice-tooltip .part-header .part-total {
-      border: 1px solid var(--color-text-dark-1);
-    }
-    &.system-pf2e .chat-message .message-content .damage-application button.half-damage i.fa-heart-broken {
-      background-image: linear-gradient(to right, var(--color-light-1) 50%, var(--color-text-light-6) 50%);
-    }
-    &.system-pf2e .chat-message .message-content .damage-application button > img {
-      filter: invert(1);
-    }
-    &.system-pf2e .chat-message .message-content button > img {
-      height: var(--font-size-16);
-    }
-    &.system-pf2e .message-content .dice-result .dice-formula {
-      color: var(--color-text-light);
-    }
-    &.system-pf2e .chat-message .message-content button {
-      font-size: var(--font-size-12);
+  }
+  &.system-pf2e #interface.theme-dark .chat-message i.fa-solid {
+    color: rgb(255,255,255);
+  }
+  &.system-pf2e .chat-message .message-content {
+    font-size: var(--font-size-12);
+  }
+  &.system-pf2e .chat-message .dice-tooltip .part-header {
+    line-height: 1.5em;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+  }
+  &.system-pf2e .chat-message .dice-tooltip .part-header .part-total {
+    border: 1px solid rgba(0,0,0,0.3);
+  }
+  &.system-pf2e .chat-message .message-content .damage-application button.half-damage i.fa-heart-broken {
+    background-image: linear-gradient(to right, var(--color-light-1) 50%, var(--color-text-light-6) 50%);
+  }
+  &.system-pf2e #interface.theme-dark .chat-message .message-content .damage-application button > img {
+    filter: invert(1);
+  }
+  &.system-pf2e .chat-message .message-content button > img {
+    height: var(--font-size-16);
+  }
+  &.system-pf2e #interface.theme-dark .message-content .dice-result .dice-formula {
+    color: var(--color-text-light);
+  }
+  &.system-pf2e .chat-message .message-content button {
+    font-size: var(--font-size-12);
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0.15em 0;
+  }
+  &.system-pf2e .chat-message .message-content .damage-application button {
+    font-size: var(--font-size-16);
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0.25em 0;
+    height: auto;
+
+    label{
+      font-size: var(--font-size-14);
       font-weight: 600;
-      text-transform: uppercase;
-      padding: 0.15em 0;
-    }
-    &.system-pf2e .chat-message .message-content .damage-application button {
-      font-size: var(--font-size-16);
-      font-weight: 600;
-      text-transform: uppercase;
-      padding: 0.25em 0;
-      height: auto;
-
-      label{
-        font-size: var(--font-size-14);
-        font-weight: 600;
-      }
-    }
-
-    &.system-pf2e .chat-message > .message-content .dice-roll .dice-tooltip {
-      background: var(--color-dark-bg-50);
-      border: none;
-      padding: 0;
-    }
-
-    &.system-pf2e  .chat-message>.message-content .dice-roll .dice-tooltip{
-      background-color: transparent;
-      color: var(--color-text-light);
-      font-size: var(--font-size-12);
-    }
-
-    &.system-pf2e .chat-message .message-content .dice-result .dice-tooltip .instance {
-      border: none;
-      border-width: 0;
-      border-radius: 0;
-      color: var(--color-text-light);
-      > *{
-        color: var(--color-text-light);
-      }
     }
   }
 
-  &.system-pf2e .chat-message .tag[data-visibility=gm] {
+  &.system-pf2e #interface.theme-dark .chat-message > .message-content .dice-roll .dice-tooltip {
+    background: var(--color-dark-bg-50);
+    border: none;
+    padding: 0;
+  }
+
+  &.system-pf2e #interface.theme-dark  .chat-message>.message-content .dice-roll .dice-tooltip{
+    background-color: transparent;
+    color: var(--color-text-light);
+    font-size: var(--font-size-12);
+  }
+
+  &.system-pf2e #interface.theme-dark .chat-message .message-content .dice-result .dice-tooltip .instance {
+    border: none;
+    border-width: 0;
+    border-radius: 0;
+    color: var(--color-text-light);
+    > *{
+      color: var(--color-text-light);
+    }
+  }
+
+  &.system-pf2e #interface.theme-dark .chat-message .tag[data-visibility=gm] {
     background-color: rgba(255,255,255,0.1);;
   }
 
-  &.system-pf2e.theme-dark .chat-message .tag[data-visibility=gm],
-  &.system-pf2e.theme-dark .chat-message span[data-visibility=gm] {
+  &.system-pf2e #interface.theme-dark .chat-message .tag[data-visibility=gm],
+  &.system-pf2e #interface.theme-dark .chat-message span[data-visibility=gm] {
     background-color: var(--color-secondary-50);
-    color: var(--color-text-light);
+    color: inherit;
   }
 
-  &.system-pf2e.theme-light .chat-message .tag[data-visibility=gm],
-  &.system-pf2e.theme-light .chat-message span[data-visibility=gm] {
+  &.system-pf2e #interface.theme-light .chat-message .tag[data-visibility=gm],
+  &.system-pf2e #interface.theme-light .chat-message span[data-visibility=gm] {
     background-color: var(--color-secondary-50);
-    color: var(--color-text-dark);
+    color: inherit;
   }
 
 
-  &.system-pf2e #interface, &.system-pf2e #chat-pins {
+  &.system-pf2e #interface.theme-dark, &.system-pf2e.theme-dark #chat-pins {
 
     .chat-message .tags.traits .tag, 
     .chat-message .tags.traits .tag option {

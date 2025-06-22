@@ -51,7 +51,7 @@ Main Theme
   /*  Colors                                  */
   /* ---------------------------------------- */
   body.crlngn-ui {
-    &.crlngn-chat{
+    &.crlngn-chat .sidebar-content{
       --dnd5e-background-card: rgba(244, 239, 237,0.8);
       --dnd5e-color-parchment: rgb(244, 239, 237);
     }
@@ -172,7 +172,7 @@ Main Theme
       --color-bg-button: rgba(40, 47, 54, 1);
       --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.35);
       --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
-      &.crlngn-chat{
+      &.crlngn-chat .sidebar-content{
         --dnd5e-color-parchment: rgb(40, 47, 54);
         --dnd5e-background-card: rgb(40, 47, 54); 
       }
@@ -268,7 +268,7 @@ Main Theme
       --background: var(--control-bg-color);
     }
 
-    &.theme-dark.crlngn-chat{
+    &.theme-dark.crlngn-chat .sidebar-content{
       --dnd5e-background-card: rgb(40, 47, 54); 
       --dnd5e-color-parchment: rgb(40, 47, 54);
       --crlngn-button-bg: rgba(15, 15, 15, 0.15);
@@ -276,7 +276,7 @@ Main Theme
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --color-hover-bg: inherit;
     }
-    &.theme-light.crlngn-chat{
+    &.theme-light.crlngn-chat .sidebar-content{
       --dnd5e-background-card: rgba(244, 239, 237,0.8);
       --dnd5e-color-parchment: rgb(244, 239, 237);
       --crlngn-button-bg: rgba(250, 250, 250, 0.15);
@@ -305,6 +305,44 @@ Main Theme
       --background: var(--control-bg-color);
     }
 
+  }
+
+  /*****************/
+  /* PF2e */
+  body.crlngn-ui.system-pf2e.crlngn-chat {
+    #interface.theme-dark .chat-log.themed.theme-light,
+    #interface.theme-dark .chat-log.themed.theme-dark {
+      --color-text-tertiary: var(--color-light-2);
+      --color-text-dark-input: #878787;
+      --color-text-dark-improved: #26775c;
+      --color-pf-text-critical-success: rgb(50, 146, 107);
+      --color-pf-text-success: rgb(113, 161, 224);
+      --color-pf-text-failure: rgb(141, 53, 48);
+      --color-pf-text-critical-failure: rgb(217, 92, 86);
+      --color-border-divider: #6f6f6f;
+      --color-border-dark-input: #383838;
+      --color-border-medium: rgb(80, 80, 80);
+      --color-bg-size: #3a7b59;
+      --color-bg-trait: #5e0000;
+      --color-border-trait: #646464;
+      --color-text-trait: var(--color-light-2);
+      --color-pf-text-adjusted-higher: rgb(50, 146, 107);
+      --color-pf-text-adjusted-lower: rgb(141, 53, 48);
+      --color-text-physical: var(--color-light-2);
+      --color-border-physical: var(--color-light-2);
+      --visibility-gm-bg: rgba(232, 232, 239,0.15);
+      --visibility-owner-bg: rgba(221, 235, 225, 0.15);
+      
+      .damage{
+        --color-border-physical: rgba(232, 232, 239,0.25);
+      }
+      button{
+        --button-text-color: var(--color-light-2);
+      }
+      button[data-action=applyDamage] img {
+        filter: invert(1);
+      }
+    }
   }
 
   /****************/

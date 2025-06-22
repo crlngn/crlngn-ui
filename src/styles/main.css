@@ -125,14 +125,16 @@ body.crlngn-ui{
   .application:not(.dnd5e2) .dialog-buttons button, 
   .combat-controls button,
   form.application .form-footer button,
-  .application:not(.dnd5e2) .standard-form button,
-  .journal-sheet-container .action-buttons button {
+  .application:not(.dnd5e2) .standard-form button
+  /*.journal-sheet-container .action-buttons button*/ {
     height: auto;
     min-height: var(--input-height);
     padding: 10px 6px;
     line-height: 125%;
     border: 1px solid var(--color-secondary-75);
     background: var(--color-bg-button);
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    color: inherit;
     
     &.default {
       border: 1px solid var(--color-highlights-75);
