@@ -733,7 +733,7 @@ export function getSettings() {
       default: true, 
       scope: SETTING_SCOPE.client, 
       config: false , 
-      requiresReload: false 
+      requiresReload: true 
     },
     enableChatStyles:{
       tag: "v2-enable-chat-styles", 

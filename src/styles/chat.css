@@ -98,7 +98,6 @@ body.crlngn-chat {
     border-radius: 6px;
     background: var(--card-color-bg);
     box-shadow: 0 0 0px var(--dnd5e-shadow-45);
-    border: 0;
   }
   .chat-message.whisper{
     background: var(--card-color-bg);
@@ -157,14 +156,14 @@ body.crlngn-chat {
 
   &.player-chat-borders,
   &.roll-chat-borders {
-    :is(.chat-popout, #chat-log) .chat-message,
-    :is(.chat-popout, #chat-log) .chat-message.whisper,
-    :is(.chat-popout, #chat-log) .chat-message.blind{
+    :is(.chat-popout, #chat-log, .chat-log) .chat-message,
+    :is(.chat-popout, #chat-log, .chat-log) .chat-message.whisper,
+    :is(.chat-popout, #chat-log, .chat-log) .chat-message.blind{
       transition: border .2s ease-in-out; 
       border-width: 1px;
       border-style: solid;
     }
-    :is(.chat-popout, #chat-log) .chat-message.left-border {
+    :is(.chat-popout, #chat-log, .chat-log) .chat-message.left-border {
       border-width: 0;
       border-left-width: 3px;
     }
