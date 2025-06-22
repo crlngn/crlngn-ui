@@ -11,7 +11,8 @@
   "license": "https://mit-license.org/",
   "compatibility": {
     "minimum": "13.339",
-    "verified": "13.344"
+    "verified": "13.345",
+    "maximum": "13.999"
   },
   "authors": [
     {
