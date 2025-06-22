@@ -1098,7 +1098,6 @@ body.crlngn-chat {
   &.system-pf2e #interface.theme-dark .chat-message .message-sender {
     font-weight: 600;
   }
-
   
   &.system-pf2e #interface.theme-dark,
   &.system-pf2e #chat-popout.theme-dark {
@@ -1115,6 +1114,17 @@ body.crlngn-chat {
     .chat-message .message-header {
       color: var(--color-light-1);
       background-color: transparent;
+    }
+    .chat-card .card-header,
+    .chat-card footer {
+      border-top: 1px solid rgba(0, 0, 0, 0.35);
+    }
+    .chat-card .tags {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.35);
+    }
+    .chat-card footer span {
+      border-right: 1px solid rgba(0, 0, 0, 0.5);
+      padding: 0 4px;
     }
   }
   &.system-pf2e #interface.theme-dark .chat-message i.fa-solid {
