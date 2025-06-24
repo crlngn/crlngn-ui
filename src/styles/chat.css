@@ -96,16 +96,16 @@ body.crlngn-chat {
   }
   .chat-message, .chat-message.whisper, .chat-message.blind {
     border-radius: 6px;
-    background: var(--card-color-bg);
+    background: var(--card-color-bg) !important;
     box-shadow: 0 0 0px var(--dnd5e-shadow-45);
   }
   .chat-message.whisper{
-    background: var(--card-color-bg);
-    background-image: var(--striped-bg);
+    background: var(--card-color-bg) !important;
+    background-image: var(--striped-bg) !important;
   }
   .chat-message.blind{
-    background: var(--card-color-bg);
-    background-image: var(--striped-bg-2);
+    background: var(--card-color-bg) !important;
+    background-image: var(--striped-bg-2) !important;
   }
   .chat-message.whisper span.name-stacked:after,
   .chat-message.blind span.name-stacked:after{
