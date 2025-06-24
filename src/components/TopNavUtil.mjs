@@ -899,6 +899,8 @@ export class TopNavigation {
   static onScenePreviewOn = (evt) => {
     evt.stopPropagation();
     evt.preventDefault();
+    LogUtil.log("onScenePreviewOn", [TopNavigation.useScenePreview]);
+    if(!TopNavigation.useScenePreview){ return; }
     if(!TopNavigation.showNavOnHover){ return; }
 
     const target = evt.currentTarget;
@@ -914,6 +916,8 @@ export class TopNavigation {
     evt.stopPropagation();
     evt.preventDefault();
     clearTimeout(TopNavigation.#sceneHoverTimeout);
+
+    if(!TopNavigation.useScenePreview){ return; }
     if(!TopNavigation.showNavOnHover){ return; }
     const target = evt.currentTarget;
     TopNavigation.#previewedScene = '';
@@ -981,6 +985,9 @@ export class TopNavigation {
       if (game.user?.isGM) {
         TopNavigation.addPreviewIconListeners(sceneElement, templateData);
       }
+    }else{
+      sceneElement.removeEventListener("mouseenter", TopNavigation.onScenePreviewOn);
+      sceneElement.removeEventListener("mouseleave", TopNavigation.onScenePreviewOff);
     }
   }
   
@@ -990,6 +997,7 @@ export class TopNavigation {
    */
   static addSceneListeners = (html) => {
     if(!TopNavigation.sceneNavEnabled){ return; }
+
     html = html[0] || html; // convert jquery object to dom element
     const sceneItems = html.querySelectorAll("li.scene");
     sceneItems.forEach(li => {
@@ -998,11 +1006,13 @@ export class TopNavigation {
       li.querySelector(".scene-name").removeEventListener("dblclick", TopNavigation.onActivateScene);
       li.querySelector(".scene-name").addEventListener("click", TopNavigation.onSelectScene);
       li.querySelector(".scene-name").addEventListener("dblclick", TopNavigation.onActivateScene);
+
       if(TopNavigation.useScenePreview){
         li.addEventListener("mouseenter", TopNavigation.onScenePreviewOn);
         li.addEventListener("mouseleave", TopNavigation.onScenePreviewOff);
         const id = li.dataset.sceneId;
         const sceneData = game.scenes.find(sc => sc.id === id);
+        
         if (game.user?.isGM) {
           TopNavigation.addPreviewIconListeners(li, sceneData);          
         }

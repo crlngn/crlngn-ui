@@ -16,7 +16,7 @@
 
   data-scene-id="{{this.id}}">
     <a class="scene-name ellipsis"> {{this.name}} </a>
-    {{> "modules/crlngn-ui/templates/scene-nav-preview.hbs" scene=this}}
+    {{#if ../usePreview}}{{> "modules/crlngn-ui/templates/scene-nav-preview.hbs" scene=this}}{{/if}}
   </li>
   {{/each}}
 </menu>
