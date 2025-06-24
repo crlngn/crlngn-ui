@@ -159,6 +159,9 @@ export class SettingsUtil {
     const enforceGMSettings = !game.user?.isGM && SettingsUtil.get(SETTINGS.enforceGMSettings.tag); 
     if(enforceGMSettings){
       SettingsUtil.enforceGMSettings();
+      // Ensure scene nav setting is properly applied after enforcement
+      const navEnabled = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
+      TopNavigation.sceneNavEnabled = navEnabled;
     }
   }
 
@@ -765,11 +768,11 @@ export class SettingsUtil {
     // // if(game.user?.isGM){ return; }
 
     for(const key in defaultSettings){
-      const setting = defaultSettings[key];
+      const settingValue = defaultSettings[key];
       
       if(SETTINGS[key] && SETTINGS[key].scope === SETTING_SCOPE.client){
-        SettingsUtil.set(SETTINGS[key].tag, setting);
-        LogUtil.log("enforcedGMSettings - setting", [key, setting]);
+        SettingsUtil.set(SETTINGS[key].tag, settingValue);
+        LogUtil.log("enforcedGMSettings - setting", [key, SETTINGS[key].tag, settingValue]);
       }
     }
   }
