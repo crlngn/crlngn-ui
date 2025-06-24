@@ -268,6 +268,56 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const SETTINGS = getSettings();
     ModuleSettings.#element = this.element;
 
+    // Range input value display and synchronization
+    const rangeInput = ModuleSettings.#element.querySelector('input[type="range"][name="sceneItemWidth"]');
+    const valueInput = ModuleSettings.#element.querySelector('input[type="number"].range-value-input[name="sceneItemWidth_value"]');
+
+    if (rangeInput && valueInput) {
+      LogUtil.log("_onRender", [rangeInput, valueInput]);
+      const min = parseInt(rangeInput.min, 10);
+      const max = parseInt(rangeInput.max, 10);
+
+      // Listener for the range slider's input event
+      rangeInput.addEventListener('input', () => {
+        valueInput.value = rangeInput.value;
+      });
+
+      // Listener for the number input's input event (while typing)
+      valueInput.addEventListener('input', () => {
+        const currentValueString = valueInput.value;
+        // Allow empty string or just a minus sign during typing
+        if (currentValueString === "" || currentValueString === "-") {
+          // Potentially clear slider or set to a neutral state if desired, or do nothing
+          // For now, do nothing and let 'change' event handle it if left empty.
+          return;
+        }
+        const currentValue = parseInt(currentValueString, 10);
+        if (!isNaN(currentValue) && currentValue >= min && currentValue <= max) {
+          rangeInput.value = currentValue;
+        }
+        // If it's NaN (e.g. "12a") or outside min/max during typing,
+        // do nothing to rangeInput yet. Let the user continue typing.
+        // The 'change' event will handle final validation.
+      });
+
+      // Listener for the number input's change event (after typing/blur/enter)
+      valueInput.addEventListener('change', () => {
+        let value = parseInt(valueInput.value, 10);
+
+        if (isNaN(value) || value < min) {
+          value = min;
+        } else if (value > max) {
+          value = max;
+        }
+        
+        valueInput.value = value; // Update the input field to the clamped/validated value
+        rangeInput.value = value; // Sync the slider
+      });
+
+      // Set initial value for the number input from the range slider
+      valueInput.value = rangeInput.value;
+    }
+
     // add listener to .toggle-hint 
     const hintToggles = ModuleSettings.#element.querySelectorAll('.toggle-hint');
     LogUtil.log("_onRender", [context, options, this.element]);
@@ -322,14 +372,17 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       settings = foundry.utils.expandObject(formData.object);
     } 
 
-    // LogUtil.log("updateSettings #1", [settings, formData.object]);
     let fieldNames = [];
 
     const selectedTheme = THEMES.find(theme => theme.label===settings.colorTheme);
     settings.colorTheme = selectedTheme ? selectedTheme.className : THEMES[0].className;
 
     Object.entries(settings).forEach(([fieldName, value]) => {
-      if(settings[fieldName] !== undefined) {
+      // Skip auxiliary form fields like range value inputs
+      if(fieldName.endsWith('_value')) return;
+      
+      LogUtil.log("updateSettings #1", [SETTINGS, SETTINGS[fieldName]]);
+      if(settings[fieldName] !== undefined && SETTINGS[fieldName]) {
         const currSetting = SettingsUtil.get(SETTINGS[fieldName].tag);
         SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
         

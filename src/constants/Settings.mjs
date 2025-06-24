@@ -362,6 +362,7 @@ export function getSettings() {
         "useSceneIcons",
         "navStartCollapsed",
         "showNavOnHover",
+        "sceneItemWidth",
         "useSceneBackButton",
         "useScenePreview"
       ],
@@ -374,6 +375,7 @@ export function getSettings() {
         navShowRootFolders: false,
         useSceneLookup: true,
         showNavOnHover: false,
+        sceneItemWidth: 150,
         useScenePreview: true,
         useSceneBackButton: true
       },
@@ -448,16 +450,15 @@ export function getSettings() {
       requiresReload: false 
     },
 
-    sceneNavItemWidth: { 
+    sceneItemWidth: { 
       tag: "v2-scene-nav-item-width", 
-      oldName: "showNavOnHover",
-      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavItemWidth.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavItemWidth.hint"), 
-      propType: String, 
-      default: '', 
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneItemWidth.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneItemWidth.hint"), 
+      propType: Number, 
+      inputType: SETTING_INPUT.number, 
+      default: 150, 
       scope: SETTING_SCOPE.client, 
-      config: false, 
-      requiresReload: false 
+      config: false
     },
 
     showNavOnHover: { 

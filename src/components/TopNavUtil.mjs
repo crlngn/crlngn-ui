@@ -1137,5 +1137,11 @@ export class TopNavigation {
       }
     }
   }
+
+  static applySceneItemWidth = () => { 
+    const SETTINGS = getSettings();
+    const currWidth = SettingsUtil.get(SETTINGS.sceneItemWidth.tag) || 150;
+    GeneralUtil.addCSSVars("--scene-nav-item-width", `${currWidth}px`);
+  } 
   
 }

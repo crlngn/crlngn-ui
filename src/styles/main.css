@@ -556,6 +556,15 @@ body.crlngn-ui{
       font-weight: 600;
       letter-spacing: 0.03em;
     }
+
+    &.range input[type="range"] {
+      width: calc(50% - 100px);
+      flex: 1 1 calc(50% - 100px);
+    }
+    &.range input[type="number"] {
+      width: 60px;
+      flex: 0 0 60px;
+    }
   }
   .hint{
     line-height: 1.35;

@@ -491,7 +491,7 @@ body.crlngn-ui{
 
   /* DFreds Effects panel */
   #effects-panel {
-    margin-top: calc(var(--control-item-size) + 10px);
+    padding-top: 10px;
   }
 
   .effect-panel .effects-panel-container .effect-item .icon.temporary {

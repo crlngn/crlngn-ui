@@ -340,6 +340,10 @@ export class SettingsUtil {
       case SETTINGS.useScenePreview.tag:
         TopNavigation.useScenePreview = value;
         ui.nav?.render(); break;
+      case SETTINGS.sceneItemWidth.tag:
+        TopNavigation.sceneItemWidth = value;
+        TopNavigation.applySceneItemWidth();
+        break;
       case SETTINGS.navStartCollapsed.tag:
         TopNavigation.navStartCollapsed = value; 
         ui.nav?.render(); break;

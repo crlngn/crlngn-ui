@@ -292,7 +292,7 @@
             "label": "Show root folders in scene navigation",
             "hint": "Root folders from Scene Directory will be show in the default scene navigation. If you have many folders on root, you might want to disable this option."
           },
-          "sceneNavItemWidth": {
+          "sceneItemWidth": {
             "label": "Width of navigation item",
             "hint": "Leave empty to use default width, or define a new number. Minimum is 100px"
           }
