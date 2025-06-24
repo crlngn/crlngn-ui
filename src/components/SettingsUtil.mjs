@@ -127,10 +127,6 @@ export class SettingsUtil {
         SettingsUtil.set(setting.tag, setting.default);
       }
     });
-    const enforceGMSettings = !game.user?.isGM && SettingsUtil.get(SETTINGS.enforceGMSettings.tag); 
-    if(enforceGMSettings){
-      SettingsUtil.enforceGMSettings();
-    }
     //apply debug Settings
     SettingsUtil.applyDebugSettings();
     // aply border colors
@@ -159,6 +155,11 @@ export class SettingsUtil {
     cameraDockFields.forEach(fieldName => {
       SettingsUtil.apply(SETTINGS[fieldName].tag);
     });
+
+    const enforceGMSettings = !game.user?.isGM && SettingsUtil.get(SETTINGS.enforceGMSettings.tag); 
+    if(enforceGMSettings){
+      SettingsUtil.enforceGMSettings();
+    }
   }
 
   /**
@@ -317,7 +318,7 @@ export class SettingsUtil {
         break;
       case SETTINGS.sceneNavEnabled.tag:
         TopNavigation.sceneNavEnabled = value;
-        if(value===false){
+        if(value===false && game.user?.isGM){
           SettingsUtil.set(SETTINGS.useSceneFolders.tag, false);
         }
         TopNavigation.applyButtonSettings();
@@ -766,7 +767,7 @@ export class SettingsUtil {
     for(const key in defaultSettings){
       const setting = defaultSettings[key];
       
-      if(SETTINGS[key]){
+      if(SETTINGS[key] && SETTINGS[key].scope === SETTING_SCOPE.client){
         SettingsUtil.set(SETTINGS[key].tag, setting);
         LogUtil.log("enforcedGMSettings - setting", [key, setting]);
       }
