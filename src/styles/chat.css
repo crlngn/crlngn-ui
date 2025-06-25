@@ -102,15 +102,12 @@ body.crlngn-chat {
     background: var(--card-bg-color-blind);
     background-image: var(--striped-bg-light-2);
   }
-  .chat-message span.name-stacked,
-  &.system-pf2e .chat-message span.message-metadata {
+  .chat-message span.message-metadata {
     position: relative;
   }
 
-  .chat-message.whisper span.name-stacked:after,
-  .chat-message.blind span.name-stacked:after,
-  &.system-pf2e .chat-message.whisper span.message-metadata:after,
-  &.system-pf2e .chat-message.blind span.message-metadata:after{
+  .chat-message.whisper span.message-metadata:after,
+  .chat-message.blind span.message-metadata:after{
     content: 'whisper';
     display: inline-block;
     position: absolute;
@@ -124,8 +121,7 @@ body.crlngn-chat {
     line-height: 1;
   }
 
-  .chat-message.blind span.name-stacked:after,
-  &.system-pf2e .chat-message.blind span.message-metadata:after {
+  .chat-message.blind span.message-metadata:after {
     content: 'blind';
   }
 
