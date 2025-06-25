@@ -319,8 +319,8 @@ Main Theme
       --color-text-dark-improved: #26775c;
       --color-pf-text-critical-success: rgb(50, 146, 107);
       --color-pf-text-success: rgb(113, 161, 224);
-      --color-pf-text-failure: rgb(141, 53, 48);
-      --color-pf-text-critical-failure: rgb(217, 92, 86);
+      --color-pf-text-failure: rgb(217, 92, 86);
+      --color-pf-text-critical-failure: rgb(247, 125, 118);
       --color-border-divider: #6f6f6f;
       --color-border-dark-input: #383838;
       --color-border-medium: rgb(80, 80, 80);
