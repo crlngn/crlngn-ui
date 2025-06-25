@@ -848,6 +848,11 @@ export class TopNavigation {
     const scene = game.scenes.get(data.entryId || data.sceneId);
     LogUtil.log("onActivateScene",[data, scene, evt.currentTarget.classList, evt.target.classList]);
     
+    if(!scene) {
+      console.error("Scene not found for activation", data);
+      return;
+    }
+    
     if(isOnFolder){
       TopNavigation.preventReposition = true;
     }
@@ -869,11 +874,16 @@ export class TopNavigation {
     const scene = game.scenes.get(data.entryId || data.sceneId);
     // const isSearchResult = target.parentElement?.classList.contains('search-results');
     
+    if(!scene) {
+      console.error("Scene not found for selection", data);
+      return;
+    }
+    
     TopNavigation.#previewedScene = '';
-    LogUtil.log("onSelectScene",[scene.sheet.render]);
 
     // Temporarily override the sheet.render method to prevent scene configuration
     if (scene && scene.sheet) {
+      LogUtil.log("onSelectScene",[scene.sheet?.render]);
       const originalRender = scene.sheet.render;
       scene.sheet.render = () => { }
       // Restore the original method after a short delay
@@ -900,7 +910,6 @@ export class TopNavigation {
     evt.stopPropagation();
     evt.preventDefault();
     LogUtil.log("onScenePreviewOn", [TopNavigation.useScenePreview]);
-    if(!TopNavigation.useScenePreview){ return; }
     if(!TopNavigation.showNavOnHover){ return; }
 
     const target = evt.currentTarget;
@@ -917,7 +926,6 @@ export class TopNavigation {
     evt.preventDefault();
     clearTimeout(TopNavigation.#sceneHoverTimeout);
 
-    if(!TopNavigation.useScenePreview){ return; }
     if(!TopNavigation.showNavOnHover){ return; }
     const target = evt.currentTarget;
     TopNavigation.#previewedScene = '';
@@ -1008,6 +1016,8 @@ export class TopNavigation {
       li.querySelector(".scene-name").addEventListener("dblclick", TopNavigation.onActivateScene);
 
       if(TopNavigation.useScenePreview){
+        li.removeEventListener("mouseenter", TopNavigation.onScenePreviewOn);
+        li.removeEventListener("mouseleave", TopNavigation.onScenePreviewOff);
         li.addEventListener("mouseenter", TopNavigation.onScenePreviewOn);
         li.addEventListener("mouseleave", TopNavigation.onScenePreviewOff);
         const id = li.dataset.sceneId;
@@ -1016,9 +1026,6 @@ export class TopNavigation {
         if (game.user?.isGM) {
           TopNavigation.addPreviewIconListeners(li, sceneData);          
         }
-      }else{
-        li.removeEventListener("mouseenter", TopNavigation.onScenePreviewOn);
-        li.removeEventListener("mouseleave", TopNavigation.onScenePreviewOff);
       }
     });
   }

@@ -327,14 +327,17 @@ export class SceneNavFolders {
     folderList = SceneNavFolders.sortFolderList(folderList, sortMode); // adjust the sorting
     folderScenes = SceneNavFolders.sortFolderScenes(folderScenes, sortMode); // adjust the sorting
     
-    // Enrich scene data with preview properties
-    if (TopNavigation.useScenePreview) {
-      folderScenes = folderScenes.map(scene => ({
-        ...scene,
-        isGM: game.user?.isGM,
-        thumb: scene.thumb || null
-      }));
-    }
+    folderScenes = folderScenes.map(scene => ({
+      id: scene.id,
+      name: scene.name,
+      active: scene.active,
+      isView: game.scenes.viewed?.id === scene.id,
+      thumb: scene.thumb || null,
+      environment: scene.environment,
+      tokenVision: scene.tokenVision,
+      isGM: game.user?.isGM,
+      usePreview: TopNavigation.useScenePreview
+    }));
     
     templateData = {
       currentFolder: targetFolder,
