@@ -509,5 +509,16 @@ body.crlngn-ui{
     border: 0;
     font-weight: 600;
   }
+
+  &.crlngn-touch-vtt {
+    #touch-vtt-controls button {
+      line-height: 18px;
+      font-size: var(--font-size-10);
+      width: var(--control-item-size);
+      height: var(--control-item-size);
+      background: var(--control-bg-color);
+      border-radius: 0;
+    }
+  }
   
 }

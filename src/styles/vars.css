@@ -455,21 +455,24 @@ Main Theme
     --color-cool-5-90: rgba(244, 244, 255, 0.9);
   }
 
-  #interface, #chat-popout, .sidebar-popout, .chat-log {
-    --default-color: var(--color-light-1);
+  
 
-    --striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-50) 2px, var(--color-secondary-50) 3px);
-    --striped-bg-2: repeating-linear-gradient( -45deg, rgba(205, 205, 195, 0.25) 0px, rgba(205, 205, 195, 0.25) 1px, rgba(240,240,240,0.25) 2px, rgba(240,240,240,0.25) 3px);  
-    
-    &.theme-dark{
-      --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
-      --striped-bg-2: repeating-linear-gradient( -45deg, rgba(0,0,0,0.35) 0px, rgba(0,0,0,0.35) 1px, rgba(35, 15, 15, 0.75) 2px, rgba(35, 25, 25, 0.75) 3px);
-    }
+  #interface {
+    /* , #chat-popout, .sidebar-popout, .chat-log 
+    --default-color: var(--color-light-1);*/
 
-    &.theme-light {
-      --striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-50) 2px, var(--color-secondary-50) 3px);
-      --striped-bg-2: repeating-linear-gradient( -45deg, rgba(205, 205, 195, 0.25) 0px, rgba(205, 205, 195, 0.25) 1px, rgba(240,240,240,0.25) 2px, rgba(240,240,240,0.25) 3px);  
-    }
+    --striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-75) 0px, var(--color-secondary-75) 1px, var(--color-secondary-50) 2px, var(--color-secondary-50) 3px);
+    --striped-bg-2: repeating-linear-gradient( -45deg, rgba(235, 235, 215, 0.3) 0px, rgba(235, 235, 215, 0.3) 1px, rgba(240,240,240,0.3) 2px, rgba(240,240,240,0.3) 3px);  
+  }
+
+  #interface.theme-dark{
+    --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-75) 0px, var(--color-secondary-75) 1px, var(--color-secondary) 2px, var(--color-secondary) 3px);
+    --striped-bg-2: repeating-linear-gradient( -45deg, rgba(0,0,0,0.5) 0px, rgba(0,0,0,0.5) 1px, rgba(0, 0, 0, 0.75) 2px, rgba(0, 0, 0, 0.75) 3px);
+  }
+
+  #interface.theme-light {
+    --striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-75) 0px, var(--color-secondary-75) 1px, var(--color-secondary-50) 2px, var(--color-secondary-50) 3px);
+    --striped-bg-2: repeating-linear-gradient( -45deg, rgba(125, 125, 115, 0.3) 0px, rgba(125, 125, 115, 0.3) 1px, rgba(105,105,95,0.2) 2px, rgba(105,105,95,0.2) 3px);  
   }
 
   /*

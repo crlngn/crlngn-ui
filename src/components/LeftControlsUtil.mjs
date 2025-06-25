@@ -53,11 +53,14 @@ export class LeftControls {
 
   static handleFadeOut(component, html, data){
     const element = html ? html : document.querySelector("#scene-controls");
+    const touchVttBtn = document.querySelector("#touch-vtt-controls");
 
     if(LeftControls.useFadeOut){
       element?.classList.add("faded-ui");
+      touchVttBtn?.classList.add("faded-ui");
     }else{
       element?.classList.remove("faded-ui");
+      touchVttBtn?.classList.remove("faded-ui");
     }
 
     LogUtil.log("handle FadeOut", [LeftControls.customStylesEnabled, LeftControls.useFadeOut]);

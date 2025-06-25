@@ -228,7 +228,7 @@ export function getSettings() {
       default: {
         colorTheme: "crlngn-theme",
         adjustOtherModules: true,
-        otherModulesList: "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar'",
+        otherModulesList: "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar','touch-vtt'",
         customStyles: "",
         useHorizontalSheetTabs: true,
         applyThemeToSheets: true
@@ -679,17 +679,18 @@ export function getSettings() {
     },
 
     otherModulesList: {
-      tag: "v2-other-modules-list",
+      tag: "v2-other-modules-list-a1",
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.hint"),
       propType: String,
-      default:  "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar'",
+      default:  "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar','touch-vtt'",
       options: {
         "BG3 Inspired Hotbar": "'bg3-inspired-hotbar'",
         "Combat Carousel": "'combat-carousel'",
         "Crux": "'crux'",
         "Dice Tray": "'dice-tray'",
         "Hurry Up": "'hurry-up'",
+        "Touch VTT": "'touch-vtt'",
         "Youtube Player": "'fvtt-youtube-player'"
       },
       scope: SETTING_SCOPE.world,
