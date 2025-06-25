@@ -1,11 +1,11 @@
 {
   "id": "crlngn-ui",
   "title": "Carolingian UI",
-  "version": "2.3.13",
+  "version": "2.3.14",
   "description": "Style changes and tweaks to improve look and feel of Foundry UI",
   "url": "https://github.com/crlngn/crlngn-ui",
   "manifest": "https://github.com/crlngn/crlngn-ui/releases/latest/download/module.json",
-  "download": "https://github.com/crlngn/crlngn-ui/releases/download/v2.3.13/module.zip",
+  "download": "https://github.com/crlngn/crlngn-ui/releases/download/v2.3.14/module.zip",
   "bugs": "https://github.com/crlngn/crlngn-ui/issues",
   "readme": "https://github.com/crlngn/crlngn-ui/main/README.md",
   "license": "https://mit-license.org/",
