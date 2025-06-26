@@ -248,20 +248,17 @@ body.crlngn-chat {
   .chat-message.ddb-game-log-open-card .ddb-game-log-chat-card {
     overflow: auto;
   }
-  :is(.chat-popout, #chat-log) .crlngn .message-header .message-sender {
+  :is(.chat-popout, #chat-log, .chat-log) .crlngn .message-header .message-sender {
     gap: 0.5em;
   }
-  :is(.chat-popout, #chat-log) .chat-message.message .message-header .message-sender img,
-  :is(.chat-popout, #chat-log) .crlngn .message-header .message-sender img,
-  :is(.chat-popout, #chat-log) .crlngn .message-header .message-sender .avatar img {
+  :is(.chat-popout, #chat-log, .chat-log) .chat-message.message .message-header .message-sender img,
+  :is(.chat-popout, #chat-log, .chat-log) .crlngn .message-header .message-sender img,
+  :is(.chat-popout, #chat-log, .chat-log) .crlngn .message-header .message-sender .avatar img {
     border-radius: 4px;
   }
   
-  :is(.chat-popout, #chat-log) .crlngn.ddbgl  .message-header {
-    /*font-size: var(--font-size-13);*/
-  }
   
-  :is(.chat-popout, #chat-log) .crlngn .message-header .subtitle {
+  :is(.chat-popout, #chat-log, .chat-log) .crlngn .message-header .subtitle {
     text-transform: uppercase;
     font-weight: 600;
     font-style: italic;
@@ -270,7 +267,7 @@ body.crlngn-chat {
     /*font-size: var(--font-size-12);*/
   }
   
-  :is(.chat-popout, #chat-log) .message:not(.ddbgl) .message-header .flavor-text {
+  :is(.chat-popout, #chat-log, .chat-log) .message:not(.ddbgl) .message-header .flavor-text {
     /*text-transform: uppercase;*/
     letter-spacing: 0.02em;
     /*font-size: var(--font-size-12);*/
@@ -809,17 +806,17 @@ body.crlngn-chat {
     }
   
     /* headers */
-    :is(.chat-popout, #chat-log) .chat-message .message-header .title,
-    :is(.chat-popout, #chat-log) .chat-message .message-header h4.message-sender {
-      color: var(--color-text-gray-blue);
+    :is(.chat-popout, #chat-log, .chat-log) .chat-message .message-header .title,
+    :is(.chat-popout, #chat-log, .chat-log) .chat-message .message-header h4.message-sender {
+      color: var(--color-light-1);
       font-size: var(--font-size-16);
       line-height: 110%;
       margin-bottom: 4px;
     }
-    :is(.chat-popout, #chat-log) .message .message-header .subtitle,
-    :is(.chat-popout, #chat-log) .message .flavor-text, 
-    :is(.chat-popout, #chat-log) .message .user {
-      color: var(--color-light-1);
+    :is(.chat-popout, #chat-log, .chat-log) .message .message-header .subtitle,
+    :is(.chat-popout, #chat-log, .chat-log) .message .flavor-text, 
+    :is(.chat-popout, #chat-log, .chat-log) .message .user {
+      color: var(--color-light-3);
     }
   
     :is(.card-tray, .effects-tray) > label::before, 
