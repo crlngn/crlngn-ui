@@ -172,6 +172,7 @@ Main Theme
       --crlngn-button-bg: rgba(15, 15, 15, 0.15);
       --color-bg-button: rgba(40, 47, 54, 1);
       --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.35);
+      --dnd5e-color-groove: var(--dnd5e-color-gold);
       --dnd5e-sheet-bg: rgb(37, 40, 48);
       --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
       &.crlngn-chat .sidebar-content{
@@ -304,6 +305,7 @@ Main Theme
       --color-text-secondary: var(--color-light-1);
       --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
       --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.35);
+      --dnd5e-color-groove: var(--dnd5e-color-gold);
       --background: var(--control-bg-color);
     }
 

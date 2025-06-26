@@ -142,6 +142,10 @@ export class SettingsUtil {
     SettingsUtil.applyChatStyles();
     // aply border colors
     SettingsUtil.applyBorderColors();
+    // apply horizontal sheet tabs
+    SheetsUtil.applyHorizontalSheetTabs(SettingsUtil.get(SETTINGS.useHorizontalSheetTabs.tag));
+    // apply theme to sheets
+    SheetsUtil.applyThemeToSheets(SettingsUtil.get(SETTINGS.applyThemeToSheets.tag));
 
     // apply scene nav settings
     const sceneNavFields = SETTINGS.sceneNavMenu.fields;

@@ -66,10 +66,16 @@ body.crlngn-ui.crlngn-sheets {
     border-radius: 6px;
     pointer-events: none;
   }
-  &:is(.dnd5e-theme-dark, .theme-dark) .dnd5e2.sheet.actor .card .header, .dnd5e2.dnd5e-theme-dark.sheet.actor .card .header {
+  &:is(.dnd5e-theme-dark, .theme-dark) .dnd5e2.sheet.actor .card .header, 
+  .dnd5e2.dnd5e-theme-dark.sheet.actor .card .header,
+  &:is(.dnd5e-theme-dark, .theme-dark) .dnd5e2.compendium-browser .card .header, 
+  .dnd5e2.dnd5e-theme-dark.compendium-browser .card .header {
     background: linear-gradient(to right, var(--color-warm-2), var(--color-warm-3));
   }
-  &:is(.dnd5e-theme-light, .theme-light) .dnd5e2.sheet.actor .card .header, .dnd5e2.dnd5e-theme-light.sheet.actor .card .header {
+  &:is(.dnd5e-theme-light, .theme-light) .dnd5e2.sheet.actor .card .header, 
+  .dnd5e2.dnd5e-theme-light.sheet.actor .card .header,
+  &:is(.dnd5e-theme-light, .theme-light) .dnd5e2.compendium-browser .card .header, 
+  .dnd5e2.dnd5e-theme-light.compendium-browser .card .header {
     background: linear-gradient(to right, var(--color-warm-2), var(--color-warm-3));
   }
 
@@ -184,13 +190,15 @@ body.crlngn-ui.crlngn-sheets {
     .dnd5e2.sheet.actor.character{
       --dnd5e-sheet-header-height: 160px;
     }
-    .dnd5e2.vertical-tabs nav.tabs {
+    .dnd5e2.sheet.actor.vertical-tabs nav.tabs,
+    .dnd5e2.compendium-browser.vertical-tabs nav.tabs {
       --tab-full-width: auto;
       --tab-inactive-width: auto;
       flex-direction: row;
-      gap: 20px;
+      gap: 1.5rem;
       left: 0;
-      padding: 5px 3rem;
+      margin: 0;
+      padding: 0.15em 2.6rem;
       order: 0;
       position: relative;
       top: 0;
@@ -211,6 +219,7 @@ body.crlngn-ui.crlngn-sheets {
         flex-direction: row;
       }
       > a.item{
+        --icon-size: 1em;
         align-items: center;
         background: transparent;
         border: none;
@@ -257,26 +266,111 @@ body.crlngn-ui.crlngn-sheets {
       }
     }
 
+    .dnd5e2.compendium-browser.vertical-tabs nav.tabs {
+      /*margin: 0.5rem 1rem;*/
+      gap: 1rem;
+      font-size: 1em;
+      grid-column: span 2;
+      grid-row-end: 1;
+
+      > a.item {
+        &.active{
+          filter: unset;
+          opacity: 1;
+        }
+      }
+    }
+    .dnd5e2.compendium-browser .sidebar .filter.filter-set .filter-choice {
+      margin: 0.25em 0;
+    }
+
     .dnd5e2.sheet.actor.character.tab-details .tab-body {
       padding-top: 106px;
     }
 
     &.theme-light {
       .dnd5e2.vertical-tabs nav.tabs {
-        background-color: var(--dnd5e-color-parchment);
+        background-color: var(--color-warm-3);
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 
         > a.item {
           filter: brightness(0.5);
 
           &.active{
-            filter: brightness(0);
-            border-bottom: 1px solid var(--dnd5e-color-gold);
+            filter: brightness(3) !important;
+            border-bottom: 1px solid var(--color-light-1);
           }
         }
       }
+      .dnd5e2.sheet.actor.vertical-tabs nav.tabs,
+      .dnd5e2.compendium-browser.vertical-tabs nav.tabs {
+        background-color: var(--color-warm-3);
+      }
+      button.crlngn-tab-scroll-btn {
+        background-color: var(--color-warm-3);
+        color: var(--color-light-1);
+      }
     } 
   } 
+
+  .dnd5e2.compendium-browser.vertical-tabs .window-content:has(.crlngn-tab-scroll-wrapper) {
+    grid-template-rows: auto 1fr !important;
+  }
+
+  .dnd5e2 .crlngn-tab-scroll-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-self: start;
+    width: 100%;
+    grid-column: span 2;
+    grid-row-end: 1;
+    height: fit-content;
+    
+    nav.tabs {
+      flex: 1;
+      margin: 0 2.5rem;
+    }
+  }
+
+  .dnd5e2 button.crlngn-tab-scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: transparent;
+    border-radius: 0;
+    padding: 0.25rem 0.75rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s ease;
+    line-height: 1;
+    color: var(--dnd5e-color-gold);
+    text-shadow: rgba(0,0,0,0.5) 0px 2px 4px;
+    box-shadow: none;
+
+    &:hover {
+      color: var(--color-light-1);
+    }
+    &:hover, &:focus {
+      box-shadow: none;
+      border: 0;
+      outline: 0;
+    }
+
+    &.crlngn-tab-scroll-prev {
+      left: 0;
+    }
+
+    &.crlngn-tab-scroll-next {
+      right: 0;
+    }
+
+    i {
+      color: var(--dnd5e-color-gold);
+      font-size: 1.2em;
+    }
+  }
 
   .dnd5e2.sheet.actor:not(.minimized) .window-header {
     margin-top: -1px;
@@ -413,8 +507,8 @@ body.crlngn-ui.crlngn-sheets {
 
   &.crlngn-sheet-tabs {
     .dnd5e2.vertical-tabs.sheet.actor.npc nav.tabs {
-      margin-top: 0.5em;
-      padding-left: 16px;
+      margin-top: 0;
+      padding-left: 2.6em;
     }
   }
   
