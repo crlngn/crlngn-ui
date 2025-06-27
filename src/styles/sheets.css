@@ -138,21 +138,21 @@ body.crlngn-ui {
       z-index: 2;
 
       .rows {
-        padding: 150px 0 0 30px;
+        padding: 150px 15px 0 15px;
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: flex-start;
         align-items: flex-start;
-        gap: 0.75em;
+        gap: 1em;
 
         > div {
-          gap: 0.5em;
+          gap: 1em;
         }
 
         .top {
           min-height: 72px;
           order: 0;
-          padding-right: 1em;
+          padding-right: 0;
           margin-left: 0;
         }
       }
@@ -161,7 +161,7 @@ body.crlngn-ui {
         font-weight: 600;
         padding-top: 6px;
         width: auto;
-        min-width: 54px;
+        min-width: 50px;
 
         .label {
           font-size: var(--font-size-14);
@@ -286,6 +286,10 @@ body.crlngn-ui {
         &.fadeout{
           opacity: 0;
           pointer-events: none;
+        }
+
+        .rows{
+          padding: 215px 15px 0 15px;
         }
   
       }

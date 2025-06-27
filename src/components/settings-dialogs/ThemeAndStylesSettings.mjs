@@ -184,9 +184,9 @@ export class ThemeAndStyleSettings extends HandlebarsApplicationMixin(Applicatio
     ThemeAndStyleSettings.element = this.element;
 
     // add listener to .toggle-hint 
-    const hintToggle = ThemeAndStyleSettings.element.querySelector('.toggle-hint');
-    hintToggle.addEventListener('click', () => {
-      ThemeAndStyleSettings.element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
+    const hintToggle = ThemeAndStyleSettings.element?.querySelector('.toggle-hint');
+    hintToggle?.addEventListener('click', () => {
+      ThemeAndStyleSettings.element?.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
     });
     
     // Store reference to themes for later use
