@@ -218,9 +218,9 @@ body.crlngn-ui {
             opacity: 1;
           }
         }
-        /*a.item[hidden]{
+        a.item[hidden]{
           display: none;
-        }*/
+        }
         a.item i {
           display: inline-flex;
           position: relative;

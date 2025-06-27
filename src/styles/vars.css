@@ -137,10 +137,10 @@ body.crlngn-ui {
     --striped-bg-light: repeating-linear-gradient( -45deg, rgba(218,232,232,0.75) 0px, rgba(218,232,232,0.75) 1px, rgba(240,240,240,0.75) 2px, rgba(240,240,240,0.75) 3px);
     --striped-bg-light-2: repeating-linear-gradient( -45deg, rgba(225, 225, 215, 0.75) 0px, rgba(225, 225, 215, 0.75) 1px, rgba(240,240,240,0.75) 2px, rgba(240,240,240,0.75) 3px);
 
-    --striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-75) 0px, var(--color-secondary-75) 1px, var(--color-secondary) 2px, var(--color-secondary) 3px);
+    --striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-25) 0px, var(--color-secondary-25) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
     --striped-bg-2: repeating-linear-gradient(-45deg, rgba(0, 0, 0, .35), rgba(0, 0, 0, .35) 1px, rgba(0, 0, 0, .5) 2px, rgba(0, 0, 0, .5) 3px);
     &.theme-dark{
-      --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-75) 0px, var(--color-secondary-75) 1px, var(--color-secondary) 2px, var(--color-secondary) 3px);
+      --striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-25) 0px, var(--color-secondary-25) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
       --striped-bg-2: repeating-linear-gradient(-45deg, rgba(0, 0, 0, .35), rgba(0, 0, 0, .35) 1px, rgba(0, 0, 0, .5) 2px, rgba(0, 0, 0, .5) 3px);
     }
   }
