@@ -148,7 +148,8 @@ export class SettingsUtil {
     SettingsUtil.applyUiScale();
     SettingsUtil.applyCustomCSS();
     SettingsUtil.applyModuleAdjustments();
-
+    SheetsUtil.applyThemeToSheets(SettingsUtil.get(SETTINGS.applyThemeToSheets.tag));
+    SheetsUtil.applyHorizontalSheetTabs(SettingsUtil.get(SETTINGS.useHorizontalSheetTabs.tag));
 
     // apply camera dock settings
     const cameraDockFields = SETTINGS.cameraDockMenu.fields;
@@ -503,6 +504,7 @@ export class SettingsUtil {
     const body = document.querySelector('body.crlngn-ui');
     const bodyStyleElem = document.querySelector('#crlngn-ui-vars');
 
+    if(!body){return;}
     LogUtil.log("applyLeftControlsSettings", [tag]);
 
     switch(tag){

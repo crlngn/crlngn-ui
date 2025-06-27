@@ -1,7 +1,13 @@
 body.crlngn-ui  {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  /*font-size-adjust: ex-height from-font;*/
+  /*font-size-adjust: ex-height 0.25;*/
+  
+
+  *:not(i, :before, :after, #tooltip) {
+    font-size-adjust: none;
+    font-size-adjust: ex-height from-font;
+  }
 
   h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
@@ -50,9 +56,19 @@ body.crlngn-ui  {
 
   /*****
   * JOURNAL */
+  .sheet.journal-entry .journal-entry-page * {
+    line-height: 1.5;
+  }
   .sheet.journal-entry .journal-entry-page p {
     font-size: var(--font-size-14);
   }
+  .sheet.journal-entry .journal-entry-page p:has(a.compendium-image-center){
+    margin: 1em 0;
+  }
+  .sheet.journal-entry .journal-entry-page :is(h1, h2, h3, h4, h5, h6):not(:first-child) {
+    margin-top: 1.5rem;
+  }
+
   /******************
   * BUTTONS
   ******************/

@@ -1,21 +1,21 @@
 {
   "CRLNGN_UI": { 
     "ui": { 
-      "clientSettingsLabel": "Impostazioni del Jiocatore (Cliente)",
+      "clientSettingsLabel": "Impostazioni del Giocatore (Client)",
       "worldSettingsLabel": "Impostazioni del Mondo (GM)",
       "toggleHints": "Attiva/Disattiva Aiuto",
       "notifications": {
-        "incompatibleVersion": "Questa versione di Carolingian UI non  compatibile con Foundry v13. Per favore, aggiorna Carolingian UI all'ultima versione.",
+        "incompatibleVersion": "Questa versione di Carolingian UI non è compatibile con Foundry v13. Per favore, aggiorna Carolingian UI all'ultima versione.",
         "settingsUpdated": "Impostazioni aggiornate",
-        "minimalUiNotSupported": "Carolingian UI non è compatibile con Minimal UI, e offre la maggior parte delle sue funzionalità. Disabilita il modulo per evitare problemi di prestazioni.",
-        "monksScenesNotSupported": "La Navigazione Scene di Carolingian UI entrerà in conflitto con Monk's Scene Navigation. Questa funzionalità di Carolingian UI è stata disabilitata.",
+        "minimalUiNotSupported": "Carolingian UI non è compatibile con Minimal UI e offre la maggior parte delle sue funzionalità. Disabilita il modulo per evitare problemi di prestazioni.",
+        "monksScenesNotSupported": "La navigazione delle Scene di Carolingian UI entrerà in conflitto con Monk's Scene Navigation. Questa funzionalità di Carolingian UI è stata disabilitata.",
         "ripperScenesCompat": "Carolingian UI ora ha la Navigazione Cartelle Scene e Ricerca Scene, che non possono essere utilizzate insieme alla Compact Scene Navigation. Disabilita l'altro modulo o disabilita 'Navigazione Cartelle Scene' nelle impostazioni di Carolingian UI.",
         "monksPlayerSettingsConflict": "Alcune impostazioni di Carolingian UI sono state disabilitate per evitare conflitti con il modulo Monk's Player Settings.",
         "forceClientSettingsConflict": "Alcune impostazioni di Carolingian UI sono state disabilitate per evitare conflitti con il modulo Force Client Settings.",
         "initialViewSet": "La vista iniziale di questa scena è stata impostata sulla vista corrente.",
-        "reloadConfirm": "Alcune modifiche richiedono un ricaricamento per essere applicate. Conferma?",
-        "reloadConfirmTitle": "Ricarica Richiesta",
-        "reloadConfirmYes": "Ricarica",
+        "reloadConfirm": "Alcune modifiche richiedono un ricaricamento della pagina per essere applicate. Conferma?",
+        "reloadConfirmTitle": "Ricaricamento della pagina richiesto",
+        "reloadConfirmYes": "Ricaricamento della pagina",
         "reloadConfirmNo": "Annulla"
       },
       "sceneNav": {
@@ -57,10 +57,10 @@
             "label": "Titoli UI"
           },
           "journalBody": {
-            "label": "Corpo Journal"
+            "label": "Corpo del Diario"
           },
           "journalTitles": {
-            "label": "Titoli Journal"
+            "label": "Titoli del Diario"
           }
         },
         "postDescription": "Per importare da <b>Google Fonts</b>, prima incolla il link @import nel campo \"CSS Personalizzato\" delle impostazioni di stile, e il font sarà elencato qui.",
@@ -91,7 +91,7 @@
           }, 
           "enforceDarkMode": {
             "label": "Forza Modalità Scura",
-            "hint": "<b>Non abilitare questo se si utilizza Force Client Settings o moduli simili.</b> Imposta il tema dell'interfaccia Foundry sul client del giocatore su Scuro se il giocatore l'ha impostato su 'Predefinito Browser'. Se l'hanno specificamente impostato su 'Chiaro', la loro scelta sarà comunque rispettata."
+            "hint": "<b>Non abilitare 'Forza Modalità Scura' se si utilizza 'Force Client Settings' o moduli simili.</b> Imposta il tema dell'interfaccia Foundry sul client del giocatore su Scuro se il giocatore l'ha impostato su 'Predefinito Browser'. Se l'hanno specificamente impostato su 'Chiaro', la loro scelta sarà comunque rispettata."
           },
           "applyThemeToSheets": {
             "label": "Applica tema e stili per le schede dei personaggi",
@@ -117,7 +117,7 @@
           },
           "borderColor": {
             "label": "Colore del bordo della carta chat",
-            "hint": "[Richiede ricaricamento] <b>Colore giocatore</b>: usa il colore del giocatore su Foundry; <b>Tipo di Tiro</b>: usa la codifica colori per attacco, salvezza, prova di abilità, ecc. <b>Nessuno:</b> nessun bordo (permetterà i bordi impostati da altri moduli).",
+            "hint": "[Richiede ricaricamento] <b>Colore giocatore</b>: usa il colore del giocatore su Foundry; <b>Tipo di Tiro</b>: usa la codifica colori per attacco, salvezza, prova di abilità, ecc. <b>Nessuno:</b> nessun bordo (permetterà ad altri moduli di impostare i bordi).",
             "options": {
               "playerColor": "Colore Giocatore",
               "rollType": "Tipo di Tiro",
@@ -126,7 +126,7 @@
           },
           "useLeftChatBorder": {
             "label": "Mostra solo il bordo sinistro",
-            "hint": "La tua scelta del colore del bordo appare solo sul lato sinistro del chat - gli altri lati non hanno bordo."
+            "hint": "La tua scelta del colore del bordo appare solo sul lato sinistro della chat - gli altri lati non hanno bordo."
           }
         },
         "reset": "Ripristina",
@@ -135,7 +135,7 @@
       "leftControlsMenu": {
         "label": "Barra Controlli Sinistra",
         "title": "Configura Controlli",
-        "hint": "Modifica l'aspetto e il comportamento dei pulsanti di controllo scena, sul lato sinistro dello schermo",
+        "hint": "Modifica l'aspetto e il comportamento dei pulsanti di controllo sul lato sinistro dello schermo",
         "fields": {
           "bottomBuffer": {
             "label": "Area Sicura Inferiore",
@@ -154,7 +154,7 @@
             "hint": "Abilita per mantenere la barra secondaria sui controlli a sinistra nascosta finché non passi con il mouse sulla regione o fai clic su un elemento."
           },
           "hideFoundryLogo": {
-            "label": "Nascondi Logo Foundry",
+            "label": "Nascondi il Logo Foundry",
             "hint": "Mantieni abilitato per nascondere il Logo Foundry in alto a sinistra"
           }
         },
@@ -172,11 +172,11 @@
           }, 
           "dockPosX": {
             "label": "Posizione orizzontale",
-            "hint": "Posizione del dock telecamera quando impostato per fluttuare. Dal basso a sinistra dello schermo, in pixel"
+            "hint": "Posizione del dock telecamera quando impostato per fluttuare. Misura dal basso a sinistra dello schermo, in pixel"
           }, 
           "dockPosY": {
             "label": "Posizione verticale",
-            "hint": "Posizione del dock telecamera quando impostato per fluttuare. Dal basso a sinistra dello schermo, in pixel"
+            "hint": "Posizione del dock telecamera quando impostato per fluttuare. Misura dal basso a sinistra dello schermo, in pixel"
           }, 
           "dockWidth": {
             "label": "Larghezza del gruppo telecamera",
@@ -299,7 +299,7 @@
       },
       "autoHideLeftControls": {
         "label": "Nascondi automaticamente i controlli secondari",
-        "hint": "Abilita per mantenere la barra secondaria sui controlli a sinistra nascosta a meno che non passi con il mouse sulla regione o faccia clic su un elemento."
+        "hint": "Abilita per mantenere la barra secondaria dei controlli a sinistra nascosta, a meno che non passi con il mouse sulla regione o faccia clic su un elemento."
       },
       "autoHidePlayersList": {
         "label": "Nascondi automaticamente la lista giocatori",
@@ -314,7 +314,7 @@
         "hint": "Abilita o disabilita i messaggi di debug sulla console del browser."
       },
       "disableUI":{
-        "label": "Disabilita UI in questo client",
+        "label": "Disabilita UI su questo client",
         "hint": "Se un giocatore non vuole utilizzare l'interfaccia Carolingian, può disabilitarla. Nessun'altra funzionalità del modulo funzionerà eccetto lo stile scuro nelle carte chat - che può essere disabilitato separatamente."
       },
       "uiScale": {
@@ -327,8 +327,8 @@
         }
       },
       "enforceGMSettings": {
-        "label": "Salva le impostazioni GM come predefinite per i giocatori",
-        "hint": "Applica le impostazioni del GM per tutti i giocatori. I giocatori potrebbero cambiare le impostazioni del client momentaneamente, ma verranno reimpostate al reload. Se desideri un controllo più fine, utilizza un modulo esterno come 'Force Client Settings'."
+        "label": "Salva le impostazioni GM come predefinite per i Giocatori",
+        "hint": "Applica le impostazioni del GM per tutti i Giocatori. I Giocatori potrebbero cambiare le impostazioni del client momentaneamente, ma verranno reimpostate al reload. Se desideri un controllo più fine, utilizza un modulo esterno come 'Force Client Settings'."
       }
     },
     "dnd5e": {
@@ -342,8 +342,8 @@
           "consume": "Consuma",
           "refund": "Rimborsa",
           "macro": "Macro",
-          "savedc": "Salvezza CD",
-          "save": "Salvezza"
+          "savedc": "CD Tiro Salvezza",
+          "save": "Tiro Salvezza"
         }
       }
     }

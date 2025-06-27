@@ -58,7 +58,10 @@ export const HOOKS_CORE = {
   COMBAT_ROUND_START: "combatRound",
 
   /* Actor Sheets */
-  RENDER_ACTOR_SHEET: "renderActorSheet"
+  RENDER_ACTOR_SHEET: "renderActorSheet",
+
+  /* Compendium Browser */
+  RENDER_COMPENDIUM_BROWSER: "renderCompendiumBrowser"
 }
 
 /**

@@ -6,11 +6,6 @@ Main Theme
 *************/
 :root {
   --font-body: '"Work Sans", Arial, sans-serif';
-  /* crlngn-fonts */
-  --crlngn-font-family: var(--font-body, '"Work Sans", Arial, sans-serif');
-  --crlngn-font-titles: "Roboto Slab", Arial, sans-serif;
-  --crlngn-font-journal-body: "Work Sans", Arial, sans-serif;
-  --crlngn-font-journal-title: "Quattrocento", Arial, sans-serif;
 
   --color-dark-bg-15: rgba(15, 15, 15, 0.15);
   --color-dark-bg-25: rgba(15, 15, 15, 0.25);
@@ -25,8 +20,14 @@ Main Theme
 /* ---------------------------------------- */
 /* THEME - main */ 
 body.crlngn-ui {
+  /* crlngn-fonts */
+  --crlngn-font-family: var(--font-body, '"Work Sans", Arial, sans-serif');
+  --crlngn-font-titles: "Roboto Slab", Arial, sans-serif;
+  --crlngn-font-journal-body: "Work Sans", Arial, sans-serif;
+  --crlngn-font-journal-title: "Quattrocento", Arial, sans-serif;
   --color-input-bg: rgba(0,0,0,0.1); 
   --dnd5e-background-card: #efe8e9;
+  --dnd5e-journal-title-size: var(--font-size-36);
   --card-bg-color: var(--dnd5e-background-card, #efe8e9);
   --card-bg-color-whisper: rgb(215, 217, 235);
   --card-bg-color-blind: rgb(222, 230, 220);

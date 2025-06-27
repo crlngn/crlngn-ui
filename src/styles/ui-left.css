@@ -137,7 +137,7 @@ body.crlngn-ui{
 
     > *{
       flex: 0 0 auto;
-  
+    /*
       &#touch-vtt-controls {
         height: var(--left-control-item-size);
   
@@ -157,6 +157,7 @@ body.crlngn-ui{
           box-sizing: border-box;
         }
       }
+    */
     }
   
     ol.control-tools.main-controls{

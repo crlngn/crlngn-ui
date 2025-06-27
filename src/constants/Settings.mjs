@@ -177,7 +177,7 @@ export function getSettings() {
       default: {
         colorTheme: "",
         adjustOtherModules: true,
-        otherModulesList: "'monks-scene-nav','combat-carousel','dice-tray','crux','party-monitor-dock'",
+        otherModulesList: "'monks-scene-nav','combat-carousel','dice-tray','crux','party-monitor-dock','touch-vtt'",
         customStyles: "",
         useHorizontalSheetTabs: true,
         applyThemeToSheets: true
@@ -666,14 +666,15 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.hint"),
       inputType: SETTING_INPUT.select,
       propType: String,
-      default:  "'monks-scene-nav','combat-carousel','dice-tray','crux','party-monitor-dock'",
+      default:  "'monks-scene-nav','combat-carousel','dice-tray','crux','party-monitor-dock','touch-vtt'",
       options: {
         "Combat Carousel": "'combat-carousel'",
         "Crux": "'crux'",
         "Dice Tray": "'dice-tray'",
         "Hurry Up": "'hurry-up'",
         "Monks Scene Navigation": "'monks-scene-nav'",
-        "Party HUD": "'party-monitor-dock'"
+        "Party HUD": "'party-monitor-dock'",
+        "Touch VTT": "'touch-vtt'"
       },
       scope: SETTING_SCOPE.world,
       config: false

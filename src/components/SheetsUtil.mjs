@@ -18,6 +18,7 @@ export class SheetsUtil {
     SheetsUtil.horizontalSheetTabsEnabled = SettingsUtil.get(SETTINGS.useHorizontalSheetTabs.tag);
 
     Hooks.on(HOOKS_CORE.RENDER_ACTOR_SHEET, SheetsUtil.#onRenderActorSheet);
+    Hooks.on(HOOKS_CORE.RENDER_COMPENDIUM_BROWSER, SheetsUtil.#onRenderCompendiumBrowser);
   }
 
   static #onRenderActorSheet(actorSheet, html, data){
@@ -36,6 +37,16 @@ export class SheetsUtil {
 
     SheetsUtil.applyThemeToSheets(SheetsUtil.themeStylesEnabled);
     SheetsUtil.applyHorizontalSheetTabs(SheetsUtil.horizontalSheetTabsEnabled);
+  }
+
+  static #onRenderCompendiumBrowser(app, html, data){
+    LogUtil.log(HOOKS_CORE.RENDER_COMPENDIUM_BROWSER, [app, html, data]);
+    
+    if(SheetsUtil.horizontalSheetTabsEnabled){
+      setTimeout(() => {
+        SheetsUtil.#addTabScrollButtons();
+      }, 100);
+    }
   }
 
   static #onSheetBodyScroll(event){
@@ -67,8 +78,57 @@ export class SheetsUtil {
 
     if(value){
       document.body.classList.add("crlngn-sheet-tabs");
+      SheetsUtil.#addTabScrollButtons();
     }else{
       document.body.classList.remove("crlngn-sheet-tabs");
+      SheetsUtil.#removeTabScrollButtons();
     }
+  }
+
+  static #addTabScrollButtons(){
+    const tabContainers = document.querySelectorAll(".dnd5e2.vertical-tabs nav.tabs");
+    
+    tabContainers.forEach(nav => {
+      const parent = nav.parentElement;
+      if(parent.querySelector(".crlngn-tab-scroll-btn")) return;
+      
+      const wrapper = document.createElement("div");
+      wrapper.className = "crlngn-tab-scroll-wrapper";
+      // wrapper.style.position = "relative";
+      // wrapper.style.display = "flex";
+      // wrapper.style.alignItems = "center";
+      
+      const prevBtn = document.createElement("button");
+      prevBtn.className = "crlngn-tab-scroll-btn crlngn-tab-scroll-prev";
+      prevBtn.innerHTML = '<i class="fas fa-caret-left"></i>';
+      prevBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        nav.scrollBy({ left: -150, behavior: "smooth" });
+      });
+      
+      const nextBtn = document.createElement("button");
+      nextBtn.className = "crlngn-tab-scroll-btn crlngn-tab-scroll-next";
+      nextBtn.innerHTML = '<i class="fas fa-caret-right"></i>';
+      nextBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        nav.scrollBy({ left: 150, behavior: "smooth" });
+      });
+      
+      parent.insertBefore(wrapper, nav);
+      wrapper.appendChild(prevBtn);
+      wrapper.appendChild(nav);
+      wrapper.appendChild(nextBtn);
+    });
+  }
+
+  static #removeTabScrollButtons(){
+    const wrappers = document.querySelectorAll(".crlngn-tab-scroll-wrapper");
+    wrappers.forEach(wrapper => {
+      const nav = wrapper.querySelector("nav.tabs");
+      if(nav && wrapper.parentElement){
+        wrapper.parentElement.insertBefore(nav, wrapper);
+        wrapper.remove();
+      }
+    });
   }
 }
