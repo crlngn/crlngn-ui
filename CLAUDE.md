@@ -110,7 +110,7 @@ While there's no formal test suite, the module uses:
 - Community feedback through GitHub issues
 
 When making changes:
-1. Test with D&D 5e system first (primary target)
+1. Test with D&D 5e 4.x system first (primary target)
 2. Verify settings changes apply without reload
 3. Check theme compatibility in both light and dark modes
 4. Ensure no console errors during normal operation
