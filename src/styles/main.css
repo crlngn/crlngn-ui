@@ -921,6 +921,39 @@ body.crlngn-ui {
       font-family: var(--crlngn-font-family);
     }
   }
+
+
+  &.crlngn-app-dialogs.theme-dark .app.window-app.dialog, 
+  &.crlngn-app-dialogs.theme-dark .app.window-app.dialog.theme-light {
+    background: transparent;
+
+    footer {
+      margin-top: 1em;
+    }
+    .window-header {
+      background: var(--color-dark-bg-75);
+    }
+
+    .window-content {
+      background: var(--color-dark-bg-90);
+      color: var(--color-light-1);
+      padding: 1em;
+    }
+
+    .window-content * {
+      color: var(--color-light-1);
+    }
+
+    button, form button{
+      background: var(--color-bg-button);
+      color: var(--color-light-1);
+      border: 1px solid transparent;
+
+      &:hover {
+        background: var(--color-warm-2);
+      }
+    }
+  }
   
 }
 

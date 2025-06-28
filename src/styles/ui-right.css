@@ -294,4 +294,10 @@ body.crlngn-ui{
     }
   }
 
+  li.directory-item.entry > img:first-child{
+    height: calc(var(--sidebar-item-height) - 6px);
+    object-fit: contain;
+    object-position: 50% 50%;
+  }
+
 }

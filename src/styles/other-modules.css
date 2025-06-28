@@ -520,5 +520,107 @@ body.crlngn-ui{
       border-radius: 0;
     }
   }
+
+  /* Players list */
+  #players.crlngn-ui {
+    .breaktime-button {
+      border-top: 0;
+      border-bottom: 0;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+
+      &:hover {
+        background: var(--color-dark-bg-50);
+        text-shadow: none;
+      }
+    }
+  }
+
+  /* Breaktime */
+  #players.crlngn-ui:hover{
+    .breaktime-button > div {
+      display: flex;
+      align-items: center;
+    }
+  }
+  
+  &.crlngn-breaktime {
+
+    #players.crlngn-ui:hover{
+      .breaktime-button > div {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    &.theme-dark #breaktime-app, &.theme-dark #breaktime-app.theme-light {
+      background: transparent;
+
+      footer {
+        margin-top: 1em;
+      }
+      .window-header {
+        background: var(--color-dark-bg-75);
+      }
+
+      .window-content {
+        background: var(--color-dark-bg-90);
+        color: var(--color-light-1);
+        padding: 1em;
+      }
+
+      .window-content * {
+        color: var(--color-light-1);
+      }
+
+      .break-start {
+        display: flex;
+        gap: 0.25em;
+
+        &:first-child {
+          display: block;
+          flex: 1 1 100%;
+        }
+
+        button {
+          width: 25px;
+          flex: 0 0 25px;
+          i{
+            margin: 0;
+          }
+        }
+      }
+
+      .breaktime-container {
+        border-top: 1px solid var(--color-dark-1);
+      }
+
+      .breaktime-player {
+        border-bottom: 1px solid var(--color-dark-1);
+        display: flex;
+        height: auto;
+        gap: 0.5em;
+      }
+
+      .breaktime-player .breaktime-avatar {
+        border-left: 5px solid var(--color-dark-1);
+
+        img{
+          border-color: transparent;
+        }
+      }
+
+      button, form button{
+        background: var(--color-bg-button);
+        color: var(--color-light-1);
+        border: 1px solid transparent;
+
+        &:hover {
+          background: var(--color-warm-2);
+        }
+      }
+
+    }
+  }
   
 }
