@@ -258,9 +258,16 @@ body.crlngn-ui{
       border-bottom-color: transparent;
     }
   }
+  #chat-notifications .dice-tray-container{
+    visibility: visible;
+  }
   
   #chat-notifications.input-hidden{
     #chat-message {
+      display: none;
+      visibility: hidden;
+    }
+    .dice-tray-container{
       display: none;
       visibility: hidden;
     }

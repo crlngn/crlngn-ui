@@ -36,6 +36,18 @@ body.crlngn-ui {
   }
 
   #players.crlngn-ui, #players.crlngn-ui.minimized {
+    > div, .players-list button, .players-list > div {
+      display: flex;
+      justify-content: flex-start;
+      color: inherit;
+
+      i {
+        display: inline-block;
+        margin: 0 3px 0 0;
+        width: calc(var(--control-item-size) - 10px);
+        text-align: center;
+      }
+    }
     > button { 
       background-color: var(--button-background-color);
       margin: 4px 0;
@@ -45,16 +57,11 @@ body.crlngn-ui {
       color: var(--color-light-1);
       font-weight: 500;
       transition: none;
-
-      i{
-        color: var(--color-light-1);
-        transition: none;
-      }
     }
   }
 
   #players.crlngn-ui.minimized {
-    > div, .players-list button, .players-list div {
+    > div, .players-list button, .players-list > div {
       overflow: hidden;
       text-overflow: clip;
       display: flex;
@@ -64,12 +71,6 @@ body.crlngn-ui {
       padding: 0;
       color: var(--default-color);
       margin: 0.15em 0;
-
-      i {
-        display: inline-block;
-        margin: 0 3px 0 0;
-        width: calc(var(--control-item-size) - 10px);
-      }
     }
   }
 
@@ -123,12 +124,12 @@ body.crlngn-ui {
       gap: 0;
 
       .player::before {
-        width: 0.6rem;
+        --color-margin: calc((var(--crlngn-avatar-size) - 10px) / 2);
         height: 0.6rem;
-        margin: 0 4px;
         background: var(--player-color, rgba(255,255,255,0.5));
         border: 1px solid rgba(255,255,255,0.25);
         border-radius: 2px;
+        margin: 0 var(--color-margin);
       }
     }
 

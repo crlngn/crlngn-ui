@@ -347,6 +347,10 @@ body.crlngn-ui{
       min-height: 2em;
     }
   }
+  .dice-tray-container .dice-tray-button:hover {
+    color: var(--color-text-hyperlink) !important;
+  }
+  
 
   /* CRUX */
 
@@ -522,31 +526,29 @@ body.crlngn-ui{
     }
   }
 
-  /* Players list */
+  /* Breaktime */
   #players.crlngn-ui {
     .breaktime-button {
       border-top: 0;
       border-bottom: 0;
       padding-top: 0.5em;
       padding-bottom: 0.5em;
+      text-align: left;
 
       &:hover {
         background: var(--color-dark-bg-50);
         text-shadow: none;
       }
     }
-  }
 
-  /* Breaktime */
-  #players.crlngn-ui:hover{
-    .breaktime-button > div {
-      display: flex;
-      align-items: center;
+    &:hover{
+      .breaktime-button > div {
+        display: flex;
+      }
     }
   }
   
   &.crlngn-breaktime {
-
     #players.crlngn-ui:hover{
       .breaktime-button > div {
         display: flex;
