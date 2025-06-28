@@ -4,6 +4,7 @@ Chat card layout - start
 body.crlngn-ui {
 
   .chat-sidebar {
+    --chat-message-spacing: 6px;
     background: var(--sidebar-background, var(--color-cool-5-90));
     border-radius: 0;
     width: var(--sidebar-width);
