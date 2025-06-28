@@ -228,7 +228,7 @@ export function getSettings() {
       default: {
         colorTheme: "crlngn-theme",
         adjustOtherModules: true,
-        otherModulesList: "'breaktime','combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar','touch-vtt'",
+        otherModulesList: "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar','touch-vtt','breaktime'",
         customStyles: "",
         useHorizontalSheetTabs: true,
         applyThemeToSheets: true

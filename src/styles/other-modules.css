@@ -154,6 +154,7 @@ body.crlngn-ui{
     border: 0;
     font-size: 1em;
     font-weight: 600;
+    color: var(--default-color);
 
     &:hover {
       background: var(--color-dark-bg-50);
@@ -621,6 +622,121 @@ body.crlngn-ui{
       }
 
     }
+  }
+
+  /* MONK'S COMMON DISPLAY */
+  #common-display-toolbar {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    .common-button-group .header {
+      font-size: var(--font-size-10);
+      border: 1px solid transparent;
+      background: var(--color-highlights-50);
+      color: inherit;
+    }
+    .common-button-group .content {
+      border: 1px solid transparent;
+      background: var(--color-highlights-25);
+    }
+    .common-button-group .content.active {
+      background: var(--color-highlights);
+    }
+
+    .common-display-button {
+      border: 1px solid transparent;
+      background: transparent;
+      box-shadow: none;
+      opacity: 0.7;
+
+      &:hover{
+        color: inherit;
+      }
+      
+      &.toggle.active {
+        background-color: transparent;
+        border: 1px solid transparent;
+        box-shadow: 0 0 10px var(--color-highlights-50);
+        opacity: 1;
+
+        &:hover{
+          color: unset;
+        }
+      }
+      &.toggle{
+        width: 36px;
+        height: 36px;
+        font-size: 24px;
+        line-height: 36px;
+        padding: 2px;
+      }
+      &.small {
+        border-radius: 2px;
+        border: none;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      }
+    }
+
+    ol.context-items, li.context-group > ol {
+      justify-items: flex-start;
+    }
+
+    ol.context-items li.context-item {
+      width: 100%;
+      padding: 0 6px;
+      font-size: var(--font-size-12);
+      line-height: var(--font-size-24);
+      text-align: left;
+    }
+  }
+
+  /* MONK'S TOKEN BAR */
+  .monks-tokenbar.chat-card .card-header {
+    padding: 3px 0;
+    border-top: 1px groove var(--input-background-color);
+    border-bottom: 1px groove var(--input-background-color);
+  }
+  .monks-tokenbar.chat-card .card-header h3:hover {
+    text-shadow: none;
+  }
+  .monks-tokenbar.chat-card .sheet .items-list {
+    padding: 0;
+  }
+  .monks-tokenbar .sheet .items-list .items-header {
+    border: 1px groove var(--input-background-color);
+  }
+  .monks-tokenbar .sheet .items-list .item {
+    border-bottom: 1px groove var(--input-background-color);
+  }
+  .monks-tokenbar .sheet .items-list .items-header h3 {
+    font-family: var(--crlngn-font-titles);
+    font-size: var(--font-size-14);
+  }
+
+  .monks-tokenbar .contested-roll header .request-name {
+    &:first-child{
+      text-align: left;
+      padding-right: 1.5em;
+
+      &:after{
+        font-size: var(--font-size-14);
+      }
+    }
+    &:last-child{
+      text-align: right;
+      padding-left: 1.5em;
+    }
+  }
+
+
+  .monks-tokenbar.chat-card .card-footer {
+    border-top: none;
+    gap: 4px;
+  }
+  .monks-tokenbar.chat-card .card-header h3 {
+    font-size: var(--font-size-14);
+  }
+
+  &.theme-dark .monks-tokenbar .sheet .items-list .items-header {
+    background: var(--crlngn-chat-button-bg-15);
   }
   
 }

@@ -54,7 +54,7 @@ body.crlngn-ui {
   }
 
   #players.crlngn-ui.minimized {
-    > button, > div {
+    > div, .players-list button, .players-list div {
       overflow: hidden;
       text-overflow: clip;
       display: flex;
@@ -62,7 +62,7 @@ body.crlngn-ui {
       white-space: nowrap;
       border: 0;
       padding: 0;
-      color: var(--control-icon-color);
+      color: var(--default-color);
       margin: 0.15em 0;
 
       i {
@@ -277,7 +277,7 @@ body.crlngn-ui {
           min-width: 180px;
           width: 100%;
           &:hover{
-            background: var(--color-dark-bg-50);
+            background: var(--color-dark-bg-25);
           }
         }
       }

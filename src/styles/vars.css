@@ -131,8 +131,15 @@ Main Theme
     --dnd5e-color-maroon: var(--color-highlights);
     --dnd5e-shadow-45: rgba(0, 0, 0, 0.25); /* make these shadows more nuanced */
     --dnd5e-sheet-bg: rgb(244, 239, 237);
-
     --default-color: var(--color-light-1);
+
+    .ui-control, .placeable-hud, #measurement .waypoint-label {
+      --toggle-bg-color: var(--color-secondary);
+      --toggle-border-color: var(--color-warm-2);
+      --toggle-active-bg-color: var(--striped-bg);
+      --toggle-active-border-color: var(--color-warm-1);
+    }
+    
     #interface.theme-light, .sidebar-popout.theme-light, #chat-popout.theme-light, #chat-pins.theme-light{
       --default-color: var(--color-dark-1);
     }
