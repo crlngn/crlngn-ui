@@ -310,7 +310,7 @@
             "hint": "Enable to apply global color theme and styles to DnD 5e actor sheets (PC and NPC)"
           },
           "useHorizontalSheetTabs": {
-            "label": "Use horizontal tabs with labels",
+            "label": "Use horizontal tabs with labels on 5e sheets",
             "hint": "Enable to use horizontal tabs with labels on 5e actor sheets instead of the lateral icon tabs"
           }
         },

@@ -31,7 +31,7 @@
     <p class="hint">{{{fields.sceneItemWidth.hint}}}</p> 
   </div>
 
-  {{#unless isGM}}
+  {{#if isGM}}
   <h4><i class="fas fa-globe"></i> {{localize "CRLNGN_UI.ui.worldSettingsLabel"}}</h4>
   <hr/>
 
@@ -76,5 +76,5 @@
     <input type="checkbox" name="sceneClickToView" {{#if sceneClickToView}}checked{{/if}} />
     <p class="hint">{{{fields.sceneClickToView.hint}}}</p> 
   </div>
-  {{/unless}}
+  {{/if}}
 </section>

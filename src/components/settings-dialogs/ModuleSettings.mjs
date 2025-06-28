@@ -52,31 +52,38 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
    */
   static PARTS = {
     tabs: {
-      template: "templates/generic/tab-navigation.hbs"
+      template: "templates/generic/tab-navigation.hbs",
+      isGMOnly: false
     },
     interface: {
       menuKey: "interfaceOptionsMenu",
-      template: "modules/crlngn-ui/templates/interface-elements-settings.hbs"
+      template: "modules/crlngn-ui/templates/interface-elements-settings.hbs",
+      isGMOnly: false
     },
     themes: {
       menuKey: "themeAndStylesMenu",
-      template: "modules/crlngn-ui/templates/theme-and-styles-settings.hbs"
+      template: "modules/crlngn-ui/templates/theme-and-styles-settings.hbs",
+      isGMOnly: false
     },
     fonts: {
       menuKey: "customFontsMenu",
-      template: "modules/crlngn-ui/templates/custom-fonts-settings.hbs"
+      template: "modules/crlngn-ui/templates/custom-fonts-settings.hbs",
+      isGMOnly: true
     },
     chat: {
       menuKey: "chatMessagesMenu",
-      template: "modules/crlngn-ui/templates/chat-messages-settings.hbs"
+      template: "modules/crlngn-ui/templates/chat-messages-settings.hbs",
+      isGMOnly: false
     },
     scenes: {
       menuKey: "sceneNavMenu",
-      template: "modules/crlngn-ui/templates/scene-nav-settings.hbs"
+      template: "modules/crlngn-ui/templates/scene-nav-settings.hbs",
+      isGMOnly: false
     },
     players: {
       menuKey: "playersListMenu",
-      template: "modules/crlngn-ui/templates/players-list-settings.hbs"
+      template: "modules/crlngn-ui/templates/players-list-settings.hbs",
+      isGMOnly: false
     },
     // controls: {
     //   menuKey: "leftControlsMenu",
@@ -84,14 +91,16 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     // },
     camera: {
       menuKey: "cameraDockMenu",
-      template: "modules/crlngn-ui/templates/camera-dock-settings.hbs"
+      template: "modules/crlngn-ui/templates/camera-dock-settings.hbs",
+      isGMOnly: false
     },
     // sheets5e: {
     //   menuKey: "sheets5eMenu",
     //   template: "modules/crlngn-ui/templates/actor-sheets-5e-settings.hbs"
     // },
     footer: {
-      template: "templates/generic/form-footer.hbs"
+      template: "templates/generic/form-footer.hbs",
+      isGMOnly: false
     }
   };
 
@@ -125,6 +134,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
     context.activeTab = options.activeTab || Object.keys(context.tabs)[0];
+    context.isGM = game.user.isGM;
     const SETTINGS = getSettings();
 
     /* add specific data for theme and style fields */
@@ -248,10 +258,9 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
    * @returns {string[]} Array of setting menu keys
    */
   static getRestrictedTabs(){
-    const SETTINGS_MENUS = getSettingMenus();
     const restrictedTabs = [];
-    Object.entries(SETTINGS_MENUS).forEach((entry, index) => {
-      if(entry[0]!=="moduleSettingsMenu" && entry[1].restricted){
+    Object.entries(ModuleSettings.PARTS).forEach((entry, index) => {
+      if(entry[0]!=="tabs" && entry[0]!=="footer" && entry[1].isGMOnly){
         restrictedTabs.push(entry[0]);
       }
     });
@@ -612,7 +621,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
     // listen for toggle all / untoggle all checkbox
     const toggleModulesCheckbox = ModuleSettings.#element.querySelector('input.adjustOtherModules');
-    toggleModulesCheckbox.addEventListener("change", (evt) => {
+    toggleModulesCheckbox?.addEventListener("change", (evt) => {
       const checkboxes = ModuleSettings.#element.querySelectorAll('.multiple-select.other-modules input[type="checkbox"]');
       checkboxes.forEach(checkbox => {
         checkbox.checked = evt.currentTarget.checked;

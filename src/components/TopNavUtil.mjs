@@ -100,6 +100,7 @@ export class TopNavigation {
         
         TopNavigation.#timeout = setTimeout(()=>{
           TopNavigation.setCollapsedClass(collapsed);
+          TopNavigation.updateToggleButton(!collapsed);
         }, 250);
       });
 
@@ -322,23 +323,44 @@ export class TopNavigation {
       }
     }
 
-    if(TopNavigation.sceneNavEnabled && game.scenes.size > 1){
-      const navToggle = navHtml.querySelector("#scene-navigation-expand");
+    // && game.scenes.size > 1
+    LogUtil.log("handleSceneList #2", [TopNavigation.sceneNavEnabled]);
+    if(TopNavigation.sceneNavEnabled){
       const column2 = document.querySelector("#ui-left-column-2");
       const existingToggle = document.querySelector("#crlngn-scene-navigation-expand");
-      if(!navToggle){ return; }
+
+      LogUtil.log("handleSceneList #3", [column2]);
+      if(!column2){ return; }
       if(existingToggle){ existingToggle.remove(); }
       
-      let toggleClone = navToggle?.cloneNode(true);
-      if(toggleClone){
-        toggleClone.id = "crlngn-scene-navigation-expand";
-        toggleClone.addEventListener("click", () => {
-          navToggle?.click(); // This will trigger the original handler
+      // Create toggle element from template
+      const toggleHtml = await GeneralUtil.renderTemplate(
+        `modules/${MODULE_ID}/templates/scene-nav-toggle.hbs`,
+        {
+          isExpanded: ui.nav?.expanded || false
+        }
+      );
+      
+      // Insert the template HTML
+      column2.insertAdjacentHTML('afterbegin', toggleHtml);
+      
+      // Get the newly inserted element and add click listener
+      const toggleElement = document.querySelector("#crlngn-scene-navigation-expand");
+      if (toggleElement) {
+        toggleElement.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          
+          if (!ui.nav) return;
+          
+          LogUtil.log("Toggle nav clicked", ["expanded:", ui.nav.expanded]);
+          
+          // Toggle the navigation using the centralized method
+          // toggleNav expects collapsed state, so we pass the current expanded state
+          TopNavigation.toggleNav(ui.nav.expanded);
         });
       }
-      LogUtil.log("toggle events", [nav, toggleClone]);
 
-      column2.prepend(toggleClone);
       TopNavigation.handleHide();
     }
   }
@@ -479,12 +501,39 @@ export class TopNavigation {
   }
 
   /**
+   * Updates the toggle button's visual state (icon, tooltip, aria-label)
+   * @param {boolean} isExpanded - Whether the navigation is expanded
+   */
+  static updateToggleButton(isExpanded) {
+    const toggleElement = document.querySelector("#crlngn-scene-navigation-expand");
+    if (!toggleElement) return;
+    
+    const iconElement = toggleElement.querySelector("i");
+    const sceneNav = document.querySelector("#scene-navigation");
+    
+    // Update scene nav expanded class
+    sceneNav?.classList.toggle("expanded", isExpanded);
+    
+    // Update icon
+    if (iconElement) {
+      iconElement.classList.toggle("fa-caret-down", !isExpanded);
+      iconElement.classList.toggle("fa-caret-up", isExpanded);
+    }
+    
+    // Update tooltip and aria-label
+    const tooltipKey = isExpanded ? "SCENE_NAVIGATION.COLLAPSE" : "SCENE_NAVIGATION.EXPAND";
+    const tooltipText = game.i18n.localize(tooltipKey);
+    toggleElement.setAttribute("data-tooltip", tooltipKey);
+    toggleElement.setAttribute("aria-label", tooltipText);
+  }
+
+  /**
    * Toggles the navigation bar's collapsed state
    * @param {boolean} collapsed - Whether the navigation should be collapsed
    */
   static toggleNav(collapsed){
-    clearTimeout(TopNavigation.#collapseTimeout);
-    TopNavigation.#collapseTimeout = setTimeout(()=>{
+    // clearTimeout(TopNavigation.#collapseTimeout);
+    // TopNavigation.#collapseTimeout = setTimeout(()=>{
       TopNavigation.resetLocalVars();
 
       if(collapsed===true){
@@ -493,12 +542,14 @@ export class TopNavigation {
         LogUtil.log("toggleNav collapse", [ui.nav.collapse, collapsed, TopNavigation.navStartCollapsed]);
         const existingButtons = document.querySelectorAll("#ui-left .crlngn-btn");
         existingButtons.forEach(b => b.remove());
+        TopNavigation.updateToggleButton(false);
       }else if(collapsed===false){
         TopNavigation.isCollapsed = false;
         ui.nav.expand();
         LogUtil.log("toggleNav expand", [collapsed, TopNavigation.navStartCollapsed]);
+        TopNavigation.updateToggleButton(true);
       }
-    }, 300);
+    // }, 300);
     
   }
 
@@ -773,7 +824,8 @@ export class TopNavigation {
     try {
       const templatePaths = [
         `modules/${MODULE_ID}/templates/scene-nav-buttons.hbs`,
-        `modules/${MODULE_ID}/templates/scene-nav-preview.hbs`
+        `modules/${MODULE_ID}/templates/scene-nav-preview.hbs`,
+        `modules/${MODULE_ID}/templates/scene-nav-toggle.hbs`
       ];
       
       // Load the templates

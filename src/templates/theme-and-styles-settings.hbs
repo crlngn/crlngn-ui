@@ -2,7 +2,7 @@
   class="form-content tab {{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}"
 >
 
-  {{#unless isGM}}
+  {{#if isGM}}
   <h4><i class="fas fa-globe"></i> {{localize "CRLNGN_UI.ui.worldSettingsLabel"}} <span class="toggle-hint">{{localize 'CRLNGN_UI.ui.toggleHints'}}</span></h4>
   <hr/>
   <div class="form-group">
@@ -58,7 +58,7 @@
     <input type="checkbox" name="applyThemeToSheets" {{#if applyThemeToSheets}}checked{{/if}} />
     <p class="hint">{{fields.applyThemeToSheets.hint}}</p> 
   </div>
-  {{/unless}}
+  {{/if}}
 
   <h4>
       <i class="fas fa-user"></i> {{localize "CRLNGN_UI.ui.clientSettingsLabel"}}

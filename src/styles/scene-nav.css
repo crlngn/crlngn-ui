@@ -87,6 +87,10 @@ body.crlngn-ui {
       padding-top: var(--top-nav-height, 0px);
       height: calc((100% - var(--crlngn-taskbar-height)) / var(--ui-scale));
       gap: 0;
+      
+      #scene-controls {
+        margin-top: 0;
+      }
     }
 
     #ui-left-column-2{
@@ -852,11 +856,13 @@ body.crlngn-ui {
   
   &.crlngn-scene-nav #ui-left.navigation-collapsed {
     --crlngn-top-offset: 0px;
+    /*
     #crlngn-back-button,
     button.crlngn-btn,
     #scene-navigation {
       display: none;
     }
+      */
   }
   
   

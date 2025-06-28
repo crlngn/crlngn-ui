@@ -296,6 +296,7 @@ export class GeneralUtil {
     if (!bodyStyle) {
       // Create style element if it doesn't exist
       const body = document.querySelector('body.crlngn-ui');
+      if(!body){return}
       bodyStyle = document.createElement('style');
       bodyStyle.id = 'crlngn-ui-vars';
       bodyStyle.textContent = 'body.crlngn-ui {\n}\n';
