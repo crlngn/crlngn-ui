@@ -65,7 +65,7 @@ export class ModuleCompatUtil {
     const ytPlayer = document.querySelector('#sidebar-video-player.tyw-docked');
     
     
-    LogUtil.log("handleYTPlayerFadeOut", [isYTPlayerOn, PlayersList.useFadeOut, ytPlayer], true);
+    LogUtil.log("handleYTPlayerFadeOut", [isYTPlayerOn, PlayersList.useFadeOut, ytPlayer]);
     if(isYTPlayerOn && ytPlayer && PlayersList.useFadeOut){
       document.querySelector('#sidebar-video-player.tyw-docked')?.classList.add('faded-ui');
     }else if(isYTPlayerOn){

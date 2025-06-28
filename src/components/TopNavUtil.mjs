@@ -63,7 +63,7 @@ export class TopNavigation {
     TopNavigation.navFoldersForPlayers = SettingsUtil.get(SETTINGS.navFoldersForPlayers.tag);
     TopNavigation.isCollapsed = TopNavigation.navStartCollapsed;
 
-    LogUtil.log("SCENE NAV INIT", [TopNavigation.sceneNavEnabled], true);
+    LogUtil.log("SCENE NAV INIT", [TopNavigation.sceneNavEnabled]);
     const body = document.querySelector("body");
     if(TopNavigation.sceneNavEnabled){
       body.classList.add("crlngn-scene-nav");
@@ -213,7 +213,7 @@ export class TopNavigation {
     const SETTINGS = getSettings();
     const scenePage = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
     if(TopNavigation.preventNavRender){ return; }
-    LogUtil.log("onRender - "+HOOKS_CORE.RENDER_SCENE_NAV, [navHtml], true);
+    LogUtil.log("onRender - "+HOOKS_CORE.RENDER_SCENE_NAV, [navHtml]);
 
     TopNavigation.resetLocalVars();
     if(TopNavigation.sceneNavEnabled){
