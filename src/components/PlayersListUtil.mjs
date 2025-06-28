@@ -20,7 +20,7 @@ export class PlayersList {
    * @static
    */
   static init(){
-    LogUtil.log("PlayersList init", [], true);
+    LogUtil.log("PlayersList init", []);
     Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, PlayersList.onRender); 
     // Hooks.on(HOOKS_CORE.READY, PlayersList.onRender); 
     // PlayersList.applyPlayersListSettings();
