@@ -105,8 +105,11 @@ export class Main {
       }
       
       SettingsUtil.resetFoundryThemeSettings();
-      // SettingsUtil.applyOtherModulesList();
-      ui.combat.close();
+      
+      setTimeout(()=>{
+        ui.combat.popout?.close();
+      }, 200)
+      
     });
   }
 
