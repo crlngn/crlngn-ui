@@ -91,6 +91,14 @@ export class Main {
       if(isDebugOn){CONFIG.debug.hooks = true};
 
       CustomHandlebarsHelpers.init();
+      
+      // Enforce GM settings and refresh components if needed
+      const settingsChanged = SettingsUtil.enforceGMSettings();
+      if (settingsChanged) {
+        // Refresh TopNavigation with new settings
+        TopNavigation.refreshSettings();
+      }
+      
       PlayersList.applyPlayersListSettings(); 
       // TopNavigation.checkSceneNavCompat();
       ModuleCompatUtil.init();

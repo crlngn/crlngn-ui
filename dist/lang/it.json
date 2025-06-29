@@ -317,6 +317,14 @@
         "reset": "Ripristina",
         "save": "Salva"
       },
+      "enforceGMSettings": {
+        "label": "Applica Impostazioni GM ai Giocatori",
+        "hint": "Quando abilitato, tutti i giocatori utilizzeranno le impostazioni UI del GM quando si connettono. Questo garantisce un'esperienza UI coerente per tutti i giocatori."
+      },
+      "defaultSettings": {
+        "label": "Impostazioni GM Predefinite",
+        "hint": "Memorizza le impostazioni preferite del GM da applicare ai giocatori"
+      },
       "controlIconSize": {
         "label": "Dimensione delle icone di controllo",
         "hint": "Se usi uno schermo molto grande, potresti voler cambiare la dimensione delle icone sui controlli a sinistra. Questo potrebbe influenzare alcuni altri elementi dell'interfaccia",

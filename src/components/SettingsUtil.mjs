@@ -48,7 +48,13 @@ export class SettingsUtil {
           scope: setting.scope,
           config: setting.config,
           requiresReload: setting.requiresReload || false,
-          onChange: value => SettingsUtil.apply(setting.tag, value)
+          onChange: value => {
+            SettingsUtil.apply(setting.tag, value);
+            // Don't double-save when enforceGMSettings is toggled
+            if (setting.tag !== 'v2-enforce-gm-settings') {
+              SettingsUtil.onSettingChange(setting.tag);
+            }
+          }
         }
   
         if(setting.choices || setting.options){
@@ -413,6 +419,13 @@ export class SettingsUtil {
         SheetsUtil.applyThemeToSheets(value); break;
       case SETTINGS.useHorizontalSheetTabs.tag:
         SheetsUtil.applyHorizontalSheetTabs(value); break;
+      case SETTINGS.enforceGMSettings.tag:
+        // When GM enables enforcement, immediately save current settings
+        if (value && game.user?.isGM) {
+          SettingsUtil.saveDefaultSettings();
+          ui.notifications.info("Current settings saved as defaults for players");
+        }
+        break;
       default:
         // do nothing
     }
@@ -725,6 +738,103 @@ export class SettingsUtil {
       if(cameraViews) cameraViews.style.setProperty('visibility', 'hidden');
       if(taskbar) taskbar.style.setProperty('visibility', 'hidden');
       SettingsUtil.#uiHidden = true;
+    }
+  }
+
+  /**
+   * Enforces GM settings to players when enabled
+   * Called during module initialization for non-GM users
+   */
+  static enforceGMSettings() {
+    const SETTINGS = getSettings();
+    
+    // Only proceed if user is not GM and enforcement is enabled
+    if (game.user?.isGM || !SettingsUtil.get(SETTINGS.enforceGMSettings.tag)) {
+      return;
+    }
+
+    // Get stored default settings
+    const defaultSettings = SettingsUtil.get(SETTINGS.defaultSettings.tag);
+    if (!defaultSettings || Object.keys(defaultSettings).length <= 1) { // <= 1 because of _version
+      LogUtil.log("No default GM settings found to enforce");
+      return;
+    }
+
+    LogUtil.log("Enforcing GM settings to player", [defaultSettings]);
+
+    let settingsApplied = false;
+
+    // Apply each stored setting
+    for (const [settingTag, value] of Object.entries(defaultSettings)) {
+      // Skip the version tracking field
+      if (settingTag === '_version') continue;
+      
+      try {
+        // Only apply client-scoped settings
+        const setting = Object.values(SETTINGS).find(s => s.tag === settingTag);
+        if (setting && setting.scope === 'client') {
+          // Check if the current value is different from the GM default
+          const currentValue = SettingsUtil.get(settingTag);
+          if (currentValue !== value) {
+            SettingsUtil.set(settingTag, value);
+            LogUtil.log(`Applied GM setting: ${settingTag}`, [value]);
+            settingsApplied = true;
+          }
+        }
+      } catch (error) {
+        LogUtil.log(`Failed to apply GM setting: ${settingTag}`, [error]);
+      }
+    }
+    
+    return settingsApplied;
+  }
+
+  /**
+   * Saves current GM settings as defaults for enforcement
+   * Called when GM changes settings and enforcement is enabled
+   */
+  static saveDefaultSettings() {
+    const SETTINGS = getSettings();
+    
+    // Only GM can save default settings
+    if (!game.user?.isGM) {
+      return;
+    }
+
+    // Only save if enforcement is enabled
+    if (!SettingsUtil.get(SETTINGS.enforceGMSettings.tag)) {
+      return;
+    }
+
+    const defaultSettings = {
+      _version: Date.now() // Add timestamp to track updates
+    };
+
+    // Collect all client-scoped settings
+    for (const [key, setting] of Object.entries(SETTINGS)) {
+      if (setting.tag && setting.scope === 'client' && !setting.isMenu) {
+        const value = SettingsUtil.get(setting.tag);
+        if (value !== undefined) {
+          defaultSettings[setting.tag] = value;
+        }
+      }
+    }
+
+    // Save the collected settings
+    SettingsUtil.set(SETTINGS.defaultSettings.tag, defaultSettings);
+    LogUtil.log("Saved default GM settings", [defaultSettings]);
+  }
+
+  /**
+   * Hook for when settings change to update default settings
+   */
+  static onSettingChange(settingTag) {
+    const SETTINGS = getSettings();
+    
+    // If GM and enforcement is enabled, save settings immediately
+    if (game.user?.isGM && SettingsUtil.get(SETTINGS.enforceGMSettings.tag)) {
+      // Save settings synchronously to ensure they're available before any reload
+      SettingsUtil.saveDefaultSettings();
     }
   }
 

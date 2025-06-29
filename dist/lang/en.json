@@ -317,6 +317,14 @@
         "reset": "Reset",
         "save": "Save"
       },
+      "enforceGMSettings": {
+        "label": "Enforce GM Settings to Players",
+        "hint": "When enabled, all players will use the GM's UI settings when they connect. This ensures a consistent UI experience across all players."
+      },
+      "defaultSettings": {
+        "label": "Default GM Settings",
+        "hint": "Stores the GM's preferred settings for enforcement to players"
+      },
       "controlIconSize": {
         "label": "Size of control icons",
         "hint": "If you use a large resolution, you may want to change the size of the icons on left controls. This may affect some other UI elements",

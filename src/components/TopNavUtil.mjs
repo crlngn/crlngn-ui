@@ -55,13 +55,7 @@ export class TopNavigation {
     // execute on render scene navigation
     Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, TopNavigation.onRender);
     // Load settings first
-    TopNavigation.navStartCollapsed = SettingsUtil.get(SETTINGS.navStartCollapsed.tag);
-    TopNavigation.showNavOnHover = SettingsUtil.get(SETTINGS.showNavOnHover.tag);
-    TopNavigation.sceneNavEnabled = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
-    TopNavigation.useScenePreview = SettingsUtil.get(SETTINGS.useScenePreview.tag);
-    TopNavigation.useSceneFolders = SettingsUtil.get(SETTINGS.useSceneFolders.tag);
-    TopNavigation.navFoldersForPlayers = SettingsUtil.get(SETTINGS.navFoldersForPlayers.tag);
-    TopNavigation.isCollapsed = TopNavigation.navStartCollapsed;
+    TopNavigation.loadSettings();
 
     LogUtil.log("SCENE NAV INIT", [TopNavigation.sceneNavEnabled]);
     const body = document.querySelector("body");
@@ -1194,6 +1188,46 @@ export class TopNavigation {
     const SETTINGS = getSettings();
     const currWidth = SettingsUtil.get(SETTINGS.sceneItemWidth.tag) || 150;
     GeneralUtil.addCSSVars("--scene-nav-item-width", `${currWidth}px`);
-  } 
+  }
+
+  /**
+   * Load all settings from storage
+   */
+  static loadSettings() {
+    const SETTINGS = getSettings();
+    TopNavigation.navStartCollapsed = SettingsUtil.get(SETTINGS.navStartCollapsed.tag);
+    TopNavigation.showNavOnHover = SettingsUtil.get(SETTINGS.showNavOnHover.tag);
+    TopNavigation.sceneNavEnabled = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
+    TopNavigation.useScenePreview = SettingsUtil.get(SETTINGS.useScenePreview.tag);
+    TopNavigation.useSceneFolders = SettingsUtil.get(SETTINGS.useSceneFolders.tag);
+    TopNavigation.navFoldersForPlayers = SettingsUtil.get(SETTINGS.navFoldersForPlayers.tag);
+    TopNavigation.navShowRootFolders = SettingsUtil.get(SETTINGS.navShowRootFolders.tag);
+    TopNavigation.useSceneIcons = SettingsUtil.get(SETTINGS.useSceneIcons.tag);
+    TopNavigation.useSceneBackButton = SettingsUtil.get(SETTINGS.useSceneBackButton.tag);
+    TopNavigation.useSceneLookup = SettingsUtil.get(SETTINGS.useSceneLookup.tag);
+    TopNavigation.sceneClickToView = SettingsUtil.get(SETTINGS.sceneClickToView.tag);
+    TopNavigation.isCollapsed = TopNavigation.navStartCollapsed;
+  }
+
+  /**
+   * Refresh settings after GM enforcement
+   */
+  static refreshSettings() {
+    // Reload all settings
+    TopNavigation.loadSettings();
+    
+    // Update body classes
+    const body = document.querySelector("body");
+    if(TopNavigation.sceneNavEnabled){
+      body.classList.add("crlngn-scene-nav");
+    }else{
+      body.classList.remove("crlngn-scene-nav");
+    }
+    
+    // Re-render scene navigation if it exists
+    if (ui.nav) {
+      ui.nav.render();
+    }
+  }
   
 }

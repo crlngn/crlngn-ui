@@ -317,6 +317,14 @@
         "reset": "Redefinir",
         "save": "Salvar"
       },
+      "enforceGMSettings": {
+        "label": "Aplicar Configurações do GM aos Jogadores",
+        "hint": "Quando ativado, todos os jogadores usarão as configurações de interface do GM ao se conectarem. Isso garante uma experiência consistente para todos os jogadores."
+      },
+      "defaultSettings": {
+        "label": "Configurações Padrão do GM",
+        "hint": "Armazena as configurações preferidas do GM para aplicar aos jogadores"
+      },
       "controlIconSize": {
         "label": "Tamanho dos ícones de controle",
         "hint": "Se você usa uma tela muito grande, pode querer alterar o tamanho dos ícones nos controles à esquerda. Isso pode afetar alguns outros elementos da interface",
