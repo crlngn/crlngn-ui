@@ -50,8 +50,8 @@ export class SettingsUtil {
           requiresReload: setting.requiresReload || false,
           onChange: value => {
             SettingsUtil.apply(setting.tag, value);
-            // Don't double-save when enforceGMSettings is toggled
-            if (setting.tag !== 'v2-enforce-gm-settings') {
+            // Don't trigger saves for these special settings to avoid loops
+            if (setting.tag !== 'v2-enforce-gm-settings' && setting.tag !== 'v2-default-settings') {
               SettingsUtil.onSettingChange(setting.tag);
             }
           }

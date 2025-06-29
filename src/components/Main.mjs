@@ -60,12 +60,6 @@ export class Main {
         return;
       }
 
-      // if(TopNavigation.useSceneFolders){
-      //   // Add SceneNavFolders to window namespace
-      //   window.crlngnUI.SceneNavFolders = SceneNavFolders;
-      //   SceneNavFolders.init();
-      // }
-
       PlayersList.init(); 
       TopNavigation.init();
       CameraDockUtil.init(); 
@@ -112,6 +106,7 @@ export class Main {
       
       SettingsUtil.resetFoundryThemeSettings();
       // SettingsUtil.applyOtherModulesList();
+      ui.combat.close();
     });
   }
 

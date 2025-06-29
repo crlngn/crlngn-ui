@@ -384,6 +384,28 @@ export function getSettings() {
       requiresReload: false 
     },
 
+    enforceGMSettings: {
+      tag: "v2-enforce-gm-settings",
+      label: game.i18n.localize("CRLNGN_UI.settings.enforceGMSettings.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.enforceGMSettings.hint"), 
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.world,
+      config: true, 
+      requiresReload: true
+    },
+    
+    defaultSettings: {
+      tag: "v2-default-settings",
+      label: game.i18n.localize("CRLNGN_UI.settings.defaultSettings.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.defaultSettings.hint"),
+      propType: Object,
+      default: {},
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+
     disableUI: {
       tag: 'disable-ui',
       label: game.i18n.localize("CRLNGN_UI.settings.disableUI.label"),
@@ -1092,28 +1114,6 @@ export function getSettings() {
       scope: SETTING_SCOPE.client,
       config: false, 
       requiresReload: false 
-    },
-
-    enforceGMSettings: {
-      tag: "v2-enforce-gm-settings",
-      label: game.i18n.localize("CRLNGN_UI.settings.enforceGMSettings.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.enforceGMSettings.hint"), 
-      propType: Boolean,
-      default: false,
-      scope: SETTING_SCOPE.world,
-      config: true, 
-      requiresReload: true
-    },
-    
-    defaultSettings: {
-      tag: "v2-default-settings",
-      label: game.i18n.localize("CRLNGN_UI.settings.defaultSettings.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.defaultSettings.hint"),
-      propType: Object,
-      default: {},
-      scope: SETTING_SCOPE.world,
-      config: false,
-      requiresReload: false
     }
     
   }
