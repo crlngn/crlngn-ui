@@ -159,7 +159,7 @@
             "hint": "[Richiede ricaricamento] <b>Colore giocatore</b>: usa il colore del giocatore su Foundry; <b>Tipo di Tiro</b>: usa la codifica colori per attacco, salvezza, prova di abilità, ecc. <b>Nessuno:</b> nessun bordo (permetterà i bordi impostati da altri moduli).",
             "options": {
               "playerColor": "Colore Giocatore",
-              "rollType": "Tipo di Tiro",
+              "rollType": "Tipo di Tiro (DnD5e)",
               "none": "Nessuno"
             }
           },

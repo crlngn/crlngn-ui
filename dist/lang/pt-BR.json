@@ -159,7 +159,7 @@
             "hint": "Isso pode ser substituído por outros módulos. <b>Cor do jogador</b>: usa a cor do jogador no Foundry; <b>Tipo de Rolagem</b>: usa codificação de cores para ataque, salvaguarda, teste de habilidade, etc. <b>Nenhuma:</b> sem bordas (permite bordas de outros módulos).",
             "options": {
               "playerColor": "Cor do Jogador",
-              "rollType": "Tipo de Rolagem",
+              "rollType": "Tipo de Rolagem (DnD5e)",
               "none": "Nenhuma"
             }
           },
