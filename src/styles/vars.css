@@ -70,14 +70,14 @@ body.crlngn-ui {
   --color-highlights-75: rgba(68, 147, 173, 0.75);
   --color-highlights-90: rgba(68, 147, 173, 0.9);
   --color-scrollbar: rgba(68, 147, 173, 0.7);
-  --color-secondary: rgba(62, 62, 88, 1);
+  --color-secondary: rgb(48, 48, 70);
   --color-secondary-b: rgb(31, 31, 47);
   --color-secondary-bright: rgba(122, 122, 148, 0.75);
-  --color-secondary-15: rgba(62, 62, 88, 0.15);
-  --color-secondary-25: rgba(62, 62, 88, 0.25);
-  --color-secondary-50: rgba(62, 62, 88, 0.5);
-  --color-secondary-75: rgba(62, 62, 88, 0.75);
-  --color-secondary-90: rgba(62, 62, 88, 0.9);
+  --color-secondary-15: rgba(48, 48, 70, 0.15);
+  --color-secondary-25: rgba(48, 48, 70, 0.25);
+  --color-secondary-50: rgba(48, 48, 70, 0.5);
+  --color-secondary-75: rgba(48, 48, 70, 0.75);
+  --color-secondary-90: rgba(48, 48, 70, 0.9);
   --color-secondary-b-50: rgba(34, 34, 54, 0.5);
   --color-secondary-b-75: rgba(34, 34, 54, 0.75);
   --color-secondary-b-90: rgba(34, 34, 54, 0.90);
@@ -100,7 +100,7 @@ body.crlngn-ui {
   --color-warm-2: rgb(111, 169, 187);
   --color-warm-1: rgb(75, 144, 173);
 
-  --dnd5e-color-maroon: var(--color-warm-2);
+  --dnd5e-color-maroon: var(--color-warm-3);
   
   &.theme-dark{
     --color-warm-1: rgb(122, 182, 196); 
@@ -132,15 +132,15 @@ body.crlngn-ui {
   --color-dark-5: #666;
   --color-dark-6: #777;
   --color-text-light:rgba(200,200,200,1);
-
+  
   #interface {
     --striped-bg-light: repeating-linear-gradient( -45deg, rgba(218,232,232,0.75) 0px, rgba(218,232,232,0.75) 1px, rgba(240,240,240,0.75) 2px, rgba(240,240,240,0.75) 3px);
     --striped-bg-light-2: repeating-linear-gradient( -45deg, rgba(225, 225, 215, 0.75) 0px, rgba(225, 225, 215, 0.75) 1px, rgba(240,240,240,0.75) 2px, rgba(240,240,240,0.75) 3px);
 
-    --striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-25) 0px, var(--color-secondary-25) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
+    --striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-25) 0px, var(--color-secondary-25) 1px, var(--color-secondary-50) 2px, var(--color-secondary-50) 3px);
     --striped-bg-2: repeating-linear-gradient(-45deg, rgba(0, 0, 0, .35), rgba(0, 0, 0, .35) 1px, rgba(0, 0, 0, .5) 2px, rgba(0, 0, 0, .5) 3px);
     &.theme-dark{
-      --striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-25) 0px, var(--color-secondary-25) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
+      --striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-25) 0px, var(--color-secondary-25) 1px, var(--color-secondary-50) 2px, var(--color-secondary-50) 3px);
       --striped-bg-2: repeating-linear-gradient(-45deg, rgba(0, 0, 0, .35), rgba(0, 0, 0, .35) 1px, rgba(0, 0, 0, .5) 2px, rgba(0, 0, 0, .5) 3px);
     }
   }
@@ -148,7 +148,7 @@ body.crlngn-ui {
 
 body.crlngn-ui{
   --checkbox-checkmark-color: var(--color-dark-1);
-  --control-active-border-color: var(--color-highlights);
+  --control-active-border-color: var(--color-warm2);
   --control-active-icon-color: var(--color-light-1);
   --color-text-light-highlight: var(--color-light-1);
   --color-text-selection-bg: var(--color-cool-5);

@@ -766,4 +766,11 @@ body.crlngn-ui{
     }
   }
 
+  /* MIDI QOL */
+  /*.midi-qol-attack-roll, .midi-qol-damage-roll {
+    flex: 1 1 auto;
+    min-width: calc((100% - 10px) / 2);
+    width: auto;
+  }*/
+
 }

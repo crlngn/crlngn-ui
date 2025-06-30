@@ -261,36 +261,6 @@ export class SceneNavFolders {
   }
 
   /**
-   * Retrieves and sorts top-level folders from the provided folder list
-   * @param {object[]} fromList - Array of folder objects to filter
-   * @returns {object[]} Sorted array of top-level folders
-   */
-  // static getFolders = (fromList) => {
-  //   // Helper function to recursively set isOpen state
-  //   const setFolderOpenState = (folder) => {
-  //     folder.isOpen = SceneNavFolders.#folderToggleStates[folder.id] ?? false;
-  //     folder.children.forEach(setFolderOpenState);
-  //   };
-
-  //   // Get top-level folders
-  //   let folders = fromList.filter(f => f.folder === null);
-  //   // Process each top-level folder and its children
-  //   folders.forEach(setFolderOpenState);
-  //   LogUtil.log("getFolders / sortOrder", [SceneNavFolders.#currSceneSortMode]);
-  //   if(SceneNavFolders.#currSceneSortMode === "a"){
-  //     // alphabetical sort order
-  //     folders.sort((a, b) => {
-  //       return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-  //     });
-  //   }else{
-  //     // manual sort order
-  //     folders.sort((a, b) => a.sort - b.sort);
-  //   }
-
-  //   return folders;
-  // }
-
-  /**
    * Selects a folder by its ID
    * @param {string} id - The ID of the folder to select
    * @returns {object|null} The selected folder object or null if not found
