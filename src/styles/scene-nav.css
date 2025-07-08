@@ -85,7 +85,7 @@ body.crlngn-ui {
 
     #ui-left-column-1 {
       padding-top: var(--top-nav-height, 0px);
-      height: calc((100% - var(--crlngn-taskbar-height)) / var(--ui-scale));
+      height: calc((100vh - var(--crlngn-taskbar-height)) / var(--ui-scale));
       gap: 0;
       
       #scene-controls {

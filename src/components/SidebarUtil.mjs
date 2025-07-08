@@ -59,6 +59,8 @@ export class SidebarTabs {
     SidebarTabs.handleFadeOut(component, html, data);
     SidebarTabs.handleHide(component, html, data);
     SidebarTabs.applyFolderStyles(SidebarTabs.folderStylesEnabled);
+
+    LogUtil.log("SidebarTabs onRender", [foundry.applications?.sidebar?.tabs]);
   }
 
   static handleClassApplication(){

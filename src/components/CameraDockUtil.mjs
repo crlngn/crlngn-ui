@@ -298,10 +298,6 @@ export class CameraDockUtil {
       avHolder.appendChild(cam);
       document.querySelector("body.crlngn-ui").appendChild(avHolder);  
     };
-
-    // const camViews = CameraDockUtil.cameraContainer.querySelector("#camera-views");
-    // camViews.classList.remove('horizontal');
-    // camViews.classList.remove('vertical');
     
     const btnToggleIcon = CameraDockUtil.cameraContainer.querySelector("button[data-action=toggleDock]");
     btnToggleIcon.addEventListener("click", () => {
@@ -311,7 +307,6 @@ export class CameraDockUtil {
     playerCameras.forEach(view => {
       const player = game.users.get(view.dataset.user);
       const playerColor = player?.color || '';
-      LogUtil.log("player color",[player, playerColor]);
       view.style.setProperty("--player-color", playerColor);
     });
     

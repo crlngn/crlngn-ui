@@ -81,6 +81,29 @@
     <input type="checkbox" name="useFolderStyle" {{#if useFolderStyle}}checked{{/if}} />
     <p class="hint">{{{fields.useFolderStyle.hint}}}</p> 
   </div>
+
+  {{!-- <h4>
+    <i class="fas fa-user"></i> {{localize "CRLNGN_UI.ui.worldSettingsLabel"}} 
+    <span class="toggle-hint">{{localize 'CRLNGN_UI.ui.toggleHints'}}</span>
+  </h4>
+  <hr/>
+
+  <div class="form-group hide-tabs">
+    <header class="table-header flexrow">
+      <label>{{localize "CRLNGN_UI.settings.sidebarTabs.tabsColumn"}}</label>
+      <label>{{localize "CRLNGN_UI.settings.sidebarTabs.gmHideColumn"}}</label>
+      <label>{{localize "CRLNGN_UI.settings.sidebarTabs.playerHideColumn"}}</label>
+    </header>
+    <ul>
+      {{#each sidebarTabs}}
+      <li>
+        <label>{{localize this.localizedName}}</label>
+        <input type="checkbox" name="{{this.name}}-gm" {{#if this.hideForGM}} checked{{/if}} />
+        <input type="checkbox" name="{{this.name}}-player" {{#if this.hideForPlayer}} checked{{/if}} />
+      </li>
+      {{/each}}
+    </ul>
+  </div> --}}
   
 
 </section>

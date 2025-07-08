@@ -72,6 +72,23 @@
         "label": "切换隐藏/显示界面",
         "hint": "隐藏或显示界面。这将影响 #interface 块中的所有元素"
       },
+      "sidebarTabs": {
+        "ChatLog": "聊天记录",
+        "CombatTracker": "录",
+        "SceneDirectory": "场景",
+        "ActorDirectory": "角色",
+        "ItemDirectory": "物品",
+        "JournalDirectory": "日志",
+        "RollTableDirectory": "骰表",
+        "CardsDirectory": "牌组",
+        "MacroDirectory": "宏",
+        "PlaylistDirectory": "播放列表",
+        "CompendiumDirectory": "编纂",
+        "Settings": "设置",
+        "tabsColumn": "侧边栏选项卡",
+        "gmHideColumn": "GM隐藏",
+        "playerHideColumn": "玩家隐藏"
+      },
       "interfaceOptionsMenu": {
         "label": "淡出 & 布局",
         "title": "界面淡出 & 布局",

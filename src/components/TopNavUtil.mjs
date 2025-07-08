@@ -136,7 +136,7 @@ export class TopNavigation {
       const directoryScenes = sceneNav.querySelectorAll(".directory-item.scene");
       directoryScenes.forEach(sc => {
         const scene = game.scenes.get(sc.dataset.entryId);
-        LogUtil.log(HOOKS_CORE.RENDER_SCENE_DIRECTORY,["directoryScenes", sc.dataset.entryId, TopNavigation.sceneClickToView]);
+        // LogUtil.log(HOOKS_CORE.RENDER_SCENE_DIRECTORY,["directoryScenes", sc.dataset.entryId, TopNavigation.sceneClickToView]);
         if(TopNavigation.sceneClickToView){
           sc.addEventListener("dblclick", TopNavigation.onActivateScene); // onActivateScene
           sc.addEventListener("click", TopNavigation.onSelectScene);
@@ -194,6 +194,7 @@ export class TopNavigation {
         btn.classList.remove("hidden-ui");
       });
     }
+
     LogUtil.log("handle Hide", [TopNavigation.hidden]);
   }
 
@@ -284,12 +285,12 @@ export class TopNavigation {
     LogUtil.log("handleSceneList", [nav, navHtml, navData]);
 
     const allSceneLi = navHtml.querySelectorAll(".scene-navigation-menu li.scene");
-    // allSceneLi.forEach(async (li) => {
+
     for(const li of allSceneLi){
       const id = li.dataset.sceneId;
 
       // add scene preview
-      if(TopNavigation.useScenePreview){
+      if(TopNavigation.useScenePreview && game.user?.isGM){
         const sceneData = game.scenes.find(sc => sc.id === id);
         sceneData.isGM = game.user?.isGM;
 
@@ -317,13 +318,10 @@ export class TopNavigation {
       }
     }
 
-    // && game.scenes.size > 1
-    LogUtil.log("handleSceneList #2", [TopNavigation.sceneNavEnabled]);
     if(TopNavigation.sceneNavEnabled){
       const column2 = document.querySelector("#ui-left-column-2");
       const existingToggle = document.querySelector("#crlngn-scene-navigation-expand");
 
-      LogUtil.log("handleSceneList #3", [column2]);
       if(!column2){ return; }
       if(existingToggle){ existingToggle.remove(); }
       

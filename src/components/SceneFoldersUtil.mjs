@@ -98,7 +98,7 @@ export class SceneNavFolders {
       `modules/${MODULE_ID}/templates/scene-nav-folders.hbs`, 
       templateData
     );
-    LogUtil.log("renderFolderList",[folder, SceneNavFolders.#activeSceneFolders, renderedHtml]);
+    // LogUtil.log("renderFolderList",[folder, SceneNavFolders.#activeSceneFolders, renderedHtml]);
 
     if(!folderElement){ // if root folder
       targetElement = document.querySelector("#scene-navigation-inactive");

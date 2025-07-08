@@ -72,6 +72,23 @@
         "label": "Toggle Hide/Show Interface",
         "hint": "Hides or shows the UI. This will affect all elements inside the `#interface` html block"
       },
+      "sidebarTabs": {
+        "ChatLog": "Chat Messages",
+        "CombatTracker": "Combat Encounters",
+        "SceneDirectory": "Scenes",
+        "ActorDirectory": "Actors",
+        "ItemDirectory": "Items",
+        "JournalDirectory": "Journal",
+        "RollTableDirectory": "Rollable Tables",
+        "CardsDirectory": "Card Stacks",
+        "MacroDirectory": "Macros",
+        "PlaylistDirectory": "Playlists",
+        "CompendiumDirectory": "Compendium Packs",
+        "Settings": "Settings",
+        "tabsColumn": "Sidebar Tabs",
+        "gmHideColumn": "Hide for GM",
+        "playerHideColumn": "Hide for Player"
+      },
       "interfaceOptionsMenu": {
         "label": "Fade-out & Layout",
         "title": "Interface Fade-out & Layout",

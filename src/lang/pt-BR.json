@@ -72,6 +72,23 @@
         "label": "Ocultar/Mostrar Interface",
         "hint": "Oculta ou mostra a interface. Isso afetará todos os elementos dentro do bloco html #interface"
       },
+      "sidebarTabs": {
+        "ChatLog": "Mensagens do Chat",
+        "CombatTracker": "Combate",
+        "SceneDirectory": "Cenas",
+        "ActorDirectory": "Atores",
+        "ItemDirectory": "Itens",
+        "JournalDirectory": "Diário",
+        "RollTableDirectory": "Tabelas de Rolagem",
+        "CardsDirectory": "Pilhas de Cartas",
+        "MacroDirectory": "Macros",
+        "PlaylistDirectory": "Áudio",
+        "CompendiumDirectory": "Compendium",
+        "Settings": "Configurações",
+        "tabsColumn": "Abas à Esquerda",
+        "gmHideColumn": "Ocultar (Mestre)",
+        "playerHideColumn": "Ocultar (Jogador)"
+      },
       "interfaceOptionsMenu": {
         "label": "Desvanecimento e Layout",
         "title": "Desvanecimento e Layout da Interface",

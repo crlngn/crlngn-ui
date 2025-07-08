@@ -64,16 +64,21 @@ body.crlngn-ui  {
 /* JOURNALS */
 body.crlngn-ui  {
   .sheet.journal-entry {
+    line-height: 1.6;
+
     h1, h2, h3 {
       font-family: var(--dnd5e-font-modesto);
-      margin: 1.5em 0 0.5em 0;
+      margin: 1.5rem 0 0.5rem 0;
     }
     h4, h5, h6 {
       font-family: var(--dnd5e-font-roboto-slab);
-      margin: 1.5em 0 0.5em 0;
+      margin: 1.5rem 0 0.5rem 0;
     }
     .stat-block-finder{
-      margin: 2em 0;
+      margin: 2rem 0;
+    }
+    p{
+      line-height: 1.6;
     }
   }
 }
@@ -121,7 +126,7 @@ body.crlngn-ui{
 
   .application:not(.dnd5e2) .dialog-buttons button, 
   .combat-controls button,
-  form.application .form-footer button,
+  form.application:not(.journal-sheet) .form-footer button,
   .application:not(.dnd5e2) .standard-form button
   /*.journal-sheet-container .action-buttons button*/ {
     height: auto;
@@ -154,7 +159,7 @@ body.crlngn-ui{
   }
   .application:not(.dnd5e2) .dialog-buttons button.icon, 
   .combat-controls button.icon,
-  form.application .form-footer button.icon,
+  form.application:not(.journal-sheet) .form-footer button.icon,
   .application:not(.dnd5e2) .standard-form button.icon {
     border: 1px solid transparent;
     background: transparent;
@@ -642,17 +647,22 @@ body.crlngn-ui{
   }
 }
 
-.standard-form.crlngn .interface-elements{
+.standard-form.crlngn .interface-elements,
+.standard-form.crlngn .hide-tabs{
   display: flex;
   flex-direction: column;
-  ul.elements-list {
+  flex-wrap: nowrap;
+
+  ul.elements-list, ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
+    flex-wrap: nowrap;
     flex: 1 1 100%;
     width: 100%;
+
     li{
       display: flex;
       flex-direction: row;

@@ -384,7 +384,6 @@ export class SettingsUtil {
         ChatLogControls.applyCustomStyle(value); break;
       case SETTINGS.enableSceneControls.tag:
         LeftControls.applyCustomStyle(value); break;
-      // FadeOut options
       case SETTINGS.sceneControlsFadeOut.tag:
         LeftControls.applyFadeOut(value); break;
       case SETTINGS.playerListFadeOut.tag:

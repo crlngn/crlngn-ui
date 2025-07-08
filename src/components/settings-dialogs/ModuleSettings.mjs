@@ -85,19 +85,11 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       template: "modules/crlngn-ui/templates/players-list-settings.hbs",
       isGMOnly: false
     },
-    // controls: {
-    //   menuKey: "leftControlsMenu",
-    //   template: "modules/crlngn-ui/templates/left-controls-settings.hbs"
-    // },
     camera: {
       menuKey: "cameraDockMenu",
       template: "modules/crlngn-ui/templates/camera-dock-settings.hbs",
       isGMOnly: false
     },
-    // sheets5e: {
-    //   menuKey: "sheets5eMenu",
-    //   template: "modules/crlngn-ui/templates/actor-sheets-5e-settings.hbs"
-    // },
     footer: {
       template: "templates/generic/form-footer.hbs",
       isGMOnly: false
@@ -220,6 +212,14 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
             }
             Object.assign(partContext, menuContext.fieldValues);
           }
+
+          partContext.sidebarTabs = Object.values(foundry.applications?.sidebar?.tabs || {}).map(tab => ({
+            tabName: tab.tabName,
+            name: tab.name,
+            hideForGM: false,
+            hideForPlayer: false,
+            localizedName: `CRLNGN_UI.settings.sidebarTabs.${tab.name}`
+          }));
         }
         break;
       }
