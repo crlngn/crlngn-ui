@@ -1008,6 +1008,10 @@ body.crlngn-chat {
     /*******
     PF2e 
     *******/
+    &.system-pf2e .action-glyph {
+      font-family: "Pathfinder2eActions", sans-serif;
+    }
+    
     &.system-pf2e .damage {
       --color-border-physical: rgb(255, 255, 255, 0.5);
       --color-text-dark-secondary: rgb(255, 255, 255, 0.75); 

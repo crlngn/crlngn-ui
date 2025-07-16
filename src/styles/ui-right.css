@@ -100,6 +100,7 @@ body.crlngn-ui{
 
     #game-details li {
       text-align: center;
+      justify-content: center;
     }
     #game-details span {
       float: none;
