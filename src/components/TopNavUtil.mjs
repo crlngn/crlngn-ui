@@ -282,7 +282,7 @@ export class TopNavigation {
    * Add scene preview to nav, if the setting is enabled
    */
   static handleSceneList = async (nav, navHtml, navData) =>{
-    LogUtil.log("handleSceneList", [nav, navHtml, navData]);
+    LogUtil.log("handleSceneList", [nav, navHtml, navData, TopNavigation.useScenePreview, game.user?.isGM]);
 
     const allSceneLi = navHtml.querySelectorAll(".scene-navigation-menu li.scene");
 
@@ -307,9 +307,7 @@ export class TopNavigation {
         }
         
         // Add click handlers to the preview icons if user is GM
-        if (game.user?.isGM) {
-          TopNavigation.addPreviewIconListeners(li, sceneData);          
-        }
+        TopNavigation.addPreviewIconListeners(li, sceneData);          
       }
       
       // add custom scene icons

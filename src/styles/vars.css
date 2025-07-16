@@ -152,6 +152,8 @@ Main Theme
     &.theme-light,
     #interface.theme-light,
     .sidebar-popout.theme-light {
+      --color-bg-button: rgba(244, 239, 237,0.9);
+    
       --color-secondary: rgb(204, 186, 204);
       --color-secondary-bright: rgba(236, 224, 236, 1);
       --color-secondary-bright-50: rgba(236, 224, 236, 0.5);

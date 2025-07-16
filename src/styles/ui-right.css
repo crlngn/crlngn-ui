@@ -282,6 +282,9 @@ body.crlngn-ui{
   }
 
   .compendium {
+    .compendium-footer {
+      opacity: 0.3;
+    }
 
     .compendium-banner {
       filter: saturate(0.2);
@@ -289,6 +292,9 @@ body.crlngn-ui{
     }
 
     &:hover {
+      .compendium-footer {
+        opacity: 0.8;
+      }
       .compendium-banner {
         filter: saturate(1);
         opacity: 0.6;
@@ -299,11 +305,11 @@ body.crlngn-ui{
       font-weight: 600;
       font-size: 0.9em;
     }
+
   }
 
   li.directory-item.entry > img:first-child{
-    /*height: calc(var(--sidebar-item-height) - 6px);*/
-    object-fit: contain;
+    object-fit: cover;
     object-position: 50% 50%;
   }
 

@@ -14,7 +14,7 @@ body.crlngn-ui {
     }
   }
 }
-body.crlngn-chat {
+body.crlngn-ui.crlngn-chat {
   /* variables for the custom dnd5e card buttons */
   --crlngn-i18n-attack: "attack";
   --crlngn-i18n-healing: "healing";
@@ -363,10 +363,6 @@ body.crlngn-chat {
     box-shadow: none;
     background: var(--color-dark-bg-10);
   }
-  .chat-message .message-content .dice-formula, 
-  .chat-message.ddb-game-log-message .dice-formula{
-    /*font-size: var(--font-size-12);*/
-  }
   
   /* card button layout */
   .chat-card .card-buttons:not(.midi-buttons) {
@@ -555,7 +551,6 @@ body.crlngn-chat {
   }
   
   /* effects / targets list */
-  
   :is(.card-tray, .effects-tray) .effects .effect:not(:last-child),
   :is(.card-tray, .effects-tray) .targets .effect:not(:last-child),
   :is(.card-tray, .effects-tray) .effects .target:not(:last-child),
@@ -675,6 +670,8 @@ body.crlngn-chat {
     --dnd5e-background-card: rgba(244, 239, 237,0.8);
     --dnd5e-color-parchment: rgba(244, 239, 237, 1);
     --card-color-bg: var(--dnd5e-background-card, #e8e8ef);
+    --dnd5e-color-card: var(--dnd5e-background-card, #e8e8ef);
+    --table-background-color: var(--dnd5e-background-card, #e8e8ef);
     /*
     --dnd5e-color-success-background: rgba(98, 184, 117, 0.35);
     --dnd5e-color-failure-background: rgba(209, 67, 67, 0.35);
@@ -683,6 +680,7 @@ body.crlngn-chat {
     --dnd5e-color-crimson: var(--color-highlights-75);
     */
   }
+
   #interface.theme-dark, #interface.theme-dark .chat-log, 
   & > .chat-log.themed.theme-dark, 
   #chat-popout.theme-dark, #chat-popout.theme-dark button, 
@@ -690,12 +688,15 @@ body.crlngn-chat {
     --dnd5e-color-parchment: rgb(40, 47, 54);
     --dnd5e-background-card: rgb(40, 47, 54); 
     --card-color-bg: var(--chat-dark-blue);
+    --dnd5e-color-card: var(--chat-dark-blue);
+    --table-background-color: var(--chat-dark-blue);
     --dnd5e-color-success-background: rgba(98, 184, 117, 0.35);
     --dnd5e-color-failure-background: rgba(209, 67, 67, 0.35);
     --dnd5e-text-color-success: #c1e6a7;
     --dnd5e-text-color-failure: #d8aeae;
     --dnd5e-color-crimson: var(--color-highlights-75);
   }
+
   #interface.theme-dark,
   #chat-popout.theme-dark,
   #chat-pins.theme-dark {
@@ -935,8 +936,8 @@ body.crlngn-chat {
     .chat-message .message-content button:not(.unbutton):hover,
     .chat-message .message-content button:not(.unbutton):focus {
       border-color: var(--color-highlights);
-      /*background: var(--color-dark-1);*/
-      color: var(--color-text-gray-blue);
+      color: var(--color-light-1);
+      background: var(--color-highlights);
     }
   
     :is(.card-tray, .effects-tray) .target-source-control button:hover, 
