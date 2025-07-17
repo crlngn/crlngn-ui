@@ -54,6 +54,9 @@ body.crlngn-ui.crlngn-chat {
     h3{
       font-size: var(--font-size-16);
     }
+    .action-glyph{
+      font-family: "Pathfinder2eActions", sans-serif;
+    }
   }
 
   /*
@@ -1219,6 +1222,10 @@ body.crlngn-ui.crlngn-chat {
     .chat-message .tags.traits .tag option {
       color: var(--color-light-1);
     }
+  }
+
+  &.system-pf2e .action-glyph {
+    font-family: "Pathfinder2eActions", sans-serif;
   }
 
 }
