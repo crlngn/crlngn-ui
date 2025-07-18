@@ -328,7 +328,7 @@ export class TopNavigation {
         const id = li.dataset.sceneId;
 
         // add scene preview
-        if(TopNavigation.useScenePreview){
+        if(TopNavigation.useScenePreview && game.user.isGM){
           const sceneData = game.scenes.find(sc => sc.id === id);
           sceneData.isGM = game.user?.isGM;
           sceneData.thumb = sceneData.thumb || null;
