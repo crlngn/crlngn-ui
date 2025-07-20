@@ -150,14 +150,4 @@ body.crlngn-ui{
 
   }
 
-  &.system-pf2e #interface #pf2e-hud-persistent #hotbar{
-    background: transparent;
-  }
-
-  &.system-pf2e #interface #pf2e-hud-persistent #hotbar:not(.crlngn-macro) {
-    #hotbar-collapse-btn {
-      display: none;
-    }
-  }
-
 }

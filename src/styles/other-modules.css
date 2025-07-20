@@ -744,5 +744,16 @@ body.crlngn-ui{
   &.theme-dark .monks-tokenbar .sheet .items-list .items-header {
     background: var(--crlngn-chat-button-bg-15);
   }
+
+  /* PF2e */
+  &.system-pf2e #interface #pf2e-hud-persistent #hotbar{
+    background: transparent;
+  }
+
+  &.system-pf2e #interface #pf2e-hud-persistent #hotbar:not(.crlngn-macro) {
+    #hotbar-collapse-btn {
+      display: none;
+    }
+  }
   
 }
