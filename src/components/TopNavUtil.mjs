@@ -910,14 +910,14 @@ export class TopNavigation {
     evt.stopPropagation();
     evt.preventDefault();
     LogUtil.log("onScenePreviewOn", [TopNavigation.useScenePreview]);
-    if(!TopNavigation.showNavOnHover){ return; }
+    if(!TopNavigation.showNavOnHover || !TopNavigation.useScenePreview){ return; }
 
     const target = evt.currentTarget;
     const data = target.dataset;
     TopNavigation.#previewedScene = data.sceneId;
     TopNavigation.#sceneHoverTimeout = setTimeout(() => {
       clearTimeout(TopNavigation.#sceneHoverTimeout);
-      target.querySelector(".scene-preview").classList.add('open');
+      target.querySelector(".scene-preview")?.classList.add('open');
     }, 200);
   }
 
@@ -926,11 +926,11 @@ export class TopNavigation {
     evt.preventDefault();
     clearTimeout(TopNavigation.#sceneHoverTimeout);
 
-    if(!TopNavigation.showNavOnHover){ return; }
+    if(!TopNavigation.showNavOnHover || !TopNavigation.useScenePreview){ return; }
     const target = evt.currentTarget;
     TopNavigation.#previewedScene = '';
 
-    target.querySelector(".scene-preview").classList.remove('open');
+    target.querySelector(".scene-preview")?.classList.remove('open');
   }
 
   
@@ -981,11 +981,11 @@ export class TopNavigation {
       newPreview.classList.add('open');
     }
     
+    sceneElement.removeEventListener("mouseenter", TopNavigation.onScenePreviewOn);
+    sceneElement.removeEventListener("mouseleave", TopNavigation.onScenePreviewOff);
     // Re-attach all necessary event listeners
     if (TopNavigation.sceneNavEnabled && TopNavigation.useScenePreview) {
       // Reattach hover events
-      sceneElement.removeEventListener("mouseenter", TopNavigation.onScenePreviewOn);
-      sceneElement.removeEventListener("mouseleave", TopNavigation.onScenePreviewOff);
       sceneElement.addEventListener("mouseenter", TopNavigation.onScenePreviewOn);
       sceneElement.addEventListener("mouseleave", TopNavigation.onScenePreviewOff);
       
@@ -993,9 +993,6 @@ export class TopNavigation {
       if (game.user?.isGM) {
         TopNavigation.addPreviewIconListeners(sceneElement, templateData);
       }
-    }else{
-      sceneElement.removeEventListener("mouseenter", TopNavigation.onScenePreviewOn);
-      sceneElement.removeEventListener("mouseleave", TopNavigation.onScenePreviewOff);
     }
   }
   
