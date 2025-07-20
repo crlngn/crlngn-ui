@@ -500,7 +500,7 @@ body.crlngn-ui{
 
   /* DFreds Effects panel */
   #effects-panel {
-    padding-top: 10px;
+    padding-top: var(--control-item-size);
   }
 
   .effect-panel .effects-panel-container .effect-item .icon.temporary {

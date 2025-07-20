@@ -1120,6 +1120,7 @@ body.crlngn-ui.crlngn-chat {
     .chat-message .message-header {
       color: var(--color-light-1);
       background-color: transparent;
+      background: transparent;
     }
     .chat-card .card-header,
     .chat-card footer {
