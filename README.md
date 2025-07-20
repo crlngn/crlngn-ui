@@ -65,32 +65,9 @@ A UI overhaul, focusing on removing clutter from screen and improving overall lo
 
 I am very opinionated about this module's look and feel, as it was created for my own use, and I overwrite some other modules' fonts and colors to look more uniform with mine. My setup of modules is relatively lean, with only ~40 quality of life modules. If the aesthetics are too off or the module is too niche, I might not be interested in working on compatibility for it. That being said, I've specifically tested some modules by user request, and adapted their styling.
 
-### VERIFIED v12 MODULE COMPATIBILITY (A-Z):
-**Note:** This is not an extensive list - I've only included modules that I personally checked and which might be particularly affected by changes in the UI. Hundreds of other modules may be compatible.
-- Are You Focused? 1.2.x
-- Break Time 12.0.x
-- Carousel Combat Tracker 3.1.x
-- Compact Scene Navigation 1.0.x (my module now provides similar features, so I suggest not using it)
-- CRUX 1.2.x
-- Dice Tray 2.2.x
-- Dungeon Draw 3.0.x
-- Epic Rolls 5e 4.2.x
-- Force Client Settings 2.5.x (please disable "Enforce Dark Mode")
-- Hide Player UI 1.7.x
-- LiveKit AV Client 0.5.x
-- Midi-QoL 12.4.x (seems to work in v11 as well)
-- Mobile Improvements 1.3.x
-- Monk's Hotbar Expansion 11.0.x
-- Party Resources 1.7.x
-- Ready Set Roll 5e 3.4.x
-- Taskbar 4.1.x
-- Tidy 5e 9.1.x
-- TheRipper93's Module Hub 4.1.x
-- Touch VTT 2.2.x
-- Visual Active Effects
-- YouTube Player Widget 2.1.x
-
-I have also verified PF2e HUD, but I do not play PF2e so there might be issues I haven't noticed.
+### MODULE COMPATIBILITY (A-Z):
+I've adapted or adjusted many modules to go well with Carolngian UI - mostly those that might be particularly affected by changes in the UI. Check the  compatibility trcker for v13.
+I have verified PF2e HUD, but I do not play PF2e so there might be issues I haven't noticed.
 
 **Note:**
 If you want to use **Monk's Scene Navigation** you need to disable my horizontal navigation, as Monk's is not compatible with it. You'll find the option in settings.
@@ -98,7 +75,6 @@ If you want to use **Monk's Scene Navigation** you need to disable my horizontal
 ### NOTES:
 - The module was tested mostly on Foundry v12 and DnD 4.x. The overall UI styles are system agnostic, but chat card styles are mostly for DnD5e - I've done some basic tests for PF2e. If you would like to request support for a different system (and help with info and screenshots), please add a feature request on Github issue tracker (subject to evaluation);
 - Carolingian UI works best for DMs with a somewhat lean list of active modules. Modules which heavily modify the UI are likely to have conflicts.
-- The module is currently compatible with **"Compact Scene Navigation"**, but you might want to disable the auto-hide setting in one of the modules; 
 - Feel free to report compatibility status with other modules (subject to evaluation);
 - If you use a non-compatible module, play with the settings and disable the parts that might be affecting it before reporting.
 - If you would like to contribute with translation to your language please send a PR or copy the en language file, translate and post as enhancement.
