@@ -64,6 +64,7 @@ export class TopNavigation {
     }else{
       body.classList.remove("crlngn-scene-nav");
     }
+    
     if(TopNavigation.sceneNavEnabled){
       this.checkSceneNavCompat();
       this.preloadTemplates();
@@ -79,7 +80,7 @@ export class TopNavigation {
       // add class to ui nav when sidebar changes state
       Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, (sidebar) => { 
         LogUtil.log(HOOKS_CORE.COLLAPSE_SIDE_BAR, [sidebar]);
-        if(sidebar){TopNavigation.checkSideBar(sidebar.expanded);}
+        TopNavigation.checkSideBar(sidebar.expanded || false);
         TopNavigation.placeNavButtons();
       }); 
 
@@ -98,8 +99,7 @@ export class TopNavigation {
         }, 250);
       });
 
-      // execute once on start
-      if(ui.sidebar){TopNavigation.checkSideBar(ui.sidebar.expanded);}
+      
       TopNavigation.placeNavButtons();
     }
 
@@ -258,13 +258,14 @@ export class TopNavigation {
     }
   }
 
-  static checkSideBar = (isExpanded) => {
+  static checkSideBar = (isExpanded=false) => {
     TopNavigation.placeNavButtons(); 
     const body = document.querySelector("body");
+    LogUtil.log("TopNavigation.checkSideBar", [ui.sidebar, isExpanded], true);
     if(isExpanded){
-      body.classList.add("sidebar-expanded");
+      body.classList.add("crlngn-sidebar-expanded");
     }else{
-      body.classList.remove("sidebar-expanded");
+      body.classList.remove("crlngn-sidebar-expanded");
     }
   }
 

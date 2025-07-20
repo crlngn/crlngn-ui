@@ -85,6 +85,7 @@ export class Main {
       if(isDebugOn){CONFIG.debug.hooks = true};
 
       CustomHandlebarsHelpers.init();
+      TopNavigation.checkSideBar(ui.sidebar?.expanded || false);
       
       // Enforce GM settings and refresh components if needed
       const settingsChanged = SettingsUtil.enforceGMSettings();

@@ -1,55 +1,45 @@
-body.crlngn-ui { 
-  /* variables specific top scene nav */
-  --top-nav-height: calc(var(--control-item-size) + 1px);
-  --ui-top-padding: var(--top-nav-height,0px);
-  --crlngn-top-offset: var(--top-nav-height,0px);
-  --ui-controls-margin-left: -100px;
-  --folder-header-width: 150px;
-  --folder-list-width: 200px;
-  --scene-nav-item-width: calc(var(--font-size-10) * 18);
-  --folder-nav-item-width: var(--control-item-size);
-  --nav-btn-width: calc(var(--control-item-size) * 2);
-  --interface-width: calc(100vw / var(--ui-scale));
-  --scene-nav-curr-width: var(--scene-nav-full-width);
-  --default-color: var(--color-dark-1);
-  --controls-width: calc(var(--control-item-size, 0px) * 0);
+@layer variables {
+  body.crlngn-ui { 
+    /* variables specific top scene nav */
+    --top-nav-height: calc(var(--control-item-size) + 1px);
+    --ui-top-padding: var(--top-nav-height,0px);
+    --crlngn-top-offset: var(--top-nav-height,0px);
+    --ui-controls-margin-left: -100px;
+    --folder-header-width: 150px;
+    --folder-list-width: 200px;
+    --scene-nav-item-width: calc(var(--font-size-10) * 18);
+    --folder-nav-item-width: var(--control-item-size);
+    --nav-btn-width: calc(var(--control-item-size) * 2);
+    --interface-width: calc(100vw / var(--ui-scale));
+    --controls-width: calc(var(--control-item-size, 0px) * 0);
+    --crlngn-crux-width: 0px;
+    --default-color: var(--color-dark-1);
 
-  &.crlngn-tabs{
-    --controls-width: calc(var(--control-item-size, 0px) * 1);
-  }
-  /*
-  &.crlngn-tabs{
-    #interface.crlngn-controls{
+    &.crlngn-tabs{
       --controls-width: calc(var(--control-item-size, 0px) * 2);
     }
-  }*/
 
-  #interface{
-    /*
-    &.crlngn-controls{
-      --controls-width: calc(var(--control-item-size, 0px) * 1);
+    #interface{
+      
+      &.crux-active{
+        --crlngn-crux-width: var(--crux-width);
+      }
     }
-    */
     
-    &.crux-active{
-      --crlngn-crux-width: var(--crux-width);
-    }
-    --crlngn-crux-width: 0px;
-    --scene-nav-full-width: calc( var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--controls-width));
+    /* Scene nav width calculations - these depend on variables defined above */
+    --scene-nav-full-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--controls-width));
     --scene-nav-partial-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--sidebar-width) - var(--controls-width));
+    --scene-nav-curr-width: var(--scene-nav-full-width);
   }
+}
 
-  /*
-  &.crlngn-tabs #interface{
-    --scene-nav-full-width: calc( var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--nav-btn-width));
-    --scene-nav-partial-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--nav-btn-width) - var(--sidebar-width));
-  }*/
+@layer modules {
+  body.crlngn-ui {
 
   #ui-left-column-2{
     padding-top: 16px;
   }
 
-  /*&.crlngn-scene-nav #ui-left {*/
   &.crlngn-scene-nav {
     
     #ui-left{
@@ -159,16 +149,16 @@ body.crlngn-ui {
       transition: none;
       margin-left: var(--scene-nav-left);
 
-      /* deal with scrollbar */
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
 
       &.no-back-button{
         padding-left: 0px;
       }
       &::-webkit-scrollbar {
-        display: none;
+        display: none !important;
       }
+      /* deal with scrollbar */
+      -ms-overflow-style: none !important;  /* IE and Edge */
+      scrollbar-width: none !important;  /* Firefox */
 
       > * {
         pointer-events: all;
@@ -834,7 +824,7 @@ body.crlngn-ui {
     }
   }
   
-  &.sidebar-expanded {
+  &.crlngn-sidebar-expanded {
     --scene-nav-curr-width: var(--scene-nav-partial-width);
     &.crlngn-scene-nav #ui-left:before{
       width: var(--scene-nav-partial-width);
@@ -848,7 +838,7 @@ body.crlngn-ui {
     }
   }
 
-  &:not(.sidebar-expanded){
+  &:not(.crlngn-sidebar-expanded){
     &.crlngn-scene-nav button.crlngn-btn{
       display: none;
     }
@@ -866,4 +856,5 @@ body.crlngn-ui {
   }
   
   
+  }
 }

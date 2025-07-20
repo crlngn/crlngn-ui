@@ -208,11 +208,12 @@ body.crlngn-ui.crlngn-sheets {
       z-index: 1;
       background-color: var(--color-dark-bg-25);
       font-size: var(--font-size-14);
+      
       /* deal with scrollbar */
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
+      -ms-overflow-style: none !important;  /* IE and Edge */
+      scrollbar-width: none !important;  /* Firefox */
       &::-webkit-scrollbar {
-        display: none;
+        display: none !important;
       }
 
       .tabs-right{
