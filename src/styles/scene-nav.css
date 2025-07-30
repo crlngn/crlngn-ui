@@ -319,7 +319,6 @@
         }
 
         &#scene-navigation-inactive {
-
           .scene{
             &:hover{
               width: auto;
@@ -457,6 +456,10 @@
           li {
             transition: none;
           }
+        }
+
+        > .nav-item.scene.hidden{
+          display: none;
         }
       }
       &.expanded{
@@ -755,7 +758,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             pointer-events: all;
-            border: 1px solid var(--color-secondary);
+            border: 1px solid var(--control-bg-color);
             margin-top: -1px;
             transition: width 0.2s ease-out, max-width 0.2s ease-out;
             white-space: nowrap;
@@ -800,12 +803,11 @@
             background-color: var(--control-bg-color);
             z-index: 11;
 
-            > .folder-item{
+            > .folder-item {
               border: 1px solid var(--color-secondary);
               border-top: 1px solid var(--control-bg-color);
               background: var(--color-secondary);
               width: max-content;
-
 
               i.fa-solid:before {
                 content: '\f07c';

@@ -59,7 +59,7 @@
           "interface": "Interfaccia Elementi",
           "fonts": "Font",
           "themes": "Tema e Stili",
-          "chat": "Chat",
+          "chat": "Barra laterale & Chat",
           "controls": "Comandi a sinistra",
           "scenes": "Navigazione Scena",
           "players": "Lista Giocatori",
@@ -150,9 +150,13 @@
             "label": "Applica stili ad altri moduli",
             "hint": "Abilita le mie modifiche di stile su altri moduli. Clicca la casella in cima alla lista per selezionare/deselezionare tutto."
           },
+          "forcedDarkTheme": {
+            "label": "Forza Tema Oscuro",
+            "hint": "SPERIMENTALE. Applica sfondo scuro e testo chiaro agli elementi HTML selezionati, se il client sta utilizzando la modalità scura per le applicazioni. Potrebbe non funzionare con tutti i moduli, utilizza a tuo rischio."
+          },
           "customStyles": {
             "label": "CSS Personalizzato",
-            "hint": "Questi stili saranno caricati al prossimo avvio di Foundry. Puoi includere Google Fonts incollando il link @import, e il font sarà elencato nelle impostazioni dei Font Personalizzati."
+            "hint": "Questi stili saranno caricati al prossimo avvio di Foundry. Puoi includere Google Fonts incollando il link @import, e il font sarà elencato nelle impostazioni dei Font Personalizzati. Digita o id o classe degli elementi, separati da virgola. Esempio: #element-id, .element-class"
           }, 
           "enforceDarkMode": {
             "label": "Forza Modalità Scura",
@@ -183,6 +187,10 @@
           "useLeftChatBorder": {
             "label": "Mostra solo il bordo sinistro",
             "hint": "La tua scelta del colore del bordo appare solo sul lato sinistro della chat - gli altri lati non hanno bordo."
+          },
+          "sideBarWidth": {
+            "label": "Larghezza del pannello laterale",
+            "hint": "Larghezza del pannello sul lato destro dello schermo."
           }
         },
         "reset": "Ripristina",
@@ -309,7 +317,11 @@
             "label": "Mostra le cartelle radice nella navigazione scena",
             "hint": "Cartelle radice dalla directory di scena saranno mostrate nella navigazione scena predefinita. Se hai tante cartelle radice, potresti voler disabilitare questa opzione."
           },
-          "sceneNavItemWidth": {
+          "hideInactiveOnFolderToggle": {
+            "label": "Nascondi scena inattiva quando si mostrano le cartelle",
+            "hint": "Quando abilitato, la lista di scena predefinita sarà nascosta quando le cartelle sono visibili. La lista apparirà di nuovo quando nascondi le cartelle. Questo mira a evitare la duplicazione di scena nella navigazione."
+          },
+          "sceneItemWidth": {
             "label": "Larghezza dell'elemento di navigazione",
             "hint": "Lascia vuoto per utilizzare la larghezza predefinita, o definisci un nuovo numero. Il minimo è 100px"
           }

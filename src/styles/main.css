@@ -516,7 +516,7 @@ body.crlngn-ui{
 
   p.hint{
     display: none;
-    &.shown{
+    &.shown, &.on{
       display: block;
     }
   }

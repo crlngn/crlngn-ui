@@ -32,3 +32,90 @@ export const CHAR_ABILITIES = [
 ]
 
 export const CLASS_PREFIX = 'crlngn';
+
+export const DARK_MODE_STYLES = `
+  --background: var(--color-dark-bg-90) !important;
+  --filigree-background-color: var(--color-dark-bg-10) !important;
+  --dnd5e-border-dotted: var(--color-dark-bg) !important;
+  --dnd5e-color-gold: rgba(159, 146, 117, 0.4) !important;
+  --input-background-color: var(--color-cool-4) !important;
+  --chat-dark-blue: rgba(24, 32, 38, 1) !important;
+  --input-background-alt: var(--color-dark-bg-50) !important;
+  --color-text-secondary: var(--color-light-1) !important;
+  --color-text-primary: var(--color-light-1) !important;
+  --button-text-color: var(--color-light-1) !important;
+  --color-border-light-1: var(--dnd5e-color-gold) !important;
+
+  --crlngn-button-bg: rgba(15, 15, 15, 0.15) !important;
+  --color-bg-button: rgba(40, 47, 54, 1) !important;
+  --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.35) !important;
+  --dnd5e-color-groove: var(--dnd5e-color-gold) !important;
+  --dnd5e-sheet-bg: rgb(37, 40, 48) !important;
+  --sidebar-background: var(--control-bg-color, var(--color-cool-5-90)) !important;
+  --dnd5e-color-parchment: rgb(40, 47, 54) !important;
+  --dnd5e-background-card: rgb(40, 47, 54) !important; 
+  --dnd5e-background-parchment: rgb(40, 47, 54) !important;
+
+  --color-pf-alternate: rgba(82, 107, 120, 0.44) !important;
+  --color-text-gray-blue: rgb(168, 180, 188, 1) !important;
+  --color-text-gray-blue-b: rgb(138, 155, 168, 1) !important;
+  --chat-button-bg: rgba(40, 47, 54, 1) !important;
+  --chat-button-bg-15: rgba(40, 47, 54, 0.15) !important;
+  --chat-button-bg-25: rgba(40, 47, 54, 0.25) !important;
+  --chat-button-bg-50: rgba(40, 47, 54, 0.5) !important;
+  --chat-button-bg-75: rgba(40, 47, 54, 0.75) !important;
+  --chat-dark-blue: rgba(24, 32, 38, 1) !important;
+  --chat-dark-blue-b: rgb(29, 36, 48, 1) !important; 
+  --chat-dark-bg: rgba(40, 47, 54, 1) !important; 
+  --chat-dark-bg-15: rgba(40, 47, 54, 0.15) !important;
+  --chat-dark-bg-25: rgba(40, 47, 54, 0.25) !important;
+  --chat-dark-bg-50: rgba(40, 47, 54, 0.50) !important; 
+  --chat-dark-bg-75: rgba(40, 47, 54, 0.75) !important; 
+  --chat-dark-bg-90: rgba(40, 47, 54, 0.90) !important; 
+
+  --color-input-bg: var(--color-dark-bg-50) !important; 
+
+  --color-button-bg: rgba(90,120,150,0.5) !important;
+  --color-input-border: rgba(90,120,150, 0.5) !important;
+  --color-border-dark-5: rgba(80, 80, 80, 1) !important;
+  --color-sidebar-font: rgba(213, 221, 230, 0.8) !important;
+
+  --color-text-dark: rgba(235,235,235,1) !important;
+  --color-text-dark-op: rgba(235,235,235,0.6) !important;
+  --color-text-light: rgba(235,235,235,1) !important;
+  --input-background-alt: var(--color-cool-5) !important;
+  --color-text-secondary:var(--color-light-3) !important;
+  --color-text-primary: var(--color-light-1) !important;
+
+  --color-text-dark-primary: var(--color-light-1) !important;
+
+  background: var(--color-dark-bg-90) !important;
+  color: var(--color-light-1) !important;
+
+  p, a, span, div, aside, section, table, td, tr, th, h1, h2, h3, h4, h5, h6, ul, ol, li, i, b, strong, u{
+    color: var(--color-light-1) !important;
+    background: transparent !important;
+  }
+
+  .window-header,
+  header, footer {
+    background: var(--color-dark-bg-90) !important;
+    color: var(--color-light-1) !important;
+  }
+  
+  .window-content {
+    background: var(--color-dark-bg-25) !important;
+    color: var(--color-light-1) !important;
+  }
+
+  .window-header{
+    border-bottom: 1px solid var(--color-cool-4) !important;
+  }
+
+  button{
+    color: var(--color-light-1) !important;
+    &:hover{
+      background-color: var(--color-warm-2) !important;
+    }
+  }
+`;

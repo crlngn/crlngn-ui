@@ -1,4 +1,4 @@
-import { MODULE_ID } from "../constants/General.mjs";
+import { DARK_MODE_STYLES, MODULE_ID } from "../constants/General.mjs";
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { getSettingMenus } from "../constants/SettingMenus.mjs";
 import { BORDER_COLOR_TYPES, getSettings, ICON_SIZES, THEMES, UI_SCALE } from "../constants/Settings.mjs";
@@ -23,6 +23,7 @@ import { TopNavigation } from "./TopNavUtil.mjs";
 export class SettingsUtil {
   static #uiHidden = false;
   static firstLoad = true;
+  static foundryUiConfig = null;
 
   /**
    * Registers all module settings with Foundry VTT
@@ -110,6 +111,8 @@ export class SettingsUtil {
       };
       await game.settings.registerMenu(MODULE_ID, tabbedMenuData.tag, tabbedMenuObj);
     }
+
+    SettingsUtil.foundryUiConfig = game.settings.get('core','uiConfig') || null;
     
     // Register individual setting menus (hidden from the settings tab but still accessible for direct calls)
     // settingMenus.forEach(async(entry) => {
@@ -180,9 +183,10 @@ export class SettingsUtil {
     // apply interface elements settings
     const interfaceFields = SETTINGS.interfaceOptionsMenu.fields;
     interfaceFields.forEach(fieldName => {
-      LogUtil.log("TEST",[fieldName, SETTINGS]);
       SettingsUtil.apply(SETTINGS[fieldName].tag);
     });
+
+    SettingsUtil.applyForcedDarkTheme();
 
     // LogUtil.log("game settings", [game.settings]);
   }
@@ -318,6 +322,10 @@ export class SettingsUtil {
       case SETTINGS.chatBorderColor.tag:
         ChatUtil.chatBorderColor = value;
         SettingsUtil.applyBorderColors(); break;
+      case SETTINGS.sideBarWidth.tag:
+        TopNavigation.sideBarWidth = value;
+        SidebarTabs.applySideBarWidth();
+        break;
       case SETTINGS.useLeftChatBorder.tag:
         ChatUtil.useLeftChatBorder = value;
       case SETTINGS.enableChatStyles.tag:
@@ -332,6 +340,9 @@ export class SettingsUtil {
         ui.nav?.render(); break;
       case SETTINGS.navShowRootFolders.tag:
         TopNavigation.navShowRootFolders = value;
+        ui.nav?.render(); break;
+      case SETTINGS.hideInactiveOnFolderToggle.tag:
+        TopNavigation.hideInactiveOnFolderToggle = value;
         ui.nav?.render(); break;
       case SETTINGS.sceneClickToView.tag:
         TopNavigation.sceneClickToView = value;
@@ -365,6 +376,8 @@ export class SettingsUtil {
         SettingsUtil.applyThemeSettings(); break;
       case SETTINGS.customStyles.tag:
         SettingsUtil.applyCustomCSS(value); break;
+      case SETTINGS.forcedDarkTheme.tag:
+        SettingsUtil.applyForcedDarkTheme(value); break;
       case SETTINGS.adjustOtherModules.tag:
         SettingsUtil.applyModuleAdjustments(value); break;
       case SETTINGS.otherModulesList.tag:
@@ -685,6 +698,24 @@ export class SettingsUtil {
     const cssContent = value || SettingsUtil.get(SETTINGS.customStyles.tag) || "";
 
     GeneralUtil.addCustomCSS(cssContent);
+  }
+
+  /**
+   * Applies dark mode to defined CSS selectors
+   * @param {string} [value] - CSS selectors / rules to apply dark theme to. If not provided uses stored setting
+   */
+  static applyForcedDarkTheme = (value) => {
+    const isDarkMode = SettingsUtil.foundryUiConfig?.colorScheme?.applications==='dark' || SettingsUtil.foundryUiConfig?.colorScheme?.interface==='dark';
+    if(!isDarkMode) {return;}
+    const SETTINGS = getSettings();
+    const cssSelectorStr = value || SettingsUtil.get(SETTINGS.forcedDarkTheme.tag) || "";
+    let newStyle = cssSelectorStr + " {" + DARK_MODE_STYLES + "}";
+
+    LogUtil.log("applyForcedDarkTheme", [SettingsUtil.foundryUiConfig]);
+
+    if(GeneralUtil.isValidCSSRule(newStyle)){
+      GeneralUtil.addCustomCSS(newStyle, 'crlngn-forced-dark-mode');
+    }
   }
 
   /**

@@ -59,7 +59,7 @@
           "interface": "UI Elements",
           "fonts": "Fonts",
           "themes": "Theme & Styles",
-          "chat": "Chat Log",
+          "chat": "Sidebar & Chat Log",
           "controls": "Left Controls",
           "scenes": "Scene Navigation",
           "players": "Players List",
@@ -150,6 +150,10 @@
             "label": "Enforce styles in other modules",
             "hint": "Enable my style tweaks on other modules. Click the checkbox on top of the list to select / unselect all."
           },
+          "forcedDarkTheme": {
+            "label": "Force Dark Theme to Elements",
+            "hint": "EXPERIMENTAL. For modules that don't have dark mode, you can force dark background and light font to the windows and elements. It might not always work, use at your own risk. Enter the css id or class of the elements, separated by comma. Example: #element-id, .element-class "
+          },
           "customStyles": {
             "label": "Custom CSS",
             "hint": "These styles will be loaded the next time you load Foundry. You may include Google Fonts by pasting the @import link, and the font will be listed in the Custom Fonts settings."
@@ -183,6 +187,10 @@
           "useLeftChatBorder": {
             "label": "Use left border only",
             "hint": "Your border color choice shows up on the left side of the chat card only - the other sides have no border."
+          },
+          "sideBarWidth": {
+            "label": "Sidebar width",
+            "hint": "Width of the sidebar panel on the right side of the screen."
           }
         },
         "reset": "Reset",
@@ -308,6 +316,10 @@
           "navShowRootFolders": {
             "label": "Show root folders in scene navigation",
             "hint": "Root folders from Scene Directory will be show in the default scene navigation. If you have many folders on root, you might want to disable this option."
+          },
+          "hideInactiveOnFolderToggle": {
+            "label": "Hide inactive scenes on folder toggle",
+            "hint": "When enabled, default list of scenes will be hidden when folder view is on. The list will show up again when you hide folders. This aims to avoid duplication of scenes in navigation."
           },
           "sceneItemWidth": {
             "label": "Width of navigation item",

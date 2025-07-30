@@ -44,10 +44,20 @@
   </div>
 
   <div class="form-group">
+    <label for="forcedDarkTheme">{{fields.forcedDarkTheme.label}}</label>
+    <p class="hint on">{{fields.forcedDarkTheme.hint}}</p>
+    <div class="code-editor-wrapper">
+      <textarea name="forcedDarkTheme" class="code-editor" 
+      rows="2" cols="80" wrap="on" placeholder="#module-id, .module-class" 
+      spellcheck="false">{{{forcedDarkTheme}}}</textarea>
+    </div>
+  </div>
+
+  <div class="form-group">
     <label for="customStyles">{{fields.customStyles.label}}</label>
     <div class="code-editor-wrapper">
       <textarea name="customStyles" class="code-editor" 
-      rows="8" cols="80" wrap="off" placeholder="Write your code here..." 
+      rows="6" cols="80" wrap="off" placeholder="Write your code here..." 
       spellcheck="false">{{{customStyles}}}</textarea>
     </div>
     <p class="hint">{{fields.customStyles.hint}}</p>

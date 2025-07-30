@@ -58,8 +58,8 @@
         "tabs": {
           "interface": "Interface",
           "fonts": "Fontes",
-          "themes": "Tema e Estilo",
-          "chat": "Mensagens do Chat",
+          "themes": "Tema & Estilos",
+          "chat": "Barra Lateral & Chat",
           "controls": "Controles de Cena",
           "scenes": "Navegação de Cenas",
           "players": "Lista de Jogadores",
@@ -150,6 +150,10 @@
             "label": "Aplicar estilos a outros módulos",
             "hint": "Habilite meus ajustes de estilo em outros módulos. Clique na caixa no topo da lista para selecionar/desmarcar todos."
           },
+          "forcedDarkTheme": {
+            "label": "Forçar Tema Escuro",
+            "hint": "EXPERIMENTAL. Aplique fundo escuro e fonte clara aos elementos HTML digitados, desde que o cliente esteja usando o modo escuro para aplicativos. Pode não funcionar com todos os módulos, use por sua conta e risco. Digite o id ou classe dos elementos, separados por vírgula. Ex.: #element-id, .element-class"
+          },
           "customStyles": {
             "label": "Estilos CSS",
             "hint": "Estilos digitados aqui serão aplicados na próxima vez que você carregar o Foundry. Você pode incluir fontes do Google Fonts colando o link @import, e a fonte será listada nas configurações de Fontes Personalizadas."
@@ -183,6 +187,10 @@
           "useLeftChatBorder": {
             "label": "Mostrar apenas a borda esquerda",
             "hint": "A sua escolha de cor de borda aparece apenas no lado esquerdo do chat - os outros lados não têm borda."
+          },
+          "sideBarWidth": {
+            "label": "Largura do painel lateral",
+            "hint": "Largura do painel ao lado direito da tela."
           }
         },
         "reset": "Redefinir",
@@ -309,7 +317,11 @@
             "label": "Mostrar pastas na navegação de cena",
             "hint": "Pastas serão mostradas na navegação de cena inicial. Se você tiver muitas pastas na raiz do diretório de cenas, pode querer desabilitar esta opção."
           },
-          "sceneNavItemWidth": {
+          "hideInactiveOnFolderToggle": {
+            "label": "Ocultar cenas inativas ao mostrar pastas",
+            "hint": "A lista de cenas padrão será ocultada quando as pastas estiverem visíveis, e aparecerá novamente quando você ocultar as pastas. Isso visa evitar a duplicação de cenas na navegação."
+          },
+          "sceneItemWidth": {
             "label": "Largura do item de navegação",
             "hint": "Deixe vazio para usar a largura padrão, ou defina um novo número. O mínimo é 100px"
           }

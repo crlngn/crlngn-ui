@@ -3,6 +3,7 @@ import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { MODULE_ID } from "../constants/General.mjs";
+import { SettingsUtil } from "./SettingsUtil.mjs";
 
 export class SidebarTabs {
   static useFadeOut = true;
@@ -80,6 +81,12 @@ export class SidebarTabs {
       element?.classList.remove("faded-ui");
     }
     LogUtil.log("SidebarTabs handle fade out", [SidebarTabs.useFadeOut]);
+  }
+
+  static applySideBarWidth = () => { 
+    const SETTINGS = getSettings();
+    const currWidth = SettingsUtil.get(SETTINGS.sideBarWidth.tag) || 300;
+    GeneralUtil.addCSSVars("--sidebar-width", `${currWidth}px`);
   }
 
 }

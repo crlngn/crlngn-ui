@@ -39,6 +39,7 @@ export class TopNavigation {
   static useSceneFolders;
   static navFoldersForPlayers;
   static navShowRootFolders;
+  static hideInactiveOnFolderToggle;
   static navStartCollapsed;
   static showNavOnHover;
   static useSceneIcons;
@@ -129,7 +130,6 @@ export class TopNavigation {
     // Hooks.on(HOOKS_CORE.RENDER_DOCUMENT_DIRECTORY, (directory) => {
     Hooks.on(HOOKS_CORE.RENDER_SCENE_DIRECTORY, (directory) => {
       LogUtil.log(HOOKS_CORE.RENDER_SCENE_DIRECTORY,[directory]);
-      // if(directory.entryType !== "Scene") return;
       const sceneNav = document.querySelector('#scenes .directory-list');
 
       // apply settings to scene directory
@@ -234,6 +234,17 @@ export class TopNavigation {
         LogUtil.log("NAV no transition remove");
         TopNavigation.placeNavButtons();
       }, 500);
+    }
+
+    // Hide inactive scenes if folders are open
+    const folderToggleOn = SettingsUtil.get(SETTINGS.navShowRootFolders.tag);
+    const hideInactiveOnToggle = SettingsUtil.get(SETTINGS.hideInactiveOnFolderToggle.tag);
+    const inactiveToggledScenes = navHtml.querySelectorAll("#scene-navigation-inactive .scene");
+    LogUtil.log("hideInactiveOnToggle", [folderToggleOn, hideInactiveOnToggle, inactiveToggledScenes]);
+    if(hideInactiveOnToggle && folderToggleOn){
+      inactiveToggledScenes.forEach(sc => sc.classList.add('hidden'));
+    }else if(hideInactiveOnToggle){
+      inactiveToggledScenes.forEach(sc => sc.classList.remove('hidden'));
     }
     TopNavigation.handleSceneFadeOut(nav, navHtml, navData);
   }
@@ -953,7 +964,7 @@ export class TopNavigation {
     const sceneItems = html.querySelectorAll("li.scene");
     sceneItems.forEach(li => {
       // const isFolder = li.classList.contains("folder");
-      LogUtil.log("addSceneListeners", [li]);
+      // LogUtil.log("addSceneListeners", [li]);
       li.querySelector(".scene-name").addEventListener("click", TopNavigation.onSelectScene);
       li.querySelector(".scene-name").addEventListener("dblclick", TopNavigation.onActivateScene);
 

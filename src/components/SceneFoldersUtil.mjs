@@ -75,7 +75,8 @@ export class SceneNavFolders {
 
     folderToggle.addEventListener("click", ()=>{
       TopNavigation.setNavPosition(0);
-      SettingsUtil.set(SETTINGS.navShowRootFolders.tag, !TopNavigation.navShowRootFolders );
+      const toggleOn = !TopNavigation.navShowRootFolders;
+      SettingsUtil.set(SETTINGS.navShowRootFolders.tag, toggleOn);
       TopNavigation.placeNavButtons();
     });
     activeScenesMenu?.append(folderToggle);

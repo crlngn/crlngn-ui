@@ -41,12 +41,6 @@
     <p class="hint">{{{fields.useSceneFolders.hint}}}</p> 
   </div>
 
-  {{!-- <div class="form-group">
-    <label for="navShowRootFolders">{{fields.navShowRootFolders.label}}</label>
-    <input type="checkbox" name="navShowRootFolders" {{#if navShowRootFolders}}checked{{/if}} />
-    <p class="hint">{{{fields.navShowRootFolders.hint}}}</p> 
-  </div> --}}
-
   <div class="form-group">
     <label for="useSceneLookup">{{fields.useSceneLookup.label}}</label>
     <input type="checkbox" name="useSceneLookup" {{#if useSceneLookup}}checked{{/if}} />
@@ -76,5 +70,12 @@
     <input type="checkbox" name="sceneClickToView" {{#if sceneClickToView}}checked{{/if}} />
     <p class="hint">{{{fields.sceneClickToView.hint}}}</p> 
   </div>
+
+  <div class="form-group">
+    <label for="hideInactiveOnFolderToggle">{{fields.hideInactiveOnFolderToggle.label}}</label>
+    <input type="checkbox" name="hideInactiveOnFolderToggle" {{#if hideInactiveOnFolderToggle}}checked{{/if}} />
+    <p class="hint">{{{fields.hideInactiveOnFolderToggle.hint}}}</p> 
+  </div>
+  
   {{/if}}
 </section>

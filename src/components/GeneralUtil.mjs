@@ -364,23 +364,25 @@ export class GeneralUtil {
     
     // Update the style element
     bodyStyle.textContent = newCss;
-    LogUtil.log("addCSSVars", [varName, varValue, bodyStyle.textContent]);
+    // LogUtil.log("addCSSVars", [varName, varValue, bodyStyle.textContent]);
   }
 
   /**
    * Adds custom CSS to a style element
    * @param {string} content - CSS content to add
+   * @param {string} [id='crlngn-ui-custom-css'] - ID for the style element
    * @param {boolean} [checkForDuplicates=true] - Whether to check for duplicate rules
    */
-  static addCustomCSS(content, checkForDuplicates = true) {
-    if (!content) return;
+  static addCustomCSS(content, id = 'crlngn-ui-custom-css', checkForDuplicates = true) {
+    if (!content) {
+      return;
+    }
     
-    let customStyle = document.querySelector('#crlngn-ui-custom-css');
+    let customStyle = document.querySelector('#' + id);
     
     if (!customStyle) {
-      // Create style element if it doesn't exist and append to head
       customStyle = document.createElement('style');
-      customStyle.id = 'crlngn-ui-custom-css';
+      customStyle.id = id;
       customStyle.textContent = '';
       document.head.appendChild(customStyle);
     }
@@ -462,22 +464,17 @@ export class GeneralUtil {
     
     const startTime = performance.now();
     
-    // Animation function
     const animateScroll = (currentTime) => {
       const elapsedTime = currentTime - startTime;
       
       if (elapsedTime >= duration) {
-        // Set final position
         if (isHorizontal) {
           element.scrollLeft = to;
         } else {
           element.scrollTop = to;
         }
         
-        // Clear animation ID
         delete element.dataset.scrollAnimationId;
-        
-        // Call completion callback if provided
         if (onComplete) onComplete();
         return;
       }
@@ -539,10 +536,7 @@ export class GeneralUtil {
       rejectClose: false
     };
     
-    // Merge any custom options
     mergeObject(dialogConfig, options);
-    
-    // Create and return the DialogV2 confirm promise
     return foundry.applications.api.DialogV2.confirm(dialogConfig);
   }
 
@@ -563,5 +557,35 @@ export class GeneralUtil {
    */
   static loadTemplate(templatePath){
     return foundry.applications.handlebars.loadTemplate(templatePath);
+  }
+
+  /**
+   * Validates if a string is a valid CSS rule
+   * @param {string} cssString - The CSS string to validate
+   * @returns {boolean} True if the CSS is valid, false otherwise
+   */
+  static isValidCSSRule(cssString) {
+    if (!cssString || typeof cssString !== "string") return false;
+    
+    try {
+      // Create a test stylesheet
+      const style = document.createElement("style");
+      style.type = "text/css";
+      style.innerHTML = cssString;
+      
+      // Append to head temporarily
+      document.head.appendChild(style);
+      
+      // Check if the stylesheet has valid rules
+      const isValid = Boolean(style.sheet && style.sheet.cssRules && style.sheet.cssRules.length > 0);
+      
+      // Clean up
+      document.head.removeChild(style);
+      
+      return isValid;
+    } catch (error) {
+      LogUtil.log("CSS validation error:", [error, cssString]);
+      return false;
+    }
   }
 }

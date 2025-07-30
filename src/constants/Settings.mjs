@@ -221,6 +221,7 @@ export function getSettings() {
         "colorTheme", 
         "adjustOtherModules", 
         "otherModulesList",
+        "forcedDarkTheme",
         "customStyles",
         "useHorizontalSheetTabs",
         "applyThemeToSheets"
@@ -228,7 +229,8 @@ export function getSettings() {
       default: {
         colorTheme: "crlngn-theme",
         adjustOtherModules: true,
-        otherModulesList: "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar','touch-vtt','breaktime'",
+        otherModulesList: "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar','touch-vtt','breaktime', 'simple-timekeeping'",
+        forcedDarkTheme: "",
         customStyles: "",
         useHorizontalSheetTabs: true,
         applyThemeToSheets: true
@@ -246,11 +248,13 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.hint"),
       propType: Object,
       fields: [
+        "sideBarWidth",
         "enableChatStyles",
         "chatBorderColor",
         "useLeftChatBorder"
       ],
       default: { 
+        sideBarWidth: 300,
         enableChatStyles: true,
         chatBorderColor: BORDER_COLOR_TYPES.playerColor.name,
         useLeftChatBorder: true
@@ -364,7 +368,8 @@ export function getSettings() {
         "showNavOnHover",
         "sceneItemWidth",
         "useSceneBackButton",
-        "useScenePreview"
+        "useScenePreview",
+        "hideInactiveOnFolderToggle"
       ],
       default: {
         // sceneNavEnabled: true,
@@ -377,7 +382,8 @@ export function getSettings() {
         showNavOnHover: false,
         sceneItemWidth: 150,
         useScenePreview: true,
-        useSceneBackButton: true
+        useSceneBackButton: true,
+        hideInactiveOnFolderToggle: true
       },
       scope: SETTING_SCOPE.client,
       config: false, 
@@ -456,6 +462,17 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navShowRootFolders.hint"), 
       propType: Boolean, 
       default: false, 
+      scope: SETTING_SCOPE.client, 
+      config: false, 
+      requiresReload: false 
+    },
+
+    hideInactiveOnFolderToggle: {
+      tag: "v2-hide-inactive-on-folder-toggle", 
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.hideInactiveOnFolderToggle.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.hideInactiveOnFolderToggle.hint"), 
+      propType: Boolean, 
+      default: true, 
       scope: SETTING_SCOPE.client, 
       config: false, 
       requiresReload: false 
@@ -713,6 +730,7 @@ export function getSettings() {
         "Crux": "'crux'",
         "Dice Tray": "'dice-tray'",
         "Hurry Up": "'hurry-up'",
+        "Simple Timekeeping & Calendar": "'simple-timekeeping'",
         "Touch VTT": "'touch-vtt'",
         "Youtube Player": "'fvtt-youtube-player'"
       },
@@ -730,6 +748,17 @@ export function getSettings() {
       scope: SETTING_SCOPE.world,
       config: false, 
       requiresReload: true 
+    },
+
+    forcedDarkTheme: {
+      tag: "v2-forced-dark-theme",
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.forcedDarkTheme.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.forcedDarkTheme.hint"),
+      propType: String,
+      default: "",
+      scope: SETTING_SCOPE.world,
+      config: false, 
+      requiresReload: false 
     },
 
     /* CHAT STYLES */
@@ -770,6 +799,16 @@ export function getSettings() {
       scope: SETTING_SCOPE.client, 
       config: false,
       requiresReload: true 
+    },
+    sideBarWidth: {
+      tag: "v2-side-bar-width",
+      label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.sideBarWidth.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.sideBarWidth.hint"),
+      propType: Number,
+      default: 300,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
     },
 
     /* CONTROLS SETTINGS */

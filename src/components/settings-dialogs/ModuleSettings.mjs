@@ -277,12 +277,38 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const SETTINGS = getSettings();
     ModuleSettings.#element = this.element;
 
-    // Range input value display and synchronization
-    const rangeInput = ModuleSettings.#element.querySelector('input[type="range"][name="sceneItemWidth"]');
-    const valueInput = ModuleSettings.#element.querySelector('input[type="number"].range-value-input[name="sceneItemWidth_value"]');
+    // Scene Item width range input value display and synchronization
+    const sceneItemRangeInput = ModuleSettings.#element.querySelector('input[type="range"][name="sceneItemWidth"]');
+    const sceneItemValueInput = ModuleSettings.#element.querySelector('input[type="number"].range-value-input[name="sceneItemWidth_value"]');
+    if (sceneItemRangeInput && sceneItemValueInput) {
+      ModuleSettings.handleRangeInputs(sceneItemRangeInput, sceneItemValueInput);
+    }
 
+    // Sidebar width range input value display and synchronization
+    const sideBarRangeInput = ModuleSettings.#element.querySelector('input[type="range"][name="sideBarWidth"]');
+    const sideBarValueInput = ModuleSettings.#element.querySelector('input[type="number"].range-value-input[name="sideBarWidth_value"]');
+    if (sideBarRangeInput && sideBarValueInput) {
+      ModuleSettings.handleRangeInputs(sideBarRangeInput, sideBarValueInput);
+    }
+
+    // add listener to .toggle-hint 
+    const hintToggles = ModuleSettings.#element.querySelectorAll('.toggle-hint');
+    LogUtil.log("_onRender", [context, options, this.element]);
+    hintToggles.forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        ModuleSettings.#element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
+      });
+    });
+
+    ModuleSettings.handleCustomFontFields();
+    ModuleSettings.handleThemeAndStyleFields();
+
+    // const controlSettings = SettingsUtil.get(SETTINGS.moduleSettingsMenu.tag);
+    LogUtil.log("_onRender", [context, options]);
+  }
+
+  static handleRangeInputs(rangeInput, valueInput){
     if (rangeInput && valueInput) {
-      LogUtil.log("_onRender", [rangeInput, valueInput]);
       const min = parseInt(rangeInput.min, 10);
       const max = parseInt(rangeInput.max, 10);
 
@@ -294,19 +320,13 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       // Listener for the number input's input event (while typing)
       valueInput.addEventListener('input', () => {
         const currentValueString = valueInput.value;
-        // Allow empty string or just a minus sign during typing
         if (currentValueString === "" || currentValueString === "-") {
-          // Potentially clear slider or set to a neutral state if desired, or do nothing
-          // For now, do nothing and let 'change' event handle it if left empty.
           return;
         }
         const currentValue = parseInt(currentValueString, 10);
         if (!isNaN(currentValue) && currentValue >= min && currentValue <= max) {
           rangeInput.value = currentValue;
         }
-        // If it's NaN (e.g. "12a") or outside min/max during typing,
-        // do nothing to rangeInput yet. Let the user continue typing.
-        // The 'change' event will handle final validation.
       });
 
       // Listener for the number input's change event (after typing/blur/enter)
@@ -326,21 +346,6 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       // Set initial value for the number input from the range slider
       valueInput.value = rangeInput.value;
     }
-
-    // add listener to .toggle-hint 
-    const hintToggles = ModuleSettings.#element.querySelectorAll('.toggle-hint');
-    LogUtil.log("_onRender", [context, options, this.element]);
-    hintToggles.forEach(toggle => {
-      toggle.addEventListener('click', () => {
-        ModuleSettings.#element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
-      });
-    });
-
-    ModuleSettings.handleCustomFontFields();
-    ModuleSettings.handleThemeAndStyleFields();
-
-    // const controlSettings = SettingsUtil.get(SETTINGS.moduleSettingsMenu.tag);
-    LogUtil.log("_onRender", [context, options]);
   }
 
   /**

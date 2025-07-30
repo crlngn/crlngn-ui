@@ -59,7 +59,7 @@
           "interface": "元素",
           "fonts": "字体",
           "themes": "主题 & 样式",
-          "chat": "聊天记录",
+          "chat": "侧边栏 & 聊天",
           "controls": "场景控制",
           "scenes": "场景",
           "players": "玩家列表",
@@ -150,6 +150,10 @@
               "label": "在其他模块中应用样式",
               "hint": "在其他模块上启用我的样式调整。点击列表顶部的复选框可全选/取消全选。"
           },
+          "forcedDarkTheme": {
+            "label": "强制元素使用深色主题",
+            "hint": "实验性功能. 如果客户端应用程序使用暗黑模式，将应用暗黑背景和浅色字体到 HTML 元素上。可能不适用于所有模块，请自行承担风险. 输入要应用的元素的 id 或 class，逗号分隔. 例如：#element-id, .element-class"
+          },
           "customStyles": {
             "label": "自定义CSS",
             "hint": "这些样式将在您下次加载 Foundry 时被载入。您可以通过粘贴 '@import' 链接来包含 'Google Fonts'，字体将在自定义字体设置中列出。"
@@ -183,6 +187,10 @@
           "useLeftChatBorder": {
             "label": "仅使用左侧边框",
             "hint": "你的边框颜色选择仅显示在聊天卡片的左侧 - 其他边没有边框。"
+          },
+          "sideBarWidth": {
+            "label": "右侧侧面板宽度",
+            "hint": "右侧侧面板的宽度。"
           }
         },
         "reset": "重置",
@@ -309,7 +317,11 @@
             "label": "在场景导航中显示根文件夹",
             "hint": "从场景目录的根文件夹将显示在默认场景导航中。如果你有很多根文件夹，你可能希望禁用此选项。"
           },
-          "sceneNavItemWidth": {
+          "hideInactiveOnFolderToggle": {
+            "label": "在文件夹切换时隐藏非激活场景",
+            "hint": "启用后，当文件夹视图打开时，未激活的场景列表将被隐藏。列表会在你隐藏文件夹时重新显示。这旨在避免导航中的场景重复。"
+          },
+          "sceneItemWidth": {
             "label": "导航项目宽度",
             "hint": "留空以使用默认宽度，或定义一个新数值。最小为100px"
           }
