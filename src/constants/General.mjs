@@ -93,8 +93,8 @@ export const DARK_MODE_STYLES = `
   color: var(--color-light-1) !important;
 
   p, a, span, div, aside, section, table, td, tr, th, h1, h2, h3, h4, h5, h6, ul, ol, li, i, b, strong, u{
-    color: var(--color-light-1) !important;
-    background: transparent !important;
+    color: var(--color-light-1);
+    background: transparent;
   }
 
   .window-header,
