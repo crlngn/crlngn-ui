@@ -1,4 +1,4 @@
-import { DARK_MODE_STYLES, MODULE_ID } from "../constants/General.mjs";
+import { DARK_MODE_RULES, MODULE_ID } from "../constants/General.mjs";
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { getSettingMenus } from "../constants/SettingMenus.mjs";
 import { BORDER_COLOR_TYPES, getSettings, ICON_SIZES, THEMES, UI_SCALE } from "../constants/Settings.mjs";
@@ -187,8 +187,7 @@ export class SettingsUtil {
     });
 
     SettingsUtil.applyForcedDarkTheme();
-
-    // LogUtil.log("game settings", [game.settings]);
+    SidebarTabs.applySideBarWidth();
   }
 
   /**
@@ -707,15 +706,18 @@ export class SettingsUtil {
   static applyForcedDarkTheme = (value) => {
     const isDarkMode = SettingsUtil.foundryUiConfig?.colorScheme?.applications==='dark' || SettingsUtil.foundryUiConfig?.colorScheme?.interface==='dark';
     if(!isDarkMode) {return;}
+
     const SETTINGS = getSettings();
     const cssSelectorStr = value || SettingsUtil.get(SETTINGS.forcedDarkTheme.tag) || "";
-    let newStyle = cssSelectorStr + " {" + DARK_MODE_STYLES + "}";
-
-    LogUtil.log("applyForcedDarkTheme", [SettingsUtil.foundryUiConfig]);
-
-    if(GeneralUtil.isValidCSSRule(newStyle)){
-      GeneralUtil.addCustomCSS(newStyle, 'crlngn-forced-dark-mode');
-    }
+    if (!cssSelectorStr.trim()) return;
+    
+    // Process the CSS rules using the utility method
+    const finalStyle = GeneralUtil.processCSSRules(DARK_MODE_RULES, cssSelectorStr);
+    
+    LogUtil.log("applyForcedDarkTheme", [finalStyle.substring(0, 100) + "..."]);
+    
+    // Apply the CSS
+    GeneralUtil.addCustomCSS(finalStyle, 'crlngn-forced-dark-mode');
   }
 
   /**

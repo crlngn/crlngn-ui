@@ -33,11 +33,11 @@ export const CHAR_ABILITIES = [
 
 export const CLASS_PREFIX = 'crlngn';
 
-export const DARK_MODE_STYLES = `
+export const DARK_MODE_RULES = `
   --background: var(--color-dark-bg-90) !important;
   --filigree-background-color: var(--color-dark-bg-10) !important;
-  --dnd5e-border-dotted: var(--color-dark-bg) !important;
-  --dnd5e-color-gold: rgba(159, 146, 117, 0.4) !important;
+  --dnd5e-border-dotted: 1px dotted var(--color-cool-4) !important;
+  --dnd5e-color-gold: rgba(159, 146, 117, 0.6) !important;
   --input-background-color: var(--color-cool-4) !important;
   --chat-dark-blue: rgba(24, 32, 38, 1) !important;
   --input-background-alt: var(--color-dark-bg-50) !important;
@@ -48,13 +48,13 @@ export const DARK_MODE_STYLES = `
 
   --crlngn-button-bg: rgba(15, 15, 15, 0.15) !important;
   --color-bg-button: rgba(40, 47, 54, 1) !important;
-  --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.35) !important;
+  --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.5) !important;
   --dnd5e-color-groove: var(--dnd5e-color-gold) !important;
   --dnd5e-sheet-bg: rgb(37, 40, 48) !important;
   --sidebar-background: var(--control-bg-color, var(--color-cool-5-90)) !important;
   --dnd5e-color-parchment: rgb(40, 47, 54) !important;
   --dnd5e-background-card: rgb(40, 47, 54) !important; 
-  --dnd5e-background-parchment: rgb(40, 47, 54) !important;
+  --dnd5e-background-parchment: var(--color-cool-4) !important;
 
   --color-pf-alternate: rgba(82, 107, 120, 0.44) !important;
   --color-text-gray-blue: rgb(168, 180, 188, 1) !important;
@@ -88,17 +88,12 @@ export const DARK_MODE_STYLES = `
   --color-text-primary: var(--color-light-1) !important;
 
   --color-text-dark-primary: var(--color-light-1) !important;
+  --button-border-color: transparent;
 
   background: var(--color-dark-bg-90) !important;
   color: var(--color-light-1) !important;
 
-  p, a, span, div, aside, section, table, td, tr, th, h1, h2, h3, h4, h5, h6, ul, ol, li, i, b, strong, u{
-    color: var(--color-light-1);
-    background: transparent;
-  }
-
-  .window-header,
-  header, footer {
+  .window-header, header, footer {
     background: var(--color-dark-bg-90) !important;
     color: var(--color-light-1) !important;
   }
@@ -112,8 +107,16 @@ export const DARK_MODE_STYLES = `
     border-bottom: 1px solid var(--color-cool-4) !important;
   }
 
+  p, a, span, div, aside, section, label, form, button, table, td, tr, th, h1, h2, h3, h4, h5, h6, ul, ol, li, i, b, strong, u{
+    color: var(--color-light-1) !important;
+    background: transparent !important;
+    border-color: var(--color-cool-4);
+  }
+
   button{
     color: var(--color-light-1) !important;
+    border-color: transparent;
+    background-color: var(--color-bg-button) !important;
     &:hover{
       background-color: var(--color-warm-2) !important;
     }

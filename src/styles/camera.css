@@ -19,6 +19,10 @@ body.crlngn-ui{
     background-color: transparent;
     border-radius: var(--crlngn-border-radius);
 
+    .inline-control {
+      --button-size: 20px;
+    }
+
     &:hover{
       background-color: var(--color-dark-bg-75);
 

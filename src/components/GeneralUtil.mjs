@@ -15,7 +15,6 @@ export class GeneralUtil {
    */
   static isModuleOn(moduleName){
     const module = game.modules?.get(moduleName);
-    // LogUtil.log("isModuleOn", [module?.active]);
     return Boolean(module?.active);
   }
 
@@ -62,39 +61,23 @@ export class GeneralUtil {
    * @private
    */
   static processStyleSheets = async () => {
-    // Get Foundry built-in fonts
     const foundryFonts = new Set(Object.keys(CONFIG.fontDefinitions));
-    LogUtil.log('Foundry built-in fonts:', [Array.from(foundryFonts)]);
-    
-    // Get custom fonts from settings
     const customFontsObj = game.settings.get("core", "fonts") || {};
     const customFonts = Object.entries(customFontsObj).map(([fontFamily]) => fontFamily);
-
-    LogUtil.log('Stylesheets:', [document.styleSheets]);
-
-    // Get CSS imported fonts
     const cssImportedFonts = new Set();
     
-    // Process all stylesheets
     for (const sheet of document.styleSheets) {
       try {
-        // Handle stylesheet content
         if (sheet.ownerNode) {
-          // Check if the stylesheet is from core Foundry, our module, or a system
           const href = sheet.href || '';
           const isFoundryCore = href.includes('css/') || href.includes('styles/');
           const isCrlngnUI = href.includes('modules/crlngn-ui/');
           const isSystem = href.includes('systems/');
           
-          // Skip if not from core, not from crlngn-ui, and not from a system
           if (href && !isFoundryCore && !isCrlngnUI && !isSystem) {
-            LogUtil.log('Skipping stylesheet:', [href]);
             continue;
           }
           
-          LogUtil.log('Processing stylesheet:', [sheet, href]);
-          
-          // Process CSS rules directly
           await this.processStyleSheetRules(sheet, cssImportedFonts);
         }
       } catch (e) {
@@ -109,7 +92,6 @@ export class GeneralUtil {
       cssImported: Array.from(cssImportedFonts)
     }]);
 
-    // Combine all fonts, filter, clean, sort
     const allFonts = Array.from(new Set([
       ...foundryFonts,
       ...customFonts,
@@ -130,22 +112,18 @@ export class GeneralUtil {
    */
   static async processStyleSheetRules(sheet, cssImportedFonts) {
     try {
-      // Extract text content from style tags
       if (sheet.ownerNode?.tagName === 'STYLE') {
         const cssText = sheet.ownerNode.textContent;
         this.extractFontsFromCSSText(cssText, cssImportedFonts);
       }
       
-      // Process rules directly
       try {
-        // Try to access rules - this may fail due to CORS restrictions
         const rules = sheet.cssRules || sheet.rules;
         if (!rules) return;
         
         for (let i = 0; i < rules.length; i++) {
           const rule = rules[i];
           
-          // Handle @font-face rules
           if (rule instanceof CSSFontFaceRule) {
             const fontFamily = rule.style.getPropertyValue('font-family');
             if (fontFamily) {
@@ -153,16 +131,12 @@ export class GeneralUtil {
               LogUtil.log('Found font-face rule:', [fontFamily]);
             }
           }
-          // Handle @import rules (v13 uses these for module CSS)
           else if (rule instanceof CSSImportRule) {
             LogUtil.log('Found import rule:', [rule.href]);
             
-            // For v13, we need to access the imported stylesheet
             if (rule.styleSheet) {
-              // Recursively process the imported stylesheet
               await this.processStyleSheetRules(rule.styleSheet, cssImportedFonts);
             } else {
-              // If we can't access the stylesheet directly, we try to fetch it
               if (rule.href) {
                 try {
                   const response = await fetch(rule.href);
@@ -176,11 +150,9 @@ export class GeneralUtil {
           }
         }
       } catch (e) {
-        // Handle SecurityError for cross-origin stylesheets
         if (e.name === 'SecurityError' && sheet.href) {
           LogUtil.log('Security restriction on stylesheet, trying to fetch directly:', [sheet.href]);
           try {
-            // Try to fetch the stylesheet directly
             const response = await fetch(sheet.href);
             const cssText = await response.text();
             this.extractFontsFromCSSText(cssText, cssImportedFonts);
@@ -205,13 +177,9 @@ export class GeneralUtil {
   static extractFontsFromCSSText(cssText, cssImportedFonts) {
     if (!cssText) return;
     
-    // Extract font-face declarations
     const fontFaceRegex = /@font-face\s*{[^}]*font-family\s*:\s*(['"])(.+?)\1[^}]*}/gs;
     const fontFaceMatches = cssText.match(fontFaceRegex) || [];
     
-    LogUtil.log('Font face matches in CSS text:', [fontFaceMatches.length]);
-    
-    // Extract font family names from font-face rules
     fontFaceMatches.forEach(match => {
       const fontFamilyRegex = /font-family\s*:\s*(['"])(.+?)\1/;
       const fontFamilyMatch = match.match(fontFamilyRegex);
@@ -219,7 +187,6 @@ export class GeneralUtil {
       if (fontFamilyMatch && fontFamilyMatch[2]) {
         const fontName = fontFamilyMatch[2].trim();
         cssImportedFonts.add(fontName);
-        LogUtil.log('Found font-face in CSS text:', [fontName]);
       }
     });
   }
@@ -233,8 +200,6 @@ export class GeneralUtil {
   static getOffsetBottom(element) {
     const offsetTop = element.offsetTop;
     const elementHeight = element.offsetHeight;
-  
-    LogUtil.log("getOffsetBottom", [offsetTop, elementHeight, window.innerHeight]);
     return window.innerHeight - (offsetTop + elementHeight);
   }
 
@@ -244,24 +209,12 @@ export class GeneralUtil {
    * @returns {Promise<string[]>}
    */
   static async getAllFonts() {
-    // Get Foundry built-in fonts
     const foundryFonts = new Set(Object.keys(CONFIG.fontDefinitions));
-    
-    // Get custom fonts from settings
     const customFontsObj = game.settings.get("core", "fonts") || {};
     const customFonts = Object.entries(customFontsObj).map(([fontFamily]) => fontFamily);
   
-    // Get CSS imported fonts
     const cssImportedFonts = await this.processStyleSheets();
   
-    // Log what we found for debugging
-    LogUtil.log('Found fonts:', [{
-      foundry: Array.from(foundryFonts),
-      custom: customFonts,
-      cssImported: Array.from(cssImportedFonts)
-    }]);
-  
-    // Combine all fonts, filter, clean, sort
     const allFonts = Array.from(new Set([
       ...foundryFonts,
       ...customFonts,
@@ -294,7 +247,6 @@ export class GeneralUtil {
     let bodyStyle = document.querySelector('#crlngn-ui-vars');
     
     if (!bodyStyle) {
-      // Create style element if it doesn't exist
       const body = document.querySelector('body.crlngn-ui');
       if(!body){return}
       bodyStyle = document.createElement('style');
@@ -303,29 +255,23 @@ export class GeneralUtil {
       body.prepend(bodyStyle);
     }
     
-    // Parse the current CSS content
     let cssText = bodyStyle.textContent;
     
-    // Find or create the rule block
     let ruleStart = cssText.indexOf('body.crlngn-ui {');
     let ruleEnd = cssText.indexOf('}', ruleStart);
     
     if (ruleStart === -1) {
-      // If rule doesn't exist, create it
       cssText = 'body.crlngn-ui {\n}\n';
       ruleStart = 0;
       ruleEnd = cssText.indexOf('}');
     }
     
-    // Get all the current declarations
     const rulePart = cssText.substring(ruleStart + 'body.crlngn-ui {'.length, ruleEnd);
     
-    // Split by semicolons to get individual declarations
     const declarations = rulePart.split(';')
       .map(decl => decl.trim())
       .filter(decl => decl !== '');
     
-    // Create a map of existing variables
     const varsMap = {};
     declarations.forEach(decl => {
       const parts = decl.split(':');
@@ -336,8 +282,6 @@ export class GeneralUtil {
       }
     });
     
-    // Format the value if it appears to need quotes
-    // For string values used in content properties (i18n text)
     if (varName.includes('i18n') && 
         typeof varValue === 'string' && 
         !varValue.startsWith('"') && 
@@ -346,15 +290,12 @@ export class GeneralUtil {
       varValue = `"${varValue}"`;
     }
     
-    // Update or add the new variable
     varsMap[varName] = varValue;
     
-    // Rebuild the rule content
     const newRuleContent = Object.entries(varsMap)
       .map(([name, value]) => `  ${name}: ${value};`)
       .join('\n');
     
-    // Rebuild the entire CSS
     const newCss = 
       cssText.substring(0, ruleStart) + 
       'body.crlngn-ui {\n' + 
@@ -362,9 +303,7 @@ export class GeneralUtil {
       '\n}' + 
       cssText.substring(ruleEnd + 1);
     
-    // Update the style element
     bodyStyle.textContent = newCss;
-    // LogUtil.log("addCSSVars", [varName, varValue, bodyStyle.textContent]);
   }
 
   /**
@@ -387,45 +326,31 @@ export class GeneralUtil {
       document.head.appendChild(customStyle);
     }
 
-    // Process content to ensure @import statements are at the top
     const importRegex = /@import\s+(?:url\()?\s*['"]?[^'")]+['"]?\s*\)?\s*;/g;
     const imports = [];
     let contentWithoutImports = content;
-    
-    // Extract all import statements
     let match;
     while ((match = importRegex.exec(content)) !== null) {
       imports.push(match[0]);
     }
     
-    // Remove import statements from original content
     contentWithoutImports = content.replace(importRegex, '').trim();
     
     if (!checkForDuplicates) {
-      // Combine imports at the top followed by other CSS
       customStyle.textContent = imports.join('\n') + (imports.length ? '\n\n' : '') + contentWithoutImports;
       return;
     }
     
-    // When checking for duplicates
     if (!customStyle.textContent.includes(contentWithoutImports)) {
-      // Get existing content
       const currentContent = customStyle.textContent;
-      
-      // Extract existing imports
       const existingImports = [];
       let currentMatch;
       while ((currentMatch = importRegex.exec(currentContent)) !== null) {
         existingImports.push(currentMatch[0]);
       }
       
-      // Get content without existing imports
       const currentContentWithoutImports = currentContent.replace(importRegex, '').trim();
-      
-      // Filter out imports that already exist
       const newImports = imports.filter(imp => !existingImports.includes(imp));
-      
-      // Combine all imports at the top, followed by content
       const allImports = [...existingImports, ...newImports];
       customStyle.textContent = allImports.join('\n') + 
                                (allImports.length ? '\n\n' : '') + 
@@ -479,26 +404,22 @@ export class GeneralUtil {
         return;
       }
       
-      // Easing function: easeInOutQuad
       const progress = elapsedTime / duration;
       const easeProgress = progress < 0.5 
         ? 2 * progress * progress 
         : 1 - Math.pow(-2 * progress + 2, 2) / 2;
       
-      // Apply scroll position
       if (isHorizontal) {
         element.scrollLeft = start + change * easeProgress;
       } else {
         element.scrollTop = start + change * easeProgress;
       }
       
-      // Continue animation
       const newAnimationId = requestAnimationFrame(animateScroll);
       element.dataset.scrollAnimationId = newAnimationId;
       return newAnimationId;
     };
     
-    // Start animation
     const newAnimationId = requestAnimationFrame(animateScroll);
     element.dataset.scrollAnimationId = newAnimationId;
     return newAnimationId;
@@ -516,7 +437,6 @@ export class GeneralUtil {
     content = game.i18n.localize("CRLNGN_UI.ui.reloadRequiredLabel"),
     options = {}) {
     
-    // Configure the dialog options
     const dialogConfig = {
       title,
       content,
@@ -560,32 +480,123 @@ export class GeneralUtil {
   }
 
   /**
-   * Validates if a string is a valid CSS rule
-   * @param {string} cssString - The CSS string to validate
-   * @returns {boolean} True if the CSS is valid, false otherwise
+   * Validates if a string is a valid CSS rule or selector
+   * @param {string} cssString - CSS rule or selector to validate
+   * @return {boolean} Whether the CSS is valid
    */
   static isValidCSSRule(cssString) {
     if (!cssString || typeof cssString !== "string") return false;
-    
+    const trimmedCSS = cssString.trim();
+    if (!trimmedCSS) return false;
     try {
-      // Create a test stylesheet
       const style = document.createElement("style");
-      style.type = "text/css";
-      style.innerHTML = cssString;
-      
-      // Append to head temporarily
+      const testCSS = `${trimmedCSS} { color: inherit; }`;
+      style.textContent = testCSS;
       document.head.appendChild(style);
-      
-      // Check if the stylesheet has valid rules
       const isValid = Boolean(style.sheet && style.sheet.cssRules && style.sheet.cssRules.length > 0);
-      
-      // Clean up
       document.head.removeChild(style);
-      
       return isValid;
     } catch (error) {
       LogUtil.log("CSS validation error:", [error, cssString]);
       return false;
     }
+  }
+
+  /**
+   * Processes CSS rules with nested selectors to create valid CSS for multiple target selectors
+   * @param {string} cssRules - CSS rules that may contain nested selectors
+   * @param {string} targetSelectors - Comma-separated list of selectors to apply the rules to
+   * @return {string} Valid CSS with properly combined selectors
+   */
+  static processCSSRules(cssRules, targetSelectors) {
+    if (!cssRules || !targetSelectors) return "";
+    const parsedCSS = this.#parseCSS(cssRules);
+    const mainStyle = targetSelectors + " {\n" + parsedCSS.baseProperties.join("\n") + "\n}";
+    const processedRules = [];
+    const rulesByContent = new Map();
+    
+    parsedCSS.nestedRules.forEach(rule => {
+      const { selector, content } = rule;
+      
+      if (selector.startsWith("&")) {
+        const pseudoSelector = selector.substring(1);
+        const combinedSelectors = targetSelectors.split(",")
+          .map(s => s.trim())
+          .filter(Boolean)
+          .map(s => s + pseudoSelector)
+          .join(", ");
+        
+        processedRules.push(`${combinedSelectors} {\n${content}\n}`);
+        return;
+      }
+      
+      if (!rulesByContent.has(content)) {
+        rulesByContent.set(content, []);
+      }
+      
+      const selectors = selector.split(",").map(s => s.trim());
+      const targetList = targetSelectors.split(",").map(s => s.trim()).filter(Boolean);
+      
+      selectors.forEach(nestedSelector => {
+        targetList.forEach(targetSelector => {
+          rulesByContent.get(content).push(`${targetSelector} ${nestedSelector}`);
+        });
+      });
+    });
+    
+    rulesByContent.forEach((selectors, content) => {
+      processedRules.push(`${selectors.join(", ")} {\n${content}\n}`);
+    });
+    
+    return mainStyle + "\n\n" + processedRules.join("\n\n");
+  }
+  
+  /**
+   * Parses CSS string into a structured format with base properties and nested rules
+   * @param {string} css - CSS string to parse
+   * @return {Object} Object with baseProperties array and nestedRules array
+   * @private
+   */
+  static #parseCSS(css) {
+    const baseProperties = [];
+    const nestedRules = [];
+    const lines = css.split("\n");
+    
+    let currentNested = null;
+    let braceCount = 0;
+    
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (!line) continue;
+      
+      const openBraces = (line.match(/{/g) || []).length;
+      const closeBraces = (line.match(/}/g) || []).length;
+      
+      if (line.includes("{") && !currentNested) {
+        const selector = line.substring(0, line.indexOf("{")).trim();
+        currentNested = { selector, content: "", startLine: i };
+        braceCount = 1;
+        
+        const contentAfterBrace = line.substring(line.indexOf("{") + 1).trim();
+        if (contentAfterBrace && !contentAfterBrace.includes("}")) {
+          currentNested.content += contentAfterBrace + "\n";
+        }
+      } else if (currentNested) {
+        braceCount += openBraces - closeBraces;
+        
+        if (braceCount > 0) {
+          currentNested.content += line + "\n";
+        } 
+        else {
+          currentNested.content = currentNested.content.replace(/}\s*$/, "").trim();
+          nestedRules.push(currentNested);
+          currentNested = null;
+        }
+      } else if (!line.includes("{") && !line.includes("}")) {
+        baseProperties.push(line);
+      }
+    }
+    
+    return { baseProperties, nestedRules };
   }
 }

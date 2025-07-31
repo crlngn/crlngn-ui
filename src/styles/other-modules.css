@@ -150,7 +150,7 @@ body.crlngn-ui{
   .rest-recovery-prompt-rest-button {
     width: 100%;
     flex: 1 1 100%;
-    background: var(--color-secondary-50);
+    background: var(--color-secondary-25);
     padding: 4px 0;
     margin: 2px 0;
     justify-content: flex-start;
@@ -352,7 +352,6 @@ body.crlngn-ui{
       border-bottom-right-radius: var(--crlngn-border-radius);
     }
   }
-  
 
   /* TheRipper93 Dice Tray */
   .dice-tray-container .buttons-stacked button{
@@ -775,7 +774,7 @@ body.crlngn-ui{
   .crlngn-dark-mode{
     --background: var(--color-dark-bg-90) !important;
     --filigree-background-color: var(--color-dark-bg-10) !important;
-    --dnd5e-border-dotted: var(--color-dark-bg) !important;
+    --dnd5e-border-dotted: 1px dotted var(--color-cool-4) !important;
     --dnd5e-color-gold: rgba(159, 146, 117, 0.4) !important;
     --input-background-color: var(--color-cool-4) !important;
     --chat-dark-blue: rgba(24, 32, 38, 1) !important;
@@ -831,15 +830,14 @@ body.crlngn-ui{
     background: var(--color-dark-bg-90) !important;
     color: var(--color-light-1) !important;
 
-    p, a, span, div, aside, section, table, td, tr, th, h1, h2, h3, h4, h5, h6, ul, ol, li, i, b, strong, u{
+    p, a, span, div, aside, section, label, form, button, table, td, tr, th, h1, h2, h3, h4, h5, h6, ul, ol, li, i, b, strong, u{
       color: var(--color-light-1) !important;
-      background-color: transparent !important;
+      background: transparent !important;
+      border-color: var(--color-cool-4);
     }
 
-    .window-header,
-    .window-content,
-    header, footer {
-      background-color: var(--color-dark-bg-90) !important;
+    .window-header, .window-content, header, footer {
+      background: var(--color-dark-bg-90) !important;
       color: var(--color-light-1) !important;
     }
 
