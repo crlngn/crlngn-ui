@@ -41,19 +41,6 @@ export class GeneralUtil {
     return element.offsetWidth;
   }
 
-  /**
-   * Calculates the distance from the bottom of an element to the bottom of its offset parent
-   * @param {HTMLElement} element - The element to measure
-   * @returns {number} The offset from the bottom in pixels
-   */
-  static getOffsetBottom(element) {
-    const offsetTop = element.offsetTop;
-    const elementHeight = element.offsetHeight;
-    const offsetParent = element.offsetParent;
-    const parentHeight = offsetParent ? offsetParent.clientHeight : window.innerHeight;
-  
-    return parentHeight - (offsetTop + elementHeight);
-  }
 
   /**
    * Process stylesheets to extract font families
@@ -202,7 +189,6 @@ export class GeneralUtil {
     const elementHeight = element.offsetHeight;
     return window.innerHeight - (offsetTop + elementHeight);
   }
-
 
   /**
    * Retrieves a list of all available fonts
@@ -477,6 +463,15 @@ export class GeneralUtil {
    */
   static loadTemplate(templatePath){
     return foundry.applications.handlebars.loadTemplate(templatePath);
+  }
+
+  /**
+   * Alias for Foundry's method to load Handlebars templates
+   * @param {string} templatePath 
+   * @returns {Promise<HandlebarsTemplate>} Loaded template object
+   */
+  static loadTemplates(templatePaths){
+    return foundry.applications.handlebars.loadTemplates(templatePaths);
   }
 
   /**

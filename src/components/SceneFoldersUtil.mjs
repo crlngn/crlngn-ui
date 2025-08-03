@@ -335,7 +335,7 @@ export class SceneNavFolders {
     ];
     
     // This returns an object with paths as keys and template functions as values
-    await loadTemplates(templatePath);
+    await GeneralUtil.loadTemplates(templatePath);
   
     return true;
   }

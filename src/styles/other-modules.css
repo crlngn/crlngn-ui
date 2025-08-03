@@ -853,5 +853,27 @@ body.crlngn-ui{
     }
 
   }
+
+  .damage-log-nav.tabs {
+    background-color: transparent;
+    gap: 0.1rem;
+    padding: 0 0.35rem;
+
+    .item{
+      width: 50%;
+      padding: 0.25rem;
+      border-radius: 0;
+      border-color: var(--color-warm-2);
+      font-family: var(--crlngn-font-family);
+      font-weight: 600;
+      font-size: var(--font-size-13);
+      min-height: 1.8rem;
+      line-height: 1.5em;
+
+      &.active {
+        box-shadow: 0 0 6px inset var(--color-secondary-75);
+      }
+    }
+  }
   
 }

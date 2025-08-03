@@ -831,7 +831,7 @@ export class TopNavigation {
       ];
       
       // Load the templates
-      await loadTemplates(templatePaths);
+      await GeneralUtil.loadTemplates(templatePaths);
       
       return true;
     } catch (error) {
