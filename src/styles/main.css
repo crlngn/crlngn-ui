@@ -97,6 +97,11 @@ body.crlngn-ui{
     padding: 1px;
   }
 
+  .standard-form .form-group > label, 
+  .standard-form .form-group > span.label {
+    line-height: 1.5;
+  }
+
   .standard-form .form-group {
     margin: 6px 0;
   }
