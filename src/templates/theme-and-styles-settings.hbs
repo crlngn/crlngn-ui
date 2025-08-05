@@ -44,6 +44,12 @@
   </div>
 
   <div class="form-group">
+    <label for="applyThemeToSheets">{{fields.applyThemeToSheets.label}}</label>
+    <input type="checkbox" name="applyThemeToSheets" {{#if applyThemeToSheets}}checked{{/if}} />
+    <p class="hint">{{fields.applyThemeToSheets.hint}}</p> 
+  </div>
+
+  <div class="form-group">
     <label for="forcedDarkTheme">{{fields.forcedDarkTheme.label}}</label>
     <p class="hint on">{{fields.forcedDarkTheme.hint}}</p>
     <div class="code-editor-wrapper">
@@ -61,12 +67,6 @@
       spellcheck="false">{{{customStyles}}}</textarea>
     </div>
     <p class="hint">{{fields.customStyles.hint}}</p>
-  </div>
-
-  <div class="form-group">
-    <label for="applyThemeToSheets">{{fields.applyThemeToSheets.label}}</label>
-    <input type="checkbox" name="applyThemeToSheets" {{#if applyThemeToSheets}}checked{{/if}} />
-    <p class="hint">{{fields.applyThemeToSheets.hint}}</p> 
   </div>
   {{/if}}
 

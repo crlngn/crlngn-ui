@@ -18,7 +18,7 @@
         "incompatibleVersion": "O módulo Carolingian UI requer Foundry versão 13.339 ou superior. Por favor, atualize o Foundry ou instale a versão 1.x de Carolingian UI.",
         "settingsUpdated": "Configurações atualizadas",
         "minimalUiNotSupported": "Carolingian UI não é compatível com Minimal UI, e oferece a maioria de suas funcionalidades. Por favor, desabilite Minimal UI para evitar problemas de performance.",
-        "monksScenesNotSupported": "A Navegação Horizontal do módulo Carolingian UI foi desabilitada, pois terá conflitos com Monk's Scene Navigation.",
+        "monksScenesNotSupported": "A Navegação Horizontal de Carolingian UI não é compatível com Monk's Scene Navigation. Desative Monk's Scene Navigation ou desative 'Custom Layout' para a Navegação de Cenas nas configurações de Carolingian UI.",
         "ripperScenesCompat": "Carolingian UI agora tem Navegação de Cenas com Pastas e Busca de Cenas, que não podem ser usados junto com a Compact Scene Navigation. Desative o outro módulo ou desative 'Ativar pastas na barra de navegação' nas configurações de Carolingian UI.",
         "monksPlayerSettingsConflict": "Algumas configurações do módulo Carolingian UI foram desativadas para evitar conflitos com o módulo Monk's Player Settings.",
         "forceClientSettingsConflict": "Algumas configurações do módulo Carolingian UI foram desativadas para evitar conflitos com o módulo Force Client Settings.",

@@ -32,6 +32,8 @@ export class TopNavigation {
   static #visitedScenes = [];
   static #preventNavRender = false;
   static #originalRenderMethod;
+  static #isMonksSceneNavOn = false;
+  static #isMonksNotificationOn = false;
   // settings
   static useFadeOut = true;
   static hidden = false;
@@ -209,8 +211,9 @@ export class TopNavigation {
     const scenePage = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
     if(TopNavigation.preventNavRender){ return; }
     LogUtil.log("onRender - "+HOOKS_CORE.RENDER_SCENE_NAV, [navHtml]);
-
+    TopNavigation.checkSceneNavCompat();
     TopNavigation.resetLocalVars();
+
     if(TopNavigation.sceneNavEnabled){
       TopNavigation.handleExtraButtons(nav, navHtml, navData);
       TopNavigation.handleSceneList(nav, navHtml, navData);
@@ -561,30 +564,17 @@ export class TopNavigation {
   static checkSceneNavCompat(){
     const SETTINGS = getSettings();
     const uiLeft = document.querySelector("#ui-left");
-    /*
+    
     this.#isMonksSceneNavOn = GeneralUtil.isModuleOn("monks-scene-navigation");
-    this.#isRipperSceneNavOn = GeneralUtil.isModuleOn("compact-scene-navigation");
+    LogUtil.log("checkSceneNavCompat", [this.#isMonksSceneNavOn]);
 
-    if(this.#isRipperSceneNavOn && TopNavigation.useSceneFolders){
-      if(game.user?.isGM && this.#isRipperSceneNavOn){
-        ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.ripperScenesCompat"), {permanent: true});
-      }
-    }
-    if(TopNavigation.sceneNavEnabled){
-      uiLeft.classList.remove("crlngn-ui");
-      
-      if(game.ready){
-        SettingsUtil.set(SETTINGS.sceneNavEnabled.tag, false);
-        TopNavigation.sceneNavEnabled = false;
-      }
-
-      LogUtil.log("checkSceneNavCompat", [this.#isMonksSceneNavOn, this.#isRipperSceneNavOn]);
-      
+    if(TopNavigation.sceneNavEnabled && !this.#isMonksNotificationOn){
       if(game.user?.isGM && this.#isMonksSceneNavOn){
-        ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.monksScenesNotSupported"), {permanent: true});
+        ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.monksScenesNotSupported"), {localize: true, permanent: true, console:false});
+        this.#isMonksNotificationOn = true;
       }
     }
-    */
+    
   }
 
   // static applyButtonSettings(){

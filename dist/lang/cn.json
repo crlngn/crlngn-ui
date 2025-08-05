@@ -18,7 +18,7 @@
         "incompatibleVersion": "Carolingian UI 需要 Foundry v13.339 或更高版本。请更新 Foundry 或安装 Carolingian UI 的 1.x 版本。",
         "settingsUpdated": "设置已更新",
         "minimalUiNotSupported": "Carolingian UI与Minimal UI不兼容，并提供了大多数的功能。请禁用该模块以避免性能问题。",
-        "monksScenesNotSupported": "Carolingian UI的水平场景导航将无法与Monk的场景导航一起使用，因此此功能已被禁用。",
+        "monksScenesNotSupported": "Carolingian UI的场景导航和Monk's场景导航不可兼容。请禁用Monk's场景导航或在设置中取消选择场景导航的\"自定义布局\"。",
         "ripperScenesCompat": "Carolingian UI现在包含场景文件夹导航和场景搜索功能，这些功能无法与紧凑场景导航一起使用。请禁用其他模块或在Carolingian UI设置中禁用“场景文件夹导航”。",
         "monksPlayerSettingsConflict": "Carolingian UI的“强制暗黑模式”设置已被禁用，以防止与Monk's Player Settings发生冲突。",
         "forceClientSettingsConflict": "Carolingian UI的“强制暗黑模式”设置已被禁用，以防止与Force Client Settings发生冲突。",

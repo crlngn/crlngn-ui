@@ -129,7 +129,8 @@ body.crlngn-ui.crlngn-sheets {
   .dnd5e2.sheet.actor.character .ability-scores {
     z-index: 10;
     transition: opacity 0.15s ease-out, left 0.35s ease-out 0.1s;
-    height: 72px;
+    min-height: 72px;
+    height: auto;
 
     &.flipped {
       padding: 12px 0 0;
@@ -150,12 +151,19 @@ body.crlngn-ui.crlngn-sheets {
       flex-wrap: nowrap;
       width: auto;
       gap: 15px;
+      overflow: auto;
+      /* deal with scrollbar */
+      -ms-overflow-style: none !important;  /* IE and Edge */
+      scrollbar-width: none !important;  /* Firefox */
+      &::-webkit-scrollbar {
+        display: none !important;
+      }
 
       .top {
         min-height: 72px;
         order: 0;
         min-width: 0;
-        flex: 0 1 auto;
+        flex: 0 0 auto;
         width: auto;
         padding-right: 0;
         gap: 5px;
@@ -171,6 +179,7 @@ body.crlngn-ui.crlngn-sheets {
         width: auto;
         gap: 5px;
         margin: 0;
+        justify-content: flex-start;
       }
     }
   }
@@ -184,7 +193,11 @@ body.crlngn-ui.crlngn-sheets {
 
   &.crlngn-sheet-tabs {
     .dnd5e2.sheet.actor.character .ability-scores .rows {
-      padding: 215px 10px 0 20px;
+      padding: 215px 10px 10px 20px;
+    }
+    /* custom dnd5e */
+    .dnd5e2.sheet.actor.character.custom-dnd5e .ability-scores .rows {
+      padding: 0px 10px 10px 20px;
     }
 
     .dnd5e2.sheet.actor.character{
@@ -287,6 +300,10 @@ body.crlngn-ui.crlngn-sheets {
 
     .dnd5e2.sheet.actor.character.tab-details .tab-body {
       padding-top: 106px;
+    }
+    /* custom dnd5e */
+    .dnd5e2.sheet.actor.character.tab-details.custom-dnd5e .tab-body {
+      padding-top: 0px;
     }
 
     &.theme-light {

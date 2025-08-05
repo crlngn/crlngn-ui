@@ -18,7 +18,7 @@
         "incompatibleVersion": "Carolingian UI requires Foundry v13.339 or higher. Please update Foundry or install version 1.x of Carolingian UI.",
         "settingsUpdated": "Settings updated",
         "minimalUiNotSupported": "Carolingian UI is not compatible with Minimal UI, and offers most of its features. Please disable that module to avoid performance issues.",
-        "monksScenesNotSupported": "Carolingian UI's Scene Navigation will conflict with Monk's Scene Navigation. This functionality of Carolingian UI has been disabled.",
+        "monksScenesNotSupported": "Carolingian UI's Scene Navigation and Monk's Scene Navigation are NOT compatible. Please either disable Monk's Scene Navigation or uncheck 'Custom Layout' for Scene Navigation in settings.",
         "ripperScenesCompat": "Carolingian UI now has Scene Folder Navigation and Scene Search, which cannot be used together with Compact Scene Navigation. Either disable the other module or disable 'Scene Folder Navigation' on Carolingian UI settings.",
         "monksPlayerSettingsConflict": "Carolingian UI's setting 'Enforce Dark Mode' has been disabled to prevent conflict with the module Monk's Player Settings.",
         "forceClientSettingsConflict": "Carolingian UI's setting 'Enforce Dark Mode' has been disabled to prevent conflict with Force Client Settings.",
