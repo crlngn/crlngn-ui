@@ -45,6 +45,8 @@ export const DARK_MODE_RULES = `
   --color-text-primary: var(--color-light-1) !important;
   --button-text-color: var(--color-light-1) !important;
   --color-border-light-1: var(--dnd5e-color-gold) !important;
+  --color-text-dark-input: var(--color-light-3) !important;
+  --color-border-trait: var(--color-cool-4) !important;
 
   --crlngn-button-bg: rgba(15, 15, 15, 0.15) !important;
   --color-bg-button: rgba(40, 47, 54, 1) !important;
@@ -94,7 +96,7 @@ export const DARK_MODE_RULES = `
   color: var(--color-light-1) !important;
 
   .window-header, header, footer {
-    background: var(--color-dark-bg-90) !important;
+    background: var(--color-dark-bg-75) !important;
     color: var(--color-light-1) !important;
   }
   

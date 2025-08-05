@@ -307,7 +307,7 @@ body.crlngn-ui{
         }
       }
     }
-    
+
     #tooltip.combat-dock-tooltip a.content-link {
       display: inline-flex;
     }
@@ -784,6 +784,7 @@ body.crlngn-ui{
     --color-text-primary: var(--color-light-1) !important;
     --button-text-color: var(--color-light-1) !important;
     --color-border-light-1: var(--dnd5e-color-gold) !important;
+    --color-text-dark-input: var(--color-light-1) !important;
 
     --crlngn-button-bg: rgba(15, 15, 15, 0.15) !important;
     --color-bg-button: rgba(40, 47, 54, 1) !important;
