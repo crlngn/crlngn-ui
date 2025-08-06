@@ -18,8 +18,8 @@ A UI overhaul, focusing on removing clutter from screen and improving overall lo
 <div style="display: flex; flex-direction: row;">
   <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-ui-1.x-sheet-themes.png?raw=true" width="100%" height="auto" />
 
-  <video src="https://github.com/user-attachments/assets/9cc3b4fb-9f9e-45a4-9367-1bc6d255679c" width="100%" height="auto">
-  </video>
+  <!--<video src="https://github.com/user-attachments/assets/9cc3b4fb-9f9e-45a4-9367-1bc6d255679c" width="100%" height="auto">
+  </video>-->
 </div>
   
 <div style="display: flex; flex-wrap: wrap; flex-direction: row; gap:2%">
