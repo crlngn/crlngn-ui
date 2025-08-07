@@ -634,7 +634,7 @@ export class TopNavigation {
    */
   static placeNavButtons = async() => { 
     const sceneNav = document.querySelector("#scene-navigation");
-    if(!sceneNav){
+    if(!sceneNav || !TopNavigation.sceneNavEnabled){
       return;
     }
     
