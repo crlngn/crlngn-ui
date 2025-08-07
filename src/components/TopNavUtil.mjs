@@ -220,10 +220,10 @@ export class TopNavigation {
       TopNavigation.handleFolderList(nav, navHtml, navData);
       TopNavigation.setNavPosition(scenePage, false);
       TopNavigation.handleNavState();
+      TopNavigation.addListeners();
       // TopNavigation.applyButtonSettings();
       TopNavigation.addSceneListeners(navHtml);
     }
-    TopNavigation.addListeners();
     TopNavigation.resetLocalVars();
 
     if(TopNavigation.sceneNavEnabled && TopNavigation.navShowRootFolders && game.user.isGM){
@@ -499,9 +499,7 @@ export class TopNavigation {
     const SETTINGS = getSettings();
     if(TopNavigation.#navFirstLoad) {
       TopNavigation.#navFirstLoad = false;
-      TopNavigation.toggleNav(TopNavigation.navStartCollapsed);
-    }else{
-      // TopNavigation.toggleNav(TopNavigation.navStartCollapsed);
+      TopNavigation.toggleNav(SettingsUtil.get(SETTINGS.navStartCollapsed.tag));
     }
   }
 
@@ -538,7 +536,7 @@ export class TopNavigation {
    */
   static toggleNav(collapsed){
     // clearTimeout(TopNavigation.#collapseTimeout);
-    // TopNavigation.#collapseTimeout = setTimeout(()=>{
+    TopNavigation.#collapseTimeout = setTimeout(()=>{
       TopNavigation.resetLocalVars();
 
       if(collapsed===true){
@@ -554,7 +552,7 @@ export class TopNavigation {
         LogUtil.log("toggleNav expand", [collapsed, TopNavigation.navStartCollapsed]);
         TopNavigation.updateToggleButton(true);
       }
-    // }, 300);
+    }, 200);
     
   }
 
@@ -1186,6 +1184,12 @@ export class TopNavigation {
     const SETTINGS = getSettings();
     const currWidth = SettingsUtil.get(SETTINGS.sceneItemWidth.tag) || 150;
     GeneralUtil.addCSSVars("--scene-nav-item-width", `${currWidth}px`);
+  }
+
+  static applyTopNavHeight = () => { 
+    const SETTINGS = getSettings();
+    const sceneNavEnabled = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
+    GeneralUtil.addCSSVars("--top-nav-height", `${sceneNavEnabled ? "calc(var(--control-item-size) + 1px)" : "0px"}`);
   }
 
   /**

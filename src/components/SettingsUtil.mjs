@@ -91,6 +91,7 @@ export class SettingsUtil {
     SettingsUtil.applyThemeSettings();
     SettingsUtil.applyCustomCSS();
     SettingsUtil.applyModuleAdjustments();
+    TopNavigation.applyTopNavHeight();
 
     /**
      * Register the tabbed settings menu as the main entry point
@@ -385,6 +386,7 @@ export class SettingsUtil {
       case SETTINGS.enablePlayerList.tag:
         PlayersList.applyCustomStyle(value); break;
       case SETTINGS.sceneNavEnabled.tag:
+        TopNavigation.applyTopNavHeight();
         TopNavigation.applyCustomStyle(value); break;
       case SETTINGS.enableMacroLayout.tag:
         MacroHotbar.applyCustomStyle(value); break;

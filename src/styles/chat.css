@@ -569,6 +569,9 @@ body.crlngn-ui.crlngn-chat {
   }
   
   /* effects / targets list */
+  :is(.card-tray, .effects-tray) .targets .target {
+    flex-direction: row;
+  }
   :is(.card-tray, .effects-tray) .effects .effect:not(:last-child),
   :is(.card-tray, .effects-tray) .targets .effect:not(:last-child),
   :is(.card-tray, .effects-tray) .effects .target:not(:last-child),
@@ -587,7 +590,9 @@ body.crlngn-ui.crlngn-chat {
   :is(.card-tray, .effects-tray) button:not(.unbutton),
   .chat-card button:not(.unbutton){
     min-height: 30px;
-    width: 100%;
+    display: flex;
+    /*width: 100%;*/
+    flex: 1 1 auto;
     font-size: var(--font-size-12);
     padding: 5px;
     border: 1px solid var(--color-dark-bg-10);
@@ -596,6 +601,9 @@ body.crlngn-ui.crlngn-chat {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  :is(.card-tray, .effects-tray) button.apply-effect{
+    max-width: 48px;
   }
   
   /* dnd5e buttons */
