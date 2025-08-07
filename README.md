@@ -1,4 +1,4 @@
-**IMPORTANT: If you are using Foundry v12 install Carolingian UI v1.18.x. If you are using Foundry v13 you should install Carolingian UI v2.x - there was a bug in Foundry which allowed incompatible versions to be installed, but it seems the bug has been patched.**
+**IMPORTANT: If you are using Foundry v12 install Carolingian UI v1.18.x. If you are using Foundry v13 you should install Carolingian UI v2.x**
 
 I have created a Discord channel for users of my module to discuss it and seek help. Not a lot of people yet as I've just created it, but feel free to join:
 
@@ -18,8 +18,8 @@ A UI overhaul, focusing on removing clutter from screen and improving overall lo
 <div style="display: flex; flex-direction: row;">
   <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-ui-1.x-sheet-themes.png?raw=true" width="100%" height="auto" />
 
-  <video src="https://github.com/user-attachments/assets/9cc3b4fb-9f9e-45a4-9367-1bc6d255679c" width="100%" height="auto">
-  </video>
+  <!--<video src="https://github.com/user-attachments/assets/9cc3b4fb-9f9e-45a4-9367-1bc6d255679c" width="100%" height="auto">
+  </video>-->
 </div>
   
 <div style="display: flex; flex-wrap: wrap; flex-direction: row; gap:2%">
