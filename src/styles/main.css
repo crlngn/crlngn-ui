@@ -6,8 +6,8 @@ body{
 body.crlngn-ui  {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  font-family: var(--crlngn-font-family);
-  font-weight: 400;
+  /*font-family: var(--crlngn-font-family);*/
+  font-weight: 500;
 }
 
 /* HEADINGS */
