@@ -852,6 +852,11 @@ body.crlngn-ui.crlngn-chat {
       color: var(--color-dark-3);
       filter: contrast(1) opacity(0.6) invert(1);
     }
+
+    /* savage worlds */
+    li.die label.color {
+      color: var(--color-dark-1);
+    }
   
     .chat-message .message-content .dice-result .dice-formula, 
     .chat-message.ddb-game-log-message .dice-result .dice-formula,
@@ -862,7 +867,6 @@ body.crlngn-ui.crlngn-chat {
       background: var(--chat-button-bg-50);
       color: var(--color-light-1);
     }
-  
     .dice-result .dice-total::before {
       border-left: 1px solid var(--color-border-dark-1);
     }
