@@ -877,5 +877,15 @@ body.crlngn-ui{
       }
     }
   }
+
+  /* DDB Importer */
+  .ddb .table-compendium.table-generic-dice td:first-child, 
+  .ddb .table-compendium.table-generic-dice th:first-child, 
+  .ddb .table-compendium.table--generic-dice td:first-child, 
+  .ddb .table-compendium.table--generic-dice th:first-child {
+    width: 20% !important;
+    min-width: 60px !important;
+    padding: 0.15em;
+  }
   
 }

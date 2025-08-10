@@ -969,6 +969,10 @@ body.crlngn-ui {
       }
     }
   }
+
+  .roll-table-sheet table thead, .roll-table-sheet table tbody {
+    background-color: rgba(255,255,255,0.1);
+  }
   
 }
 

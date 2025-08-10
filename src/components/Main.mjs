@@ -42,10 +42,7 @@ export class Main {
         return;
       }
 
-      // Hooks.on(HOOKS_CORE.RENDER_SCENE_NAV, TopNavigation.onRender);
-
       LogUtil.log("Initiating module...", [], true); 
-      // Create namespace
       window.crlngnUI = window.crlngnUI || {};
 
       SettingsUtil.registerSettings();
