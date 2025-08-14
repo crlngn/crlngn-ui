@@ -5,4 +5,4 @@ foundry/
 crlngn-ui.code-workspace
 foundry-config.yaml
 foundry
-CLAUDE.md
+*.local.md

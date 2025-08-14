@@ -30,9 +30,9 @@ body.crlngn-ui {
     }
   }
 
-  #players{
+  #players:not(.crlngn-ui){
     margin-left: 16px;
-    margin-bottom: 16px;
+    padding-bottom: calc(var(--crlngn-margin-bottom, 0px) + 16px);
   }
 
   #players.crlngn-ui, #players.crlngn-ui.minimized {
@@ -93,7 +93,8 @@ body.crlngn-ui {
   #players.crlngn-ui {
     gap: 0;
     margin-left: 0;
-    margin-bottom: 0;
+    padding-bottom: var(--crlngn-margin-bottom, 0px);
+    /*margin-bottom: var(--crlngn-margin-bottom, 0px);*/
 
     #players-active .players-list {
       padding-bottom: 0;

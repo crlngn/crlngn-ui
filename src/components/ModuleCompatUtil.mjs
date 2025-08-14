@@ -96,9 +96,6 @@ export class ModuleCompatUtil {
    */
   static checkTaskbarLock = () => {
     const isTaskbarOn = GeneralUtil.isModuleOn('foundry-taskbar');
-    LogUtil.log("checkTaskbarLock #1",[isTaskbarOn]);
-    // const body = document.querySelector('body.crlngn-ui');
-    // const bodyStyle = document.querySelector('#crlngn-ui-vars');
     
     /** @type {{taskbarSettings?: {locked?: boolean, reduceSidebar?: boolean}} | undefined} */
     const taskbarFlag = game.user.flags?.['foundry-taskbar'];

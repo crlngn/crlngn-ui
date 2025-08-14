@@ -382,7 +382,6 @@ body.crlngn-ui.crlngn-chat {
     box-shadow: none;
     background: var(--color-dark-bg-10);
   }
-  
   /* card button layout */
   .chat-card .card-buttons:not(.midi-buttons) {
     flex-direction: row; 
@@ -587,7 +586,7 @@ body.crlngn-ui.crlngn-chat {
     height: 1.5em;
     line-height: 1.5em;
   }
-
+  
   :is(.card-tray, .effects-tray) button:not(.unbutton),
   .chat-card button:not(.unbutton){
     min-height: 30px;
@@ -599,6 +598,11 @@ body.crlngn-ui.crlngn-chat {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .dnd5e2 :is(.card-tray, .effects-tray) .wrapper > button, 
+  .dnd5e2.card-tray .wrapper > button {
+    width: 100%;
   }
   
   /* dnd5e buttons */
@@ -877,7 +881,7 @@ body.crlngn-ui.crlngn-chat {
     .chat-message.ddb-game-log-message .dice-result .dice-total {
       border: 0;
       box-shadow: none;
-      background: var(--chat-button-bg-50);
+      background: var(--chat-button-bg-75);
       color: var(--color-light-1);
     }
     .dice-result .dice-total::before {
