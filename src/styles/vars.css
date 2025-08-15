@@ -486,22 +486,9 @@ Main Theme
   }
 
   #interface.theme-light {
-    --striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-75) 0px, var(--color-secondary-75) 1px, var(--color-secondary-50) 2px, var(--color-secondary-50) 3px);
+    --striped-bg: repeating-linear-gradient(-45deg,var(--color-secondary-50) 0px,var(--color-secondary-50) 1px,var(--color-secondary-25) 2px,var(--color-secondary-25) 3px);
     --striped-bg-2: repeating-linear-gradient( -45deg, rgba(125, 125, 115, 0.3) 0px, rgba(125, 125, 115, 0.3) 1px, rgba(105,105,95,0.2) 2px, rgba(105,105,95,0.2) 3px);  
   }
-
-  /*
-  #interface {
-    --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
-    --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
-    &.theme-light{
-      --default-color: var(--color-light-1);
-      --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--control-bg-color) 2px, var(--control-bg-color) 3px);
-    }
-    &.theme-dark{
-      --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-b-75) 0px, var(--color-secondary-b-75) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
-    }
-  }*/
 
 }
 

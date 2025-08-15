@@ -396,6 +396,7 @@ body.crlngn-ui.crlngn-sheets {
   .dnd5e2.sheet.actor.character section.window-content {
     order: 2;
     z-index: 0;
+    background: var(--control-bg-color);
   }
   .dnd5e2 .items-section .items-header .item-image, 
   .dnd5e2 .items-section .item .item-image,
