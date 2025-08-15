@@ -530,5 +530,16 @@ body.crlngn-ui.crlngn-sheets {
       padding-left: 2.6em;
     }
   }
+
+  /* group sheets */
+  .dnd5e2.sheet.actor.group section.window-content .sheet-header {
+    order: 0;
+  }
+  .dnd5e2.sheet.actor.group section.window-content .sheet-body {
+    order: 2;
+  }
+  .dnd5e2.sheet.actor.group section.window-content .crlngn-tab-scroll-wrapper {
+    order: 1;
+  }
   
 }
