@@ -12,6 +12,10 @@ body.crlngn-ui.crlngn-sheets {
     border: 1px solid transparent;
   }
 
+  .dnd5e2.sheet.actor.character .sheet-header > .right > div:last-child .xp-bar::after {
+    background: var(--color-warm-2);
+    box-shadow: none;
+  }
   .dnd5e2.sheet.actor.character .tab[data-tab="spells"] .top .card.spellcasting {
     width: 300px;
   }
@@ -57,7 +61,7 @@ body.crlngn-ui.crlngn-sheets {
   &:is(.dnd5e-theme-dark, .theme-dark) .dnd5e2.sheet.actor.character .window-content:after{
     content: '';
     position: absolute;
-    background: linear-gradient(to bottom, var(--color-highlights), var(--color-highlights-15));
+    background: linear-gradient(to bottom,var(--color-highlights) 0%,var(--color-highlights-75) 180px, transparent 280px);
     display: block;
     width: 100%;
     height: 100%;
@@ -210,8 +214,8 @@ body.crlngn-ui.crlngn-sheets {
       flex-direction: row;
       gap: 1.5rem;
       left: 0;
-      margin: 0;
-      padding: 0.15em 2.6rem;
+      margin: 0 2.6rem;
+      padding: 0.15em 0;
       order: 0;
       position: relative;
       top: 0;
@@ -307,8 +311,11 @@ body.crlngn-ui.crlngn-sheets {
     }
 
     &.theme-light {
-      .dnd5e2.vertical-tabs nav.tabs {
+      .crlngn-tab-scroll-wrapper {
         background-color: var(--color-warm-3);
+      }
+      .dnd5e2.vertical-tabs nav.tabs {
+        /*background-color: var(--color-warm-3);*/
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 
         > a.item {
@@ -335,19 +342,26 @@ body.crlngn-ui.crlngn-sheets {
     grid-template-rows: auto 1fr !important;
   }
 
-  .dnd5e2 .crlngn-tab-scroll-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    align-self: start;
-    width: 100%;
-    grid-column: span 2;
-    grid-row-end: 1;
-    height: fit-content;
-    
-    nav.tabs {
-      flex: 1;
-      margin: 0 2.5rem;
+  .dnd5e2 .crlngn-tab-scroll-wrapper{
+    display: none;
+  }
+
+  &.crlngn-sheet-tabs {
+    .dnd5e2 .crlngn-tab-scroll-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      align-self: start;
+      width: 100%;
+      grid-column: span 2;
+      grid-row-end: 1;
+      height: fit-content;
+      
+      
+      nav.tabs {
+        flex: 1;
+        margin: 0 2.5rem;
+      }
     }
   }
 

@@ -73,13 +73,16 @@ export class SheetsUtil {
       document.body.classList.add("crlngn-sheets");
     }else{
       document.body.classList.remove("crlngn-sheets");
+      document.body.classList.remove("crlngn-sheet-tabs");
+      SheetsUtil.horizontalSheetTabsEnabled = false;
     }
   }
 
   static applyHorizontalSheetTabs(value){
     SheetsUtil.horizontalSheetTabsEnabled = value;
 
-    if(value){
+    if(SheetsUtil.horizontalSheetTabsEnabled && 
+      SheetsUtil.themeStylesEnabled){
       document.body.classList.add("crlngn-sheet-tabs");
       SheetsUtil.#addTabScrollButtons();
     }else{
