@@ -102,6 +102,27 @@ body.crlngn-ui{
     line-height: 1.5;
     padding: 0.65em 0;
     overflow-x: auto;
+
+    &::-webkit-scrollbar {
+      display: none !important;
+    }
+    /* deal with scrollbar */
+    -ms-overflow-style: none !important;  /* IE and Edge */
+    scrollbar-width: none !important;  /* Firefox */
+  }
+
+  .standard-form nav.tabs a[data-action=tab] {
+    min-width: 50px;
+    width: auto;
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25em;
+
+    i.fa-solid {
+      font-size: 0.85em;
+    }
   }
 
   .standard-form .form-group > label, 
