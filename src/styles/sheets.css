@@ -164,7 +164,7 @@ body.crlngn-ui.crlngn-sheets {
       }
 
       .top {
-        min-height: 72px;
+        min-height: 80px;
         order: 0;
         min-width: 0;
         flex: 0 0 auto;
@@ -184,6 +184,7 @@ body.crlngn-ui.crlngn-sheets {
         gap: 5px;
         margin: 0;
         justify-content: flex-start;
+        min-height: 80px;
       }
     }
   }
