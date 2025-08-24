@@ -87,7 +87,6 @@ export class Main {
       // Enforce GM settings and refresh components if needed
       const settingsChanged = SettingsUtil.enforceGMSettings();
       if (settingsChanged) {
-        // Refresh TopNavigation with new settings
         TopNavigation.refreshSettings();
       }
       

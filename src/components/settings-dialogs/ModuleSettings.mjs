@@ -1,4 +1,4 @@
-import { getSettings, THEMES } from "../../constants/Settings.mjs";
+import { getSettings, THEMES, SETTING_SCOPE } from "../../constants/Settings.mjs";
 import { getSettingMenus } from "../../constants/SettingMenus.mjs";
 import { LogUtil } from "../LogUtil.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
@@ -128,24 +128,6 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     context.activeTab = options.activeTab || Object.keys(context.tabs)[0];
     context.isGM = game.user.isGM;
     const SETTINGS = getSettings();
-
-    /* add specific data for theme and style fields */
-    // const themeFieldNames = SETTINGS.themeAndStylesMenu.fields;
-    // const themeFieldValues = {};
-
-    // themeFieldNames.forEach((fieldName) => {
-    // //   if(SETTINGS[fieldName]) {
-    // //     const value = SettingsUtil.get(SETTINGS[fieldName].tag);
-    // //     themeFieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;
-    // //   }
-
-    // //   if(fieldName==='colorTheme'){
-    // //     ModuleSettings.selectedTheme = THEMES.find(theme => {
-    // //       return theme.className === themeFieldValues.colorTheme;
-    // //     });
-    // //     themeFieldValues.colorTheme = ModuleSettings.selectedTheme?.label;
-    // //   }
-    // });
     
     // context.selectedTheme = ModuleSettings.selectedTheme || {};
     context.themes = THEMES;
@@ -209,6 +191,11 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
                 return theme.className===menuContext.fieldValues.colorTheme
               });
               menuContext.fieldValues.colorTheme = selectedTheme?.label || THEMES[0].label;
+
+              const selectedPlayerTheme = THEMES.find(theme => {
+                return theme.className===menuContext.fieldValues.playerColorTheme
+              });
+              menuContext.fieldValues.playerColorTheme = selectedPlayerTheme?.label || "";
             }
             Object.assign(partContext, menuContext.fieldValues);
           }
@@ -235,13 +222,24 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
    */
   static getMenuContext(menuKey){
     const SETTINGS = getSettings();
-    const fieldNames = SETTINGS[menuKey]?.fields || null;
-    if(!fieldNames) return {};
+    const fieldNames = SETTINGS[menuKey]?.fields || [];
+    const playerFieldNames = SETTINGS["player_"+menuKey]?.fields || [];
+
+    if(!fieldNames || fieldNames.length===0) return {};
     const fields = {};
     const fieldValues = {};
     const fieldDefaults = {};
 
-    fieldNames.forEach((fieldName) => {
+    fieldNames?.forEach((fieldName) => {
+      if(SETTINGS[fieldName]) {
+        const value = SettingsUtil.get(SETTINGS[fieldName].tag);
+        fields[fieldName] = SETTINGS[fieldName];
+        fieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;
+        fieldDefaults[fieldName] = SETTINGS[fieldName].default;
+      }
+    });
+
+    playerFieldNames?.forEach((fieldName) => {
       if(SETTINGS[fieldName]) {
         const value = SettingsUtil.get(SETTINGS[fieldName].tag);
         fields[fieldName] = SETTINGS[fieldName];
@@ -391,6 +389,11 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const selectedTheme = THEMES.find(theme => theme.label===settings.colorTheme);
     settings.colorTheme = selectedTheme ? selectedTheme.className : THEMES[0].className;
 
+    const selectedPlayerTheme = THEMES.find(theme => theme.label===settings.playerColorTheme);
+    settings.playerColorTheme = selectedPlayerTheme ? selectedPlayerTheme.className : "";
+
+
+
     Object.entries(settings).forEach(([fieldName, value]) => {
       // Skip auxiliary form fields like range value inputs
       if(fieldName.endsWith('_value')) return;
@@ -398,7 +401,17 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       LogUtil.log("updateSettings #1", [SETTINGS, SETTINGS[fieldName]]);
       if(settings[fieldName] !== undefined && SETTINGS[fieldName]) {
         const currSetting = SettingsUtil.get(SETTINGS[fieldName].tag);
-        SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
+        
+        // Check if this is a client-scoped setting that the current user can update
+        const isClientSetting = SETTINGS[fieldName].scope === SETTING_SCOPE.client;
+        const isWorldSetting = SETTINGS[fieldName].scope === SETTING_SCOPE.world;
+        
+        // Only update if user has permission (GM for world settings, anyone for client settings)
+        if (isClientSetting || (isWorldSetting && game.user.isGM)) {
+          SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
+        } else {
+          LogUtil.log(`Skipping world-scoped setting ${fieldName} for non-GM user`);
+        }
         
         if(SETTINGS[fieldName]?.requiresReload && currSetting !== settings[fieldName]){
           confirmReload = true;
@@ -589,7 +602,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         input.value = value;
         
         // Update the selectedTheme if this is the theme input
-        if (input.name === 'colorTheme') {
+        if (input.name === 'colorTheme' || input.name === 'playerColorTheme') {
           const selectedTheme = THEMES.find(theme => {
             return theme.label === value;
           });

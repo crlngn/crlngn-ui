@@ -139,8 +139,12 @@
         "hint": "Select a color theme for the UI, and add custom CSS styles.",
         "fields": {
           "colorTheme": {
-            "label": "Color Theme",
-            "hint": "Select a theme for the color highlights and secondary color. Only affects highlights, inputs and buttons"
+            "label": "Color Theme (World)",
+            "hint": "Select an option for the color highlights and secondary color. Only affects highlights, inputs and buttons. Player color theme can override this setting."
+          },
+          "playerColorTheme": {
+            "label": "Color Theme (Player)",
+            "hint": "Select an option for the color highlights and secondary color. Only affects highlights, inputs and buttons"
           },
           "adjustOtherModules": {
             "label": "Enforce styles in other modules",
@@ -182,6 +186,16 @@
               "playerColor": "Player Color",
               "rollType": "Roll Type (DnD5e)",
               "none": "None"
+            }
+          },
+          "borderPosition": {
+            "label": "Position of colored border",
+            "hint": "[Requires reload] <b>Left:</b> border shows up only on the left side of the chat card. <br/><b>Top:</b> border shows up only on the top side of the chat card. <br/><b>None:</b> no border at all (will allow borders set by other modules). <br/><b>All:</b> border shows up on all sides of the chat card.",
+            "options": {
+              "left": "Left",
+              "right": "Right",
+              "top": "Top",
+              "all": "All"
             }
           },
           "useLeftChatBorder": {

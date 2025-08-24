@@ -49,31 +49,31 @@ export const DARK_MODE_RULES = `
   --color-border-trait: var(--color-cool-4) !important;
 
   --crlngn-button-bg: rgba(15, 15, 15, 0.15) !important;
-  --color-bg-button: rgba(40, 47, 54, 1) !important;
+  --color-bg-button: rgba(32, 37, 43, 1) !important;
   --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.5) !important;
   --dnd5e-color-groove: var(--dnd5e-color-gold) !important;
   --dnd5e-sheet-bg: rgb(37, 40, 48) !important;
   --sidebar-background: var(--control-bg-color, var(--color-cool-5-90)) !important;
-  --dnd5e-color-parchment: rgb(40, 47, 54) !important;
-  --dnd5e-background-card: rgb(40, 47, 54) !important; 
+  --dnd5e-color-parchment: rgb(32, 37, 43) !important;
+  --dnd5e-background-card: rgb(32, 37, 43) !important; 
   --dnd5e-background-parchment: var(--color-cool-4) !important;
 
   --color-pf-alternate: rgba(82, 107, 120, 0.44) !important;
   --color-text-gray-blue: rgb(168, 180, 188, 1) !important;
   --color-text-gray-blue-b: rgb(138, 155, 168, 1) !important;
-  --chat-button-bg: rgba(40, 47, 54, 1) !important;
-  --chat-button-bg-15: rgba(40, 47, 54, 0.15) !important;
-  --chat-button-bg-25: rgba(40, 47, 54, 0.25) !important;
-  --chat-button-bg-50: rgba(40, 47, 54, 0.5) !important;
-  --chat-button-bg-75: rgba(40, 47, 54, 0.75) !important;
+  --chat-button-bg: rgba(32, 37, 43, 1) !important;
+  --chat-button-bg-15: rgba(32, 37, 43, 0.15) !important;
+  --chat-button-bg-25: rgba(32, 37, 43, 0.25) !important;
+  --chat-button-bg-50: rgba(32, 37, 43, 0.5) !important;
+  --chat-button-bg-75: rgba(32, 37, 43, 0.75) !important;
   --chat-dark-blue: rgba(24, 32, 38, 1) !important;
   --chat-dark-blue-b: rgb(29, 36, 48, 1) !important; 
-  --chat-dark-bg: rgba(40, 47, 54, 1) !important; 
-  --chat-dark-bg-15: rgba(40, 47, 54, 0.15) !important;
-  --chat-dark-bg-25: rgba(40, 47, 54, 0.25) !important;
-  --chat-dark-bg-50: rgba(40, 47, 54, 0.50) !important; 
-  --chat-dark-bg-75: rgba(40, 47, 54, 0.75) !important; 
-  --chat-dark-bg-90: rgba(40, 47, 54, 0.90) !important; 
+  --chat-dark-bg: rgba(32, 37, 43, 1) !important; 
+  --chat-dark-bg-15: rgba(32, 37, 43, 0.15) !important;
+  --chat-dark-bg-25: rgba(32, 37, 43, 0.25) !important;
+  --chat-dark-bg-50: rgba(32, 37, 43, 0.50) !important; 
+  --chat-dark-bg-75: rgba(32, 37, 43, 0.75) !important; 
+  --chat-dark-bg-90: rgba(32, 37, 43, 0.90) !important; 
 
   --color-input-bg: var(--color-dark-bg-50) !important; 
 

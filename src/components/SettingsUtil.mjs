@@ -51,7 +51,6 @@ export class SettingsUtil {
           requiresReload: setting.requiresReload || false,
           onChange: value => {
             SettingsUtil.apply(setting.tag, value);
-            // Don't trigger saves for these special settings to avoid loops
             if (setting.tag !== 'v2-enforce-gm-settings' && setting.tag !== 'v2-default-settings') {
               SettingsUtil.onSettingChange(setting.tag);
             }
@@ -108,34 +107,12 @@ export class SettingsUtil {
         hint: tabbedMenuData.hint,
         icon: tabbedMenuData.icon, 
         type: tabbedMenuData.propType,
-        restricted: tabbedMenuData.restricted
+        restricted: false // tabbedMenuData.restricted
       };
       await game.settings.registerMenu(MODULE_ID, tabbedMenuData.tag, tabbedMenuObj);
     }
 
     SettingsUtil.foundryUiConfig = game.settings.get('core','uiConfig') || null;
-    
-    // Register individual setting menus (hidden from the settings tab but still accessible for direct calls)
-    // settingMenus.forEach(async(entry) => {
-    //   const menuKey = entry[0];
-    //   const settingMenu = entry[1];
-      
-    //   // Skip the tabbed menu as we've already registered it
-    //   if (menuKey === 'ModuleSettingsMenu') return;
-      
-    //   const settingMenuObj = {
-    //     name: settingMenu.tag,
-    //     label: settingMenu.label, 
-    //     hint: settingMenu.hint,
-    //     icon: settingMenu.icon, 
-    //     type: settingMenu.propType,
-    //     restricted: settingMenu.restricted,
-    //     // Hide individual menus from the settings tab
-    //     scope: 'client',
-    //     config: false
-    //   };
-    //   await game.settings.registerMenu(MODULE_ID, settingMenu.tag, settingMenuObj); 
-    // });
 
     Hooks.on(HOOKS_CORE.RENDER_SCENE_CONTROLS, SettingsUtil.applyLeftControlsSettings);
     Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, PlayersList.applyPlayersListSettings); 
@@ -146,42 +123,32 @@ export class SettingsUtil {
         MacroHotbar.applyHotBarCollapse();
       }
     });
-    //apply debug Settings
     SettingsUtil.applyDebugSettings();
-    // apply chat style settings
     SettingsUtil.applyChatStyles();
-    // aply border colors
     SettingsUtil.applyBorderColors();
-    // apply theme to sheets
     SheetsUtil.applyThemeToSheets(SettingsUtil.get(SETTINGS.applyThemeToSheets.tag));
-    // apply horizontal sheet tabs
     SheetsUtil.applyHorizontalSheetTabs(SettingsUtil.get(SETTINGS.useHorizontalSheetTabs.tag));
 
-    // apply scene nav settings
     const sceneNavFields = SETTINGS.sceneNavMenu.fields;
     sceneNavFields.forEach(fieldName => {
       SettingsUtil.apply(SETTINGS[fieldName].tag);
     });
 
-    // apply camera dock settings
     const cameraDockFields = SETTINGS.cameraDockMenu.fields;
     cameraDockFields.forEach(fieldName => {
       SettingsUtil.apply(SETTINGS[fieldName].tag);
     });
 
-    // apply custom font settings
     const fontFields = SETTINGS.customFontsMenu.fields;
     fontFields.forEach(fieldName => {
       SettingsUtil.applyCustomFonts(SETTINGS[fieldName].tag);
     });   
 
-    // apply left controls settings
     const controlFields = SETTINGS.leftControlsMenu.fields;
     controlFields.forEach(fieldName => {
       SettingsUtil.applyLeftControlsSettings(SETTINGS[fieldName].tag);
     });
 
-    // apply interface elements settings
     const interfaceFields = SETTINGS.interfaceOptionsMenu.fields;
     interfaceFields.forEach(fieldName => {
       SettingsUtil.apply(SETTINGS[fieldName].tag);
@@ -242,6 +209,7 @@ export class SettingsUtil {
     if(!settingName){ return false; }
 
     let selectedSetting = game.settings.storage.get("client")[`${moduleName}.${settingName}`];
+    let isClientSetting = !!selectedSetting;
 
     if(!selectedSetting){
       const world = game.settings.storage.get("world");
@@ -253,7 +221,11 @@ export class SettingsUtil {
       game.settings.set(moduleName, settingName, newValue);
       // selectedSetting.update({value: newValue});
     }catch(e){
-      LogUtil.log("Unable to change setting",[settingName, selectedSetting]);
+      // Only log errors for world-scoped settings or actual permission issues
+      // Client-scoped settings might show permission errors that can be safely ignored
+      if (!isClientSetting || !e.message?.includes("lacks permission")) {
+        LogUtil.log("Unable to change setting",[settingName, selectedSetting, e.message]);
+      }
     }
 
     return true;
@@ -322,6 +294,9 @@ export class SettingsUtil {
       case SETTINGS.chatBorderColor.tag:
         ChatUtil.chatBorderColor = value;
         SettingsUtil.applyBorderColors(); break;
+      case SETTINGS.chatBorderPosition.tag:
+        ChatUtil.chatBorderPosition = value;
+        SettingsUtil.applyBorderColors(); break;
       case SETTINGS.sideBarWidth.tag:
         TopNavigation.sideBarWidth = value;
         SidebarTabs.applySideBarWidth();
@@ -373,6 +348,8 @@ export class SettingsUtil {
       case SETTINGS.sceneNavCollapsed.tag:
         TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag); break;
       case SETTINGS.colorTheme.tag:
+        SettingsUtil.applyThemeSettings(); break;
+      case SETTINGS.playerColorTheme.tag:
         SettingsUtil.applyThemeSettings(); break;
       case SETTINGS.customStyles.tag:
         SettingsUtil.applyCustomCSS(value); break;
@@ -674,7 +651,7 @@ export class SettingsUtil {
    */
   static applyThemeSettings = (value) => {
     const SETTINGS = getSettings();
-    const themeName = value || SettingsUtil.get(SETTINGS.colorTheme.tag) || "";
+    const themeName = value || SettingsUtil.get(SETTINGS.playerColorTheme.tag) || SettingsUtil.get(SETTINGS.colorTheme.tag) || "";
     const body = document.querySelector("body");
 
     LogUtil.log("applyThemeSettings", [value, themeName, SettingsUtil.get(SETTINGS.colorTheme.tag)]);
@@ -867,7 +844,7 @@ export class SettingsUtil {
     
     // If GM and enforcement is enabled, save settings immediately
     if (game.user?.isGM && SettingsUtil.get(SETTINGS.enforceGMSettings.tag)) {
-      // Save settings synchronously to ensure they're available before any reload
+      // Save synchronously to ensure they're available before any reload
       SettingsUtil.saveDefaultSettings();
     }
   }

@@ -184,6 +184,16 @@
               "none": "Nessuno"
             }
           },
+          "borderPosition": {
+            "label": "Posizione del bordo colorato",
+            "hint": "[Richiede ricaricamento] <b>Sinistra:</b> il bordo appare solo sul lato sinistro del riquadro del messaggio chat. <br/><b>Superiore:</b> il bordo appare solo sul lato superiore del riquadro del messaggio. <br/><b>Nessuno:</b> nessun bordo (permetterà i bordi impostati da altri moduli). <br/><b>Tutti:</b> il bordo appare su tutti i lati del riquadro del messaggio.",
+            "options": {
+              "left": "Sinistra",
+              "right": "Destra",
+              "top": "Superiore",
+              "all": "Completa"
+            }
+          },
           "useLeftChatBorder": {
             "label": "Mostra solo il bordo sinistro",
             "hint": "La tua scelta del colore del bordo appare solo sul lato sinistro della chat - gli altri lati non hanno bordo."

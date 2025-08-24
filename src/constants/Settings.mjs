@@ -34,6 +34,13 @@ export const BORDER_COLOR_TYPES = {
   }
 }
 
+export const BORDER_COLOR_POSITIONS = {
+  left: { name: 'left' },
+  right: { name: 'right' },
+  top: { name: 'top' },
+  all: { name: 'all' }
+}
+
 export const BACK_BUTTON_OPTIONS = {
   noButton: { name: 'noButton' },
   lastScene: { name: 'lastScene' },
@@ -58,14 +65,6 @@ export const THEMES = [
     ]
   },
   {
-    label: "Gold and Chocolate",
-    className: 'crlngn-theme-gold-chocolate',
-    colorPreview: [
-      'rgb(34, 25, 25)',
-      'rgb(164, 138, 51)'
-    ]
-  },
-  {
     label: "Royal Blood",
     className: 'crlngn-theme-royal-blood',
     colorPreview: [
@@ -79,6 +78,22 @@ export const THEMES = [
     colorPreview: [
       'rgb(31, 47, 49)',
       'rgb(130, 110, 160)'
+    ]
+  },
+  {
+    label: "Grass and Stone",
+    className: 'crlngn-theme-grass-stone',
+    colorPreview: [
+      'rgb(47, 48, 48)',
+      'rgb(133, 174, 74)'
+    ]
+  },
+  {
+    label: "Gold and Chocolate",
+    className: 'crlngn-theme-gold-chocolate',
+    colorPreview: [
+      'rgb(34, 25, 25)',
+      'rgb(164, 138, 51)'
     ]
   },
   {
@@ -219,27 +234,48 @@ export function getSettings() {
       propType: String,
       fields: [
         "colorTheme", 
+        // "playerColorTheme",
         "adjustOtherModules", 
         "otherModulesList",
         "forcedDarkTheme",
         "customStyles",
-        "useHorizontalSheetTabs",
+        // "useHorizontalSheetTabs",
         "applyThemeToSheets"
       ],
       default: {
         colorTheme: "crlngn-theme",
+        // playerColorTheme: "",
         adjustOtherModules: true,
         otherModulesList: "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar','touch-vtt','breaktime', 'simple-timekeeping'",
         forcedDarkTheme: "",
         customStyles: "",
-        useHorizontalSheetTabs: true,
+        // useHorizontalSheetTabs: true,
         applyThemeToSheets: true
       },
       scope: SETTING_SCOPE.world,
       config: false, 
       requiresReload: false 
     },
-
+    player_themeAndStylesMenu: {
+      isMenu: true,
+      showOnRoot: false, 
+      tag: "v2-player-theme-styles-menu", 
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.label"),
+      title: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.title"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.hint"),
+      propType: String,
+      fields: [
+        "playerColorTheme",
+        "useHorizontalSheetTabs"
+      ],
+      default: {
+        playerColorTheme: "",
+        useHorizontalSheetTabs: true,
+      },
+      scope: SETTING_SCOPE.client,
+      config: false, 
+      requiresReload: false 
+    },
     chatMessagesMenu: {
       isMenu: true,
       showOnRoot: false, 
@@ -251,13 +287,15 @@ export function getSettings() {
         "sideBarWidth",
         "enableChatStyles",
         "chatBorderColor",
-        "useLeftChatBorder"
+        "useLeftChatBorder",
+        "chatBorderPosition"
       ],
       default: { 
         sideBarWidth: 300,
         enableChatStyles: true,
         chatBorderColor: BORDER_COLOR_TYPES.playerColor.name,
-        useLeftChatBorder: true
+        useLeftChatBorder: true,
+        chatBorderPosition: "left"
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -364,9 +402,6 @@ export function getSettings() {
         "useSceneLookup",
         "sceneClickToView",
         "useSceneIcons",
-        "navStartCollapsed",
-        "showNavOnHover",
-        "sceneItemWidth",
         "useSceneBackButton",
         "useScenePreview",
         "hideInactiveOnFolderToggle"
@@ -374,16 +409,35 @@ export function getSettings() {
       default: {
         // sceneNavEnabled: true,
         useSceneFolders: true,
-        navStartCollapsed: false,
         sceneClickToView: true,
         useSceneIcons: true,
         navShowRootFolders: false,
         useSceneLookup: true,
-        showNavOnHover: false,
-        sceneItemWidth: 150,
         useScenePreview: true,
         useSceneBackButton: true,
         hideInactiveOnFolderToggle: true
+      },
+      scope: SETTING_SCOPE.world,
+      config: false, 
+      requiresReload: false 
+    },
+
+    player_sceneNavMenu: {
+      isMenu: true,
+      showOnRoot: false, 
+      tag: "v2-player-scene-nav-menu", 
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.hint"),
+      propType: Object,
+      fields: [
+        "navStartCollapsed",
+        "showNavOnHover",
+        "sceneItemWidth"
+      ],
+      default: {
+        navStartCollapsed: false,
+        showNavOnHover: false,
+        sceneItemWidth: 150
       },
       scope: SETTING_SCOPE.client,
       config: false, 
@@ -706,6 +760,17 @@ export function getSettings() {
       requiresReload: false 
     },
 
+    playerColorTheme:{
+      tag: "v2-player-color-theme",
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.playerColorTheme.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.playerColorTheme.hint"),
+      propType: String,
+      default: "",
+      scope: SETTING_SCOPE.client,
+      config: false, 
+      requiresReload: false 
+    },
+
     adjustOtherModules: {
       tag: "v2-adjust-other-modules",
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.adjustOtherModules.label"),
@@ -764,7 +829,6 @@ export function getSettings() {
     /* CHAT STYLES */
     chatBorderColor: {
       tag: "v2-chat-border-color",
-      oldName: "borderColor",
       label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderColor.hint"),
       options: {
@@ -778,6 +842,23 @@ export function getSettings() {
       config: false, 
       requiresReload: true 
     },
+    chatBorderPosition: {
+      tag: "v2-chat-border-position",
+      label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderPosition.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderPosition.hint"),
+      options: {
+        left: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderPosition.options.left"), 
+        right: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderPosition.options.right"), 
+        top: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderPosition.options.top"), 
+        all: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.borderPosition.options.all")
+      }, 
+      propType: String,  
+      default: BORDER_COLOR_POSITIONS.left.name, 
+      scope: SETTING_SCOPE.client, 
+      config: false, 
+      requiresReload: true 
+    },
+    /* keeping for compatibility - remove after a few releases */
     useLeftChatBorder:{
       tag: "v2-use-left-chat-border",
       label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.useLeftChatBorder.label"),
@@ -786,7 +867,7 @@ export function getSettings() {
       inputType: SETTING_INPUT.checkbox, 
       default: true, 
       scope: SETTING_SCOPE.client, 
-      config: false , 
+      config: false, 
       requiresReload: true 
     },
     enableChatStyles:{

@@ -184,6 +184,16 @@
               "none": "Nenhuma"
             }
           },
+          "borderPosition": {
+            "label": "Posição da borda colorida",
+            "hint": "[Requer recarregamento] <b>Esquerda:</b> borda aparece apenas no lado esquerdo do cartão de chat. <br/><b>Topo:</b> borda aparece apenas na parte superior do cartão de chat. <br/><b>Todas:</b> borda aparece em todos os lados do cartão de chat.",
+            "options": {
+              "left": "Esquerda",
+              "right": "Direita",
+              "top": "Topo",
+              "all": "Completa"
+            }
+          },
           "useLeftChatBorder": {
             "label": "Mostrar apenas a borda esquerda",
             "hint": "A sua escolha de cor de borda aparece apenas no lado esquerdo do chat - os outros lados não têm borda."
