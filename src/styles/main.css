@@ -101,6 +101,8 @@ body.crlngn-ui{
     gap: 0.5em;
     line-height: 1.5;
     padding: 0.65em 0;
+  }
+  .standard-form nav.tabs:not(.vertical){
     overflow-x: auto;
     flex: 0 0 auto;
 
