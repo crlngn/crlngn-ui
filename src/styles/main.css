@@ -97,25 +97,18 @@ body.crlngn-ui{
     padding: 1px;
   }
 
-  .standard-form nav.tabs {
+  .application:not(.actor) .standard-form nav.tabs {
     gap: 0.5em;
     line-height: 1.5;
     padding: 0.65em 0;
   }
-  .standard-form nav.tabs:not(.vertical){
+  .application:not(.actor) .standard-form nav.tabs:not(.vertical){
     overflow-x: auto;
     flex: 0 0 auto;
-
-    &::-webkit-scrollbar {
-      display: none !important;
-    }
-    /* deal with scrollbar */
-    -ms-overflow-style: none !important;  /* IE and Edge */
-    scrollbar-width: none !important;  /* Firefox */
+    scroll-behavior: smooth;
   }
 
-  .standard-form nav.tabs a[data-action=tab] {
-    min-width: 50px;
+  .application:not(.actor) .standard-form nav.tabs a[data-action=tab] {
     width: auto;
     flex: 1 1 auto;
     display: flex;
@@ -509,9 +502,9 @@ body.crlngn-ui{
     justify-content: center;
     display: flex;
     color: inherit;
-    width: 100%;
-    flex: 1 1 100%;
-    min-width: 80px;
+    width: auto;
+    flex: 1 1 auto;
+    /*min-width: 60px;*/
 
     i{
       display: none;

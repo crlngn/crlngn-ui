@@ -98,6 +98,7 @@ export const DARK_MODE_RULES = `
   .window-header, header, footer {
     background: var(--color-dark-bg-75) !important;
     color: var(--color-light-1) !important;
+    box-shadow: none;
   }
   
   .window-content {
@@ -109,18 +110,27 @@ export const DARK_MODE_RULES = `
     border-bottom: 1px solid var(--color-cool-4) !important;
   }
 
-  p, a, span, div, aside, section, label, form, button, table, td, tr, th, h1, h2, h3, h4, h5, h6, ul, ol, li, i, b, strong, u{
-    color: var(--color-light-1);
+  p, span, div:not(.currency-image), aside, section, nav, label, form, button, table, td, tr, th, h1, h2, h3, h4, h5, h6, ul, ol, li, i, b, strong, u{
     background: transparent;
     border-color: var(--color-cool-4);
+  }
+  *{
+    color: var(--color-light-1);
+  }
+
+  input, select {
+    background-color: var(--color-cool-4) !important;
+    color: var(--color-light-1) !important;
+    border-color: var(--color-cool-4) !important;
   }
 
   button{
     color: var(--color-light-1) !important;
     border-color: transparent;
     background-color: var(--color-bg-button) !important;
-    &:hover{
-      background-color: var(--color-warm-2) !important;
-    }
+  }
+
+  button:hover{
+    background-color: var(--color-warm-2) !important;
   }
 `;
