@@ -729,7 +729,7 @@ body.crlngn-ui{
     background-color: var(--color-secondary-25);
     color: inherit;
 
-    > label{
+    > div{
       flex: 1 1 16%;
       width: 16%;
       min-width: 16%;
@@ -742,7 +742,7 @@ body.crlngn-ui{
       }
     }
 
-    > label:first-child{
+    > div:first-child{
       flex: 0 0 40%;
       width: 40%;
       min-width: 40%;
