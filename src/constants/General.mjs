@@ -96,7 +96,7 @@ export const DARK_MODE_RULES = `
   color: var(--color-light-1) !important;
 
   .window-header, header, footer {
-    background: var(--color-dark-bg-75) !important;
+    background-color: var(--color-dark-bg-75) !important;
     color: var(--color-light-1) !important;
     box-shadow: none;
   }
@@ -111,9 +111,8 @@ export const DARK_MODE_RULES = `
   }
 
   p, span, div:not(.currency-image), aside, section, nav, label, form, button, table, td, tr, th, h1, h2, h3, h4, h5, h6, ul, ol, li, b, strong, u{
-    background: transparent;
+    background-color: transparent;
     border-color: var(--color-cool-4);
-    font-family: var(--font-family);
   }
   *{
     color: var(--color-light-1);
@@ -144,7 +143,6 @@ export const DARK_MODE_RULES = `
     color: var(--color-light-1) !important;
     border-color: transparent;
     background-color: var(--color-bg-button) !important;
-    font-family: var(--font-family);
   }
 
   button:hover{
