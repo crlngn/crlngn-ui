@@ -129,6 +129,13 @@ body.crlngn-ui{
   .standard-form .form-group {
     margin: 6px 0;
   }
+
+  .region-config fieldset.region-behavior:not(.inactive){
+    background-color: var(--color-highlights-25);
+  }
+  .region-config a.control.fa-toggle-on[data-action=behaviorToggle]:before{
+    color: var(--color-warm-2);
+  }
   
   .dependency-resolution .standard-form {
     overflow: auto;
@@ -340,8 +347,8 @@ body.crlngn-ui{
     color: var(--color-light-1);
   }
 
-  & > aside.application {
-    transform: translateX(calc(var(--ui-controls-margin-left) * -1));
+  #region-legend {
+    transform: translate(var(--region-legend-offset, 0px), 16px);
   }
 
   &.theme-light {
@@ -350,6 +357,9 @@ body.crlngn-ui{
     }
     .application {
       --background: rgb(233, 233, 233, 0.95);
+    }
+    a.control:hover{
+      color: var(--color-dark-1);
     }
   }
 

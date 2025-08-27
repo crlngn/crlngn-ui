@@ -118,10 +118,18 @@ export const DARK_MODE_RULES = `
     color: var(--color-light-1);
   }
 
-  input, select {
-    background-color: var(--color-cool-4) !important;
-    color: var(--color-light-1) !important;
-    border-color: var(--color-cool-4) !important;
+  input:not([type="range"]), select {
+    background-color: var(--color-cool-4);
+    color: var(--color-light-1);
+    border-color: var(--color-cool-4);
+  }
+
+  select option {
+    background: transparent;
+  }
+
+  fieldset {
+    border-color: var(--color-cool-4);
   }
 
   button{

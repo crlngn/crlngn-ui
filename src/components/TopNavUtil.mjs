@@ -223,6 +223,10 @@ export class TopNavigation {
       TopNavigation.addListeners();
       // TopNavigation.applyButtonSettings();
       TopNavigation.addSceneListeners(navHtml);
+
+      GeneralUtil.addCSSVars("--region-legend-offset", "calc(-100vw + 500px)");
+    }else{
+      GeneralUtil.addCSSVars("--region-legend-offset", "0px");
     }
     TopNavigation.resetLocalVars();
 
