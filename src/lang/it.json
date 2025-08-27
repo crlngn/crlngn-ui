@@ -147,8 +147,8 @@
             "hint": "Abilita le mie modifiche di stile e i font personalizzati su altri moduli, come CRUX o Combat Carousel. Se desideri supporto per un modulo specifico, per favore segnalalo su Github issues"
           },
           "applyDarkThemeToModules": {
-            "label": "Apply Dark Theme to Modules' Windows",
-            "hint": "Some modules never implemented dark theme. This option attempts to apply dark theme to other modules' windows using .app.theme-light class. If some module becomes partiallyillegible, uncheck this option. "
+            "label": "Applica tema scuro a finestre dei moduli",
+            "hint": "Alcuni moduli non hanno mai implementato tema scuro. Questa opzione tenta di applicare tema scuro alle finestre di altri moduli usando la classe .app.theme-light. Se alcuni moduli diventano parzialmente illegibili, deseleziona questa opzione. "
           },
           "otherModulesList": {
             "label": "Applica stili ad altri moduli",
@@ -156,7 +156,7 @@
           },
           "forcedDarkTheme": {
             "label": "Forza Tema Oscuro",
-            "hint": "SPERIMENTALE. Applica sfondo scuro e testo chiaro agli elementi HTML selezionati, se il client sta utilizzando la modalità scura per le applicazioni. Potrebbe non funzionare con tutti i moduli, utilizza a tuo rischio."
+            "hint": "SPERIMENTALE. Se la casella di controllo sopra non funziona per un modulo specifico, puoi tentare di forzare sfondo scuro e font chiaro ai moduli tramite selettore CSS. Potrebbe non funzionare sempre se i moduli hanno stili hardcoded. Inserisci nel campo sottostante l'id o la classe CSS degli elementi, separati da virgola. Esempio: #element-id, .element-class"
           },
           "customStyles": {
             "label": "CSS Personalizzato",

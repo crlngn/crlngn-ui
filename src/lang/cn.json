@@ -147,8 +147,8 @@
               "hint": "在其他模块上启用我的样式调整和自定义字体，例如CRUX或Combat Carousel。如果您需要支持特定模块，请在Github issues上提出请求"
           },
           "applyDarkThemeToModules": {
-            "label": "Apply Dark Theme to Modules' Windows",
-            "hint": "Some modules never implemented dark theme. This option attempts to apply dark theme to other modules' windows using .app.theme-light class. If some module becomes partiallyillegible, uncheck this option. "
+            "label": "应用暗色主题到模块窗口",
+            "hint": "一些模块从未实现暗色主题。此选项尝试使用 .app.theme-light 类将暗色主题应用于其他模块的窗口。如果某些模块变得部分难以辨认，请取消选中此选项。"
           },
           "otherModulesList": {
               "label": "在其他模块中应用样式",
@@ -156,7 +156,7 @@
           },
           "forcedDarkTheme": {
             "label": "强制元素使用深色主题",
-            "hint": "实验性功能. 如果客户端应用程序使用暗黑模式，将应用暗黑背景和浅色字体到 HTML 元素上。可能不适用于所有模块，请自行承担风险. 输入要应用的元素的 id 或 class，逗号分隔. 例如：#element-id, .element-class"
+            "hint": "实验性功能。如果上面的复选框对特定模块不起作用，您可以尝试通过CSS选择器强制为模块应用深色背景和浅色字体。如果模块有硬编码样式，这可能不总是有效。在下面的字段中输入元素的CSS ID或类，用逗号分隔。示例：#element-id, .element-class"
           },
           "customStyles": {
             "label": "自定义CSS",

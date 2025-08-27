@@ -159,7 +159,7 @@
             "hint": "Enable my style tweaks on other modules. Click the checkbox on top of the list to select / unselect all."
           },
           "forcedDarkTheme": {
-            "label": "Force Dark Theme to Elements",
+            "label": "Force Dark Theme via CSS",
             "hint": "EXPERIMENTAL. If the above checkbox doesn't work for a specific module, you may attempt to force dark background and light font to modules by css selector. It might not always work if modules have hardcoded styles. Enter in the field belowthe css id or class of the elements, separated by comma. Example: #element-id, .element-class "
           },
           "customStyles": {

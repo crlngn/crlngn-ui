@@ -147,8 +147,8 @@
             "hint": "Habilite para aplicar meus ajustes de estilo e fontes customizadas a outros módulos, como Dice Tray, CRUX ou Combat Carousel. Para suporte a outros módulos, solicite no Github"
           },
           "applyDarkThemeToModules": {
-            "label": "Apply Dark Theme to Modules' Windows",
-            "hint": "Some modules never implemented dark theme. This option attempts to apply dark theme to other modules' windows using .app.theme-light class. If some module becomes partiallyillegible, uncheck this option. "
+            "label": "Aplicar tema escuro a janelas de módulos",
+            "hint": "Alguns módulos nunca implementaram tema escuro. Esta opção tenta aplicar tema escuro às janelas de outros módulos usando a classe .app.theme-light. Se algum módulo ou janela se tornar parcialmente ilegível, desmarque esta opção. "
           },
           "otherModulesList": {
             "label": "Aplicar estilos a outros módulos",
@@ -156,7 +156,7 @@
           },
           "forcedDarkTheme": {
             "label": "Forçar Tema Escuro",
-            "hint": "EXPERIMENTAL. Aplique fundo escuro e fonte clara aos elementos HTML digitados, desde que o cliente esteja usando o modo escuro para aplicativos. Pode não funcionar com todos os módulos, use por sua conta e risco. Digite o id ou classe dos elementos, separados por vírgula. Ex.: #element-id, .element-class"
+            "hint": "EXPERIMENTAL. Se a caixa de seleção acima não funcionar para um módulo específico, você pode tentar forçar o fundo escuro e a fonte clara para módulos usando um seletor CSS. Pode não funcionar se os módulos tiverem estilos hardcoded. Digite no campo abaixo o id ou classe CSS dos elementos, separados por vírgula. Exemplo: #element-id, .element-class"
           },
           "customStyles": {
             "label": "Estilos CSS",
