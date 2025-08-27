@@ -780,11 +780,11 @@ export function getSettings() {
       requiresReload: false 
     },
     applyDarkThemeToModules: {
-      tag: "v2-apply-dark-theme-to-modules",
+      tag: "v2-dark-theme-to-modules",
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.applyDarkThemeToModules.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.applyDarkThemeToModules.hint"),
       propType: Boolean,
-      default: true,
+      default: false,
       scope: SETTING_SCOPE.world,
       config: false, 
       requiresReload: true 
