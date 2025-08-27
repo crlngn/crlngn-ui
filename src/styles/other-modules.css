@@ -888,10 +888,8 @@ body.crlngn-ui{
   }
 
   /* Epic Rolls */
-  #epic-rolls-5e-get-roll-data {
-    .backdrop{
-      background-color: transparent !important;
-    }
+  #epic-rolls-5e-get-roll-data filigree-box {
+    --filigree-background-color: transparent;
   }
 
 

@@ -72,8 +72,6 @@ export class SettingsUtil {
 
     });
 
-    if(SettingsUtil.get(SETTINGS.disableUI.tag)){ return; }
-
     game.keybindings.register(MODULE_ID, "hideInterface", {
       name: game.i18n.localize("CRLNGN_UI.settings.hideInterface.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.hideInterface.hint"),
@@ -88,11 +86,6 @@ export class SettingsUtil {
       restricted: false, // Restrict this Keybinding to gamemaster only?
     });
 
-    // Apply custom theme and CSS
-    SettingsUtil.applyThemeSettings();
-    SettingsUtil.applyCustomCSS();
-    SettingsUtil.applyModuleAdjustments();
-    TopNavigation.applyTopNavHeight();
 
     /**
      * Register the tabbed settings menu as the main entry point
@@ -113,6 +106,13 @@ export class SettingsUtil {
       };
       await game.settings.registerMenu(MODULE_ID, tabbedMenuData.tag, tabbedMenuObj);
     }
+
+    if(SettingsUtil.get(SETTINGS.disableUI.tag)===true){ return; }
+    // Apply custom theme and CSS
+    SettingsUtil.applyThemeSettings();
+    SettingsUtil.applyCustomCSS();
+    SettingsUtil.applyModuleAdjustments();
+    TopNavigation.applyTopNavHeight();
 
     SettingsUtil.foundryUiConfig = game.settings.get('core','uiConfig') || null;
 
