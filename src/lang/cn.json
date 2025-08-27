@@ -146,6 +146,10 @@
               "label": "在其他模块中应用样式",
               "hint": "在其他模块上启用我的样式调整和自定义字体，例如CRUX或Combat Carousel。如果您需要支持特定模块，请在Github issues上提出请求"
           },
+          "applyDarkThemeToModules": {
+            "label": "Apply Dark Theme to Modules' Windows",
+            "hint": "Some modules never implemented dark theme. This option attempts to apply dark theme to other modules' windows using .app.theme-light class. If some module becomes partiallyillegible, uncheck this option. "
+          },
           "otherModulesList": {
               "label": "在其他模块中应用样式",
               "hint": "在其他模块上启用我的样式调整。点击列表顶部的复选框可全选/取消全选。"

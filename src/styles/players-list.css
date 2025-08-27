@@ -44,7 +44,7 @@ body.crlngn-ui {
       i {
         display: inline-block;
         margin: 0 3px 0 0;
-        width: calc(var(--control-item-size) - 10px);
+        min-width: calc(var(--control-item-size) - 10px);
         text-align: center;
       }
     }

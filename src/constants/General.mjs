@@ -110,12 +110,20 @@ export const DARK_MODE_RULES = `
     border-bottom: 1px solid var(--color-cool-4) !important;
   }
 
-  p, span, div:not(.currency-image), aside, section, nav, label, form, button, table, td, tr, th, h1, h2, h3, h4, h5, h6, ul, ol, li, i, b, strong, u{
+  p, span, div:not(.currency-image), aside, section, nav, label, form, button, table, td, tr, th, h1, h2, h3, h4, h5, h6, ul, ol, li, b, strong, u{
     background: transparent;
     border-color: var(--color-cool-4);
+    font-family: var(--font-family);
   }
   *{
     color: var(--color-light-1);
+  }
+  a.content-link, a.inline-roll  {
+    background-color: transparent !important;
+    color: var(--color-light-1) !important;
+  }
+  p{
+     line-height: 1.75;
   }
 
   input:not([type="range"]), select {
@@ -132,10 +140,11 @@ export const DARK_MODE_RULES = `
     border-color: var(--color-cool-4);
   }
 
-  button{
+  button, .window-resizable-handle{
     color: var(--color-light-1) !important;
     border-color: transparent;
     background-color: var(--color-bg-button) !important;
+    font-family: var(--font-family);
   }
 
   button:hover{

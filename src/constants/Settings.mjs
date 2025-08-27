@@ -234,22 +234,20 @@ export function getSettings() {
       propType: String,
       fields: [
         "colorTheme", 
-        // "playerColorTheme",
+        "applyDarkThemeToModules",
         "adjustOtherModules", 
         "otherModulesList",
         "forcedDarkTheme",
         "customStyles",
-        // "useHorizontalSheetTabs",
         "applyThemeToSheets"
       ],
       default: {
         colorTheme: "crlngn-theme",
-        // playerColorTheme: "",
+        applyDarkThemeToModules: true,
         adjustOtherModules: true,
         otherModulesList: "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar','touch-vtt','breaktime', 'simple-timekeeping'",
         forcedDarkTheme: "",
         customStyles: "",
-        // useHorizontalSheetTabs: true,
         applyThemeToSheets: true
       },
       scope: SETTING_SCOPE.world,
@@ -780,6 +778,16 @@ export function getSettings() {
       scope: SETTING_SCOPE.world,
       config: false, 
       requiresReload: false 
+    },
+    applyDarkThemeToModules: {
+      tag: "v2-apply-dark-theme-to-modules",
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.applyDarkThemeToModules.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.applyDarkThemeToModules.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.world,
+      config: false, 
+      requiresReload: true 
     },
 
     otherModulesList: {

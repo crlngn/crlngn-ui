@@ -886,5 +886,69 @@ body.crlngn-ui{
     min-width: 60px !important;
     padding: 0.15em;
   }
+
+  /* Epic Rolls */
+  #epic-rolls-5e-get-roll-data {
+    .backdrop{
+      background-color: transparent !important;
+    }
+  }
+
+
+
+  /* PF2e */
+  &.system-pf2e.crlngn-forced-dark-theme {
+    .sheet.actor {
+      background: rgba(0,0,0,0.9) !important;
+    }
+    .sheet.actor .window-content .editable > aside,
+    .sheet.actor .window-content .sidebar {
+      background: var(--color-cool-4) !important;
+    }
+    
+    .sheet.pf2e form .section-header, .sheet.pf2e form .npc-body section header {
+      background: var(--color-cool-4) !important;
+      border-bottom: 1px solid var(--color-warm-2) !important;
+      margin-top: 1.5em;
+    }
+
+    .sheet.pf2e .section-container, .sheet.pf2e .item-container {
+      line-height: 1.75;
+    }
+
+    .sheet.pf2e form section {
+      border-bottom: 1px solid var(--color-warm-2) !important;
+    }
+
+    .sheet.pf2e span.details-label {
+      margin: 0.5em 0;
+    }
+    
+    .actor.sheet.character section.window-content .crb-style aside .sidebar header {
+      margin-top: 1.5em;
+      padding: 0.5em;
+    }
+
+    .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content .tab.actions ol.actions-list li.action, 
+    .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content .tab.actions ol.actions-list li.strike {
+      border-image:none;
+    }
+
+    .sheet.pf2e {
+      line-height: 1.6;
+    }
+    .sheet.pf2e .crb-style .details-input {
+        color: var(--color-light-3);
+        opacity: 0.7;
+    }
+    .sheet.pf2e .currency-image {
+      border: 0;
+      box-shadow: none;
+    }
+
+    .app aside {
+      z-index: 10;
+    }
+  }
   
 }

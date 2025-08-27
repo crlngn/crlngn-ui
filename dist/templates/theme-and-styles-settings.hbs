@@ -82,7 +82,13 @@
   </div>
 
   <div class="form-group">
-    <label for="forcedDarkTheme">{{fields.forcedDarkTheme.label}}</label>
+    <label for="applyDarkThemeToModules">{{fields.applyDarkThemeToModules.label}}</label>
+    <input type="checkbox" name="applyDarkThemeToModules" {{#if applyDarkThemeToModules}}checked{{/if}} />
+    <p class="hint">{{fields.applyDarkThemeToModules.hint}}</p>
+  </div>
+
+  <div class="form-group">
+    {{!-- <label for="forcedDarkTheme">{{fields.forcedDarkTheme.label}}</label> --}}
     <p class="hint on">{{fields.forcedDarkTheme.hint}}</p>
     <div class="code-editor-wrapper">
       <textarea name="forcedDarkTheme" class="code-editor" 

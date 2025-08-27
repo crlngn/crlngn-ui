@@ -150,13 +150,17 @@
             "label": "Enforce styles in other modules",
             "hint": "Enable my style tweaks and custom fonts on other modules, like CRUX or Combat Carousel. If you would like support for a specific module, please request on Github issues"
           },
+          "applyDarkThemeToModules": {
+            "label": "Apply Dark Theme to Modules' Windows",
+            "hint": "Some modules never implemented dark theme. This option attempts to apply dark theme to other modules' windows using .app.theme-light class. If some module becomes partiallyillegible, uncheck this option. "
+          },
           "otherModulesList": {
             "label": "Enforce styles in other modules",
             "hint": "Enable my style tweaks on other modules. Click the checkbox on top of the list to select / unselect all."
           },
           "forcedDarkTheme": {
             "label": "Force Dark Theme to Elements",
-            "hint": "EXPERIMENTAL. For modules that don't have dark mode, you can force dark background and light font to the windows and elements. It might not always work, use at your own risk. Enter the css id or class of the elements, separated by comma. Example: #element-id, .element-class "
+            "hint": "EXPERIMENTAL. If the above checkbox doesn't work for a specific module, you may attempt to force dark background and light font to modules by css selector. It might not always work if modules have hardcoded styles. Enter in the field belowthe css id or class of the elements, separated by comma. Example: #element-id, .element-class "
           },
           "customStyles": {
             "label": "Custom CSS",

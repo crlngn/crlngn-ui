@@ -273,6 +273,7 @@ Main Theme
     .application.theme-light,
     &.theme-dark #tooltip.application.theme-light,
     .themed.theme-light,
+    &.theme-dark .theme-light .dnd5e,
     .chat-log.themed.theme-light{
       --color-border: rgba(244, 244, 255, 1);
       --control-bg-color: rgba(244, 244, 255, 0.75);
@@ -282,6 +283,7 @@ Main Theme
       --color-text-secondary: var(--color-dark-1);
       --sidebar-background: rgba(232, 232, 232, 0.95);
       --background: var(--control-bg-color);
+      --filigree-background-color: transparent !important;
     }
 
     &.theme-dark.crlngn-chat .sidebar-content{

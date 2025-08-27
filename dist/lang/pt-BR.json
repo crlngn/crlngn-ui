@@ -146,6 +146,10 @@
             "label": "Aplicar estilos a outros módulos",
             "hint": "Habilite para aplicar meus ajustes de estilo e fontes customizadas a outros módulos, como Dice Tray, CRUX ou Combat Carousel. Para suporte a outros módulos, solicite no Github"
           },
+          "applyDarkThemeToModules": {
+            "label": "Apply Dark Theme to Modules' Windows",
+            "hint": "Some modules never implemented dark theme. This option attempts to apply dark theme to other modules' windows using .app.theme-light class. If some module becomes partiallyillegible, uncheck this option. "
+          },
           "otherModulesList": {
             "label": "Aplicar estilos a outros módulos",
             "hint": "Habilite meus ajustes de estilo em outros módulos. Clique na caixa no topo da lista para selecionar/desmarcar todos."

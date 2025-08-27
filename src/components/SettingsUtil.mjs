@@ -72,6 +72,8 @@ export class SettingsUtil {
 
     });
 
+    if(SettingsUtil.get(SETTINGS.disableUI.tag)){ return; }
+
     game.keybindings.register(MODULE_ID, "hideInterface", {
       name: game.i18n.localize("CRLNGN_UI.settings.hideInterface.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.hideInterface.hint"),
@@ -153,9 +155,10 @@ export class SettingsUtil {
     interfaceFields.forEach(fieldName => {
       SettingsUtil.apply(SETTINGS[fieldName].tag);
     });
-
+    
     SettingsUtil.applyForcedDarkTheme();
     SidebarTabs.applySideBarWidth();
+    SettingsUtil.applyDarkThemeToModules();
   }
 
   /**
@@ -357,6 +360,8 @@ export class SettingsUtil {
         SettingsUtil.applyForcedDarkTheme(value); break;
       case SETTINGS.adjustOtherModules.tag:
         SettingsUtil.applyModuleAdjustments(value); break;
+      case SETTINGS.applyDarkThemeToModules.tag:
+        SettingsUtil.applyDarkThemeToModules(value); break;
       case SETTINGS.otherModulesList.tag:
         SettingsUtil.applyOtherModulesList(value); break;
       // Interface enable options
@@ -709,6 +714,17 @@ export class SettingsUtil {
     
     if(enforceStyles){
       ModuleCompatUtil.addModuleClasses();
+    }
+  }
+
+  static applyDarkThemeToModules = (value) => {
+    const SETTINGS = getSettings();
+    const enforceDarkTheme = value || SettingsUtil.get(SETTINGS.applyDarkThemeToModules.tag) || false;
+    const foundryUiConfig = game.settings.get('core','uiConfig') || null;
+    
+    if(enforceDarkTheme && foundryUiConfig?.colorScheme?.applications==='dark'){
+      SettingsUtil.applyForcedDarkTheme('.app.theme-light, .application.theme-light, #AA-autorec-settings');
+      document.querySelector('body').classList.add('crlngn-forced-dark-theme');
     }
   }
 
