@@ -137,6 +137,8 @@ Main Theme
     --dnd5e-color-table-row-odd: var(--color-light-bg-15);
     --dnd5e-color-table-row-even: transparent;
     --default-color: var(--color-light-1);
+    --input-background-color: rgba(255, 255, 255, 0.2);
+    --input-border-color: var(--color-secondary);
 
     .ui-control, .placeable-hud, #measurement .waypoint-label {
       --toggle-bg-color: var(--color-secondary);
@@ -151,14 +153,9 @@ Main Theme
     #interface.theme-dark, .sidebar-popout.theme-dark, #chat-popout.theme-dark, #chat-pins.theme-dark{
       --default-color: var(--color-light-1);
     }
-    &.theme-light input, 
-    &.theme-light select, 
-    &.theme-light textarea {
-      --input-background-color: rgba(255, 255, 255, 0.2);
-      --input-border-color: var(--color-secondary);
-    }
 
     &.theme-light,
+    .application.theme-light,
     #interface.theme-light,
     .sidebar-popout.theme-light {
       --color-bg-button: rgba(244, 239, 237,0.9);
@@ -182,6 +179,7 @@ Main Theme
     }
     
     &.theme-dark,
+    .application.theme-dark,
     #interface.theme-dark,
     .sidebar-popout.theme-dark{
       --chat-dark-blue: rgba(24, 32, 38, 1);
@@ -270,13 +268,8 @@ Main Theme
     --button-hover-background-color: var(--color-warm-3);
     --color-text-selection: var(--color-light-1);
     --color-text-selection-bg: var(--color-secondary-75);
-
-    &.theme-dark input, 
-    &.theme-dark select, 
-    &.theme-dark textarea {
-      --input-background-color: var(--color-cool-4);
-      --input-border-color: var(--color-secondary);
-    }
+    --input-background-color: var(--color-cool-4);
+    --input-border-color: var(--color-secondary);
 
     &.theme-dark .application.theme-light,
     .app.theme-light,
