@@ -246,7 +246,7 @@ Main Theme
     --color-dark-5: #666;
     --color-dark-6: #777;
 
-    --checkbox-checkmark-color: var(--color-dark-1);
+    --checkbox-checkmark-color: transparent;
     --control-active-icon-color: var(--color-light-1);
     --color-text-light-highlight: var(--color-light-1);
     --color-text-selection: var(--color-dark-1);
@@ -451,7 +451,7 @@ Main Theme
       --color-cool-5-25: rgba(11, 10, 19, 0.25);
       --color-cool-5-50: rgba(11, 10, 19, 0.5);
       --color-cool-5-75: rgba(11, 10, 19, 0.75);
-      --color-cool-5-90: rgba(11, 10, 19, 0.9);
+      --color-cool-5-90: rgba(11, 10, 19, 0.95);
   
       --control-bg-color-90: var(--color-cool-5-90);
     }
@@ -483,7 +483,7 @@ Main Theme
     --color-cool-5-25: rgba(224, 217, 213, 0.25);
     --color-cool-5-50: rgba(224, 217, 213, 0.5);
     --color-cool-5-75: rgba(224, 217, 213, 0.75);
-    --color-cool-5-90: rgba(224, 217, 213, 0.9);
+    --color-cool-5-90: rgba(224, 217, 213, 0.95);
   }
 
   #interface {

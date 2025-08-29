@@ -119,6 +119,9 @@ body.crlngn-ui.crlngn-chat {
     background: var(--card-color-bg) !important;
     box-shadow: 0 0 0px var(--dnd5e-shadow-45);
   }
+  .chat-message .message-header .whisper-to {
+    margin-top: 1.25em;
+  }
   .chat-message.whisper{
     background: var(--card-color-bg) !important;
     background-image: var(--striped-bg) !important;
@@ -137,8 +140,10 @@ body.crlngn-ui.crlngn-chat {
     position: absolute;
     right: 0;
     top: 22px;
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
     font-size: 10px;
+    font-weight: 600;
     text-transform: uppercase;
     line-height: 1;
     padding: 2px 4px;
