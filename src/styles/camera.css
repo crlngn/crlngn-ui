@@ -1,4 +1,36 @@
 body.crlngn-ui{
+
+  .camera-view .video-container {
+    position: relative;
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+  .camera-view .video-container .user-camera {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .camera-view.popout .bottom {
+    height: var(--control-item-size);
+    bottom: calc(var(--control-item-size) * -1);
+    transition: bottom 0.2s ease-out;
+    background: rgba(0, 0, 0, 0);
+
+    .user-controls {
+      bottom: 0px;
+      top: auto;
+      height: 100%;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.5);
+    } 
+  }
+
+  .camera-view.popout:hover .bottom {
+    bottom: 0;
+  }
+  
   #av-holder{
     --av-width: 160px;
     --av-height: 140px;
@@ -20,7 +52,7 @@ body.crlngn-ui{
     border-radius: var(--crlngn-border-radius);
 
     .inline-control {
-      --button-size: 20px;
+      --button-size: 18px;
     }
 
     &:hover{
@@ -60,8 +92,8 @@ body.crlngn-ui{
     #camera-views.vertical,
     #camera-views.horizontal,
     #camera-views.minimized{
-      --av-width: 160px;
-      --av-height: calc(var(--av-width, 160px)* 0.75);
+      --av-width: 175px;
+      --av-height: calc(var(--av-width, 175px)* 0.7);
       background: transparent;
       border: 0;
       gap: 0;
@@ -148,7 +180,7 @@ body.crlngn-ui{
       order: 2;
 
       button.icon{
-        --button-size: 20px;
+        --button-size: 18px;
       }
     }
   }

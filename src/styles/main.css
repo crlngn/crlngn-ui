@@ -43,7 +43,7 @@ body.crlngn-ui  {
 
   
   input[type=checkbox], input[type=radio] {
-    --checkbox-checkmark-color: transparent;
+    /*--checkbox-checkmark-color: transparent;*/
     &:after{
       font-size: var(--font-size-22);
     }
@@ -356,7 +356,7 @@ body.crlngn-ui{
       color: var(--default-color);
     }
     .application {
-      --background: rgb(233, 233, 233, 0.95);
+      --background: rgba(224, 217, 213, 0.98);
     }
     a.control:hover{
       color: var(--color-dark-1);

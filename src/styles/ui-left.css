@@ -164,7 +164,7 @@ body.crlngn-ui{
   }
 
   .themed.theme-dark{
-    --control-bg-color: var(--color-cool-5-75);
+    --control-bg-color: var(--color-cool-5-90);
 
     #scene-controls-tools {
       .ui-control{

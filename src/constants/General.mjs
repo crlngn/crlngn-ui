@@ -34,7 +34,7 @@ export const CHAR_ABILITIES = [
 export const CLASS_PREFIX = 'crlngn';
 
 export const DARK_MODE_RULES = `
-  --background: var(--color-dark-bg-90) !important;
+  --background: var(--color-dark-bg-95) !important;
   --filigree-background-color: var(--color-dark-bg-10) !important;
   --dnd5e-border-dotted: 1px dotted var(--color-cool-4) !important;
   --dnd5e-color-gold: rgba(159, 146, 117, 0.6) !important;

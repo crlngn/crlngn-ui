@@ -288,7 +288,7 @@ body.crlngn-ui {
     &.crlngn-avatars.minimized {
       #players-inactive {
         padding: 0px;
-        max-height: 0px;
+        /*max-height: 0px;*/
       }
     }
 

@@ -19,6 +19,7 @@ body.crlngn-ui{
       }
   
       .ui-control{
+        border-color: transparent;
         &[aria-pressed=true]{
           border: 1px solid var(--color-highlights);
         }
@@ -49,6 +50,7 @@ body.crlngn-ui{
     li.directory-item.folder {
       border-top: 1px solid transparent;
     }
+
     li.directory-item .folder-header:before {
       content: '';
       background-color: var(--control-bg-color);
@@ -129,6 +131,13 @@ body.crlngn-ui{
   }
   #ui-right #roll-privacy,
   #chat-popout #roll-privacy {
+    .ui-control{
+      border-color: transparent;
+      &[aria-pressed=true]{
+        border: 1px solid var(--color-highlights);
+      }
+    }
+
     button.ui-control[data-action=toggleChat]{
       display: none;
       visibility: hidden;
@@ -287,8 +296,8 @@ body.crlngn-ui{
     }
 
     .compendium-banner {
-      filter: saturate(0.2);
-      opacity: 0.3;
+      filter: saturate(0.3);
+      opacity: 0.4;
     }
 
     &:hover {
@@ -308,6 +317,10 @@ body.crlngn-ui{
 
   }
 
+
+  li.directory-item.entry.compendium{
+    background-color: var(--color-dark-bg-75);
+  }
   li.directory-item.entry > img:first-child{
     object-fit: cover;
     object-position: 50% 50%;

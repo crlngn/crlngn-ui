@@ -939,7 +939,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockWidth.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockWidth.hint"),
       propType: Number,
-      default: 160,
+      default: 180,
       scope: SETTING_SCOPE.client,
       config: false, 
       requiresReload: false 
