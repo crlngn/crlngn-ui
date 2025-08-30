@@ -53,6 +53,9 @@ Main Theme
   /*  Colors                                  */
   /* ---------------------------------------- */
   body.crlngn-ui {
+    &.theme-light .dnd5e2{
+      --filigree-border-color: rgba(255, 255, 255, 0.5);
+    }
     &.crlngn-chat .sidebar-content{
       --dnd5e-background-card: rgba(244, 239, 237,0.8);
       --dnd5e-color-parchment: rgb(244, 239, 237);
@@ -176,8 +179,15 @@ Main Theme
       --color-secondary-b-90: rgba(237, 224, 237, 0.9);
       --color-text-secondary: rgba(20, 17, 25, 1);
       --dnd5e-sheet-bg: rgb(244, 239, 237);
+      .dnd5e2{
+        --filigree-border-color: rgba(255, 255, 255, 0.5);
+      }
     }
     
+    /* dark mode */
+    &.theme-dark .dnd5e2{
+      --filigree-border-color: rgba(0, 0, 0, 0.5);
+    }
     &.theme-dark,
     .application.theme-dark,
     #interface.theme-dark,
