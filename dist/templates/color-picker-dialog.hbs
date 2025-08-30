@@ -1,0 +1,91 @@
+<div class="color-picker-content">
+    
+    <p class="hint on">{{localize "CRLNGN_UI.settings.colorPicker.hint"}}</p>
+    <p>&nbsp;</p>
+    <!-- Preset Theme Buttons -->
+    <div class="preset-themes">
+      <h4>{{localize "CRLNGN_UI.settings.colorPicker.presets"}}</h4>
+      <div class="preset-buttons">
+        {{#each themes}}
+        <button type="button" class="preset-button" data-tooltip="{{this.label}}" data-tooltip-direction="UP" data-theme="{{this.className}}">
+          {{#each this.colorPreview}}
+          <span class="color-swatch" style="background-color: {{this}}"></span>
+          {{/each}}
+          {{!-- <span class="preset-name">{{this.label}}</span> --}}
+        </button>
+        {{/each}}
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Accent Color Picker -->
+    <div class="color-section accent-section">
+      <h4>{{localize "CRLNGN_UI.settings.colorPicker.accentColor"}}</h4>
+      
+      <div class="color-controls">
+        <div class="slider-group">
+          <label>{{localize "CRLNGN_UI.settings.colorPicker.hue"}}</label>
+          <input type="range" name="accentHue" min="0" max="360" value="{{accentHSL.h}}" />
+          <span class="value">{{accentHSL.h}}</span>
+        </div>
+        
+        <div class="slider-group">
+          <label>{{localize "CRLNGN_UI.settings.colorPicker.saturation"}}</label>
+          <input type="range" name="accentSaturation" min="0" max="100" value="{{accentHSL.s}}" />
+          <span class="value">{{accentHSL.s}}%</span>
+        </div>
+        
+        <div class="slider-group">
+          <label>{{localize "CRLNGN_UI.settings.colorPicker.lightness"}}</label>
+          <input type="range" name="accentLightness" min="0" max="100" value="{{accentHSL.l}}" />
+          <span class="value">{{accentHSL.l}}%</span>
+        </div>
+      </div>
+      
+      <div class="accent-preview preview-box">
+        <div class="preview-item" style="background-color: {{currentColors.accent}}">
+          {{!-- <span class="preview-label">{{localize "CRLNGN_UI.settings.colorPicker.accentOnBackground"}}</span> --}}
+          <span class="contrast-rating {{accentOnBg.class}}">{{accentOnBg.label}}</span>
+        </div>
+        <div class="preview-item inverted">
+          {{!-- <span class="preview-label">{{localize "CRLNGN_UI.settings.colorPicker.textOnAccent"}}</span> --}}
+          <span class="contrast-rating {{textOnAccent.class}}">{{textOnAccent.label}}</span>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Secondary Color Picker -->
+    <div class="color-section secondary-section">
+      <h4>{{localize "CRLNGN_UI.settings.colorPicker.secondaryColor"}}</h4>
+      
+      <div class="color-controls">
+        <div class="slider-group">
+          <label>{{localize "CRLNGN_UI.settings.colorPicker.hue"}}</label>
+          <input type="range" name="secondaryHue" min="0" max="360" value="{{secondaryHSL.h}}" />
+          <span class="value">{{secondaryHSL.h}}</span>
+        </div>
+        
+        <div class="slider-group">
+          <label>{{localize "CRLNGN_UI.settings.colorPicker.saturation"}}</label>
+          <input type="range" name="secondarySaturation" min="0" max="100" value="{{secondaryHSL.s}}" />
+          <span class="value">{{secondaryHSL.s}}%</span>
+        </div>
+        
+        <div class="slider-group">
+          <label>{{localize "CRLNGN_UI.settings.colorPicker.lightness"}}</label>
+          <input type="range" name="secondaryLightness" min="0" max="100" value="{{secondaryHSL.l}}" />
+          <span class="value">{{secondaryHSL.l}}%</span>
+        </div>
+      </div>
+      
+      <div class="secondary-preview preview-box">
+        <div class="preview-item" style="background-color: {{currentColors.secondary}}">
+          <span class="preview-label">{{localize "CRLNGN_UI.settings.colorPicker.secondaryPreview"}}</span>
+        </div>
+      </div>
+    </div>
+
+</div>

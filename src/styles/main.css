@@ -23,6 +23,7 @@ body.crlngn-ui  {
   h4, h5, h6 {
     font-family: var(--crlngn-font-family);
   }
+
   a.button:hover, button:hover{
     border-color: var(--color-highlights);
   }
@@ -163,8 +164,8 @@ body.crlngn-ui{
   .application:not(.dnd5e2) .dialog-buttons button, 
   .combat-controls button,
   form.application:not(.journal-sheet) .form-footer button,
-  .application:not(.dnd5e2) .standard-form button
-  /*.journal-sheet-container .action-buttons button*/ {
+  .application:not(.dnd5e2) .standard-form button,
+  #crlngn-color-picker .form-footer button {
     height: auto;
     min-height: var(--input-height);
     padding: 10px 6px;
@@ -468,10 +469,13 @@ body.crlngn-ui{
 /* FORMS FOR CRLNGN UI SETTINGS */
 .standard-form.crlngn {
   padding: 2em;
+}
 
-  h4{
+.standard-form.crlngn,
+#crlngn-color-picker {
+
+  h4, h5, h6 {
     font-family: var(--crlngn-font-family);
-    font-size: var(--font-size-18);
     line-height: 1.2;
     display: flex;
     align-items: center;
@@ -481,6 +485,9 @@ body.crlngn-ui{
       font-size: var(--font-size-12);
       margin-right: 5px;
     }
+  }
+  h4 {
+    font-size: var(--font-size-18);
   }
   > .tab {
     gap: 0;
@@ -556,6 +563,8 @@ body.crlngn-ui{
 
   p.hint{
     display: none;
+    color: var(--color-form-hint);
+
     &.shown, &.on{
       display: block;
     }
@@ -1020,4 +1029,225 @@ body.crlngn-ui {
 
 body.crlngn-ui aside.pf2e.effect-info.application {
   transform: none;
+}
+
+/*************/
+/* COLOR PICKER */
+/*************/
+
+/* Theme Settings Color Preview */
+#crlngn-ui-settings .custom-color-section {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+#crlngn-ui-settings .custom-color-preview {
+  display: flex;
+  gap: 0.5rem;
+}
+
+#crlngn-color-picker .form-footer {
+  display: flex;
+  gap: 1rem;
+  button {
+    width: calc(50% - 1rem);
+    flex: 1 0 calc(50% - 1rem);
+  }
+}
+
+#crlngn-ui-settings .color-swatch,
+#crlngn-color-picker .color-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, .15);
+}
+
+#crlngn-ui-settings .open-color-picker {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-border-light-primary);
+  border-radius: 3px;
+  background: var(--color-cool-5-25);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#crlngn-ui-settings .open-color-picker:hover {
+  background: var(--color-cool-5-50);
+  border-color: var(--color-highlights);
+}
+
+/* Color Picker Dialog Styles */
+#crlngn-color-picker #crlngn-color-picker {
+  padding: 1rem;
+}
+
+#crlngn-color-picker .preset-themes {
+  margin-bottom: 1rem;
+}
+
+#crlngn-color-picker .preset-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+#crlngn-color-picker button.preset-button {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, .05);
+  cursor: pointer;
+  transition: all 0.2s;
+  width: calc(25% - 0.5rem);
+  flex: 1 0 calc(25% - 0.5rem);
+  text-align: left;
+  justify-content: flex-start;
+}
+
+#crlngn-color-picker button.preset-button:hover {
+  background: var(--color-secondary-50);
+  color: var(--color-light-1);
+}
+
+#crlngn-color-picker button.preset-button .color-swatch {
+  width: 50%;
+  height: 16px;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, .15);
+}
+
+#crlngn-color-picker .preset-name {
+  font-size: 0.875rem;
+}
+
+#crlngn-color-picker .color-section {
+  margin: 1rem 0;
+}
+
+#crlngn-color-picker .color-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+#crlngn-color-picker .slider-group {
+  display: grid;
+  grid-template-columns: 100px 1fr 50px;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#crlngn-color-picker .slider-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+#crlngn-color-picker .slider-group input[type="range"] {
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, .2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  background: transparent;
+}
+
+/* Make the track transparent for WebKit browsers */
+#crlngn-color-picker input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  background: transparent;
+  border-radius: 4px;
+  border: none;
+}
+
+/* Make the track transparent for Firefox */
+#crlngn-color-picker input[type="range"]::-moz-range-track {
+  height: 8px;
+  background: transparent;
+  border-radius: 4px;
+  border: none;
+}
+
+/* Range slider thumb styling */
+#crlngn-color-picker input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid var(--color-secondary);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+#crlngn-color-picker input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-warm-1);
+  border: 2px solid var(--color-secondary);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  border: none;
+}
+
+#crlngn-color-picker .slider-group .value {
+  text-align: right;
+  font-family: monospace;
+  font-size: 0.875rem;
+}
+
+#crlngn-color-picker .preview-box {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+#crlngn-color-picker .preview-item {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 4px;
+  border: 1px solid var(--color-border-light-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#crlngn-color-picker .preview-item.inverted {
+  color: white;
+}
+
+#crlngn-color-picker .preview-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+#crlngn-color-picker .contrast-rating {
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: light-dark(var(--color-dark-1), var(--color-light-1));
+}
+
+#crlngn-color-picker .color-picker-dialog .form-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border-light-primary);
 }

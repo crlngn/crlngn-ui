@@ -4,6 +4,7 @@ import { LogUtil } from "../LogUtil.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
 import { GeneralUtil } from "../GeneralUtil.mjs";
 import { LeftControls } from "../LeftControlsUtil.mjs";
+import { ColorPickerDialog, ColorPickerUtil } from "../ColorPickerUtil.mjs";
 
 const { FormDataExtended } = foundry.utils;
 
@@ -198,6 +199,23 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
               menuContext.fieldValues.playerColorTheme = selectedPlayerTheme?.label || "";
             }
             Object.assign(partContext, menuContext.fieldValues);
+          }
+          
+          // Add custom theme colors for display
+          if (partId === 'themes') {
+            const worldCustomColors = SettingsUtil.get('v2-custom-theme-colors');
+            const playerCustomColors = SettingsUtil.get('v2-player-custom-theme-colors');
+            
+            // Use custom colors if available, otherwise fallback to default theme colors
+            partContext.customColors = worldCustomColors || {
+              accent: THEMES[0].colorPreview[1],
+              secondary: THEMES[0].colorPreview[0]
+            };
+            // For player colors, fallback to world colors if no player colors are set
+            partContext.playerCustomColors = playerCustomColors || worldCustomColors || {
+              accent: THEMES[0].colorPreview[1], 
+              secondary: THEMES[0].colorPreview[0]
+            };
           }
 
           partContext.sidebarTabs = Object.values(foundry.applications?.sidebar?.tabs || {}).map(tab => ({
@@ -551,6 +569,26 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const themesContent = ModuleSettings.#element.querySelector(`.form-content[data-tab=themes]`);
     if(!themesContent){ return; }
     
+    // Handle color picker buttons (both player and world scopes)
+    const colorPickerBtns = themesContent.querySelectorAll('.open-color-picker');
+    colorPickerBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const scope = btn.dataset.scope || 'world';
+        const settingTag = scope === 'player' ? 'v2-player-custom-theme-colors' : 'v2-custom-theme-colors';
+        
+        const picker = new ColorPickerDialog({
+          scope: scope,
+          currentColors: SettingsUtil.get(settingTag),
+          callback: (colors) => {
+            // Update the preview in the settings dialog
+            ModuleSettings.updateColorPreview(colors, scope);
+          }
+        });
+        picker.render(true);
+      });
+    });
+    
     // Handle input focus and blur
     const inputs = themesContent.querySelectorAll('input[type="text"]:not([hidden])');
     inputs.forEach(input => {
@@ -671,6 +709,29 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     });
   }
 
+  /**
+   * Updates the color preview in the settings dialog
+   * @static
+   * @param {Object} colors - Object with accent and secondary colors
+   * @param {string} scope - 'player' or 'world' scope
+   */
+  static updateColorPreview(colors, scope = 'world') {
+    const themesContent = ModuleSettings.#element?.querySelector(`.form-content[data-tab=themes]`);
+    if (!themesContent) return;
+    
+    // Find the correct preview based on scope
+    const button = themesContent.querySelector(`.open-color-picker[data-scope="${scope}"]`);
+    if (!button) return;
+    
+    const colorPreview = button.closest('.form-group').querySelector('.custom-color-preview');
+    if (colorPreview) {
+      const accentSwatch = colorPreview.querySelector('.accent-swatch');
+      const secondarySwatch = colorPreview.querySelector('.secondary-swatch');
+      
+      if (accentSwatch) accentSwatch.style.backgroundColor = colors.accent;
+      if (secondarySwatch) secondarySwatch.style.backgroundColor = colors.secondary;
+    }
+  }
 
   static #onDropDownKeyDown(e){
     const wrapper = e.target.closest('.dropdown-wrapper');

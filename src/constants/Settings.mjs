@@ -69,7 +69,7 @@ export const THEMES = [
     className: 'crlngn-theme-royal-blood',
     colorPreview: [
       'rgb(40, 31, 49)',
-      'rgb(127, 18, 36)'
+      'rgb(159, 35, 49)'
     ]
   },
   {
@@ -77,7 +77,7 @@ export const THEMES = [
     className: 'crlngn-theme-dark-sorcery',
     colorPreview: [
       'rgb(31, 47, 49)',
-      'rgb(130, 110, 160)'
+      'rgb(126, 88, 182)'
     ]
   },
   {
@@ -102,6 +102,14 @@ export const THEMES = [
     colorPreview: [
       'rgb(40, 31, 49)',
       'rgb(220, 120, 43)'
+    ]
+  },
+  {
+    label: "Plum Purple",
+    className: 'crlngn-plum-purple',
+    colorPreview: [
+      'rgb(20, 29, 47)',
+      'rgb(146, 42, 96)'
     ]
   },
   {
@@ -245,7 +253,7 @@ export function getSettings() {
         colorTheme: "crlngn-theme",
         applyDarkThemeToModules: true,
         adjustOtherModules: true,
-        otherModulesList: "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar','touch-vtt','breaktime', 'simple-timekeeping'",
+        otherModulesList: "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar','touch-vtt','breaktime','simple-timekeeping'",
         forcedDarkTheme: "",
         customStyles: "",
         applyThemeToSheets: true
@@ -758,6 +766,17 @@ export function getSettings() {
       requiresReload: false 
     },
 
+    customThemeColors: {
+      tag: "v2-custom-theme-colors",
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.customThemeColors.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.customThemeColors.hint"),
+      propType: Object,
+      default: null,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+
     playerColorTheme:{
       tag: "v2-player-color-theme",
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.playerColorTheme.label"),
@@ -767,6 +786,17 @@ export function getSettings() {
       scope: SETTING_SCOPE.client,
       config: false, 
       requiresReload: false 
+    },
+
+    playerCustomThemeColors: {
+      tag: "v2-player-custom-theme-colors",
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.playerCustomThemeColors.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.playerCustomThemeColors.hint"),
+      propType: Object,
+      default: null,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
     },
 
     adjustOtherModules: {

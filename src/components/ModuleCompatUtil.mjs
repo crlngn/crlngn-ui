@@ -80,13 +80,17 @@ export class ModuleCompatUtil {
     LogUtil.log("addModuleClasses", [splitList, moduleCompatSettings]);
 
     Object.entries(SETTINGS.otherModulesList.options).forEach(opt => {
-      const moduleId = opt[1].replace(/'/g, "");
+      // Replace all types of quotes (straight, curly, etc.) and trim whitespace
+      const moduleId = opt[1].replace(/['''"]/g, "").trim();
       document.querySelector('body').classList.remove('crlngn-'+moduleId);
     })
 
     splitList.forEach(item => {
-      const moduleId = item.replace(/'/g, "");
-      document.querySelector('body').classList.add('crlngn-'+moduleId);
+      // Replace all types of quotes (straight, curly, etc.) and trim whitespace
+      const moduleId = item.replace(/['''"]/g, "").trim();
+      if (moduleId) {
+        document.querySelector('body').classList.add('crlngn-'+moduleId);
+      }
     });
   }
 

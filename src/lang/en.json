@@ -146,6 +146,16 @@
             "label": "Color Theme (Player)",
             "hint": "Select an option for the color highlights and secondary color. Only affects highlights, inputs and buttons"
           },
+          "customThemeColors": {
+            "label": "Custom Theme Colors (World)",
+            "hint": "Custom color configuration for the world theme"
+          },
+          "playerCustomThemeColors": {
+            "label": "Custom Theme Colors (Player)",
+            "hint": "Custom color configuration for this player"
+          },
+          "customizeColors": "Customize Colors",
+          "customizeHint": "Click to open the color picker and create custom theme colors",
           "adjustOtherModules": {
             "label": "Enforce styles in other modules",
             "hint": "Enable my style tweaks and custom fonts on other modules, like CRUX or Combat Carousel. If you would like support for a specific module, please request on Github issues"
@@ -412,6 +422,23 @@
       "disableUI":{
         "label": "Disable UI in this client",
         "hint": "If a player doesn't want to use Carolingian UI, they may disable it. No other feature of the module will work except for dark style in chat cards - which can be separately disabled."
+      },
+      "colorPicker": {
+        "hint": "With great colors come great responsibility. Remember to care for your players' retinas: for the accent color, check how text contrasts is rated. Use colors with at least a 'medium' contrast rating for better readability.",
+        "title": "Custom Theme Colors",
+        "presets": "Preset Themes",
+        "accentColor": "Accent Color",
+        "secondaryColor": "Secondary Color",
+        "hue": "Hue",
+        "saturation": "Saturation",
+        "lightness": "Lightness",
+        "accentOnBackground": "Accent on Background",
+        "textOnAccent": "Text on Accent",
+        "secondaryPreview": "Secondary Color Preview",
+        "contrastGood": "Contrast: Good",
+        "contrastMedium": "Contrast: Medium",
+        "contrastPoor": "Contrast: Poor",
+        "apply": "Save"
       }
     },
     "dnd5e": {

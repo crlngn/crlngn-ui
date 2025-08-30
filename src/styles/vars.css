@@ -180,7 +180,7 @@ Main Theme
       --color-text-secondary: rgba(20, 17, 25, 1);
       --dnd5e-sheet-bg: rgb(244, 239, 237);
       .dnd5e2{
-        --filigree-border-color: rgba(255, 255, 255, 0.5);
+        --filigree-border-color: rgba(158, 138, 138, 0.5);
       }
     }
     
@@ -509,13 +509,13 @@ Main Theme
 /* THEME - GRASS AND STONE */ 
 body.crlngn-ui.crlngn-theme-grass-stone,
 body.crlngn-ui.crlngn-theme-grass-stone.game .app {
-  --color-highlights: rgba(133, 174, 74, 1);
-  --color-highlights-15: rgba(133, 174, 74, 0.15);
-  --color-highlights-25: rgba(133, 174, 74, 0.25);
-  --color-highlights-50: rgba(133, 174, 74, 0.5);
-  --color-highlights-75: rgba(133, 174, 74, 0.75);
-  --color-highlights-90: rgba(133, 174, 74, 0.9);
-  --color-scrollbar: rgba(133, 174, 74, 0.7);
+  --color-highlights: rgba(122, 161, 69, 1);
+  --color-highlights-15: rgba(122, 161, 69, 0.15);
+  --color-highlights-25: rgba(122, 161, 69, 0.25);
+  --color-highlights-50: rgba(122, 161, 69, 0.5);
+  --color-highlights-75: rgba(122, 161, 69, 0.75);
+  --color-highlights-90: rgba(122, 161, 69, 0.9);
+  --color-scrollbar: rgba(122, 161, 69, 0.7);
   --color-border-highlight-alt: rgba(108, 145, 68, 0.9); 
 	--color-border-highlight: rgba(108, 145, 68, 1);
   --color-shadow-highlight: rgba(96, 126, 54, 0.5); 
@@ -545,7 +545,7 @@ body.crlngn-ui.crlngn-theme-grass-stone.game .app {
     --color-text-secondary: rgb(199, 208, 206);
   }
   --color-warm-1: rgb(166, 207, 109);
-  --color-warm-2: rgba(133, 174, 74, 1);
+  --color-warm-2: rgba(122, 161, 69, 1);
   --color-warm-3: rgba(96, 126, 54, 1);
   
   &.theme-light,
@@ -631,7 +631,7 @@ body.crlngn-ui.crlngn-theme-gold-chocolate.game .app {
 
 }
 
-/* THEME - ROYAL BLOOD */ 
+/* THEME - ROYAL BLOOD 
 body.crlngn-ui.crlngn-theme-royal-blood,
 body.crlngn-ui.crlngn-theme-royal-blood.game .app {
   --color-highlights: rgb(152, 33, 37);
@@ -693,6 +693,7 @@ body.crlngn-ui.crlngn-theme-royal-blood.game .app {
     --color-text-secondary: rgba(20, 17, 25, 1);
   }
 }
+  */ 
 
 /* THEME - DARK SORCERY */
 body.crlngn-ui.crlngn-theme-dark-sorcery,

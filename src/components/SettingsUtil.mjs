@@ -354,6 +354,10 @@ export class SettingsUtil {
         SettingsUtil.applyThemeSettings(); break;
       case SETTINGS.playerColorTheme.tag:
         SettingsUtil.applyThemeSettings(); break;
+      case SETTINGS.customThemeColors.tag:
+        SettingsUtil.applyThemeSettings(); break;
+      case SETTINGS.playerCustomThemeColors.tag:
+        SettingsUtil.applyThemeSettings(); break;
       case SETTINGS.customStyles.tag:
         SettingsUtil.applyCustomCSS(value); break;
       case SETTINGS.forcedDarkTheme.tag:
@@ -654,21 +658,43 @@ export class SettingsUtil {
    * Applies the selected theme to the UI
    * @param {string} [value] - Theme name to apply, if not provided uses stored setting
    */
-  static applyThemeSettings = (value) => {
+  static applyThemeSettings = async (value) => {
     const SETTINGS = getSettings();
-    const themeName = value || SettingsUtil.get(SETTINGS.playerColorTheme.tag) || SettingsUtil.get(SETTINGS.colorTheme.tag) || "";
     const body = document.querySelector("body");
-
-    LogUtil.log("applyThemeSettings", [value, themeName, SettingsUtil.get(SETTINGS.colorTheme.tag)]);
     
-    THEMES.forEach((theme)=>{
-      if(theme.className){
-        body.classList.remove(theme.className);
+    // First check for player custom colors (takes priority)
+    let customColors = SettingsUtil.get(SETTINGS.playerCustomThemeColors.tag);
+    let migratedFrom = 'player';
+    
+    // If no player custom colors, check world custom colors
+    if (!customColors) {
+      customColors = SettingsUtil.get(SETTINGS.customThemeColors.tag);
+      migratedFrom = 'world';
+    }
+    
+    // If no custom colors exist, fall back to legacy theme system for now
+    // Migration will happen when user first opens the color picker
+    
+    // Apply custom colors if they exist
+    if (customColors?.accent && customColors?.secondary) {
+      // Import ColorPickerUtil dynamically to avoid circular dependency
+      const { ColorPickerUtil } = await import("./ColorPickerUtil.mjs");
+      ColorPickerUtil.applyCustomTheme(customColors);
+      LogUtil.log("Applied custom theme colors", [ customColors, migratedFrom ]);
+    } else {
+      // Fallback to old theme system
+      const themeName = value || SettingsUtil.get(SETTINGS.playerColorTheme.tag) || SettingsUtil.get(SETTINGS.colorTheme.tag) || "";
+      
+      THEMES.forEach((theme)=>{
+        if(theme.className){
+          body.classList.remove(theme.className);
+        }
+      });
+      
+      if(themeName){
+        body.classList.add(themeName);
       }
-    });
-
-    if(themeName){
-      body.classList.add(themeName);
+      LogUtil.log("Applied legacy theme", [themeName]);
     }
   }
 
