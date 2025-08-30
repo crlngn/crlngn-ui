@@ -723,7 +723,7 @@ export class SettingsUtil {
     const foundryUiConfig = game.settings.get('core','uiConfig') || null;
     
     if(enforceDarkTheme && foundryUiConfig?.colorScheme?.applications==='dark'){
-      SettingsUtil.applyForcedDarkTheme('.app.theme-light:not(.sheet), #AA-autorec-settings');
+      SettingsUtil.applyForcedDarkTheme('.app.theme-light:not(.sheet), .system-pf2e .sheet.theme-light, #AA-autorec-settings');
       document.querySelector('body').classList.add('crlngn-forced-dark-theme');
     }
   }
