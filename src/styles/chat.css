@@ -15,7 +15,7 @@ body.crlngn-ui {
   }
 }
 
-body.crlngn-ui.crlngn-chat {
+body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   /* variables for the custom dnd5e card buttons */
   --crlngn-i18n-attack: "attack";
   --crlngn-i18n-healing: "healing";
