@@ -660,9 +660,9 @@ body.crlngn-ui.crlngn-theme-royal-blood.game .app {
     --color-text-secondary: rgb(190, 184, 199);
   }
   
-  --color-warm-1: rgb(177, 51, 55);
+  --color-warm-1: rgb(195, 47, 52);
   --color-warm-2: rgb(152, 33, 37);
-  --color-warm-3: rgb(95, 22, 27);
+  --color-warm-3: rgb(115, 26, 32);
 
   &.theme-light,
   #interface.theme-light {

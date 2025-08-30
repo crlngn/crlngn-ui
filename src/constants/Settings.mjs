@@ -1222,7 +1222,7 @@ export function getSettings() {
       requiresReload: true 
     },
 
-    /* 5e SHEETS */
+    /* Actor SHEETS */
     applyThemeToSheets: { 
       tag: "v2-apply-theme-and-styles", 
       label: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.fields.applyThemeToSheets.label"), 

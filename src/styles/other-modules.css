@@ -952,19 +952,15 @@ body.crlngn-ui{
 
 
   /* DAGGERHEART */
-  &.system-daggerheart {
+  &.system-daggerheart.crlngn-sheets {
     .application.daggerheart.dh-style.dialog .window-content .dialog-header h1,
     .dh-style fieldset legend,
     .dh-style input[type='checkbox']:checked::after, .dh-style input[type='radio']:checked::after {
       color: var(--color-warm-1);
     }
-    .daggerheart.chat-sidebar .chat-log .chat-message .message-header .message-header-main .message-sub-header-container h4, 
-    #chat-notifications .chat-log .chat-message .message-header .message-header-main .message-sub-header-container h4,
-    .daggerheart .chat-message, #chat-notifications .chat-message,
-    .daggerheart.chat.action .action-move .action-section .action-header .title,
-    .daggerheart .chat-message .message-content a[href],
+
     .daggerheart.dh-style.dialog.character-creation .tab-navigation nav a {
-      --text-color: light-dark(var(--color-warm-3), var(--color-warm-1));
+      --text-color: var(--color-warm-1);
       color: var(--text-color);
     }
 
@@ -981,15 +977,20 @@ body.crlngn-ui{
     .daggerheart.dh-style.dialog.character-creation .main-selections-container .selections-container .ancestry-preview-info-container .ancestry-preview-features .ancestry-preview-feature {
       border-color: transparent;
     }
-    
+
+    .application.sheet.dh-style .character-sidebar-sheet .info-section .status-section .status-bar .status-label h4:hover,
+    .application.sheet.dh-style .character-sidebar-sheet .info-section .status-section .status-number .status-label h4:hover {
+      opacity: 0.8;
+    }
 
     .daggerheart.dh-style.dialog.character-creation .main-selections-container .selections-container .card-preview-container,
     .application.sheet.daggerheart.actor.dh-style.character .character-header-sheet .name-row .level-div .level-button,
     .application .component.dh-style.card-preview-container .preview-selected-container {
-      border-color: var(--color-warm-1);
+      color: var(--color-light-1);
     }
     .application.sheet.daggerheart.actor.dh-style.character .character-header-sheet .name-row .level-div .level-button {
       box-shadow: 0 0 6px var(--color-warm-1);
+      border-color: var(--color-warm-1);
     }
 
     .daggerheart.chat.action .action-move .action-section {
@@ -1005,7 +1006,7 @@ body.crlngn-ui{
       color: light-dark(var(--color-dark-bg-50), var(--color-highlights-25));
     }
     .daggerheart.dh-style .tab-navigation .navigation-container .navigation-inner-container .feature-tab a {
-      color: light-dark(var(--color-warm-3), var(--color-warm-1));
+      color: var(--color-warm-1);
     }
 
     .application.setting.dh-style .form-group label {
@@ -1026,7 +1027,11 @@ body.crlngn-ui{
       color: light-dark(var(--color-dark-1), var(--color-light-1));
     }
     .application.sheet.daggerheart.actor.dh-style.character .character-header-sheet .name-row input[type='text']:hover,
-    .application.sheet.daggerheart.actor.dh-style.character .character-header-sheet .name-row input[type='text']:focus {
+    .application.sheet.daggerheart.actor.dh-style.character .character-header-sheet .name-row input[type='text']:focus,
+    .application.sheet.daggerheart.actor.dh-style.adversary .adversary-header-sheet .name-row input[type='text']:hover,
+    .application.sheet.daggerheart.actor.dh-style.adversary .adversary-header-sheet .name-row input[type='text']:focus,
+    .application.sheet.daggerheart.actor.dh-style input:hover,
+    .application.sheet.daggerheart.actor.dh-style input:focus {
       outline: 1px solid var(--color-warm-1);
     }
     .application.sheet.dh-style .character-sidebar-sheet .info-section .resources-section .status-bar .status-value input[type='number'].bar-input,
@@ -1061,13 +1066,15 @@ body.crlngn-ui{
       font-family: var(--crlngn-font-family);
       border: 1px solid var(--color-warm-1);
     }
-    .application.daggerheart.dh-style.dialog .tab.details .traits-inner-container .trait-container div {
+    .application.daggerheart.dh-style.dialog .tab.details .traits-inner-container .trait-container div,
+    .application.sheet.daggerheart.dh-style .input span {
       font-family: var(--crlngn-font-family);
     }
     .application.sheet.dh-style .character-sidebar-sheet .info-section .resources-section .status-bar .progress-bar,
     .application.sheet.dh-style .character-sidebar-sheet .info-section .status-section .status-number .status-value,
     .application.sheet.daggerheart.actor.dh-style.adversary .adversary-sidebar-sheet .info-section .resources-section .status-bar .progress-bar,
     .application.sheet.daggerheart.actor.dh-style.adversary .adversary-sidebar-sheet .info-section .status-section .status-number .status-value,
+    .application.sheet.dh-style .character-sidebar-sheet .info-section .status-section .status-bar.armor-slots .status-value,
     .application.sheet.daggerheart.actor.dh-style.adversary .adversary-sidebar-sheet .threshold-section,
     .application.sheet.daggerheart.actor.dh-style .character-header-sheet .character-row .hope-section, 
     .application.sheet.daggerheart.actor.dh-style .character-header-sheet .character-row .domains-section{
@@ -1102,7 +1109,8 @@ body.crlngn-ui{
     .application.sheet.daggerheart.actor.dh-style .character-header-sheet .character-row .downtime-section button,
     .dh-style button {
       background: var(--color-warm-1);
-      color: var(--color-light-1);
+      color: light-dark(var(--color-light-1), var(--color-dark-1));
+      font-weight: 600;
     }
     .application.sheet.daggerheart.actor.dh-style .character-header-sheet .character-row .downtime-section button:hover,
     .dh-style button:hover {
@@ -1123,6 +1131,7 @@ body.crlngn-ui{
     }
     .application.sheet.daggerheart.actor.dh-style.adversary .adversary-sidebar-sheet .info-section .resources-section .status-bar .status-label,
     .application.sheet.daggerheart.actor.dh-style.adversary .adversary-sidebar-sheet .info-section .status-section .status-number .status-label,
+    .application.sheet.dh-style .character-sidebar-sheet .info-section .status-section .status-bar.armor-slots .status-label,
     .application.sheet.dh-style .character-sidebar-sheet .info-section .resources-section .status-bar .status-label,
     .application.sheet.dh-style .character-sidebar-sheet .info-section .status-section .status-number .status-label {
       background-color: var(--color-warm-1);
@@ -1146,7 +1155,7 @@ body.crlngn-ui{
     &.theme-dark .application.daggerheart .character-sidebar-sheet .experience-value, 
     &.theme-dark.application.daggerheart .character-sidebar-sheet .experience-value {
       position: relative;
-      z-index: -1;
+      z-index: 0;
     }
 
     .themed.theme-dark .application.daggerheart.sheet.dh-style .character-header-sheet .trait:before, 
@@ -1181,12 +1190,117 @@ body.crlngn-ui{
       background: light-dark(rgba(228,220,220,0.65), rgba(28, 28, 32, 0.65));
     }
 
+    .application.sheet.dh-style .character-sidebar-sheet .equipment-section .title, 
+    .application.sheet.dh-style .character-sidebar-sheet .loadout-section .title, 
+    .application.sheet.dh-style .character-sidebar-sheet .experience-section .title {
+      margin-bottom: 1rem;
+    }
+
+    .application.daggerheart.dh-style .inventory-item .inventory-item-header .item-label .item-tags .label, 
+    .application.daggerheart.dh-style .inventory-item .inventory-item-header .item-label .item-labels .label {
+      gap: 0;
+    }
+
     .dh-style fieldset.glassy legend {
-      background-color: var(--color-warm-3);
-      color: var(--color-light-1);
+      background-color: var(--color-warm-1);
+      color: light-dark(var(--color-light-1), var(--color-dark-1));
+      font-weight: 600;
+    }
+
+    .application.daggerheart.dh-style .inventory-item .inventory-item-header .item-label{
+      line-height: 1.4;
+    }
+    .application.daggerheart.dh-style .inventory-item .inventory-item-header .item-label .item-name{
+      margin-bottom: 0.2em;
+      line-height: 1.25;
+    }
+
+    .application.daggerheart.dh-style .inventory-item .inventory-item-header .item-label .item-tags .tag, 
+    .application.daggerheart.dh-style .inventory-item .inventory-item-header .item-label .item-labels .tag,
+    .application.sheet.daggerheart.actor.dh-style.adversary .adversary-header-sheet .tags .tag {
+      background-color: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.15));
+      border: 1px solid transparent;
+      padding: 1px 5px;
+    }
+
+    .application.daggerheart.dh-style .inventory-item .inventory-item-header .item-label,
+    .daggerheart.dh-style .tab-navigation .navigation-container .navigation-inner-container .feature-tab a,
+    .dh-style fieldset legend {
+      font-family: var(--crlngn-font-family);
+    }
+
+    .application.sheet.dh-style .character-sidebar-sheet .info-section {
+      gap: 16px;
+    }
+
+    .application.sheet.daggerheart.actor.dh-style.character .character-header-sheet .name-row .level-div .label {
+      font-size: var(--font-size-22);
+      margin-left: 16px;
+    }
+
+    .application.daggerheart.dialog.dh-style.views.roll-selection .roll-dialog-container .experience-container .experience-chip {
+      background-color: var(--color-highlights-50);
+      color: light-dark(var(--color-dark-1), var(--color-light-1));
+    }
+
+    .dh-style .controls-dropdown button.control {
+      background: transparent;
+      padding: 6px 10px;
+      height: auto;
+      border: 0;
+      color: light-dark(var(--color-dark-1), var(--color-light-1));
+    }
+
+    .application.sheet.dh-style .character-sidebar-sheet .equipment-section .title h3, 
+    .application.sheet.dh-style .character-sidebar-sheet .loadout-section .title h3, 
+    .application.sheet.dh-style .character-sidebar-sheet .experience-section .title h3 {
+      font-size: 18px;
+    }
+
+    .application.daggerheart.dh-style .inventory-item:not(.single-img):hover:has(.inventory-item-content.extensible) .inventory-item-header, 
+    .application.daggerheart.dh-style .inventory-item:not(.single-img):hover:has(.inventory-item-content.extensible) .inventory-item-content {
+      background-color: var(--color-highlights-25);
     }
 
   }
-  
+
+  &.system-daggerheart.crlngn-chat {
+    .daggerheart.chat-sidebar .chat-log .chat-message .message-header .message-header-main .message-sub-header-container h4, 
+    #chat-notifications .chat-log .chat-message .message-header .message-header-main .message-sub-header-container h4,
+    .daggerheart .chat-message, #chat-notifications .chat-message,
+    .daggerheart.chat.action .action-move .action-section .action-header .title,
+    .daggerheart .chat-message .message-content a[href],
+    &.crlngn-chat #interface.theme-dark .chat-message div.roll-part-content:not(.target-dc-result):not(.result):not(.target-dc) span:not(.tag),
+    &.crlngn-chat #interface.theme-light .chat-message div.roll-part-content:not(.target-dc-result):not(.result):not(.target-dc) span:not(.tag) {
+      --text-color: var(--color-warm-1);
+      color: var(--text-color);
+    }
+
+    .daggerheart .chat-message .chat-roll .roll-part-header span, #chat-notifications .chat-message .chat-roll .roll-part-header span,
+    .chat-message .message-content {
+      font-family: var(--crlngn-font-family);
+    }
+
+    .daggerheart .chat-message .roll-formula, #chat-notifications .chat-message .roll-formula {
+      background: transparent;
+    }
+
+    .chat-message .message-content button {
+      background: var(--color-warm-1);
+      color: var(--color-light-1);
+    }
+
+    .chat-message h1,
+    .chat-message h2,
+    .chat-message h3 {
+      color: inherit
+    }
+    .daggerheart .chat-message .message-content .chat-roll .roll-part-content .roll-result-container,
+    .daggerheart .chat-message .message-content .chat-roll .roll-part-content .roll-result-container span, 
+    #chat-notifications .chat-message .message-content .chat-roll .roll-part-content .roll-result-container, 
+    #chat-notifications .chat-message .message-content .chat-roll .roll-part-content .roll-result-container span {
+      font-family: var(--crlngn-font-titles);
+    }
+  }
   
 }
