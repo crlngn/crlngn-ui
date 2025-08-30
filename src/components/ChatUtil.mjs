@@ -77,7 +77,7 @@ export class ChatUtil {
 
     // add border color
     if(ChatUtil.chatBorderColor===BORDER_COLOR_TYPES.playerColor.name && chatMessage.author?.id){ 
-      chatItem.style.setProperty('border-color', `var(--user-color-${chatMessage.author.id})`);
+      chatItem.style.setProperty('border-color', `var(--user-color-${chatMessage.author.id}) !important`);
     }
 
   }
