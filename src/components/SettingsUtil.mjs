@@ -590,16 +590,16 @@ export class SettingsUtil {
     const body = document.querySelector("body.crlngn-ui");
     switch(tag){
       case SETTINGS.uiFontBody.tag:
-        GeneralUtil.addCSSVars('--crlngn-font-family', value || customFonts.uiFontBody || SETTINGS.uiFontBody.default.uiFont || '');
+        GeneralUtil.addCSSVars('--crlngn-font-family', value || customFonts.uiFontBody || '');
         break;
       case SETTINGS.uiFontTitles.tag:
-        GeneralUtil.addCSSVars('--crlngn-font-titles', value || customFonts.uiFontTitles || SETTINGS.uiFontTitles.default.uiTitles || '');
+        GeneralUtil.addCSSVars('--crlngn-font-titles', value || customFonts.uiFontTitles || '');
         break;
       case SETTINGS.journalFontBody.tag:
-        GeneralUtil.addCSSVars('--crlngn-font-journal-body', value || customFonts.journalFontBody || customFonts.journalFontBody || '');
+        GeneralUtil.addCSSVars('--crlngn-font-journal-body', value || customFonts.journalFontBody  || '');
         break;
       case SETTINGS.journalFontTitles.tag:
-        GeneralUtil.addCSSVars('--crlngn-font-journal-title', value || customFonts.journalFontTitles || customFonts.journalFontTitles || '');
+        GeneralUtil.addCSSVars('--crlngn-font-journal-title', value || customFonts.journalFontTitles || '');
         break;
       default:
         //

@@ -13,7 +13,7 @@ export class SheetsUtil {
   static init(){
     const SETTINGS = getSettings();
     LogUtil.log("SheetsUtil.init", []);
-    if(game.system.id !== "dnd5e"){ return; }
+    if(game.system.id !== "dnd5e" && game.system.id !== "daggerheart"){ return; }
     SheetsUtil.themeStylesEnabled = SettingsUtil.get(SETTINGS.applyThemeToSheets.tag);
     SheetsUtil.horizontalSheetTabsEnabled = SettingsUtil.get(SETTINGS.useHorizontalSheetTabs.tag);
 

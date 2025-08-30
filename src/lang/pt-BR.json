@@ -349,8 +349,8 @@
         "hint": "Alterar opções para as fichas de personagens np sistema DnD5e",
         "fields": {
           "applyThemeToSheets": {
-            "label": "Aplicar estilos a fichas de personagem",
-            "hint": "Ative para aplicar o tema de cores global e ajustes de estilo às fichas de personagens de DnD5e"
+            "label": "Aplicar estilos a fichas de personagem (DnD5e, Daggerheart)",
+            "hint": "Ative para aplicar o tema de cores global e ajustes de estilo às fichas de personagens de DnD5e or Daggerheart"
           },
           "useHorizontalSheetTabs": {
             "label": "Usar abas horizontais com rótulos",

@@ -349,8 +349,8 @@
         "hint": "更改DnD5e 角色表的选项",
         "fields": {
           "applyThemeToSheets": {
-            "label": "将颜色和样式应用于DnD5e角色表",
-            "hint": "启用以应用全局颜色主题和样式到DnD5e 角色表"
+            "label": "将颜色和样式应用于DnD5e/Daggerheart角色表",
+            "hint": "启用以应用全局颜色主题和样式到DnD5e/Daggerheart 角色表"
           },
           "useHorizontalSheetTabs": {
             "label": "使用带有标签的水平标签",

@@ -215,9 +215,9 @@ export function getSettings() {
       ],
       default: {
         uiFontBody: `"Work Sans", Arial, sans-serif`,
-        uiFontTitles: `"Roboto Slab", Arial, sans-serif`,
+        uiFontTitles: game.system.id === 'daggerheart' ? `"Cinzel Decorative", Arial, sans-serif` : `"Roboto Slab", Arial, sans-serif`,
         journalFontBody: `"Work Sans", Arial, sans-serif`, 
-        journalFontTitles: `"Roboto Slab", Arial, sans-serif`
+        journalFontTitles: game.system.id === 'daggerheart' ? `"Cinzel Decorative", Arial, sans-serif` : `"Roboto Slab", Arial, sans-serif`
       },
       scope: SETTING_SCOPE.world,
       config: false, 
@@ -718,7 +718,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiTitles.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.uiTitles.hint"),
       propType: String,
-      default: `"Roboto Slab", Arial, sans-serif`,
+      default: game.system.id === 'daggerheart' ? `"Cinzel Decorative", Arial, sans-serif` : `"Roboto Slab", Arial, sans-serif`,
       scope: SETTING_SCOPE.world,
       config: false, 
       requiresReload: false 
@@ -740,7 +740,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalTitles.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.journalTitles.hint"),
       propType: String,
-      default: `"Roboto Slab", Arial, sans-serif`,
+      default: game.system.id === 'daggerheart' ? `"Cinzel Decorative", Arial, sans-serif` : `"Roboto Slab", Arial, sans-serif`,
       scope: SETTING_SCOPE.world,
       config: false, 
       requiresReload: false 

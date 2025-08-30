@@ -349,8 +349,8 @@
         "hint": "Modificare opzioni per le schede dei personaggi nel sistema DnD5e",
         "fields": {
           "applyThemeToSheets": {
-            "label": "Applica tema e stili per le schede dei personaggi",
-            "hint": "Attiva per applicare il tema di colore globale e stili alle schede dei personaggi di DnD5e"
+            "label": "Applica stili per le schede dei personaggi (DnD5e, Daggerheart)",
+            "hint": "Attiva per applicare il tema di colore globale e stili alle schede dei personaggi di DnD5e or Daggerheart"
           },
           "useHorizontalSheetTabs": {
             "label": "Usa schede orizzontali con etichette",
