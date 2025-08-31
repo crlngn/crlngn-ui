@@ -60,7 +60,8 @@ Main Theme
   /*  Colors                                  */
   /* ---------------------------------------- */
   body.crlngn-ui {
-    &.theme-light .dnd5e2{
+    &.theme-light .dnd5e2:not(.theme-dark),
+    .dnd5e2.theme-light{
       --filigree-border-color: rgba(255, 255, 255, 0.5);
     }
     &.crlngn-chat .sidebar-content{
@@ -144,6 +145,7 @@ Main Theme
     --dnd5e-color-maroon: var(--color-highlights);
     --dnd5e-shadow-45: rgba(0, 0, 0, 0.25); /* make these shadows more nuanced */
     --dnd5e-sheet-bg: rgb(244, 239, 237);
+    --dnd5e-tabs-bg: var(--color-warm-2);
     --dnd5e-color-table-row-odd: var(--color-light-bg-15);
     --dnd5e-color-table-row-even: transparent;
     --default-color: var(--color-light-1);
@@ -186,13 +188,14 @@ Main Theme
       --color-secondary-b-90: rgba(237, 224, 237, 0.9);
       --color-text-secondary: rgba(20, 17, 25, 1);
       --dnd5e-sheet-bg: rgb(244, 239, 237);
-      .dnd5e2{
+      --dnd5e-tabs-bg: var(--color-warm-2);
+      .dnd5e2:not(.theme-dark){
         --filigree-border-color: rgba(158, 138, 138, 0.5);
       }
     }
     
     /* dark mode */
-    &.theme-dark .dnd5e2{
+    &.theme-dark .dnd5e2:not(.theme-light){
       --filigree-border-color: rgba(0, 0, 0, 0.5);
     }
     &.theme-dark,
@@ -209,6 +212,7 @@ Main Theme
       --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.35);
       --dnd5e-color-groove: var(--dnd5e-color-gold);
       --dnd5e-sheet-bg: rgb(37, 40, 48);
+      --dnd5e-tabs-bg: transparent;
       --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
       &.crlngn-chat .sidebar-content{
         --dnd5e-color-parchment: rgb(32, 37, 43);
@@ -238,8 +242,8 @@ Main Theme
       --color-input-border: rgba(90,120,150, 0.5);
       --color-border-dark-5: rgba(80, 80, 80, 1);
       --color-sidebar-font: rgba(213, 221, 230, 0.8);
-      /*--dnd5e-color-beige: rgba(0,0,0,0.2);
-      --dnd5e-background-card: rgb(32, 37, 43); */
+      --dnd5e-color-beige: rgba(0,0,0,0.2);
+      --dnd5e-background-card: rgb(32, 37, 43);
       --color-text-dark: rgba(235,235,235,1);
       --color-text-dark-op: rgba(235,235,235,0.6);
       --color-text-light: rgba(235,235,235,1);
@@ -310,8 +314,7 @@ Main Theme
       --input-background-color: rgba(255, 255, 255, 0.2);
     }
 
-    &.theme-dark.crlngn-chat .sidebar-content,
-    .application.theme-dark.sheet{
+    &.theme-dark.crlngn-chat .sidebar-content{
       --dnd5e-background-card: rgb(32, 37, 43); 
       --dnd5e-color-parchment: rgb(32, 37, 43);
       --crlngn-button-bg: rgba(15, 15, 15, 0.15);
@@ -319,8 +322,7 @@ Main Theme
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --color-hover-bg: inherit;
     }
-    &.theme-light.crlngn-chat .sidebar-content,
-    .application.theme-dark.sheet{
+    &.theme-light.crlngn-chat .sidebar-content{
       --dnd5e-background-card: rgba(244, 239, 237,0.8);
       --dnd5e-color-parchment: rgb(244, 239, 237);
       --crlngn-button-bg: rgba(250, 250, 250, 0.15);
