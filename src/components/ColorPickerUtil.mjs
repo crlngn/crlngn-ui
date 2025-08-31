@@ -848,15 +848,17 @@ export class ColorPickerUtil {
     
     if (theme) {
       return {
-        accent: theme.colorPreview[1],
-        secondary: theme.colorPreview[0]
+        accent: theme.colorPreview[2],        // Accent
+        secondaryDark: theme.colorPreview[1], // Secondary Dark
+        secondaryLight: theme.colorPreview[0] // Secondary Light
       };
     }
     
     // Default fallback
     return {
-      accent: THEMES[0].colorPreview[1],
-      secondary: THEMES[0].colorPreview[0]
+      accent: THEMES[0].colorPreview[2],
+      secondaryDark: THEMES[0].colorPreview[1],
+      secondaryLight: THEMES[0].colorPreview[0]
     };
   }
 }

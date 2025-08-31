@@ -675,8 +675,8 @@ export class SettingsUtil {
     // If no custom colors exist, fall back to legacy theme system for now
     // Migration will happen when user first opens the color picker
     
-    // Apply custom colors if they exist
-    if (customColors?.accent && customColors?.secondary) {
+    // Apply custom colors if they exist (check for new or old structure)
+    if (customColors?.accent && (customColors?.secondaryDark || customColors?.secondary)) {
       // Import ColorPickerUtil dynamically to avoid circular dependency
       const { ColorPickerUtil } = await import("./ColorPickerUtil.mjs");
       ColorPickerUtil.applyCustomTheme(customColors);
