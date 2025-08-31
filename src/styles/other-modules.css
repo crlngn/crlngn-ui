@@ -965,7 +965,7 @@ body.crlngn-ui{
     }
 
     .application .component.dh-style.card-preview-container .preview-selected-container .preview-text-container  {
-      color: inherit;
+      color: var(--color-dark-1);
     }
     .daggerheart.dh-style.dialog.character-creation .tab-navigation nav a[disabled] {
       opacity: 0.65;
@@ -975,7 +975,7 @@ body.crlngn-ui{
       font-weight: 600;
     }
     .daggerheart.dh-style.dialog.character-creation .main-selections-container .selections-container .ancestry-preview-info-container .ancestry-preview-features .ancestry-preview-feature {
-      border-color: transparent;
+      border-color: var(--color-warm-2);
     }
 
     .application.sheet.dh-style .character-sidebar-sheet .info-section .status-section .status-bar .status-label h4:hover,
@@ -987,6 +987,7 @@ body.crlngn-ui{
     .application.sheet.daggerheart.actor.dh-style.character .character-header-sheet .name-row .level-div .level-button,
     .application .component.dh-style.card-preview-container .preview-selected-container {
       color: var(--color-light-1);
+      border-radius: 10px;
     }
     .application.sheet.daggerheart.actor.dh-style.character .character-header-sheet .name-row .level-div .level-button {
       box-shadow: 0 0 6px var(--color-warm-2);

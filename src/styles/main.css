@@ -19,9 +19,11 @@ body.crlngn-ui  {
   }
   h1, h2, h3 {
     font-family: var(--crlngn-font-titles);
+    line-height: 1.25;
   }
   h4, h5, h6 {
     font-family: var(--crlngn-font-family);
+    line-height: 1.25;
   }
 
   a.button:hover, button:hover{
