@@ -2,7 +2,7 @@
   LEFT CONTROLS BAR
 ----------------- */
 body.crlngn-ui{
-
+  --tools-visible-opacity: 1;
   #interface.crlngn-controls #ui-left {
     /*--color-secondary-75: rgba(50, 50, 70, 0.75);*/
     --icon-font-size: var(--font-size-14);
@@ -113,6 +113,8 @@ body.crlngn-ui{
       }
       #scene-controls-tools {
         z-index: 1;
+        opacity: var(--tools-visible-opacity);
+
         .ui-control{
           --control-bg-color: var(--color-secondary-65);
 
@@ -157,7 +159,7 @@ body.crlngn-ui{
       }
       #scene-controls:hover {
         #scene-controls-tools {
-          opacity: 1;
+          opacity: var(--tools-visible-opacity);
         }
       }
     }

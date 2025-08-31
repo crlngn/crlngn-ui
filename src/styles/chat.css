@@ -121,14 +121,14 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   .chat-message p.supplement > strong{
     color: var(--default-color);
   }
-  .chat-message {
-    h1, h2{
+  .chat-message .message-content {
+    > h1, h2{
       font-size: var(--font-size-20);
     }
-    h3{
+    > h3{
       font-size: var(--font-size-16);
     }
-    h4{
+    > h4{
       font-size: var(--font-size-15);
     }
   }

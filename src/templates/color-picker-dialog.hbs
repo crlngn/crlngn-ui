@@ -9,8 +9,8 @@
         {{#each themes}}
         <button type="button" class="preset-button" data-tooltip="{{this.label}}" data-tooltip-direction="UP" data-theme="{{this.className}}">
           <span class="color-swatch" style="background-color: {{this.colorPreview.[2]}}" data-tooltip="Accent" data-tooltip-direction="UP" title="Accent: {{this.colorPreview.[2]}}"></span>
-          <span class="color-swatch" style="background-color: {{this.colorPreview.[0]}}" data-tooltip="Secondary Dark" data-tooltip-direction="UP" title="Secondary Dark: {{this.colorPreview.[0]}}"></span>
-          <span class="color-swatch" style="background-color: {{this.colorPreview.[1]}}" data-tooltip="Secondary Light" data-tooltip-direction="UP" title="Secondary Light: {{this.colorPreview.[1]}}"></span>
+          <span class="color-swatch" style="background-color: {{this.colorPreview.[1]}}" data-tooltip="Secondary Dark" data-tooltip-direction="UP" title="Secondary Dark: {{this.colorPreview.[1]}}"></span>
+          <span class="color-swatch" style="background-color: {{this.colorPreview.[0]}}" data-tooltip="Secondary Light" data-tooltip-direction="UP" title="Secondary Light: {{this.colorPreview.[0]}}"></span>
           {{!-- <span class="preset-name">{{this.label}}</span> --}}
         </button>
         {{/each}}
@@ -59,30 +59,31 @@
 
     <!-- Secondary Color Picker -->
     <div class="color-section secondary-section">
-      <h4>{{localize "CRLNGN_UI.settings.colorPicker.secondaryColor"}}</h4>
+      <div class="section-header">
+        <h4>{{localize "CRLNGN_UI.settings.colorPicker.secondaryColor"}}</h4>
+        <div class="secondary-tabs">
+          <button type="button" class="secondary-tab active" data-theme="dark">Dark</button>
+          <button type="button" class="secondary-tab" data-theme="light">Light</button>
+        </div>
+      </div>
       
       <div class="color-controls">
         <div class="slider-group">
           <label>{{localize "CRLNGN_UI.settings.colorPicker.hue"}}</label>
-          <input type="range" name="secondaryHue" min="0" max="360" value="{{secondaryHSL.h}}" />
-          <span class="value">{{secondaryHSL.h}}</span>
+          <input type="range" name="secondaryHue" min="0" max="360" value="{{secondaryDarkHSL.h}}" />
+          <span class="value">{{secondaryDarkHSL.h}}</span>
         </div>
         
         <div class="slider-group">
           <label>{{localize "CRLNGN_UI.settings.colorPicker.saturation"}}</label>
-          <input type="range" name="secondarySaturation" min="0" max="100" value="{{secondaryHSL.s}}" />
-          <span class="value">{{secondaryHSL.s}}%</span>
+          <input type="range" name="secondarySaturation" min="0" max="100" value="{{secondaryDarkHSL.s}}" />
+          <span class="value">{{secondaryDarkHSL.s}}%</span>
         </div>
         
-        <div class="slider-group lightness-with-indicator">
+        <div class="slider-group">
           <label>{{localize "CRLNGN_UI.settings.colorPicker.lightness"}}</label>
-          <div class="slider-wrapper">
-            <input type="range" name="secondaryLightness" min="0" max="100" value="{{secondaryHSL.l}}" />
-            <div class="light-theme-indicator" style="left: {{invertedLightness}}%;" title="Light theme: {{invertedLightness}}%">
-              <span class="indicator-arrow">▼</span>
-            </div>
-          </div>
-          <span class="value">{{secondaryHSL.l}}%</span>
+          <input type="range" name="secondaryLightness" min="0" max="100" value="{{secondaryDarkHSL.l}}" />
+          <span class="value">{{secondaryDarkHSL.l}}%</span>
         </div>
       </div>
       

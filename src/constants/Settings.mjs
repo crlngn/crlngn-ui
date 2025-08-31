@@ -60,64 +60,72 @@ export const THEMES = [
     label: 'Carolingian Teal',
     className: 'crlngn-theme',
     colorPreview: [
-      'rgb(62, 62, 88)',
-      'rgb(68, 147, 173)'
+      'rgb(193, 193, 217)',     // Secondary Light (inverted lightness)
+      'rgb(62, 62, 88)',      // Secondary Dark
+      'rgb(68, 147, 173)',     // Accent
     ]
   },
   {
     label: "Royal Blood",
     className: 'crlngn-theme-royal-blood',
     colorPreview: [
-      'rgb(40, 31, 49)',
-      'rgb(159, 35, 49)'
+      'rgb(215, 206, 224)',     // Secondary Light (inverted lightness)
+      'rgb(40, 31, 49)',       // Secondary Dark
+      'rgb(159, 35, 49)',      // Accent
     ]
   },
   {
     label: "Dark Sorcery",
     className: 'crlngn-theme-dark-sorcery',
     colorPreview: [
-      'rgb(31, 47, 49)',
-      'rgb(126, 88, 182)'
+      'rgb(206, 222, 224)',     // Secondary Light (inverted lightness)
+      'rgb(31, 47, 49)',       // Secondary Dark
+      'rgb(126, 88, 182)',     // Accent
     ]
   },
   {
     label: "Grass and Stone",
     className: 'crlngn-theme-grass-stone',
     colorPreview: [
-      'rgb(47, 48, 48)',
-      'rgb(121, 163, 62)'
+      'rgb(207, 208, 208)',     // Secondary Light (inverted lightness)
+      'rgb(47, 48, 48)',       // Secondary Dark
+      'rgb(121, 163, 62)',     // Accent
     ]
   },
   {
     label: "Gold and Chocolate",
     className: 'crlngn-theme-gold-chocolate',
     colorPreview: [
-      'rgb(34, 25, 25)',
-      'rgb(164, 138, 51)'
+      'rgb(221, 212, 212)',     // Secondary Light (inverted lightness)
+      'rgb(34, 25, 25)',       // Secondary Dark
+      'rgb(164, 138, 51)',     // Accent
     ]
   },
   {
     label: "Pumpkin Patch",
     className: 'crlngn-theme-pumpkin-patch',
     colorPreview: [
-      'rgb(40, 31, 49)',
-      'rgb(220, 120, 43)'
+      'rgb(215, 206, 224)',     // Secondary Light (inverted lightness)
+      'rgb(40, 31, 49)',       // Secondary Dark
+      'rgb(220, 120, 43)',     // Accent
     ]
   },
   {
     label: "Plum Purple",
     className: 'crlngn-plum-purple',
     colorPreview: [
-      'rgb(20, 23, 26)',
-      'rgb(146, 42, 96)'
+      'rgb(230, 233, 236)',     // Secondary Light (inverted lightness)
+      'rgb(20, 23, 26)',       // Secondary Dark
+      'rgb(146, 42, 96)',      // Accent
     ]
   },
   {
     label: "Gambit's Blue",
     className: 'crlngn-theme-gambits-blue',
     colorPreview: [
-      'rgb(40, 31, 49)',
-      'rgb(45, 126, 207)'
+      'rgb(215, 206, 224)',     // Secondary Light (inverted lightness)
+      'rgb(40, 31, 49)',       // Secondary Dark
+      'rgb(45, 126, 207)',     // Accent
     ]
   }
 ];

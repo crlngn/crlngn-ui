@@ -41,6 +41,7 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     this.callback = options.callback;
     this.scope = options.scope || 'world';
     this.currentColors = options.currentColors || this.#getDefaultColors();
+    this.activeSecondaryTheme = 'dark'; // Default to dark theme tab
     
     this.#performMigrationIfNeeded();
   }
@@ -77,26 +78,11 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     
     // Convert RGB to HSL for the pickers
     context.accentHSL = ColorPickerUtil.rgbToHsl(this.currentColors.accent);
-    context.secondaryHSL = ColorPickerUtil.rgbToHsl(this.currentColors.secondary);
+    context.secondaryDarkHSL = ColorPickerUtil.rgbToHsl(this.currentColors.secondaryDark || this.currentColors.secondary || THEMES[0].colorPreview[0]);
+    context.secondaryLightHSL = ColorPickerUtil.rgbToHsl(this.currentColors.secondaryLight || 'rgb(223, 227, 231)');
     
-    // Add inverted lightness for the indicator
-    context.invertedLightness = 100 - context.secondaryHSL.l;
-    
-    // Add preset themes with light versions using inverted lightness
-    context.themes = THEMES.map(theme => {
-      const secondaryHSL = ColorPickerUtil.rgbToHsl(theme.colorPreview[0]);
-      const invertedLightness = 100 - secondaryHSL.l;
-      const lightVersion = ColorPickerUtil.hslToRgb(secondaryHSL.h, secondaryHSL.s, invertedLightness);
-      
-      return {
-        ...theme,
-        colorPreview: [
-          theme.colorPreview[0], // Dark secondary
-          lightVersion,          // Light secondary  
-          theme.colorPreview[1]  // Accent
-        ]
-      };
-    });
+    // Use preset themes directly as they now have the correct order
+    context.themes = THEMES;
     
     // Add checkbox states
     const SETTINGS = getSettings();
@@ -119,11 +105,9 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     
     context.currentColors = this.currentColors;
     
-    // Add theme-adapted versions of secondary color for preview
-    const secondaryHSL = ColorPickerUtil.rgbToHsl(this.currentColors.secondary);
-    const invertedLightness = 100 - secondaryHSL.l;
-    context.secondaryColorLight = ColorPickerUtil.hslToRgb(secondaryHSL.h, secondaryHSL.s, invertedLightness);
-    context.secondaryColorDark = this.currentColors.secondary;
+    // Add separate dark and light secondary colors for preview
+    context.secondaryColorDark = this.currentColors.secondaryDark || this.currentColors.secondary || THEMES[0].colorPreview[0];
+    context.secondaryColorLight = this.currentColors.secondaryLight || 'rgb(223, 227, 231)';
     
     return context;
   }
@@ -162,22 +146,23 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
   #getDefaultColors() {
     const settingTag = this.scope === 'player' ? 'v2-player-custom-theme-colors' : 'v2-custom-theme-colors';
     const customColors = SettingsUtil.get(settingTag);
-    if (customColors?.accent && customColors?.secondary) {
+    if (customColors?.accent && customColors?.secondaryDark) {
       return customColors;
     }
     
     // If player scope and no player colors, fallback to world colors
     if (this.scope === 'player') {
       const worldColors = SettingsUtil.get('v2-custom-theme-colors');
-      if (worldColors?.accent && worldColors?.secondary) {
+      if (worldColors?.accent && worldColors?.secondaryDark) {
         return worldColors;
       }
     }
     
     // Fallback to first theme
     return {
-      accent: THEMES[0].colorPreview[1],
-      secondary: THEMES[0].colorPreview[0]
+      accent: THEMES[0].colorPreview[2],
+      secondaryDark: THEMES[0].colorPreview[1],
+      secondaryLight: THEMES[0].colorPreview[0] || 'rgb(223, 227, 231)'
     };
   }
 
@@ -213,15 +198,12 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
       parseInt(data.accentSaturation), 
       parseInt(data.accentLightness)
     );
-    const secondaryRGB = ColorPickerUtil.hslToRgb(
-      parseInt(data.secondaryHue), 
-      parseInt(data.secondarySaturation), 
-      parseInt(data.secondaryLightness)
-    );
     
+    // Use the current colors object which has been updated by tab switching
     const colors = {
       accent: accentRGB,
-      secondary: secondaryRGB
+      secondaryDark: this.currentColors.secondaryDark || THEMES[0].colorPreview[1],
+      secondaryLight: this.currentColors.secondaryLight || THEMES[0].colorPreview[0] || 'rgb(223, 227, 231)'
     };
     
     await SettingsUtil.set(settingTag, colors);
@@ -255,6 +237,49 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
   }
 
   /**
+   * Handle secondary theme tab clicks
+   */
+  _onSecondaryTabClick(event) {
+    const clickedTab = event.currentTarget;
+    const theme = clickedTab.dataset.theme;
+    
+    // Update active tab
+    this.element.querySelectorAll('.secondary-tab').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    clickedTab.classList.add('active');
+    
+    // Store current theme and update sliders
+    this.activeSecondaryTheme = theme;
+    const currentColor = theme === 'dark' 
+      ? (this.currentColors.secondaryDark || this.currentColors.secondary || THEMES[0].colorPreview[1])
+      : (this.currentColors.secondaryLight || 'rgb(223, 227, 231)');
+    
+    const hsl = ColorPickerUtil.rgbToHsl(currentColor);
+    
+    // Update slider values
+    const hueSlider = this.element.querySelector('[name="secondaryHue"]');
+    const satSlider = this.element.querySelector('[name="secondarySaturation"]');
+    const lightSlider = this.element.querySelector('[name="secondaryLightness"]');
+    
+    if (hueSlider) hueSlider.value = hsl.h;
+    if (satSlider) satSlider.value = hsl.s;
+    if (lightSlider) lightSlider.value = hsl.l;
+    
+    // Update value displays
+    const hueParent = this.element.querySelector('[name="secondaryHue"]')?.parentElement;
+    const satParent = this.element.querySelector('[name="secondarySaturation"]')?.parentElement;
+    const lightParent = this.element.querySelector('[name="secondaryLightness"]')?.parentElement;
+    
+    if (hueParent) hueParent.querySelector('.value').textContent = hsl.h;
+    if (satParent) satParent.querySelector('.value').textContent = hsl.s + '%';
+    if (lightParent) lightParent.querySelector('.value').textContent = hsl.l + '%';
+    
+    this.#updateSliderGradients();
+    this.#updatePreview();
+  }
+
+  /**
    * Handle preset theme selection
    */
   _onClickPreset(event) {
@@ -264,8 +289,9 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     
     if (theme) {
       this.currentColors = {
-        accent: theme.colorPreview[1],
-        secondary: theme.colorPreview[0]
+        accent: theme.colorPreview[2],
+        secondaryDark: theme.colorPreview[1],
+        secondaryLight: theme.colorPreview[0]
       };
       this.render();
     }
@@ -297,10 +323,14 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     const accentRGB = ColorPickerUtil.hslToRgb(accentHue, accentSaturation, accentLightness);
     const secondaryRGB = ColorPickerUtil.hslToRgb(secondaryHue, secondarySaturation, secondaryLightness);
     
-    this.currentColors = {
-      accent: accentRGB,
-      secondary: secondaryRGB
-    };
+    // Update the appropriate secondary color based on active tab
+    if (this.activeSecondaryTheme === 'dark') {
+      this.currentColors.secondaryDark = secondaryRGB;
+    } else {
+      this.currentColors.secondaryLight = secondaryRGB;
+    }
+    
+    this.currentColors.accent = accentRGB;
 
     LogUtil.log("ColorPickerDialog._onColorChange", [this.currentColors]);
     
@@ -350,25 +380,17 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
       }
     });
     
-    // Update secondary previews
+    // Update secondary previews with separate dark/light colors
     const secondaryPreviews = content.querySelectorAll('.secondary-preview .preview-item');
     if (secondaryPreviews.length > 0) {
       // Dark theme preview (first box)
-      secondaryPreviews[0].style.backgroundColor = this.currentColors.secondary;
+      const darkColor = this.currentColors.secondaryDark || this.currentColors.secondary || THEMES[0].colorPreview[0];
+      secondaryPreviews[0].style.backgroundColor = darkColor;
       
-      // Light theme preview (second box) - calculate inverted lightness version
+      // Light theme preview (second box)
       if (secondaryPreviews[1]) {
-        const secondaryHSL = ColorPickerUtil.rgbToHsl(this.currentColors.secondary);
-        const invertedLightness = 100 - secondaryHSL.l;
-        const lightVersion = ColorPickerUtil.hslToRgb(secondaryHSL.h, secondaryHSL.s, invertedLightness);
-        secondaryPreviews[1].style.backgroundColor = lightVersion;
-        
-        // Update light theme indicator position
-        const indicator = content.querySelector('.light-theme-indicator');
-        if (indicator) {
-          indicator.style.left = `${invertedLightness}%`;
-          indicator.title = `Light theme: ${Math.round(invertedLightness)}%`;
-        }
+        const lightColor = this.currentColors.secondaryLight || 'rgb(223, 227, 231)';
+        secondaryPreviews[1].style.backgroundColor = lightColor;
       }
     }
   }
@@ -453,6 +475,13 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     this.element.querySelectorAll('.preset-button').forEach(button => {
       button.addEventListener('click', this._onClickPreset.bind(this));
     });
+    
+    // Secondary theme tabs
+    if (this._onSecondaryTabClick) {
+      this.element.querySelectorAll('.secondary-tab').forEach(tab => {
+        tab.addEventListener('click', this._onSecondaryTabClick.bind(this));
+      });
+    }
     
     // Live preview on slider change
     this.element.querySelectorAll('input[type="range"]').forEach(input => {
@@ -737,15 +766,11 @@ export class ColorPickerUtil {
     
     const accentVars = this.generateColorVariations(colors.accent, 'accent');
     
-    // Use the secondary color directly for dark theme
-    const secondaryForDark = colors.secondary;
+    // Use the provided dark and light secondary colors
+    const secondaryForDark = colors.secondaryDark || colors.secondary || THEMES[0].colorPreview[0];
+    const secondaryForLight = colors.secondaryLight || 'rgb(223, 227, 231)';
     
-    // For light theme, invert the lightness value
-    const secondaryHSL = this.rgbToHsl(colors.secondary);
-    const invertedLightness = 100 - secondaryHSL.l;
-    const secondaryForLight = this.hslToRgb(secondaryHSL.h, secondaryHSL.s, invertedLightness);
-    
-    LogUtil.log("Secondary colors", [colors.secondary, secondaryForLight]);
+    LogUtil.log("Secondary colors", [secondaryForDark, secondaryForLight]);
     
     // Generate secondary variables for both themes
     const secondaryVarsDark = this.generateColorVariations(secondaryForDark, 'secondary', 'dark');
@@ -790,18 +815,18 @@ export class ColorPickerUtil {
     `;
     if (applySecondaryToBg) {
       cssText += `
-        body.crlngn-ui #interface.crlngn-controls #ui-left #scene-controls-tools {
-          opacity: 0.75;
+        body.crlngn-ui {
+          --tools-visible-opacity: 0.75;
         }
-        body.crlngn-ui .application.sheet.journal-sheet,
-        body.crlngn-ui .application.sheet.journal-sheet * {
+        body.crlngn-ui .application.sheet.journal-sheet:not(.dnd5e2-journal),
+        body.crlngn-ui .application.sheet.journal-sheet:not(.dnd5e2-journal) * {
           --color-light-1: light-dark(var(--color-dark-1), var(--color-light-1));
           --input-text-color: light-dark(var(--color-dark-1), var(--color-light-1));
         }
-        body.crlngn-ui.theme-dark input[type=checkbox], body.crlngn-ui.theme-dark input[type=radio]{
+        body.crlngn-ui.theme-dark input[type=checkbox], 
+        body.crlngn-ui.theme-dark input[type=radio]{
           --checkbox-background-color: light-dark(rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0.2));
-        }
-          
+        } 
       `;
     }
     
