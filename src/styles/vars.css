@@ -18,6 +18,12 @@ Main Theme
     --font-size-22: 1.325rem;
     --font-size-42: 2.5rem;
     --font-size-46: 2.625rem;
+    --font-h1-size: var(--font-size-36);
+    --font-h2-size: var(--font-size-22);
+    --font-h3-size: var(--font-size-18);
+    --font-h4-size: var(--font-size-16);
+    --font-h5-size: var(--font-size-15);
+    --font-h6-size: var(--font-size-13);
   }
 
   body.crlngn-ui {
@@ -31,6 +37,7 @@ Main Theme
     --dnd5e-font-roboto-condensed: var(--crlngn-font-journal-body);
     --font-primary: var(--crlngn-font-family);
     --mej-font-family: var(--crlngn-font-family);
+    --card-color-bg: var(--control-bg-color);
 
     --font-h1: var(--crlngn-font-titles);
     --font-h2: var(--crlngn-font-titles);

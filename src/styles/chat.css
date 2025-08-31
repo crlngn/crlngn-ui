@@ -108,7 +108,8 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   --crlngn-i18n-save-dc: " save DC ";
   --crlngn-i18n-save: " save ";
 
-  #ui-right{
+  #ui-right,
+  .chat-popout {
     --dnd5e-color-gold: var(--color-warm-2);
     --checkbox-fill-color: var(--color-warm-2);
     --checkbox-border-color: var(--color-warm-2);
@@ -119,6 +120,17 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   }
   .chat-message p.supplement > strong{
     color: var(--default-color);
+  }
+  .chat-message {
+    h1, h2{
+      font-size: var(--font-size-20);
+    }
+    h3{
+      font-size: var(--font-size-16);
+    }
+    h4{
+      font-size: var(--font-size-15);
+    }
   }
   .chat-message .message-content:not(.dnd5e2) {
     /*font-size: var(--font-size-13);*/
@@ -677,6 +689,7 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
     color: var(--color-light-1);
   }
   #interface.theme-dark,
+  .chat-popout.theme-dark,
   #chat-popout.theme-dark,
   #chat-pins.theme-dark {
     color: var(--color-light-1);
@@ -695,6 +708,7 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
     }
   }
   #interface.theme-light,
+  .chat-popout.theme-light,
   #chat-popout.theme-light,
   #chat-pins.theme-light {
     color: var(--color-dark-1);
@@ -714,6 +728,7 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   
   #interface.theme-light, #interface.theme-light .chat-log, 
   & > .chat-log.themed.theme-light, #chat-popout.theme-light,
+  .chat-popout.theme-light,
   #chat-popout.theme-light button,
   #chat-pins.theme-light, #chat-pins.theme-light button {
     --dnd5e-background-card: rgba(244, 239, 237,0.8);
@@ -725,6 +740,7 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
 
   #interface.theme-dark, #interface.theme-dark .chat-log, 
   & > .chat-log.themed.theme-dark, 
+  .chat-popout.theme-dark,
   #chat-popout.theme-dark, #chat-popout.theme-dark button, 
   #chat-pins.theme-dark, #chat-pins.theme-dark button {
     --dnd5e-color-parchment: rgb(32, 37, 43);

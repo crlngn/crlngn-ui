@@ -74,9 +74,14 @@
           <span class="value">{{secondaryHSL.s}}%</span>
         </div>
         
-        <div class="slider-group">
+        <div class="slider-group lightness-with-indicator">
           <label>{{localize "CRLNGN_UI.settings.colorPicker.lightness"}}</label>
-          <input type="range" name="secondaryLightness" min="0" max="100" value="{{secondaryHSL.l}}" />
+          <div class="slider-wrapper">
+            <input type="range" name="secondaryLightness" min="0" max="100" value="{{secondaryHSL.l}}" />
+            <div class="light-theme-indicator" style="left: {{invertedLightness}}%;" title="Light theme: {{invertedLightness}}%">
+              <span class="indicator-arrow">▼</span>
+            </div>
+          </div>
           <span class="value">{{secondaryHSL.l}}%</span>
         </div>
       </div>
