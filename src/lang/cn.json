@@ -168,7 +168,28 @@
           }
         },
         "reset": "重置",
-        "save": "保存"
+        "save": "保存",
+        "colorPicker": {
+          "hint": "颜色选择需谨慎使用。请记住保护您的视网膜：对于强调色，请使用至少"中等"对比度等级的颜色以获得更好的可读性。",
+          "title": "自定义主题颜色",
+          "presets": "预设主题",
+          "accentColor": "强调色",
+          "secondaryColor": "次要颜色",
+          "hue": "色调",
+          "saturation": "饱和度",
+          "lightness": "亮度",
+          "accentOnBackground": "背景上的强调色",
+          "textOnAccent": "强调色上的文本",
+          "secondaryPreview": "次要颜色预览",
+          "contrastGood": "对比度：良好",
+          "contrastMedium": "对比度：中等",
+          "contrastPoor": "对比度：较差",
+          "apply": "保存",
+          "applySecondaryColorToBg": {
+            "label": "将次要颜色应用到Foundry界面背景",
+            "hint": "启用后，次要颜色将应用到侧边栏和控件等界面背景。这会创建更统一的颜色主题。"
+          }
+        }
       },
       "chatMessagesMenu": {
         "label": "聊天消息选项",

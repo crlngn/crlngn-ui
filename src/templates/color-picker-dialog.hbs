@@ -1,4 +1,4 @@
-<div class="color-picker-content">
+<div class="color-picker-content form-content">
     
     <p class="hint on">{{localize "CRLNGN_UI.settings.colorPicker.hint"}}</p>
     <p>&nbsp;</p>
@@ -8,9 +8,9 @@
       <div class="preset-buttons">
         {{#each themes}}
         <button type="button" class="preset-button" data-tooltip="{{this.label}}" data-tooltip-direction="UP" data-theme="{{this.className}}">
-          {{#each this.colorPreview}}
-          <span class="color-swatch" style="background-color: {{this}}"></span>
-          {{/each}}
+          <span class="color-swatch" style="background-color: {{this.colorPreview.[2]}}" data-tooltip="Accent" data-tooltip-direction="UP" title="Accent: {{this.colorPreview.[2]}}"></span>
+          <span class="color-swatch" style="background-color: {{this.colorPreview.[0]}}" data-tooltip="Secondary Dark" data-tooltip-direction="UP" title="Secondary Dark: {{this.colorPreview.[0]}}"></span>
+          <span class="color-swatch" style="background-color: {{this.colorPreview.[1]}}" data-tooltip="Secondary Light" data-tooltip-direction="UP" title="Secondary Light: {{this.colorPreview.[1]}}"></span>
           {{!-- <span class="preset-name">{{this.label}}</span> --}}
         </button>
         {{/each}}
@@ -82,10 +82,24 @@
       </div>
       
       <div class="secondary-preview preview-box">
-        <div class="preview-item" style="background-color: {{currentColors.secondary}}">
-          <span class="preview-label">{{localize "CRLNGN_UI.settings.colorPicker.secondaryPreview"}}</span>
+        <div class="preview-item" style="background-color: {{secondaryColorDark}}">
+          <span class="preview-label">Dark Theme</span>
+        </div>
+        <div class="preview-item" style="background-color: {{secondaryColorLight}}; color: rgb(30, 30, 30);">
+          <span class="preview-label">Light Theme</span>
         </div>
       </div>
+    </div>
+
+    <hr>
+
+    <!-- Background Color Option -->
+    <div class="form-group">
+      <label>
+        <input type="checkbox" name="applySecondaryColorToBg" {{#if applySecondaryColorToBg}}checked{{/if}} />
+        {{localize "CRLNGN_UI.settings.colorPicker.applySecondaryColorToBg.label"}}
+      </label>
+      <p class="hint">{{localize "CRLNGN_UI.settings.colorPicker.applySecondaryColorToBg.hint"}}</p>
     </div>
 
 </div>

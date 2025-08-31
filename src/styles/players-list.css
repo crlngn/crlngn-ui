@@ -271,6 +271,7 @@ body.crlngn-ui {
       &.minimized {
         #players-active, #players-inactive{
           padding: 8px 4px 0 4px;
+          margin: 0;
         }
 
         /* Rest Recovery 5e */

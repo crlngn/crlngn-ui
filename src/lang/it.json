@@ -168,7 +168,28 @@
           }
         },
         "reset": "Ripristina",
-        "save": "Salva"
+        "save": "Salva",
+        "colorPicker": {
+          "hint": "Con grandi colori arrivano grandi responsabilità. Ricordati di prenderti cura delle tue retine: per il colore di accento, usa colori con almeno un rating di contrasto 'medio' per una migliore leggibilità.",
+          "title": "Colori Tema Personalizzati",
+          "presets": "Temi Preimpostati",
+          "accentColor": "Colore di Accento",
+          "secondaryColor": "Colore Secondario",
+          "hue": "Tonalità",
+          "saturation": "Saturazione",
+          "lightness": "Luminosità",
+          "accentOnBackground": "Accento su Sfondo",
+          "textOnAccent": "Testo su Accento",
+          "secondaryPreview": "Anteprima Colore Secondario",
+          "contrastGood": "Contrasto: Buono",
+          "contrastMedium": "Contrasto: Medio",
+          "contrastPoor": "Contrasto: Scarso",
+          "apply": "Salva",
+          "applySecondaryColorToBg": {
+            "label": "Applica colore secondario agli sfondi dell'interfaccia Foundry",
+            "hint": "Quando abilitato, il colore secondario sarà applicato agli sfondi dell'interfaccia come barra laterale e controlli. Questo crea un tema colore più unificato."
+          }
+        }
       },
       "chatMessagesMenu": {
         "label": "Opzioni Messaggi Chat",

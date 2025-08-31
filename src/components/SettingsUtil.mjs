@@ -886,7 +886,6 @@ export class SettingsUtil {
     
     // If GM and enforcement is enabled, save settings immediately
     if (game.user?.isGM && SettingsUtil.get(SETTINGS.enforceGMSettings.tag)) {
-      // Save synchronously to ensure they're available before any reload
       SettingsUtil.saveDefaultSettings();
     }
   }

@@ -206,16 +206,35 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
             const worldCustomColors = SettingsUtil.get('v2-custom-theme-colors');
             const playerCustomColors = SettingsUtil.get('v2-player-custom-theme-colors');
             
+            // Helper function to create light/dark versions
+            const createColorVariants = (colors) => {
+              if (!colors.secondary) return colors;
+              
+              const secondaryRGB = colors.secondary.match(/\d+/g);
+              if (secondaryRGB) {
+                const [r, g, b] = secondaryRGB.map(n => parseInt(n));
+                return {
+                  ...colors,
+                  secondaryLight: `rgb(${Math.min(255, r + 150)}, ${Math.min(255, g + 150)}, ${Math.min(255, b + 150)})`,
+                  secondaryDark: colors.secondary
+                };
+              }
+              return colors;
+            };
+            
             // Use custom colors if available, otherwise fallback to default theme colors
-            partContext.customColors = worldCustomColors || {
+            const baseWorldColors = worldCustomColors || {
               accent: THEMES[0].colorPreview[1],
               secondary: THEMES[0].colorPreview[0]
             };
+            partContext.customColors = createColorVariants(baseWorldColors);
+            
             // For player colors, fallback to world colors if no player colors are set
-            partContext.playerCustomColors = playerCustomColors || worldCustomColors || {
+            const basePlayerColors = playerCustomColors || worldCustomColors || {
               accent: THEMES[0].colorPreview[1], 
               secondary: THEMES[0].colorPreview[0]
             };
+            partContext.playerCustomColors = createColorVariants(basePlayerColors);
           }
 
           partContext.sidebarTabs = Object.values(foundry.applications?.sidebar?.tabs || {}).map(tab => ({

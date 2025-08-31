@@ -1,7 +1,7 @@
 {
-  "id": "2.6.0",
-  "title": "Updates on Carolingian UI",
-  "content": "<p>Version 2.6.0:</p>\n<ul><li><b>Force Dark Mode:</b> You can now try to force Dark Mode on modules that don't have it (experimental).</li><li><b>Sidebar Width:</b> You can now adjust the width of sidebar panel in settings!</li><li><b>Hide Inactive Scenes:</b> Toggled scenes will be hidden when folders are open, to avoid duplication - disable this in settings.</li><li><b>Simple Timekeeping & Calendar:</b> Added adjustment to the module for use with Scene Navigation.</li></ul>\n<p>Join us on <a href='https://discord.gg/P5ygvHXE3R'>Discord</a> or visit the <a href='https://github.com/crlngn/crlngn-ui/releases'>Github repository</a>.</p>",
-  "imageUrl": "https://github.com/crlngn/crlngn-ui/blob/v2/demo/crlngn-ui-2.6.0.png?raw=true",
+  "id": "2.10.0",
+  "title": "Custom Color Themes on Carolingian UI",
+  "content": "<p>Version 2.10.0:</p>\n<ul><li><b>Custom Colors are Here!</b> Many of you have been asking for this and I've been delaying as I was afraid of the color atrocities I would see done with this feature. </li><li>But alas, you win! You can now customize the color accents for Foundry UI, and if you are feeling adventurous, apply the secondary color to the backgrounds. Use wisely. </li><li>For the moment, the backgrounds only work for dark mode.</li></ul>\n<p>Join the discussion on <a href='https://discord.gg/P5ygvHXE3R'>Discord</a> or visit the <a href='https://github.com/crlngn/crlngn-ui/releases'>Github repository</a>.</p>",
+  "imageUrl": "https://github.com/crlngn/crlngn-ui/blob/v2/demo/crlngn-ui-color-picker-demo.png?raw=true",
   "videoUrl": ""
 }

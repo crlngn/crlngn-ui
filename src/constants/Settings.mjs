@@ -85,7 +85,7 @@ export const THEMES = [
     className: 'crlngn-theme-grass-stone',
     colorPreview: [
       'rgb(47, 48, 48)',
-      'rgb(133, 174, 74)'
+      'rgb(121, 163, 62)'
     ]
   },
   {
@@ -775,6 +775,17 @@ export function getSettings() {
       scope: SETTING_SCOPE.world,
       config: false,
       requiresReload: false
+    },
+
+    applySecondaryColorToBg: {
+      tag: "v2-apply-secondary-color-to-bg",
+      label: game.i18n.localize("CRLNGN_UI.settings.colorPicker.applySecondaryColorToBg.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.colorPicker.applySecondaryColorToBg.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: true
     },
 
     playerColorTheme:{

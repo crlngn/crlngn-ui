@@ -17,11 +17,11 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     window: {
       icon: "fas fa-palette",
       title: "CRLNGN_UI.settings.colorPicker.title",
-      contentClasses: ["crlngn", "color-picker-dialog"],
-      resizable: false
+      contentClasses: ["crlngn", "color-picker-dialog", "standard-form"],
+      resizable: true
     },
     position: {
-      width: 500,
+      width: 600,
       height: "auto"
     }
   }
@@ -42,7 +42,6 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     this.scope = options.scope || 'world';
     this.currentColors = options.currentColors || this.#getDefaultColors();
     
-    // Perform migration if needed
     this.#performMigrationIfNeeded();
   }
   
@@ -55,25 +54,18 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     const settingTag = game.user.isGM ? SETTINGS.customThemeColors.tag : SETTINGS.playerCustomThemeColors.tag;
     const customColors = SettingsUtil.get(settingTag);
     
-    LogUtil.log("Custom colors #0", [customColors, settingTag]);
     if (!customColors) {
       const oldThemeTag = game.user.isGM ? SETTINGS.colorTheme.tag : SETTINGS.playerColorTheme.tag;
       const oldThemeName = SettingsUtil.get(oldThemeTag);
       
-      LogUtil.log("Custom colors #1", [oldThemeName, oldThemeTag]);
       if (oldThemeName) {
         const migratedColors = ColorPickerUtil.migrateFromOldTheme(oldThemeName);
         
         try {
-          LogUtil.log("Custom colors #2", [migratedColors]);
           await SettingsUtil.set(settingTag, migratedColors);
           this.currentColors = migratedColors;
-          LogUtil.log("Migrated old theme to custom colors", { oldThemeName, migratedColors, scope: this.scope });
-          
-          // Re-render to show migrated colors
           this.render();
         } catch (error) {
-          LogUtil.log("Could not save migrated colors", error);
         }
       }
     }
@@ -87,8 +79,29 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     context.accentHSL = ColorPickerUtil.rgbToHsl(this.currentColors.accent);
     context.secondaryHSL = ColorPickerUtil.rgbToHsl(this.currentColors.secondary);
     
-    // Add preset themes
-    context.themes = THEMES;
+    // Add preset themes with light versions
+    context.themes = THEMES.map(theme => {
+      const secondaryRGB = theme.colorPreview[0].match(/\d+/g);
+      let lightVersion = theme.colorPreview[0];
+      
+      if (secondaryRGB) {
+        const [r, g, b] = secondaryRGB.map(n => parseInt(n));
+        lightVersion = `rgb(${Math.min(255, r + 150)}, ${Math.min(255, g + 150)}, ${Math.min(255, b + 150)})`;
+      }
+      
+      return {
+        ...theme,
+        colorPreview: [
+          theme.colorPreview[0], // Dark secondary
+          lightVersion,          // Light secondary  
+          theme.colorPreview[1]  // Accent
+        ]
+      };
+    });
+    
+    // Add checkbox states
+    const SETTINGS = getSettings();
+    context.applySecondaryColorToBg = SettingsUtil.get(SETTINGS.applySecondaryColorToBg.tag) || false;
     
     // Calculate contrast ratings
     context.accentOnBg = ColorPickerUtil.getContrastRating(
@@ -102,6 +115,14 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     
     context.currentColors = this.currentColors;
     
+    // Add theme-adapted versions of secondary color for preview
+    const secondaryRGB = this.currentColors.secondary.match(/\d+/g);
+    if (secondaryRGB) {
+      const [r, g, b] = secondaryRGB.map(n => parseInt(n));
+      context.secondaryColorLight = `rgb(${Math.min(255, r + 150)}, ${Math.min(255, g + 150)}, ${Math.min(255, b + 150)})`;
+      context.secondaryColorDark = this.currentColors.secondary;
+    }
+    
     return context;
   }
 
@@ -113,16 +134,16 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
       case "footer": {
         partContext.buttons = [
           { 
-            type: "submit", 
-            icon: "", 
-            label: "CRLNGN_UI.settings.colorPicker.apply",
-            action: "submit"
-          },
-          { 
             type: "button", 
             icon: "", 
             label: "Cancel",
             action: "close"
+          },
+          { 
+            type: "submit", 
+            icon: "", 
+            label: "CRLNGN_UI.settings.colorPicker.apply",
+            action: "submit"
           }
         ];
         break;
@@ -175,6 +196,12 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     inputs.forEach(input => {
       formData.append(input.name, input.value);
     });
+
+    // Collect checkbox data
+    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+      formData.append(checkbox.name, checkbox.checked);
+    });
     
     const data = Object.fromEntries(formData.entries());
     
@@ -195,18 +222,33 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
       secondary: secondaryRGB
     };
     
-    // Save the custom colors to the appropriate setting
     await SettingsUtil.set(settingTag, colors);
     
-    // Apply the new theme
+    let confirmReload = false;
+    if (game.user.isGM && data.applySecondaryColorToBg !== undefined) {
+      const currentBgSetting = SettingsUtil.get(SETTINGS.applySecondaryColorToBg.tag);
+      const newBgSetting = data.applySecondaryColorToBg === 'true';
+      
+      await SettingsUtil.set(SETTINGS.applySecondaryColorToBg.tag, newBgSetting);
+      
+      // Check if reload is needed
+      if (SETTINGS.applySecondaryColorToBg.requiresReload && currentBgSetting !== newBgSetting) {
+        confirmReload = true;
+      }
+    }
+    
     ColorPickerUtil.applyCustomTheme(colors);
     
-    // Call callback if provided
+    // Handle reload confirmation if needed
+    if (confirmReload) {
+      const { GeneralUtil } = await import("./GeneralUtil.mjs");
+      GeneralUtil.confirmReload();
+    }
+    
     if (this.callback) {
       this.callback(colors);
     }
     
-    // Close the dialog
     this.close();
   }
 
@@ -260,10 +302,7 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
 
     LogUtil.log("ColorPickerDialog._onColorChange", [this.currentColors]);
     
-    // Update preview
     this.#updatePreview();
-    
-    // Update slider gradients
     this.#updateSliderGradients();
   }
 
@@ -282,22 +321,21 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     
     // Define theme-specific colors
     const controlBgColor = isDarkTheme ? 'rgb(11, 10, 19)' : 'rgb(224, 217, 213)'; // --control-bg-color approximation
-    const adaptiveTextColor = isDarkTheme ? 'rgb(240, 240, 240)' : 'rgb(30, 30, 30)'; // light-dark(--color-dark-1, --color-light-1)
+    const lightTextColor = 'rgb(240, 240, 240)'; // Always use --color-light-1 (white) on accent backgrounds
     
     // Update accent previews
     const accentPreviews = content.querySelectorAll('.accent-preview .preview-item');
     accentPreviews.forEach((preview, index) => {
       if (index === 0) {
-        // First block: Accent background with adaptive text
         preview.style.backgroundColor = this.currentColors.accent;
-        preview.style.color = adaptiveTextColor;
+        preview.style.color = lightTextColor;
         
-        const rating = ColorPickerUtil.getContrastRating(adaptiveTextColor, this.currentColors.accent);
+        const rating = ColorPickerUtil.getContrastRating(lightTextColor, this.currentColors.accent);
         const ratingElement = preview.querySelector('.contrast-rating');
         if (ratingElement) {
           ratingElement.textContent = rating.label;
           ratingElement.className = `contrast-rating ${rating.class}`;
-          ratingElement.style.color = adaptiveTextColor; // Use the same adaptive text color
+          ratingElement.style.color = lightTextColor; // Use white text color
         }
       } else if (index === 1) {
         // Second block: Control background with accent text
@@ -315,10 +353,21 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
       }
     });
     
-    // Update secondary preview
-    const secondaryPreview = content.querySelector('.secondary-preview .preview-item');
-    if (secondaryPreview) {
-      secondaryPreview.style.backgroundColor = this.currentColors.secondary;
+    // Update secondary previews
+    const secondaryPreviews = content.querySelectorAll('.secondary-preview .preview-item');
+    if (secondaryPreviews.length > 0) {
+      // Dark theme preview (first box)
+      secondaryPreviews[0].style.backgroundColor = this.currentColors.secondary;
+      
+      // Light theme preview (second box) - calculate lightened version
+      if (secondaryPreviews[1]) {
+        const secondaryRGB = this.currentColors.secondary.match(/\d+/g);
+        if (secondaryRGB) {
+          const [r, g, b] = secondaryRGB.map(n => parseInt(n));
+          const lightVersion = `rgb(${Math.min(255, r + 150)}, ${Math.min(255, g + 150)}, ${Math.min(255, b + 150)})`;
+          secondaryPreviews[1].style.backgroundColor = lightVersion;
+        }
+      }
     }
   }
 
@@ -362,34 +411,33 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
 
     switch (type) {
       case 'hue':
-        // Full hue spectrum at current saturation and lightness
         gradient = `linear-gradient(to right, 
-          hsl(0, ${currentS}%, ${currentL}%) -2%, 
+          hsl(0, ${currentS}%, ${currentL}%) 0%, 
           hsl(60, ${currentS}%, ${currentL}%) 16.66%, 
           hsl(120, ${currentS}%, ${currentL}%) 33.33%, 
           hsl(180, ${currentS}%, ${currentL}%) 50%, 
           hsl(240, ${currentS}%, ${currentL}%) 66.66%, 
           hsl(300, ${currentS}%, ${currentL}%) 83.33%, 
-          hsl(360, ${currentS}%, ${currentL}%) 102%)`;
+          hsl(360, ${currentS}%, ${currentL}%) 100%)`;
         break;
 
       case 'saturation':
-        // From gray to full saturation at current hue and lightness
         gradient = `linear-gradient(to right, 
-          hsl(${currentH}, 0%, ${currentL}%) -2%, 
-          hsl(${currentH}, 100%, ${currentL}%) 102%)`;
+          hsl(${currentH}, 0%, ${currentL}%) 0%, 
+          hsl(${currentH}, 100%, ${currentL}%) 100%)`;
         break;
 
       case 'lightness':
-        // From black through current color to white
         gradient = `linear-gradient(to right, 
-          hsl(${currentH}, ${currentS}%, 0%) -2%, 
+          hsl(${currentH}, ${currentS}%, 0%) 0%, 
           hsl(${currentH}, ${currentS}%, 50%) 50%, 
-          hsl(${currentH}, ${currentS}%, 100%) 102%)`;
+          hsl(${currentH}, ${currentS}%, 100%) 100%)`;
         break;
     }
 
     slider.style.background = gradient;
+    slider.style.backgroundSize = '100% 100%';
+    slider.style.backgroundRepeat = 'no-repeat';
   }
 
   /** @inheritDoc */
@@ -561,6 +609,8 @@ export class ColorPickerUtil {
     if (!match) return vars;
     
     const [r, g, b] = match.map(n => parseInt(n));
+    const SETTINGS = getSettings();
+    const applySecondaryToBg = SettingsUtil.get(SETTINGS.applySecondaryColorToBg.tag) || false;
     
     if (type === 'accent') {
       // Direct mappings
@@ -599,8 +649,8 @@ export class ColorPickerUtil {
       vars['--color-secondary'] = baseColor;
       
       // Brighter variant
-      vars['--color-secondary-bright'] = `rgb(${Math.min(255, r + 40)}, ${Math.min(255, g + 40)}, ${Math.min(255, b + 40)})`;
-      vars['--color-secondary-bright-50'] = `rgba(${Math.min(255, r + 40)}, ${Math.min(255, g + 40)}, ${Math.min(255, b + 40)}, 0.5)`;
+      vars['--color-secondary-bright'] = `rgb(${Math.min(255, r + 120)}, ${Math.min(255, g + 120)}, ${Math.min(255, b + 120)})`;
+      vars['--color-secondary-bright-50'] = `rgba(${Math.min(255, r + 120)}, ${Math.min(255, g + 120)}, ${Math.min(255, b + 120)}, 0.5)`;
       
       // Opacity variations
       vars['--color-secondary-15'] = `rgba(${r}, ${g}, ${b}, 0.15)`;
@@ -611,19 +661,47 @@ export class ColorPickerUtil {
       vars['--color-secondary-90'] = `rgba(${r}, ${g}, ${b}, 0.9)`;
       
       // B variant (darker)
-      vars['--color-secondary-b'] = `rgb(${Math.max(0, r - 20)}, ${Math.max(0, g - 20)}, ${Math.max(0, b - 20)})`;
-      vars['--color-secondary-b-25'] = `rgba(${Math.max(0, r - 20)}, ${Math.max(0, g - 20)}, ${Math.max(0, b - 20)}, 0.25)`;
-      vars['--color-secondary-b-50'] = `rgba(${Math.max(0, r - 20)}, ${Math.max(0, g - 20)}, ${Math.max(0, b - 20)}, 0.5)`;
-      vars['--color-secondary-b-75'] = `rgba(${Math.max(0, r - 20)}, ${Math.max(0, g - 20)}, ${Math.max(0, b - 20)}, 0.75)`;
-      vars['--color-secondary-b-90'] = `rgba(${Math.max(0, r - 20)}, ${Math.max(0, g - 20)}, ${Math.max(0, b - 20)}, 0.9)`;
+      vars['--color-secondary-b'] = `rgb(${Math.max(0, r - 30)}, ${Math.max(0, g - 30)}, ${Math.max(0, b - 30)})`;
+      vars['--color-secondary-b-25'] = `rgba(${Math.max(0, r - 30)}, ${Math.max(0, g - 30)}, ${Math.max(0, b - 30)}, 0.25)`;
+      vars['--color-secondary-b-50'] = `rgba(${Math.max(0, r - 30)}, ${Math.max(0, g - 30)}, ${Math.max(0, b - 30)}, 0.5)`;
+      vars['--color-secondary-b-75'] = `rgba(${Math.max(0, r - 30)}, ${Math.max(0, g - 30)}, ${Math.max(0, b - 30)}, 0.75)`;
+      vars['--color-secondary-b-90'] = `rgba(${Math.max(0, r - 30)}, ${Math.max(0, g - 30)}, ${Math.max(0, b - 30)}, 0.9)`;
       
-      // Text color (lighter for dark themes)
-      vars['--color-text-secondary'] = `rgb(${Math.min(255, r + 100)}, ${Math.min(255, g + 100)}, ${Math.min(255, b + 100)})`;
+      // Text color - adapt based on interface theme
+      const uiConfig = game.settings.get('core', 'uiConfig');
+      const interfaceTheme = uiConfig?.colorScheme?.interface || uiConfig?.colorScheme?.applications || 'dark';
+      const isLightTheme = interfaceTheme === 'light';
+      
+      if (isLightTheme) {
+        vars['--color-text-secondary'] = `rgb(${Math.max(0, r - 80)}, ${Math.max(0, g - 80)}, ${Math.max(0, b - 80)})`;
+      } else {
+        vars['--color-text-secondary'] = `rgb(${Math.min(255, r + 100)}, ${Math.min(255, g + 100)}, ${Math.min(255, b + 100)})`;
+      }
       vars['--color-ownership-none'] = baseColor;
       vars['--toggle-active-bg-color'] = baseColor;
       vars['--toggle-active-border-color'] = baseColor;
       vars['--color-fieldset-border'] = `rgba(${r}, ${g}, ${b}, 0.25)`;
       vars['--input-border-color'] = baseColor;
+
+      if (applySecondaryToBg) {
+        const bgR = isLightTheme ? Math.min(255, r + 150) : r;
+        const bgG = isLightTheme ? Math.min(255, g + 150) : g;
+        const bgB = isLightTheme ? Math.min(255, b + 150) : b;
+        
+        const bgColor = `rgb(${bgR}, ${bgG}, ${bgB})`;
+        
+        if(!isLightTheme){
+          vars['--color-cool-5'] = bgColor;
+          vars['--color-cool-5-15'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.15)`;
+          vars['--color-cool-5-25'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.25)`;
+          vars['--color-cool-5-50'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.5)`;
+          vars['--color-cool-5-75'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.75)`;
+          vars['--color-cool-5-90'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.95)`;
+        }
+        vars['--control-bg-color'] = bgColor;
+        vars['--sidebar-background'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.92)`;
+        vars['--color-bg-button'] = 'light-dark(rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.35))';
+      }
     }
     
     return vars;
@@ -640,25 +718,19 @@ export class ColorPickerUtil {
       existingStyle.remove();
     }
     
-    // Get the current interface theme
     const uiConfig = game.settings.get('core', 'uiConfig');
     const interfaceTheme = uiConfig?.colorScheme?.interface || 'dark';
     
-    // Generate accent variables (same for both themes)
     const accentVars = this.generateColorVariations(colors.accent, 'accent');
     
-    // For secondary color, adjust lightness based on theme
     let secondaryForDark = colors.secondary;
     let secondaryForLight = colors.secondary;
     
-    // Convert secondary to HSL to adjust lightness
     const secondaryHSL = this.rgbToHsl(colors.secondary);
     if (interfaceTheme === 'light') {
-      // Invert lightness for light theme (dark becomes light)
       const invertedLightness = Math.max(70, 100 - secondaryHSL.l);
       secondaryForLight = this.hslToRgb(secondaryHSL.h, secondaryHSL.s, invertedLightness);
     } else {
-      // For dark theme, ensure secondary is dark enough
       const darkenedLightness = Math.min(30, secondaryHSL.l);
       secondaryForDark = this.hslToRgb(secondaryHSL.h, secondaryHSL.s, darkenedLightness);
     }
@@ -667,29 +739,26 @@ export class ColorPickerUtil {
     const secondaryVarsDark = this.generateColorVariations(secondaryForDark, 'secondary');
     const secondaryVarsLight = this.generateColorVariations(secondaryForLight, 'secondary');
     
-    // Create CSS text with all accent variables applied globally
     let cssText = 'body.crlngn-ui, body.crlngn-ui.game .app {\n';
     for (const [varName, value] of Object.entries(accentVars)) {
       cssText += `  ${varName}: ${value};\n`;
     }
     cssText += '}\n';
     
-    // Add theme-specific selectors for secondary colors
     cssText += `
       body.crlngn-ui.theme-dark,
       body.crlngn-ui.theme-dark .app,
       #interface.theme-dark {
-        ${Object.entries(secondaryVarsDark).map(([k, v]) => `${k}: ${v};`).join('\n  ')}
+        ${Object.entries(secondaryVarsDark).map(([k, v]) => `${k}: ${v};`).join('\n    ')}
       }
       
       body.crlngn-ui.theme-light,
       body.crlngn-ui.theme-light .app,
       #interface.theme-light {
-        ${Object.entries(secondaryVarsLight).map(([k, v]) => `${k}: ${v};`).join('\n  ')}
+        ${Object.entries(secondaryVarsLight).map(([k, v]) => `${k}: ${v};`).join('\n    ')}
       }
     `;
     
-    // Create and append style element
     const style = document.createElement('style');
     style.id = 'crlngn-custom-theme-style';
     style.textContent = cssText;

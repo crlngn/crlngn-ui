@@ -424,7 +424,7 @@
         "hint": "If a player doesn't want to use Carolingian UI, they may disable it. No other feature of the module will work except for dark style in chat cards - which can be separately disabled."
       },
       "colorPicker": {
-        "hint": "With great colors come great responsibility. Remember to care for your players' retinas: for the accent color, check how text contrasts is rated. Use colors with at least a 'medium' contrast rating for better readability.",
+        "hint": "With great colors comes great responsibility. Remember to care for your retinas: for the accent color, use colors with at least a 'medium' contrast rating for better readability.",
         "title": "Custom Theme Colors",
         "presets": "Preset Themes",
         "accentColor": "Accent Color",
@@ -438,7 +438,11 @@
         "contrastGood": "Contrast: Good",
         "contrastMedium": "Contrast: Medium",
         "contrastPoor": "Contrast: Poor",
-        "apply": "Save"
+        "apply": "Save",
+        "applySecondaryColorToBg": {
+          "label": "Apply Secondary color to Foundry interface backgrounds",
+          "hint": "When enabled, the secondary color will be applied to interface backgrounds like sidebar and controls. This creates a more unified color theme."
+        }
       }
     },
     "dnd5e": {
