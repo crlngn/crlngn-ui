@@ -224,7 +224,7 @@ body.crlngn-ui.crlngn-sheets {
       justify-content: flex-start;
       overflow: scroll;
       z-index: 1;
-      background-color: var(--color-dark-bg-25);
+      /*background-color: var(--color-dark-bg-25);*/
       font-size: var(--font-size-14);
       
       /* deal with scrollbar */
@@ -259,10 +259,14 @@ body.crlngn-ui.crlngn-sheets {
         &:hover, &.active{
           box-shadow: none;
           opacity: 1;
+          color: var(--color-light-1);
+          font-weight: 600;
         }
         &.active{
           filter: none;
           opacity: 1;
+          color: var(--color-light-1);
+          font-weight: 600;
         }
       }
       > a.item i{
@@ -311,7 +315,7 @@ body.crlngn-ui.crlngn-sheets {
       padding-top: 0px;
     }
 
-    &.theme-light {
+    .theme-light {
       .crlngn-tab-scroll-wrapper {
         background-color: var(--color-warm-3);
       }
@@ -337,6 +341,15 @@ body.crlngn-ui.crlngn-sheets {
         color: var(--color-light-1);
       }
     } 
+
+    .theme-dark .crlngn-tab-scroll-wrapper,
+    .theme-dark.crlngn-tab-scroll-wrapper {
+      background-color: transparent;
+    }
+
+    .theme-light.crlngn-tab-scroll-wrapper {
+      background-color: var(--color-warm-3);
+    }
   } 
 
   .dnd5e2.compendium-browser.vertical-tabs .window-content:has(.crlngn-tab-scroll-wrapper) {
@@ -357,7 +370,6 @@ body.crlngn-ui.crlngn-sheets {
       grid-column: span 2;
       grid-row-end: 1;
       height: fit-content;
-      
       
       nav.tabs {
         flex: 1;
@@ -445,6 +457,7 @@ body.crlngn-ui.crlngn-sheets {
     color: var(--color-light-1);
   }
   &:is(.dnd5e-theme-light, .theme-light) {
+    --dnd5e-background-alt-2: rgba(244, 239, 237,0.8);
     .dnd5e2.sheet.actor.character .sheet-body .sidebar .card,
     .dnd5e2.sheet.actor.character .sheet-body .sidebar .card .card-tab.collapser,
     .dnd5e2.sheet.actor.character .sheet-body .sidebar .card .card-tab,
@@ -460,6 +473,12 @@ body.crlngn-ui.crlngn-sheets {
         background: var(--dnd5e-color-gold);
       }
     }
+  }
+  .theme-light.dnd5e2.sheet.actor.character .sheet-body .sidebar .card,
+  .theme-light.dnd5e2.sheet.actor.character .sheet-body .sidebar .card .card-tab.collapser,
+  .theme-light.dnd5e2.sheet.actor.character .sheet-body .sidebar .card .card-tab,
+  .theme-light.dnd5e2.sheet.actor.character .sheet-body .sidebar .card .death-tray .death-saves {
+    background: rgba(244, 239, 237,1);
   }
 
   /* NPC */

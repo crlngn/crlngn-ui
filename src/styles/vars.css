@@ -310,7 +310,8 @@ Main Theme
       --input-background-color: rgba(255, 255, 255, 0.2);
     }
 
-    &.theme-dark.crlngn-chat .sidebar-content{
+    &.theme-dark.crlngn-chat .sidebar-content,
+    .application.theme-dark.sheet{
       --dnd5e-background-card: rgb(32, 37, 43); 
       --dnd5e-color-parchment: rgb(32, 37, 43);
       --crlngn-button-bg: rgba(15, 15, 15, 0.15);
@@ -318,7 +319,8 @@ Main Theme
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --color-hover-bg: inherit;
     }
-    &.theme-light.crlngn-chat .sidebar-content{
+    &.theme-light.crlngn-chat .sidebar-content,
+    .application.theme-dark.sheet{
       --dnd5e-background-card: rgba(244, 239, 237,0.8);
       --dnd5e-color-parchment: rgb(244, 239, 237);
       --crlngn-button-bg: rgba(250, 250, 250, 0.15);

@@ -706,7 +706,7 @@ export class ColorPickerUtil {
         vars['--color-cool-5-50'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.5)`;
         vars['--color-cool-5-75'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.75)`;
         vars['--color-cool-5-90'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.95)`;
-        vars['--background'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.96)`;
+        vars['--background'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.98)`;
         vars['--background-color'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.75)`;
         
         vars['--control-bg-color'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.75)`;

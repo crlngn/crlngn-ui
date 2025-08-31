@@ -108,7 +108,7 @@ export const THEMES = [
     label: "Plum Purple",
     className: 'crlngn-plum-purple',
     colorPreview: [
-      'rgb(20, 29, 47)',
+      'rgb(20, 23, 26)',
       'rgb(146, 42, 96)'
     ]
   },
