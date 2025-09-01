@@ -2,7 +2,7 @@
 
 **Patreon members** receive priority support and may vote or suggest new features and modules on my Discord channel.
 
-![Static Badge](https://img.shields.io/badge/Patreon-carolingian-white?style=for-the-badge&logo=patreon&labelColor=%23000000&color=%238000b3)
+[![Static Badge](https://img.shields.io/badge/Patreon-carolingian-white?style=for-the-badge&logo=patreon&labelColor=%23000000&color=%238000b3)](https://www.patreon.com/c/carolingiandev)
 [![alt-text](https://img.shields.io/badge/-Discord-%235662f6?style=for-the-badge)](https://discord.gg/cAuTaTYda3) 
 ![GitHub Downloads (specific asset, all releases)](https://img.shields.io/github/downloads/crlngn/crlngn-ui/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge)
 
