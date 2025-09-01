@@ -1,16 +1,10 @@
 **IMPORTANT: If you are using Foundry v12 install Carolingian UI v1.18.x. If you are using Foundry v13 you should install Carolingian UI v2.x**
 
-I have created a Discord channel for users of my module to discuss it and seek help. Not a lot of people yet as I've just created it, but feel free to join:
+**Patreon members** receive priority support and may vote or suggest new features and modules on my Discord channel.
 
+![Static Badge](https://img.shields.io/badge/Patreon-carolingian-white?style=for-the-badge&logo=patreon&labelColor=%23000000&color=%238000b3)
 [![alt-text](https://img.shields.io/badge/-Discord-%235662f6?style=for-the-badge)](https://discord.gg/cAuTaTYda3) 
 ![GitHub Downloads (specific asset, all releases)](https://img.shields.io/github/downloads/crlngn/crlngn-ui/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge)
-
-
-**Compatibility:** 
-- v1.x: Foundry VTT version 12.328+
-- v2.x: Foundry VTT version 13.341+
-- Mostly tested with DnD5e 4.x - 5.x. Should work with other systems, but modules for those systems remain untested. 
-- Localization: English, Brazilian Portuguese, Chinese, Italian. Thanks to [yyzitai](https://github.com/yyzitai) for contributions to the Chinese language files.
 
 ## Carolingian UI
 A UI overhaul, focusing on removing clutter from screen and improving overall look and feel of Foundry VTT, but also offering many quality of life features to the UI panels.
@@ -63,7 +57,14 @@ A UI overhaul, focusing on removing clutter from screen and improving overall lo
 
 **Carolingian UI** is free to use and distribute under MIT License. If you reuse my code, please add mention to the original repo. 
 
-I am very opinionated about this module's look and feel, as it was created for my own use, and I overwrite some other modules' fonts and colors to look more uniform with mine. My setup of modules is relatively lean, with only ~40 quality of life modules. If the aesthetics are too off or the module is too niche, I might not be interested in working on compatibility for it. That being said, I've specifically tested some modules by user request, and adapted their styling.
+I am very opinionated about this module's look and feel, as it was created for my own use, and I overwrite some other modules' fonts and colors to look more uniform with mine. My setup of modules is relatively lean, with only ~40 quality of life modules. If the aesthetics are too off or the module is too niche, I might not be interested in working on compatibility for it. That being said, I've specifically tested some modules by user request, and adapted their styling, and you may request support for specific modules if you are a member on Patreon.
+
+**Compatibility:** 
+- v1.x: Foundry VTT version 12.328+
+- v2.x: Foundry VTT version 13.341+
+- Mostly tested with DnD5e 4.x - 5.x. Should work with other systems, but modules for those systems remain untested. 
+- Localization: English, Brazilian Portuguese, Chinese, Italian. Thanks to [yyzitai](https://github.com/yyzitai) for contributions to the Chinese language files.
+
 
 ### MODULE COMPATIBILITY (A-Z):
 I've adapted or adjusted many modules to go well with Carolngian UI - mostly those that might be particularly affected by changes in the UI. Check the  compatibility trcker for v13.
