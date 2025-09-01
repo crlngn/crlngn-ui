@@ -575,3 +575,24 @@ body.crlngn-ui.crlngn-sheets {
   }
   
 }
+
+/* journal */
+
+body.crlngn-ui .sheet.journal-entry.application .journal-sidebar .toc li.page {
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid light-dark(rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.3));
+}
+body.crlngn-ui .sheet.journal-entry.application .journal-sidebar .toc li.page.active{
+  border-top: 1px solid var(--color-warm-2);
+  border-bottom: 1px solid var(--color-warm-2);
+}
+body.crlngn-ui .sheet.journal-entry .journal-header .title {
+  border-color: transparent;
+  background-color: light-dark(rgba(255, 255, 255, 0.15), rgba(0, 0, 0, 0.2));
+}
+
+body.crlngn-ui .ddb .Flowchart-Block,
+body.crlngn-ui .ddb .Flowchart-Block > * {
+  color: var(--color-dark-1);
+}
+
