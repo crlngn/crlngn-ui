@@ -88,23 +88,21 @@ export class SettingsUtil {
 
 
     /**
-     * Register the tabbed settings menu as the main entry point
+     * Register all menus from getSettingMenus
      */
     const settingMenus = Object.entries(getSettingMenus());
     
-    // First register the main tabbed settings menu
-    const tabbedMenu = settingMenus.find(entry => entry[0] === 'moduleSettingsMenu');
-    if (tabbedMenu) {
-      const tabbedMenuData = tabbedMenu[1];
-      const tabbedMenuObj = {
-        name: tabbedMenuData.tag,
-        label: tabbedMenuData.label, 
-        hint: tabbedMenuData.hint,
-        icon: tabbedMenuData.icon, 
-        type: tabbedMenuData.propType,
-        restricted: false // tabbedMenuData.restricted
+    // Register each menu
+    for (const [menuKey, menuData] of settingMenus) {
+      const menuObj = {
+        name: menuData.tag,
+        label: menuData.label, 
+        hint: menuData.hint,
+        icon: menuData.icon, 
+        type: menuData.propType,
+        restricted: menuData.restricted || false
       };
-      await game.settings.registerMenu(MODULE_ID, tabbedMenuData.tag, tabbedMenuObj);
+      await game.settings.registerMenu(MODULE_ID, menuData.tag, menuObj);
     }
 
     if(SettingsUtil.get(SETTINGS.disableUI.tag)===true){ return; }
@@ -749,7 +747,7 @@ export class SettingsUtil {
     const foundryUiConfig = game.settings.get('core','uiConfig') || null;
     
     if(enforceDarkTheme && foundryUiConfig?.colorScheme?.applications==='dark'){
-      SettingsUtil.applyForcedDarkTheme('.app.theme-light:not(.sheet), .system-pf2e .sheet.theme-light, #AA-autorec-settings');
+      SettingsUtil.applyForcedDarkTheme('.app.theme-light:not(.sheet.dnd5e2, .sheet.journal-sheet), .system-pf2e .sheet.theme-light, #AA-autorec-settings');
       document.querySelector('body').classList.add('crlngn-forced-dark-theme');
     }
   }

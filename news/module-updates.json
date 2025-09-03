@@ -1,7 +1,7 @@
 {
-  "id": "2.10.0",
+  "id": "2.10.00",
   "title": "Custom Colors on Carolingian UI",
-  "content": "<p>Version 2.10.0:</p>\n<ul><li><b>Custom Color Themes are Here!</b> Many of you have been asking for this and I've been delaying as I was afraid of the color atrocities I would see done with this feature. </li><li>But alas, you win! You can now customize the color accents for Foundry UI, and if you are feeling adventurous, apply the secondary color to the backgrounds. Use wisely. </li><li>For the moment, the backgrounds only work for dark mode.</li></ul>\n<p>Join the discussion on <a href='https://discord.gg/P5ygvHXE3R'>Discord</a> or visit the <a href='https://github.com/crlngn/crlngn-ui/releases'>Github repository</a>.</p>",
+  "content": "<p>Version 2.10.0:</p>\n<ul><li><b>Custom Color Themes are Here!</b> Many of you have been asking for this and I've been delaying as I was afraid of the color atrocities I would see done with this feature. </li><li>But alas, you win! You can now customize the color accents for Foundry UI, and if you are feeling adventurous, apply the secondary color to the backgrounds. Use wisely. </li><li>For the moment, the backgrounds only work for dark mode.</li></ul>\n<p><b>If you like this module, consider supporting me on <a href='https://www.patreon.com/carolingiandev/membership'>Patreon</a> with only $2 or $5 per month!</b></p><p>Join the discussion on <a href='https://discord.gg/P5ygvHXE3R'>Discord</a> or visit the <a href='https://github.com/crlngn/crlngn-ui/releases'>Github repository</a>.</p>",
   "imageUrl": "https://github.com/crlngn/crlngn-ui/blob/v2/demo/crlngn-ui-color-picker-demo.png?raw=true",
   "videoUrl": ""
 }

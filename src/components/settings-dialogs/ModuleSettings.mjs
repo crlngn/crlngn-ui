@@ -35,7 +35,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       resizable: true
     },
     position: {
-      width: 700,
+      width: 740,
       height: "auto"
     },
     actions: {
@@ -91,6 +91,11 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       template: "modules/crlngn-ui/templates/camera-dock-settings.hbs",
       isGMOnly: false
     },
+    // sistems: {
+    //   menuKey: "sistemsMenu",
+    //   template: "modules/crlngn-ui/templates/sistems-modules-settings.hbs",
+    //   isGMOnly: false
+    // },
     footer: {
       template: "templates/generic/form-footer.hbs",
       isGMOnly: false

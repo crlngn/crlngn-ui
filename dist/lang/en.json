@@ -51,6 +51,11 @@
       "toggleChatBox": "Toggle Chat Box"
     },
     "settings": {
+      "supportPatreon": {
+        "label": "Support the developer",
+        "buttonLabel": "Patreon support",
+        "hint": "If you like Carolingian UI and my other modules, consider supporting the development with $2 or $5 per month."
+      },
       "moduleSettingsMenu": {
         "label": "Interface Settings",
         "title": "Configure Options",

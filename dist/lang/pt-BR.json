@@ -51,6 +51,11 @@
       "toggleChatBox": "Caixa de Mensagens"
     },
     "settings": {
+      "supportPatreon": {
+        "label": "Apoie o desenvolvedor",
+        "buttonLabel": "Apoio no Patreon",
+        "hint": "Se você gosta de Carolingian UI e meus outros módulos, considere apoiar o desenvolvimento com $2 ou $5 por mês."
+      },
       "moduleSettingsMenu": {
         "label": "Configurações de Interface",
         "title": "Configurar Opções",

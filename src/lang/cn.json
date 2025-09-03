@@ -51,6 +51,11 @@
       "toggleChatBox": "切换聊天框"
     },
     "settings": {
+      "supportPatreon": {
+        "label": "支持开发者",
+        "buttonLabel": "通过 Patreon 支持",
+        "hint": "如果您喜欢 Carolingian UI 和我开发的其他模组，欢迎通过每月 $2 或 $5 的赞助来支持后续开发。"
+      },
       "moduleSettingsMenu": {
         "label": "界面设置",
         "title": "配置选项",
@@ -170,7 +175,7 @@
         "reset": "重置",
         "save": "保存",
         "colorPicker": {
-          "hint": "颜色选择需谨慎使用。请记住保护您的视网膜：对于强调色，请使用至少"中等"对比度等级的颜色以获得更好的可读性。",
+          "hint": "颜色选择需谨慎使用。请记住保护您的视网膜：对于强调色，请使用至少'中等'对比度等级的颜色以获得更好的可读性。",
           "title": "自定义主题颜色",
           "presets": "预设主题",
           "accentColor": "强调色",

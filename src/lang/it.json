@@ -51,6 +51,11 @@
       "toggleChatBox": "Pulsante Chat"
     },
     "settings": {
+      "supportPatreon": {
+        "label": "Supporta lo sviluppatore",
+        "buttonLabel": "Supporto Patreon",
+        "hint": "Se ti piace Carolingian UI e i miei altri moduli, considera di supportare lo sviluppo con $2 o $5 al mese."
+      },
       "moduleSettingsMenu": {
         "label": "Impostazioni Interfaccia",
         "title": "Configura Opzioni",
