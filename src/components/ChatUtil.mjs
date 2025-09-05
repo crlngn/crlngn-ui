@@ -37,11 +37,9 @@ export class ChatUtil {
    */
   static enrichCard = async(chatMessage, html) => {
     LogUtil.log("renderChatMessage", [ChatUtil.chatBorderColor, ChatUtil.enableChatStyles, BORDER_COLOR_TYPES.playerColor.name, chatMessage.author?.id]); 
-    const rollType = chatMessage.flags?.dnd5e?.activity?.type || chatMessage.flags?.dnd5e?.roll?.type || "custom";
     let chatItem = html.get ? html.get(0) : html;
     if(!chatItem){ return; }
     
-    chatItem.classList.add(rollType);
     chatItem.classList.add('crlngn');
 
     switch(ChatUtil.chatBorderPosition){
@@ -58,10 +56,21 @@ export class ChatUtil {
         break;
     }
 
-    // if(ChatUtil.useLeftChatBorder){
-    //   chatItem.classList.add("left-border");
-    // }
+    // add border color
+    if(ChatUtil.chatBorderColor===BORDER_COLOR_TYPES.playerColor.name && chatMessage.author?.id){ 
+      chatItem.style.setProperty('border-color', `var(--user-color-${chatMessage.author.id})`, `important`);
+      LogUtil.log("renderChatMessage #2", [ChatUtil.chatBorderColor, chatMessage.author?.id]); 
+    
+    }
 
+
+    if(chatMessage.flags?.dnd5e){
+      const rollType = chatMessage.flags.dnd5e.activity?.type || chatMessage.flags?.dnd5e?.roll?.type || "custom";
+      chatItem.classList.add(rollType);
+    }else{
+      chatItem.classList.add('custom');
+      return;
+    }
     const saveButtons = chatItem.querySelectorAll('.card-buttons button[data-action=rollSave]');
     if (saveButtons.length > 0) {      
       saveButtons.forEach(button => {
@@ -73,11 +82,6 @@ export class ChatUtil {
         visibleDCSpan.setAttribute('data-dc', button.getAttribute('data-dc') || "");
         hiddenDCSpan.setAttribute('data-ability', button.getAttribute('data-ability') || "");
       });
-    }
-
-    // add border color
-    if(ChatUtil.chatBorderColor===BORDER_COLOR_TYPES.playerColor.name && chatMessage.author?.id){ 
-      chatItem.style.setProperty('border-color', `var(--user-color-${chatMessage.author.id}) !important`);
     }
 
   }

@@ -717,8 +717,8 @@ export class ColorPickerUtil {
         vars['--color-text-secondary'] = this.hslToRgb(hsl.h, hsl.s, textLightness);
       }
       vars['--color-ownership-none'] = baseColor;
-      vars['--toggle-active-bg-color'] = baseColor;
-      vars['--toggle-active-border-color'] = baseColor;
+      // vars['--toggle-active-bg-color'] = `rgba(${r}, ${g}, ${b}, 0.5)`;
+      // vars['--toggle-active-border-color'] = `rgba(${r}, ${g}, ${b}, 0.5)`;
       vars['--color-fieldset-border'] = `rgba(${r}, ${g}, ${b}, 0.25)`;
       vars['--input-border-color'] = baseColor;
 

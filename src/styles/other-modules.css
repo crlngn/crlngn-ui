@@ -772,6 +772,10 @@ body.crlngn-ui{
     }
   }
 
+  #ui-left-column-1:has(>#pf2e-hud-persistent) {
+    width: calc(var(--control-columns) * var(--control-size) + (var(--control-columns) - 1) * 8px);
+  }
+
   .crlngn-dark-mode{
     --background: var(--color-dark-bg-95) !important;
     --filigree-background-color: var(--color-dark-bg-10) !important;

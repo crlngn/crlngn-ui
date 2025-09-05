@@ -108,6 +108,7 @@ body.crlngn-ui{
         .ui-control{
           &[aria-pressed=true]{
             border: 1px solid var(--color-highlights);
+            background: var(--color-secondary-b-90);
           }
         }
       }
@@ -125,8 +126,8 @@ body.crlngn-ui{
       
           &[aria-pressed=true]{
             cursor: pointer;
-            background: var(--color-secondary-90);
-            border: 1px solid var(--color-secondary-bright-50);
+            background: var(--color-secondary-b-90);
+            border: 1px solid var(--color-warm-2);
             &:hover{
               border: 1px solid var(--color-secondary-bright);
             }
@@ -135,15 +136,18 @@ body.crlngn-ui{
           &.toggle{
             cursor: pointer;
             /*background: var(--color-secondary-75);*/
-            background: var(--striped-bg); 
-            border: 1px solid var(--color-secondary-50);
+            background: var(--toggle-bg-color); 
+            border: 1px dashed var(--toggle-border-color);
       
             &[aria-pressed=true]{
-              background: var(--striped-bg); 
-              border: 1px dashed var(--color-secondary-bright);
+              /* background: var(--striped-bg); 
+              border: 1px dashed var(--color-secondary-bright);*/
+
+              background: var(--toggle-active-bg-color);
+              border: 1px dashed var(--toggle-active-border-color);
             }
             &:hover{
-              background: var(--striped-bg); 
+              background: var(--toggle-active-bg-color);
               border: 1px solid var(--color-secondary-bright);
             }
           } 

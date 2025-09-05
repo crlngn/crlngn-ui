@@ -112,8 +112,8 @@ Main Theme
     --color-scrollbar-track: transparent;
     --color-scrollbar-border: var(--color-highlights-75);
     --color-shadow-primary: var(--color-highlights-50);
-    --toggle-active-bg-color: var(--color-secondary);
-    --toggle-active-border-color: var(--color-secondary);
+    --toggle-active-bg-color: var(--color-highlights-50);
+    --toggle-active-border-color: var(--color-highlights-75);
     --control-active-border-color: var(--color-highlights);
     --color-text-accent: var(--color-highlights);
     --color-fieldset-border: var(--color-cool-4);
@@ -153,9 +153,9 @@ Main Theme
     --input-border-color: var(--color-secondary);
 
     .ui-control, .placeable-hud, #measurement .waypoint-label {
-      --toggle-bg-color: var(--color-secondary);
-      --toggle-border-color: var(--color-warm-2);
-      --toggle-active-bg-color: var(--striped-bg);
+      --toggle-bg-color: var(--control-striped-bg);
+      --toggle-border-color: var(--color-secondary-b);
+      --toggle-active-bg-color: var(--control-striped-bg-2);
       --toggle-active-border-color: var(--color-warm-1);
     }
     
@@ -418,8 +418,8 @@ Main Theme
     --color-scrollbar-track: transparent;
     --color-scrollbar-border: var(--color-highlights-75);
     --color-shadow-primary: var(--color-highlights-50);
-    --toggle-active-bg-color: var(--color-secondary);
-    --toggle-active-border-color: var(--color-secondary);
+    --toggle-active-bg-color: var(--color-highlights-50);
+    --toggle-active-border-color: var(--color-highlights-75);
     --control-active-border-color: var(--color-highlights);
     --color-text-accent: var(--color-highlights);
     --color-fieldset-border: var(--color-cool-4);
@@ -501,6 +501,8 @@ Main Theme
   }
 
   #interface {
+    --control-striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-b-50) 0px, var(--color-secondary-b-50) 1px, var(--color-secondary-b-75) 2px, var(--color-secondary-b-75) 3px);
+    --control-striped-bg-2: repeating-linear-gradient(-45deg, var(--color-secondary-b) 0px, var(--color-secondary-b) 1px, var(--color-secondary-b-75) 2px, var(--color-secondary-b-75) 3px);
     --striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-50) 0px, var(--color-secondary-50) 1px, var(--color-secondary-25) 2px, var(--color-secondary-25) 3px);
     --striped-bg-2: repeating-linear-gradient( -45deg, rgba(235, 235, 215, 0.3) 0px, rgba(235, 235, 215, 0.3) 1px, rgba(240,240,240,0.3) 2px, rgba(240,240,240,0.3) 3px);  
   }
