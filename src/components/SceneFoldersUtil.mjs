@@ -24,7 +24,7 @@ export class SceneNavFolders {
    * @static
    */
   static init() {
-    if (SceneNavFolders.noFolderView() || !ui.scenes) { return; }
+    if (SceneNavFolders.noFolderView() || !ui.scenes || game.scenes.folders.size < 1 || game.scenes.size < 2) { return; }
     SceneNavFolders.preloadTemplates();
     
     // Initialize user flags for active scene folders if they don't exist
@@ -58,7 +58,7 @@ export class SceneNavFolders {
       TopNavigation.isRipperSceneNavOn ||
       TopNavigation.isMonksSceneNavOn ||
       game.user.isGM === false ||
-      game.scenes.size < 2 || game.scenes.folders.size < 1
+      game.scenes.size < 1 || game.scenes.folders.size < 1
     ){ return; }
     const SETTINGS = getSettings();
     // if button already exists, remove it

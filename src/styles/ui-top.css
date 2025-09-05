@@ -980,7 +980,7 @@ body.crlngn-ui {
 
         li.scene > .scene-preview {
           display: flex;
-          width: var(--folder-header-width);
+          width: 100%;/*var(--folder-header-width);*/
           height: 80px;
           background-color: var(--color-dark-bg-50);
           background-size: cover;

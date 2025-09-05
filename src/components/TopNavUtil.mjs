@@ -232,7 +232,7 @@ export class TopNavigation {
       }
       TopNavigation.handleNavState(navHtml);
     }
-    if(!TopNavigation.useSceneFolders || !game.user?.isGM){
+    if(!TopNavigation.useSceneFolders || !game.user?.isGM || game.scenes.folders.size < 1){
       document.body.classList.add("crlngn-no-folders");
     }
     
@@ -717,8 +717,6 @@ export class TopNavigation {
       let position = pos!==null ? pos : TopNavigation.navPos || 0; //
       
       if(!firstScene){ return; }
-      // if (scenes.length === 0 || position > Math.ceil(TopNavigation.navElem.scrollWidth/itemWidth)) { return; }
-      // const activeScene = scenes[0];
 
       TopNavigation.navPos = position;
       SettingsUtil.set(SETTINGS.sceneNavPos.tag, position);
@@ -726,8 +724,6 @@ export class TopNavigation {
       const w = firstScene?.offsetWidth || 0;
       const offsetLeft = (parseInt(w) * position);
       LogUtil.log("setNavPosition #2", [pos, position, w, offsetLeft, extrasWidth, itemWidth ]);
-      
-      // if (typeof offsetLeft !== 'number') { return; }
 
       let newMargin = offsetLeft;
       // LogUtil.log("setNavPosition #2.5", [position, offsetLeft, extrasWidth, newMargin]);
