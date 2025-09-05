@@ -500,8 +500,8 @@ body.crlngn-ui.crlngn-sheets {
   &:is(.dnd5e-theme-light, .theme-light) .dnd5e2.sheet.actor.npc:not(.minimized)::after, 
   .dnd5e2.sheet.actor.npc.dnd5e-theme-light:not(.minimized)::after{
     border-radius: 5px 5px 0 0;
-    background: linear-gradient(to bottom, var(--color-highlights) 0%, transparent 340px);
-    mix-blend-mode: multiply;
+    background: linear-gradient(to bottom, var(--color-highlights) 0%, var(--color-highlights) 200px, transparent 340px);
+    mix-blend-mode: overlay;
     pointer-events: none;
     z-index: 0;
   }

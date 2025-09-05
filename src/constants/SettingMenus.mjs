@@ -1,7 +1,7 @@
 import { ModuleSettings } from '../components/settings-dialogs/ModuleSettings.mjs';
 // import * as lang from '../lang/en.json' assert { type: "json" };
 
-// Simple class that opens Patreon URL when instantiated
+// Opens Patreon URL when instantiated
 class PatreonSupport extends FormApplication {
   constructor(...args) {
     super(...args);
