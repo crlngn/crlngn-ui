@@ -15,6 +15,7 @@ import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
 import { SheetsUtil } from "./SheetsUtil.mjs";
 import { SidebarTabs } from "./SidebarUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
+import { ColorPickerUtil } from "./ColorPickerUtil.mjs";
 
 /**
  * Core settings management utility for the Carolingian UI module
@@ -423,6 +424,8 @@ export class SettingsUtil {
           ui.notifications.info("Current settings saved as defaults for players");
         }
         break;
+      case SETTINGS.hideLoadingSceneName.tag:
+        SettingsUtil.applyHideLoadingSceneName(value); break;
       default:
         // do nothing
     }
@@ -447,6 +450,15 @@ export class SettingsUtil {
     }else{
      body.classList.remove("player-chat-borders");
      body.classList.remove("roll-chat-borders"); 
+    }
+  }
+
+  static applyHideLoadingSceneName(value){
+    const body = document.querySelector("body");
+    if(value){
+      body.classList.add("hide-scene-name");
+    }else{
+      body.classList.remove("hide-scene-name");
     }
   }
 
@@ -670,17 +682,11 @@ export class SettingsUtil {
       migratedFrom = 'world';
     }
     
-    // If no custom colors exist, fall back to legacy theme system for now
-    // Migration will happen when user first opens the color picker
-    
     // Apply custom colors if they exist (check for new or old structure)
     if (customColors?.accent && (customColors?.secondaryDark || customColors?.secondary)) {
-      // Import ColorPickerUtil dynamically to avoid circular dependency
-      const { ColorPickerUtil } = await import("./ColorPickerUtil.mjs");
       ColorPickerUtil.applyCustomTheme(customColors);
       LogUtil.log("Applied custom theme colors", [ customColors, migratedFrom ]);
     } else {
-      // Fallback to old theme system
       const themeName = value || SettingsUtil.get(SETTINGS.playerColorTheme.tag) || SettingsUtil.get(SETTINGS.colorTheme.tag) || "";
       
       THEMES.forEach((theme)=>{

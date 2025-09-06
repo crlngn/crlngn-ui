@@ -306,6 +306,10 @@
         "title": "Configure Scene Nav",
         "hint": "Change options for the scene navigation menu, on the top bar.",
         "fields": {
+          "hideLoadingSceneName": {
+            "label": "Hide scene name from loading bar",
+            "hint": "The loading bar shows the scene name, which can spoil content for players. Check this option to show only a thin loading bar instead."
+          },
           "sceneNavEnabled": {
             "label": "Enable custom scene navigation",
             "hint": "[Requires reload] If you are having layout issues with a non-compatible module, you can try to disable my custom styles for Scene Navigation."

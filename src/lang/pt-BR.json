@@ -313,6 +313,10 @@
         "title": "Configurar Navegação",
         "hint": "Altere as opções para a barra de navegação entre cenas, no topo",
         "fields": {
+          "hideLoadingSceneName": {
+            "label": "Ocultar nome da cena na barra de carregamento",
+            "hint": "A barra de carregamento mostra o nome da cena, o que pode estragar o conteúdo para os jogadores. Marque esta opção para mostrar apenas uma barra de carregamento fina."
+          },
           "sceneNavEnabled": {
             "label": "Ativar navegação de cenas",
             "hint": "Se você estiver enfrentando problemas de layout com um módulo incompatível, pode desativar meus estilos personalizados para Navegação de Cenas."

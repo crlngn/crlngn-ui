@@ -410,7 +410,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.hint"),
       propType: Object,
       fields: [
-        // "sceneNavEnabled",
+        "hideLoadingSceneName",
         "useSceneFolders",
         "navShowRootFolders",
         "useSceneLookup",
@@ -421,7 +421,7 @@ export function getSettings() {
         "hideInactiveOnFolderToggle"
       ],
       default: {
-        // sceneNavEnabled: true,
+        hideLoadingSceneName: true,
         useSceneFolders: true,
         sceneClickToView: true,
         useSceneIcons: true,
@@ -575,6 +575,18 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showNavOnHover.hint"), 
       propType: Boolean, 
       default: false, 
+      scope: SETTING_SCOPE.client, 
+      config: false, 
+      requiresReload: false 
+    },
+
+    hideLoadingSceneName: {
+      tag: "v2-hide-loading-scene-name", 
+      oldName: "hideLoadingSceneName",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.hideLoadingSceneName.label"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.hideLoadingSceneName.hint"), 
+      propType: Boolean, 
+      default: true, 
       scope: SETTING_SCOPE.client, 
       config: false, 
       requiresReload: false 

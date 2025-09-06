@@ -523,7 +523,7 @@ body.crlngn-ui{
     color: inherit;
   }
   nav.tabs a[data-action=tab] {
-    padding: 10px 4px;
+    padding: 10px 6px;
     /*margin-right: 5px;*/
     border: 1px solid transparent;
     border-bottom: none;
@@ -946,6 +946,29 @@ body.crlngn-ui{
         color: var(--color-dark-1);
         text-shadow: none;
       } 
+    }
+  }
+
+  /*
+  <li class="notification info progress" style="--pct: 50%;"></li>
+  */
+  &.hide-scene-name ol#notifications, 
+  &.hide-scene-name ol#notifications.theme-dark, 
+  &.hide-scene-name ol#notifications.theme-light {
+    .notification.info.progress {
+      height: 8px;
+      padding: 0;
+      font-size: 0;
+      border-width: 2px;
+      border-radius: 6px;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.5);
+    }
+    .notification.info.progress::before{
+      content: "";
+      width: var(--pct);
+      height: 100%;
+      background-color: var(--color-warm-2);
+      border-radius: 6px;
     }
   }
 

@@ -2,7 +2,7 @@ import { MODULE_ID } from "../constants/General.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 import { getSettings, THEMES, SETTING_SCOPE } from "../constants/Settings.mjs";
-
+import { GeneralUtil } from "./GeneralUtil.mjs";
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 /**
@@ -225,7 +225,6 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     
     // Handle reload confirmation if needed
     if (confirmReload) {
-      const { GeneralUtil } = await import("./GeneralUtil.mjs");
       GeneralUtil.confirmReload();
     }
     

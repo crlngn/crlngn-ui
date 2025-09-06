@@ -313,6 +313,10 @@
         "title": "Configura Navigazione",
         "hint": "Cambia le opzioni per il menu di navigazione scena, nella barra superiore",
         "fields": {
+          "hideLoadingSceneName": {
+            "label": "Nascondi il nome della scena dalla barra di caricamento",
+            "hint": "La barra di caricamento mostra il nome della scena, che può rovinare la sorpresa ai giocatori. Seleziona questa opzione per mostrare solo una sottile barra di caricamento."
+          },
           "sceneNavEnabled": {
             "label": "Abilita Navigazione Scena Orizzontale",
             "hint": "[Richiede ricaricamento] Se stai avendo problemi di layout con un modulo non compatibile, puoi provare a disabilitare i miei stili personalizzati per la Navigazione Scena."
