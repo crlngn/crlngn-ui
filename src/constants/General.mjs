@@ -58,6 +58,7 @@ export const DARK_MODE_RULES = `
   --dnd5e-background-card: rgb(32, 37, 43) !important; 
   --dnd5e-background-parchment: var(--color-cool-4) !important;
 
+  --content-link-background: var(--color-secondary-50) !important;
   --color-pf-alternate: rgba(82, 107, 120, 0.44) !important;
   --color-text-gray-blue: rgb(168, 180, 188, 1) !important;
   --color-text-gray-blue-b: rgb(138, 155, 168, 1) !important;
@@ -122,7 +123,7 @@ export const DARK_MODE_RULES = `
     border-color: var(--color-cool-4);
   }
 
-  *{
+  *:not(.degree, .degree-of-success){
     color: var(--color-light-1);
   }
 

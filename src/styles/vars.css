@@ -269,7 +269,7 @@ Main Theme
     --control-active-icon-color: var(--color-light-1);
     --color-text-light-highlight: var(--color-light-1);
     --color-text-selection: var(--color-dark-1);
-    --color-text-selection-bg: var(--color-secondary-75);
+    --color-text-selection-bg: var(--color-highlights-50);
     --color-level-error: #9e4545;
     --color-level-error-bg: rgba(108, 39, 45, 0.8);
     --color-level-error-border: #6a2a2c;
@@ -288,7 +288,7 @@ Main Theme
     --input-focus-outline-color: var(--color-cool-3);
     --button-hover-background-color: var(--color-warm-3);
     --color-text-selection: var(--color-light-1);
-    --color-text-selection-bg: var(--color-secondary-75);
+    --color-text-selection-bg: var(--color-highlights-50);
     --input-background-color: var(--color-cool-4);
     --input-border-color: var(--color-secondary);
 

@@ -673,7 +673,7 @@ body.crlngn-ui {
         margin-top: var(--control-item-size);
 
         .search-container {
-          --color-text-selection-bg: var(--color-cool-4);
+          --color-text-selection-bg: var(--color-highlights-50);
 
           .back-to-favorites {
             padding: 0 8px;

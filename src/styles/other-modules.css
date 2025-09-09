@@ -646,6 +646,10 @@ body.crlngn-ui{
     }
   }
 
+  div#hurry-up {
+    margin-top: 50px;
+  }
+
   /* MONK'S COMMON DISPLAY */
   #common-display-toolbar {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);

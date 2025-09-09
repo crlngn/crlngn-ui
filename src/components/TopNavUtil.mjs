@@ -165,6 +165,7 @@ export class TopNavigation {
       });
     });
 
+    TopNavigation.handleHide();
   }
 
   static applyFadeOut(useFadeOut){
@@ -183,7 +184,7 @@ export class TopNavigation {
     const element = document.querySelector("#scene-navigation");
     const toggle = document.querySelector("#crlngn-scene-navigation-expand");
     const btns = document.querySelectorAll("#ui-left-column-2 .crlngn-btn");
-    if(TopNavigation.hidden){
+    if(TopNavigation.hidden || document.querySelector("body").classList.contains("hide-player-ui-navigation")){
       element?.classList.add("hidden-ui");
       toggle?.classList.add("hidden-ui");
       btns.forEach((btn) => {
@@ -196,8 +197,6 @@ export class TopNavigation {
         btn.classList.remove("hidden-ui");
       });
     }
-
-    LogUtil.log("handle Hide", [TopNavigation.hidden]);
   }
 
   static applyCustomStyle(enabled){
@@ -213,6 +212,7 @@ export class TopNavigation {
     LogUtil.log("onRender - "+HOOKS_CORE.RENDER_SCENE_NAV, [navHtml]);
     TopNavigation.checkSceneNavCompat();
     TopNavigation.resetLocalVars();
+    TopNavigation.handleHide();
 
     if(TopNavigation.sceneNavEnabled){
       TopNavigation.handleExtraButtons(nav, navHtml, navData);
@@ -369,8 +369,6 @@ export class TopNavigation {
           TopNavigation.toggleNav(ui.nav.expanded);
         });
       }
-
-      TopNavigation.handleHide();
     }
   }
 

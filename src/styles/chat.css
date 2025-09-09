@@ -694,7 +694,7 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   #chat-pins.theme-dark {
     color: var(--color-light-1);
 
-    .chat-message div:not(.target-dc-result, .result, .target-dc) span:not(.tag),
+    .chat-message div:not(.target-dc-result, .result, .target-dc) span:not(.tag, .degree),
     .chat-message div,
     .chat-message p,
     .chat-message div,
@@ -713,7 +713,7 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   #chat-pins.theme-light {
     color: var(--color-dark-1);
 
-    .chat-message div:not(.target-dc-result, .result, .target-dc) span:not(.tag),
+    .chat-message div:not(.target-dc-result, .result, .target-dc) span:not(.tag, .degree),
     .chat-message p,
     .chat-message div,
     .chat-message table,

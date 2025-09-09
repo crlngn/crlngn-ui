@@ -12,7 +12,7 @@ body.crlngn-ui  {
 
 /* HEADINGS */
 body.crlngn-ui  {
-  --color-text-selection-bg: var(--color-secondary-15);
+  --color-text-selection-bg: var(--color-highlights-50);
   h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     border-bottom: 0;
@@ -254,7 +254,7 @@ body.crlngn-ui{
     background: transparent;
   }
   .code-editor-wrapper textarea{
-    --color-text-selection-bg: var(--color-cool-5);
+    --color-text-selection-bg: var(--color-highlights-50);
     font-family: monospace;
     white-space: pre;
     width: calc(100% - 4px);
@@ -397,7 +397,7 @@ body.crlngn-ui{
   }
 
   &.theme-light {
-    --color-text-selection-bg: var(--color-cool-5);
+    --color-text-selection-bg: var(--color-highlights-50);
 
     ol#notifications {
       .notification{
@@ -415,7 +415,7 @@ body.crlngn-ui{
   
 
   &.theme-dark {
-    --color-text-selection-bg: var(--color-cool-5);
+    --color-text-selection-bg: var(--color-highlights-50);
 
     ol#notifications {
       .notification{
@@ -888,7 +888,7 @@ body.crlngn-ui {
     }
     .window-subtitle{
       color: rgb(90, 94, 105);
-      margin: 6px;
+      margin: 2px 6px;
     }
   }
   .dnd5e2.sheet.actor.character .sheet-header .document-name {
