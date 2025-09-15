@@ -5,4 +5,7 @@ foundry/
 crlngn-ui.code-workspace
 foundry-config.yaml
 foundry
-*.local.md
+
+# Ignore all markdown files except those preceded by !
+*.md
+!README.md

@@ -748,10 +748,12 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
     --card-color-bg: var(--chat-dark-blue);
     --dnd5e-color-card: var(--chat-dark-blue);
     --table-background-color: var(--chat-dark-blue);
-    --dnd5e-color-success-background: rgba(98, 184, 117, 0.35);
-    --dnd5e-color-failure-background: rgba(209, 67, 67, 0.35);
-    --dnd5e-text-color-success: #c1e6a7;
-    --dnd5e-text-color-failure: #d8aeae;
+    --dnd5e-color-success-background: rgba(108, 215, 119, 0.35);
+    --dnd5e-color-failure-background: rgba(209, 83, 83, 0.35);
+    --dnd5e-text-color-success: #719f50;
+    --dnd5e-text-color-failure: #c15d5d;
+    --dnd5e-color-success: #719f50;
+    --dnd5e-color-failure: #c15d5d;
     --dnd5e-color-crimson: var(--color-highlights-75);
   }
 
@@ -1182,7 +1184,7 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
     background-color: transparent;
     .chat-message p,
     /*.chat-message span,*/
-    .chat-message div,
+    .chat-message div:not(.icons),
     .chat-message table,
     .chat-message ul,
     .chat-message ol,

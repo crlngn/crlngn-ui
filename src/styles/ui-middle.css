@@ -10,6 +10,7 @@ body.crlngn-ui{
       gap: 0;
       margin: 0;
       margin-bottom:0;
+      position: relative;
 
       &.sm, &.md.offset {
         height: calc(var(--hotbar-size)* 2);
@@ -91,6 +92,22 @@ body.crlngn-ui{
       transition: margin-bottom 0.15s ease-out 0s, background 0.15s ease-out 0s;
       background: transparent;
       pointer-events: all;
+      &:after{
+        content: '';
+        width: 100%;
+        height: 20px;
+        top: -10px;
+        background: transparent;
+        position: relative;
+      }
+
+      &:before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 10px;
+        top: -10px;
+      }
       > * {
         opacity: 1;
       }
@@ -113,14 +130,25 @@ body.crlngn-ui{
       }
 
       &.sm, &.md.offset{
-        margin-bottom: calc((var(--hotbar-size)* -2) + 10px);
-        &:hover{
+        margin-bottom: calc((var(--hotbar-size)* -2) + 2px);
+        &:not(.crlngn-macro):hover{
+          margin-bottom: 16px;
+        }
+        &.crlngn-macro:hover{
           margin-bottom: 0px;
         }
       }
 
-      &:hover, &:focus {
-        margin-bottom: 0;
+      &:hover:not(.crlngn-macro), &:focus:not(.crlngn-macro) {
+        margin-bottom: 16px;
+        background: transparent;
+
+        > * {
+          opacity: 1;
+        }
+      }
+      &.crlngn-macro:hover, &.crlngn-macro:focus {
+        margin-bottom: 0px;
         background: transparent;
 
         > * {
@@ -133,6 +161,8 @@ body.crlngn-ui{
       margin: auto 0;
       align-self: center;
       justify-self: center;
+      height: 3.2rem;
+      width: 1.2rem;
     }
 
     #hotbar #hotbar-page-controls .hotbar-page-number {
