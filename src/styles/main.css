@@ -274,7 +274,7 @@ body.crlngn-ui{
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
-      font-size: 0.9em;
+      font-size: 0.95em;
     }
   }
 
@@ -977,7 +977,7 @@ body.crlngn-ui{
     --control-size: var(--control-item-size);
     border-radius: 0;
     border: 1px solid transparent;
-    font-size: 0.9em;
+    font-size: 0.95em;
   }
 }
 

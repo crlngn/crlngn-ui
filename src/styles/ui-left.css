@@ -49,7 +49,7 @@ body.crlngn-ui{
           --control-size: var(--control-item-size);
           border-radius: 0;
           border: 1px solid transparent;
-          font-size: 0.9em;
+          font-size: 0.95em;
         }
 
         &.more-tools{

@@ -244,9 +244,9 @@ Main Theme
       --color-sidebar-font: rgba(213, 221, 230, 0.8);
       --dnd5e-color-beige: rgba(0,0,0,0.2);
       --dnd5e-background-card: rgb(32, 37, 43);
-      --color-text-dark: rgba(235,235,235,1);
+      /*--color-text-dark: rgba(235,235,235,1);
       --color-text-dark-op: rgba(235,235,235,0.6);
-      --color-text-light: rgba(235,235,235,1);
+      --color-text-light: rgba(235,235,235,1);*/
       --input-background-alt: var(--color-cool-5);
       --color-text-secondary:var(--color-light-3);
       --color-text-primary: var(--color-light-1);
@@ -363,7 +363,7 @@ Main Theme
       --color-text-dark-input: #878787;
       --color-text-dark-improved: #26775c;
       --color-pf-text-critical-success: rgb(50, 146, 107);
-      --color-pf-text-success: rgb(113, 161, 224);
+      --color-pf-text-success: rgb(102, 150, 212);
       --color-pf-text-failure: rgb(217, 92, 86);
       --color-pf-text-critical-failure: rgb(247, 125, 118);
       --color-border-divider: #6f6f6f;

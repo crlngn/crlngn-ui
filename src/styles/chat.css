@@ -694,14 +694,13 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   #chat-pins.theme-dark {
     color: var(--color-light-1);
 
-    .chat-message div:not(.target-dc-result, .result, .target-dc) span:not(.tag, .degree),
-    .chat-message div,
+    .chat-message div:not(.target-dc-result, .result, .target-dc) span:not(.tag, .degree, .die),
+    .chat-message div:not(.roll, .success, .critical-success, .failure, .critical-failure),
     .chat-message p,
-    .chat-message div,
     .chat-message table,
     .chat-message ul,
     .chat-message ol,
-    .chat-message li,
+    .chat-message li:not(.die),
     .chat-message header,
     .chat-message .message-header {
       color: var(--color-light-1);
@@ -898,7 +897,7 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
       opacity: 0.35;
     }
   
-    .dice-tooltip .dice-rolls .roll {
+    .dice-tooltip .dice-rolls .roll:not(.die) {
       color: var(--color-dark-1);
     }
     
@@ -1184,7 +1183,7 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
     background-color: transparent;
     .chat-message p,
     /*.chat-message span,*/
-    .chat-message div:not(.icons),
+    .chat-message div:not(.icons, .success, .failure, .critical-success, .critical-failure),
     .chat-message table,
     .chat-message ul,
     .chat-message ol,
@@ -1300,6 +1299,23 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
 
   &.system-pf2e .action-glyph {
     font-family: "Pathfinder2eActions", sans-serif;
+  }
+
+  &.system-pf2e .chat-message ol.dice-rolls, 
+  &.system-pf2e .chat-message .die {
+    color: inherit;
+  }
+
+  &.system-pf2e #interface.theme-dark .chat-message li.roll.failure, 
+  &.system-pf2e #interface.theme-dark .chat-message li.roll.min {
+    color: var(--color-pf-text-failure);
+    filter: none;
+  }
+  
+  &.system-pf2e #interface.theme-dark .chat-message li.roll.success, 
+  &.system-pf2e #interface.theme-dark .chat-message li.roll.max {
+    color: var(--color-pf-text-success);
+    filter: none;
   }
 
 }

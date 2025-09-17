@@ -83,10 +83,13 @@ var ua=Object.defineProperty;var Eo=l=>{throw TypeError(l)};var ga=(l,e,t)=>e in
     background: transparent !important;
   }
 
-  p, span, div:not(.currency-image), aside, section, nav, label, form, button, table, td, tr, th, h1, h2, h3, h4, h5, h6, ul, ol, li, b, strong, u{
+  div:not(.currency-image, .success, .failure, .critical-success, .critical-failure),
+  p, span, aside, section, nav, label, form, button, table, td, tr, th, h1, h2, h3, h4, h5, h6, ul, ol, li, b, strong, u {
     background-color: transparent;
     border-color: var(--color-cool-4);
+    color: var(--color-light-1);
   }
+
 
   *:not(.degree, .degree-of-success){
     color: var(--color-light-1);
