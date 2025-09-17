@@ -381,6 +381,12 @@ body.crlngn-ui{
 
 
   #interface.theme-dark {
+
+    :is(.dnd5e, .dnd5e2, .dnd5e2-journal) .roll-link > i.fa-dice-d20, 
+    :is(.dnd5e, .dnd5e2, .dnd5e2-journal) a.inline-roll > i.fa-dice-d20 {
+      background: url(/icons/svg/d20-grey.svg) no-repeat center / contain;
+    }
+
     #context-menu{
       background: var(--color-dark-bg);
       border: 1px solid transparent;

@@ -695,7 +695,7 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
     color: var(--color-light-1);
 
     .chat-message div:not(.target-dc-result, .result, .target-dc) span:not(.tag, .degree, .die),
-    .chat-message div:not(.roll, .success, .critical-success, .failure, .critical-failure),
+    .chat-message div:not(.roll, .success, .critical-success, .failure, .critical-failure, .icons),
     .chat-message p,
     .chat-message table,
     .chat-message ul,
@@ -740,6 +740,7 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   #interface.theme-dark, #interface.theme-dark .chat-log, 
   & > .chat-log.themed.theme-dark, 
   .chat-popout.theme-dark,
+  #interface.theme-dark .chat-message,
   #chat-popout.theme-dark, #chat-popout.theme-dark button, 
   #chat-pins.theme-dark, #chat-pins.theme-dark button {
     --dnd5e-color-parchment: rgb(32, 37, 43);
@@ -754,6 +755,7 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
     --dnd5e-color-success: #719f50;
     --dnd5e-color-failure: #c15d5d;
     --dnd5e-color-crimson: var(--color-highlights-75);
+    --color-text-primary: var(--color-light-3);
   }
 
   #interface.theme-dark,
