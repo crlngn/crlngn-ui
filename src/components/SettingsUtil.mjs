@@ -25,6 +25,7 @@ export class SettingsUtil {
   static #uiHidden = false;
   static firstLoad = true;
   static foundryUiConfig = null;
+  static coreColorScheme = null;
 
   /**
    * Registers all module settings with Foundry VTT
@@ -107,16 +108,44 @@ export class SettingsUtil {
     }
 
     if(SettingsUtil.get(SETTINGS.disableUI.tag)===true){ return; }
+
+    // Check if we're in stream mode
+    const isStreamMode = document.body.classList.contains('stream');
+
     // Apply custom theme and CSS
     SettingsUtil.applyThemeSettings();
     SettingsUtil.applyCustomCSS();
     SettingsUtil.applyModuleAdjustments();
-    TopNavigation.applyTopNavHeight();
 
     SettingsUtil.foundryUiConfig = game.settings.get('core','uiConfig') || null;
 
+    // Initialize color scheme detection for stream mode
+    SettingsUtil.updateColorScheme();
+
+    // Apply chat styles regardless of stream mode
+    SettingsUtil.applyDebugSettings();
+    SettingsUtil.applyChatStyles();
+    SettingsUtil.applyBorderColors();
+
+    // Exit early if in stream mode - skip UI component settings
+    if (isStreamMode) {
+      LogUtil.log("Stream mode detected - skipping UI settings initialization");
+
+      // Listen for core UI config changes to update stream mode theme
+      Hooks.on(HOOKS_CORE.UPDATE_SETTING, (setting, value) => {
+        if (setting.key === 'core.uiConfig') {
+          SettingsUtil.foundryUiConfig = value;
+          SettingsUtil.updateColorScheme();
+        }
+      });
+      return;
+    }
+
+    // Non-stream mode UI initialization
+    TopNavigation.applyTopNavHeight();
+
     Hooks.on(HOOKS_CORE.RENDER_SCENE_CONTROLS, SettingsUtil.applyLeftControlsSettings);
-    Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, PlayersList.applyPlayersListSettings); 
+    Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, PlayersList.applyPlayersListSettings);
     Hooks.on(HOOKS_CORE.RENDER_HOTBAR, () => {
       MacroHotbar.applyCustomStyle();
       if(SettingsUtil.firstLoad){
@@ -124,9 +153,15 @@ export class SettingsUtil {
         MacroHotbar.applyHotBarCollapse();
       }
     });
-    SettingsUtil.applyDebugSettings();
-    SettingsUtil.applyChatStyles();
-    SettingsUtil.applyBorderColors();
+
+    // Listen for core UI config changes to update stream mode theme
+    Hooks.on(HOOKS_CORE.UPDATE_SETTING, (setting, value) => {
+      if (setting.key === 'core.uiConfig') {
+        SettingsUtil.foundryUiConfig = value;
+        SettingsUtil.updateColorScheme();
+      }
+    });
+
     SheetsUtil.applyThemeToSheets(SettingsUtil.get(SETTINGS.applyThemeToSheets.tag));
     SheetsUtil.applyHorizontalSheetTabs(SettingsUtil.get(SETTINGS.useHorizontalSheetTabs.tag));
 
@@ -143,7 +178,7 @@ export class SettingsUtil {
     const fontFields = SETTINGS.customFontsMenu.fields;
     fontFields.forEach(fieldName => {
       SettingsUtil.applyCustomFonts(SETTINGS[fieldName].tag);
-    });   
+    });
 
     const controlFields = SETTINGS.leftControlsMenu.fields;
     controlFields.forEach(fieldName => {
@@ -154,7 +189,7 @@ export class SettingsUtil {
     interfaceFields.forEach(fieldName => {
       SettingsUtil.apply(SETTINGS[fieldName].tag);
     });
-    
+
     SettingsUtil.applyForcedDarkTheme();
     SidebarTabs.applySideBarWidth();
     SettingsUtil.applyDarkThemeToModules();
@@ -495,10 +530,16 @@ export class SettingsUtil {
 
     LogUtil.log("applyLeftControlsSettings", [tag]);
 
+    // Exit early if controls don't exist (e.g., in stream mode)
+    if (!controls) {
+      LogUtil.log("applyLeftControlsSettings - no controls found (stream mode?)");
+      return;
+    }
+
     switch(tag){
       case SETTINGS.controlsAutoHide.tag:
         if(SettingsUtil.get(SETTINGS.controlsAutoHide.tag)){
-          controls.classList.add("auto-hide"); 
+          controls.classList.add("auto-hide");
         }else{
           controls.classList.remove("auto-hide"); 
         }
@@ -888,10 +929,60 @@ export class SettingsUtil {
    */
   static onSettingChange(settingTag) {
     const SETTINGS = getSettings();
-    
+
     // If GM and enforcement is enabled, save settings immediately
     if (game.user?.isGM && SettingsUtil.get(SETTINGS.enforceGMSettings.tag)) {
       SettingsUtil.saveDefaultSettings();
+    }
+  }
+
+  /**
+   * Updates color scheme detection and applies themed class for stream mode
+   * Detects current Foundry interface theme and applies appropriate classes
+   */
+  static updateColorScheme() {
+    const foundryUiConfig = game.settings.get('core','uiConfig');
+    let interfaceTheme = foundryUiConfig?.colorScheme?.interface;
+
+    // If Browser Default, detect browser preference
+    if (!interfaceTheme) {
+      if (matchMedia("(prefers-color-scheme: dark)").matches) {
+        interfaceTheme = "dark";
+      } else if (matchMedia("(prefers-color-scheme: light)").matches) {
+        interfaceTheme = "light";
+      }
+    }
+
+    SettingsUtil.coreColorScheme = interfaceTheme;
+    LogUtil.log('SettingsUtil.updateColorScheme', [foundryUiConfig, SettingsUtil.coreColorScheme]);
+
+    // Apply themed class for stream mode
+    SettingsUtil.applyStreamModeTheme(interfaceTheme);
+  }
+
+  /**
+   * Applies themed.theme-{colorScheme} class to body in stream mode
+   * @param {string} interfaceTheme - The detected interface theme (light/dark)
+   */
+  static applyStreamModeTheme(interfaceTheme='dark') {
+    const body = document.querySelector("body");
+    const isStreamMode = body?.classList.contains("stream");
+    LogUtil.log('Applied stream mode theme', [interfaceTheme, isStreamMode]);
+
+    if (isStreamMode && interfaceTheme) {
+      // Remove existing themed classes from body
+      body.classList.remove("themed", "theme-light", "theme-dark");
+
+      // Add themed and theme-specific classes to body
+      body.classList.add("themed", `theme-${interfaceTheme}`);
+
+      // Also apply theme classes to chat-log in stream mode
+      const chatLog = document.querySelector(".chat-log");
+      if (chatLog) {
+        chatLog.classList.remove("theme-light", "theme-dark");
+        chatLog.classList.add(`theme-${interfaceTheme}`);
+      }
+
     }
   }
 

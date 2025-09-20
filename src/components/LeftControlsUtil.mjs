@@ -169,19 +169,28 @@ export class LeftControls {
   }
 
   static onActivateSceneControls(nav, buttons) {
+    const sceneControls = document.querySelector("#scene-controls");
+
+    // Exit early if scene controls don't exist (e.g., in stream mode)
+    if (!sceneControls) {
+      return;
+    }
+
     const mainButtons = document.querySelectorAll("#scene-controls-layers .ui-control");
     const secondaryButtons = document.querySelectorAll("#scene-controls-tools .ui-control");
-    const columns = getComputedStyle(document.querySelector("#ui-left")).getPropertyValue("--control-columns");
+    const uiLeft = document.querySelector("#ui-left");
+    const columns = uiLeft ? getComputedStyle(uiLeft).getPropertyValue("--control-columns") : "1";
+
     if(secondaryButtons.length >= mainButtons.length){
-      document.querySelector("#scene-controls").classList.add("more-tools");
+      sceneControls.classList.add("more-tools");
       if(Number(columns) > 2){
-        document.querySelector("#scene-controls").classList.add("extra-columns");
+        sceneControls.classList.add("extra-columns");
       }else{
-        document.querySelector("#scene-controls").classList.remove("extra-columns");
+        sceneControls.classList.remove("extra-columns");
       }
     }else{
-      document.querySelector("#scene-controls").classList.remove("more-tools");
-      document.querySelector("#scene-controls").classList.remove("extra-columns");
+      sceneControls.classList.remove("more-tools");
+      sceneControls.classList.remove("extra-columns");
     }
     LogUtil.log("onActivateSceneControls", [columns, secondaryButtons.length, mainButtons.length]);
   }

@@ -57,14 +57,27 @@ export class Main {
         return;
       }
 
-      PlayersList.init(); 
-      TopNavigation.init();
-      CameraDockUtil.init(); 
-      LeftControls.init();
-      ChatLogControls.init();
+      // Check if we're in stream mode
+      const isStreamMode = document.body.classList.contains('stream');
+
+      // Always initialize these essential utilities
       ChatUtil.init();
+      LogUtil.init?.();
+      CameraDockUtil.init();
+
+      // Only initialize UI components if not in stream mode
+      if(isStreamMode){
+        LogUtil.log("Stream mode detected - skipping UI component initialization");
+        return;
+      }
+
+      // Initialize remaining UI components for non-stream mode
+      ChatLogControls.init();
+      PlayersList.init();
+      TopNavigation.init();
+      LeftControls.init();
       SidebarTabs.init();
-      MacroHotbar.init(); 
+      MacroHotbar.init();
       // TokenWheel.init();
 
       Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
@@ -76,37 +89,48 @@ export class Main {
         ui.notifications.error(game.i18n.localize("CRLNGN_UI.notifications.incompatibleVersion"), {permanent: true});
         return;
       }
+
+      // Check if we're in stream mode
+      const isStreamMode = document.body.classList.contains('stream');
       const SETTINGS = getSettings();
 
       var isDebugOn = SettingsUtil.get(SETTINGS.debugMode.tag);
       if(isDebugOn){CONFIG.debug.hooks = true};
 
+      // Always apply chat styles if enabled
+      const chatStylesEnabled = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
+      if(chatStylesEnabled){
+        Main.addCSSLocalization();
+      }
+
+      // Exit early if in stream mode - skip UI component setup
+      if(isStreamMode){
+        LogUtil.log("Stream mode - skipping READY hook UI initialization");
+        return;
+      }
+
+      // Non-stream mode initialization
       CustomHandlebarsHelpers.init();
       TopNavigation.checkSideBar(ui.sidebar?.expanded || false);
-      
+
       // Enforce GM settings and refresh components if needed
       const settingsChanged = SettingsUtil.enforceGMSettings();
       if (settingsChanged) {
         TopNavigation.refreshSettings();
       }
-      
-      PlayersList.applyPlayersListSettings(); 
+
+      PlayersList.applyPlayersListSettings();
       // TopNavigation.checkSceneNavCompat();
       ModuleCompatUtil.init();
       UpdateNewsUtil.init();
       SheetsUtil.init();
-      
-      const chatStylesEnabled = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
-      if(chatStylesEnabled){ 
-        Main.addCSSLocalization();
-      }
-      
+
       SettingsUtil.resetFoundryThemeSettings();
-      
+
       setTimeout(()=>{
         ui.combat.popout?.close();
       }, 200)
-      
+
     });
   }
 

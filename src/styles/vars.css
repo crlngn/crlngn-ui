@@ -159,10 +159,10 @@ Main Theme
       --toggle-active-border-color: var(--color-warm-1);
     }
     
-    #interface.theme-light, .sidebar-popout.theme-light, #chat-popout.theme-light, #chat-pins.theme-light{
+    &.stream.theme-light, #interface.theme-light, .sidebar-popout.theme-light, #chat-popout.theme-light, #chat-pins.theme-light{
       --default-color: var(--color-dark-1);
     }
-    #interface.theme-dark, .sidebar-popout.theme-dark, #chat-popout.theme-dark, #chat-pins.theme-dark{
+    &.stream.theme-dark, #interface.theme-dark, .sidebar-popout.theme-dark, #chat-popout.theme-dark, #chat-pins.theme-dark{
       --default-color: var(--color-light-1);
     }
 
@@ -198,6 +198,7 @@ Main Theme
     &.theme-dark .dnd5e2:not(.theme-light){
       --filigree-border-color: rgba(0, 0, 0, 0.5);
     }
+
     &.theme-dark,
     .application.theme-dark,
     #interface.theme-dark,
@@ -331,7 +332,6 @@ Main Theme
       --color-hover-bg: inherit;
     }
 
-
     &.theme-light .application.theme-dark,
     .app.theme-dark,
     &.theme-dark,
@@ -350,6 +350,14 @@ Main Theme
       --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.35);
       --dnd5e-color-groove: var(--dnd5e-color-gold);
       --background: var(--control-bg-color);
+    }
+
+    &.stream.theme-light,
+    &.stream.theme-dark {
+      --sidebar-background: transparent;
+      .chat-sidebar {
+        background: transparent;
+      }
     }
 
   }

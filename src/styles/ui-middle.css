@@ -89,7 +89,7 @@ body.crlngn-ui{
 
     #hotbar{
       margin-bottom: 16px;
-      transition: margin-bottom 0.15s ease-out 0.25s, background 0.15s ease-out 0.25s;
+      transition: margin-bottom 0.15s ease-out 0.25s, background 0.15s ease-out 0.25s ;
       background: transparent;
       pointer-events: all;
       &:after{
@@ -110,6 +110,7 @@ body.crlngn-ui{
       }
       > * {
         opacity: 1;
+        transition: opacity 0.15s ease-out 0.25s;
       }
       .hotbar-controls{
         pointer-events: all;

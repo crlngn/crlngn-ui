@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/carolx/RPG/v13/foundryvtt/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
