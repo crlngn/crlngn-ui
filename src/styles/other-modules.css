@@ -777,7 +777,7 @@ body.crlngn-ui{
   }
 
   #ui-left-column-1:has(>#pf2e-hud-persistent) {
-    width: calc(var(--control-columns) * var(--control-size) + (var(--control-columns) - 1) * 8px);
+    width: calc(var(--control-columns) * var(--crlngn-control-size) + (var(--control-columns) - 1) * 8px);
   }
 
   .crlngn-dark-mode{

@@ -1,7 +1,10 @@
 body{
   /* vars */
   --crlngn-border-radius: 4px; /*calc(var(--control-item-size) / 6);*/
-  --control-item-size: 38px; /* size of control icon buttons */
+  --control-item-size: 38px;/* size of control icon buttons */
+  --crlngn-control-size: 38px;
+  --custom-ui-button-scale: 1 !important;
+  --custom-ui-navigation-scale: 1 !important;
 }
 body.crlngn-ui  {
   text-rendering: optimizeLegibility;
@@ -980,7 +983,8 @@ body.crlngn-ui{
 
   #interface.crlngn-controls #scene-controls .ui-control, 
   &.crlngn-tabs #ui-right .tabs .ui-control {
-    --control-size: var(--control-item-size);
+    --crlngn-control-size: var(--control-item-size);
+    --control-size: var(--crlngn-control-size) !important;
     border-radius: 0;
     border: 1px solid transparent;
     font-size: 0.95em;

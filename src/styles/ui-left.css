@@ -6,7 +6,10 @@ body.crlngn-ui{
   #interface.crlngn-controls #ui-left {
     /*--color-secondary-75: rgba(50, 50, 70, 0.75);*/
     --icon-font-size: var(--font-size-14);
-    --control-size: var(--control-item-size);
+    --crlngn-control-size: var(--control-item-size);
+    --control-size: var(--crlngn-control-size) !important;
+    --custom-ui-button-scale: 1 !important;
+    --custom-ui-navigation-scale: 1 !important;
   }
   #ui-left{
     padding: 0;
@@ -21,15 +24,20 @@ body.crlngn-ui{
       margin-top: 16px;
     }
   }
-  
-  #ui-left-column-2{
-    margin-left: 16px;
-  }
 
   #interface{
     &.crlngn-controls #ui-left{
-      --control-size: var(--control-item-size);
+      --crlngn-control-size: var(--control-item-size);
+      --control-size: var(--crlngn-control-size) !important;
+      --custom-ui-button-scale: 1 !important;
+      --custom-ui-navigation-scale: 1 !important;
       padding: 0;
+
+      #ui-left-column-1{
+        --custom-ui-button-scale: 1 !important;
+        --custom-ui-navigation-scale: 1 !important;
+        --control-size: var(--crlngn-control-size) !important;
+      }
 
       #scene-controls{
         gap: 0;
@@ -46,7 +54,8 @@ body.crlngn-ui{
           }
         }
         .ui-control{
-          --control-size: var(--control-item-size);
+          --crlngn-control-size: var(--control-item-size);
+          --control-size: var(--crlngn-control-size) !important;
           border-radius: 0;
           border: 1px solid transparent;
           font-size: 0.95em;
