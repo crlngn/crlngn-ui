@@ -5,7 +5,13 @@ foundry/
 crlngn-ui.code-workspace
 foundry-config.yaml
 foundry
+*.timestamp-*.mjs
 
 # Ignore all markdown files except those preceded by !
 *.md
 !README.md
+
+.*/
+!.gitignore
+!.gitattributes
+!.github
