@@ -57,7 +57,7 @@ jobs:
           FOUNDRY_PACKAGE_API_KEY: ${{ secrets.FOUNDRY_PACKAGE_API_KEY }}
         run: |
           echo "Publishing latest release ($VERSION) to FoundryVTT..."
-          API_RESPONSE=$(curl -s -X POST "https://api.foundryvtt.com/_api/packages/release_version/" \
+          API_RESPONSE=$(curl -s -X POST "https://foundryvtt.com/_api/packages/release_version/" \
             -H "Content-Type: application/json" \
             -H "Authorization: $FOUNDRY_PACKAGE_API_KEY" \
             -d '{
