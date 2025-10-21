@@ -194,6 +194,16 @@ export class SettingsUtil {
     SidebarTabs.applySideBarWidth();
     SettingsUtil.applyDarkThemeToModules();
     TopNavigation.applyHide();
+
+    // Apply background settings
+    const backgroundOpacity = SettingsUtil.get(SETTINGS.backgroundOpacity.tag);
+    const backgroundBlur = SettingsUtil.get(SETTINGS.backgroundBlur.tag);
+    SettingsUtil.applyBackgroundOpacity(backgroundOpacity);
+    SettingsUtil.applyBackgroundBlur(backgroundBlur);
+
+    // Apply sidebar settings
+    const useHorizontalSidebarTabs = SettingsUtil.get(SETTINGS.useHorizontalSidebarTabs.tag);
+    SidebarTabs.applyHorizontalSidebarTabs(useHorizontalSidebarTabs);
   }
 
   /**
@@ -449,10 +459,20 @@ export class SettingsUtil {
         TopNavigation.applyHide(value); break;
       case SETTINGS.useFolderStyle.tag:
         SidebarTabs.applyFolderStyles(value); break;
+      case SETTINGS.openChatLogOnLoad.tag:
+        SidebarTabs.applyOpenChatLogOnLoad(value); break;
+      case SETTINGS.closeSidebarWhenIdle.tag:
+        SidebarTabs.applyCloseSidebarWhenIdle(value); break;
+      case SETTINGS.useHorizontalSidebarTabs.tag:
+        SidebarTabs.applyHorizontalSidebarTabs(value); break;
       case SETTINGS.applyThemeToSheets.tag:
         SheetsUtil.applyThemeToSheets(value); break;
       case SETTINGS.useHorizontalSheetTabs.tag:
         SheetsUtil.applyHorizontalSheetTabs(value); break;
+      case SETTINGS.backgroundOpacity.tag:
+        SettingsUtil.applyBackgroundOpacity(value); break;
+      case SETTINGS.backgroundBlur.tag:
+        SettingsUtil.applyBackgroundBlur(value); break;
       case SETTINGS.enforceGMSettings.tag:
         // When GM enables enforcement, immediately save current settings
         if (value && game.user?.isGM) {
@@ -496,6 +516,25 @@ export class SettingsUtil {
     }else{
       body.classList.remove("hide-scene-name");
     }
+  }
+
+  /**
+   * Applies background opacity to window backgrounds
+   * @param {number} value - Opacity value from 0 to 1 (step 0.05)
+   */
+  static applyBackgroundOpacity(value){
+    GeneralUtil.addCSSVars("--background-opacity", value);
+    LogUtil.log("applyBackgroundOpacity", [value]);
+  }
+
+  /**
+   * Applies background blur to window content
+   * @param {number} value - Blur value from 0 to 1, translates to 0px-20px
+   */
+  static applyBackgroundBlur(value){
+    const blurPx = Math.round(value * 20 * 2) / 2; // Round to nearest 0.5
+    GeneralUtil.addCSSVars("--background-blur", `${blurPx}px`);
+    LogUtil.log("applyBackgroundBlur", [value, `${blurPx}px`]);
   }
 
   /**

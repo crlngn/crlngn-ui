@@ -64,7 +64,7 @@
           "interface": "UI Elements",
           "fonts": "Fonts",
           "themes": "Theme & Styles",
-          "chat": "Sidebar & Chat Log",
+          "chat": "Sidebar & ChatLog",
           "controls": "Left Controls",
           "scenes": "Scene Navigation",
           "players": "Players List",
@@ -159,6 +159,14 @@
             "label": "Custom Theme Colors (Player)",
             "hint": "Custom color configuration for this player"
           },
+          "backgroundOpacity": {
+            "label": "Window Background Opacity",
+            "hint": "Controls the opacity of window backgrounds. Range from 0.5 (semi-transparent) to 1 (fully opaque), step 0.05. Values below 0.5 may make text illegible."
+          },
+          "backgroundBlur": {
+            "label": "Window Background Blur",
+            "hint": "Controls the blur effect applied to window content backgrounds. Range from 0 (no blur) to 1 (maximum blur of 20px), step 0.05."
+          },
           "customizeColors": "Customize Colors",
           "customizeHint": "Click to open the color picker and create custom theme colors",
           "adjustOtherModules": {
@@ -224,6 +232,18 @@
           "sideBarWidth": {
             "label": "Sidebar width",
             "hint": "Width of the sidebar panel on the right side of the screen."
+          },
+          "openChatLogOnLoad": {
+            "label": "Open Chat Log on Load",
+            "hint": "When enabled, the sidebar will automatically expand to show the Chat Log when the module loads."
+          },
+          "closeSidebarWhenIdle": {
+            "label": "Close Sidebar When Idle",
+            "hint": "When enabled, the sidebar will automatically collapse 3 seconds after your mouse leaves the sidebar area."
+          },
+          "useHorizontalSidebarTabs": {
+            "label": "Use Horizontal Sidebar Tabs",
+            "hint": "When enabled, changes the sidebar tabs to horizontal orientation, at the top of the sidebar, instead of vertically on the side. (v12 style)"
           }
         },
         "reset": "Reset",

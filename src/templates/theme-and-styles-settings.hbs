@@ -26,6 +26,20 @@
       <p class="hint">{{fields.useHorizontalSheetTabs.hint}}</p>
   </div>
 
+  <div class="form-group range">
+    <label for="backgroundOpacity">{{fields.backgroundOpacity.label}}</label>
+    <input type="range" name="backgroundOpacity" min="0.5" max="1" step="0.05" value="{{backgroundOpacity}}" />
+    <input type="number" name="backgroundOpacity_value" class="range-value-input" min="0.5" max="1" step="0.05" value="{{backgroundOpacity}}" />
+    <p class="hint">{{fields.backgroundOpacity.hint}}</p>
+  </div>
+
+  <div class="form-group range">
+    <label for="backgroundBlur">{{fields.backgroundBlur.label}}</label>
+    <input type="range" name="backgroundBlur" min="0" max="1" step="0.05" value="{{backgroundBlur}}" />
+    <input type="number" name="backgroundBlur_value" class="range-value-input" min="0" max="1" step="0.05" value="{{backgroundBlur}}" />
+    <p class="hint">{{fields.backgroundBlur.hint}}</p>
+  </div>
+
   {{#if isGM}}
   <h4><i class="fas fa-globe"></i> {{localize "CRLNGN_UI.ui.worldSettingsLabel"}}</h4>
   <hr/>

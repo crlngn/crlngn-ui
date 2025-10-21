@@ -272,28 +272,32 @@ export function getSettings() {
     },
     player_themeAndStylesMenu: {
       isMenu: true,
-      showOnRoot: false, 
-      tag: "v2-player-theme-styles-menu", 
+      showOnRoot: false,
+      tag: "v2-player-theme-styles-menu",
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.label"),
       title: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.title"),
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.hint"),
       propType: String,
       fields: [
         "playerColorTheme",
-        "useHorizontalSheetTabs"
+        "useHorizontalSheetTabs",
+        "backgroundOpacity",
+        "backgroundBlur"
       ],
       default: {
         playerColorTheme: "",
         useHorizontalSheetTabs: true,
+        backgroundOpacity: 0.95,
+        backgroundBlur: 0.2
       },
       scope: SETTING_SCOPE.client,
-      config: false, 
-      requiresReload: false 
+      config: false,
+      requiresReload: false
     },
     chatMessagesMenu: {
       isMenu: true,
-      showOnRoot: false, 
-      tag: "v2-chat-messages-menu", 
+      showOnRoot: false,
+      tag: "v2-chat-messages-menu",
       label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.hint"),
       propType: Object,
@@ -302,14 +306,20 @@ export function getSettings() {
         "enableChatStyles",
         "chatBorderColor",
         "useLeftChatBorder",
-        "chatBorderPosition"
+        "chatBorderPosition",
+        "openChatLogOnLoad",
+        "closeSidebarWhenIdle",
+        "useHorizontalSidebarTabs"
       ],
-      default: { 
+      default: {
         sideBarWidth: 300,
         enableChatStyles: true,
         chatBorderColor: BORDER_COLOR_TYPES.playerColor.name,
         useLeftChatBorder: true,
-        chatBorderPosition: "left"
+        chatBorderPosition: "left",
+        openChatLogOnLoad: false,
+        closeSidebarWhenIdle: false,
+        useHorizontalSidebarTabs: false
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -830,6 +840,30 @@ export function getSettings() {
       requiresReload: false
     },
 
+    backgroundOpacity: {
+      tag: "v2-background-opacity",
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.backgroundOpacity.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.backgroundOpacity.hint"),
+      propType: Number,
+      inputType: SETTING_INPUT.number,
+      default: 0.94,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+
+    backgroundBlur: {
+      tag: "v2-background-blur",
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.backgroundBlur.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.backgroundBlur.hint"),
+      propType: Number,
+      inputType: SETTING_INPUT.number,
+      default: 0.2,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+
     adjustOtherModules: {
       tag: "v2-adjust-other-modules",
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.adjustOtherModules.label"),
@@ -956,6 +990,36 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.sideBarWidth.hint"),
       propType: Number,
       default: 300,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    openChatLogOnLoad: {
+      tag: "v2-open-chat-log-on-load",
+      label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.openChatLogOnLoad.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.openChatLogOnLoad.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    closeSidebarWhenIdle: {
+      tag: "v2-close-sidebar-when-idle",
+      label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.closeSidebarWhenIdle.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.closeSidebarWhenIdle.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    useHorizontalSidebarTabs: {
+      tag: "v2-use-horizontal-sidebar-tabs",
+      label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.useHorizontalSidebarTabs.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.useHorizontalSidebarTabs.hint"),
+      propType: Boolean,
+      default: false,
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false

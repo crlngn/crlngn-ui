@@ -317,19 +317,15 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const SETTINGS = getSettings();
     ModuleSettings.#element = this.element;
 
-    // Scene Item width range input value display and synchronization
-    const sceneItemRangeInput = ModuleSettings.#element.querySelector('input[type="range"][name="sceneItemWidth"]');
-    const sceneItemValueInput = ModuleSettings.#element.querySelector('input[type="number"].range-value-input[name="sceneItemWidth_value"]');
-    if (sceneItemRangeInput && sceneItemValueInput) {
-      ModuleSettings.handleRangeInputs(sceneItemRangeInput, sceneItemValueInput);
-    }
-
-    // Sidebar width range input value display and synchronization
-    const sideBarRangeInput = ModuleSettings.#element.querySelector('input[type="range"][name="sideBarWidth"]');
-    const sideBarValueInput = ModuleSettings.#element.querySelector('input[type="number"].range-value-input[name="sideBarWidth_value"]');
-    if (sideBarRangeInput && sideBarValueInput) {
-      ModuleSettings.handleRangeInputs(sideBarRangeInput, sideBarValueInput);
-    }
+    // Handle all range inputs with their corresponding value inputs
+    const rangeInputs = ModuleSettings.#element.querySelectorAll('input[type="range"]');
+    rangeInputs.forEach(rangeInput => {
+      const fieldName = rangeInput.name;
+      const valueInput = ModuleSettings.#element.querySelector(`input[type="number"].range-value-input[name="${fieldName}_value"]`);
+      if (valueInput) {
+        ModuleSettings.handleRangeInputs(rangeInput, valueInput);
+      }
+    });
 
     // add listener to .toggle-hint 
     const hintToggles = ModuleSettings.#element.querySelectorAll('.toggle-hint');
@@ -349,8 +345,9 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
   static handleRangeInputs(rangeInput, valueInput){
     if (rangeInput && valueInput) {
-      const min = parseInt(rangeInput.min, 10);
-      const max = parseInt(rangeInput.max, 10);
+      const min = parseFloat(rangeInput.min);
+      const max = parseFloat(rangeInput.max);
+      const step = parseFloat(rangeInput.step) || 1;
 
       // Listener for the range slider's input event
       rangeInput.addEventListener('input', () => {
@@ -360,10 +357,10 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       // Listener for the number input's input event (while typing)
       valueInput.addEventListener('input', () => {
         const currentValueString = valueInput.value;
-        if (currentValueString === "" || currentValueString === "-") {
+        if (currentValueString === "" || currentValueString === "-" || currentValueString === ".") {
           return;
         }
-        const currentValue = parseInt(currentValueString, 10);
+        const currentValue = parseFloat(currentValueString);
         if (!isNaN(currentValue) && currentValue >= min && currentValue <= max) {
           rangeInput.value = currentValue;
         }
@@ -371,14 +368,14 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
       // Listener for the number input's change event (after typing/blur/enter)
       valueInput.addEventListener('change', () => {
-        let value = parseInt(valueInput.value, 10);
+        let value = parseFloat(valueInput.value);
 
         if (isNaN(value) || value < min) {
           value = min;
         } else if (value > max) {
           value = max;
         }
-        
+
         valueInput.value = value; // Update the input field to the clamped/validated value
         rangeInput.value = value; // Sync the slider
       });

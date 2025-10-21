@@ -40,12 +40,30 @@
       </option>
       {{/each}}
     </select>
-    <p class="hint">{{{fields.chatBorderPosition.hint}}}</p> 
+    <p class="hint">{{{fields.chatBorderPosition.hint}}}</p>
   </div>
-  
+
+  <div class="form-group">
+    <label for="openChatLogOnLoad">{{fields.openChatLogOnLoad.label}}</label>
+    <input type="checkbox" name="openChatLogOnLoad" {{#if openChatLogOnLoad}}checked{{/if}} />
+    <p class="hint">{{fields.openChatLogOnLoad.hint}}</p>
+  </div>
+
+  <div class="form-group">
+    <label for="closeSidebarWhenIdle">{{fields.closeSidebarWhenIdle.label}}</label>
+    <input type="checkbox" name="closeSidebarWhenIdle" {{#if closeSidebarWhenIdle}}checked{{/if}} />
+    <p class="hint">{{fields.closeSidebarWhenIdle.hint}}</p>
+  </div>
+
+  <div class="form-group">
+    <label for="useHorizontalSidebarTabs">{{fields.useHorizontalSidebarTabs.label}}</label>
+    <input type="checkbox" name="useHorizontalSidebarTabs" {{#if useHorizontalSidebarTabs}}checked{{/if}} />
+    <p class="hint">{{fields.useHorizontalSidebarTabs.hint}}</p>
+  </div>
+
   {{!-- <div class="form-group">
     <label for="useLeftChatBorder">{{fields.useLeftChatBorder.label}}</label>
     <input type="checkbox" name="useLeftChatBorder" {{#if useLeftChatBorder}}checked{{/if}} />
-    <p class="hint">{{fields.useLeftChatBorder.hint}}</p> 
+    <p class="hint">{{fields.useLeftChatBorder.hint}}</p>
   </div> --}}
 </section>

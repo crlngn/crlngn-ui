@@ -725,21 +725,30 @@ export class ColorPickerUtil {
         const bgR = r;//isLightTheme ? Math.min(255, r + 150) : r;
         const bgG = g;//isLightTheme ? Math.min(255, g + 150) : g;
         const bgB = b;//isLightTheme ? Math.min(255, b + 150) : b;
-        
+
         const bgColor = `rgb(${bgR}, ${bgG}, ${bgB})`;
-        
+
         vars['--color-cool-5'] = bgColor;
         vars['--color-cool-5-15'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.15)`;
         vars['--color-cool-5-25'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.25)`;
         vars['--color-cool-5-50'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.5)`;
         vars['--color-cool-5-75'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.75)`;
         vars['--color-cool-5-90'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.95)`;
-        vars['--background'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.98)`;
+        vars['--background'] = `rgba(${bgR}, ${bgG}, ${bgB}, var(--background-opacity, 0.98))`;
         vars['--background-color'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.75)`;
-        
+
         vars['--control-bg-color'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.75)`;
         vars['--sidebar-background'] = `rgba(${bgR}, ${bgG}, ${bgB}, 0.94)`;
         vars['--color-bg-button'] = 'light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1))';
+      } else {
+        // When not applying secondary to background, still use the opacity setting
+        // Use the default light/dark theme backgrounds with opacity
+        const defaultBgR = isLightTheme ? 224 : 11;
+        const defaultBgG = isLightTheme ? 217 : 10;
+        const defaultBgB = isLightTheme ? 213 : 19;
+        const defaultOpacity = isLightTheme ? 0.98 : 0.95;
+
+        vars['--background'] = `rgba(${defaultBgR}, ${defaultBgG}, ${defaultBgB}, var(--background-opacity, ${defaultOpacity}))`;
       }
     }
     
