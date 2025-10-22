@@ -343,10 +343,10 @@ body.crlngn-ui.crlngn-sheets {
       }
       .dnd5e2.sheet.actor.vertical-tabs nav.tabs,
       .dnd5e2.compendium-browser.vertical-tabs nav.tabs {
-        background-color: var(--color-warm-3);
+        background-color: var(--color-warm-2);
       }
       button.crlngn-tab-scroll-btn {
-        background-color: var(--color-warm-3);
+        background-color: var(--color-warm-2);
         color: var(--color-light-1);
       }
     } 
@@ -437,7 +437,6 @@ body.crlngn-ui.crlngn-sheets {
     inset: 1px;
   }
   
-  
   .dnd5e2.sheet.actor .window-resize-handle {
     z-index: 10;
   }
@@ -449,16 +448,31 @@ body.crlngn-ui.crlngn-sheets {
   &.crlngn-sheet-tabs .dnd5e2.sheet.actor.character .sheet-body .main-content{
     padding: 2em 8px;
   }
-  &.crlngn-sheet-tabs .dnd5e2.sheet.actor.character .ability-scores .ability-score::before {
-    background: var(--dnd5e-sheet-bg);
-    border-radius: 5px;
-    background: transparent url(../../../systems/dnd5e/ui/ability-score-tab-dark.svg) no-repeat top center / contain;
-  }
-  &.crlngn-sheet-tabs .dnd5e2.sheet.actor.character .ability-scores .ability-score .score {
-    /*
-    background: var(--dnd5e-color-gold);
-    color: var(--color-light-1);
-    */
+
+  &:is(.dnd5e-theme-light, .theme-light).crlngn-sheet-tabs .dnd5e2.sheet.actor.character:not(.theme-dark) .ability-scores,
+  &.crlngn-sheet-tabs .dnd5e2.sheet.actor.character.theme-light .ability-scores {
+    .ability-score::before {
+      background: var(--dnd5e-sheet-bg);
+      border-radius: 5px;
+      background: transparent url(../../../systems/dnd5e/ui/ability-score-tab.svg) no-repeat top center / contain;
+    }
+    .score{
+      background: var(--dnd5e-color-gold);
+      color: var(--color-light-1);
+    }
+  } 
+
+  &:is(.dnd5e-theme-dark, .theme-dark).crlngn-sheet-tabs .dnd5e2.sheet.actor.character:not(.theme-light) .ability-scores,
+  &.crlngn-sheet-tabs .dnd5e2.sheet.actor.character.theme-dark .ability-scores {
+    .ability-score::before {
+      background: var(--dnd5e-sheet-bg);
+      border-radius: 5px;
+      background: transparent url(../../../systems/dnd5e/ui/ability-score-tab-dark.svg) no-repeat top center / contain;
+    }
+    .score{
+      background: var(--dnd5e-color-dark);
+      color: var(--dnd5e-color-gold);
+    }
   }
   &:is(.dnd5e-theme-light, .theme-light) {
     --dnd5e-background-alt-2: rgba(244, 239, 237,0.8);
@@ -477,7 +491,7 @@ body.crlngn-ui.crlngn-sheets {
     background: rgba(244, 239, 237,1);
   }
 
-
+   &:is(.dnd5e-theme-light, .theme-light) .theme-light.dnd5e2.sheet.actor.character .pips .pip,
   .theme-light.dnd5e2.sheet.actor.character .pips .pip, 
   .theme-light.dnd5e2.sheet.actor.character .standard-form .pips .pip,
   .theme-light.dnd5e2.sheet.actor.character .sheet-body .sidebar .card .death-tray .death-saves .pip {

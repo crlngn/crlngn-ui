@@ -151,6 +151,7 @@ Main Theme
     --default-color: var(--color-light-1);
     --input-background-color: rgba(255, 255, 255, 0.2);
     --input-border-color: var(--color-secondary);
+    --range-thumb-background-color: var(--color-warm-2);
 
     .ui-control, .placeable-hud, #measurement .waypoint-label {
       --toggle-bg-color: var(--control-striped-bg);
