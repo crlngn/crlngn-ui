@@ -384,7 +384,7 @@
           },
           "useHorizontalSheetTabs": {
             "label": "Usar abas horizontais com rótulos",
-            "hint": "Ative para usar abas horizontais com rótulos nas fichas de personagens de DnD5e em vez das abas laterais com ícones"
+            "hint": "Funciona apenas quando temas estiverem aplicados às fichas. Ative para usar abas horizontais com rótulos nas fichas de personagens de DnD5e em vez das abas laterais com ícones"
           }
         },
         "reset": "Redefinir",

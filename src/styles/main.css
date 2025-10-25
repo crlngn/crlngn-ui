@@ -21,6 +21,7 @@ body.crlngn-ui.crlngn-glass-effect .window-app {
   backdrop-filter: blur(var(--background-blur, 4px)) !important;
   -webkit-backdrop-filter: blur(var(--background-blur, 4px)) !important;
 }
+
 /*
 body.crlngn-ui.crlngn-glass-effect .application:not(.dnd5e2.sheet, .tidy5e-sheet) .window-content,
 body.crlngn-ui.crlngn-glass-effect.theme-light .application:not(.dnd5e2.sheet, .tidy5e-sheet) .window-content,

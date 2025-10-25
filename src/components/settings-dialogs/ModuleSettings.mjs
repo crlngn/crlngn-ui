@@ -338,6 +338,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
     ModuleSettings.handleCustomFontFields();
     ModuleSettings.handleThemeAndStyleFields();
+    ModuleSettings.handleSheetFields();
 
     // const controlSettings = SettingsUtil.get(SETTINGS.moduleSettingsMenu.tag);
     LogUtil.log("_onRender", [context, options]);
@@ -734,6 +735,28 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         toggleModulesCheckbox.checked = false;
       }
     });
+  }
+
+  static handleSheetFields(){
+    const sheetsContent = ModuleSettings.#element.querySelector(`.form-content:has(input[name="applyThemeToSheets"])`);
+    if(!sheetsContent){ return; }
+
+    // Handle applyThemeToSheets checkbox to show/hide useHorizontalSheetTabs
+    const applyThemeCheckbox = sheetsContent.querySelector('input[name="applyThemeToSheets"]');
+    const horizontalTabsField = sheetsContent.querySelector('.form-group:has(input[name="useHorizontalSheetTabs"])');
+
+    if (applyThemeCheckbox && horizontalTabsField) {
+      const toggleHorizontalTabsField = () => {
+        const isChecked = applyThemeCheckbox.checked;
+        horizontalTabsField.style.display = isChecked ? 'flex' : 'none';
+      };
+
+      // Set initial state
+      toggleHorizontalTabsField();
+
+      // Add listener for changes
+      applyThemeCheckbox.addEventListener('change', toggleHorizontalTabsField);
+    }
   }
 
   /**

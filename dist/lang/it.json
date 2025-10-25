@@ -384,7 +384,7 @@
           },
           "useHorizontalSheetTabs": {
             "label": "Usa schede orizzontali con etichette",
-            "hint": "Attiva per utilizzare schede orizzontali con etichette sulle schede dei personaggi di DnD5e anziché le schede laterali con icone"
+            "hint": "Funziona solo quando gli stili personalizzati per le schede sono abilitati. Attiva per utilizzare schede orizzontali con etichette sulle schede dei personaggi di DnD5e anziché le schede laterali con icone"
           }
         },
         "reset": "Ripristina",

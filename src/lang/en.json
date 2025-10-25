@@ -392,12 +392,12 @@
         "hint": "Change options for the 5e sheets",
         "fields": {
           "applyThemeToSheets": {
-            "label": "Apply styles to actor sheets (DnD5e, Daggerheart)",
+            "label": "Apply theme to actor sheets (DnD5e, Daggerheart)",
             "hint": "Enable to apply global color theme and styles to actor sheets (PC and NPC). This currently works for DnD5e and Foundryborne Daggerheart"
           },
           "useHorizontalSheetTabs": {
             "label": "Use horizontal tabs with labels on 5e sheets",
-            "hint": "Enable to use horizontal tabs with labels on 5e actor sheets instead of the lateral icon tabs"
+            "hint": "Only works when custom styles for sheets are enabled. This applies horizontal tabs with labels on 5e actor sheets instead of the lateral icon tabs"
           }
         },
         "reset": "Reset",

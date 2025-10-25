@@ -71,6 +71,11 @@ export class SheetsUtil {
 
     if(value){
       document.body.classList.add("crlngn-sheets");
+      // Re-add scroll buttons if horizontal tabs were enabled
+      if(SheetsUtil.horizontalSheetTabsEnabled){
+        document.body.classList.add("crlngn-sheet-tabs");
+        SheetsUtil.#addTabScrollButtons();
+      }
     }else{
       document.body.classList.remove("crlngn-sheets");
       document.body.classList.remove("crlngn-sheet-tabs");
@@ -94,17 +99,14 @@ export class SheetsUtil {
 
   static #addTabScrollButtons(){
     const tabContainers = document.querySelectorAll(".dnd5e2.vertical-tabs nav.tabs");
-    
+
     tabContainers.forEach(nav => {
       const parent = nav.parentElement;
       if(parent.querySelector(".crlngn-tab-scroll-btn")) return;
-      
+
       const wrapper = document.createElement("div");
       wrapper.className = "crlngn-tab-scroll-wrapper";
-      // wrapper.style.position = "relative";
-      // wrapper.style.display = "flex";
-      // wrapper.style.alignItems = "center";
-      
+
       const prevBtn = document.createElement("button");
       prevBtn.className = "crlngn-tab-scroll-btn crlngn-tab-scroll-prev";
       prevBtn.innerHTML = '<i class="fas fa-caret-left"></i>';
@@ -112,7 +114,7 @@ export class SheetsUtil {
         e.preventDefault();
         nav.scrollBy({ left: -150, behavior: "smooth" });
       });
-      
+
       const nextBtn = document.createElement("button");
       nextBtn.className = "crlngn-tab-scroll-btn crlngn-tab-scroll-next";
       nextBtn.innerHTML = '<i class="fas fa-caret-right"></i>';
@@ -120,17 +122,45 @@ export class SheetsUtil {
         e.preventDefault();
         nav.scrollBy({ left: 150, behavior: "smooth" });
       });
-      
+
       parent.insertBefore(wrapper, nav);
       wrapper.appendChild(prevBtn);
       wrapper.appendChild(nav);
       wrapper.appendChild(nextBtn);
+
+      // Check if tabs are scrollable and update button visibility
+      const updateButtonVisibility = () => {
+        const isScrollable = nav.scrollWidth > nav.clientWidth;
+        if (isScrollable) {
+          prevBtn.classList.remove("hidden");
+          nextBtn.classList.remove("hidden");
+        } else {
+          prevBtn.classList.add("hidden");
+          nextBtn.classList.add("hidden");
+        }
+      };
+
+      // Initial check
+      setTimeout(updateButtonVisibility, 150);
+
+      // Create observer and store reference for cleanup
+      const resizeObserver = new ResizeObserver(updateButtonVisibility);
+      resizeObserver.observe(nav);
+
+      // Store observer on the wrapper for cleanup later
+      wrapper._resizeObserver = resizeObserver;
     });
   }
 
   static #removeTabScrollButtons(){
     const wrappers = document.querySelectorAll(".crlngn-tab-scroll-wrapper");
     wrappers.forEach(wrapper => {
+      // Disconnect observer to prevent memory leaks
+      if(wrapper._resizeObserver){
+        wrapper._resizeObserver.disconnect();
+        delete wrapper._resizeObserver;
+      }
+
       const nav = wrapper.querySelector("nav.tabs");
       if(nav && wrapper.parentElement){
         wrapper.parentElement.insertBefore(nav, wrapper);
