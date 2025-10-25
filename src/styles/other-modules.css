@@ -1324,5 +1324,11 @@ body.crlngn-ui{
       font-family: var(--crlngn-font-titles);
     }
   }
+
+  /* Monk's Multiple Document Selection */
+  .sidebar-tab.multiple-select .directory-list .directory-item.document.selected, .sidebar-tab.multiple-select .directory-list .directory-item .sound.selected, .sidebar-tab.multiple-select .directory-list .directory-item.entry.selected, .sidebar-tab .compendium.multiple-select .directory-list .directory-item.document.selected, .sidebar-tab .compendium.multiple-select .directory-list .directory-item .sound.selected, .sidebar-tab .compendium.multiple-select .directory-list .directory-item .entry.selected {
+    background-color: var(--color-warm-2) !important;
+    color: var(--color-light-1);
+  }
   
 }

@@ -8,7 +8,7 @@ body{
 }
 
 /* Background blur setting - override Foundry's default */
-body.crlngn-ui .application .window-content {
+body.crlngn-ui .application:not(.tidy5e-sheet) .window-content {
   backdrop-filter: blur(var(--background-blur, 4px)) !important;
   -webkit-backdrop-filter: blur(var(--background-blur, 4px)) !important;
 }
