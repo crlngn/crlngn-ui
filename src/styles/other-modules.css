@@ -581,6 +581,7 @@ body.crlngn-ui{
 
       footer {
         margin-top: 1em;
+        gap: 6px;
       }
       .window-header {
         background: var(--color-dark-bg-75);
@@ -600,14 +601,15 @@ body.crlngn-ui{
         display: flex;
         gap: 0.25em;
 
-        &:first-child {
-          display: block;
-          flex: 1 1 100%;
+        *:first-child {
+          font-size: 1rem;
         }
 
         button {
-          width: 25px;
-          flex: 0 0 25px;
+          width: auto;
+          flex: 0 0 auto;
+          padding: 4px;
+          background: transparent;
           i{
             margin: 0;
           }

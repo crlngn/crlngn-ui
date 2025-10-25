@@ -196,10 +196,12 @@ export class SettingsUtil {
     TopNavigation.applyHide();
 
     // Apply background settings
-    const backgroundOpacity = SettingsUtil.get(SETTINGS.backgroundOpacity.tag);
-    const backgroundBlur = SettingsUtil.get(SETTINGS.backgroundBlur.tag);
-    SettingsUtil.applyBackgroundOpacity(backgroundOpacity);
-    SettingsUtil.applyBackgroundBlur(backgroundBlur);
+    const useGlassEffect = SettingsUtil.get(SETTINGS.useGlassEffect.tag);
+    const glassTranslucence = SettingsUtil.get(SETTINGS.glassTranslucence.tag);
+    SettingsUtil.applyGlassEffect(useGlassEffect);
+    if(useGlassEffect){
+      SettingsUtil.applyTranslucence(glassTranslucence);
+    }
 
     // Apply sidebar settings
     const useHorizontalSidebarTabs = SettingsUtil.get(SETTINGS.useHorizontalSidebarTabs.tag);
@@ -469,10 +471,10 @@ export class SettingsUtil {
         SheetsUtil.applyThemeToSheets(value); break;
       case SETTINGS.useHorizontalSheetTabs.tag:
         SheetsUtil.applyHorizontalSheetTabs(value); break;
-      case SETTINGS.backgroundOpacity.tag:
-        SettingsUtil.applyBackgroundOpacity(value); break;
-      case SETTINGS.backgroundBlur.tag:
-        SettingsUtil.applyBackgroundBlur(value); break;
+      case SETTINGS.useGlassEffect.tag:
+        SettingsUtil.applyGlassEffect(value); break;
+      case SETTINGS.glassTranslucence.tag:
+        SettingsUtil.applyTranslucence(value); break;
       case SETTINGS.enforceGMSettings.tag:
         // When GM enables enforcement, immediately save current settings
         if (value && game.user?.isGM) {
@@ -519,22 +521,43 @@ export class SettingsUtil {
   }
 
   /**
-   * Applies background opacity to window backgrounds
-   * @param {number} value - Opacity value from 0 to 1 (step 0.05)
+   * Applies or removes glass effect (backdrop-filter) from windows
+   * @param {boolean} value - Whether to enable glass effect
    */
-  static applyBackgroundOpacity(value){
-    GeneralUtil.addCSSVars("--background-opacity", value);
-    LogUtil.log("applyBackgroundOpacity", [value]);
+  static applyGlassEffect(value){
+    const body = document.querySelector("body");
+    const SETTINGS = getSettings();
+
+    if(value){
+      body.classList.add("crlngn-glass-effect");
+      // Reapply the glassTranslucence value when enabling
+      const glassTranslucence = SettingsUtil.get(SETTINGS.glassTranslucence.tag);
+      SettingsUtil.applyTranslucence(glassTranslucence);
+    } else {
+      body.classList.remove("crlngn-glass-effect");
+      // Set to full opacity and no blur when disabling to ensure no performance impact
+      GeneralUtil.addCSSVars("--background-blur", "0px");
+      GeneralUtil.addCSSVars("--background-opacity", "0.98");
+    }
+    LogUtil.log("applyGlassEffect", [value]);
   }
 
   /**
-   * Applies background blur to window content
-   * @param {number} value - Blur value from 0 to 1, translates to 0px-20px
+   * Applies translucence effect to windows (controls both opacity and blur)
+   * @param {number} value - Translucence value from 0 to 1
+   *   - 0 = fully opaque (opacity: 1, blur: 4px)
+   *   - 1 = translucent (opacity: 0.75, blur: 20px)
    */
-  static applyBackgroundBlur(value){
-    const blurPx = Math.round(value * 20 * 2) / 2; // Round to nearest 0.5
-    GeneralUtil.addCSSVars("--background-blur", `${blurPx}px`);
-    LogUtil.log("applyBackgroundBlur", [value, `${blurPx}px`]);
+  static applyTranslucence(value){
+    // Inverse relationship:
+    // - opacity decreases as translucence increases (1 -> 0.75)
+    // - blur increases as translucence increases (4px -> 20px)
+    const opacity = 1 - (value * 0.3); // Range: 1 to 0.7
+    const blurPx = 10 + (value * 20); // Range: 4px to 20px
+
+    GeneralUtil.addCSSVars("--background-opacity", opacity.toFixed(2));
+    GeneralUtil.addCSSVars("--background-blur", `${blurPx.toFixed(1)}px`);
+    LogUtil.log("applyTranslucence", [value, { opacity, blur: `${blurPx}px` }]);
   }
 
   /**

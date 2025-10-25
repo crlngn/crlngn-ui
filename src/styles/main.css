@@ -8,10 +8,32 @@ body{
 }
 
 /* Background blur setting - override Foundry's default */
-body.crlngn-ui .application:not(.tidy5e-sheet) .window-content {
+/* Only apply backdrop-filter when glass effect is enabled via body class */ 
+/*.compendium-browser*/
+body.crlngn-ui.crlngn-glass-effect .application:not(.dnd5e2.sheet, .tidy5e-sheet) .window-content {
+  background: transparent !important;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+body.crlngn-ui.crlngn-glass-effect .application:not(.dnd5e2.sheet, .tidy5e-sheet),
+body.crlngn-ui.crlngn-glass-effect .window-app {
+  background: var(--background) !important;
   backdrop-filter: blur(var(--background-blur, 4px)) !important;
   -webkit-backdrop-filter: blur(var(--background-blur, 4px)) !important;
 }
+/*
+body.crlngn-ui.crlngn-glass-effect .application:not(.dnd5e2.sheet, .tidy5e-sheet) .window-content,
+body.crlngn-ui.crlngn-glass-effect.theme-light .application:not(.dnd5e2.sheet, .tidy5e-sheet) .window-content,
+body.crlngn-ui.crlngn-glass-effect.theme-dark .application:not(.dnd5e2.sheet, .tidy5e-sheet) .window-content {
+  background: transparent;
+}
+body.crlngn-ui.crlngn-glass-effect .application:not(.dnd5e2.sheet, .tidy5e-sheet),
+body.crlngn-ui.crlngn-glass-effect.theme-light .application:not(.dnd5e2.sheet, .tidy5e-sheet),
+body.crlngn-ui.crlngn-glass-effect.theme-dark .application:not(.dnd5e2.sheet, .tidy5e-sheet) {
+  background: var(--background);
+  backdrop-filter: blur(var(--background-blur, 4px)) !important;
+  -webkit-backdrop-filter: blur(var(--background-blur, 4px)) !important;
+}*/
 
 body.crlngn-ui  {
   text-rendering: optimizeLegibility;

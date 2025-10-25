@@ -75,6 +75,7 @@ export class SheetsUtil {
       document.body.classList.remove("crlngn-sheets");
       document.body.classList.remove("crlngn-sheet-tabs");
       SheetsUtil.horizontalSheetTabsEnabled = false;
+      SheetsUtil.#removeTabScrollButtons();
     }
   }
 

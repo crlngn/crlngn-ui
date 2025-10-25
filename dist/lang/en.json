@@ -159,13 +159,13 @@
             "label": "Custom Theme Colors (Player)",
             "hint": "Custom color configuration for this player"
           },
-          "backgroundOpacity": {
-            "label": "Window Background Opacity",
-            "hint": "Controls the opacity of window backgrounds. Range from 0.5 (semi-transparent) to 1 (fully opaque), step 0.05. Values below 0.5 may make text illegible."
+          "useGlassEffect": {
+            "label": "Enable Glass Effect (may affect performance)",
+            "hint": "Enable backdrop-filter glass effect on application windows. This feature can cause performance issues on slower machines. Disable if you experience lag or stuttering, and backdrop-filter will not be applied at all."
           },
-          "backgroundBlur": {
-            "label": "Window Background Blur",
-            "hint": "Controls the blur effect applied to window content backgrounds. Range from 0 (no blur) to 1 (maximum blur of 20px), step 0.05."
+          "glassTranslucence": {
+            "label": "Glass Translucence",
+            "hint": "Controls the translucence of windows. 0 = fully opaque with minimal blur, 1 = highly translucent with maximum blur. Opacity and blur adjust inversely for readability."
           },
           "customizeColors": "Customize Colors",
           "customizeHint": "Click to open the color picker and create custom theme colors",

@@ -589,7 +589,24 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   static handleThemeAndStyleFields(){
     const themesContent = ModuleSettings.#element.querySelector(`.form-content[data-tab=themes]`);
     if(!themesContent){ return; }
-    
+
+    // Handle useGlassEffect checkbox to show/hide glassTranslucence slider
+    const useGlassEffectCheckbox = themesContent.querySelector('input[name="useGlassEffect"]');
+    if (useGlassEffectCheckbox) {
+      const toggleGlassEffectFields = () => {
+        const isChecked = useGlassEffectCheckbox.checked;
+        const glassTranslucenceField = themesContent.querySelector('.form-group.range:has(input[name="glassTranslucence"])');
+
+        if (glassTranslucenceField) glassTranslucenceField.style.display = isChecked ? 'flex' : 'none';
+      };
+
+      // Set initial state
+      toggleGlassEffectFields();
+
+      // Add listener for changes
+      useGlassEffectCheckbox.addEventListener('change', toggleGlassEffectFields);
+    }
+
     // Handle color picker buttons (both player and world scopes)
     const colorPickerBtns = themesContent.querySelectorAll('.open-color-picker');
     colorPickerBtns.forEach(btn => {

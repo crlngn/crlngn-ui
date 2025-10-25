@@ -279,7 +279,7 @@ export class TopNavigation {
   static checkSideBar = (isExpanded=false) => {
     TopNavigation.placeNavButtons(); 
     const body = document.querySelector("body");
-    LogUtil.log("TopNavigation.checkSideBar", [ui.sidebar, isExpanded], true);
+    LogUtil.log("TopNavigation.checkSideBar", [ui.sidebar, isExpanded]);
     if(isExpanded){
       body.classList.add("crlngn-sidebar-expanded");
     }else{

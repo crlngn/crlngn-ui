@@ -424,7 +424,7 @@ body.crlngn-ui.crlngn-sheets {
   .dnd5e2.sheet.actor.character section.window-content {
     order: 2;
     z-index: 0;
-    background: var(--control-bg-color);
+    /*background: var(--control-bg-color);*/
   }
   .dnd5e2 .items-section .items-header .item-image, 
   .dnd5e2 .items-section .item .item-image,
@@ -575,6 +575,12 @@ body.crlngn-ui.crlngn-sheets {
   }
   .dnd5e2.sheet.actor.npc > header slide-toggle {
     --slide-toggle-track-color-unchecked: var(--color-dark-bg-50);
+  }
+  .dnd5e2.application.compendium-browser:not(.minimized) .window-header {
+    margin-block-end: 0;
+  }
+  .dnd5e2.application.compendium-browser:not(.minimized) .window-content {
+    padding-top: 3rem;
   }
 
 

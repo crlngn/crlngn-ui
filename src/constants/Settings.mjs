@@ -281,14 +281,14 @@ export function getSettings() {
       fields: [
         "playerColorTheme",
         "useHorizontalSheetTabs",
-        "backgroundOpacity",
-        "backgroundBlur"
+        "useGlassEffect",
+        "glassTranslucence"
       ],
       default: {
         playerColorTheme: "",
         useHorizontalSheetTabs: true,
-        backgroundOpacity: 0.95,
-        backgroundBlur: 0.2
+        useGlassEffect: false,
+        glassTranslucence: 0.7
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -840,25 +840,24 @@ export function getSettings() {
       requiresReload: false
     },
 
-    backgroundOpacity: {
-      tag: "v2-background-opacity",
-      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.backgroundOpacity.label"),
-      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.backgroundOpacity.hint"),
-      propType: Number,
-      inputType: SETTING_INPUT.number,
-      default: 0.94,
+    useGlassEffect: {
+      tag: "v2-use-glass-effect",
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.useGlassEffect.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.useGlassEffect.hint"),
+      propType: Boolean,
+      default: false,
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false
     },
 
-    backgroundBlur: {
-      tag: "v2-background-blur",
-      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.backgroundBlur.label"),
-      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.backgroundBlur.hint"),
+    glassTranslucence: {
+      tag: "v2-glass-translucence",
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.glassTranslucence.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.glassTranslucence.hint"),
       propType: Number,
       inputType: SETTING_INPUT.number,
-      default: 0.2,
+      default: 0.7,
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false
