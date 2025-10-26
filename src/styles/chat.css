@@ -1167,6 +1167,16 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
     --visibility-gm-bg: rgba(255,255,255,0.1)
     --visibility-owner-bg: rgba(235,235,235,0.1)
   }
+
+  &.system-pf2e #interface.theme-dark .chat-message {
+    --blind-roll: rgba(82, 107, 120, 0.44);
+  }
+
+  &.system-pf2e #interface.theme-dark .chat-message span[data-pf2-action] {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+      
   &.system-pf2e #interface.theme-dark .chat-message .flavor-text > * {
     margin: 0.5em 0;
   }

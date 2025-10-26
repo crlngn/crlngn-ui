@@ -833,6 +833,7 @@ body.crlngn-ui{
     --color-text-dark: rgba(235,235,235,1) !important;
     --color-text-dark-op: rgba(235,235,235,0.6) !important;
     --color-text-light: rgba(235,235,235,1) !important;
+    --input-background-color: var(--color-cool-5) !important;
     --input-background-alt: var(--color-cool-5) !important;
     --color-text-secondary:var(--color-light-3) !important;
     --color-text-primary: var(--color-light-1) !important;
@@ -861,6 +862,10 @@ body.crlngn-ui{
       &:hover{
         background-color: var(--color-warm-2) !important;
       }
+    }
+
+    .actor.sheet section.window-content .inventory ul.items > li > .data .item-controls {
+      
     }
 
   }

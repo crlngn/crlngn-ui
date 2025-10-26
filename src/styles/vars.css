@@ -221,7 +221,6 @@ Main Theme
         --dnd5e-background-card: rgb(32, 37, 43); 
       }
 
-      --color-pf-alternate: rgba(82, 107, 120, 0.44);
       --color-text-gray-blue: rgb(168, 180, 188, 1);
       --color-text-gray-blue-b: rgb(138, 155, 168, 1);
       --chat-button-bg: rgba(32, 37, 43, 1);
@@ -252,6 +251,9 @@ Main Theme
       --input-background-alt: var(--color-cool-5);
       --color-text-secondary:var(--color-light-3);
       --color-text-primary: var(--color-light-1);
+
+      /*pf2e*/
+      --color-pf-alternate: rgba(82, 107, 120, 0.44);
     }
 
     --color-light-1: #f7f4f8;

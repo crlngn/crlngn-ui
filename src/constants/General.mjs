@@ -86,6 +86,7 @@ export const DARK_MODE_RULES = `
   --color-text-dark: rgba(235,235,235,1) !important;
   --color-text-dark-op: rgba(235,235,235,0.6) !important;
   --color-text-light: rgba(235,235,235,1) !important;
+  --input-background-color: var(--color-cool-5) !important;
   --input-background-alt: var(--color-cool-5) !important;
   --color-text-secondary:var(--color-light-3) !important;
   --color-text-primary: var(--color-light-1) !important;
@@ -125,6 +126,9 @@ export const DARK_MODE_RULES = `
     color: var(--color-light-1);
   }
 
+  i.fa-solid, .fa-regular, i.fas, .fasr{
+    color: var(--color-light-1);
+  }
 
   *:not(.degree, .degree-of-success){
     color: var(--color-light-1);
