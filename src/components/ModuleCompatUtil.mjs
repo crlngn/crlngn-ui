@@ -75,21 +75,26 @@ export class ModuleCompatUtil {
 
   static addModuleClasses = () => {
     const SETTINGS = getSettings();
-    const moduleCompatSettings = SettingsUtil.get(SETTINGS.otherModulesList.tag) || "";
-    const splitList = moduleCompatSettings.split(",");
-    LogUtil.log("addModuleClasses", [splitList, moduleCompatSettings]);
+    const moduleList = SettingsUtil.get(SETTINGS.otherModulesList.tag) || [];
+    LogUtil.log("addModuleClasses", [moduleList]);
 
-    Object.entries(SETTINGS.otherModulesList.options).forEach(opt => {
-      // Replace all types of quotes (straight, curly, etc.) and trim whitespace
-      const moduleId = opt[1].replace(/['''"]/g, "").trim();
-      document.querySelector('body').classList.remove('crlngn-'+moduleId);
-    })
+    // Ensure it's an array (defensive programming)
+    if (!Array.isArray(moduleList)) {
+      console.warn('otherModulesList is not an array, skipping module classes');
+      return;
+    }
 
-    splitList.forEach(item => {
-      // Replace all types of quotes (straight, curly, etc.) and trim whitespace
-      const moduleId = item.replace(/['''"]/g, "").trim();
-      if (moduleId) {
-        document.querySelector('body').classList.add('crlngn-'+moduleId);
+    // First, remove all possible module classes
+    Object.values(SETTINGS.otherModulesList.options).forEach(opt => {
+      const moduleId = opt.replace(/['''"]/g, "").trim();
+      document.querySelector('body').classList.remove('crlngn-' + moduleId);
+    });
+
+    // Then add classes for enabled modules
+    moduleList.forEach(item => {
+      if (item.enabled && item.id) {
+        const cleanId = item.id.trim();
+        document.querySelector('body').classList.add('crlngn-' + cleanId);
       }
     });
   }

@@ -863,17 +863,121 @@ export class SettingsUtil {
   }
 
   /**
+   * Migrates otherModulesList from old string format to new array format
+   * Also merges user's saved preferences with current module options (auto-enables new modules)
+   * @returns {Array} The migrated/merged array of module objects
+   */
+  static migrateOtherModulesList = () => {
+    const SETTINGS = getSettings();
+    const savedValue = game.settings.get(MODULE_ID, SETTINGS.otherModulesList.tag);
+
+    // Check if already in new format (array)
+    if (Array.isArray(savedValue)) {
+      // Already migrated - check for new modules and merge
+      const mergedArray = SettingsUtil.mergeModuleListDefaults(savedValue);
+      // Only save if something changed
+      if (JSON.stringify(mergedArray) !== JSON.stringify(savedValue)) {
+        SettingsUtil.set(SETTINGS.otherModulesList.tag, mergedArray);
+      }
+      return mergedArray;
+    }
+
+    // Old format (string) - migrate
+    if (typeof savedValue === 'string' && savedValue.length > 0) {
+      LogUtil.log('Migrating otherModulesList from string to array format', [savedValue]);
+      const migratedArray = SettingsUtil.parseOldModuleListFormat(savedValue);
+      const mergedArray = SettingsUtil.mergeModuleListDefaults(migratedArray);
+      SettingsUtil.set(SETTINGS.otherModulesList.tag, mergedArray);
+      LogUtil.log('Migration complete', [mergedArray]);
+      return mergedArray;
+    }
+
+    // No saved value or corrupt - use defaults
+    LogUtil.log('No saved otherModulesList found, using defaults');
+    return SETTINGS.otherModulesList.default;
+  }
+
+  /**
+   * Parses old comma-separated string format into new array format
+   * @param {string} stringValue - Old format: "'module-a','module-b','module-c'"
+   * @returns {Array} Array of objects: [{ id: 'module-a', enabled: true }, ...]
+   */
+  static parseOldModuleListFormat = (stringValue) => {
+    const SETTINGS = getSettings();
+    const moduleArray = [];
+
+    // Split and clean the old string format
+    const enabledModules = stringValue
+      .split(',')
+      .map(item => item.replace(/['''"]/g, "").trim())
+      .filter(id => id.length > 0);
+
+    LogUtil.log('Parsed enabled modules from old format', [enabledModules]);
+
+    // Convert to new format: include ALL modules from options, mark enabled/disabled
+    Object.values(SETTINGS.otherModulesList.options).forEach(moduleId => {
+      // Clean the module ID (options might have inconsistent quotes)
+      const cleanId = moduleId.replace(/['''"]/g, "").trim();
+
+      moduleArray.push({
+        id: cleanId,
+        enabled: enabledModules.includes(cleanId)
+      });
+    });
+
+    return moduleArray;
+  }
+
+  /**
+   * Merges user's saved module preferences with current module options
+   * New modules (not in user's array) are auto-enabled
+   * Existing modules preserve user's enabled/disabled choice
+   * @param {Array} userArray - User's saved array of module objects
+   * @returns {Array} Merged array with all current modules
+   */
+  static mergeModuleListDefaults = (userArray) => {
+    const SETTINGS = getSettings();
+    const mergedArray = [];
+
+    // Get all current module IDs from options (source of truth)
+    const allModuleIds = Object.values(SETTINGS.otherModulesList.options)
+      .map(id => id.replace(/['''"]/g, "").trim());
+
+    // Create lookup map of user's preferences
+    const userPrefs = new Map(
+      userArray.map(item => [item.id, item.enabled])
+    );
+
+    // Build merged array: preserve user prefs, default new modules to enabled
+    allModuleIds.forEach(moduleId => {
+      mergedArray.push({
+        id: moduleId,
+        enabled: userPrefs.has(moduleId) ? userPrefs.get(moduleId) : true
+        // If userPrefs has this module (even if false), use that value
+        // If userPrefs doesn't have it, it's a new module -> default to true
+      });
+    });
+
+    return mergedArray;
+  }
+
+  /**
    * Applies the list of other modules to adjust styles for
-   * @param {string} [value] - Comma-separated list of module names wrapped in single quotes, if not provided uses stored setting
+   * @param {Array} [value] - Array of module objects, if not provided uses stored setting
    */
   static applyOtherModulesList = (value) => {
     const SETTINGS = getSettings();
     const currSetting = value || SettingsUtil.get(SETTINGS.otherModulesList.tag);
     LogUtil.log("applyOtherModulesList", [currSetting]);
-    if(currSetting.split(",").length===0){
+
+    // Check if any modules are enabled (array format)
+    const hasEnabledModules = Array.isArray(currSetting) &&
+      currSetting.some(item => item.enabled);
+
+    if (!hasEnabledModules) {
       SettingsUtil.set(SETTINGS.adjustOtherModules.tag, false);
-      SettingsUtil.set(SETTINGS.otherModulesList.tag, "");
-    }else{
+      SettingsUtil.set(SETTINGS.otherModulesList.tag, []);
+    } else {
       SettingsUtil.set(SETTINGS.adjustOtherModules.tag, true);
     }
     ModuleCompatUtil.addModuleClasses();

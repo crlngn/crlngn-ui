@@ -888,22 +888,38 @@ export function getSettings() {
       tag: "v2-other-modules-list-a3",
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.hint"),
-      propType: String,
-      default:  "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar','touch-vtt','breaktime','simple-timekeeping'",
+      propType: Array,
+      // Array of objects: [{ id: 'module-id', enabled: true/false }]
+      // Storing all modules explicitly allows us to distinguish between:
+      // - User disabled a module: { id: 'foo', enabled: false } (preserved)
+      // - Module is new: not in array at all (auto-enabled on merge)
+      default: [
+        { id: 'levels-3d-preview', enabled: true },
+        { id: 'combat-carousel', enabled: true },
+        { id: 'dice-tray', enabled: true },
+        { id: 'hurry-up', enabled: true },
+        { id: 'crux', enabled: true },
+        { id: 'fvtt-youtube-player', enabled: true },
+        { id: 'bg3-inspired-hotbar', enabled: true },
+        { id: 'touch-vtt', enabled: true },
+        { id: 'breaktime', enabled: true },
+        { id: 'simple-timekeeping', enabled: true }
+      ],
       options: {
-        "BG3 Inspired Hotbar": "'bg3-inspired-hotbar'",
-        "Breaktime": "'breaktime'",
-        "Combat Carousel": "'combat-carousel'",
-        "Crux": "'crux'",
-        "Dice Tray": "'dice-tray'",
-        "Hurry Up": "'hurry-up'",
-        "Simple Timekeeping & Calendar": "'simple-timekeeping'",
-        "Touch VTT": "'touch-vtt'",
-        "Youtube Player": "'fvtt-youtube-player'"
+        "3D Canvas Mapmaking": "levels-3d-preview",
+        "BG3 Inspired Hotbar": "bg3-inspired-hotbar",
+        "Breaktime": "breaktime",
+        "Combat Carousel": "combat-carousel",
+        "Crux": "crux",
+        "Dice Tray": "dice-tray",
+        "Hurry Up": "hurry-up",
+        "Simple Timekeeping & Calendar": "simple-timekeeping",
+        "Touch VTT": "touch-vtt",
+        "Youtube Player": "fvtt-youtube-player"
       },
       scope: SETTING_SCOPE.world,
-      config: false, 
-      requiresReload: false 
+      config: false,
+      requiresReload: false
     },
 
     customStyles:{

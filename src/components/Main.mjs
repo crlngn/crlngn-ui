@@ -121,6 +121,10 @@ export class Main {
 
       PlayersList.applyPlayersListSettings();
       // TopNavigation.checkSceneNavCompat();
+
+      // Migrate otherModulesList setting to new array format if needed
+      SettingsUtil.migrateOtherModulesList();
+
       ModuleCompatUtil.init();
       UpdateNewsUtil.init();
       SheetsUtil.init();

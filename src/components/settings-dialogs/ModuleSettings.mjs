@@ -210,11 +210,11 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
           if (partId === 'themes') {
             const worldCustomColors = SettingsUtil.get('v2-custom-theme-colors');
             const playerCustomColors = SettingsUtil.get('v2-player-custom-theme-colors');
-            
+
             // Helper function to create light/dark versions
             const createColorVariants = (colors) => {
               if (!colors.secondary) return colors;
-              
+
               const secondaryRGB = colors.secondary.match(/\d+/g);
               if (secondaryRGB) {
                 const [r, g, b] = secondaryRGB.map(n => parseInt(n));
@@ -226,20 +226,27 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
               }
               return colors;
             };
-            
+
             // Use custom colors if available, otherwise fallback to default theme colors
             const baseWorldColors = worldCustomColors || {
               accent: THEMES[0].colorPreview[1],
               secondary: THEMES[0].colorPreview[0]
             };
             partContext.customColors = createColorVariants(baseWorldColors);
-            
+
             // For player colors, fallback to world colors if no player colors are set
             const basePlayerColors = playerCustomColors || worldCustomColors || {
-              accent: THEMES[0].colorPreview[1], 
+              accent: THEMES[0].colorPreview[1],
               secondary: THEMES[0].colorPreview[0]
             };
             partContext.playerCustomColors = createColorVariants(basePlayerColors);
+
+            // Convert otherModulesList array to JSON for hidden input
+            if (partContext.otherModulesList && Array.isArray(partContext.otherModulesList)) {
+              partContext.otherModulesListJson = JSON.stringify(partContext.otherModulesList);
+              // Check if any modules are enabled for master toggle
+              partContext.adjustOtherModules = partContext.otherModulesList.some(m => m.enabled);
+            }
           }
 
           partContext.sidebarTabs = Object.values(foundry.applications?.sidebar?.tabs || {}).map(tab => ({
@@ -432,7 +439,15 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const selectedPlayerTheme = THEMES.find(theme => theme.label===settings.playerColorTheme);
     settings.playerColorTheme = selectedPlayerTheme ? selectedPlayerTheme.className : "";
 
-
+    // Parse otherModulesList from JSON string back to array
+    if (settings.otherModulesList && typeof settings.otherModulesList === 'string') {
+      try {
+        settings.otherModulesList = JSON.parse(settings.otherModulesList);
+      } catch (e) {
+        console.warn('Failed to parse otherModulesList from form', e);
+        settings.otherModulesList = [];
+      }
+    }
 
     Object.entries(settings).forEach(([fieldName, value]) => {
       // Skip auxiliary form fields like range value inputs
@@ -700,40 +715,63 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     otherModulesChecks.forEach(checkbox => {
       checkbox.addEventListener("change", (evt) => {
         const tgt = evt.currentTarget;
-        let hiddenValue = `${hiddenInputOtherModules.value}`;
-        let selectedValues = hiddenValue.split(",") || [];
-        let index = selectedValues.indexOf(tgt.value);
+        const moduleId = tgt.value.replace(/['''"]/g, "").trim();
+        const isChecked = tgt.checked;
 
-        if(!evt.currentTarget.checked && index > -1){
-          selectedValues.splice(index, 1);
-        }else if(evt.currentTarget.checked && index === -1){
-          selectedValues.push(tgt.value);
+        // Get current array from hidden input
+        let currentList = [];
+        try {
+          currentList = JSON.parse(hiddenInputOtherModules.value) || [];
+        } catch (e) {
+          console.warn('Failed to parse otherModulesList', e);
+          currentList = [];
         }
-        hiddenInputOtherModules.value = selectedValues.join(",");
-        LogUtil.log("checkbox changed", [selectedValues, hiddenInputOtherModules.value]);
+
+        // Update or add module in array
+        const existingIndex = currentList.findIndex(item => item.id === moduleId);
+        if (existingIndex >= 0) {
+          currentList[existingIndex].enabled = isChecked;
+        } else {
+          currentList.push({ id: moduleId, enabled: isChecked });
+        }
+
+        // Save back to hidden input as JSON
+        hiddenInputOtherModules.value = JSON.stringify(currentList);
+        LogUtil.log("checkbox changed", [currentList, hiddenInputOtherModules.value]);
+
+        // Update master toggle if needed
+        const allCheckboxes = ModuleSettings.#element.querySelectorAll('.multiple-select.other-modules input[type="checkbox"]');
+        const anyUnchecked = Array.from(allCheckboxes).some(cb => !cb.checked);
+        const toggleCheckbox = ModuleSettings.#element.querySelector('input.adjustOtherModules');
+        if (toggleCheckbox) {
+          toggleCheckbox.checked = !anyUnchecked;
+        }
       })
     });
 
     // listen for toggle all / untoggle all checkbox
     const toggleModulesCheckbox = ModuleSettings.#element.querySelector('input.adjustOtherModules');
     toggleModulesCheckbox?.addEventListener("change", (evt) => {
+      const isChecked = evt.currentTarget.checked;
       const checkboxes = ModuleSettings.#element.querySelectorAll('.multiple-select.other-modules input[type="checkbox"]');
+
+      // Update all checkboxes
       checkboxes.forEach(checkbox => {
-        checkbox.checked = evt.currentTarget.checked;
-        const event = new Event('change', { bubbles: true });
-        checkbox.dispatchEvent(event);
-      })
-      const selectedValues = [];
-      const hiddenInputOtherModules = ModuleSettings.#element.querySelector('input.otherModulesList[type="hidden"]');
-      checkboxes.forEach(checkbox => {
-        if(checkbox.checked){
-          selectedValues.push(checkbox.value);
-        }
+        checkbox.checked = isChecked;
       });
-      hiddenInputOtherModules.value = selectedValues.join(",");
-      if(selectedValues.length === 0){
-        toggleModulesCheckbox.checked = false;
-      }
+
+      // Build new array with all modules set to same state
+      const SETTINGS = getSettings();
+      const newList = Object.values(SETTINGS.otherModulesList.options)
+        .map(moduleId => ({
+          id: moduleId.replace(/['''"]/g, "").trim(),
+          enabled: isChecked
+        }));
+
+      // Save to hidden input as JSON
+      const hiddenInputOtherModules = ModuleSettings.#element.querySelector('input.otherModulesList[type="hidden"]');
+      hiddenInputOtherModules.value = JSON.stringify(newList);
+      LogUtil.log("toggle all modules", [isChecked, newList]);
     });
   }
 

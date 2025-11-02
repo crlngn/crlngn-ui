@@ -1337,5 +1337,46 @@ body.crlngn-ui{
     background-color: var(--color-warm-2) !important;
     color: var(--color-light-1);
   }
+
+  /* Ripper93 3D Canvas */
+  &.crlngn-levels-3d-preview.crlngn-tabs.crlngn-scene-nav {
+    --build-panel-width: var(--crlngn-control-size);
+    #sidebar-tabs {
+      gap: 0;
+    }
+    #sidebar-tabs > menu {
+      margin-top: -4px;
+    }
+    #build-panel ul {
+      margin-top: var(--crlngn-control-size);
+      justify-content: flex-start;
+      width: var(--crlngn-control-size);
+    }
+
+    #build-panel ul .ui-control {
+      border-left: 1px solid rgba(0,0,0,0.5);
+    }
+
+    #build-panel ul li {
+      height: 0;
+      margin: -1px 0 0 !important;
+      border-top-color: rgba(0, 0, 0, 0.3) !important;
+    }
+
+    #ui-right:has(#build-panel) {
+      --crlngn-3d-controls-offset: var(--crlngn-control-size);
+    }
+    #ui-right:has(#build-panel.minimized) {
+      --crlngn-3d-controls-offset: 0px;
+    }
+    #ui-right #chat-notifications #chat-controls {
+      padding-left: var(--crlngn-3d-controls-offset);
+      transition: padding-left 0.3s ease-out;
+    }
+
+    #ui-left {
+      width: calc(var(--scene-nav-curr-width) + var(--nav-btn-width)) !important;
+    }
+  }
   
 }

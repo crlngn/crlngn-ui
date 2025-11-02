@@ -66,12 +66,12 @@
   <div class="form-group">
     <label for="otherModulesList">{{fields.otherModulesList.label}}</label>
     <input type="checkbox" class="adjustOtherModules" name="adjustOtherModules" {{#if adjustOtherModules}}checked{{/if}} />
-    <input type="hidden" class="otherModulesList" name="otherModulesList" value="{{{otherModulesList}}}" />
-    <p class="hint">{{{fields.otherModulesList.hint}}}</p> 
+    <input type="hidden" class="otherModulesList" name="otherModulesList" value="{{{otherModulesListJson}}}" />
+    <p class="hint">{{{fields.otherModulesList.hint}}}</p>
     <ul class="multiple-select other-modules">
       {{#each fields.otherModulesList.options}}
       <li>
-        <label><input type="checkbox" value={{this}} {{#if (normalizedIncludes ../otherModulesList this)}}checked{{/if}} />{{@key}}</label>
+        <label><input type="checkbox" value="{{this}}" {{#if (moduleEnabled ../otherModulesList this)}}checked{{/if}} />{{@key}}</label>
       </li>
       {{/each}}
     </ul>
