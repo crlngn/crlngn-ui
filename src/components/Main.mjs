@@ -1,7 +1,7 @@
-import { HOOKS_CORE } from "../constants/Hooks.mjs"; 
-import { LogUtil } from "./LogUtil.mjs"; 
-import { SettingsUtil } from "./SettingsUtil.mjs"; 
-import { TopNavigation } from "./TopNavUtil.mjs"; 
+import { HOOKS_CORE } from "../constants/Hooks.mjs";
+import { LogUtil } from "./LogUtil.mjs";
+import { SettingsUtil } from "./SettingsUtil.mjs";
+import { TopNavigation } from "./TopNavUtil.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
 import { PlayersList } from "./PlayersListUtil.mjs";
 import { getSettings } from "../constants/Settings.mjs";
@@ -18,6 +18,7 @@ import { MacroHotbar } from "./MacroHotbarUtil.mjs";
 import { ChatLogControls } from "./ChatLogControlsUtil.mjs";
 import { TokenWheel } from "./TokenWheelUtil.mjs";
 import { SheetsUtil } from "./SheetsUtil.mjs";
+import { HintTooltipUtil } from "./HintTooltipUtil.mjs";
 
 /**
  * Main class handling core module initialization and setup
@@ -128,6 +129,7 @@ export class Main {
       ModuleCompatUtil.init();
       UpdateNewsUtil.init();
       SheetsUtil.init();
+      HintTooltipUtil.init();
 
       SettingsUtil.resetFoundryThemeSettings();
 

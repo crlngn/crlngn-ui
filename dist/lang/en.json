@@ -110,7 +110,11 @@
           "fadeOutColumn": "Fade Out",
           "hideColumn": "Hide",
           "customLayoutColumn": "Custom Layout",
-          "elementColumn": "Interface Element"
+          "elementColumn": "Interface Element",
+          "hoverableSettingsHints": {
+            "label": "Hoverable Settings Hints",
+            "hint": "This cleans up settings forms by adding question mark tooltips to show/hide hint text on hover. Affects default Foundry settings and module configuration windows."
+          }
         },
         "reset": "Reset",
         "save": "Save"

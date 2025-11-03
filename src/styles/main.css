@@ -559,7 +559,7 @@ body.crlngn-ui{
 
   nav.tabs { 
     display: flex; 
-    border-bottom: 1px solid var(--color-dark-bg-50);
+    border-bottom: 1px solid var(--color-tabs-border);
     margin-bottom: 10px;
     align-items: stretch;
     justify-content: stretch;
@@ -636,39 +636,9 @@ body.crlngn-ui{
     }
   }
 
-  /* Add info icon next to labels that have hints (but not for .on or .shown hints) */
-  .form-group:has(> p.hint:not(.on):not(.shown)) > label::after,
-  .form-group:has(> p.hint:not(.on):not(.shown)) > span.label::after {
-    content: "?";
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.2em;
-    height: 1.2em;
-    margin-left: 0.35em;
-    font-size: 0.75em;
-    font-weight: 700;
-    line-height: 1;
-    border-radius: 50%;
-    background: var(--color-bg-button);
-    color: var(--color-text-light-0);
-    cursor: help;
-    opacity: 1;
-    transition: opacity 0.2s ease-in-out, background 0.2s ease-in-out;
-  }
-
-  /* Brighten icon on hover */
-  .form-group:has(> p.hint) > label:hover::after,
-  .form-group:has(> p.hint) > span.label:hover::after {
-    opacity: 1;
-    background: var(--color-warm-2);
-  }
-
-  /* Hide icon when global toggle-hint is active (all hints shown) */
-  .form-group:has(> p.hint.shown) > label::after,
-  .form-group:has(> p.hint.shown) > span.label::after {
-    display: none;
-  }
+  /* Note: Hint icons are now injected as <span class="crlngn-hint-icon"> elements
+     by HintTooltipUtil instead of using ::after pseudo-elements.
+     See global hint styles below for .crlngn-hint-icon styling. */
 
   /* Elevate form-group when showing hint so it appears above siblings (but not for form-groups with only .on or .shown hints) */
   .form-group:has(> p.hint:not(.shown):not(.on)).show-hint {
@@ -735,7 +705,7 @@ body.crlngn-ui{
     
   }
   .form-group {
-    margin: 1em 0;
+    margin: 0.75em 0;
     position: relative;
     z-index: 0;
     
@@ -1473,4 +1443,93 @@ body.crlngn-ui aside.pf2e.effect-info.application {
   margin-top: 0.5rem;
   padding-top: 1rem;
   border-top: 1px solid var(--color-border-light-primary);
+}
+
+/*************/
+/* GLOBAL HINT TOOLTIP STYLES */
+/* Applied to forms when HintTooltipUtil.applyHintHandlers() is called */
+/*************/
+body.crlngn-ui {
+  /* Hide hints by default in enhanced forms */
+  .crlngn-hints .form-group > p.hint:not(.on):not(.shown),
+  .crlngn-hints .form-group > p.notes:not(.on):not(.shown),
+  .crlngn-hints .form-group > div.hint:not(.on):not(.shown),
+  .crlngn-hints .form-group > div.notes:not(.on):not(.shown) {
+    display: none;
+  }
+
+  /* Style the injected hint icon span */
+  .crlngn-hints .crlngn-hint-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.2em;
+    height: 1.2em;
+    margin-left: 0.35em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    border-radius: 50%;
+    background: var(--color-bg-button);
+    color: var(--color-text-primary);
+    cursor: help;
+    opacity: 0.65;
+    transition: opacity 0.2s ease-in-out, background 0.2s ease-in-out;
+  }
+
+  /* Brighten icon on hover */
+  .crlngn-hints .crlngn-hint-icon:hover {
+    opacity: 1;
+    background: var(--color-warm-2);
+  }
+
+  /* Hide icon when hints are toggled on (have .shown class) */
+  .crlngn-hints .form-group:has(> p.hint.shown) .crlngn-hint-icon,
+  .crlngn-hints .form-group:has(> p.notes.shown) .crlngn-hint-icon,
+  .crlngn-hints .form-group:has(> div.hint.shown) .crlngn-hint-icon,
+  .crlngn-hints .form-group:has(> div.notes.shown) .crlngn-hint-icon {
+    display: none;
+  }
+
+  /* Elevate form-group when showing hint */
+  .crlngn-hints .form-group:has(> p.hint:not(.shown):not(.on)).show-hint,
+  .crlngn-hints .form-group:has(> p.notes:not(.shown):not(.on)).show-hint,
+  .crlngn-hints .form-group:has(> div.hint:not(.shown):not(.on)).show-hint,
+  .crlngn-hints .form-group:has(> div.notes:not(.shown):not(.on)).show-hint {
+    z-index: 1000 !important;
+    position: relative;
+  }
+
+  /* Show hint tooltip on hover */
+  .crlngn-hints .form-group.show-hint > p.hint:not(.shown):not(.on),
+  .crlngn-hints .form-group.show-hint > p.notes:not(.shown):not(.on),
+  .crlngn-hints .form-group.show-hint > div.hint:not(.shown):not(.on),
+  .crlngn-hints .form-group.show-hint > div.notes:not(.shown):not(.on) {
+    display: block !important;
+    opacity: 1 !important;
+    transition: none !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translateY(calc(-100% - 1rem));
+    z-index: 100;
+    background: var(--color-secondary-b);
+    border: 1px solid var(--color-highlights-50);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 4px 12px var(--color-secondary-b);
+    max-width: 100%;
+    width: max-content;
+    min-width: 200px;
+    color: var(--color-text-primary);
+  }
+
+  /* Position hint below when near top of container */
+  .crlngn-hints .form-group.show-hint.hint-below > p.hint:not(.shown):not(.on),
+  .crlngn-hints .form-group.show-hint.hint-below > p.notes:not(.shown):not(.on),
+  .crlngn-hints .form-group.show-hint.hint-below > div.hint:not(.shown):not(.on),
+  .crlngn-hints .form-group.show-hint.hint-below > div.notes:not(.shown):not(.on) {
+    top: 100%;
+    transform: translateY(0.5rem);
+  }
 }

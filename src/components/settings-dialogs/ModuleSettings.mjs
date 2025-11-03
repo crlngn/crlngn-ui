@@ -5,6 +5,7 @@ import { SettingsUtil } from "../SettingsUtil.mjs";
 import { GeneralUtil } from "../GeneralUtil.mjs";
 import { LeftControls } from "../LeftControlsUtil.mjs";
 import { ColorPickerDialog, ColorPickerUtil } from "../ColorPickerUtil.mjs";
+import { HintTooltipUtil } from "../HintTooltipUtil.mjs";
 
 const { FormDataExtended } = foundry.utils;
 
@@ -344,124 +345,6 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         ModuleSettings.#element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
       });
     });
-
-    // Add click and hover handlers for question mark icons to show/hide hints
-    // Find all form groups that contain hints (avoiding :has() for better browser support)
-    const formGroupsWithHints = ModuleSettings.#element.querySelectorAll('.form-group');
-    LogUtil.log('Found form groups:', [formGroupsWithHints.length], true);
-
-    let hintsFound = 0;
-    formGroupsWithHints.forEach(formGroup => {
-      const hint = formGroup.querySelector('p.hint');
-      if (!hint) return; // Skip if no hint
-
-      // Skip hints with class "on" or "shown" - they are always visible
-      if (hint.classList.contains('on') || hint.classList.contains('shown')) {
-        return;
-      }
-
-      const label = formGroup.querySelector('label, span.label');
-      if (!label) return; // Skip if no label
-
-      hintsFound++;
-      let hoverTimeout;
-
-      // Helper function to check if mouse is over icon area
-      const isOverIcon = (e) => {
-        // Create a temporary span to measure the actual text width
-        const tempSpan = document.createElement('span');
-        tempSpan.style.visibility = 'hidden';
-        tempSpan.style.position = 'absolute';
-        tempSpan.style.whiteSpace = 'nowrap';
-        tempSpan.textContent = label.textContent;
-
-        // Copy relevant styles from label
-        const labelStyles = window.getComputedStyle(label);
-        tempSpan.style.font = labelStyles.font;
-        tempSpan.style.fontSize = labelStyles.fontSize;
-        tempSpan.style.fontWeight = labelStyles.fontWeight;
-        tempSpan.style.letterSpacing = labelStyles.letterSpacing;
-
-        document.body.appendChild(tempSpan);
-        const textWidth = tempSpan.getBoundingClientRect().width;
-        document.body.removeChild(tempSpan);
-
-        const labelRect = label.getBoundingClientRect();
-        const mouseX = e.clientX;
-
-        // Icon starts right after the text (with a small gap) and is about 40px wide
-        const iconStartX = labelRect.left + textWidth;
-        const iconEndX = iconStartX + 40;
-
-        return mouseX >= iconStartX && mouseX <= iconEndX;
-      };
-
-      LogUtil.log('Setting up hint handlers for form group', [formGroup, label, hint], true);
-
-      // Click handler - toggle hint
-      label.addEventListener('click', (e) => {
-        // Don't toggle if global toggle-hint is active
-        if (hint.classList.contains('shown')) return;
-
-        if (isOverIcon(e)) {
-          LogUtil.log('Click on icon detected, toggling hint', [], true);
-          formGroup.classList.toggle('show-hint');
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      });
-
-      // Hover handlers - show/hide hint on hover
-      label.addEventListener('mousemove', (e) => {
-        // Don't show on hover if global toggle-hint is active
-        if (hint.classList.contains('shown')) {
-          label.style.cursor = 'default';
-          return;
-        }
-
-        if (isOverIcon(e)) {
-          label.style.cursor = 'help';
-          clearTimeout(hoverTimeout);
-          formGroup.classList.add('show-hint');
-        } else {
-          label.style.cursor = 'default';
-        }
-      });
-
-      label.addEventListener('mouseleave', () => {
-        label.style.cursor = 'default';
-        // Don't hide if global toggle-hint is active
-        if (hint.classList.contains('shown')) return;
-
-        // Delay hiding to allow moving to the hint itself
-        hoverTimeout = setTimeout(() => {
-          formGroup.classList.remove('show-hint');
-          LogUtil.log('Mouse left, hiding hint', [], true);
-        }, 200);
-      });
-
-      // Keep hint visible when hovering over it
-      hint.addEventListener('mouseenter', () => {
-        // Don't manage visibility if global toggle-hint is active
-        if (hint.classList.contains('shown')) return;
-
-        clearTimeout(hoverTimeout);
-        formGroup.classList.add('show-hint');
-        LogUtil.log('Hovering hint, keeping visible', [], true);
-      });
-
-      hint.addEventListener('mouseleave', () => {
-        // Don't hide if global toggle-hint is active
-        if (hint.classList.contains('shown')) return;
-
-        hoverTimeout = setTimeout(() => {
-          formGroup.classList.remove('show-hint');
-          LogUtil.log('Left hint, hiding', [], true);
-        }, 200);
-      });
-    });
-
-    LogUtil.log('Set up hint handlers for form groups with hints', [hintsFound], true);
 
     ModuleSettings.handleCustomFontFields();
     ModuleSettings.handleThemeAndStyleFields();

@@ -80,6 +80,10 @@ export const HOOKS_CORE = {
   /* Settings */
   UPDATE_SETTING: "updateSetting",
   CLIENT_SETTING_CHANGED: "clientSettingChanged",
+  RENDER_SETTINGS_CONFIG: "renderSettingsConfig",
+  RENDER_MODULE_MANAGEMENT: "renderModuleManagement",
+  RENDER_CONFIG_PANEL: "renderConfigPanel",
+  RENDER_APPLICATION_V2: "renderApplicationV2",
 
   /* Token */
   RENDER_TOKEN_HUD: "renderTokenHUD",

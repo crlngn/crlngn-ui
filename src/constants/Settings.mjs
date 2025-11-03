@@ -179,7 +179,8 @@ export function getSettings() {
 
         "collapseMacroBar",
         "useFolderStyle",
-        "controlsAutoHide"
+        "controlsAutoHide",
+        "hoverableSettingsHints"
       ],
       default: {
         // Fade out
@@ -209,7 +210,8 @@ export function getSettings() {
 
         collapseMacroBar: false,
         useFolderStyle: true,
-        controlsAutoHide: false
+        controlsAutoHide: false,
+        hoverableSettingsHints: false
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -1276,15 +1278,26 @@ export function getSettings() {
       requiresReload: false 
     },
 
-    sceneNavHide: { 
-      tag: "v2-scene-nav-hide", 
+    sceneNavHide: {
+      tag: "v2-scene-nav-hide",
       oldName: "sceneNavHide",
-      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sceneNav"), 
-      propType: Boolean, 
-      default: false, 
-      scope: SETTING_SCOPE.client, 
-      config: false , 
-      requiresReload: false 
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sceneNav"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false ,
+      requiresReload: false
+    },
+
+    hoverableSettingsHints: {
+      tag: "v2-hoverable-settings-hints",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.hoverableSettingsHints.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.hoverableSettingsHints.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: true
     },
 
     /* INTERFACE ELEMENTS ENABLE OPTIONS */

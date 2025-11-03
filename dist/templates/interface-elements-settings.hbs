@@ -79,7 +79,13 @@
   <div class="form-group">
     <label for="useFolderStyle">{{fields.useFolderStyle.label}}</label>
     <input type="checkbox" name="useFolderStyle" {{#if useFolderStyle}}checked{{/if}} />
-    <p class="hint">{{{fields.useFolderStyle.hint}}}</p> 
+    <p class="hint">{{{fields.useFolderStyle.hint}}}</p>
+  </div>
+
+  <div class="form-group">
+    <label for="hoverableSettingsHints">{{fields.hoverableSettingsHints.label}}</label>
+    <input type="checkbox" name="hoverableSettingsHints" {{#if hoverableSettingsHints}}checked{{/if}} />
+    <p class="hint">{{fields.hoverableSettingsHints.hint}}</p>
   </div>
 
   {{!-- <h4>
