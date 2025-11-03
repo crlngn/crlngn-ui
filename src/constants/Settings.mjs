@@ -907,6 +907,7 @@ export function getSettings() {
       ],
       options: {
         "3D Canvas Mapmaking": "levels-3d-preview",
+        "Beneos Module": "beneos-module",
         "BG3 Inspired Hotbar": "bg3-inspired-hotbar",
         "Breaktime": "breaktime",
         "Combat Carousel": "combat-carousel",

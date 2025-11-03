@@ -1378,5 +1378,45 @@ body.crlngn-ui{
       width: calc(var(--scene-nav-curr-width) + var(--nav-btn-width)) !important;
     }
   }
+
+
+  /* Beneos Module */
+  &.crlngn-beneos-module {
+    .bsr_result_box {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .token-result-section > flexrow {
+      gap: 0.5rem;
+    }
+    .beneos-item-container{
+      background: var(--background);
+    }
+    .beneos-tooltip .beneos-tooltip-content{
+      background: var(--background);
+      line-height: 1.5;
+      padding: 1.5rem;
+    }
+    .beneos-tooltip .beneos-description-title {
+      margin-top: 1em;
+    }
+    .item-properties-box {
+      background: transparent;
+      background-color: transparent;
+      border-color: transparent;
+    }
+
+    .item-properties-box {
+      background-color: var(--color-secondary-50);
+    }
+
+    .item-right-text-box, .bsr_top_border {
+      opacity: 0.15;
+    }
+    .search-100-results{
+      color: var(--color-text-primary);
+    }
+  }
   
 }

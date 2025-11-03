@@ -624,10 +624,77 @@ body.crlngn-ui{
   p.hint{
     display: none;
     color: var(--color-form-hint);
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    margin-top: 0.25em;
+    font-size: 0.9em;
 
     &.shown, &.on{
       display: block;
+      opacity: 1;
+      position: static;
     }
+  }
+
+  /* Add info icon next to labels that have hints (but not for .on or .shown hints) */
+  .form-group:has(> p.hint:not(.on):not(.shown)) > label::after,
+  .form-group:has(> p.hint:not(.on):not(.shown)) > span.label::after {
+    content: "?";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.2em;
+    height: 1.2em;
+    margin-left: 0.35em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    border-radius: 50%;
+    background: var(--color-bg-button);
+    color: var(--color-text-light-0);
+    cursor: help;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out, background 0.2s ease-in-out;
+  }
+
+  /* Brighten icon on hover */
+  .form-group:has(> p.hint) > label:hover::after,
+  .form-group:has(> p.hint) > span.label:hover::after {
+    opacity: 1;
+    background: var(--color-warm-2);
+  }
+
+  /* Hide icon when global toggle-hint is active (all hints shown) */
+  .form-group:has(> p.hint.shown) > label::after,
+  .form-group:has(> p.hint.shown) > span.label::after {
+    display: none;
+  }
+
+  /* Elevate form-group when showing hint so it appears above siblings (but not for form-groups with only .on or .shown hints) */
+  .form-group:has(> p.hint:not(.shown):not(.on)).show-hint {
+    z-index: 1000 !important;
+    position: relative;
+  }
+
+  /* Show hint when hovering over the question mark icon (but not for hints with .on or .shown classes) */
+  .form-group.show-hint > p.hint:not(.shown):not(.on) {
+    display: block !important;
+    opacity: 1 !important;
+    transition: none !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translateY(calc(-100% - 1rem));
+    z-index: 100;
+    background: var(--color-secondary-b);
+    border: 1px solid var(--color-highlights-50);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 4px 12px var(--color-secondary-b);
+    max-width: 100%;
+    width: max-content;
+    min-width: 200px;
+    color: var(--color-text-primary);
   }
   p.warn{
     background: var(--color-level-warning-bg);
@@ -640,6 +707,11 @@ body.crlngn-ui{
     min-height: 220px;
     overflow: auto;
     padding: 2px;
+  }
+
+  /* Allow hints to overflow when shown (but only for hints without .on or .shown classes) */
+  .form-content:has(.form-group:has(> p.hint:not(.shown):not(.on)).show-hint) {
+    overflow: visible;
   }
   
   &:after{
@@ -664,6 +736,8 @@ body.crlngn-ui{
   }
   .form-group {
     margin: 1em 0;
+    position: relative;
+    z-index: 0;
     
     label {
       min-width: 50%;
@@ -672,6 +746,7 @@ body.crlngn-ui{
       letter-spacing: 0.03em;
       display: flex;
       gap: 0.5em;
+      align-items: center;
     }
 
     &.range input[type="range"] {

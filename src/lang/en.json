@@ -4,7 +4,7 @@
       "generalSettingsLabel": "General Settings",
       "clientSettingsLabel": "Player Settings (Client)",
       "worldSettingsLabel": "World Settings (GM)",
-      "toggleHints": "Toggle Help",
+      "toggleHints": "Toggle Hints",
       "navDisabled": "Scene Navigation is disabled in the 'Elements' tab. The settings below will only have effect if Custom Layout is enabled for Scene Navigation.",
       "reloadRequiredTitle": "Reload Foundry",
       "reloadRequiredLabel": "A reload is required. Reload now?",
@@ -171,15 +171,15 @@
           "customizeHint": "Click to open the color picker and create custom theme colors",
           "adjustOtherModules": {
             "label": "Enforce styles in other modules",
-            "hint": "Enable my style tweaks and custom fonts on other modules, like CRUX or Combat Carousel. If you would like support for a specific module, please request on Github issues"
+            "hint": "Enable Carolingian UI style tweaks on other modules. If you would like support for a specific module, please request on Github issues"
           },
           "applyDarkThemeToModules": {
             "label": "Apply Dark Theme to Modules' Windows",
-            "hint": "Some modules never implemented dark theme. This option attempts to apply dark theme to other modules' windows using .app.theme-light class. If some module becomes partiallyillegible, uncheck this option. "
+            "hint": "Some modules never implemented dark theme. This option attempts to apply dark theme to other modules' windows using .app.theme-light class. If some module becomes partially illegible, uncheck this option. "
           },
           "otherModulesList": {
             "label": "Enforce styles in other modules",
-            "hint": "Enable my style tweaks on other modules. Click the checkbox on top of the list to select / unselect all."
+            "hint": "Enable Carolingian UI style tweaks on other modules. Mark each desired checkbox or the one on top of the list to select / unselect all. If you are having issues with one module, unmark its checkbox"
           },
           "forcedDarkTheme": {
             "label": "Force Dark Theme via CSS",

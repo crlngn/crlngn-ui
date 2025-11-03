@@ -992,11 +992,11 @@ export class SettingsUtil {
     const ui = document.querySelector("#interface");
     const cameraViews = document.querySelector("#camera-views");
     const taskbar = document.querySelector(".taskbar");
-    
+
     if(SettingsUtil.#uiHidden){
       if(ui) ui.style.removeProperty('visibility');
-      if(ui) cameraViews.style.removeProperty('visibility');
-      if(ui) taskbar.style.removeProperty('visibility');
+      if(cameraViews) cameraViews.style.removeProperty('visibility');
+      if(taskbar) taskbar.style.removeProperty('visibility');
       SettingsUtil.#uiHidden = false;
     }else{
       if(ui) ui.style.setProperty('visibility', 'hidden');
