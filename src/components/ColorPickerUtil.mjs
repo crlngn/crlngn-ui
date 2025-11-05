@@ -793,7 +793,7 @@ export class ColorPickerUtil {
     cssText += `
       body.crlngn-ui.theme-dark,
       body.crlngn-ui.theme-dark .app,
-      body.crlngn-ui.theme-dark .application:not(.sheet),
+      body.crlngn-ui.theme-dark .application:not(.sheet, .theme-light),
       body.crlngn-ui #interface.theme-dark,
       body.crlngn-ui .application.theme-dark,
       body.crlngn-ui #interface.theme-dark,
@@ -808,7 +808,7 @@ export class ColorPickerUtil {
       
       body.crlngn-ui.theme-light,
       body.crlngn-ui.theme-light .app,
-      body.crlngn-ui.theme-light .application:not(.sheet),
+      body.crlngn-ui.theme-light .application:not(.sheet, .theme-dark),
       body.crlngn-ui #interface.theme-light,
       body.crlngn-ui .application.theme-light,
       body.crlngn-ui #interface.theme-light,

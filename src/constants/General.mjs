@@ -126,6 +126,10 @@ export const DARK_MODE_RULES = `
     color: var(--color-light-1);
   }
 
+  .app.journal-entry.sheet .journal-entry-content {
+    background: var(--background) !important;
+  }
+
   i.fa-solid, .fa-regular, i.fas, .fasr{
     color: var(--color-light-1);
   }

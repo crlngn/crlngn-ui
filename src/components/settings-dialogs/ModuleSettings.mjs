@@ -443,19 +443,28 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     settings.playerColorTheme = selectedPlayerTheme ? selectedPlayerTheme.className : "";
 
     // Parse otherModulesList from JSON string back to array
-    if (settings.otherModulesList && typeof settings.otherModulesList === 'string') {
-      try {
-        settings.otherModulesList = JSON.parse(settings.otherModulesList);
-      } catch (e) {
-        console.warn('Failed to parse otherModulesList from form', e);
-        settings.otherModulesList = [];
+    if (settings.otherModulesList !== undefined) {
+      if (typeof settings.otherModulesList === 'string') {
+        try {
+          settings.otherModulesList = JSON.parse(settings.otherModulesList);
+        } catch (e) {
+          console.warn('Failed to parse otherModulesList from form', e);
+          // If parsing fails, preserve the current setting instead of clearing it
+          settings.otherModulesList = SettingsUtil.get(SETTINGS.otherModulesList.tag);
+        }
       }
+    } else {
+      // If otherModulesList is not in form data, preserve the current setting
+      settings.otherModulesList = SettingsUtil.get(SETTINGS.otherModulesList.tag);
     }
 
     Object.entries(settings).forEach(([fieldName, value]) => {
       // Skip auxiliary form fields like range value inputs
       if(fieldName.endsWith('_value')) return;
-      
+
+      // Skip adjustOtherModules - it's a derived value, not a stored setting
+      if(fieldName === 'adjustOtherModules') return;
+
       LogUtil.log("updateSettings #1", [SETTINGS, SETTINGS[fieldName]]);
       if(settings[fieldName] !== undefined && SETTINGS[fieldName]) {
         const currSetting = SettingsUtil.get(SETTINGS[fieldName].tag);

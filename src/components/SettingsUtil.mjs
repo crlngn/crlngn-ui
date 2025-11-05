@@ -857,7 +857,7 @@ export class SettingsUtil {
     const foundryUiConfig = game.settings.get('core','uiConfig') || null;
     
     if(enforceDarkTheme && foundryUiConfig?.colorScheme?.applications==='dark'){
-      SettingsUtil.applyForcedDarkTheme('.app.theme-light:not(.sheet.dnd5e2, .sheet.journal-sheet, #hurry-up), .system-pf2e .sheet.theme-light, #AA-autorec-settings');
+      SettingsUtil.applyForcedDarkTheme('.app.theme-light:not(.sheet.dnd5e2, .journal-sheet, #hurry-up), #AA-autorec-settings');
       document.querySelector('body').classList.add('crlngn-forced-dark-theme');
     }
   }

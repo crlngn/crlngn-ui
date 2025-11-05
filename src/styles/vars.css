@@ -60,6 +60,7 @@ Main Theme
   /*  Colors                                  */
   /* ---------------------------------------- */
   body.crlngn-ui {
+    
     &.theme-light .dnd5e2:not(.theme-dark),
     .dnd5e2.theme-light{
       --filigree-border-color: rgba(255, 255, 255, 0.5);
@@ -216,6 +217,7 @@ Main Theme
       --dnd5e-sheet-bg: rgb(37, 40, 48);
       --dnd5e-tabs-bg: transparent;
       --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
+      --background: var(--control-bg-color, var(--color-cool-5-90));
       &.crlngn-chat .sidebar-content{
         --dnd5e-color-parchment: rgb(32, 37, 43);
         --dnd5e-background-card: rgb(32, 37, 43); 

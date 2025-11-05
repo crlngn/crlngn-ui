@@ -19,6 +19,8 @@ export class SheetsUtil {
 
     Hooks.on(HOOKS_CORE.RENDER_ACTOR_SHEET, SheetsUtil.#onRenderActorSheet);
     Hooks.on(HOOKS_CORE.RENDER_COMPENDIUM_BROWSER, SheetsUtil.#onRenderCompendiumBrowser);
+    Hooks.on(HOOKS_CORE.RENDER_ADVANCEMENT_MANAGER, SheetsUtil.#onRenderAdvancementManager);
+    Hooks.on(HOOKS_CORE.UPDATE_SETTING, SheetsUtil.#onUpdateSetting);
   }
 
   static #onRenderActorSheet(actorSheet, html, data){
@@ -44,11 +46,44 @@ export class SheetsUtil {
 
   static #onRenderCompendiumBrowser(app, html, data){
     LogUtil.log(HOOKS_CORE.RENDER_COMPENDIUM_BROWSER, [app, html, data]);
-    
+
     if(SheetsUtil.horizontalSheetTabsEnabled){
       setTimeout(() => {
         SheetsUtil.#addTabScrollButtons();
       }, 100);
+    }
+  }
+
+  static #onRenderAdvancementManager(app, html, data){
+    // Check if Foundry's core application theme is dark
+    const uiConfig = game.settings.get('core', 'uiConfig');
+    const applicationTheme = uiConfig?.colorScheme?.applications;
+
+    LogUtil.log(HOOKS_CORE.RENDER_ADVANCEMENT_MANAGER, [app, html, data, uiConfig?.colorScheme]);
+
+    if(applicationTheme === "dark"){
+      html.classList.add("theme-dark");
+      html.classList.remove("theme-light");
+    }
+  }
+
+  static #onUpdateSetting(setting, value, options, userId){
+    // When Foundry's core uiConfig setting changes, reapply theme to any open advancement managers
+    if(setting.key === 'core.uiConfig'){
+      LogUtil.log(HOOKS_CORE.UPDATE_SETTING, ["core.uiConfig changed", value]);
+
+      const applicationTheme = value?.colorScheme?.applications;
+      const advancementManagers = document.querySelectorAll('.advancement-manager');
+
+      advancementManagers.forEach(manager => {
+        if(applicationTheme === "dark"){
+          manager.classList.add("theme-dark");
+          manager.classList.remove("theme-light");
+        } else {
+          manager.classList.remove("theme-dark");
+          manager.classList.add("theme-light");
+        }
+      });
     }
   }
 
