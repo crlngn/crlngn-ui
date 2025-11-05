@@ -24,7 +24,7 @@ body.crlngn-ui{
           border: 1px solid transparent;
         }
 
-        &.hotbar-page-control::before {
+        &.hotbar-page-control.fa-triangle::before {
           transform: scaleY(0.65);
         }
         &.hotbar-page-control.page-prev::before {
@@ -32,14 +32,44 @@ body.crlngn-ui{
         }
       }
 
-      &.compact #action-bar, &.md.offset #action-bar, &.sm #action-bar {
+      &.compact #action-bar, &.md.offset #action-bar, &.sm #action-bar,
+      &.compact .hotbar-page-row, &.md.offset .hotbar-page-row, &.sm .hotbar-page-row {
         width: calc((var(--hotbar-size) * 5) - 5px);
+      }
+
+      #hotbar-page{
+        margin-bottom: 8px;
+      }
+
+      .hotbar-page-row:first-child{
+        .hotbar-controls {
+          border-top-left-radius: 4px;
+        }
+        .bar-controls .page-number.ui-control{
+          border-top-right-radius: 4px;
+        }
+      } 
+      .hotbar-page-row:last-child {
+        .hotbar-controls {
+          border-bottom-left-radius: 4px;
+        }
+        .bar-controls .page-number.ui-control{
+          border-bottom-right-radius: 4px;
+        }
+      }
+
+      .hotbar-page-row.selected{
+        .page-number{
+          background: var(--color-highlights-75);
+          color: var(--color-light-1);
+        }
       }
       
       .hotbar-controls{
         background: var(--control-bg-color);
         padding: 0 3px;
-        height: 100%;
+        min-height: 100%;
+        margin: 0;
         pointer-events: all;
       }
       #hotbar-controls-left{
@@ -58,12 +88,42 @@ body.crlngn-ui{
         gap: 2px;
       }
 
-      #action-bar {
+      .hotbar-page .action-bar {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+
+      .hotbar-page nav.macro-list {
+        width: auto;
+        flex: 0 0 auto;
+      }
+
+      .hotbar-page .hotbar-page-row {
+        margin-top: 0;
+      }
+
+      .hotbar-page .hotbar-page-row .bar-controls {
+        flex: 0 0 30px;
+        width: 30px;
+
+        .page-number {
+          height: var(--hotbar-size);
+          border: 0;
+          border-radius: 0;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          border: 1px solid var(--color-secondary-b);
+        }
+      }
+
+      #action-bar, .hotbar-page-row, .hotbar-page .action-bar {
         gap: 0px;
+        align-items: flex-start;
 
         .slot {
           border-radius: 0;
-          border: 1px solid var(--control-bg-color);
+          border: 1px solid var(--color-secondary-b);
           margin: 0 -1px -1px 0;
           /*background-color: var(--color-dark-bg-90);*/
           overflow: hidden;
