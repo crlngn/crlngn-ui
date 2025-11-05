@@ -322,10 +322,10 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
    * @param {object} options - The render options
    */
   _onRender = (context, options) => {
-    LogUtil.log('_onRender called', [context, options], true);
+    LogUtil.log('_onRender called', [context, options]);
     const SETTINGS = getSettings();
     ModuleSettings.#element = this.element;
-    LogUtil.log('Element set', [ModuleSettings.#element], true);
+    LogUtil.log('Element set', [ModuleSettings.#element]);
 
     // Handle all range inputs with their corresponding value inputs
     const rangeInputs = ModuleSettings.#element.querySelectorAll('input[type="range"]');

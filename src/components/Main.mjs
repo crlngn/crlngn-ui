@@ -43,7 +43,7 @@ export class Main {
         return;
       }
 
-      LogUtil.log("Initiating module...", [game.system.title], true); 
+      LogUtil.log("Initiating module...", [game.system.title]); 
       window.crlngnUI = window.crlngnUI || {};
 
       SettingsUtil.registerSettings();

@@ -18,26 +18,26 @@ export class HintTooltipUtil {
    */
   static init() {
     if (HintTooltipUtil.#initialized) {
-      LogUtil.log('HintTooltipUtil already initialized, skipping', [], true);
+      LogUtil.log('HintTooltipUtil already initialized, skipping', [])
       return;
     }
 
     const SETTINGS = getSettings();
     const enabled = SettingsUtil.get(SETTINGS.hoverableSettingsHints.tag);
 
-    LogUtil.log('HintTooltipUtil init called', [enabled, SETTINGS.hoverableSettingsHints.tag], true);
+    LogUtil.log('HintTooltipUtil init called', [enabled, SETTINGS.hoverableSettingsHints.tag]);
 
     if (enabled) {
-      LogUtil.log('HintTooltipUtil: Setting is enabled, registering hook', [], true);
+      LogUtil.log('HintTooltipUtil: Setting is enabled, registering hook', [])
       HintTooltipUtil.#registerHook();
     } else {
-      LogUtil.log('HintTooltipUtil: Setting is disabled, not registering hook', [], true);
+      LogUtil.log('HintTooltipUtil: Setting is disabled, not registering hook', [])
     }
 
     // Note: Setting has requiresReload: true, so changes will trigger a page reload
 
     HintTooltipUtil.#initialized = true;
-    LogUtil.log('HintTooltipUtil initialized', [enabled], true);
+    LogUtil.log('HintTooltipUtil initialized', [enabled]);
   }
 
   /**
@@ -46,11 +46,11 @@ export class HintTooltipUtil {
    */
   static #registerHook() {
     if (HintTooltipUtil.#hookId) {
-      LogUtil.log('HintTooltipUtil: Hook already registered, skipping', [], true);
+      LogUtil.log('HintTooltipUtil: Hook already registered, skipping', [])
       return; // Already registered
     }
 
-    LogUtil.log('HintTooltipUtil: Registering hooks for ApplicationV2 forms', [], true);
+    LogUtil.log('HintTooltipUtil: Registering hooks for ApplicationV2 forms', [])
 
     // Hook for specific ApplicationV2 forms (Foundry V13+)
     const specificHooks = [
@@ -65,7 +65,7 @@ export class HintTooltipUtil {
         // Get the form element from the app
         const element = app.element;
 
-        LogUtil.log(`HintTooltipUtil: ${hookName} hook called`, [app.constructor.name, element?.id, element?.className], true);
+        LogUtil.log(`HintTooltipUtil: ${hookName} hook called`, [app.constructor.name, element?.id, element?.className]);
 
         // Apply handlers directly since this is a specific settings form
         setTimeout(() => {
