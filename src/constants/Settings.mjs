@@ -897,6 +897,7 @@ export function getSettings() {
       // - Module is new: not in array at all (auto-enabled on merge)
       default: [
         { id: 'levels-3d-preview', enabled: true },
+        { id: 'beneos-module', enabled: true },
         { id: 'combat-carousel', enabled: true },
         { id: 'dice-tray', enabled: true },
         { id: 'hurry-up', enabled: true },

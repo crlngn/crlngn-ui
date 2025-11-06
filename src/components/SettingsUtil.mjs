@@ -967,19 +967,36 @@ export class SettingsUtil {
    */
   static applyOtherModulesList = (value) => {
     const SETTINGS = getSettings();
-    const currSetting = value || SettingsUtil.get(SETTINGS.otherModulesList.tag);
-    LogUtil.log("applyOtherModulesList", [currSetting]);
+    let currSetting = value || SettingsUtil.get(SETTINGS.otherModulesList.tag);
+    LogUtil.log("applyOtherModulesList - before merge", [currSetting]);
 
-    // Check if any modules are enabled (array format)
-    const hasEnabledModules = Array.isArray(currSetting) &&
-      currSetting.some(item => item.enabled);
+    // Ensure the list has all expected modules by merging with defaults
+    if (Array.isArray(currSetting)) {
+      const defaultList = SETTINGS.otherModulesList.default;
+      const mergedList = [];
 
-    if (!hasEnabledModules) {
-      SettingsUtil.set(SETTINGS.adjustOtherModules.tag, false);
-      SettingsUtil.set(SETTINGS.otherModulesList.tag, []);
-    } else {
-      SettingsUtil.set(SETTINGS.adjustOtherModules.tag, true);
+      // Start with all default modules
+      defaultList.forEach(defaultModule => {
+        // Check if user has a preference for this module
+        const userModule = currSetting.find(m => m.id === defaultModule.id);
+        if (userModule) {
+          // Preserve user's choice
+          mergedList.push(userModule);
+        } else {
+          // Add missing module with default enabled state
+          mergedList.push({ ...defaultModule });
+        }
+      });
+
+      // If the merged list is different from current, update the setting
+      if (mergedList.length !== currSetting.length) {
+        LogUtil.log("applyOtherModulesList - merged missing modules", [currSetting.length, 'to', mergedList.length]);
+        SettingsUtil.set(SETTINGS.otherModulesList.tag, mergedList);
+        currSetting = mergedList;
+      }
     }
+
+    LogUtil.log("applyOtherModulesList - after merge", [currSetting]);
     ModuleCompatUtil.addModuleClasses();
   }
 

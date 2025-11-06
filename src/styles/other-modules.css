@@ -567,7 +567,16 @@ body.crlngn-ui{
       }
     }
   }
-  
+
+
+
+  #breaktime-app {
+    min-width: 360px;
+  }
+  #breaktime-app .breaktime-player {
+    display: flex;
+    flex-direction: row;
+  }
   &.crlngn-breaktime {
     #players.crlngn-ui:hover{
       .breaktime-button > div {
@@ -576,7 +585,7 @@ body.crlngn-ui{
       }
     }
 
-    &.theme-dark #breaktime-app, &.theme-dark #breaktime-app.theme-light {
+    #breaktime-app, #breaktime-app.theme-light {
       background: transparent;
 
       footer {
@@ -584,17 +593,17 @@ body.crlngn-ui{
         gap: 6px;
       }
       .window-header {
-        background: var(--color-dark-bg-75);
+        /* background: var(--color-dark-bg-75);*/
       }
 
       .window-content {
-        background: var(--color-dark-bg-90);
-        color: var(--color-light-1);
+        /* background: var(--color-dark-bg-90);
+        color: var(--color-light-1);*/
         padding: 1em;
       }
 
       .window-content * {
-        color: var(--color-light-1);
+        /* color: var(--color-light-1); */
       }
 
       .break-start {
@@ -617,18 +626,17 @@ body.crlngn-ui{
       }
 
       .breaktime-container {
-        border-top: 1px solid var(--color-dark-1);
+        border-top: 1px solid var(--color-secondary);
       }
 
       .breaktime-player {
-        border-bottom: 1px solid var(--color-dark-1);
-        display: flex;
         height: auto;
         gap: 0.5em;
+        border-bottom: 1px solid var(--color-secondary);
       }
 
       .breaktime-player .breaktime-avatar {
-        border-left: 5px solid var(--color-dark-1);
+        border-left: 5px solid var(--color-secondary);
 
         img{
           border-color: transparent;
@@ -637,7 +645,7 @@ body.crlngn-ui{
 
       button, form button{
         background: var(--color-bg-button);
-        color: var(--color-light-1);
+        /* color: var(--color-light-1); */
         border: 1px solid transparent;
 
         &:hover {

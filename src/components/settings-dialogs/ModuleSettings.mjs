@@ -247,6 +247,9 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
               partContext.otherModulesListJson = JSON.stringify(partContext.otherModulesList);
               // Check if any modules are enabled for master toggle
               partContext.adjustOtherModules = partContext.otherModulesList.some(m => m.enabled);
+              LogUtil.log('Form preparation - otherModulesList', [partContext.otherModulesList, 'anyEnabled:', partContext.adjustOtherModules]);
+            } else {
+              LogUtil.log('Form preparation - otherModulesList is empty or not an array', [partContext.otherModulesList]);
             }
           }
 
@@ -447,6 +450,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       if (typeof settings.otherModulesList === 'string') {
         try {
           settings.otherModulesList = JSON.parse(settings.otherModulesList);
+          LogUtil.log('Parsed otherModulesList from form', [settings.otherModulesList]);
         } catch (e) {
           console.warn('Failed to parse otherModulesList from form', e);
           // If parsing fails, preserve the current setting instead of clearing it
@@ -455,7 +459,9 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       }
     } else {
       // If otherModulesList is not in form data, preserve the current setting
-      settings.otherModulesList = SettingsUtil.get(SETTINGS.otherModulesList.tag);
+      const preserved = SettingsUtil.get(SETTINGS.otherModulesList.tag);
+      settings.otherModulesList = preserved;
+      LogUtil.log('otherModulesList not in form, preserving current', [preserved]);
     }
 
     Object.entries(settings).forEach(([fieldName, value]) => {
@@ -468,13 +474,17 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       LogUtil.log("updateSettings #1", [SETTINGS, SETTINGS[fieldName]]);
       if(settings[fieldName] !== undefined && SETTINGS[fieldName]) {
         const currSetting = SettingsUtil.get(SETTINGS[fieldName].tag);
-        
+
         // Check if this is a client-scoped setting that the current user can update
         const isClientSetting = SETTINGS[fieldName].scope === SETTING_SCOPE.client;
         const isWorldSetting = SETTINGS[fieldName].scope === SETTING_SCOPE.world;
-        
+
         // Only update if user has permission (GM for world settings, anyone for client settings)
         if (isClientSetting || (isWorldSetting && game.user.isGM)) {
+          // Special logging for otherModulesList to debug the issue
+          if (fieldName === 'otherModulesList') {
+            LogUtil.log('Saving otherModulesList', [settings[fieldName], 'Current:', currSetting]);
+          }
           SettingsUtil.set(SETTINGS[fieldName].tag, settings[fieldName]);
         } else {
           LogUtil.log(`Skipping world-scoped setting ${fieldName} for non-GM user`);
@@ -753,10 +763,10 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
         // Update master toggle if needed
         const allCheckboxes = ModuleSettings.#element.querySelectorAll('.multiple-select.other-modules input[type="checkbox"]');
-        const anyUnchecked = Array.from(allCheckboxes).some(cb => !cb.checked);
+        const anyChecked = Array.from(allCheckboxes).some(cb => cb.checked);
         const toggleCheckbox = ModuleSettings.#element.querySelector('input.adjustOtherModules');
         if (toggleCheckbox) {
-          toggleCheckbox.checked = !anyUnchecked;
+          toggleCheckbox.checked = anyChecked;
         }
       })
     });
