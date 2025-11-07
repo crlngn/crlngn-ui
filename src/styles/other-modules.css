@@ -315,7 +315,7 @@ body.crlngn-ui{
 
   &.crlngn-simple-timekeeping {
     #simple-timekeeping {
-      margin-top: calc(var(--crlngn-top-offset) + 10px) !important;
+      margin-top: calc(var(--scene-nav-offset) + 10px);
       z-index: 0;
 
       &:hover{

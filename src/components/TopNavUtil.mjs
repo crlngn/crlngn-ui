@@ -234,12 +234,13 @@ export class TopNavigation {
       SceneNavFolders.init();
       SceneNavFolders.renderFolderList();
     }
-    
+
     if(TopNavigation.sceneNavEnabled){
       clearTimeout(TopNavigation.#timeout);
       TopNavigation.#timeout = setTimeout(()=>{
         LogUtil.log("NAV no transition remove");
         TopNavigation.placeNavButtons();
+        TopNavigation.applySceneNavOffset();
       }, 500);
     }
 
@@ -632,22 +633,22 @@ export class TopNavigation {
    * Places navigation buttons for scrolling through scenes
    * Only adds buttons if navigation is overflowing and buttons don't already exist
    */
-  static placeNavButtons = async() => { 
+  static placeNavButtons = async() => {
     const sceneNav = document.querySelector("#scene-navigation");
     if(!sceneNav || !TopNavigation.sceneNavEnabled){
       return;
     }
-    
+
     const sceneList = sceneNav.querySelector("#scene-navigation-inactive");
     let existingButtons = document.querySelectorAll("button.crlngn-btn");
     // existingButtons.forEach(b => b.remove());
-    
+
     const btnWidth = (TopNavigation.#navToggle?.offsetWidth * 2) || 0;
     const isNavOverflowing = (sceneNav.offsetWidth - btnWidth) < sceneNav.scrollWidth;
     LogUtil.log("placeNavButtons *", [TopNavigation.isCollapsed, isNavOverflowing, existingButtons]);
-    
-    if(!isNavOverflowing 
-      || TopNavigation.isCollapsed 
+
+    if(!isNavOverflowing
+      || TopNavigation.isCollapsed
       || TopNavigation.#uiLeft.classList.contains('navigation-collapsed')){
       existingButtons.forEach(b => {
         LogUtil.log("placeNavButtons remove", [b.remove, b]);
@@ -659,18 +660,21 @@ export class TopNavigation {
     if(existingButtons.length > 0){ return; }
     // Render nav buttons template
     const buttonsHtml = await GeneralUtil.renderTemplate(
-      `modules/${MODULE_ID}/templates/scene-nav-buttons.hbs`, 
+      `modules/${MODULE_ID}/templates/scene-nav-buttons.hbs`,
       {}
     );
     sceneNav.insertAdjacentHTML('afterend', buttonsHtml);
-  
+
     // Add event listeners to the newly inserted buttons
     const btnLast = document.querySelector("#ui-left button.crlngn-btn.ui-nav-left");
     const btnNext = document.querySelector("#ui-left button.crlngn-btn.ui-nav-right");
-  
+
     if (btnLast) btnLast.addEventListener("click", this.#onNavLast);
     if (btnNext) btnNext.addEventListener("click", this.#onNavNext);
     TopNavigation.handleHide();
+
+    // Update scene nav offset after rendering
+    TopNavigation.applySceneNavOffset();
   }
 
   /**
@@ -1188,10 +1192,52 @@ export class TopNavigation {
     GeneralUtil.addCSSVars("--scene-nav-item-width", `${currWidth}px`);
   }
 
-  static applyTopNavHeight = () => { 
+  static applyTopNavHeight = () => {
     const SETTINGS = getSettings();
     const sceneNavEnabled = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
     GeneralUtil.addCSSVars("--top-nav-height", `${sceneNavEnabled ? "calc(var(--control-item-size) + 1px)" : "0px"}`);
+  }
+
+  /**
+   * Calculates and applies the scene navigation offset based on folder height
+   * This is used to position elements that need to be offset by the scene nav
+   * @static
+   */
+  static applySceneNavOffset = () => {
+    const sceneNav = document.querySelector("#scene-navigation");
+    if (!sceneNav || !TopNavigation.sceneNavEnabled) {
+      GeneralUtil.addCSSVars("--scene-nav-offset", "0px");
+      return;
+    }
+
+    // Check if scene navigation is hidden (collapsed)
+    const isExpanded = sceneNav.classList.contains('expanded');
+
+    if (!isExpanded) {
+      // When navigation is collapsed, just use a small offset
+      GeneralUtil.addCSSVars("--scene-nav-offset", "10px");
+      LogUtil.log("applySceneNavOffset", ["Collapsed - 10px"]);
+      return;
+    }
+
+    // When folders are shown, calculate based on number of open folder levels
+    if (TopNavigation.navShowRootFolders) {
+      const sceneNavInactive = sceneNav.querySelector("#scene-navigation-inactive");
+
+      // Count visible rows: root level + each active folder's contents
+      let rowCount = 1; // Always have the root level
+
+      // Count each .crlngn-folder-active as it represents an expanded folder showing its contents
+      const activeFolders = sceneNavInactive?.querySelectorAll('.crlngn-folder-active') || [];
+      rowCount += activeFolders.length;
+
+      GeneralUtil.addCSSVars("--scene-nav-offset", `calc(var(--top-nav-height) * ${rowCount})`);
+      LogUtil.log("applySceneNavOffset", ["Rows:", rowCount, "Active folders:", activeFolders.length]);
+    } else {
+      // When folders aren't shown, just use the single nav height
+      GeneralUtil.addCSSVars("--scene-nav-offset", "var(--top-nav-height)");
+      LogUtil.log("applySceneNavOffset", ["Single nav height"]);
+    }
   }
 
   /**

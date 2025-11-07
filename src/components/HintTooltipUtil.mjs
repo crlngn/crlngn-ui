@@ -87,8 +87,6 @@ export class HintTooltipUtil {
       const isStandardForm = element.querySelector('form.standard-form') !== null;
 
       if (hasFormGroups || isStandardForm) {
-        LogUtil.log(`HintTooltipUtil: renderApplicationV2 hook called (generic)`, [app.constructor.name, element?.id, element?.className], true);
-
         setTimeout(() => {
           HintTooltipUtil.applyHintHandlers(element);
         }, 100);

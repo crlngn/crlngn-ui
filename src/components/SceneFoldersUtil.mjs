@@ -201,7 +201,7 @@ export class SceneNavFolders {
   static injectSubfolders = async(folder, targetElement) => {
     const folderData = SceneNavFolders.buildTemplateData(folder);
     const renderedSubfolders = await GeneralUtil.renderTemplate(
-      `modules/${MODULE_ID}/templates/scene-nav-subfolders.hbs`, 
+      `modules/${MODULE_ID}/templates/scene-nav-subfolders.hbs`,
       folderData
     );
     const contents = targetElement.querySelector(".contents");
@@ -211,13 +211,16 @@ export class SceneNavFolders {
     const folderItems = targetElement.querySelectorAll("li.folder");
     SceneNavFolders.addFolderListeners(folderItems);
     TopNavigation.addSceneListeners(targetElement.querySelector(".contents"));
+
+    // Update scene nav offset after folder height changes
+    setTimeout(() => TopNavigation.applySceneNavOffset(), 100);
   }
 
   static updateActiveFolders = async (id, remove=false) => {
     const inactiveList = document.querySelector("#scene-navigation-inactive");
     const target = inactiveList?.querySelector(`li.folder[data-folder-id="${id}"]`);
     const idIndex = SceneNavFolders.#activeSceneFolders.indexOf(id);
-    
+
     LogUtil.log("updateActiveFolders A", [idIndex, id, game.user.getFlag(MODULE_ID, "activeSceneFolders"), SceneNavFolders.#activeSceneFolders]);
 
     if(remove){
@@ -237,6 +240,9 @@ export class SceneNavFolders {
 
     await game.user.setFlag(MODULE_ID, "activeSceneFolders", SceneNavFolders.#activeSceneFolders);
     LogUtil.log("updateActiveFolders B", [remove, id, game.user.getFlag(MODULE_ID, "activeSceneFolders"), SceneNavFolders.#activeSceneFolders]);
+
+    // Update scene nav offset after folder state changes
+    setTimeout(() => TopNavigation.applySceneNavOffset(), 100);
   }
 
   /**
