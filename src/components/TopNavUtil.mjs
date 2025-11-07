@@ -95,10 +95,11 @@ export class TopNavigation {
           const existingButtons = document.querySelectorAll("#ui-left .crlngn-btn");
           existingButtons.forEach(b => b.remove());
         }
-        
+
         TopNavigation.#timeout = setTimeout(()=>{
           TopNavigation.setCollapsedClass(collapsed);
           TopNavigation.updateToggleButton(!collapsed);
+          TopNavigation.applySceneNavOffset();
         }, 250);
       });
 
