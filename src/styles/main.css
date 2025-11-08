@@ -114,15 +114,22 @@ body.crlngn-ui  {
 /*************/
 /* JOURNALS */
 body.crlngn-ui  {
+  .journal-entry-content{
+    font-family: var(--crlngn-font-journal-body);
+  }
   .sheet.journal-entry {
     line-height: 1.6;
+    font-family: var(--crlngn-font-journal-body);
 
     h1, h2, h3 {
-      font-family: var(--dnd5e-font-modesto);
+      font-family: var(--crlngn-font-journal-title);
       margin: 1.5rem 0 0.5rem 0;
     }
+    .journal-header {
+      font-family: var(--crlngn-font-journal-title);
+    }
     h4, h5, h6 {
-      font-family: var(--dnd5e-font-roboto-slab);
+      font-family: var(--crlngn-font-journal-body);
       margin: 1.5rem 0 0.5rem 0;
     }
     .stat-block-finder{
@@ -130,6 +137,7 @@ body.crlngn-ui  {
     }
     p{
       line-height: 1.6;
+      font-family: var(--crlngn-font-journal-body);
     }
   }
 }
@@ -876,6 +884,10 @@ body.crlngn-ui{
 }
 
 .standard-form.crlngn {
+  .form-group:focus-within {
+    z-index: 100 !important;
+  }
+
   .dropdown-wrapper {
     position: relative;
     width: 100%;
