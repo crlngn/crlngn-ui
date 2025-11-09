@@ -9,6 +9,9 @@
 ## Carolingian UI
 A UI overhaul, focusing on removing clutter from screen and improving overall look and feel of Foundry VTT, but also offering many quality of life features to the UI panels.
 
+https://github.com/user-attachments/assets/0c72bc15-e266-48e0-9181-053b5273b36f
+
+
 <div style="display: flex; flex-direction: row;">
   <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-ui-1.x-sheet-themes.png?raw=true" width="100%" height="auto" />
 
