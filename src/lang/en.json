@@ -113,7 +113,7 @@
           "elementColumn": "Interface Element",
           "hoverableSettingsHints": {
             "label": "Hoverable Settings Hints",
-            "hint": "This cleans up settings forms by adding question mark tooltips to show/hide hint text on hover. Affects default Foundry settings and module configuration windows."
+            "hint": "This cleans up settings and application forms by adding question mark tooltips to show/hide hint text on hover. Affects default Foundry settings and module windows."
           }
         },
         "reset": "Reset",
@@ -178,8 +178,8 @@
             "hint": "Enable Carolingian UI style tweaks on other modules. If you would like support for a specific module, please request on Github issues"
           },
           "applyDarkThemeToModules": {
-            "label": "Apply Dark Theme to Modules' Windows",
-            "hint": "Some modules never implemented dark theme. This option attempts to apply dark theme to other modules' windows using .app.theme-light class. If some module becomes partially illegible, uncheck this option. "
+            "label": "Apply Dark Theme to Application Windows",
+            "hint": "Some modules/systems never implemented dark theme. This option attempts to apply dark theme to application windows using .app.theme-light class. If some window becomes partially illegible, uncheck this option. "
           },
           "otherModulesList": {
             "label": "Enforce styles in other modules",

@@ -261,7 +261,7 @@ export function getSettings() {
       ],
       default: {
         colorTheme: "crlngn-theme",
-        applyDarkThemeToModules: true,
+        applyDarkThemeToModules: false,
         adjustOtherModules: true,
         otherModulesList: "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar','touch-vtt','breaktime','simple-timekeeping'",
         forcedDarkTheme: "",
@@ -1295,7 +1295,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.hoverableSettingsHints.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.hoverableSettingsHints.hint"),
       propType: Boolean,
-      default: true,
+      default: false,
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: true

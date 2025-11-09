@@ -170,12 +170,44 @@ export class HintTooltipUtil {
       let hoverTimeout;
       let showTimeout;
 
-      // Inject a span element for the question mark icon instead of using ::after
-      const iconSpan = document.createElement('span');
-      iconSpan.className = 'crlngn-hint-icon';
-      iconSpan.textContent = '?';
-      iconSpan.style.cursor = 'help';
-      label.appendChild(iconSpan);
+      // Get the label text content and wrap the last word with the icon
+      // This prevents the icon from being orphaned on its own line
+      const labelText = label.textContent.trim();
+      const words = labelText.split(/\s+/);
+
+      if (words.length > 1) {
+        // Remove the last word from the label
+        const lastWord = words.pop();
+        const remainingText = words.join(' ');
+
+        // Clear the label and rebuild it
+        label.textContent = remainingText + ' ';
+
+        // Create a wrapper span for the last word and icon
+        const wrapper = document.createElement('span');
+        wrapper.style.whiteSpace = 'nowrap';
+        wrapper.textContent = lastWord + ' ';
+
+        // Create the icon span
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'crlngn-hint-icon';
+        iconSpan.textContent = '?';
+        iconSpan.style.cursor = 'help';
+
+        // Append icon to wrapper, then wrapper to label
+        wrapper.appendChild(iconSpan);
+        label.appendChild(wrapper);
+      } else {
+        // If there's only one word, just append the icon normally
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'crlngn-hint-icon';
+        iconSpan.textContent = '?';
+        iconSpan.style.cursor = 'help';
+        label.appendChild(iconSpan);
+      }
+
+      // Get reference to the icon for hover detection
+      const iconSpan = label.querySelector('.crlngn-hint-icon');
 
       // Helper function to check if mouse is over icon span
       const isOverIcon = (e) => {

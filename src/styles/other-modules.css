@@ -915,6 +915,12 @@ body.crlngn-ui{
     --filigree-background-color: transparent;
   }
 
+  /* DnD5e */
+  .dnd5e.advancement input[type="text"], 
+  .dnd5e.advancement input[type="number"], 
+  .dnd5e.advancement select {
+    color: var(--color-text-primary);
+  }
 
 
   /* PF2e */

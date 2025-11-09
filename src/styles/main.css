@@ -183,6 +183,7 @@ body.crlngn-ui{
   .standard-form .form-group > label, 
   .standard-form .form-group > span.label {
     line-height: 1.5;
+    min-width: 35%;
   }
 
   .standard-form .form-group {
@@ -717,7 +718,7 @@ body.crlngn-ui{
     margin: 0.75em 0;
     position: relative;
     z-index: 0;
-    
+
     label {
       min-width: 50%;
       line-height: 1.5;
@@ -726,6 +727,7 @@ body.crlngn-ui{
       display: flex;
       gap: 0.5em;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     &.range input[type="range"] {
@@ -1483,11 +1485,13 @@ body.crlngn-ui {
     font-weight: 700;
     line-height: 1;
     border-radius: 50%;
-    background: var(--color-bg-button);
+    background: var(--color-alt-bg);
     color: var(--color-text-primary);
     cursor: help;
     opacity: 0.65;
     transition: opacity 0.2s ease-in-out, background 0.2s ease-in-out;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   /* Brighten icon on hover */
