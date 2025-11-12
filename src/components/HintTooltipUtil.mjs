@@ -70,7 +70,7 @@ export class HintTooltipUtil {
         // Apply handlers directly since this is a specific settings form
         setTimeout(() => {
           HintTooltipUtil.applyHintHandlers(element);
-        }, 100);
+        }, 10);
       });
       hookIds.push(id);
     });
@@ -89,7 +89,7 @@ export class HintTooltipUtil {
       if (hasFormGroups || isStandardForm) {
         setTimeout(() => {
           HintTooltipUtil.applyHintHandlers(element);
-        }, 100);
+        }, 10);
       }
     });
     hookIds.push(genericId);
@@ -302,12 +302,11 @@ export class HintTooltipUtil {
         // Delay hiding to allow moving to the hint itself
         hoverTimeout = setTimeout(() => {
           formGroup.classList.remove('show-hint');
-        }, 200);
+        }, 500);
       });
 
       // Keep hint visible when hovering over it
       hint.addEventListener('mouseenter', () => {
-        // Don't manage visibility if global toggle-hint is active
         if (hint.classList.contains('shown')) return;
 
         clearTimeout(hoverTimeout);
@@ -320,7 +319,7 @@ export class HintTooltipUtil {
 
         hoverTimeout = setTimeout(() => {
           formGroup.classList.remove('show-hint');
-        }, 200);
+        }, 500);
       });
     });
 

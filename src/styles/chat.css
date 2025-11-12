@@ -95,6 +95,13 @@ body.crlngn-ui.crlngn-chat {
   }
 }
 
+body.crlngn-ui.crlngn-chat.system-daggerheart {
+  .daggerheart.chat.domain-card, 
+  .daggerheart.chat.domain-card .description {
+    font-family: var(--crlngn-font-family);
+  }
+}
+
 body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   /* variables for the custom dnd5e card buttons */
   --crlngn-i18n-attack: "attack";

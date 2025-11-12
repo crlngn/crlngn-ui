@@ -245,15 +245,17 @@ export class TopNavigation {
       }, 500);
     }
 
-    // Hide inactive scenes if folders are open
-    const folderToggleOn = SettingsUtil.get(SETTINGS.navShowRootFolders.tag);
-    const hideInactiveOnToggle = SettingsUtil.get(SETTINGS.hideInactiveOnFolderToggle.tag);
-    const inactiveToggledScenes = navHtml.querySelectorAll("#scene-navigation-inactive .scene");
-    LogUtil.log("hideInactiveOnToggle", [folderToggleOn, hideInactiveOnToggle, inactiveToggledScenes]);
-    if(hideInactiveOnToggle && folderToggleOn){
-      inactiveToggledScenes.forEach(sc => sc.classList.add('hidden'));
-    }else if(hideInactiveOnToggle){
-      inactiveToggledScenes.forEach(sc => sc.classList.remove('hidden'));
+    // Hide inactive scenes if folders are open (GM only)
+    if(game.user?.isGM){
+      const folderToggleOn = SettingsUtil.get(SETTINGS.navShowRootFolders.tag);
+      const hideInactiveOnToggle = SettingsUtil.get(SETTINGS.hideInactiveOnFolderToggle.tag);
+      const inactiveToggledScenes = navHtml.querySelectorAll("#scene-navigation-inactive .scene");
+      LogUtil.log("hideInactiveOnToggle", [folderToggleOn, hideInactiveOnToggle, inactiveToggledScenes]);
+      if(hideInactiveOnToggle && folderToggleOn){
+        inactiveToggledScenes.forEach(sc => sc.classList.add('hidden'));
+      }else if(hideInactiveOnToggle){
+        inactiveToggledScenes.forEach(sc => sc.classList.remove('hidden'));
+      }
     }
     TopNavigation.handleSceneFadeOut(nav, navHtml, navData);
   }
