@@ -10,31 +10,18 @@ body{
 /* Background blur setting - override Foundry's default */
 /* Only apply backdrop-filter when glass effect is enabled via body class */ 
 /*.compendium-browser*/
-body.crlngn-ui.crlngn-glass-effect .application:not(.dnd5e2.sheet, .tidy5e-sheet) .window-content {
+body.crlngn-ui.crlngn-glass-effect .application:not(.dnd5e2.sheet, .tidy5e-sheet, .monks-enhanced-journal) .window-content {
   background: transparent !important;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
-body.crlngn-ui.crlngn-glass-effect .application:not(.dnd5e2.sheet, .tidy5e-sheet),
-body.crlngn-ui.crlngn-glass-effect .window-app {
+body.crlngn-ui.crlngn-glass-effect .application:not(.dnd5e2.sheet, .tidy5e-sheet, .monks-enhanced-journal),
+body.crlngn-ui.crlngn-glass-effect .window-app:not(.monks-enhanced-journal) {
   background: var(--background) !important;
   backdrop-filter: blur(var(--background-blur, 4px)) !important;
   -webkit-backdrop-filter: blur(var(--background-blur, 4px)) !important;
 }
 
-/*
-body.crlngn-ui.crlngn-glass-effect .application:not(.dnd5e2.sheet, .tidy5e-sheet) .window-content,
-body.crlngn-ui.crlngn-glass-effect.theme-light .application:not(.dnd5e2.sheet, .tidy5e-sheet) .window-content,
-body.crlngn-ui.crlngn-glass-effect.theme-dark .application:not(.dnd5e2.sheet, .tidy5e-sheet) .window-content {
-  background: transparent;
-}
-body.crlngn-ui.crlngn-glass-effect .application:not(.dnd5e2.sheet, .tidy5e-sheet),
-body.crlngn-ui.crlngn-glass-effect.theme-light .application:not(.dnd5e2.sheet, .tidy5e-sheet),
-body.crlngn-ui.crlngn-glass-effect.theme-dark .application:not(.dnd5e2.sheet, .tidy5e-sheet) {
-  background: var(--background);
-  backdrop-filter: blur(var(--background-blur, 4px)) !important;
-  -webkit-backdrop-filter: blur(var(--background-blur, 4px)) !important;
-}*/
 
 body.crlngn-ui  {
   text-rendering: optimizeLegibility;
@@ -156,18 +143,18 @@ body.crlngn-ui{
     padding: 1px;
   }
 
-  .application:not(.actor) .standard-form nav.tabs {
+  .application:not(.actor, .sheet, .monks-enhanced-journal) .standard-form nav.tabs {
     gap: 0.5em;
     line-height: 1.5;
     padding: 0.65em 0;
   }
-  .application:not(.actor) .standard-form nav.tabs:not(.vertical){
+  .application:not(.actor, .sheet, .monks-enhanced-journal) .standard-form nav.tabs:not(.vertical){
     overflow-x: auto;
     flex: 0 0 auto;
     scroll-behavior: smooth;
   }
 
-  .application:not(.actor) .standard-form nav.tabs a[data-action=tab] {
+  .application:not(.actor, .sheet, .monks-enhanced-journal) .standard-form nav.tabs a[data-action=tab] {
     width: auto;
     flex: 1 1 auto;
     display: flex;
@@ -224,10 +211,10 @@ body.crlngn-ui{
     color: inherit;
   }
 
-  .application:not(.dnd5e2) .dialog-buttons button, 
+  .application:not(.dnd5e2, .monks-enhanced-journal) .dialog-buttons button, 
   .combat-controls button,
-  form.application:not(.journal-sheet) .form-footer button,
-  .application:not(.dnd5e2) .standard-form button,
+  form.application:not(.journal-sheet, .monks-enhanced-journal) .form-footer button,
+  .application:not(.dnd5e2, .monks-enhanced-journal) .standard-form button,
   #crlngn-color-picker .form-footer button {
     height: auto;
     min-height: var(--input-height);
@@ -257,10 +244,10 @@ body.crlngn-ui{
       margin-right: 3px;
     }
   }
-  .application:not(.dnd5e2) .dialog-buttons button.icon, 
+  .application:not(.dnd5e2, .monks-enhanced-journal) .dialog-buttons button.icon, 
   .combat-controls button.icon,
-  form.application:not(.journal-sheet) .form-footer button.icon,
-  .application:not(.dnd5e2) .standard-form button.icon {
+  form.application:not(.journal-sheet, .monks-enhanced-journal) .form-footer button.icon,
+  .application:not(.dnd5e2, .monks-enhanced-journal) .standard-form button.icon {
     border: 1px solid transparent;
     background: transparent;
     color: inherit;
@@ -282,7 +269,7 @@ body.crlngn-ui{
   }
   
 
-  .header-actions {
+  .application:not(.monks-enhanced-journal) .header-actions {
     padding-inline: 0px;
     gap: 4px;
     button {
@@ -944,8 +931,8 @@ body.theme-light {
 * DnD5e
 *************/
 body.crlngn-ui {
-  .application.dnd5e2 .dialog-buttons button,
-  .application.dnd5e2 .standard-form button {
+  .application.dnd5e2:not(.monks-enhanced-journal) .dialog-buttons button,
+  .application.dnd5e2:not(.monks-enhanced-journal) .standard-form button {
     border: 1px solid transparent;
     &.default {
       border: 1px solid var(--color-highlights);
@@ -963,7 +950,7 @@ body.crlngn-ui {
       color: var(--color-light-1);
     }
   }
-  .application .tabs.vertical{
+  .application:not(.monks-enhanced-journal) .tabs.vertical{
     padding: 10px 10px 6px 0;
 
     button {
@@ -986,7 +973,7 @@ body.crlngn-ui {
     }
   }
 
-  .dnd5e2.application .window-header {
+  .dnd5e2.application:not(.monks-enhanced-journal) .window-header {
     h1{
       margin: 6px;
       font-size: var(--font-size-20);
@@ -1011,7 +998,7 @@ body.crlngn-ui{
     min-height: 2px;
   }
 
-  .application .window-header .window-title {
+  .application:not(.monks-enhanced-journal) .window-header .window-title {
     font-family: var(--crlngn-font-family);
   }
   

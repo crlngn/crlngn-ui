@@ -793,16 +793,15 @@ export class ColorPickerUtil {
     cssText += `
       body.crlngn-ui.theme-dark,
       body.crlngn-ui.theme-dark .app,
-      body.crlngn-ui.theme-dark .application:not(.sheet, .theme-light),
+      body.crlngn-ui.theme-dark .application:not(.sheet, .theme-light, .monks-enhanced-journal),
       body.crlngn-ui #interface.theme-dark,
+      body.crlngn-ui #tooltip.theme-dark,
       body.crlngn-ui .application.theme-dark,
-      body.crlngn-ui #interface.theme-dark,
       body.crlngn-ui .sidebar-popout.theme-dark,
       body.crlngn-ui .themed.theme-dark .ui-control, 
       body.crlngn-ui .themed.theme-dark .placeable-hud, 
       body.crlngn-ui .themed.theme-dark #measurement .waypoint-label,
-      body.crlngn-ui .themed.theme-dark #players,
-      body.crlngn-ui #tooltip.theme-dark {
+      body.crlngn-ui .themed.theme-dark #players {
         ${Object.entries(secondaryVarsDark).map(([k, v]) => `${k}: ${v};`).join('\n    ')}
       }
       

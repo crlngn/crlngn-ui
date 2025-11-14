@@ -250,8 +250,9 @@ export class TopNavigation {
       const folderToggleOn = SettingsUtil.get(SETTINGS.navShowRootFolders.tag);
       const hideInactiveOnToggle = SettingsUtil.get(SETTINGS.hideInactiveOnFolderToggle.tag);
       const inactiveToggledScenes = navHtml.querySelectorAll("#scene-navigation-inactive .scene");
-      LogUtil.log("hideInactiveOnToggle", [folderToggleOn, hideInactiveOnToggle, inactiveToggledScenes]);
-      if(hideInactiveOnToggle && folderToggleOn){
+      const folderToggleExists = document.querySelector("#crlngn-folder-toggle");
+      LogUtil.log("hideInactiveOnToggle", [folderToggleOn, hideInactiveOnToggle, inactiveToggledScenes, folderToggleExists]);
+      if(hideInactiveOnToggle && folderToggleOn && folderToggleExists){
         inactiveToggledScenes.forEach(sc => sc.classList.add('hidden'));
       }else if(hideInactiveOnToggle){
         inactiveToggledScenes.forEach(sc => sc.classList.remove('hidden'));

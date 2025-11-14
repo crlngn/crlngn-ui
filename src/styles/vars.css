@@ -36,7 +36,6 @@
     --dnd5e-font-modesto: var(--crlngn-font-journal-title);
     --dnd5e-font-roboto-condensed: var(--crlngn-font-journal-body);
     --font-primary: var(--crlngn-font-family);
-    --mej-font-family: var(--crlngn-font-family);
     --card-color-bg: var(--control-bg-color);
 
     --font-h1: var(--crlngn-font-titles);
@@ -170,7 +169,7 @@
     }
 
     &.theme-light,
-    .application.theme-light,
+    .application:not(.monks-enhanced-journal).theme-light,
     #interface.theme-light,
     .sidebar-popout.theme-light {
       --color-bg-button: rgba(244, 239, 237,0.9);
@@ -206,7 +205,7 @@
     }
 
     &.theme-dark,
-    .application.theme-dark,
+    .application:not(.monks-enhanced-journal).theme-dark,
     #interface.theme-dark,
     .sidebar-popout.theme-dark{
       --chat-dark-blue: rgba(24, 32, 38, 1);
@@ -304,13 +303,13 @@
     --input-background-color: var(--color-cool-4);
     --input-border-color: var(--color-secondary);
 
-    &.theme-dark .application.theme-light,
+    &.theme-dark .application:not(.monks-enhanced-journal).theme-light,
     .app.theme-light,
     &.theme-light,
     #interface.theme-light,
     &.theme-light .sidebar-popout:not(.theme-dark),
-    .application.theme-light,
-    &.theme-dark #tooltip.application.theme-light,
+    .application:not(.monks-enhanced-journal).theme-light,
+    &.theme-dark #tooltip.application:not(.monks-enhanced-journal).theme-light,
     .themed.theme-light,
     &.theme-dark .theme-light .dnd5e,
     .chat-log.themed.theme-light{
@@ -343,13 +342,13 @@
       --color-hover-bg: inherit;
     }
 
-    &.theme-light .application.theme-dark,
+    &.theme-light .application:not(.monks-enhanced-journal).theme-dark,
     .app.theme-dark,
     &.theme-dark,
     #interface.theme-dark,
     &.theme-dark .sidebar-popout:not(.theme-dark),
-    .application.theme-dark,
-    &.theme-light #tooltip.application.theme-dark,
+    .application:not(.monks-enhanced-journal).theme-dark,
+    &.theme-light #tooltip.application:not(.monks-enhanced-journal).theme-dark,
     .themed.theme-dark,
     .chat-log.themed.theme-dark{
       --color-border: rgba(15, 15, 15, 0.15);
@@ -456,7 +455,7 @@
     #chat-pins.theme-dark,
     .chat-log.themed.theme-dark,
     .sidebar-popout.theme-dark {
-      .application{
+      .application:not(.monks-enhanced-journal){
         --color-fieldset-border: var(--color-cool-4);
       }
 
