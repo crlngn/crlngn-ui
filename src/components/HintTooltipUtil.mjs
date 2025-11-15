@@ -170,18 +170,38 @@ export class HintTooltipUtil {
       let hoverTimeout;
       let showTimeout;
 
-      // Get the label text content and wrap the last word with the icon
-      // This prevents the icon from being orphaned on its own line
-      const labelText = label.textContent.trim();
-      const words = labelText.split(/\s+/);
+      // Preserve existing child elements (for compatibility with modules like Force Client Settings)
+      const existingChildren = Array.from(label.childNodes);
+
+      // Separate text nodes from element nodes
+      const textNodes = existingChildren.filter(node => node.nodeType === Node.TEXT_NODE);
+      const elementNodes = existingChildren.filter(node => node.nodeType === Node.ELEMENT_NODE);
+
+      // Get the label text from text nodes only
+      const labelText = textNodes.map(node => node.textContent).join('').trim();
+      const words = labelText.split(/\s+/).filter(word => word.length > 0);
 
       if (words.length > 1) {
         // Remove the last word from the label
         const lastWord = words.pop();
         const remainingText = words.join(' ');
 
-        // Clear the label and rebuild it
-        label.textContent = remainingText + ' ';
+        // Clear only text nodes, preserve element nodes (like lock icons)
+        textNodes.forEach(node => node.remove());
+
+        // Find where to insert text - after any existing element nodes (like lock icons)
+        // or at the beginning if there are no element nodes
+        const insertAfter = elementNodes.length > 0 ? elementNodes[elementNodes.length - 1] : null;
+
+        // Add remaining text back
+        const textNode = document.createTextNode(remainingText + ' ');
+        if (insertAfter && insertAfter.nextSibling) {
+          label.insertBefore(textNode, insertAfter.nextSibling);
+        } else if (insertAfter) {
+          label.appendChild(textNode);
+        } else {
+          label.insertBefore(textNode, label.firstChild);
+        }
 
         // Create a wrapper span for the last word and icon
         const wrapper = document.createElement('span');
@@ -197,7 +217,7 @@ export class HintTooltipUtil {
         // Append icon to wrapper, then wrapper to label
         wrapper.appendChild(iconSpan);
         label.appendChild(wrapper);
-      } else {
+      } else if (words.length === 1) {
         // If there's only one word, just append the icon normally
         const iconSpan = document.createElement('span');
         iconSpan.className = 'crlngn-hint-icon';

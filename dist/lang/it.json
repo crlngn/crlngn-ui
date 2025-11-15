@@ -110,7 +110,15 @@
           "fadeOutColumn": "Dissolvenza",
           "hideColumn": "Nascondi",
           "customLayoutColumn": "Layout Personalizzato",
-          "elementColumn": "Elemento Interfaccia"
+          "elementColumn": "Elemento Interfaccia",
+          "hoverableSettingsHints": {
+            "label": "Suggerimenti Impostazioni al Passaggio del Mouse",
+            "hint": "Questo organizza le impostazioni e i moduli delle applicazioni aggiungendo tooltip con punto interrogativo per mostrare/nascondere il testo di suggerimento al passaggio del mouse. Interessa le impostazioni predefinite di Foundry e le finestre dei moduli."
+          },
+          "preventMacroBarReposition": {
+            "label": "Impedisci Riposizionamento Barra Macro",
+            "hint": "Quando abilitato, nascondere la casella di input della chat impedisce anche alla barra macro di essere riposizionata quando cambia la scheda della barra laterale. Mantiene la barra macro nella sua posizione originale indipendentemente dallo stato della barra laterale."
+          }
         },
         "reset": "Ripristina",
         "save": "Salva"
@@ -231,6 +239,22 @@
           "sideBarWidth": {
             "label": "Larghezza del pannello laterale",
             "hint": "Larghezza del pannello sul lato destro dello schermo."
+          },
+          "openChatLogOnLoad": {
+            "label": "Apri Log Chat al Caricamento",
+            "hint": "Quando abilitato, la barra laterale si espanderà automaticamente per mostrare il Log Chat quando il modulo viene caricato."
+          },
+          "closeSidebarWhenIdle": {
+            "label": "Chiudi Barra Laterale Quando Inattiva",
+            "hint": "Quando abilitato, la barra laterale si comprimerà automaticamente 3 secondi dopo che il mouse lascia l'area della barra laterale."
+          },
+          "useHorizontalSidebarTabs": {
+            "label": "Usa Schede Barra Laterale Orizzontali",
+            "hint": "Quando abilitato, cambia le schede della barra laterale in orientamento orizzontale, nella parte superiore della barra laterale, invece di verticalmente sul lato. (stile v12)"
+          },
+          "showChatNotificationsOnTop": {
+            "label": "Mostra Notifiche Chat dall'Alto",
+            "hint": "Quando abilitato, le notifiche dei messaggi chat appaiono dall'alto dell'area di input della chat invece che dal basso."
           }
         },
         "reset": "Ripristina",
@@ -392,7 +416,8 @@
       },
       "enforceGMSettings": {
         "label": "Applica Impostazioni GM ai Giocatori",
-        "hint": "Quando abilitato, tutti i giocatori utilizzeranno le impostazioni UI del GM quando si connettono. Questo garantisce un'esperienza UI coerente per tutti i giocatori."
+        "hint": "Quando abilitato, tutti i giocatori utilizzeranno le impostazioni UI del GM quando si connettono. Questo garantisce un'esperienza UI coerente per tutti i giocatori.",
+        "conflictWarning": "Carolingian UI: 'Applica Impostazioni GM ai Giocatori' è disabilitato perché il modulo Force Client Settings è attivo. Utilizzare uno o l'altro, non entrambi."
       },
       "defaultSettings": {
         "label": "Impostazioni GM Predefinite",

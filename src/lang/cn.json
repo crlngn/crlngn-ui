@@ -110,7 +110,15 @@
           "fadeOutColumn": "淡出",
           "hideColumn": "隐藏",
           "customLayoutColumn": "自定义布局",
-          "elementColumn": "界面元素"
+          "elementColumn": "界面元素",
+          "hoverableSettingsHints": {
+            "label": "可悬停的设置提示",
+            "hint": "通过添加问号工具提示来整理设置和应用程序表单，以便在悬停时显示/隐藏提示文本。影响默认的Foundry设置和模块窗口。"
+          },
+          "preventMacroBarReposition": {
+            "label": "防止宏栏重新定位",
+            "hint": "启用后，隐藏聊天输入框时也会防止宏快捷栏在侧边栏标签更改时被重新定位。无论侧边栏状态如何，都保持宏快捷栏在其原始位置。"
+          }
         },
         "reset": "重置",
         "save": "保存"
@@ -231,6 +239,22 @@
           "sideBarWidth": {
             "label": "右侧侧面板宽度",
             "hint": "右侧侧面板的宽度。"
+          },
+          "openChatLogOnLoad": {
+            "label": "加载时打开聊天记录",
+            "hint": "启用后，模块加载时侧边栏将自动展开以显示聊天记录。"
+          },
+          "closeSidebarWhenIdle": {
+            "label": "空闲时关闭侧边栏",
+            "hint": "启用后，鼠标离开侧边栏区域3秒后，侧边栏将自动折叠。"
+          },
+          "useHorizontalSidebarTabs": {
+            "label": "使用水平侧边栏标签",
+            "hint": "启用后，将侧边栏标签更改为水平方向，位于侧边栏顶部，而不是垂直放置在侧面。（v12样式）"
+          },
+          "showChatNotificationsOnTop": {
+            "label": "从顶部显示聊天通知",
+            "hint": "启用后，聊天卡片通知从聊天输入区域的顶部显示，而不是底部。"
           }
         },
         "reset": "重置",
@@ -392,7 +416,8 @@
       },
       "enforceGMSettings": {
         "label": "强制应用GM设置到玩家",
-        "hint": "启用后，所有玩家连接时将使用GM的UI设置。这确保了所有玩家的UI体验一致。"
+        "hint": "启用后，所有玩家连接时将使用GM的UI设置。这确保了所有玩家的UI体验一致。",
+        "conflictWarning": "Carolingian UI: '强制应用GM设置到玩家' 已禁用，因为 Force Client Settings 模块处于活动状态。请只使用其中一个，不要同时使用两者。"
       },
       "defaultSettings": {
         "label": "默认GM设置",

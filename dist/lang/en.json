@@ -417,7 +417,8 @@
       },
       "enforceGMSettings": {
         "label": "Enforce GM Settings to Players",
-        "hint": "When enabled, all players will use the GM's UI settings when they connect. This ensures a consistent UI experience across all players."
+        "hint": "When enabled, all players will use the GM's UI settings when they connect. This ensures a consistent UI experience across all players.",
+        "conflictWarning": "Carolingian UI: 'Enforce GM Settings to Players' is disabled because Force Client Settings module is active. Please use one or the other, not both."
       },
       "defaultSettings": {
         "label": "Default GM Settings",

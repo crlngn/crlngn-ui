@@ -1034,9 +1034,26 @@ export class SettingsUtil {
    */
   static enforceGMSettings() {
     const SETTINGS = getSettings();
-    
+
+    // Check for Force Client Settings module and warn GM if both are enabled
+    const isForceClientSettingsActive = GeneralUtil.isModuleOn('force-client-settings');
+    const enforcementEnabled = SettingsUtil.get(SETTINGS.enforceGMSettings.tag);
+
+    if (isForceClientSettingsActive && enforcementEnabled && game.user?.isGM) {
+      ui.notifications.warn(
+        game.i18n.localize('CRLNGN_UI.settings.enforceGMSettings.conflictWarning'),
+        { permanent: true }
+      );
+      return;
+    }
+
     // Only proceed if user is not GM and enforcement is enabled
-    if (game.user?.isGM || !SettingsUtil.get(SETTINGS.enforceGMSettings.tag)) {
+    if (game.user?.isGM || !enforcementEnabled) {
+      return;
+    }
+
+    // Skip enforcement if Force Client Settings is active
+    if (isForceClientSettingsActive) {
       return;
     }
 

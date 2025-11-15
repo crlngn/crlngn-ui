@@ -110,7 +110,15 @@
           "fadeOutColumn": "Desvanecimento",
           "hideColumn": "Ocultar",
           "customLayoutColumn": "Layout Personalizado",
-          "elementColumn": "Elemento da Interface"
+          "elementColumn": "Elemento da Interface",
+          "hoverableSettingsHints": {
+            "label": "Dicas de Configurações ao Passar o Mouse",
+            "hint": "Isso organiza as configurações e formulários de aplicação adicionando dicas de ferramentas com ponto de interrogação para mostrar/ocultar o texto de dica ao passar o mouse. Afeta as configurações padrão do Foundry e janelas de módulos."
+          },
+          "preventMacroBarReposition": {
+            "label": "Evitar Reposicionamento da Barra de Macros",
+            "hint": "Quando ativado, ocultar a caixa de entrada de bate-papo também impede que a barra de macros seja reposicionada quando a aba da barra lateral muda. Mantém a barra de macros em sua posição original, independentemente do estado da barra lateral."
+          }
         },
         "reset": "Redefinir",
         "save": "Salvar"
@@ -231,6 +239,22 @@
           "sideBarWidth": {
             "label": "Largura do painel lateral",
             "hint": "Largura do painel ao lado direito da tela."
+          },
+          "openChatLogOnLoad": {
+            "label": "Abrir Log de Chat ao Carregar",
+            "hint": "Quando ativado, a barra lateral se expandirá automaticamente para mostrar o Log de Chat quando o módulo for carregado."
+          },
+          "closeSidebarWhenIdle": {
+            "label": "Fechar Barra Lateral Quando Inativa",
+            "hint": "Quando ativado, a barra lateral será recolhida automaticamente 3 segundos após o mouse deixar a área da barra lateral."
+          },
+          "useHorizontalSidebarTabs": {
+            "label": "Usar Abas Horizontais na Barra Lateral",
+            "hint": "Quando ativado, altera as abas da barra lateral para orientação horizontal, no topo da barra lateral, em vez de verticalmente na lateral. (estilo v12)"
+          },
+          "showChatNotificationsOnTop": {
+            "label": "Mostrar Notificações de Chat do Topo",
+            "hint": "Quando ativado, as notificações de cartão de chat aparecem do topo da área de entrada de chat em vez da parte inferior."
           }
         },
         "reset": "Redefinir",
@@ -392,7 +416,8 @@
       },
       "enforceGMSettings": {
         "label": "Aplicar Configurações do GM aos Jogadores",
-        "hint": "Quando ativado, todos os jogadores usarão as configurações de interface do GM ao se conectarem. Isso garante uma experiência consistente para todos os jogadores."
+        "hint": "Quando ativado, todos os jogadores usarão as configurações de interface do GM ao se conectarem. Isso garante uma experiência consistente para todos os jogadores.",
+        "conflictWarning": "Carolingian UI: 'Aplicar Configurações do GM aos Jogadores' está desativado porque o módulo Force Client Settings está ativo. Use um ou outro, não ambos."
       },
       "defaultSettings": {
         "label": "Configurações Padrão do GM",
