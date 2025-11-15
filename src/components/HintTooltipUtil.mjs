@@ -68,9 +68,9 @@ export class HintTooltipUtil {
         LogUtil.log(`HintTooltipUtil: ${hookName} hook called`, [app.constructor.name, element?.id, element?.className]);
 
         // Apply handlers directly since this is a specific settings form
-        setTimeout(() => {
-          HintTooltipUtil.applyHintHandlers(element);
-        }, 10);
+        // setTimeout(() => {
+        HintTooltipUtil.applyHintHandlers(element);
+        // }, 10);
       });
       hookIds.push(id);
     });
@@ -209,16 +209,22 @@ export class HintTooltipUtil {
       // Get reference to the icon for hover detection
       const iconSpan = label.querySelector('.crlngn-hint-icon');
 
+      LogUtil.log('Icon span found for hint', [!!iconSpan, label.textContent]);
+
       // Helper function to check if mouse is over icon span
       const isOverIcon = (e) => {
+        if (!iconSpan) return false;
+
         const iconRect = iconSpan.getBoundingClientRect();
         const mouseX = e.clientX;
         const mouseY = e.clientY;
 
-        return mouseX >= iconRect.left &&
+        const isOver = mouseX >= iconRect.left &&
                mouseX <= iconRect.right &&
                mouseY >= iconRect.top &&
                mouseY <= iconRect.bottom;
+
+        return isOver;
       };
 
       // Click handler - toggle hint
@@ -241,14 +247,25 @@ export class HintTooltipUtil {
           return;
         }
 
-        if (isOverIcon(e)) {
+        const overIcon = isOverIcon(e);
+        LogUtil.log('Mousemove over label', [overIcon, !!iconSpan]);
+
+        if (overIcon) {
           label.style.cursor = 'help';
           if (!formGroup.classList.contains('show-hint') && !showTimeout) {
             clearTimeout(hoverTimeout);
 
             // Wait 500ms before showing tooltip
             showTimeout = setTimeout(() => {
-              // Check positioning BEFORE showing the hint
+              // Get actual hint element height (hint is already in DOM but invisible)
+              // Use scrollHeight as a fallback in case offsetHeight is 0
+              const actualHintHeight = hint.offsetHeight || hint.scrollHeight;
+              const hintOffset = 0.5; // rem offset from CSS (0.25rem above + 0.25rem spacing)
+              const offsetInPx = hintOffset * parseFloat(getComputedStyle(document.documentElement).fontSize);
+              const totalHintSpace = actualHintHeight + offsetInPx;
+
+              LogUtil.log('Hint height calculation', [actualHintHeight, hint.offsetHeight, hint.scrollHeight, totalHintSpace]);
+
               // Find the scrollable parent
               let scrollParent = formGroup.parentElement;
               while (scrollParent && scrollParent !== document.body) {
@@ -259,23 +276,26 @@ export class HintTooltipUtil {
                 scrollParent = scrollParent.parentElement;
               }
 
-              // Estimate if hint would be clipped based on form-group position
+              // Check if hint would be clipped at the top if positioned above
               if (scrollParent && scrollParent !== document.body) {
                 const scrollRect = scrollParent.getBoundingClientRect();
                 const formGroupRect = formGroup.getBoundingClientRect();
 
-                // Estimate hint height (roughly 60-80px with padding)
-                const estimatedHintHeight = 80;
-                const wouldBeClipped = (formGroupRect.top - estimatedHintHeight) < scrollRect.top;
+                // Check if hint would be clipped at the top
+                const wouldBeClippedAbove = (formGroupRect.top - totalHintSpace) < scrollRect.top;
 
-                if (wouldBeClipped) {
+                LogUtil.log('Clipping check', [wouldBeClippedAbove, formGroupRect.top, totalHintSpace, scrollRect.top]);
+
+                if (wouldBeClippedAbove) {
                   formGroup.classList.add('hint-below');
                 } else {
                   formGroup.classList.remove('hint-below');
                 }
               }
 
+              // Now show the hint
               formGroup.classList.add('show-hint');
+
               showTimeout = null;
             }, 500);
           }

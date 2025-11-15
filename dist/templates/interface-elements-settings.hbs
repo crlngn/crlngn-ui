@@ -88,6 +88,12 @@
     <p class="hint">{{fields.hoverableSettingsHints.hint}}</p>
   </div>
 
+  <div class="form-group">
+    <label for="preventMacroBarReposition">{{fields.preventMacroBarReposition.label}}</label>
+    <input type="checkbox" name="preventMacroBarReposition" {{#if preventMacroBarReposition}}checked{{/if}} />
+    <p class="hint">{{fields.preventMacroBarReposition.hint}}</p>
+  </div>
+
   {{!-- <h4>
     <i class="fas fa-user"></i> {{localize "CRLNGN_UI.ui.worldSettingsLabel"}} 
     <span class="toggle-hint">{{localize 'CRLNGN_UI.ui.toggleHints'}}</span>

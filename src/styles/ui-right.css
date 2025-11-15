@@ -267,7 +267,7 @@ body.crlngn-ui{
       border-bottom-color: transparent;
     }
   }
-  #chat-notifications .dice-tray-container{
+  #chat-notifications .dice-tray{
     visibility: visible;
   }
   
@@ -276,11 +276,15 @@ body.crlngn-ui{
       display: none;
       visibility: hidden;
     }
-    .dice-tray-container{
+    .dice-tray{
       display: none;
       visibility: hidden;
     }
+  }
 
+  #chat-notifications.messages-on-top .overflow {
+    flex-direction: column;
+    padding-top: calc(var(--scene-nav-offset, 16px) + 10px);
   }
 
   .themed.theme-dark .combat-tracker {

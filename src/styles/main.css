@@ -3,8 +3,6 @@ body{
   --crlngn-border-radius: 4px; /*calc(var(--control-item-size) / 6);*/
   --control-item-size: 38px;/* size of control icon buttons */
   --crlngn-control-size: 38px;
-  --custom-ui-button-scale: 1 !important;
-  --custom-ui-navigation-scale: 1 !important;
 }
 
 /* Background blur setting - override Foundry's default */
@@ -651,7 +649,7 @@ body.crlngn-ui{
     position: absolute;
     left: 0;
     top: 0;
-    transform: translateY(calc(-100% - 1rem));
+    transform: translateY(calc(-100% - 0.25rem));
     z-index: 100;
     background: var(--color-secondary-b);
     border: 1px solid var(--color-highlights-50);
@@ -674,6 +672,7 @@ body.crlngn-ui{
     min-height: 220px;
     overflow: auto;
     padding: 2px;
+    padding-right: 10px;
   }
 
   /* Allow hints to overflow when shown (but only for hints without .on or .shown classes) */
@@ -1452,12 +1451,29 @@ body.crlngn-ui aside.pf2e.effect-info.application {
 /* Applied to forms when HintTooltipUtil.applyHintHandlers() is called */
 /*************/
 body.crlngn-ui {
-  /* Hide hints by default in enhanced forms */
+  .crlngn-hints .standard-form .scrollable {
+    min-height: 100px;
+  }
   .crlngn-hints .form-group > p.hint:not(.on):not(.shown),
   .crlngn-hints .form-group > p.notes:not(.on):not(.shown),
   .crlngn-hints .form-group > div.hint:not(.on):not(.shown),
   .crlngn-hints .form-group > div.notes:not(.on):not(.shown) {
-    display: none;
+    display: block !important;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translateY(calc(-100% - 0.25rem));
+    z-index: -1;
+    background: var(--color-secondary-b);
+    border: 1px solid var(--color-highlights-50);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 4px 12px var(--color-secondary-b);
+    max-width: 100%;
+    width: max-content;
+    min-width: 200px;
   }
 
   /* Style the injected hint icon span */
@@ -1509,22 +1525,9 @@ body.crlngn-ui {
   .crlngn-hints .form-group.show-hint > p.notes:not(.shown):not(.on),
   .crlngn-hints .form-group.show-hint > div.hint:not(.shown):not(.on),
   .crlngn-hints .form-group.show-hint > div.notes:not(.shown):not(.on) {
-    display: block !important;
     opacity: 1 !important;
-    transition: none !important;
-    position: absolute;
-    left: 0;
-    top: 0;
-    transform: translateY(calc(-100% - 1rem));
-    z-index: 100;
-    background: var(--color-secondary-b);
-    border: 1px solid var(--color-highlights-50);
-    border-radius: 6px;
-    padding: 0.75rem 1rem;
-    box-shadow: 0 4px 12px var(--color-secondary-b);
-    max-width: 100%;
-    width: max-content;
-    min-width: 200px;
+    pointer-events: all !important;
+    z-index: 100 !important;
     color: var(--color-text-primary);
   }
 
@@ -1533,7 +1536,7 @@ body.crlngn-ui {
   .crlngn-hints .form-group.show-hint.hint-below > p.notes:not(.shown):not(.on),
   .crlngn-hints .form-group.show-hint.hint-below > div.hint:not(.shown):not(.on),
   .crlngn-hints .form-group.show-hint.hint-below > div.notes:not(.shown):not(.on) {
-    top: 100%;
-    transform: translateY(0.5rem);
+    top: 100% !important;
+    transform: translateY(0.5rem) !important;
   }
 }

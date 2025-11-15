@@ -27,8 +27,8 @@
     }
 
     /* Scene nav width calculations - these depend on variables defined above */
-    --scene-nav-full-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--controls-width));
-    --scene-nav-partial-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--sidebar-width) - var(--controls-width));
+    --scene-nav-full-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--control-item-size));
+    --scene-nav-partial-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--sidebar-width) - var(--control-item-size));
     --scene-nav-curr-width: var(--scene-nav-full-width);
   }
 }
@@ -53,7 +53,7 @@
         content: '';
         display: block;
         position: fixed;
-        background: var(--control-bg-color);
+        background: var(--background);
         width: 100%;
         height: var(--top-nav-height, 0px);
         padding: 0 0 1px 0;
@@ -413,7 +413,7 @@
         position: absolute;
 
         &.ui-nav-left {
-          right: calc(var(--control-item-size) * 1);
+          right: calc(var(--control-item-size) * 2);
         }
 
         &:active,
@@ -434,10 +434,10 @@
 
       &.crlngn-tabs {
         #ui-left-column-2 button.crlngn-btn {
-          right: 0;
+          right: var(--control-item-size);
 
           &.ui-nav-left {
-            right: var(--control-item-size);
+            right: calc(var(--control-item-size) * 2);
           }
         }
       }

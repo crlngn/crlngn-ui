@@ -353,6 +353,12 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     ModuleSettings.handleThemeAndStyleFields();
     ModuleSettings.handleSheetFields();
 
+    // Apply hint tooltip handlers if the feature is enabled
+    const hoverableHints = SettingsUtil.get(SETTINGS.hoverableSettingsHints.tag);
+    if (hoverableHints) {
+      HintTooltipUtil.applyHintHandlers(this.element);
+    }
+
     // const controlSettings = SettingsUtil.get(SETTINGS.moduleSettingsMenu.tag);
     LogUtil.log("_onRender", [context, options]);
   }

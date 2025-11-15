@@ -147,7 +147,7 @@ export function getSettings() {
     },
     interfaceOptionsMenu: {
       isMenu: true,
-      showOnRoot: false, 
+      showOnRoot: false,
       tag: "v2-interface-options-menu",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.hint"),
@@ -178,6 +178,7 @@ export function getSettings() {
         "enablePlayerList",
 
         "collapseMacroBar",
+        "preventMacroBarReposition",
         "useFolderStyle",
         "controlsAutoHide",
         "hoverableSettingsHints"
@@ -209,9 +210,10 @@ export function getSettings() {
         enablePlayerList: true,
 
         collapseMacroBar: false,
+        preventMacroBarReposition: false,
         useFolderStyle: true,
         controlsAutoHide: false,
-        hoverableSettingsHints: true
+        hoverableSettingsHints: false
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -311,7 +313,8 @@ export function getSettings() {
         "chatBorderPosition",
         "openChatLogOnLoad",
         "closeSidebarWhenIdle",
-        "useHorizontalSidebarTabs"
+        "useHorizontalSidebarTabs",
+        "showChatNotificationsOnTop"
       ],
       default: {
         sideBarWidth: 300,
@@ -321,7 +324,8 @@ export function getSettings() {
         chatBorderPosition: "left",
         openChatLogOnLoad: false,
         closeSidebarWhenIdle: false,
-        useHorizontalSidebarTabs: false
+        useHorizontalSidebarTabs: false,
+        showChatNotificationsOnTop: false
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -897,7 +901,7 @@ export function getSettings() {
         { id: 'levels-3d-preview', enabled: true },
         { id: 'beneos-module', enabled: true },
         { id: 'combat-carousel', enabled: true },
-        { id: 'dice-tray', enabled: true },
+        { id: 'dice-calculator', enabled: true },
         { id: 'hurry-up', enabled: true },
         { id: 'crux', enabled: true },
         { id: 'fvtt-youtube-player', enabled: true },
@@ -913,7 +917,7 @@ export function getSettings() {
         "Breaktime": "breaktime",
         "Combat Carousel": "combat-carousel",
         "Crux": "crux",
-        "Dice Tray": "dice-tray",
+        "Dice Tray": "dice-calculator",
         "Hurry Up": "hurry-up",
         "Simple Timekeeping & Calendar": "simple-timekeeping",
         "Touch VTT": "touch-vtt",
@@ -1035,6 +1039,16 @@ export function getSettings() {
       tag: "v2-use-horizontal-sidebar-tabs",
       label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.useHorizontalSidebarTabs.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.useHorizontalSidebarTabs.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    showChatNotificationsOnTop: {
+      tag: "v2-show-chat-messages-on-top",
+      label: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.showChatNotificationsOnTop.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.chatMessagesMenu.fields.showChatNotificationsOnTop.hint"),
       propType: Boolean,
       default: false,
       scope: SETTING_SCOPE.client,
@@ -1293,10 +1307,21 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.hoverableSettingsHints.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.hoverableSettingsHints.hint"),
       propType: Boolean,
-      default: true,
+      default: false,
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: true
+    },
+
+    preventMacroBarReposition: {
+      tag: "v2-prevent-macro-bar-reposition",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.preventMacroBarReposition.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.preventMacroBarReposition.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
     },
 
     /* INTERFACE ELEMENTS ENABLE OPTIONS */

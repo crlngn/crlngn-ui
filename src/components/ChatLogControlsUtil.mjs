@@ -82,16 +82,24 @@ export class ChatLogControls {
     if (chatBoxHidden !== undefined) {
       LogUtil.log("Applying saved chat box state", [chatBoxHidden]);
       const chatBox = document.querySelector("#chat-notifications");
-      
+      const SETTINGS = getSettings();
+      const preventMacroBarReposition = game.settings.get(MODULE_ID, SETTINGS.preventMacroBarReposition.tag);
+
       if (chatBoxHidden) {
         toggleButton.classList.remove("fa-comment-slash");
         toggleButton.classList.add("fa-comment");
         chatBox.classList.add("input-hidden");
+        if(preventMacroBarReposition) {
+          document.body.classList.add("chat-input-hidden");
+        }
         GeneralUtil.addCSSVars("--chat-input-height", "0px");
       } else {
         toggleButton.classList.add("fa-comment-slash");
         toggleButton.classList.remove("fa-comment");
         chatBox.classList.remove("input-hidden");
+        if(preventMacroBarReposition) {
+          document.body.classList.remove("chat-input-hidden");
+        }
         GeneralUtil.addCSSVars("--chat-input-height", "100px");
       }
     }
@@ -100,22 +108,30 @@ export class ChatLogControls {
   static onToggleChatBox = (evt) => {
     const toggleButton = document.querySelector("#ui-right button[data-action=toggleChat]");
     const chatBox = document.querySelector("#chat-notifications");
+    const SETTINGS = getSettings();
+    const preventMacroBarReposition = game.settings.get(MODULE_ID, SETTINGS.preventMacroBarReposition.tag);
     let hidden = false;
 
     if(toggleButton.classList.contains("fa-comment-slash")){
       toggleButton.classList.remove("fa-comment-slash");
       toggleButton.classList.add("fa-comment");
       chatBox.classList.add("input-hidden");
+      if(preventMacroBarReposition) {
+        document.body.classList.add("chat-input-hidden");
+      }
       GeneralUtil.addCSSVars("--chat-input-height", "0px");
       hidden = true;
     }else{
       toggleButton.classList.add("fa-comment-slash");
       toggleButton.classList.remove("fa-comment");
       chatBox.classList.remove("input-hidden");
+      if(preventMacroBarReposition) {
+        document.body.classList.remove("chat-input-hidden");
+      }
       GeneralUtil.addCSSVars("--chat-input-height", "100px");
       hidden = false;
     }
-    
+
     // Save chat box state to user flag
     game.user.setFlag(MODULE_ID, "chatBoxHidden", hidden);
     LogUtil.log("Chat box state saved to flag", [hidden]);

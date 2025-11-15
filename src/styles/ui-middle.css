@@ -1,4 +1,13 @@
 body.crlngn-ui{
+
+
+  /* Force hotbar offset to 0 when chat input is hidden */
+  &.chat-input-hidden #hotbar,
+  &.chat-input-hidden #hotbar.md,
+  &.chat-input-hidden #hotbar.sm {
+    --offset: 0px !important;
+  }
+
   #interface {
 
     #ui-middle.crlngn-ui {
@@ -7,13 +16,15 @@ body.crlngn-ui{
 
     #hotbar.crlngn-macro{
       --hotbar-size: 60px;
+      --hotbar-curr-height: var(--hotbar-size);
       gap: 0;
       margin: 0;
       margin-bottom:0;
       position: relative;
 
       &.sm, &.md.offset {
-        height: calc(var(--hotbar-size)* 2);
+        --hotbar-curr-height: calc(var(--hotbar-size)* 2);
+        height: var(--hotbar-curr-height);
       }
 
       button { 
@@ -39,22 +50,13 @@ body.crlngn-ui{
 
       #hotbar-page{
         margin-bottom: 8px;
-      }
-
-      .hotbar-page-row:first-child{
-        .hotbar-controls {
-          border-top-left-radius: 4px;
-        }
-        .bar-controls .page-number.ui-control{
-          border-top-right-radius: 4px;
-        }
-      } 
-      .hotbar-page-row:last-child {
-        .hotbar-controls {
-          border-bottom-left-radius: 4px;
-        }
-        .bar-controls .page-number.ui-control{
-          border-bottom-right-radius: 4px;
+        bottom: var(--hotbar-curr-height, 60px);
+        overflow: auto;
+        /* deal with scrollbar */
+        -ms-overflow-style: none !important;  /* IE and Edge */
+        scrollbar-width: none !important;  /* Firefox */
+        &::-webkit-scrollbar {
+          display: none !important;
         }
       }
 
@@ -237,6 +239,40 @@ body.crlngn-ui{
       &:hover{
         text-shadow: 0 0 10px var(--color-dark-bg-50);
       }
+    }
+
+  }
+
+  &.chat-input-hidden #interface {
+
+    #hotbar.crlngn-macro.md.offset {
+      /*
+      height: var(--hotbar-size);
+      
+      margin-bottom: calc((var(--hotbar-size) * -1) + 10px);
+
+      &.collpased{
+        margin-bottom: 0;
+      }
+      */
+    }
+
+    #hotbar.crlngn-macro{
+      /*
+      #action-bar, &.md.offset #action-bar,
+      .hotbar-page-row, &.md.offset .hotbar-page-row {
+        width: calc((var(--hotbar-size) * 10) - 5px);
+        height: var(--hotbar-size);
+      }
+      */
+      
+      /*
+      #action-bar, &.md.offset #action-bar, &.sm #action-bar,
+      .hotbar-page-row, &.md.offset .hotbar-page-row, &.sm .hotbar-page-row {
+        width: calc((var(--hotbar-size) * 10) - 5px);
+        height: var(--hotbar-size);
+      }
+      */
     }
 
   }

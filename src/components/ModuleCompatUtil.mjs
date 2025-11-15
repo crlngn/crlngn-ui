@@ -29,7 +29,14 @@ export class ModuleCompatUtil {
       Hooks.on(HOOKS_CORE.UPDATE_USER, ModuleCompatUtil.checkTaskbarLock);
     }
     ModuleCompatUtil.checkTaskbarLock();
-    ModuleCompatUtil.addModuleClasses();
+
+    // Delay module class application to ensure all modules are fully loaded
+    // This addresses timing issues where game.modules.get() may return undefined
+    // for modules that haven't finished initializing yet
+    setTimeout(() => {
+      ModuleCompatUtil.addModuleClasses();
+    }, 100);
+
     const isMinimalUiOn = GeneralUtil.isModuleOn('minimal-ui');
     if(isMinimalUiOn){
       ui.notifications.warn(game.i18n.localize('CRLNGN_UI.ui.notifications.minimalUiNotSupported'),{ permanent: true });
@@ -96,13 +103,23 @@ export class ModuleCompatUtil {
         const cleanId = item.id.trim();
 
         // Check if module is actually installed and active
-        const isModuleActive = game.modules.get(cleanId)?.active;
+        const moduleData = game.modules.get(cleanId);
+        const isModuleActive = moduleData?.active;
+
+        LogUtil.log(`Checking module: ${cleanId}`, [
+          'enabled in settings:', item.enabled,
+          'moduleData:', moduleData,
+          'active:', isModuleActive
+        ]);
 
         if (isModuleActive) {
           document.querySelector('body').classList.add('crlngn-' + cleanId);
           LogUtil.log(`Added class for active module: crlngn-${cleanId}`);
         } else {
-          LogUtil.log(`Skipping class for inactive/missing module: ${cleanId}`);
+          LogUtil.log(`Skipping class for inactive/missing module: ${cleanId}`, [
+            'Module exists:', !!moduleData,
+            'Module active:', isModuleActive
+          ]);
         }
       }
     });

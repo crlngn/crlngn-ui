@@ -3,13 +3,19 @@
 ----------------- */
 body.crlngn-ui{
   --tools-visible-opacity: 1;
+  /* --cpr-ui-button-scale: var(--custom-ui-button-scale, 1); */
+  /* --cpr-ui-navigation-scale: var(--custom-ui-navigation-scale, 1); */
+  /* --custom-ui-button-scale: var(--cpr-ui-button-scale); */
+  /* --custom-ui-navigation-scale: var(--cpr-ui-navigation-scale); */
+
   #interface.crlngn-controls #ui-left {
-    /*--color-secondary-75: rgba(50, 50, 70, 0.75);*/
     --icon-font-size: var(--font-size-14);
     --crlngn-control-size: var(--control-item-size);
     --control-size: var(--crlngn-control-size) !important;
-    --custom-ui-button-scale: 1 !important;
-    --custom-ui-navigation-scale: 1 !important;
+    /* --cpr-ui-button-scale: var(--custom-ui-button-scale, 1); */
+    /* --cpr-ui-navigation-scale: var(--custom-ui-navigation-scale, 1); */
+    /* --custom-ui-button-scale: var(--cpr-ui-button-scale); */
+    /* --custom-ui-navigation-scale: var(--cpr-ui-navigation-scale); */
   }
   #ui-left{
     padding: 0;
@@ -29,14 +35,11 @@ body.crlngn-ui{
     &.crlngn-controls #ui-left{
       --crlngn-control-size: var(--control-item-size);
       --control-size: var(--crlngn-control-size) !important;
-      --custom-ui-button-scale: 1 !important;
-      --custom-ui-navigation-scale: 1 !important;
       padding: 0;
 
       #ui-left-column-1{
-        --custom-ui-button-scale: 1 !important;
-        --custom-ui-navigation-scale: 1 !important;
         --control-size: var(--crlngn-control-size) !important;
+        z-index: 10;
       }
 
       #scene-controls{

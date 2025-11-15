@@ -114,6 +114,10 @@
           "hoverableSettingsHints": {
             "label": "Hoverable Settings Hints",
             "hint": "This cleans up settings and application forms by adding question mark tooltips to show/hide hint text on hover. Affects default Foundry settings and module windows."
+          },
+          "preventMacroBarReposition": {
+            "label": "Prevent Macro Bar Reposition",
+            "hint": "When enabled, hiding the chat input box also prevents the macro hotbar from being repositioned when sidebar tab changes. Keeps the macro hotbar in its original position regardless of sidebar state."
           }
         },
         "reset": "Reset",
@@ -248,6 +252,10 @@
           "useHorizontalSidebarTabs": {
             "label": "Use Horizontal Sidebar Tabs",
             "hint": "When enabled, changes the sidebar tabs to horizontal orientation, at the top of the sidebar, instead of vertically on the side. (v12 style)"
+          },
+          "showChatNotificationsOnTop": {
+            "label": "Show Chat Notifications From the Top",
+            "hint": "When enabled, chat card notifications appear from the top of the chat input area instead of the bottom."
           }
         },
         "reset": "Reset",

@@ -13,6 +13,7 @@ export class SidebarTabs {
   static openChatLogOnLoad = false;
   static closeSidebarWhenIdle = false;
   static useHorizontalSidebarTabs = false;
+  static showChatNotificationsOnTop = false;
   static #idleTimeout = null;
   static #arrowUpdateTimeout = null;
 
@@ -72,6 +73,12 @@ export class SidebarTabs {
       SidebarTabs.debouncedUpdateArrows();
     }
 
+    // Reapply chat notifications on top if enabled
+    if(SidebarTabs.showChatNotificationsOnTop){
+      SidebarTabs.applyShowChatNotificationsOnTop(SidebarTabs.showChatNotificationsOnTop);
+    }
+  
+
     LogUtil.log("SidebarTabs onRender", [foundry.applications?.sidebar?.tabs]);
   }
 
@@ -116,7 +123,7 @@ export class SidebarTabs {
         if(ui.sidebar && !ui.sidebar.expanded){
           ui.sidebar.expand();
         }
-      }, 100);
+      }, 2000);
     }
 
     // Set up mouseout handler if closeSidebarWhenIdle is enabled
@@ -206,6 +213,19 @@ export class SidebarTabs {
     }
 
     LogUtil.log("applyHorizontalSidebarTabs", [SidebarTabs.useHorizontalSidebarTabs]);
+  }
+
+  static applyShowChatNotificationsOnTop = (enabled) => {
+    SidebarTabs.showChatNotificationsOnTop = enabled;
+    const chatNotifications = document.querySelector("#chat-notifications");
+
+    if(enabled){
+      chatNotifications?.classList.add("messages-on-top");
+    } else {
+      chatNotifications?.classList.remove("messages-on-top");
+    }
+
+    LogUtil.log("applyShowChatNotificationsOnTop", [SidebarTabs.showChatNotificationsOnTop]);
   }
 
   static debouncedUpdateArrows = () => {
