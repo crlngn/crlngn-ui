@@ -229,8 +229,6 @@ export class HintTooltipUtil {
       // Get reference to the icon for hover detection
       const iconSpan = label.querySelector('.crlngn-hint-icon');
 
-      LogUtil.log('Icon span found for hint', [!!iconSpan, label.textContent]);
-
       // Helper function to check if mouse is over icon span
       const isOverIcon = (e) => {
         if (!iconSpan) return false;
@@ -268,7 +266,6 @@ export class HintTooltipUtil {
         }
 
         const overIcon = isOverIcon(e);
-        LogUtil.log('Mousemove over label', [overIcon, !!iconSpan]);
 
         if (overIcon) {
           label.style.cursor = 'help';
