@@ -79,12 +79,26 @@ export class SettingsUtil {
       hint: game.i18n.localize("CRLNGN_UI.settings.hideInterface.hint"),
       editable: [
         {
-          key: "0",
-          modifiers: ["Control"]
+          key: "O",
+          modifiers: ["Alt"]
         }
       ],
       onDown: () => {  },
       onUp: () => { SettingsUtil.hideInterface() },
+      restricted: false, // Restrict this Keybinding to gamemaster only?
+    });
+
+    game.keybindings.register(MODULE_ID, "toggleSidebar", {
+      name: game.i18n.localize("CRLNGN_UI.settings.toggleSidebar.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.toggleSidebar.hint"),
+      editable: [
+        {
+          key: "R",
+          modifiers: ["Shift"]
+        }
+      ],
+      onDown: () => {  },
+      onUp: () => { SettingsUtil.toggleSidebar() },
       restricted: false, // Restrict this Keybinding to gamemaster only?
     });
 
@@ -484,7 +498,7 @@ export class SettingsUtil {
         // When GM enables enforcement, immediately save current settings
         if (value && game.user?.isGM) {
           SettingsUtil.saveDefaultSettings();
-          ui.notifications.info("Current settings saved as defaults for players");
+          ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsSavedAsDefaults'));
         }
         break;
       case SETTINGS.hideLoadingSceneName.tag:
@@ -1005,7 +1019,7 @@ export class SettingsUtil {
     ModuleCompatUtil.addModuleClasses();
   }
 
-  /** 
+  /**
    * Toggles visibility of the main UI interface
    * Affects all elements inside the #interface block, camera views, and taskbar
    */
@@ -1029,6 +1043,20 @@ export class SettingsUtil {
   }
 
   /**
+   * Toggles the sidebar expand/collapse state
+   */
+  static toggleSidebar = () => {
+    LogUtil.log('toggleSidebar', [ui.sidebar?.expanded]);
+    if(!ui.sidebar) return;
+
+    if(ui.sidebar.expanded){
+      ui.sidebar.collapse();
+    }else{
+      ui.sidebar.expand();
+    }
+  }
+
+  /**
    * Enforces GM settings to players when enabled
    * Called during module initialization for non-GM users
    */
@@ -1040,20 +1068,14 @@ export class SettingsUtil {
     const enforcementEnabled = SettingsUtil.get(SETTINGS.enforceGMSettings.tag);
 
     if (isForceClientSettingsActive && enforcementEnabled && game.user?.isGM) {
-      ui.notifications.warn(
-        game.i18n.localize('CRLNGN_UI.settings.enforceGMSettings.conflictWarning'),
+      ui.notifications.info(
+        game.i18n.localize('CRLNGN_UI.ui.notifications.enforceGMSettingsConflict'),
         { permanent: true }
       );
-      return;
     }
 
     // Only proceed if user is not GM and enforcement is enabled
     if (game.user?.isGM || !enforcementEnabled) {
-      return;
-    }
-
-    // Skip enforcement if Force Client Settings is active
-    if (isForceClientSettingsActive) {
       return;
     }
 

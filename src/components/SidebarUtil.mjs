@@ -68,16 +68,16 @@ export class SidebarTabs {
     SidebarTabs.handleHide(component, html, data);
     SidebarTabs.applyFolderStyles(SidebarTabs.folderStylesEnabled);
 
-    // Update horizontal tabs arrows after render
+    // Reapply horizontal tabs if enabled
     if(SidebarTabs.useHorizontalSidebarTabs){
-      SidebarTabs.debouncedUpdateArrows();
+      SidebarTabs.applyHorizontalSidebarTabs(SidebarTabs.useHorizontalSidebarTabs);
     }
 
     // Reapply chat notifications on top if enabled
     if(SidebarTabs.showChatNotificationsOnTop){
       SidebarTabs.applyShowChatNotificationsOnTop(SidebarTabs.showChatNotificationsOnTop);
     }
-  
+
 
     LogUtil.log("SidebarTabs onRender", [foundry.applications?.sidebar?.tabs]);
   }
@@ -254,11 +254,11 @@ export class SidebarTabs {
     const menuClientWidth = menu.clientWidth;
     const hasOverflow = menuScrollWidth > menuClientWidth;
 
-    LogUtil.log("updateHorizontalTabsArrows", {
+    LogUtil.log("updateHorizontalTabsArrows", [{
       scrollWidth: menuScrollWidth,
       clientWidth: menuClientWidth,
       hasOverflow
-    });
+    }]);
 
     if(hasOverflow){
       SidebarTabs.addHorizontalTabsArrows();

@@ -67,25 +67,27 @@ export class TopNavigation {
     }else{
       body.classList.remove("crlngn-scene-nav");
     }
-    
+
+    // add class to ui nav when sidebar changes state (needed for horizontal sidebar tabs)
+    Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, (sidebar) => {
+      LogUtil.log(HOOKS_CORE.COLLAPSE_SIDE_BAR, [sidebar]);
+      TopNavigation.checkSideBar(sidebar.expanded || false);
+      if(TopNavigation.sceneNavEnabled){
+        TopNavigation.placeNavButtons();
+      }
+    });
+
     if(TopNavigation.sceneNavEnabled){
       this.checkSceneNavCompat();
       this.preloadTemplates();
       SceneNavFolders.init();
-      
+
       Hooks.on(HOOKS_CORE.READY, () => {
         TopNavigation.handleSceneFadeOut();
         if(GeneralUtil.isModuleOn("forien-quest-log")){
           Hooks.on("questTrackerBoundaries", (boundaries) => boundaries.top = 42);
         }
       })
-
-      // add class to ui nav when sidebar changes state
-      Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, (sidebar) => { 
-        LogUtil.log(HOOKS_CORE.COLLAPSE_SIDE_BAR, [sidebar]);
-        TopNavigation.checkSideBar(sidebar.expanded || false);
-        TopNavigation.placeNavButtons();
-      }); 
 
       // re-add buttons when scene nav collapses or expands
       Hooks.on(HOOKS_CORE.COLLAPSE_SCENE_NAV, (nav, collapsed) => {
@@ -103,7 +105,7 @@ export class TopNavigation {
         }, 250);
       });
 
-      
+
       TopNavigation.placeNavButtons();
     }
 

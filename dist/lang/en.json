@@ -17,6 +17,8 @@
       "notifications": {
         "incompatibleVersion": "Carolingian UI requires Foundry v13.339 or higher. Please update Foundry or install version 1.x of Carolingian UI.",
         "settingsUpdated": "Settings updated",
+        "settingsSavedAsDefaults": "Current settings saved as defaults for players",
+        "enforceGMSettingsConflict": "Carolingian UI: 'Enforce GM Settings to Players' and Force Client Settings module are both enabled. This may cause confusing behavior. Please use one or the other for best results.",
         "minimalUiNotSupported": "Carolingian UI is not compatible with Minimal UI, and offers most of its features. Please disable that module to avoid performance issues.",
         "monksScenesNotSupported": "Carolingian UI's Scene Navigation and Monk's Scene Navigation are NOT compatible. Please either disable Monk's Scene Navigation or uncheck 'Custom Layout' for Scene Navigation in settings.",
         "ripperScenesCompat": "Carolingian UI now has Scene Folder Navigation and Scene Search, which cannot be used together with Compact Scene Navigation. Either disable the other module or disable 'Scene Folder Navigation' on Carolingian UI settings.",
@@ -76,6 +78,10 @@
       "hideInterface": {
         "label": "Toggle Hide/Show Interface",
         "hint": "Hides or shows the UI. This will affect all elements inside the `#interface` html block"
+      },
+      "toggleSidebar": {
+        "label": "Sidebar Expand/Collapse",
+        "hint": "Expands or collapses the right sidebar"
       },
       "sidebarTabs": {
         "ChatLog": "Chat Messages",
@@ -417,8 +423,7 @@
       },
       "enforceGMSettings": {
         "label": "Enforce GM Settings to Players",
-        "hint": "When enabled, all players will use the GM's UI settings when they connect. This ensures a consistent UI experience across all players.",
-        "conflictWarning": "Carolingian UI: 'Enforce GM Settings to Players' is disabled because Force Client Settings module is active. Please use one or the other, not both."
+        "hint": "When enabled, all players will use the GM's UI settings when they connect. This ensures a consistent UI experience across all players."
       },
       "defaultSettings": {
         "label": "Default GM Settings",
