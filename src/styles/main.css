@@ -504,7 +504,7 @@ body.crlngn-ui{
   &.theme-light{
     .standard-form.datalists .dropdown-options, .standard-form textarea  {
       background: var(--color-bg-button);
-      color: var(--color-dark-1);
+      color: var(--color-text-primary);
     }
   }
 
@@ -517,7 +517,7 @@ body.crlngn-ui{
   }
 
   #interface.theme-light {
-    color: var(--color-dark-1);
+    color: var(--color-text-primary);
   }
 }
 

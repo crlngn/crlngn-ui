@@ -193,6 +193,10 @@
       --dnd5e-tabs-bg: var(--color-warm-2);
       --color-alt-bg: rgba(21, 21, 21, 0.15);
       --control-active-bg-color: rgba(245, 245, 245, 0.75);
+
+      input {
+        --input-text-color: var(--color-text-primary);
+      }
       
       .dnd5e2:not(.theme-dark){
         --filigree-border-color: rgba(158, 138, 138, 0.5);
@@ -261,6 +265,10 @@
 
       /*pf2e*/
       --color-pf-alternate: rgba(82, 107, 120, 0.44);
+
+      input {
+        --input-text-color: var(--color-text-primary);
+      }
     }
 
     --color-light-1: #f7f4f8;

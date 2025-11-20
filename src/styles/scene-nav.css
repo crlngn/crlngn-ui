@@ -70,7 +70,7 @@
         position: fixed;
         top: 0;
         left: auto;
-        right: 0;
+        right: var(--control-item-size);
         transition: all 0.15s ease-out 0.15s;
         opacity: 1;
       }

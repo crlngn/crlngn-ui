@@ -43,7 +43,7 @@ export class SettingsUtil {
       // LogUtil.log("Registering... ", [entry], true); 
 
       if((setting.showOnRoot && setting.isMenu) || !setting.isMenu){
-        const settingObj = { 
+        const settingObj = {
           name: setting.label,
           hint: setting.hint,
           default: setting.default,
@@ -102,19 +102,18 @@ export class SettingsUtil {
       restricted: false, // Restrict this Keybinding to gamemaster only?
     });
 
-
     /**
      * Register all menus from getSettingMenus
      */
     const settingMenus = Object.entries(getSettingMenus());
-    
+
     // Register each menu
     for (const [menuKey, menuData] of settingMenus) {
       const menuObj = {
         name: menuData.tag,
-        label: menuData.label, 
+        label: menuData.label,
         hint: menuData.hint,
-        icon: menuData.icon, 
+        icon: menuData.icon,
         type: menuData.propType,
         restricted: menuData.restricted || false
       };
@@ -1057,22 +1056,48 @@ export class SettingsUtil {
   }
 
   /**
+   * Checks if any Carolingian UI settings are being forced by Force Client Settings module
+   * @returns {boolean} True if FCS is controlling any Carolingian UI settings
+   */
+  static hasForceClientSettingsConflict = () => {
+    const isActive = GeneralUtil.isModuleOn('force-client-settings');
+    LogUtil.log('FCS Check - Module active:', [isActive]);
+
+    if(!isActive) return false;
+
+    try {
+      // FCS stores settings as 'force-client-settings._moduleid.settingname'
+      // Check all registered settings for the pattern 'force-client-settings._crlngn-ui.'
+      const allSettings = game.settings.settings;
+      const crlngnKeys = [];
+
+      allSettings.forEach((setting, key) => {
+        // FCS uses underscore prefix: force-client-settings._crlngn-ui.xxx
+        if(key.startsWith('force-client-settings._crlngn-ui.') ||
+           key.startsWith(`force-client-settings._${MODULE_ID}.`)) {
+          crlngnKeys.push(key);
+        }
+      });
+
+      LogUtil.log('Found crlngn settings in FCS:', [crlngnKeys]);
+
+      const hasCrlngnSettings = crlngnKeys.length > 0;
+      LogUtil.log('Has Carolingian UI settings in FCS:', [hasCrlngnSettings, crlngnKeys.length + ' settings']);
+
+      return hasCrlngnSettings;
+    } catch(e) {
+      LogUtil.log('Error checking FCS conflict', [e]);
+      return false;
+    }
+  }
+
+  /**
    * Enforces GM settings to players when enabled
    * Called during module initialization for non-GM users
    */
   static enforceGMSettings() {
     const SETTINGS = getSettings();
-
-    // Check for Force Client Settings module and warn GM if both are enabled
-    const isForceClientSettingsActive = GeneralUtil.isModuleOn('force-client-settings');
     const enforcementEnabled = SettingsUtil.get(SETTINGS.enforceGMSettings.tag);
-
-    if (isForceClientSettingsActive && enforcementEnabled && game.user?.isGM) {
-      ui.notifications.info(
-        game.i18n.localize('CRLNGN_UI.ui.notifications.enforceGMSettingsConflict'),
-        { permanent: true }
-      );
-    }
 
     // Only proceed if user is not GM and enforcement is enabled
     if (game.user?.isGM || !enforcementEnabled) {

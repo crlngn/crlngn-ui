@@ -137,6 +137,12 @@ export class Main {
         ui.combat.popout?.close();
       }, 200)
 
+      // Check for Force Client Settings conflict and warn user
+      if (SettingsUtil.hasForceClientSettingsConflict()) {
+        ui.notifications.warn(
+          game.i18n.localize('CRLNGN_UI.ui.notifications.enforceGMSettingsConflict'));
+      }
+
     });
   }
 
