@@ -18,7 +18,7 @@
         "incompatibleVersion": "Carolingian UI requires Foundry v13.339 or higher. Please update Foundry or install version 1.x of Carolingian UI.",
         "settingsUpdated": "Settings updated",
         "settingsSavedAsDefaults": "Current settings saved as defaults for players",
-        "enforceGMSettingsConflict": "Carolingian UI: 'Enforce GM Settings to Players' and Force Client Settings module are both enabled. This may cause confusing behavior. Please use one or the other for best results.",
+        "enforceGMSettingsConflict": "Carolingian UI: 'Enforce GM Settings to Players' and Force Client Settings module are both enabled. Be warned that this may cause confusing behavior.",
         "minimalUiNotSupported": "Carolingian UI is not compatible with Minimal UI, and offers most of its features. Please disable that module to avoid performance issues.",
         "monksScenesNotSupported": "Carolingian UI's Scene Navigation and Monk's Scene Navigation are NOT compatible. Please either disable Monk's Scene Navigation or uncheck 'Custom Layout' for Scene Navigation in settings.",
         "ripperScenesCompat": "Carolingian UI now has Scene Folder Navigation and Scene Search, which cannot be used together with Compact Scene Navigation. Either disable the other module or disable 'Scene Folder Navigation' on Carolingian UI settings.",

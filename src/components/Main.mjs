@@ -138,9 +138,11 @@ export class Main {
       }, 200)
 
       // Check for Force Client Settings conflict and warn user
-      if (SettingsUtil.hasForceClientSettingsConflict()) {
+      const enforcementEnabled = SettingsUtil.get(SETTINGS.enforceGMSettings.tag);
+      if (SettingsUtil.hasForceClientSettingsConflict() && enforcementEnabled) {
         ui.notifications.warn(
-          game.i18n.localize('CRLNGN_UI.ui.notifications.enforceGMSettingsConflict'));
+          game.i18n.localize('CRLNGN_UI.ui.notifications.enforceGMSettingsConflict')
+        );
       }
 
     });

@@ -18,7 +18,7 @@
         "incompatibleVersion": "Carolingian UI richiede Foundry v13.339 o superiore. Si prega di aggiornare Foundry o installare la versione 1.x di Carolingian UI.",
         "settingsUpdated": "Impostazioni aggiornate",
         "settingsSavedAsDefaults": "Impostazioni correnti salvate come predefinite per i giocatori",
-        "enforceGMSettingsConflict": "Carolingian UI: 'Imponi Impostazioni GM ai Giocatori' e il modulo Force Client Settings sono entrambi attivi. Questo potrebbe causare comportamenti confusi. Si prega di utilizzare uno o l'altro per i migliori risultati.",
+        "enforceGMSettingsConflict": "Carolingian UI: 'Imponi Impostazioni GM ai Giocatori' e il modulo Force Client Settings sono entrambi attivi. Questo potrebbe causare comportamenti confusi.",
         "minimalUiNotSupported": "Carolingian UI non è compatibile con Minimal UI, e offre la maggior parte delle sue funzionalità. Disattiva Minimal UI per evitare problemi di performance.",
         "monksScenesNotSupported": "La navigazione orizzontale di Carolingian UI non è compatibile con la navigazione delle scene di Monk. Disattiva la navigazione delle scene di Monk o disattiva 'Layout personalizzato' per la navigazione delle scene nelle impostazioni di Carolingian UI.",
         "ripperScenesCompat": "Carolingian UI ora ha la Navigazione Cartelle Scena e Ricerca Scena, che non possono essere utilizzate insieme alla Compact Scene Navigation. Disabilita l'altro modulo o disabilita 'Navigazione Cartelle Scena' nelle impostazioni di Carolingian UI.",
