@@ -49,6 +49,7 @@ export class TopNavigation {
   static useSceneBackButton;
   static useSceneLookup;
   static sceneClickToView;
+  static sceneItemWidth;
   static isCollapsed;
   static navPos;
 
@@ -650,8 +651,18 @@ export class TopNavigation {
     // existingButtons.forEach(b => b.remove());
 
     const btnWidth = (TopNavigation.#navToggle?.offsetWidth * 2) || 0;
-    const isNavOverflowing = (sceneNav.offsetWidth - btnWidth) < sceneNav.scrollWidth;
-    LogUtil.log("placeNavButtons *", [TopNavigation.isCollapsed, isNavOverflowing, existingButtons]);
+    // Check if the scene navigation content is actually scrollable
+    // We need to account for the button width when checking if content overflows
+    const navClientWidth = sceneNav.clientWidth;
+    const navScrollWidth = sceneNav.scrollWidth;
+    const isNavOverflowing = navScrollWidth > navClientWidth;
+
+    LogUtil.log("placeNavButtons *", [
+      TopNavigation.isCollapsed,
+      isNavOverflowing,
+      existingButtons,
+      {navClientWidth, navScrollWidth, btnWidth}
+    ]);
 
     if(!isNavOverflowing
       || TopNavigation.isCollapsed
@@ -1262,7 +1273,11 @@ export class TopNavigation {
     TopNavigation.useSceneBackButton = SettingsUtil.get(SETTINGS.useSceneBackButton.tag);
     TopNavigation.useSceneLookup = SettingsUtil.get(SETTINGS.useSceneLookup.tag);
     TopNavigation.sceneClickToView = SettingsUtil.get(SETTINGS.sceneClickToView.tag);
+    TopNavigation.sceneItemWidth = SettingsUtil.get(SETTINGS.sceneItemWidth.tag);
     TopNavigation.isCollapsed = TopNavigation.navStartCollapsed;
+
+    // Apply scene item width CSS variable
+    TopNavigation.applySceneItemWidth();
   }
 
   /**

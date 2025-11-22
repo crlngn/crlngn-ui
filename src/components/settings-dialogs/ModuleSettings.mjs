@@ -67,6 +67,11 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       template: "modules/crlngn-ui/templates/theme-and-styles-settings.hbs",
       isGMOnly: false
     },
+    system: {
+      menuKey: "systemsMenu",
+      template: "modules/crlngn-ui/templates/systems-modules-settings.hbs",
+      isGMOnly: false
+    },
     fonts: {
       menuKey: "customFontsMenu",
       template: "modules/crlngn-ui/templates/custom-fonts-settings.hbs",
@@ -92,11 +97,6 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       template: "modules/crlngn-ui/templates/camera-dock-settings.hbs",
       isGMOnly: false
     },
-    // sistems: {
-    //   menuKey: "sistemsMenu",
-    //   template: "modules/crlngn-ui/templates/sistems-modules-settings.hbs",
-    //   isGMOnly: false
-    // },
     footer: {
       template: "templates/generic/form-footer.hbs",
       isGMOnly: false
@@ -179,16 +179,26 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
           const menuContext = ModuleSettings.getMenuContext(partKey);
           
           if (menuContext.fields) {
-            partContext.fields = {
-              ...partContext.fields,
-              ...menuContext.fields
+            // For systemsMenu, only use filtered fields (don't merge with existing)
+            if (partKey === "systemsMenu") {
+              partContext.fields = menuContext.fields;
+            } else {
+              partContext.fields = {
+                ...partContext.fields,
+                ...menuContext.fields
+              }
             }
           }
 
           if (menuContext.fieldDefaults) {
-            partContext.fieldDefaults = {
-              ...partContext.fieldDefaults,
-              ...menuContext.fieldDefaults
+            // For systemsMenu, only use filtered fieldDefaults (don't merge with existing)
+            if (partKey === "systemsMenu") {
+              partContext.fieldDefaults = menuContext.fieldDefaults;
+            } else {
+              partContext.fieldDefaults = {
+                ...partContext.fieldDefaults,
+                ...menuContext.fieldDefaults
+              }
             }
           }
 
@@ -205,8 +215,40 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
               menuContext.fieldValues.playerColorTheme = selectedPlayerTheme?.label || "";
             }
             Object.assign(partContext, menuContext.fieldValues);
+            // Also set fieldValues as an object for template access
+            if (partKey === "systemsMenu") {
+              partContext.fieldValues = menuContext.fieldValues;
+            }
           }
-          
+
+          // Add current system info for system-specific settings
+          if (partId === 'system') {
+            partContext.currentSystem = menuContext.currentSystem;
+
+            // Convert otherModulesList array to JSON for hidden input (if it exists in context)
+            if (partContext.otherModulesList && Array.isArray(partContext.otherModulesList)) {
+              partContext.otherModulesListJson = JSON.stringify(partContext.otherModulesList);
+              // Check if any modules are enabled for master toggle
+              partContext.adjustOtherModules = partContext.otherModulesList.some(m => m.enabled);
+            }
+
+            // Set modulesField reference for template
+            if (partContext.fields?.otherModulesList) {
+              partContext.modulesField = partContext.fields.otherModulesList;
+            }
+
+            // Determine if we should show "no settings" message
+            // For players, only check client settings. For GMs, check both world and client settings
+            const hasWorldSettings = game.user.isGM && Object.values(partContext.fields || {}).some(field => {
+              // Exclude modules-related fields
+              return field?.scope === SETTING_SCOPE.world &&
+                     !['otherModulesList', 'adjustOtherModules'].includes(Object.keys(partContext.fields || {}).find(key => partContext.fields[key] === field));
+            });
+            const hasClientSettings = Object.values(partContext.fields || {}).some(field => field?.scope === SETTING_SCOPE.client);
+
+            partContext.showNoSettings = !hasWorldSettings && !hasClientSettings;
+          }
+
           // Add custom theme colors for display
           if (partId === 'themes') {
             const worldCustomColors = SettingsUtil.get('v2-custom-theme-colors');
@@ -241,16 +283,6 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
               secondary: THEMES[0].colorPreview[0]
             };
             partContext.playerCustomColors = createColorVariants(basePlayerColors);
-
-            // Convert otherModulesList array to JSON for hidden input
-            if (partContext.otherModulesList && Array.isArray(partContext.otherModulesList)) {
-              partContext.otherModulesListJson = JSON.stringify(partContext.otherModulesList);
-              // Check if any modules are enabled for master toggle
-              partContext.adjustOtherModules = partContext.otherModulesList.some(m => m.enabled);
-              LogUtil.log('Form preparation - otherModulesList', [partContext.otherModulesList, 'anyEnabled:', partContext.adjustOtherModules]);
-            } else {
-              LogUtil.log('Form preparation - otherModulesList is empty or not an array', [partContext.otherModulesList]);
-            }
           }
 
           partContext.sidebarTabs = Object.values(foundry.applications?.sidebar?.tabs || {}).map(tab => ({
@@ -277,14 +309,31 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const SETTINGS = getSettings();
     const fieldNames = SETTINGS[menuKey]?.fields || [];
     const playerFieldNames = SETTINGS["player_"+menuKey]?.fields || [];
+    const currentSystem = game.system?.id;
 
     if(!fieldNames || fieldNames.length===0) return {};
     const fields = {};
     const fieldValues = {};
     const fieldDefaults = {};
 
+    // Helper function to check if a setting should be included based on system
+    const shouldIncludeSetting = (setting, fieldName) => {
+      // If this is the systems menu
+      if (menuKey === "systemsMenu") {
+        // Always include modules-related settings (they're universal)
+        if (fieldName === "otherModulesList" || fieldName === "adjustOtherModules") return true;
+        if (!setting.system) return false;
+        if (Array.isArray(setting.system)) {
+          return setting.system.includes(currentSystem);
+        }
+        return setting.system === currentSystem;
+      }
+      // For other menus, include all settings
+      return true;
+    };
+
     fieldNames?.forEach((fieldName) => {
-      if(SETTINGS[fieldName]) {
+      if(SETTINGS[fieldName] && shouldIncludeSetting(SETTINGS[fieldName], fieldName)) {
         const value = SettingsUtil.get(SETTINGS[fieldName].tag);
         fields[fieldName] = SETTINGS[fieldName];
         fieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;
@@ -293,15 +342,14 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     });
 
     playerFieldNames?.forEach((fieldName) => {
-      if(SETTINGS[fieldName]) {
+      if(SETTINGS[fieldName] && shouldIncludeSetting(SETTINGS[fieldName], fieldName)) {
         const value = SettingsUtil.get(SETTINGS[fieldName].tag);
         fields[fieldName] = SETTINGS[fieldName];
         fieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;
         fieldDefaults[fieldName] = SETTINGS[fieldName].default;
       }
     });
-
-    return {fields: fields, fieldValues: fieldValues, fieldDefaults: fieldDefaults};
+    return {fields: fields, fieldValues: fieldValues, fieldDefaults: fieldDefaults, currentSystem: currentSystem};
   }
 
   /**
@@ -543,9 +591,6 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   static #getTabs() {
     const tabList = [];
     const relevantTabs = ModuleSettings.PARTS;
-    if(game.system?.id !== 'dnd5e'){
-      delete relevantTabs.sheets5e;
-    }
     LogUtil.log("#getTabs", [relevantTabs, ModuleSettings.PARTS]);
     Object.entries(relevantTabs).forEach(([key, value]) => {
       
@@ -807,14 +852,16 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const sheetsContent = ModuleSettings.#element.querySelector(`.form-content:has(input[name="applyThemeToSheets"])`);
     if(!sheetsContent){ return; }
 
-    // Handle applyThemeToSheets checkbox to show/hide useHorizontalSheetTabs
+    // Handle applyThemeToSheets checkbox to enable/disable useHorizontalSheetTabs
     const applyThemeCheckbox = sheetsContent.querySelector('input[name="applyThemeToSheets"]');
     const horizontalTabsField = sheetsContent.querySelector('.form-group:has(input[name="useHorizontalSheetTabs"])');
+    const horizontalTabsCheckbox = horizontalTabsField?.querySelector('input[name="useHorizontalSheetTabs"]');
 
-    if (applyThemeCheckbox && horizontalTabsField) {
+    if (applyThemeCheckbox && horizontalTabsField && horizontalTabsCheckbox) {
       const toggleHorizontalTabsField = () => {
         const isChecked = applyThemeCheckbox.checked;
-        horizontalTabsField.style.display = isChecked ? 'flex' : 'none';
+        horizontalTabsCheckbox.disabled = !isChecked;
+        horizontalTabsField.style.opacity = isChecked ? '1' : '0.5';
       };
 
       // Set initial state

@@ -70,7 +70,8 @@
           "controls": "Left Controls",
           "scenes": "Scene Navigation",
           "players": "Players List",
-          "camera": "Camera Dock"
+          "camera": "Camera Dock",
+          "system": "System & Modules"
         },
         "reset": "Reset",
         "save": "Save"
@@ -404,17 +405,19 @@
         "reset": "Reset",
         "save": "Save"
       },
-      "sheets5eMenu": {
-        "label": "DnD5e Sheets",
-        "title": "Configure styling options for DnD5e Sheets",
-        "hint": "Change options for the 5e sheets",
+      "systemsMenu": {
+        "label": "System",
+        "title": "Configure options for specific systems",
+        "hint": "",
+        "noSettingsForSystem": "No specific settings for the current system",
+        "modulesLabel": "Other Modules",
         "fields": {
           "applyThemeToSheets": {
-            "label": "Apply theme to actor sheets (DnD5e, Daggerheart)",
-            "hint": "Enable to apply global color theme and styles to actor sheets (PC and NPC). This currently works for DnD5e and Foundryborne Daggerheart"
+            "label": "Apply theme to actor sheets",
+            "hint": "Enable to apply global color theme and styles to actor sheets (PC and NPC)"
           },
           "useHorizontalSheetTabs": {
-            "label": "Use horizontal tabs with labels on 5e sheets",
+            "label": "Use horizontal tabs with labels on sheets",
             "hint": "Only works when custom styles for sheets are enabled. This applies horizontal tabs with labels on 5e actor sheets instead of the lateral icon tabs"
           }
         },
@@ -470,8 +473,12 @@
         "label": "Disable UI in this client",
         "hint": "If a player doesn't want to use Carolingian UI, they may disable it. No other feature of the module will work except for dark style in chat cards - which can be separately disabled."
       },
+      "dockDHResources":{
+        "label": "Dock Daggerheart Resource Tracker",
+        "hint": "Enable docking functionality for the Daggerheart (fear) tracker. Drag the window near the macro hotbar to dock it at the bottom of the screen."
+      },
       "colorPicker": {
-        "hint": "With great colors comes great responsibility. Remember to care for your retinas: for the accent color, use colors with at least a 'medium' contrast rating for better readability.",
+        "hint": "Remember to care for your retinas: for the accent color, use colors with at least a 'medium' contrast rating for better readability.",
         "title": "Custom Theme Colors",
         "presets": "Preset Themes",
         "accentColor": "Accent Color",

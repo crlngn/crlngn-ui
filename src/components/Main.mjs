@@ -19,6 +19,7 @@ import { ChatLogControls } from "./ChatLogControlsUtil.mjs";
 import { TokenWheel } from "./TokenWheelUtil.mjs";
 import { SheetsUtil } from "./SheetsUtil.mjs";
 import { HintTooltipUtil } from "./HintTooltipUtil.mjs";
+import { BottomDockUtil } from "./BottomDockUtil.mjs";
 
 /**
  * Main class handling core module initialization and setup
@@ -65,6 +66,7 @@ export class Main {
       ChatUtil.init();
       LogUtil.init?.();
       CameraDockUtil.init();
+      BottomDockUtil.init();
 
       // Only initialize UI components if not in stream mode
       if(isStreamMode){
@@ -130,6 +132,8 @@ export class Main {
       UpdateNewsUtil.init();
       SheetsUtil.init();
       HintTooltipUtil.init();
+      BottomDockUtil.setup();
+      SidebarTabs.onReady();
 
       SettingsUtil.resetFoundryThemeSettings();
 

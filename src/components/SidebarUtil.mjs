@@ -19,7 +19,6 @@ export class SidebarTabs {
 
   static init(){
     Hooks.on(HOOKS_CORE.RENDER_SIDE_BAR, SidebarTabs.onRender);
-    Hooks.once(HOOKS_CORE.READY, SidebarTabs.onReady);
   }
 
   static applyFadeOut(useFadeOut){

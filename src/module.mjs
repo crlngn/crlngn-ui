@@ -9,6 +9,10 @@ import "./styles/camera.css";
 import "./styles/sheets.css";
 import "./styles/players-list.css";
 import "./styles/other-modules.css";
+import "./styles/systems/daggerheart.css";
+import "./styles/systems/daggerheart-fonts.css";
+import "./styles/systems/daggerheart-colors.css";
+import "./styles/systems/daggerheart-tracker.css";
 
 import { Main } from "./components/Main.mjs";
 

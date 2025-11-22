@@ -70,7 +70,8 @@
           "controls": "场景控制",
           "scenes": "场景",
           "players": "玩家列表",
-          "camera": "摄像机停靠栏"
+          "camera": "摄像机停靠栏",
+          "system": "系统和模块"
         },
         "reset": "重置",
         "save": "保存"
@@ -186,10 +187,14 @@
             "hint": "在玩家客户端上将Foundry UI主题设置为暗色。如果你使用任何模块如'强制客户端设置'，你可能需要关闭此选项。"
           }
         },
+        "dockDHResources": {
+          "label": "停靠Daggerheart资源追踪器",
+          "hint": "启用Daggerheart（恐惧）追踪器的停靠功能。将窗口拖到宏热栏附近即可将其停靠在屏幕底部。"
+        },
         "reset": "重置",
         "save": "保存",
         "colorPicker": {
-          "hint": "颜色选择需谨慎使用。请记住保护您的视网膜：对于强调色，请使用至少'中等'对比度等级的颜色以获得更好的可读性。",
+          "hint": "请记住保护您的视网膜：对于强调色，请使用至少'中等'对比度等级的颜色以获得更好的可读性。",
           "title": "自定义主题颜色",
           "presets": "预设主题",
           "accentColor": "强调色",
@@ -403,10 +408,12 @@
         "reset": "重置",
         "save": "保存"
       },
-      "sheets5eMenu": {
-        "label": "DnD5e 角色表",
-        "title": "配置DnD5e 角色表",
-        "hint": "更改DnD5e 角色表的选项",
+      "systemsMenu": {
+        "label": "系统",
+        "title": "配置特定系统选项",
+        "hint": "",
+        "noSettingsForSystem": "当前系统没有特定设置",
+        "modulesLabel": "其他模块",
         "fields": {
           "applyThemeToSheets": {
             "label": "将颜色和样式应用于DnD5e/Daggerheart角色表",

@@ -41,6 +41,35 @@ export class CustomHandlebarsHelpers {
         return false;
       }
     });
+
+    // Helper to check if a setting is boolean type
+    Handlebars.registerHelper('isBoolean', function(field) {
+      return field?.propType === Boolean;
+    });
+
+    // Helper to check if a setting is client scope
+    Handlebars.registerHelper('isClientScope', function(field) {
+      return field?.scope === 'client';
+    });
+
+    // Helper to check if a setting is world scope
+    Handlebars.registerHelper('isWorldScope', function(field) {
+      return field?.scope === 'world';
+    });
+
+    // Helper to check if there are any client settings
+    Handlebars.registerHelper('hasClientSettings', function(fields) {
+      return Object.values(fields || {}).some(field => field?.scope === 'client');
+    });
+
+    // Helper to check if there are any world settings (excluding modules-related fields)
+    Handlebars.registerHelper('hasWorldSettings', function(fields) {
+      return Object.entries(fields || {}).some(([key, field]) => {
+        // Exclude modules-related fields since they have their own section
+        if (key === 'otherModulesList' || key === 'adjustOtherModules') return false;
+        return field?.scope === 'world';
+      });
+    });
   }
 
 }

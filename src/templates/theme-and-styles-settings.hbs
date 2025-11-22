@@ -20,11 +20,11 @@
     </div>
     <p class="hint">{{localize "CRLNGN_UI.settings.themeAndStylesMenu.fields.customizeHint"}}</p>
   </div>
-  <div class="form-group">
+  {{!-- <div class="form-group">
       <label for="useHorizontalSheetTabs">{{fields.useHorizontalSheetTabs.label}}</label>
       <input type="checkbox" name="useHorizontalSheetTabs" {{#if useHorizontalSheetTabs}}checked{{/if}} />
       <p class="hint">{{fields.useHorizontalSheetTabs.hint}}</p>
-  </div>
+  </div> --}}
 
   <div class="form-group">
       <label for="useGlassEffect">{{fields.useGlassEffect.label}}</label>
@@ -55,26 +55,6 @@
       </button>
     </div>
     <p class="hint">{{localize "CRLNGN_UI.settings.themeAndStylesMenu.fields.customizeHint"}}</p>
-  </div>
-
-  <div class="form-group">
-    <label for="applyThemeToSheets">{{fields.applyThemeToSheets.label}}</label>
-    <input type="checkbox" name="applyThemeToSheets" {{#if applyThemeToSheets}}checked{{/if}} />
-    <p class="hint">{{fields.applyThemeToSheets.hint}}</p> 
-  </div>
-  
-  <div class="form-group">
-    <label for="otherModulesList">{{fields.otherModulesList.label}}</label>
-    <input type="checkbox" class="adjustOtherModules" name="adjustOtherModules" {{#if adjustOtherModules}}checked{{/if}} />
-    <input type="hidden" class="otherModulesList" name="otherModulesList" value="{{{otherModulesListJson}}}" />
-    <p class="hint">{{{fields.otherModulesList.hint}}}</p>
-    <ul class="multiple-select other-modules">
-      {{#each fields.otherModulesList.options}}
-      <li>
-        <label><input type="checkbox" value="{{this}}" {{#if (moduleEnabled ../otherModulesList this)}}checked{{/if}} />{{@key}}</label>
-      </li>
-      {{/each}}
-    </ul>
   </div>
 
   <div class="form-group">

@@ -1,0 +1,193 @@
+/* ========================================================================
+   DAGGERHEART SYSTEM - FONT OVERRIDES
+   
+   Replaces Daggerheart system fonts with crlngn-ui font variables:
+   - 'Cinzel', sans-serif → var(--crlngn-font-titles)
+   - 'Montserrat', sans-serif → var(--crlngn-font-family)
+   
+   Selectors are prefixed based on context:
+   - Chat messages: body.crlngn-ui.crlngn-chat.system-daggerheart
+   - Sheets: body.crlngn-ui.crlngn-sheets.system-daggerheart
+   - General UI: body.crlngn-ui.system-daggerheart
+   ======================================================================== */
+
+/* ========================================
+   CHAT MESSAGES
+   ======================================== */
+
+body.crlngn-ui.crlngn-chat.system-daggerheart #chat-message {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.crlngn-chat.system-daggerheart #chat-notifications .chat-log .chat-message .message-header .message-header-metadata .message-metadata {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.crlngn-chat.system-daggerheart #chat-notifications .chat-log .chat-message .message-header .message-header-main .message-sub-header-container h4 {
+  font-family: var(--crlngn-font-titles);
+}
+
+body.crlngn-ui.crlngn-chat.system-daggerheart #chat-notifications .chat-message .chat-roll .roll-part-content .roll-result-container {
+  font-family: var(--crlngn-font-titles);
+}
+
+body.crlngn-ui.crlngn-chat.system-daggerheart #chat-notifications .chat-message .roll-dice {
+  font-family: var(--crlngn-font-titles);
+}
+
+body.crlngn-ui.crlngn-chat.system-daggerheart #interface.theme-light .chat-message:not(.duality) .message-content .roll-buttons button {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.crlngn-chat.system-daggerheart .chat-message .message-content {
+  font-family: var(--crlngn-font-family);
+}
+
+/* ========================================
+   SHEETS & DIALOGS
+   ======================================== */
+
+body.crlngn-ui.crlngn-sheets.system-daggerheart .application.sheet.daggerheart.actor.dh-style .attribution-header-label {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.crlngn-sheets.system-daggerheart .application.sheet.daggerheart.actor.dh-style.character .character-header-sheet .name-row .level-div .level-button {
+  font-family: var(--crlngn-font-titles);
+}
+
+body.crlngn-ui.crlngn-sheets.system-daggerheart .application.sheet.daggerheart.actor.dh-style.companion .companion-header-sheet .status-section .level-div .level-button {
+  font-family: var(--crlngn-font-titles);
+}
+
+body.crlngn-ui.crlngn-sheets.system-daggerheart .application.sheet.daggerheart.dh-style.item .attribution-header-label {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.crlngn-sheets.system-daggerheart .application.sheet.dh-style .window-header h1 {
+  font-family: var(--crlngn-font-family);
+}
+
+/* ========================================
+   GENERAL UI
+   ======================================== */
+
+body.crlngn-ui.system-daggerheart .application.daggerheart.dh-style.dialog .window-content .dialog-header h1 {
+  font-family: var(--crlngn-font-titles);
+}
+
+body.crlngn-ui.system-daggerheart .application.daggerheart.dialog.dh-style.views.roll-selection .roll-dialog-container .dices-section .dice-option .dice-select .label {
+  font-family: var(--crlngn-font-titles);
+}
+
+body.crlngn-ui.system-daggerheart .dh-style h1 {
+  font-family: var(--crlngn-font-titles);
+}
+
+body.crlngn-ui.system-daggerheart .dh-style h1 input[type='text'] {
+  font-family: var(--crlngn-font-titles);
+}
+
+body.crlngn-ui.system-daggerheart .dh-style h3 {
+  font-family: var(--crlngn-font-titles);
+}
+
+body.crlngn-ui.system-daggerheart .dh-style h4 {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.system-daggerheart .dh-style h5 {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.system-daggerheart .dh-style li {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.system-daggerheart .dh-style small {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.system-daggerheart .dh-style nav a {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.system-daggerheart .dh-style fieldset h1 {
+  font-family: var(--crlngn-font-titles);
+}
+
+body.crlngn-ui.system-daggerheart .dh-style fieldset h1 input[type='text'] {
+  font-family: var(--crlngn-font-titles);
+}
+
+body.crlngn-ui.system-daggerheart .dh-style fieldset h3 {
+  font-family: var(--crlngn-font-titles);
+}
+
+body.crlngn-ui.system-daggerheart .dh-style fieldset h4 {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.system-daggerheart .dh-style fieldset h5 {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.system-daggerheart .dh-style fieldset li {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.system-daggerheart .dh-style fieldset small {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.system-daggerheart .dh-style fieldset nav a {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.system-daggerheart .application.dialog.dh-style .window-header h1 {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.system-daggerheart .application.dialog.dh-style .standard-form {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.system-daggerheart .dh-style .artist-attribution {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.system-daggerheart .drag-area {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.system-daggerheart .application.daggerheart.dh-style.compendium-browser .window-content .compendium-sidebar .compendium-container summary {
+  font-family: var(--crlngn-font-titles);
+}
+
+body.crlngn-ui.system-daggerheart .daggerheart.dh-style.countdowns .window-title {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.system-daggerheart .autocomplete {
+  font-family: var(--crlngn-font-family);
+}
+
+/* ========================================
+   COMPREHENSIVE ELEMENT OVERRIDES
+   Catch-all rules to replace Montserrat
+   ======================================== */
+
+body.crlngn-ui.system-daggerheart .dh-style span,
+body.crlngn-ui.system-daggerheart .dh-style textarea,
+body.crlngn-ui.system-daggerheart .dh-style label,
+body.crlngn-ui.system-daggerheart .dh-style select,
+body.crlngn-ui.system-daggerheart .dh-style multi-select .tags .tag,
+body.crlngn-ui.system-daggerheart .dh-style table,
+body.crlngn-ui.system-daggerheart .dh-style fieldset legend,
+body.crlngn-ui.system-daggerheart .dh-style input[type='text'],
+body.crlngn-ui.system-daggerheart .dh-style input[type='number'],
+body.crlngn-ui.system-daggerheart .dh-style input[type='search'],
+body.crlngn-ui.system-daggerheart .dh-style .tagify__dropdown,
+body.crlngn-ui.system-daggerheart .dh-style li {
+  font-family: var(--crlngn-font-family), sans-serif;
+}
+

@@ -210,7 +210,7 @@ export function getSettings() {
         enablePlayerList: true,
 
         collapseMacroBar: false,
-        preventMacroBarReposition: false,
+        preventMacroBarReposition: true,
         useFolderStyle: true,
         controlsAutoHide: false,
         hoverableSettingsHints: false
@@ -246,33 +246,27 @@ export function getSettings() {
 
     themeAndStylesMenu: {
       isMenu: true,
-      showOnRoot: false, 
-      tag: "v2-theme-styles-menu", 
+      showOnRoot: false,
+      tag: "v2-theme-styles-menu",
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.label"),
       title: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.title"),
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.hint"),
       propType: String,
       fields: [
-        "colorTheme", 
+        "colorTheme",
         "applyDarkThemeToModules",
-        "adjustOtherModules", 
-        "otherModulesList",
         "forcedDarkTheme",
-        "customStyles",
-        "applyThemeToSheets"
+        "customStyles"
       ],
       default: {
         colorTheme: "crlngn-theme",
         applyDarkThemeToModules: false,
-        adjustOtherModules: true,
-        otherModulesList: "'combat-carousel','dice-tray','hurry-up','crux','fvtt-youtube-player','bg3-inspired-hotbar','touch-vtt','breaktime','simple-timekeeping'",
         forcedDarkTheme: "",
-        customStyles: "",
-        applyThemeToSheets: true
+        customStyles: ""
       },
       scope: SETTING_SCOPE.world,
-      config: false, 
-      requiresReload: false 
+      config: false,
+      requiresReload: false
     },
     player_themeAndStylesMenu: {
       isMenu: true,
@@ -284,13 +278,11 @@ export function getSettings() {
       propType: String,
       fields: [
         "playerColorTheme",
-        "useHorizontalSheetTabs",
         "useGlassEffect",
         "glassTranslucence"
       ],
       default: {
         playerColorTheme: "",
-        useHorizontalSheetTabs: true,
         useGlassEffect: false,
         glassTranslucence: 0.7
       },
@@ -364,26 +356,6 @@ export function getSettings() {
       default: {
         autoHidePlayerList: false,
         playerListAvatars: true
-      },
-      scope: SETTING_SCOPE.client,
-      config: false,
-      requiresReload: false
-    },
-
-    sheets5eMenu: {
-      isMenu: true,
-      showOnRoot: false, 
-      tag: "v2-sheets-5e-menu", 
-      label: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.label"),
-      hint: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.hint"),
-      propType: Object,
-      fields: [
-        "applyThemeToSheets",
-        "useHorizontalSheetTabs"
-      ],
-      default: {
-        applyThemeToSheets: true,
-        useHorizontalSheetTabs: true
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -472,6 +444,61 @@ export function getSettings() {
       requiresReload: false 
     },
 
+    /* SYSTEM-SPECIFIC MENUS */
+    systemsMenu: {
+      isMenu: true,
+      showOnRoot: false,
+      tag: "v2-systems-menu",
+      label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.hint"),
+      propType: Object,
+      fields: [
+        "applyThemeToSheets",
+        "adjustOtherModules",
+        "otherModulesList"
+      ],
+      default: {
+        applyThemeToSheets: true,
+        adjustOtherModules: true,
+        otherModulesList: [
+          { id: 'levels-3d-preview', enabled: true },
+          { id: 'beneos-module', enabled: true },
+          { id: 'combat-carousel', enabled: true },
+          { id: 'dice-calculator', enabled: true },
+          { id: 'hurry-up', enabled: true },
+          { id: 'crux', enabled: true },
+          { id: 'fvtt-youtube-player', enabled: true },
+          { id: 'bg3-inspired-hotbar', enabled: true },
+          { id: 'touch-vtt', enabled: true },
+          { id: 'breaktime', enabled: true },
+          { id: 'simple-timekeeping', enabled: true }
+        ]
+      },
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+
+    player_systemsMenu: {
+      isMenu: true,
+      showOnRoot: false,
+      tag: "v2-player-systems-menu",
+      label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.hint"),
+      propType: Object,
+      fields: [
+        "useHorizontalSheetTabs",
+        "dockDHResources"
+      ],
+      default: {
+        useHorizontalSheetTabs: true,
+        dockDHResources: true
+      },
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+
     enforceGMSettings: {
       tag: "v2-enforce-gm-settings",
       label: game.i18n.localize("CRLNGN_UI.settings.enforceGMSettings.label"), 
@@ -501,8 +528,20 @@ export function getSettings() {
       propType: Boolean,
       scope: SETTING_SCOPE.client,
       config: true,
-      default: false, 
-      requiresReload: false 
+      default: false,
+      requiresReload: false
+    },
+
+    dockDHResources: {
+      tag: 'v2-dock-dh-resources',
+      label: game.i18n.localize("CRLNGN_UI.settings.dockDHResources.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.dockDHResources.hint"),
+      propType: Boolean,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      default: true,
+      requiresReload: true,
+      system: ['daggerheart']
     },
 
     useSceneFolders: { 
@@ -1314,11 +1353,11 @@ export function getSettings() {
     },
 
     preventMacroBarReposition: {
-      tag: "v2-prevent-macro-bar-reposition",
+      tag: "v2-prevent-hotbar-reposition",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.preventMacroBarReposition.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.preventMacroBarReposition.hint"),
       propType: Boolean,
-      default: false,
+      default: true,
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false
@@ -1401,27 +1440,29 @@ export function getSettings() {
     },
 
     /* Actor SHEETS */
-    applyThemeToSheets: { 
-      tag: "v2-apply-theme-and-styles", 
-      label: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.fields.applyThemeToSheets.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.fields.applyThemeToSheets.hint"), 
+    applyThemeToSheets: {
+      tag: "v2-apply-theme-and-styles",
+      label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.applyThemeToSheets.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.applyThemeToSheets.hint"),
       propType: Boolean,
       default: true,
       scope: SETTING_SCOPE.world,
-      config: false, 
-      requiresReload: false 
+      config: false,
+      requiresReload: false,
+      system: ["daggerheart", "dnd5e"]
     },
-    useHorizontalSheetTabs: { 
-      tag: "v2-use-horizontal-tabs", 
-      label: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.fields.useHorizontalSheetTabs.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.sheets5eMenu.fields.useHorizontalSheetTabs.hint"), 
+    useHorizontalSheetTabs: {
+      tag: "v2-use-horizontal-tabs",
+      label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.useHorizontalSheetTabs.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.useHorizontalSheetTabs.hint"),
       propType: Boolean,
       default: true,
       scope: SETTING_SCOPE.client,
-      config: false, 
-      requiresReload: false 
-    }
-    
+      config: false,
+      requiresReload: false,
+      system: ["dnd5e"]
+    },
+
   }
 
 }

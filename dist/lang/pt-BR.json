@@ -70,7 +70,8 @@
           "controls": "Controles de Cena",
           "scenes": "Navegação de Cenas",
           "players": "Lista de Jogadores",
-          "camera": "Câmeras"
+          "camera": "Câmeras",
+          "system": "Sistema & Módulos"
         },
         "reset": "Redefinir",
         "save": "Salvar"
@@ -186,10 +187,14 @@
             "hint": "<b>Não habilite se usar Force Client Settings ou módulos semelhantes.</b> Define o tema da interface do Foundry para o jogador como Escuro caso o tema atual seja 'Padrão do Navegador'. Se o jogador selecionar modo claro, sua opção será respeitada"
           }
         },
+        "dockDHResources": {
+          "label": "Acoplar Rastreador de Recursos Daggerheart",
+          "hint": "Ativa a funcionalidade de acoplamento para o rastreador (medo) do Daggerheart. Arraste a janela perto da barra de macros para acoplá-la na parte inferior da tela."
+        },
         "reset": "Redefinir",
         "save": "Salvar",
         "colorPicker": {
-          "hint": "Com grandes cores vêm grandes responsabilidades. Lembre-se de cuidar das suas retinas: para a cor de destaque, use cores com pelo menos uma classificação de contraste 'média' para melhor legibilidade.",
+          "hint": "Lembre-se de cuidar das suas retinas: para a cor de destaque, use cores com pelo menos uma classificação de contraste 'média' para melhor legibilidade.",
           "title": "Cores de Tema Personalizadas",
           "presets": "Temas Predefinidos",
           "accentColor": "Cor de Destaque",
@@ -403,10 +408,12 @@
         "reset": "Redefinir", 
         "save": "Salvar" 
       },
-      "sheets5eMenu": {
-        "label": "Fichas DnD5e",
-        "title": "Configurar Fichas de DnD5e",
-        "hint": "Alterar opções para as fichas de personagens np sistema DnD5e",
+      "systemsMenu": {
+        "label": "Sistema",
+        "title": "Configurar opções para sistemas específicos",
+        "hint": "",
+        "noSettingsForSystem": "Nenhuma configuração específica para o sistema atual",
+        "modulesLabel": "Outros Módulos",
         "fields": {
           "applyThemeToSheets": {
             "label": "Aplicar estilos a fichas de personagem (DnD5e, Daggerheart)",

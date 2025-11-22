@@ -70,7 +70,8 @@
           "controls": "Comandi a sinistra",
           "scenes": "Navigazione Scena",
           "players": "Lista Giocatori",
-          "camera": "Dock Camera"
+          "camera": "Dock Camera",
+          "system": "Sistema & Moduli"
         },
         "reset": "Ripristina",
         "save": "Salva"
@@ -186,10 +187,14 @@
             "hint": "<b>Non abilitare questo se si utilizza Force Client Settings o moduli simili.</b> Imposta il tema dell'interfaccia Foundry sul client del giocatore su Scuro se il giocatore l'ha impostato su 'Predefinito Browser'. Se l'hanno specificamente impostato su 'Chiaro', la loro scelta sarà comunque rispettata."
           }
         },
+        "dockDHResources": {
+          "label": "Dock Tracker Risorse Daggerheart",
+          "hint": "Abilita la funzionalità di docking per il tracker (paura) di Daggerheart. Trascina la finestra vicino alla barra macro per agganciarla in fondo allo schermo."
+        },
         "reset": "Ripristina",
         "save": "Salva",
         "colorPicker": {
-          "hint": "Con grandi colori arrivano grandi responsabilità. Ricordati di prenderti cura delle tue retine: per il colore di accento, usa colori con almeno un rating di contrasto 'medio' per una migliore leggibilità.",
+          "hint": "Ricordati di prenderti cura delle tue retine: per il colore di accento, usa colori con almeno un rating di contrasto 'medio' per una migliore leggibilità.",
           "title": "Colori Tema Personalizzati",
           "presets": "Temi Preimpostati",
           "accentColor": "Colore di Accento",
@@ -403,10 +408,12 @@
         "reset": "Ripristina",
         "save": "Salva"
       },
-      "sheets5eMenu": {
-        "label": "Fogli DnD5e",
-        "title": "Configurare Fogli di DnD5e",
-        "hint": "Modificare opzioni per le schede dei personaggi nel sistema DnD5e",
+      "systemsMenu": {
+        "label": "Sistema",
+        "title": "Configurare opzioni per sistemi specifici",
+        "hint": "",
+        "noSettingsForSystem": "Nessuna impostazione specifica per il sistema corrente",
+        "modulesLabel": "Altri Moduli",
         "fields": {
           "applyThemeToSheets": {
             "label": "Applica stili per le schede dei personaggi (DnD5e, Daggerheart)",

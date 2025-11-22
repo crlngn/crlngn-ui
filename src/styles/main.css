@@ -8,17 +8,19 @@ body{
 /* Background blur setting - override Foundry's default */
 /* Only apply backdrop-filter when glass effect is enabled via body class */ 
 /*.compendium-browser*/
+
 body.crlngn-ui.crlngn-glass-effect .application:not(.dnd5e2.sheet, .tidy5e-sheet, .monks-enhanced-journal) .window-content {
   background: transparent !important;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
-body.crlngn-ui.crlngn-glass-effect .application:not(.dnd5e2.sheet, .tidy5e-sheet, .monks-enhanced-journal),
+body.crlngn-ui.crlngn-glass-effect .application:not(.dnd5e2.sheet, .tidy5e-sheet, .monks-enhanced-journal, #resources, #daggerheart-hud, #daggerheart-gm-hud),
 body.crlngn-ui.crlngn-glass-effect .window-app:not(.monks-enhanced-journal) {
   background: var(--background) !important;
   backdrop-filter: blur(var(--background-blur, 4px)) !important;
   -webkit-backdrop-filter: blur(var(--background-blur, 4px)) !important;
 }
+
 
 
 body.crlngn-ui  {
@@ -575,7 +577,7 @@ body.crlngn-ui{
     display: flex;
     color: inherit;
     width: auto;
-    flex: 1 1 auto;
+    flex: 1 1 100%;
     /*min-width: 60px;*/
 
     i{
