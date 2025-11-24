@@ -48,7 +48,7 @@ export const BACK_BUTTON_OPTIONS = {
 }
 
 export const DOCK_RESIZE_OPTIONS = {
-  off: { name: 'OFF' },
+  off: { name: 'off' },
   horizontal: { name: 'horizontal' },
   vertical: { name: 'vertical' }
 }

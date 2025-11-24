@@ -373,7 +373,7 @@ export class CameraDockUtil {
     const SETTINGS = getSettings();
     const cameraSettings = SettingsUtil.get(SETTINGS.defaultVideoWidth.tag);
     let width = value || cameraSettings;
-    
+
     if(width < MIN_AV_WIDTH){
       width = MIN_AV_WIDTH;
       SettingsUtil.set(SETTINGS.defaultVideoWidth.tag, width);
@@ -383,15 +383,19 @@ export class CameraDockUtil {
       const minimized = document.querySelector('#av-holder.minimized #camera-views');
       const nonMinimized = document.querySelector('#camera-views');
       if(!minimized && nonMinimized){
+        // Update --av-width and calculate --av-height based on 4:3 aspect ratio
+        const height = Math.round(width * 0.75); // 4:3 aspect ratio (3/4 = 0.75)
         nonMinimized.parentNode.style.setProperty('--av-width', width+'px');
+        nonMinimized.parentNode.style.setProperty('--av-height', height+'px');
         nonMinimized.style.setProperty('--av-width', width+'px');
+        nonMinimized.style.setProperty('--av-height', height+'px');
       }
       /*
       else if(nonMinimized){
         nonMinimized.parentNode.style.removeProperty('--av-width');
         nonMinimized.style.removeProperty('--av-width');
       }*/
-      
+
       CameraDockUtil.updateDockSize();
     }
   }
@@ -407,19 +411,26 @@ export class CameraDockUtil {
   static resetPositionAndSize({x, y, w, h} = { x: null, y: null, w: null, h: null }){
     const SETTINGS = getSettings();
     const cameraSettings = CameraDockUtil.currSettings; //SettingsUtil.get(SETTINGS.cameraDockMenu.tag);
-    
-    if(!CameraDockUtil.enableFloatingDock || !CameraDockUtil.cameraContainer){ return }
+
+    LogUtil.log("resetPositionAndSize called", [x, y, w, h, cameraSettings.dockResizeOnUserJoin]);
+
+    if(!CameraDockUtil.enableFloatingDock || !CameraDockUtil.cameraContainer){
+      LogUtil.log("Early return - no floating dock or container");
+      return;
+    }
 
     // Check minimized state first - if minimized, don't reset position
     const rtcSettings = game.settings.get("core", "rtcClientSettings");
     if (rtcSettings?.hideDock === true) {
+      LogUtil.log("Minimized - checking state");
       CameraDockUtil.checkMinimizedState();
       return;
     }
-    
+
     LogUtil.log("CameraDock", [cameraSettings]);
 
     if(!x && !y && !w && !h){
+      LogUtil.log("No params - using saved settings");
       const savedPosX = cameraSettings.dockPosX || 0;
       const savedPosY = cameraSettings.dockPosY || 0;
       
@@ -427,10 +438,15 @@ export class CameraDockUtil {
       CameraDockUtil.cameraContainer.style.bottom = `${savedPosY}px`;
       
       if(CameraDockUtil.currSettings.dockResizeOnUserJoin===DOCK_RESIZE_OPTIONS.off.name){
-        const savedWidth = cameraSettings.dockWidth || 0;
-        const savedHeight = cameraSettings.dockHeight || 0;
-        CameraDockUtil.cameraContainer.style.width = `${savedWidth}px`;
-        CameraDockUtil.cameraContainer.style.height = `${savedHeight}px`;
+        const savedWidth = cameraSettings.dockWidth;
+        const savedHeight = cameraSettings.dockHeight;
+        LogUtil.log("savedWidth, savedHeight", [savedWidth, savedHeight]);
+        if (savedWidth && savedWidth > 0) {
+          CameraDockUtil.cameraContainer.style.setProperty('width', `${savedWidth}px`);//, 'important');
+        }
+        if (savedHeight && savedHeight > 0) {
+          CameraDockUtil.cameraContainer.style.setProperty('height', `${savedHeight}px`);//, 'important');
+        }
       }
     }else{
       if(x !== null){
@@ -446,6 +462,15 @@ export class CameraDockUtil {
       }else if(CameraDockUtil.currSettings.dockResizeOnUserJoin===DOCK_RESIZE_OPTIONS.vertical.name){
         if(h !== null){
           CameraDockUtil.cameraContainer.style.height = `${h}px`;
+        }
+      }else if(CameraDockUtil.currSettings.dockResizeOnUserJoin===DOCK_RESIZE_OPTIONS.off.name){
+        // When OFF mode, apply both width and height if provided (user manually setting size)
+       LogUtil.log("savedWidth, savedHeight", [w, h]);
+        if(w !== null){
+          CameraDockUtil.cameraContainer.style.setProperty('width', `${w}px`, 'important');
+        }
+        if(h !== null){
+          CameraDockUtil.cameraContainer.style.setProperty('height', `${h}px`, 'important');
         }
       }
     }
@@ -522,39 +547,47 @@ export class CameraDockUtil {
    */
   static updateDockSize() {
     if (!CameraDockUtil.cameraContainer) return;
-    
+
     const SETTINGS = getSettings();
     const resizeOption = CameraDockUtil.currSettings.dockResizeOnUserJoin;
     const videoWidth = CameraDockUtil.currSettings.defaultVideoWidth || MIN_AV_WIDTH;
-    
+
     // Get all active users with camera/video
     const activeUsers = game.webrtc?.users?.filter(u => u.active && u.canBroadcastVideo) || [];
     const userCount = activeUsers.length;
-    
-    if (userCount === 0) return;
-    
+
     // Calculate new dimensions based on resize option
     if (resizeOption === DOCK_RESIZE_OPTIONS.horizontal.name) {
+      if (userCount === 0) return; // Skip if no active users
       // For horizontal layout, adjust width based on user count
       const newWidth = (videoWidth * userCount) + 16; // Add padding
       CameraDockUtil.cameraContainer.style.width = `${newWidth}px`;
     } else if (resizeOption === DOCK_RESIZE_OPTIONS.vertical.name) {
+      if (userCount === 0) return; // Skip if no active users
       // For vertical layout, adjust height based on user count
       const newHeight = (videoWidth * userCount) + 16; // Add padding
       CameraDockUtil.cameraContainer.style.height = `${newHeight}px`;
+    } else if (resizeOption === DOCK_RESIZE_OPTIONS.off.name) {
+      // When resize is OFF, set minimum dimensions to show at least one video
+      // Foundry core uses 4:3 aspect ratio for camera views (confirmed in foundry2.css)
+      // Match CSS defaults: min-height = av-height + 5px, min-width = av-width + 30px
+      const minHeight = Math.round((videoWidth * 3) / 4) + 10;
+      const minWidth = videoWidth + 30;
+      CameraDockUtil.cameraContainer.style.minHeight = `${minHeight}px`;
+      CameraDockUtil.cameraContainer.style.minWidth = `${minWidth}px`;
     }
-    
+
     // Save the new dimensions
     const width = parseInt(CameraDockUtil.cameraContainer.style.width || 0);
     const height = parseInt(CameraDockUtil.cameraContainer.style.height || 0);
-    
+
     if (width > 0) SettingsUtil.set(SETTINGS.dockWidth.tag, width);
     if (height > 0) SettingsUtil.set(SETTINGS.dockHeight.tag, height);
   }
   
   /**
    * Applies dock resize based on the specified resize option
-   * @param {string} resizeValue - The resize option to apply (horizontal, vertical, or none)
+   * @param {string} resizeValue - The resize option to apply (horizontal, vertical, or OFF)
    */
   static applyDockResize(resizeValue=null) {
     if (!CameraDockUtil.cameraContainer) return;
@@ -563,20 +596,27 @@ export class CameraDockUtil {
     }else{
       CameraDockUtil.currSettings.dockResizeOnUserJoin = resizeValue;
     }
-    
+
     // Apply the appropriate class based on the resize option
     CameraDockUtil.cameraContainer.classList.remove('horizontal');
     CameraDockUtil.cameraContainer.classList.remove('vertical');
     const camViews = CameraDockUtil.cameraContainer.querySelector("#camera-views");
-    camViews.classList.remove('horizontal');
-    camViews.classList.remove('vertical');
-    
+    camViews?.classList.remove('horizontal');
+    camViews?.classList.remove('vertical');
+
     if (resizeValue === DOCK_RESIZE_OPTIONS.horizontal.name) {
       CameraDockUtil.cameraContainer.classList.add('horizontal');
+      // Remove minimum dimensions when switching to horizontal mode (CSS handles sizing)
+      CameraDockUtil.cameraContainer.style.removeProperty('min-height');
+      CameraDockUtil.cameraContainer.style.removeProperty('min-width');
     } else if (resizeValue === DOCK_RESIZE_OPTIONS.vertical.name) {
       CameraDockUtil.cameraContainer.classList.add('vertical');
+      // Remove minimum dimensions when switching to vertical mode (CSS handles sizing)
+      CameraDockUtil.cameraContainer.style.removeProperty('min-height');
+      CameraDockUtil.cameraContainer.style.removeProperty('min-width');
     }
-    
+    // When OFF (no classes), default CSS allows free resizing, and min dimensions will be set below
+
     // Update the dock size based on the new resize option
     CameraDockUtil.updateDockSize();
   }

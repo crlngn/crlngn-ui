@@ -1115,11 +1115,41 @@ export class SettingsUtil {
 
     let settingsApplied = false;
 
+    // First, enforce dockResizeOnUserJoin if present, so we know the correct mode
+    if (defaultSettings[SETTINGS.dockResizeOnUserJoin.tag] !== undefined) {
+      const resizeMode = defaultSettings[SETTINGS.dockResizeOnUserJoin.tag];
+      const currentMode = SettingsUtil.get(SETTINGS.dockResizeOnUserJoin.tag);
+      if (currentMode !== resizeMode) {
+        SettingsUtil.set(SETTINGS.dockResizeOnUserJoin.tag, resizeMode);
+        LogUtil.log(`Applied GM setting: ${SETTINGS.dockResizeOnUserJoin.tag}`, [resizeMode]);
+        settingsApplied = true;
+      }
+    }
+
+    // Check if dock resize is OFF - if so, don't enforce dock position/size settings
+    const dockResizeMode = SettingsUtil.get(SETTINGS.dockResizeOnUserJoin.tag);
+    const isDockResizeOff = dockResizeMode === DOCK_RESIZE_OPTIONS.off.name;
+    LogUtil.log("Dock resize mode for enforcement", [dockResizeMode, isDockResizeOff]);
+
     // Apply each stored setting
     for (const [settingTag, value] of Object.entries(defaultSettings)) {
       // Skip the version tracking field
       if (settingTag === '_version') continue;
-      
+
+      // Skip dockResizeOnUserJoin since we already applied it above
+      if (settingTag === SETTINGS.dockResizeOnUserJoin.tag) continue;
+
+      // Skip camera dock position/size settings if resize is OFF (let players customize freely)
+      if (isDockResizeOff && (
+        settingTag === SETTINGS.dockPosX.tag ||
+        settingTag === SETTINGS.dockPosY.tag ||
+        settingTag === SETTINGS.dockWidth.tag ||
+        settingTag === SETTINGS.dockHeight.tag
+      )) {
+        LogUtil.log(`Skipping ${settingTag} - dock resize is OFF, allowing player customization`);
+        continue;
+      }
+
       try {
         // Only apply client-scoped settings
         const setting = Object.values(SETTINGS).find(s => s.tag === settingTag);
@@ -1136,7 +1166,7 @@ export class SettingsUtil {
         LogUtil.log(`Failed to apply GM setting: ${settingTag}`, [error]);
       }
     }
-    
+
     return settingsApplied;
   }
 

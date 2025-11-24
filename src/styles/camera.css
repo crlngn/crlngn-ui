@@ -38,8 +38,6 @@ body.crlngn-ui{
     position: absolute;
     left: 0;
     bottom: 0;
-    width: calc(var(--av-width) + 30px);
-    height: calc(var(--av-height) + 5px);
     min-width: calc(var(--av-width) + 30px);
     min-height: calc(var(--av-height) + 5px);
     max-width: max(var(--av-width), calc(100vw - var(--sidebar-width)));

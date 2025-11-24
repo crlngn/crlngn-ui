@@ -500,22 +500,23 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     settings.playerColorTheme = selectedPlayerTheme ? selectedPlayerTheme.className : "";
 
     // Parse otherModulesList from JSON string back to array
-    if (settings.otherModulesList !== undefined) {
-      if (typeof settings.otherModulesList === 'string') {
-        try {
-          settings.otherModulesList = JSON.parse(settings.otherModulesList);
-          LogUtil.log('Parsed otherModulesList from form', [settings.otherModulesList]);
-        } catch (e) {
-          console.warn('Failed to parse otherModulesList from form', e);
-          // If parsing fails, preserve the current setting instead of clearing it
-          settings.otherModulesList = SettingsUtil.get(SETTINGS.otherModulesList.tag);
-        }
+    if (settings.otherModulesList !== undefined &&
+        settings.otherModulesList !== '' &&
+        typeof settings.otherModulesList === 'string' &&
+        settings.otherModulesList.trim() !== '') {
+      try {
+        settings.otherModulesList = JSON.parse(settings.otherModulesList);
+        LogUtil.log('Parsed otherModulesList from form', [settings.otherModulesList]);
+      } catch (e) {
+        console.warn('Failed to parse otherModulesList from form', e, settings.otherModulesList);
+        // If parsing fails, preserve the current setting instead of clearing it
+        settings.otherModulesList = SettingsUtil.get(SETTINGS.otherModulesList.tag);
       }
     } else {
-      // If otherModulesList is not in form data, preserve the current setting
+      // If otherModulesList is not in form data, empty, or not a valid string, preserve current
       const preserved = SettingsUtil.get(SETTINGS.otherModulesList.tag);
       settings.otherModulesList = preserved;
-      LogUtil.log('otherModulesList not in form, preserving current', [preserved]);
+      LogUtil.log('otherModulesList invalid or empty, preserving current', [preserved, settings.otherModulesList]);
     }
 
     Object.entries(settings).forEach(([fieldName, value]) => {
