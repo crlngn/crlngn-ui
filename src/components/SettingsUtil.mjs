@@ -1,7 +1,7 @@
 import { DARK_MODE_RULES, MODULE_ID } from "../constants/General.mjs";
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { getSettingMenus } from "../constants/SettingMenus.mjs";
-import { BORDER_COLOR_TYPES, getSettings, ICON_SIZES, THEMES, UI_SCALE } from "../constants/Settings.mjs";
+import { BORDER_COLOR_TYPES, DOCK_RESIZE_OPTIONS, getSettings, ICON_SIZES, THEMES, UI_SCALE } from "../constants/Settings.mjs";
 import { CameraDockUtil } from "./CameraDockUtil.mjs";
 import { ChatLogControls } from "./ChatLogControlsUtil.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
@@ -1133,10 +1133,7 @@ export class SettingsUtil {
 
     // Apply each stored setting
     for (const [settingTag, value] of Object.entries(defaultSettings)) {
-      // Skip the version tracking field
       if (settingTag === '_version') continue;
-
-      // Skip dockResizeOnUserJoin since we already applied it above
       if (settingTag === SETTINGS.dockResizeOnUserJoin.tag) continue;
 
       // Skip camera dock position/size settings if resize is OFF (let players customize freely)

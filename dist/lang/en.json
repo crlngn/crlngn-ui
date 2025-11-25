@@ -299,37 +299,41 @@
         "save": "Save"
       },
       "cameraDockMenu": {
-        "label": "Camera Dock",
-        "title": "Configure Dock",
-        "hint": "Enable a floating camera dock that you can position anywhere",
+        "label": "Camera Group",
+        "title": "Configure Camera Group",
+        "hint": "Enable a floating camera group that you can position anywhere, dock and resize",
         "fields": {
           "enableFloatingDock": {
-            "label": "Enable floating camera dock",
+            "label": "Enable floating camera group",
             "hint": "<b>[Requires reload]</b> Allows video player group to be dragged and placed anywhere on screen"
           }, 
           "dockPosX": {
-            "label": "Dock Horizontal position",
-            "hint": "Position of camera dock when set to float. From bottom left of screen, in pixels"
+            "label": "Horizontal position of camera group",
+            "hint": "Position of camera group when set to float. From bottom left of screen, in pixels"
           }, 
           "dockPosY": {
-            "label": "Dock Vertical position",
-            "hint": "Position of camera dock when set to float. From bottom left of screen, in pixels"
+            "label": "Vertical position of camera group",
+            "hint": "Position of camera group when set to float. From bottom left of screen, in pixels"
           }, 
           "dockWidth": {
             "label": "Width of camera group",
-            "hint": "Dimensions of the non-minimized camera dock when set to float, in pixels"
+            "hint": "Dimensions of the non-minimized camera group when set to float, in pixels"
           }, 
           "dockHeight": {
             "label": "Height of camera group",
             "hint": "Dimensions of the non-minimized camera dock when set to float, in pixels"
           },
+          "dockCamerasToBottom": {
+            "label": "Allow docking cameras to macro hotbar",
+            "hint": "When enabled, you can drag the camera group to the bottom of the screen (above the macro hotbar) to dock it. When docked, the camera group will be horizontal, span the full available width and shrink videos to a minimum of 140px. Drag it away from the bottom to undock."
+          },
           "dockResizeOnUserJoin": {
-            "label": "Resize Dock to Fit Videos",
-            "hint": "When enabled, the dock will be resized when a user joins. Any manual resize may be overriden when a new user joins. For manual resize, turn this option off.",
+            "label": "Grow Dock to Fit Videos",
+            "hint": "When enabled, the dock will be resized when a user joins so new videos are visible. Any manual resize may be overriden when a new user joins. To keep manual resizing and scrolling, turn this option off.",
             "options": {
-              "off": "OFF: Do not auto-resize",
-              "horizontal": "Resize to fit horizontally",
-              "vertical": "Resize to fit vertically"
+              "off": "OFF: Do not grow",
+              "horizontal": "Grow to fit horizontally",
+              "vertical": "Grow to fit vertically"
             }
           },
           "defaultVideoWidth": {

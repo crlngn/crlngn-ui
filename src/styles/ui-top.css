@@ -413,7 +413,7 @@ body.crlngn-ui {
           justify-items: stretch;
 
           li.scene-player{
-            height: 4px;
+            height: 5px;
             flex: 1 1 100%;
             width: 100%;
             max-width: 20px;

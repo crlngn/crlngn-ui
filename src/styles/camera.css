@@ -39,9 +39,9 @@ body.crlngn-ui{
     left: 0;
     bottom: 0;
     min-width: calc(var(--av-width) + 30px);
-    min-height: calc(var(--av-height) + 5px);
+    min-height: calc((var(--av-width)*3/4) + 5px);
     max-width: max(var(--av-width), calc(100vw - var(--sidebar-width)));
-    max-height: max(var(--av-height), calc(100vh - 80px));
+    max-height: max((var(--av-width)*3/4), calc(100vh - 80px));
     overflow: hidden;
     cursor: move;
     cursor: grab;
@@ -82,6 +82,76 @@ body.crlngn-ui{
       display: none;
       cursor: pointer;
     }
+
+    /* Docked state - when snapped to bottom */
+    &.docked {
+      position: relative !important;
+      z-index: 1000 !important;
+      width: auto !important;
+      max-width: 100% !important;
+      height: fit-content !important;
+      min-height: unset !important;
+      left: auto !important;
+      top: auto !important;
+      bottom: 5px !important;
+      pointer-events: all !important;
+      cursor: grab !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+
+      /* Override camera-container to use flexbox instead of grid */
+      .camera-container {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        overflow-x: visible !important;
+        overflow-y: hidden !important;
+        width: auto !important;
+        height: 100% !important;
+      }
+
+      /* Individual camera views with 4:3 aspect ratio */
+      .camera-view {
+        flex-shrink: 1 !important;
+        flex-grow: 0 !important;
+        flex-basis: auto !important;
+        min-width: 140px !important;
+        max-width: none !important;
+        height: auto !important;
+        max-height: 100% !important;
+        aspect-ratio: unset !important;
+        object-fit: contain !important;
+        min-height: 0;
+      }
+
+      /* Hide resize handle when docked */
+      .resize-handle {
+        display: none !important;
+      }
+    }
+
+    /* Visual feedback when near snap zone */
+    &.near-snap {
+      outline: 5px solid var(--color-warm-2);
+      animation: outline-pulse 0.75s infinite;
+    }
+
+    /* Snapping animation */
+    &.snapping {
+      transition: all 0.3s ease-out;
+    }
+  }
+
+  /* Pulse animation for snap feedback */
+  @keyframes outline-pulse {
+    0%, 100% {
+      outline-color: var(--color-warm-2);
+      outline-offset: 0px;
+    }
+    50% {
+      outline-color: var(--color-warm-3);
+      outline-offset: 2px;
+    }
   }
 
   /* EXTERNAL STRUCTURE */
@@ -91,7 +161,7 @@ body.crlngn-ui{
     #camera-views.horizontal,
     #camera-views.minimized{
       --av-width: 175px;
-      --av-height: calc(var(--av-width, 175px)* 0.7);
+      --av-height: calc((var(--av-width, 175px)*3/4));
       background: transparent;
       border: 0;
       gap: 0;
@@ -109,15 +179,21 @@ body.crlngn-ui{
         border-left: 2px solid var(--player-color);
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
         border-radius: 0;
-  
+
         .video-container .user-avatar {
           width: 100%;
           background-color: var(--color-dark-bg-50);
           border-radius: 0;
         }
-        
+
       }
     }
+
+    /* Override for docked state - higher specificity */
+    &.docked #camera-views .camera-view {
+      min-height: unset !important;
+    }
+
     #camera-views.minimized{
       display: none;
     }

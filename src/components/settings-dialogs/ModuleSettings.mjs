@@ -159,8 +159,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         delete partContext.tabs[tab];
       })
     }
-    // LogUtil.log("_preparePartContext", [partContext, partId, options]);
-
+    
     switch ( partId ) {
       case "tabs": {
         break;
@@ -179,7 +178,6 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
           const menuContext = ModuleSettings.getMenuContext(partKey);
           
           if (menuContext.fields) {
-            // For systemsMenu, only use filtered fields (don't merge with existing)
             if (partKey === "systemsMenu") {
               partContext.fields = menuContext.fields;
             } else {
@@ -191,7 +189,6 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
           }
 
           if (menuContext.fieldDefaults) {
-            // For systemsMenu, only use filtered fieldDefaults (don't merge with existing)
             if (partKey === "systemsMenu") {
               partContext.fieldDefaults = menuContext.fieldDefaults;
             } else {
@@ -215,32 +212,25 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
               menuContext.fieldValues.playerColorTheme = selectedPlayerTheme?.label || "";
             }
             Object.assign(partContext, menuContext.fieldValues);
-            // Also set fieldValues as an object for template access
+            
             if (partKey === "systemsMenu") {
               partContext.fieldValues = menuContext.fieldValues;
             }
           }
 
-          // Add current system info for system-specific settings
           if (partId === 'system') {
             partContext.currentSystem = menuContext.currentSystem;
 
-            // Convert otherModulesList array to JSON for hidden input (if it exists in context)
             if (partContext.otherModulesList && Array.isArray(partContext.otherModulesList)) {
               partContext.otherModulesListJson = JSON.stringify(partContext.otherModulesList);
-              // Check if any modules are enabled for master toggle
               partContext.adjustOtherModules = partContext.otherModulesList.some(m => m.enabled);
             }
 
-            // Set modulesField reference for template
             if (partContext.fields?.otherModulesList) {
               partContext.modulesField = partContext.fields.otherModulesList;
             }
 
-            // Determine if we should show "no settings" message
-            // For players, only check client settings. For GMs, check both world and client settings
             const hasWorldSettings = game.user.isGM && Object.values(partContext.fields || {}).some(field => {
-              // Exclude modules-related fields
               return field?.scope === SETTING_SCOPE.world &&
                      !['otherModulesList', 'adjustOtherModules'].includes(Object.keys(partContext.fields || {}).find(key => partContext.fields[key] === field));
             });
@@ -249,12 +239,10 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
             partContext.showNoSettings = !hasWorldSettings && !hasClientSettings;
           }
 
-          // Add custom theme colors for display
           if (partId === 'themes') {
             const worldCustomColors = SettingsUtil.get('v2-custom-theme-colors');
             const playerCustomColors = SettingsUtil.get('v2-player-custom-theme-colors');
 
-            // Helper function to create light/dark versions
             const createColorVariants = (colors) => {
               if (!colors.secondary) return colors;
 
@@ -316,11 +304,8 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const fieldValues = {};
     const fieldDefaults = {};
 
-    // Helper function to check if a setting should be included based on system
     const shouldIncludeSetting = (setting, fieldName) => {
-      // If this is the systems menu
       if (menuKey === "systemsMenu") {
-        // Always include modules-related settings (they're universal)
         if (fieldName === "otherModulesList" || fieldName === "adjustOtherModules") return true;
         if (!setting.system) return false;
         if (Array.isArray(setting.system)) {
@@ -448,7 +433,6 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         rangeInput.value = value; // Sync the slider
       });
 
-      // Set initial value for the number input from the range slider
       valueInput.value = rangeInput.value;
     }
   }
@@ -499,44 +483,49 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const selectedPlayerTheme = THEMES.find(theme => theme.label===settings.playerColorTheme);
     settings.playerColorTheme = selectedPlayerTheme ? selectedPlayerTheme.className : "";
 
-    // Parse otherModulesList from JSON string back to array
-    if (settings.otherModulesList !== undefined &&
-        settings.otherModulesList !== '' &&
-        typeof settings.otherModulesList === 'string' &&
-        settings.otherModulesList.trim() !== '') {
-      try {
-        settings.otherModulesList = JSON.parse(settings.otherModulesList);
-        LogUtil.log('Parsed otherModulesList from form', [settings.otherModulesList]);
-      } catch (e) {
-        console.warn('Failed to parse otherModulesList from form', e, settings.otherModulesList);
-        // If parsing fails, preserve the current setting instead of clearing it
-        settings.otherModulesList = SettingsUtil.get(SETTINGS.otherModulesList.tag);
+    // Handle otherModulesList
+    if (activeTab === 'system' && settings.otherModulesList !== undefined) {
+      if (Array.isArray(settings.otherModulesList)) {
+        LogUtil.log('otherModulesList already an array from form', [settings.otherModulesList]);
+      } else if (typeof settings.otherModulesList === 'string' && settings.otherModulesList.trim() !== '') {
+        const trimmed = settings.otherModulesList.trim();
+        if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+          try {
+            const parsed = JSON.parse(trimmed);
+            settings.otherModulesList = parsed;
+            LogUtil.log('Parsed otherModulesList from JSON string', [settings.otherModulesList]);
+          } catch (e) {
+            LogUtil.warn('Failed to parse otherModulesList from form - preserving current setting', [e, trimmed]);
+            settings.otherModulesList = SettingsUtil.get(SETTINGS.otherModulesList?.tag);
+          }
+        } else {
+          LogUtil.warn('otherModulesList is malformed string - preserving current setting. Value:', [trimmed]);
+          settings.otherModulesList = SettingsUtil.get(SETTINGS.otherModulesList?.tag);
+        }
+      } else {
+        const preserved = SettingsUtil.get(SETTINGS.otherModulesList?.tag);
+        settings.otherModulesList = preserved;
+        LogUtil.log('otherModulesList invalid or empty, preserving current', [preserved]);
       }
     } else {
-      // If otherModulesList is not in form data, empty, or not a valid string, preserve current
-      const preserved = SettingsUtil.get(SETTINGS.otherModulesList.tag);
+      const preserved = SettingsUtil.get(SETTINGS.otherModulesList?.tag);
       settings.otherModulesList = preserved;
-      LogUtil.log('otherModulesList invalid or empty, preserving current', [preserved, settings.otherModulesList]);
+      LogUtil.log('otherModulesList not in form, preserving current', [preserved]);
     }
 
     Object.entries(settings).forEach(([fieldName, value]) => {
-      // Skip auxiliary form fields like range value inputs
       if(fieldName.endsWith('_value')) return;
 
-      // Skip adjustOtherModules - it's a derived value, not a stored setting
       if(fieldName === 'adjustOtherModules') return;
 
       LogUtil.log("updateSettings #1", [SETTINGS, SETTINGS[fieldName]]);
       if(settings[fieldName] !== undefined && SETTINGS[fieldName]) {
         const currSetting = SettingsUtil.get(SETTINGS[fieldName].tag);
 
-        // Check if this is a client-scoped setting that the current user can update
         const isClientSetting = SETTINGS[fieldName].scope === SETTING_SCOPE.client;
         const isWorldSetting = SETTINGS[fieldName].scope === SETTING_SCOPE.world;
 
-        // Only update if user has permission (GM for world settings, anyone for client settings)
         if (isClientSetting || (isWorldSetting && game.user.isGM)) {
-          // Special logging for otherModulesList to debug the issue
           if (fieldName === 'otherModulesList') {
             LogUtil.log('Saving otherModulesList', [settings[fieldName], 'Current:', currSetting]);
           }
@@ -797,7 +786,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         try {
           currentList = JSON.parse(hiddenInputOtherModules.value) || [];
         } catch (e) {
-          console.warn('Failed to parse otherModulesList', e);
+          LogUtil.warn('Failed to parse otherModulesList', [e]);
           currentList = [];
         }
 

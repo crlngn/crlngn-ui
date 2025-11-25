@@ -326,9 +326,13 @@
             "label": "Altura do grupo de câmeras",
             "hint": "Dimensões do dock da câmera quando configurado para flutuar, se não minimizado. Em pixels"
           },
+          "dockCamerasToBottom": {
+            "label": "Permitir acoplagem de câmeras à barra de macros",
+            "hint": "Quando ativado, você pode arrastar o grupo de câmeras para a parte inferior da tela (acima da barra de macros) para acoplá-lo. Quando acoplado, o grupo de câmeras será horizontal, ocupará toda a largura disponível e reduzirá os vídeos a um mínimo de 140px. Arraste-o para longe da parte inferior para desacoplá-lo."
+          },
           "dockResizeOnUserJoin": {
-            "label": "Redimensionar Dock para Ajustar Vídeos",
-            "hint": "Quando ativado, o dock será redimensionado quando um usuário entrar. O redimensionamento manual pode ser substituído quando um novo usuário entrar.",
+            "label": "Expandir Dock para Ajustar Vídeos",
+            "hint": "Quando ativado, o dock será redimensionado quando um usuário entrar para que os novos vídeos fiquem visíveis. Qualquer redimensionamento manual pode ser substituído quando um novo usuário entrar. Para redimensionamento manual e rolagem, desative esta opção.",
             "options": {
               "off": "DESATIVADO: Não redimensionar automaticamente",
               "horizontal": "Redimensionar para ajustar horizontalmente",

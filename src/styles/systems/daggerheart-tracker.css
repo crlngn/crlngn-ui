@@ -23,14 +23,14 @@ body.system-daggerheart.crlngn-dh-dock {
   }
 
   #resources {
-    min-height: 80px !important;
+    min-height: 70px !important;
   }
 
   #resources.docked {
     position: relative !important;
     z-index: 1000 !important;
     width: auto !important;
-    height: 80px !important;
+    height: 70px !important;
     left: auto !important;
     top: auto !important;
     bottom: 10px !important;

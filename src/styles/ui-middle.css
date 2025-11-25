@@ -21,6 +21,7 @@ body.crlngn-ui{
       margin: 0;
       margin-bottom:0;
       position: relative;
+      order: 10;
 
       &.sm, &.md.offset {
         --hotbar-curr-height: calc(var(--hotbar-size)* 2);
@@ -275,6 +276,20 @@ body.crlngn-ui{
       */
     }
 
+  }
+
+  /* ========================================================================
+     MULTI-WINDOW DOCKING LAYOUT
+     Docked windows stack vertically in #ui-bottom
+     Layout positioning handled by BottomDockUtil.layoutDockedWindows()
+     ======================================================================== */
+
+  #ui-bottom {
+    /* Allow docked elements to receive pointer events */
+    > .docked {
+      pointer-events: all;
+      display: block;
+    }
   }
 
 }

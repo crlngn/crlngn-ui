@@ -3,6 +3,7 @@ import { DOCK_RESIZE_OPTIONS, getSettings, MIN_AV_WIDTH } from "../constants/Set
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
+import { BottomDockUtil } from "./BottomDockUtil.mjs";
 
 /**
  * Utility class for managing the camera dock functionality in FoundryVTT
@@ -37,6 +38,10 @@ export class CameraDockUtil {
   static useFadeOut = true;
   static hidden = false;
   static enableFloatingDock = true;
+  /** @type {boolean} Whether cameras should dock to bottom */
+  static dockCamerasToBottom = false;
+  /** @type {boolean} Whether cameras are currently docked to bottom */
+  static isDockedToBottom = false;
   
   static applyFadeOut(useFadeOut){
     CameraDockUtil.useFadeOut = useFadeOut;
@@ -227,14 +232,41 @@ export class CameraDockUtil {
   };
 
   /**
+   * Saves the camera position to settings
+   * @param {number} left - Left position in pixels
+   * @param {number} top - Top position in pixels (converted to bottom internally)
+   */
+  static saveCameraPosition(left, top) {
+    const SETTINGS = getSettings();
+
+    // Convert top to bottom since camera uses bottom positioning
+    const bottom = window.innerHeight - top - (CameraDockUtil.cameraContainer?.offsetHeight || 0);
+
+    // Clamp bottom to 0 minimum
+    const clampedBottom = Math.max(0, bottom);
+
+    // Update currSettings
+    CameraDockUtil.currSettings.dockPosX = left;
+    CameraDockUtil.currSettings.dockPosY = clampedBottom;
+
+    // Save to Foundry settings
+    SettingsUtil.set(SETTINGS.dockPosX.tag, left);
+    SettingsUtil.set(SETTINGS.dockPosY.tag, clampedBottom);
+
+    LogUtil.log("saveCameraPosition", [left, top, "bottom:", clampedBottom]);
+  }
+
+  /**
    * Initializes the camera utility
    * Sets up event hooks based on camera dock settings
    */
   static init(){
     const SETTINGS = getSettings();
     CameraDockUtil.enableFloatingDock = SettingsUtil.get(SETTINGS.enableFloatingDock.tag);
+    CameraDockUtil.dockCamerasToBottom = SettingsUtil.get(SETTINGS.dockCamerasToBottom.tag);
     CameraDockUtil.currSettings = {
       enableFloatingDock: CameraDockUtil.enableFloatingDock,
+      dockCamerasToBottom: CameraDockUtil.dockCamerasToBottom,
       defaultVideoWidth: SettingsUtil.get(SETTINGS.defaultVideoWidth.tag),
       dockHeight: SettingsUtil.get(SETTINGS.dockHeight.tag),
       dockWidth: SettingsUtil.get(SETTINGS.dockWidth.tag),
@@ -296,9 +328,9 @@ export class CameraDockUtil {
       CameraDockUtil.cameraContainer = avHolder;
       avHolder.id = "av-holder";
       avHolder.appendChild(cam);
-      document.querySelector("body.crlngn-ui").appendChild(avHolder);  
+      document.querySelector("body.crlngn-ui").appendChild(avHolder);
     };
-    
+
     const btnToggleIcon = CameraDockUtil.cameraContainer.querySelector("button[data-action=toggleDock]");
     btnToggleIcon.addEventListener("click", () => {
       ui.webrtc?.render();
@@ -309,20 +341,78 @@ export class CameraDockUtil {
       const playerColor = player?.color || '';
       view.style.setProperty("--player-color", playerColor);
     });
-    
-    LogUtil.log("CameraDockUtil.onRender", [ a,dockHtml,c, cameraSettings.dockPosX, cameraSettings.dockPosY ]);
-    
+
+    LogUtil.log("CameraDockUtil.onRender", [ a,dockHtml,c, cameraSettings.dockPosX, cameraSettings.dockPosY, cameraSettings.dockCamerasToBottom ]);
+
     // Only set up draggable and other features if not minimized
     const rtcSettings = game.settings.get("core", "rtcClientSettings");
     if (rtcSettings?.hideDock !== true) {
       // Check minimized state first
       CameraDockUtil.checkMinimizedState();
       CameraDockUtil.applyDockResize(cameraSettings.dockResizeOnUserJoin);
-      CameraDockUtil.makeDraggable();
-      CameraDockUtil.makeResizeable();
+
+      // Check if bottom docking is enabled
+      if (cameraSettings.dockCamerasToBottom) {
+        LogUtil.log("CameraDockUtil | Bottom docking enabled, integrating with BottomDockUtil");
+        // Use BottomDockUtil for docking functionality
+        // Disable free-drag and resize when using bottom dock
+        CameraDockUtil.isDockedToBottom = true;
+
+        // Force horizontal layout when docked to bottom
+        CameraDockUtil.applyDockResize(DOCK_RESIZE_OPTIONS.horizontal.name);
+
+        // Register restoration callback for when camera dock is undocked
+        BottomDockUtil.registerRestorationCallback('camera-dock', (element) => {
+          // Remove horizontal class that was added for docking
+          element.classList.remove('horizontal');
+
+          // Mark as no longer docked to bottom
+          CameraDockUtil.isDockedToBottom = false;
+
+          // Apply the original resize layout setting
+          CameraDockUtil.applyDockResize(CameraDockUtil.currSettings.dockResizeOnUserJoin);
+
+          // Note: We don't call makeDraggable() or makeResizeable() here
+          // because when undocking, BottomDockUtil keeps the mousedown listener active
+          // which allows re-docking. The camera can still be dragged via BottomDockUtil.
+          // If needed, the user can toggle the dockCamerasToBottom setting to get back
+          // to the original free-drag behavior.
+        });
+
+        // Check saved state to determine initial dock state
+        const savedState = BottomDockUtil.loadState('camera-dock');
+
+        // If no saved state exists (first time), create one with docked: true as default
+        // This ensures the camera starts docked when the setting is first enabled
+        if (!savedState) {
+          BottomDockUtil.saveState('camera-dock', true, null);
+        }
+
+        // Initialize with BottomDockUtil (pass null for app since cameras aren't an Application)
+        // The initialize() method will automatically dock if savedState.docked === true
+        const cameraInstance = BottomDockUtil.initialize(null, CameraDockUtil.cameraContainer, 'camera-dock');
+
+        // If undocked and there's a saved position, apply it
+        if (savedState && savedState.docked === false && savedState.position) {
+          const { x, y } = savedState.position;
+          if (x !== null && y !== null) {
+            setTimeout(() => {
+              CameraDockUtil.cameraContainer.style.left = `${x}px`;
+              CameraDockUtil.cameraContainer.style.top = `${y}px`;
+              LogUtil.log("CameraDockUtil | Applied saved undocked position", [x, y]);
+            }, 150); // Delay slightly longer than dock initialization
+          }
+        }
+      } else {
+        // Use free-drag positioning (original behavior)
+        CameraDockUtil.isDockedToBottom = false;
+        CameraDockUtil.makeDraggable();
+        CameraDockUtil.makeResizeable();
+        CameraDockUtil.resetPositionAndSize();
+      }
+
       CameraDockUtil.applyVideoWidth();
-      CameraDockUtil.resetPositionAndSize();
-      
+
       // Apply position with delay to ensure it sticks
       // CameraDockUtil.applyPositionWithDelay();
     }else{

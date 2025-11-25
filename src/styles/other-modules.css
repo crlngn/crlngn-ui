@@ -545,18 +545,9 @@ body.crlngn-ui{
         margin-top: 1em;
         gap: 6px;
       }
-      .window-header {
-        /* background: var(--color-dark-bg-75);*/
-      }
 
       .window-content {
-        /* background: var(--color-dark-bg-90);
-        color: var(--color-light-1);*/
         padding: 1em;
-      }
-
-      .window-content * {
-        /* color: var(--color-light-1); */
       }
 
       .break-start {

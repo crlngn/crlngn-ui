@@ -37,7 +37,7 @@ export class CustomHandlebarsHelpers {
         return isEnabled;
 
       } catch (e) {
-        console.warn('Failed to parse moduleList in moduleEnabled helper', e);
+        LogUtil.warn('Failed to parse moduleList in moduleEnabled helper', [e]);
         return false;
       }
     });

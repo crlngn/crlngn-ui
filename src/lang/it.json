@@ -326,9 +326,13 @@
             "label": "Altezza del gruppo telecamera",
             "hint": "Dimensioni del dock telecamera non minimizzato quando impostato per fluttuare, in pixel"
           },
+          "dockCamerasToBottom": {
+            "label": "Consenti aggancio telecamere alla barra macro",
+            "hint": "Quando abilitato, puoi trascinare il gruppo telecamera nella parte inferiore dello schermo (sopra la barra macro) per agganciarlo. Quando agganciato, il gruppo telecamera sarà orizzontale, coprirà l'intera larghezza disponibile e ridurrà i video a un minimo di 140px. Trascinalo lontano dal fondo per sganciarlo."
+          },
           "dockResizeOnUserJoin": {
-            "label": "Ridimensiona Dock per Adattare i Video",
-            "hint": "Quando abilitato, il dock verrà ridimensionato quando un utente si unisce. Il ridimensionamento manuale potrebbe essere sovrascritto quando un nuovo utente si unisce.",
+            "label": "Espandi Dock per Adattare i Video",
+            "hint": "Quando abilitato, il dock verrà ridimensionato quando un utente si unisce in modo che i nuovi video siano visibili. Qualsiasi ridimensionamento manuale potrebbe essere sovrascritto quando un nuovo utente si unisce. Per ridimensionamento manuale e scorrimento, disattiva questa opzione.",
             "options": {
               "off": "DISATTIVATO: Non ridimensionare automaticamente",
               "horizontal": "Ridimensiona per adattare orizzontalmente",

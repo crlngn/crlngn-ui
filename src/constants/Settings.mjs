@@ -364,12 +364,13 @@ export function getSettings() {
 
     cameraDockMenu: {
       isMenu: true,
-      showOnRoot: false, 
-      tag: "v2-camera-dock-menu", 
+      showOnRoot: false,
+      tag: "v2-camera-dock-menu",
       label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.hint"),
       propType: Object,
       fields: [
+        "dockCamerasToBottom",
         "dockResizeOnUserJoin",
         "dockPosX",
         "dockPosY",
@@ -378,6 +379,7 @@ export function getSettings() {
         "defaultVideoWidth"
       ],
       default: {
+        dockCamerasToBottom: true,
         dockResizeOnUserJoin: DOCK_RESIZE_OPTIONS.horizontal.name,
         defaultVideoWidth: 160,
         dockPosX: 0,
@@ -1152,17 +1154,27 @@ export function getSettings() {
     dockResizeOnUserJoin: {
       tag: "v2-dock-resize-on-user-join",
       label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockResizeOnUserJoin.label"),
-      hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockResizeOnUserJoin.hint"), 
+      hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockResizeOnUserJoin.hint"),
       options: {
-        off: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockResizeOnUserJoin.options.off"), 
-        horizontal: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockResizeOnUserJoin.options.horizontal"), 
+        off: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockResizeOnUserJoin.options.off"),
+        horizontal: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockResizeOnUserJoin.options.horizontal"),
         vertical: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockResizeOnUserJoin.options.vertical")
       },
       propType: String,
       default: DOCK_RESIZE_OPTIONS.horizontal.name,
       scope: SETTING_SCOPE.client,
-      config: false, 
-      requiresReload: false 
+      config: false,
+      requiresReload: false
+    },
+    dockCamerasToBottom: {
+      tag: "v2-dock-cameras",
+      label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockCamerasToBottom.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockCamerasToBottom.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
     },
     defaultVideoWidth: {
       tag: "v2-default-video-width",
