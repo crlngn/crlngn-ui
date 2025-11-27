@@ -501,21 +501,21 @@ export function getSettings() {
       requiresReload: false
     },
 
-    enforceGMSettings: {
-      tag: "v2-enforce-gm-settings",
-      label: game.i18n.localize("CRLNGN_UI.settings.enforceGMSettings.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.enforceGMSettings.hint"), 
-      propType: Boolean,
-      default: false,
-      scope: SETTING_SCOPE.world,
-      config: true, 
-      requiresReload: true
-    },
-    
     defaultSettings: {
       tag: "v2-default-settings",
-      label: game.i18n.localize("CRLNGN_UI.settings.defaultSettings.label"), 
+      label: game.i18n.localize("CRLNGN_UI.settings.defaultSettings.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.defaultSettings.hint"),
+      propType: Object,
+      default: {},
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+
+    settingEnforcement: {
+      tag: "v2-setting-enforcement",
+      label: "Setting Enforcement States",
+      hint: "Stores individual enforcement states for each setting (unlocked/soft/locked/gate)",
       propType: Object,
       default: {},
       scope: SETTING_SCOPE.world,
@@ -552,7 +552,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneFolders.hint"), 
       propType: Boolean, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.world, 
       config: false, 
       requiresReload: false 
     },
@@ -563,7 +563,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navFoldersForPlayers.hint"), 
       propType: Boolean, 
       default: false, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.world, 
       config: false, 
       requiresReload: false 
     },
@@ -596,7 +596,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.hideInactiveOnFolderToggle.hint"), 
       propType: Boolean, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.world, 
       config: false, 
       requiresReload: false 
     },
@@ -642,7 +642,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.hideLoadingSceneName.hint"), 
       propType: Boolean, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.world, 
       config: false, 
       requiresReload: false 
     },
@@ -733,7 +733,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.useFolderStyle.hint"), 
       propType: Boolean,
       default: true, 
-      scope: SETTING_SCOPE.world, 
+      scope: SETTING_SCOPE.client, 
       config: false, 
       requiresReload: false 
     },

@@ -142,8 +142,9 @@ export class Main {
       }, 200)
 
       // Check for Force Client Settings conflict and warn user
-      const enforcementEnabled = SettingsUtil.get(SETTINGS.enforceGMSettings.tag);
-      if (SettingsUtil.hasForceClientSettingsConflict() && enforcementEnabled) {
+      const enforcement = SettingsUtil.get(SETTINGS.settingEnforcement.tag) || {};
+      const hasEnforcedSettings = Object.values(enforcement).some(state => state !== 'unlocked');
+      if (SettingsUtil.hasForceClientSettingsConflict() && hasEnforcedSettings) {
         ui.notifications.warn(
           game.i18n.localize('CRLNGN_UI.ui.notifications.enforceGMSettingsConflict')
         );

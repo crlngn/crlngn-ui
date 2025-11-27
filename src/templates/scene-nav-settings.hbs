@@ -5,7 +5,7 @@
   <hr/>
   {{!-- <div class="form-group">
     <label for="sceneNavEnabled">{{fields.sceneNavEnabled.label}}</label>
-    <input type="checkbox" name="sceneNavEnabled" {{#if sceneNavEnabled}}checked{{/if}} />
+    <input type="checkbox" name="sceneNavEnabled" {{#if sceneNavEnabled}}checked{{/if}} {{#if fields.sceneNavEnabled.isLocked}}disabled{{/if}} />
     <p class="hint">{{{fields.sceneNavEnabled.hint}}}</p> 
   </div> --}}
   {{#unless sceneNavEnabled}}
@@ -14,19 +14,19 @@
 
   <div class="form-group">
     <label for="navStartCollapsed">{{fields.navStartCollapsed.label}}</label>
-    <input type="checkbox" name="navStartCollapsed" {{#if navStartCollapsed}}checked{{/if}} />
+    <input type="checkbox" name="navStartCollapsed" {{#if navStartCollapsed}}checked{{/if}} {{#if fields.navStartCollapsed.isLocked}}disabled{{/if}} />
     <p class="hint">{{{fields.navStartCollapsed.hint}}}</p> 
   </div>
 
   <div class="form-group">
     <label for="showNavOnHover">{{fields.showNavOnHover.label}}</label>
-    <input type="checkbox" name="showNavOnHover" {{#if showNavOnHover}}checked{{/if}} />
+    <input type="checkbox" name="showNavOnHover" {{#if showNavOnHover}}checked{{/if}} {{#if fields.showNavOnHover.isLocked}}disabled{{/if}} />
     <p class="hint">{{{fields.showNavOnHover.hint}}}</p> 
   </div>
 
   <div class="form-group range">
     <label for="sceneItemWidth">{{fields.sceneItemWidth.label}}</label>
-    <input type="range" name="sceneItemWidth" min="100" max="400" value="{{sceneItemWidth}}" {{#unless sceneNavEnabled}}disabled{{/unless}} />
+    <input type="range" name="sceneItemWidth" min="100" max="400" value="{{sceneItemWidth}}" {{#unless sceneNavEnabled}}disabled{{/unless}} {{#if fields.sceneItemWidth.isLocked}}disabled{{/if}} />
     <input type="number" name="sceneItemWidth_value" class="range-value-input" value="{{sceneItemWidth}}" />
     <p class="hint">{{{fields.sceneItemWidth.hint}}}</p> 
   </div>
@@ -38,49 +38,49 @@
 
   <div class="form-group">
     <label for="hideLoadingSceneName">{{fields.hideLoadingSceneName.label}}</label>
-    <input type="checkbox" name="hideLoadingSceneName" {{#if hideLoadingSceneName}}checked{{/if}} />
+    <input type="checkbox" name="hideLoadingSceneName" {{#if hideLoadingSceneName}}checked{{/if}} {{#if fields.hideLoadingSceneName.isLocked}}disabled{{/if}} />
     <p class="hint">{{{fields.hideLoadingSceneName.hint}}}</p> 
   </div>
 
   <div class="form-group">
     <label for="useSceneFolders">{{fields.useSceneFolders.label}}</label>
-    <input type="checkbox" name="useSceneFolders" {{#if useSceneFolders}}checked{{/if}} />
+    <input type="checkbox" name="useSceneFolders" {{#if useSceneFolders}}checked{{/if}} {{#if fields.useSceneFolders.isLocked}}disabled{{/if}} />
     <p class="hint">{{{fields.useSceneFolders.hint}}}</p> 
   </div>
 
   <div class="form-group">
     <label for="useSceneLookup">{{fields.useSceneLookup.label}}</label>
-    <input type="checkbox" name="useSceneLookup" {{#if useSceneLookup}}checked{{/if}} />
+    <input type="checkbox" name="useSceneLookup" {{#if useSceneLookup}}checked{{/if}} {{#if fields.useSceneLookup.isLocked}}disabled{{/if}} />
     <p class="hint">{{{fields.useSceneLookup.hint}}}</p> 
   </div>
 
   <div class="form-group">
     <label for="useSceneBackButton">{{fields.useSceneBackButton.label}}</label>
-    <input type="checkbox" name="useSceneBackButton" {{#if useSceneBackButton}}checked{{/if}} />
+    <input type="checkbox" name="useSceneBackButton" {{#if useSceneBackButton}}checked{{/if}} {{#if fields.useSceneBackButton.isLocked}}disabled{{/if}} />
     <p class="hint">{{{fields.useSceneBackButton.hint}}}</p> 
   </div>
 
   <div class="form-group">
     <label for="useScenePreview">{{fields.useScenePreview.label}}</label>
-    <input type="checkbox" name="useScenePreview" {{#if useScenePreview}}checked{{/if}} />
+    <input type="checkbox" name="useScenePreview" {{#if useScenePreview}}checked{{/if}} {{#if fields.useScenePreview.isLocked}}disabled{{/if}} />
     <p class="hint">{{{fields.useScenePreview.hint}}}</p> 
   </div>
 
   <div class="form-group">
     <label for="useSceneIcons">{{fields.useSceneIcons.label}}</label>
-    <input type="checkbox" name="useSceneIcons" {{#if useSceneIcons}}checked{{/if}} />
+    <input type="checkbox" name="useSceneIcons" {{#if useSceneIcons}}checked{{/if}} {{#if fields.useSceneIcons.isLocked}}disabled{{/if}} />
     <p class="hint">{{{fields.useSceneIcons.hint}}}</p> 
   </div>
   
   <div class="form-group">
     <label for="sceneClickToView">{{fields.sceneClickToView.label}}</label>
-    <input type="checkbox" name="sceneClickToView" {{#if sceneClickToView}}checked{{/if}} />
+    <input type="checkbox" name="sceneClickToView" {{#if sceneClickToView}}checked{{/if}} {{#if fields.sceneClickToView.isLocked}}disabled{{/if}} />
     <p class="hint">{{{fields.sceneClickToView.hint}}}</p> 
   </div>
 
   <div class="form-group">
     <label for="hideInactiveOnFolderToggle">{{fields.hideInactiveOnFolderToggle.label}}</label>
-    <input type="checkbox" name="hideInactiveOnFolderToggle" {{#if hideInactiveOnFolderToggle}}checked{{/if}} />
+    <input type="checkbox" name="hideInactiveOnFolderToggle" {{#if hideInactiveOnFolderToggle}}checked{{/if}} {{#if fields.hideInactiveOnFolderToggle.isLocked}}disabled{{/if}} />
     <p class="hint">{{{fields.hideInactiveOnFolderToggle.hint}}}</p> 
   </div>
   

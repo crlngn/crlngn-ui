@@ -8,32 +8,32 @@
 
   <div class="form-group range">
     <label for="sideBarWidth">{{fields.sideBarWidth.label}}</label>
-    <input type="range" name="sideBarWidth" min="280" max="380" value="{{sideBarWidth}}" />
-    <input type="number" name="sideBarWidth_value" class="range-value-input" value="{{sideBarWidth}}" />
-    <p class="hint">{{{fields.sideBarWidth.hint}}}</p> 
+    <input type="range" name="sideBarWidth" min="280" max="380" value="{{sideBarWidth}}" {{#if fields.sideBarWidth.isLocked}}disabled{{/if}} />
+    <input type="number" name="sideBarWidth_value" class="range-value-input" value="{{sideBarWidth}}" {{#if fields.sideBarWidth.isLocked}}disabled{{/if}} />
+    <p class="hint">{{{fields.sideBarWidth.hint}}}</p>
   </div>
 
   <div class="form-group">
     <label for="enableChatStyles">{{fields.enableChatStyles.label}}</label>
-    <input type="checkbox" name="enableChatStyles" {{#if enableChatStyles}}checked{{/if}} />
-    <p class="hint">{{fields.enableChatStyles.hint}}</p> 
+    <input type="checkbox" name="enableChatStyles" {{#if enableChatStyles}}checked{{/if}} {{#if fields.enableChatStyles.isLocked}}disabled{{/if}} />
+    <p class="hint">{{fields.enableChatStyles.hint}}</p>
   </div>
-  
+
   <div class="form-group">
     <label for="chatBorderColor">{{fields.chatBorderColor.label}}</label>
-    <select name="chatBorderColor">
+    <select name="chatBorderColor" {{#if fields.chatBorderColor.isLocked}}disabled{{/if}}>
       {{#each fields.chatBorderColor.options}}
       <option value="{{@key}}" {{#if (eq @key ../chatBorderColor)}}selected{{/if}}>
         {{this}}
       </option>
       {{/each}}
     </select>
-    <p class="hint">{{{fields.chatBorderColor.hint}}}</p> 
+    <p class="hint">{{{fields.chatBorderColor.hint}}}</p>
   </div>
 
   <div class="form-group">
     <label for="chatBorderPosition">{{fields.chatBorderPosition.label}}</label>
-    <select name="chatBorderPosition">
+    <select name="chatBorderPosition" {{#if fields.chatBorderPosition.isLocked}}disabled{{/if}}>
       {{#each fields.chatBorderPosition.options}}
       <option value="{{@key}}" {{#if (eq @key ../chatBorderPosition)}}selected{{/if}}>
         {{this}}
@@ -45,25 +45,25 @@
 
   <div class="form-group">
     <label for="openChatLogOnLoad">{{fields.openChatLogOnLoad.label}}</label>
-    <input type="checkbox" name="openChatLogOnLoad" {{#if openChatLogOnLoad}}checked{{/if}} />
+    <input type="checkbox" name="openChatLogOnLoad" {{#if openChatLogOnLoad}}checked{{/if}} {{#if fields.openChatLogOnLoad.isLocked}}disabled{{/if}} />
     <p class="hint">{{fields.openChatLogOnLoad.hint}}</p>
   </div>
 
   <div class="form-group">
     <label for="closeSidebarWhenIdle">{{fields.closeSidebarWhenIdle.label}}</label>
-    <input type="checkbox" name="closeSidebarWhenIdle" {{#if closeSidebarWhenIdle}}checked{{/if}} />
+    <input type="checkbox" name="closeSidebarWhenIdle" {{#if closeSidebarWhenIdle}}checked{{/if}} {{#if fields.closeSidebarWhenIdle.isLocked}}disabled{{/if}} />
     <p class="hint">{{fields.closeSidebarWhenIdle.hint}}</p>
   </div>
 
   <div class="form-group">
     <label for="useHorizontalSidebarTabs">{{fields.useHorizontalSidebarTabs.label}}</label>
-    <input type="checkbox" name="useHorizontalSidebarTabs" {{#if useHorizontalSidebarTabs}}checked{{/if}} />
+    <input type="checkbox" name="useHorizontalSidebarTabs" {{#if useHorizontalSidebarTabs}}checked{{/if}} {{#if fields.useHorizontalSidebarTabs.isLocked}}disabled{{/if}} />
     <p class="hint">{{fields.useHorizontalSidebarTabs.hint}}</p>
   </div>
 
   <div class="form-group">
     <label for="showChatNotificationsOnTop">{{fields.showChatNotificationsOnTop.label}}</label>
-    <input type="checkbox" name="showChatNotificationsOnTop" {{#if showChatNotificationsOnTop}}checked{{/if}} />
+    <input type="checkbox" name="showChatNotificationsOnTop" {{#if showChatNotificationsOnTop}}checked{{/if}} {{#if fields.showChatNotificationsOnTop.isLocked}}disabled{{/if}} />
     <p class="hint">{{fields.showChatNotificationsOnTop.hint}}</p>
   </div>
 

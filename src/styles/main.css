@@ -55,11 +55,13 @@ body.crlngn-ui  {
     background-color: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.2));
     color: inherit;
   }
+  /*
   input[type="checkbox"]:checked::before {
     font-size: 1em;
     content: "\f00c";
     text-align: center;
-  }
+    color: var(--color-text-primary);
+  }*/
   /*
   input[type="checkbox"]:checked::after {
     content: "";
@@ -1541,4 +1543,24 @@ body.crlngn-ui {
     top: 100% !important;
     transform: translateY(0.5rem) !important;
   }
+}
+
+/* Setting Enforcement Lock Icons */
+.crlngn-enforce-icon {
+  cursor: pointer;
+  margin-right: 0.5rem;
+  font-size: 0.9em;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.crlngn-enforce-icon:hover {
+  opacity: 1;
+}
+
+.crlngn-locked-icon {
+  margin-right: 0.5rem;
+  font-size: 0.9em;
+  opacity: 0.6;
+  cursor: help;
 }

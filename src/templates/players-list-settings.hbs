@@ -8,13 +8,13 @@
 
   <div class="form-group">
     <label for="autoHidePlayerList">{{fields.autoHidePlayerList.label}}</label>
-    <input type="checkbox" name="autoHidePlayerList" {{#if autoHidePlayerList}}checked{{/if}} />
-    <p class="hint">{{fields.autoHidePlayerList.hint}}</p> 
+    <input type="checkbox" name="autoHidePlayerList" {{#if autoHidePlayerList}}checked{{/if}} {{#if fields.autoHidePlayerList.isLocked}}disabled{{/if}} />
+    <p class="hint">{{fields.autoHidePlayerList.hint}}</p>
   </div>
 
   <div class="form-group">
     <label for="playerListAvatars">{{fields.playerListAvatars.label}}</label>
-    <input type="checkbox" name="playerListAvatars" {{#if playerListAvatars}}checked{{/if}} />
+    <input type="checkbox" name="playerListAvatars" {{#if playerListAvatars}}checked{{/if}} {{#if fields.playerListAvatars.isLocked}}disabled{{/if}} />
     <p class="hint">{{fields.playerListAvatars.hint}}</p>
   </div>
 </section>
