@@ -559,7 +559,6 @@ body.crlngn-ui.crlngn-sheets {
     line-height: 1.4;
 
     .pills-group h3 {
-      font-family: var(--crlngn-font-titles);
       font-size: var(--font-size-13);
       color: inherit;
     }
@@ -637,3 +636,9 @@ body.crlngn-ui .ddb .Flowchart-Block > * {
   color: var(--color-dark-1);
 }
 
+/* Font styles - UI titles font */
+body.crlngn-ui.cui-font-t {
+  .dnd5e2.sheet.actor.npc .sheet-body .main-content .sidebar .pills-group h3 {
+    font-family: var(--crlngn-font-titles);
+  }
+}

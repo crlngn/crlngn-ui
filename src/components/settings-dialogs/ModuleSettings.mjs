@@ -320,7 +320,19 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     fieldNames?.forEach((fieldName) => {
       if(SETTINGS[fieldName] && shouldIncludeSetting(SETTINGS[fieldName], fieldName)) {
         const value = SettingsUtil.get(SETTINGS[fieldName].tag);
-        fields[fieldName] = SETTINGS[fieldName];
+        const fieldData = { ...SETTINGS[fieldName] };
+
+        // Add enforcement state for client-scoped settings with config: false
+        if (fieldData.scope === 'client' && fieldData.config === false) {
+          const state = SettingsUtil.getEnforcementState(fieldData.tag);
+          fieldData.enforcementState = state;
+          // For players, mark if setting is locked (locked or gate mode)
+          if (!game.user.isGM) {
+            fieldData.isLocked = (state === 'locked' || state === 'gate');
+          }
+        }
+
+        fields[fieldName] = fieldData;
         fieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;
         fieldDefaults[fieldName] = SETTINGS[fieldName].default;
       }
@@ -329,7 +341,19 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     playerFieldNames?.forEach((fieldName) => {
       if(SETTINGS[fieldName] && shouldIncludeSetting(SETTINGS[fieldName], fieldName)) {
         const value = SettingsUtil.get(SETTINGS[fieldName].tag);
-        fields[fieldName] = SETTINGS[fieldName];
+        const fieldData = { ...SETTINGS[fieldName] };
+
+        // Add enforcement state for client-scoped settings with config: false
+        if (fieldData.scope === 'client' && fieldData.config === false) {
+          const state = SettingsUtil.getEnforcementState(fieldData.tag);
+          fieldData.enforcementState = state;
+          // For players, mark if setting is locked (locked or gate mode)
+          if (!game.user.isGM) {
+            fieldData.isLocked = (state === 'locked' || state === 'gate');
+          }
+        }
+
+        fields[fieldName] = fieldData;
         fieldValues[fieldName] = value!== undefined ? value : SETTINGS[fieldName].default;
         fieldDefaults[fieldName] = SETTINGS[fieldName].default;
       }
@@ -362,6 +386,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const SETTINGS = getSettings();
     ModuleSettings.#element = this.element;
     LogUtil.log('Element set', [ModuleSettings.#element]);
+    LogUtil.log('Options parts', [options.parts]);
 
     // Handle all range inputs with their corresponding value inputs
     const rangeInputs = ModuleSettings.#element.querySelectorAll('input[type="range"]');
@@ -386,10 +411,28 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     ModuleSettings.handleThemeAndStyleFields();
     ModuleSettings.handleSheetFields();
 
+    // Inject enforcement icons dynamically BEFORE HintTooltipUtil processes labels
+    ModuleSettings.injectEnforcementIcons();
+
     // Apply hint tooltip handlers if the feature is enabled
     const hoverableHints = SettingsUtil.get(SETTINGS.hoverableSettingsHints.tag);
     if (hoverableHints) {
       HintTooltipUtil.applyHintHandlers(this.element);
+    }
+
+    // Add lock icon click handlers for enforcement
+    if (game.user.isGM) {
+      const lockIcons = ModuleSettings.#element.querySelectorAll('.crlngn-enforce-icon');
+      lockIcons.forEach(icon => {
+        // Set the correct icon class based on current state
+        const state = icon.dataset.state || 'unlocked';
+        ModuleSettings.updateEnforcementIcon(icon, state);
+
+        // Add click handler
+        icon.addEventListener('click', (event) => {
+          ModuleSettings.handleEnforcementIconClick(event, icon);
+        });
+      });
     }
 
     // const controlSettings = SettingsUtil.get(SETTINGS.moduleSettingsMenu.tag);
@@ -435,6 +478,139 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
       valueInput.value = rangeInput.value;
     }
+  }
+
+  /**
+   * Injects enforcement icons into setting labels based on field data
+   * @static
+   * @param {HTMLElement} targetElement - Optional element to search within (defaults to whole dialog)
+   */
+  static injectEnforcementIcons(targetElement = null) {
+    const SETTINGS = getSettings();
+    const searchRoot = targetElement || ModuleSettings.#element;
+
+    // Get all labels in the target element
+    const labels = searchRoot.querySelectorAll('label');
+
+    labels.forEach(label => {
+      let fieldName = label.getAttribute('for');
+
+      // If no 'for' attribute, try to find the first input in the same parent
+      if (!fieldName) {
+        const parent = label.closest('li, .form-group');
+        if (parent) {
+          const firstInput = parent.querySelector('input[name], select[name]');
+          if (firstInput) {
+            fieldName = firstInput.getAttribute('name');
+          }
+        }
+      }
+
+      if (!fieldName || !SETTINGS[fieldName]) return;
+
+      const setting = SETTINGS[fieldName];
+
+      // Only process client-scoped settings with config: false
+      if (setting.scope !== 'client' || setting.config !== false) return;
+
+      const enforcementState = SettingsUtil.getEnforcementState(setting.tag) || 'unlocked';
+
+      // For GMs, always show icon (even if unlocked) so they can change it
+      // For players, only show icon if locked
+      if (!game.user.isGM && enforcementState === 'unlocked') return;
+
+      // Check if icon already exists (avoid duplicates)
+      const existingIcon = label.querySelector('.crlngn-enforce-icon, .crlngn-locked-icon');
+      if (existingIcon) return;
+
+      // Determine if setting is locked for this user
+      const isLocked = (enforcementState === 'locked' || enforcementState === 'gate');
+
+      let icon;
+
+      if (game.user.isGM) {
+        // Create clickable enforcement icon for GM
+        icon = document.createElement('i');
+        icon.className = 'fas crlngn-enforce-icon';
+        icon.dataset.setting = setting.tag;
+        icon.dataset.state = enforcementState;
+        icon.title = game.i18n.localize('CRLNGN_UI.ui.enforcementTooltip');
+
+        // Set initial icon class based on state
+        const iconClasses = {
+          'unlocked': 'fa-lock-keyhole-open',
+          'soft': 'fa-unlock-keyhole',
+          'locked': 'fa-lock',
+          'gate': 'fa-dungeon'
+        };
+        icon.classList.add(iconClasses[enforcementState]);
+      } else if (isLocked) {
+        // Create static lock icon for players when setting is locked
+        icon = document.createElement('i');
+        icon.className = 'fas fa-lock crlngn-locked-icon';
+        icon.title = 'Locked by GM';
+      }
+
+      // Prepend icon to label if it was created
+      if (icon) {
+        label.prepend(icon);
+      }
+
+      // Disable the corresponding input if locked for players
+      if (!game.user.isGM && isLocked) {
+        const input = ModuleSettings.#element.querySelector(`[name="${fieldName}"]`);
+        if (input) {
+          input.disabled = true;
+        }
+      }
+    });
+  }
+
+  /**
+   * Handles enforcement icon clicks to cycle through lock states
+   * @static
+   * @param {Event} event - The click event
+   * @param {HTMLElement} icon - The icon element
+   */
+  static handleEnforcementIconClick(event, icon) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const settingTag = icon.dataset.setting;
+    if (!settingTag) return;
+
+    const isAltClick = event.altKey;
+    const newState = SettingsUtil.cycleEnforcementState(settingTag, isAltClick);
+
+    // Update icon class based on new state
+    ModuleSettings.updateEnforcementIcon(icon, newState);
+
+    // Save defaults if the setting is now enforced
+    if (newState !== 'unlocked') {
+      SettingsUtil.saveDefaultSettings();
+    }
+  }
+
+  /**
+   * Updates the enforcement icon class based on state
+   * @static
+   * @param {HTMLElement} icon - The icon element
+   * @param {string} state - The enforcement state
+   */
+  static updateEnforcementIcon(icon, state) {
+    // Remove all state classes
+    icon.classList.remove('fa-lock-keyhole-open', 'fa-unlock-keyhole', 'fa-lock', 'fa-dungeon');
+
+    // Add appropriate class based on state
+    const iconClasses = {
+      'unlocked': 'fa-lock-keyhole-open',
+      'soft': 'fa-unlock-keyhole',
+      'locked': 'fa-lock',
+      'gate': 'fa-dungeon'
+    };
+
+    icon.classList.add(iconClasses[state]);
+    icon.dataset.state = state;
   }
 
   /**
@@ -548,6 +724,27 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   changeTab(tab, group, options) {
     super.changeTab(tab, group, options);
     ModuleSettings.#activeTab = tab;
+
+    // Inject enforcement icons for the newly rendered tab
+    setTimeout(() => {
+      ModuleSettings.injectEnforcementIcons();
+
+      // Also set up click handlers for any new icons
+      if (game.user.isGM) {
+        const lockIcons = ModuleSettings.#element.querySelectorAll('.crlngn-enforce-icon');
+        lockIcons.forEach(icon => {
+          if (icon.dataset.handlerAttached) return;
+          icon.dataset.handlerAttached = 'true';
+
+          const state = icon.dataset.state || 'unlocked';
+          ModuleSettings.updateEnforcementIcon(icon, state);
+
+          icon.addEventListener('click', (event) => {
+            ModuleSettings.handleEnforcementIconClick(event, icon);
+          });
+        });
+      }
+    }, 0);
   }
 
   /**

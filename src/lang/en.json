@@ -10,6 +10,7 @@
       "reloadRequiredLabel": "A reload is required. Reload now?",
       "macroBarTooltipKeepOpen": "Keep open",
       "macroBarTooltipAutoHide": "Hide",
+      "enforcementTooltip": "Click to change enforcement to players, Alt+Click to change for GM",
       "reset": "Reset",
       "save": "Save",
       "reloadButton": "Reload",
@@ -18,7 +19,7 @@
         "incompatibleVersion": "Carolingian UI requires Foundry v13.339 or higher. Please update Foundry or install version 1.x of Carolingian UI.",
         "settingsUpdated": "Settings updated",
         "settingsSavedAsDefaults": "Current settings saved as defaults for players",
-        "enforceGMSettingsConflict": "Carolingian UI: 'Enforce GM Settings to Players' and Force Client Settings module are both enabled. Be warned that this may cause confusing behavior.",
+        "enforceGMSettingsConflict": "Carolingian UI and Force Client Settings module are both enforcing settings. This may cause confusing behavior.",
         "minimalUiNotSupported": "Carolingian UI is not compatible with Minimal UI, and offers most of its features. Please disable that module to avoid performance issues.",
         "monksScenesNotSupported": "Carolingian UI's Scene Navigation and Monk's Scene Navigation are NOT compatible. Please either disable Monk's Scene Navigation or uncheck 'Custom Layout' for Scene Navigation in settings.",
         "ripperScenesCompat": "Carolingian UI now has Scene Folder Navigation and Scene Search, which cannot be used together with Compact Scene Navigation. Either disable the other module or disable 'Scene Folder Navigation' on Carolingian UI settings.",
@@ -136,6 +137,22 @@
         "hint": "Configure the font families used throughout the interface",
         "description": "Select or type the name of a custom font, if already loaded on Foundry core. ",
         "fields": {
+          "enableFontUI": {
+            "label": "Enable UI Font",
+            "hint": "Apply custom font to UI body text"
+          },
+          "enableFontTitles": {
+            "label": "Enable Titles Font",
+            "hint": "Apply custom font to UI headings"
+          },
+          "enableFontJournal": {
+            "label": "Enable Journal Font",
+            "hint": "Apply custom font to journal body text"
+          },
+          "enableFontJournalTitles": {
+            "label": "Enable Journal Titles Font",
+            "hint": "Apply custom font to journal headings"
+          },
           "uiBody": {
             "label": "UI Font"
           },

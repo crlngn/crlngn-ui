@@ -221,27 +221,35 @@ export function getSettings() {
     },
 
     customFontsMenu: {
-      tag: "v2-custom-font-families", 
+      tag: "v2-custom-font-families",
       label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.label"),
       title: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.title"),
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.hint"),
       description: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.description"),
       propType: Object,
       fields: [
+        'enableFontUI',
         'uiFontBody',
+        'enableFontTitles',
         'uiFontTitles',
+        'enableFontJournal',
         'journalFontBody',
+        'enableFontJournalTitles',
         'journalFontTitles'
       ],
       default: {
+        enableFontUI: true,
         uiFontBody: `"Work Sans", Arial, sans-serif`,
+        enableFontTitles: true,
         uiFontTitles: game.system.id === 'daggerheart' ? `"Cinzel Decorative", Arial, sans-serif` : `"Roboto Slab", Arial, sans-serif`,
-        journalFontBody: `"Work Sans", Arial, sans-serif`, 
+        enableFontJournal: true,
+        journalFontBody: `"Work Sans", Arial, sans-serif`,
+        enableFontJournalTitles: true,
         journalFontTitles: game.system.id === 'daggerheart' ? `"Cinzel Decorative", Arial, sans-serif` : `"Roboto Slab", Arial, sans-serif`
       },
       scope: SETTING_SCOPE.world,
-      config: false, 
-      requiresReload: false 
+      config: false,
+      requiresReload: false
     },
 
     themeAndStylesMenu: {
@@ -501,21 +509,21 @@ export function getSettings() {
       requiresReload: false
     },
 
-    enforceGMSettings: {
-      tag: "v2-enforce-gm-settings",
-      label: game.i18n.localize("CRLNGN_UI.settings.enforceGMSettings.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.enforceGMSettings.hint"), 
-      propType: Boolean,
-      default: false,
-      scope: SETTING_SCOPE.world,
-      config: true, 
-      requiresReload: true
-    },
-    
     defaultSettings: {
       tag: "v2-default-settings",
-      label: game.i18n.localize("CRLNGN_UI.settings.defaultSettings.label"), 
+      label: game.i18n.localize("CRLNGN_UI.settings.defaultSettings.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.defaultSettings.hint"),
+      propType: Object,
+      default: {},
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+
+    settingEnforcement: {
+      tag: "v2-setting-enforcement",
+      label: "Setting Enforcement States",
+      hint: "Stores individual enforcement states for each setting (unlocked/soft/locked/gate)",
       propType: Object,
       default: {},
       scope: SETTING_SCOPE.world,
@@ -552,7 +560,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.useSceneFolders.hint"), 
       propType: Boolean, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.world, 
       config: false, 
       requiresReload: false 
     },
@@ -563,7 +571,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navFoldersForPlayers.hint"), 
       propType: Boolean, 
       default: false, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.world, 
       config: false, 
       requiresReload: false 
     },
@@ -596,7 +604,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.hideInactiveOnFolderToggle.hint"), 
       propType: Boolean, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.world, 
       config: false, 
       requiresReload: false 
     },
@@ -642,7 +650,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.hideLoadingSceneName.hint"), 
       propType: Boolean, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.world, 
       config: false, 
       requiresReload: false 
     },
@@ -733,7 +741,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.useFolderStyle.hint"), 
       propType: Boolean,
       default: true, 
-      scope: SETTING_SCOPE.world, 
+      scope: SETTING_SCOPE.client, 
       config: false, 
       requiresReload: false 
     },
@@ -783,7 +791,49 @@ export function getSettings() {
       requiresReload: false 
     },
 
-    /* FONTS */
+    /* FONTS - Enable toggles */
+    enableFontUI: {
+      tag: "v2-enable-font-ui",
+      label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.enableFontUI.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.enableFontUI.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+    enableFontTitles: {
+      tag: "v2-enable-font-titles",
+      label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.enableFontTitles.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.enableFontTitles.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+    enableFontJournal: {
+      tag: "v2-enable-font-journal",
+      label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.enableFontJournal.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.enableFontJournal.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+    enableFontJournalTitles: {
+      tag: "v2-enable-font-journal-titles",
+      label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.enableFontJournalTitles.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.enableFontJournalTitles.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+
+    /* FONTS - Font family values */
     uiFontBody: {
       tag: "v2-ui-font-body",
       oldName: "uiFont",

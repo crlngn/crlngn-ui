@@ -469,7 +469,6 @@ body.crlngn-ui{
             line-height: 20px;
             vertical-align: middle;
             text-transform: uppercase;
-            font-family: var(--crlngn-font-family);
             opacity: 1;
             display: inline-block;
             transition: opacity 0.25s ease-out 0.25s;
@@ -480,4 +479,11 @@ body.crlngn-ui{
     }
   }
 
+}
+
+/* Font styles - UI body font */
+body.crlngn-ui.cui-font-ui {
+  &.crlngn-av-dock-collapsed #camera-dock-toggle:after {
+    font-family: var(--crlngn-font-family);
+  }
 }

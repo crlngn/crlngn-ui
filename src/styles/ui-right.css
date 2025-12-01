@@ -234,7 +234,6 @@ body.crlngn-ui{
     h4{
       font-size: var(--font-size-18);
       font-weight: 600;
-      font-family: var(--crlngn-font-titles);
       margin: 1.5em 0 0.5em 0;
       letter-spacing: 0.02em;
       color: var(--color-highlights);
@@ -267,7 +266,7 @@ body.crlngn-ui{
       border-bottom-color: transparent;
     }
   }
-  #chat-notifications .dice-tray{
+  #chat-notifications .dice-tray, #chat-notifications .dice-tray-container{
     visibility: visible;
   }
   
@@ -276,7 +275,7 @@ body.crlngn-ui{
       display: none;
       visibility: hidden;
     }
-    .dice-tray{
+    .dice-tray, .dice-tray-container{
       display: none;
       visibility: hidden;
     }
@@ -412,7 +411,7 @@ body.crlngn-ui{
 
     #ui-right #sidebar .tabs li:has(button.collapse) {
       order: 0;
-      
+
       button.ui-control{
         --control-size: var(--control-item-size) !important;
         border-bottom-left-radius: 0;
@@ -420,4 +419,12 @@ body.crlngn-ui{
     }
   }
 
+}
+
+/* Font styles - UI titles font */
+body.crlngn-ui.cui-font-t {
+  .sidebar-tab .access h4,
+  .sidebar-info h4 {
+    font-family: var(--crlngn-font-titles);
+  }
 }

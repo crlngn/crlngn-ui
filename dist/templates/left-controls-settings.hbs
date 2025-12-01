@@ -8,7 +8,7 @@
 
   <div class="form-group">
     <label for="controlsAutoHide">{{fields.controlsAutoHide.label}}</label>
-    <input type="checkbox" name="controlsAutoHide" {{#if controlsAutoHide}}checked{{/if}} />
+    <input type="checkbox" name="controlsAutoHide" {{#if controlsAutoHide}}checked{{/if}} {{#if fields.controlsAutoHide.isLocked}}disabled{{/if}} />
     <p class="hint">{{fields.controlsAutoHide.hint}}</p> 
   </div>
 </section>

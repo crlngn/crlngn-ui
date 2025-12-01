@@ -9,15 +9,18 @@
   </div>
 
   <div class="form-group">
-    <label for="uiFontBody">{{fields.uiFontBody.label}}</label>
+    <label for="uiFontBody">
+      <input type="checkbox" name="enableFontUI" {{#if enableFontUI}}checked{{/if}} />
+      {{fields.uiFontBody.label}}
+    </label>
     <div class="dropdown-wrapper">
-      <input type="text" name="uiFontBody" value="{{uiFontBody}}" 
-        autocomplete="off" 
+      <input type="text" name="uiFontBody" value="{{uiFontBody}}"
+        autocomplete="off"
         onfocus="this.select()" />
       <div class="dropdown-options">
         {{#each fontList}}
-          <div class="dropdown-option" 
-            style="font-family:{{this}}" 
+          <div class="dropdown-option"
+            style="font-family:{{this}}"
             data-value="{{this}}">
             {{this}}
           </div>
@@ -27,15 +30,18 @@
   </div>
 
   <div class="form-group">
-    <label for="uiFontTitles">{{fields.uiFontTitles.label}}</label>
+    <label for="uiFontTitles">
+      <input type="checkbox" name="enableFontTitles" {{#if enableFontTitles}}checked{{/if}} />
+      {{fields.uiFontTitles.label}}
+    </label>
     <div class="dropdown-wrapper">
-      <input type="text" name="uiFontTitles" value="{{uiFontTitles}}" 
-        autocomplete="off" 
+      <input type="text" name="uiFontTitles" value="{{uiFontTitles}}"
+        autocomplete="off"
         onfocus="this.select()" />
       <div class="dropdown-options">
         {{#each fontList}}
-          <div class="dropdown-option" 
-            style="font-family:{{this}}" 
+          <div class="dropdown-option"
+            style="font-family:{{this}}"
             data-value="{{this}}">
             {{this}}
           </div>
@@ -45,15 +51,18 @@
   </div>
 
   <div class="form-group">
-    <label for="journalFontBody">{{fields.journalFontBody.label}}</label>
+    <label for="journalFontBody">
+      <input type="checkbox" name="enableFontJournal" {{#if enableFontJournal}}checked{{/if}} />
+      {{fields.journalFontBody.label}}
+    </label>
     <div class="dropdown-wrapper">
-      <input type="text" name="journalFontBody" value="{{journalFontBody}}" 
-        autocomplete="off" 
+      <input type="text" name="journalFontBody" value="{{journalFontBody}}"
+        autocomplete="off"
         onfocus="this.select()" />
       <div class="dropdown-options">
         {{#each fontList}}
-          <div class="dropdown-option" 
-            style="font-family:{{this}}" 
+          <div class="dropdown-option"
+            style="font-family:{{this}}"
             data-value="{{this}}">
             {{this}}
           </div>
@@ -63,15 +72,18 @@
   </div>
 
   <div class="form-group">
-    <label for="journalFontTitles">{{fields.journalFontTitles.label}}</label>
+    <label for="journalFontTitles">
+      <input type="checkbox" name="enableFontJournalTitles" {{#if enableFontJournalTitles}}checked{{/if}} />
+      {{fields.journalFontTitles.label}}
+    </label>
     <div class="dropdown-wrapper">
-      <input type="text" name="journalFontTitles" value="{{journalFontTitles}}" 
-        autocomplete="off" 
+      <input type="text" name="journalFontTitles" value="{{journalFontTitles}}"
+        autocomplete="off"
         onfocus="this.select()" />
       <div class="dropdown-options">
         {{#each fontList}}
-          <div class="dropdown-option" 
-            style="font-family:{{this}}" 
+          <div class="dropdown-option"
+            style="font-family:{{this}}"
             data-value="{{this}}">
             {{this}}
           </div>

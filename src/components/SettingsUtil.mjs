@@ -52,8 +52,35 @@ export class SettingsUtil {
           config: setting.config,
           requiresReload: setting.requiresReload || false,
           onChange: value => {
+            const SETTINGS = getSettings();
+
+            // Check if this setting is enforced and user is not GM
+            if (!game.user.isGM && setting.scope === 'client' && SettingsUtil.shouldEnforceSetting(setting.tag)) {
+              // Revert to GM's default value
+              const defaultSettings = SettingsUtil.get(SETTINGS.defaultSettings.tag) || {};
+              const gmDefault = defaultSettings[setting.tag];
+              if (gmDefault !== undefined && gmDefault !== value) {
+                // Silently revert the change
+                setTimeout(() => {
+                  SettingsUtil.set(setting.tag, gmDefault);
+                }, 0);
+                return;
+              }
+            }
+
+            // If GM changes a locked/soft setting, update the enforced default
+            // (but NOT in gate mode - gate mode allows GM to have different value)
+            if (game.user.isGM && setting.scope === 'client') {
+              const state = SettingsUtil.getEnforcementState(setting.tag);
+              if (state === 'soft' || state === 'locked') {
+                const defaultSettings = SettingsUtil.get(SETTINGS.defaultSettings.tag) || {};
+                defaultSettings[setting.tag] = value;
+                SettingsUtil.set(SETTINGS.defaultSettings.tag, defaultSettings);
+              }
+            }
+
             SettingsUtil.apply(setting.tag, value);
-            if (setting.tag !== 'v2-enforce-gm-settings' && setting.tag !== 'v2-default-settings') {
+            if (setting.tag !== 'v2-default-settings' && setting.tag !== 'v2-setting-enforcement') {
               SettingsUtil.onSettingChange(setting.tag);
             }
           }
@@ -333,6 +360,10 @@ export class SettingsUtil {
       case SETTINGS.uiFontTitles.tag:
       case SETTINGS.journalFontBody.tag:
       case SETTINGS.journalFontTitles.tag:
+      case SETTINGS.enableFontUI.tag:
+      case SETTINGS.enableFontTitles.tag:
+      case SETTINGS.enableFontJournal.tag:
+      case SETTINGS.enableFontJournalTitles.tag:
         SettingsUtil.applyCustomFonts(settingTag, value);
         break;
       case SETTINGS.controlsAutoHide.tag:
@@ -493,13 +524,6 @@ export class SettingsUtil {
         SettingsUtil.applyGlassEffect(value); break;
       case SETTINGS.glassTranslucence.tag:
         SettingsUtil.applyTranslucence(value); break;
-      case SETTINGS.enforceGMSettings.tag:
-        // When GM enables enforcement, immediately save current settings
-        if (value && game.user?.isGM) {
-          SettingsUtil.saveDefaultSettings();
-          ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.notifications.settingsSavedAsDefaults'));
-        }
-        break;
       case SETTINGS.hideLoadingSceneName.tag:
         SettingsUtil.applyHideLoadingSceneName(value); break;
       default:
@@ -724,7 +748,23 @@ export class SettingsUtil {
     });
 
     const body = document.querySelector("body.crlngn-ui");
+    if (!body) return;
+
+    // Handle font enable toggles - add/remove body classes
     switch(tag){
+      case SETTINGS.enableFontUI.tag:
+        body.classList.toggle('cui-font-ui', value ?? customFonts.enableFontUI ?? true);
+        break;
+      case SETTINGS.enableFontTitles.tag:
+        body.classList.toggle('cui-font-t', value ?? customFonts.enableFontTitles ?? true);
+        break;
+      case SETTINGS.enableFontJournal.tag:
+        body.classList.toggle('cui-font-jrnl', value ?? customFonts.enableFontJournal ?? true);
+        break;
+      case SETTINGS.enableFontJournalTitles.tag:
+        body.classList.toggle('cui-font-jrnl-t', value ?? customFonts.enableFontJournalTitles ?? true);
+        break;
+      // Handle font family values
       case SETTINGS.uiFontBody.tag:
         GeneralUtil.addCSSVars('--crlngn-font-family', value || customFonts.uiFontBody || '');
         break;
@@ -1092,17 +1132,81 @@ export class SettingsUtil {
   }
 
   /**
-   * Enforces GM settings to players when enabled
+   * Get the enforcement state for a specific setting
+   * @param {string} settingTag - The setting tag to check
+   * @returns {string} The enforcement state: 'unlocked', 'soft', 'locked', or 'gate'
+   */
+  static getEnforcementState(settingTag) {
+    const SETTINGS = getSettings();
+    const enforcement = SettingsUtil.get(SETTINGS.settingEnforcement.tag) || {};
+    return enforcement[settingTag] || 'unlocked';
+  }
+
+  /**
+   * Set the enforcement state for a specific setting
+   * @param {string} settingTag - The setting tag
+   * @param {string} state - The enforcement state: 'unlocked', 'soft', 'locked', or 'gate'
+   */
+  static setEnforcementState(settingTag, state) {
+    const SETTINGS = getSettings();
+    const enforcement = SettingsUtil.get(SETTINGS.settingEnforcement.tag) || {};
+    enforcement[settingTag] = state;
+    SettingsUtil.set(SETTINGS.settingEnforcement.tag, enforcement);
+    LogUtil.log(`Set enforcement state for ${settingTag}:`, [state]);
+  }
+
+  /**
+   * Cycle through enforcement states (normal click) or toggle gate mode (alt-click)
+   * @param {string} settingTag - The setting tag
+   * @param {boolean} isAltClick - Whether alt key was pressed
+   * @returns {string} The new enforcement state
+   */
+  static cycleEnforcementState(settingTag, isAltClick = false) {
+    const currentState = SettingsUtil.getEnforcementState(settingTag);
+
+    if (isAltClick) {
+      // Alt-click: toggle gate mode
+      const newState = currentState === 'gate' ? 'locked' : 'gate';
+      SettingsUtil.setEnforcementState(settingTag, newState);
+      return newState;
+    } else {
+      // Normal click: cycle through unlocked → soft → locked → unlocked
+      const cycle = {
+        'unlocked': 'soft',
+        'soft': 'locked',
+        'locked': 'unlocked',
+        'gate': 'soft' // If in gate mode, normal click goes to soft
+      };
+      const newState = cycle[currentState];
+      SettingsUtil.setEnforcementState(settingTag, newState);
+      return newState;
+    }
+  }
+
+  /**
+   * Check if a setting should be enforced for the current user
+   * @param {string} settingTag - The setting tag to check
+   * @returns {boolean} True if the setting should be enforced
+   */
+  static shouldEnforceSetting(settingTag) {
+    const state = SettingsUtil.getEnforcementState(settingTag);
+
+    // Unlocked = never enforce
+    if (state === 'unlocked') return false;
+
+    // Gate = enforce for players but not GM
+    if (state === 'gate' && game.user?.isGM) return false;
+
+    // Soft, locked, or gate (for players) = enforce
+    return true;
+  }
+
+  /**
+   * Enforces GM settings to players based on individual enforcement states
    * Called during module initialization for non-GM users
    */
   static enforceGMSettings() {
     const SETTINGS = getSettings();
-    const enforcementEnabled = SettingsUtil.get(SETTINGS.enforceGMSettings.tag);
-
-    // Only proceed if user is not GM and enforcement is enabled
-    if (game.user?.isGM || !enforcementEnabled) {
-      return;
-    }
 
     // Get stored default settings
     const defaultSettings = SettingsUtil.get(SETTINGS.defaultSettings.tag);
@@ -1111,52 +1215,42 @@ export class SettingsUtil {
       return;
     }
 
-    LogUtil.log("Enforcing GM settings to player", [defaultSettings]);
+    LogUtil.log("Checking individual enforcement states for settings", [defaultSettings]);
 
     let settingsApplied = false;
 
-    // First, enforce dockResizeOnUserJoin if present, so we know the correct mode
-    if (defaultSettings[SETTINGS.dockResizeOnUserJoin.tag] !== undefined) {
-      const resizeMode = defaultSettings[SETTINGS.dockResizeOnUserJoin.tag];
-      const currentMode = SettingsUtil.get(SETTINGS.dockResizeOnUserJoin.tag);
-      if (currentMode !== resizeMode) {
-        SettingsUtil.set(SETTINGS.dockResizeOnUserJoin.tag, resizeMode);
-        LogUtil.log(`Applied GM setting: ${SETTINGS.dockResizeOnUserJoin.tag}`, [resizeMode]);
-        settingsApplied = true;
-      }
-    }
-
-    // Check if dock resize is OFF - if so, don't enforce dock position/size settings
-    const dockResizeMode = SettingsUtil.get(SETTINGS.dockResizeOnUserJoin.tag);
-    const isDockResizeOff = dockResizeMode === DOCK_RESIZE_OPTIONS.off.name;
-    LogUtil.log("Dock resize mode for enforcement", [dockResizeMode, isDockResizeOff]);
-
-    // Apply each stored setting
+    // Apply each stored setting based on its individual enforcement state
     for (const [settingTag, value] of Object.entries(defaultSettings)) {
       if (settingTag === '_version') continue;
-      if (settingTag === SETTINGS.dockResizeOnUserJoin.tag) continue;
-
-      // Skip camera dock position/size settings if resize is OFF (let players customize freely)
-      if (isDockResizeOff && (
-        settingTag === SETTINGS.dockPosX.tag ||
-        settingTag === SETTINGS.dockPosY.tag ||
-        settingTag === SETTINGS.dockWidth.tag ||
-        settingTag === SETTINGS.dockHeight.tag
-      )) {
-        LogUtil.log(`Skipping ${settingTag} - dock resize is OFF, allowing player customization`);
-        continue;
-      }
 
       try {
+        // Check if this setting should be enforced for the current user
+        if (!SettingsUtil.shouldEnforceSetting(settingTag)) {
+          continue;
+        }
+
         // Only apply client-scoped settings
         const setting = Object.values(SETTINGS).find(s => s.tag === settingTag);
         if (setting && setting.scope === 'client') {
-          // Check if the current value is different from the GM default
           const currentValue = SettingsUtil.get(settingTag);
-          if (currentValue !== value) {
-            SettingsUtil.set(settingTag, value);
-            LogUtil.log(`Applied GM setting: ${settingTag}`, [value]);
-            settingsApplied = true;
+          const enforcementState = SettingsUtil.getEnforcementState(settingTag);
+
+          // For 'soft' enforcement, only apply on first load (don't override player changes)
+          if (enforcementState === 'soft') {
+            // Soft enforcement: apply default only if never set before
+            // We'll skip this for now and let it apply once
+            if (currentValue !== value) {
+              SettingsUtil.set(settingTag, value);
+              LogUtil.log(`Applied soft-enforced GM setting: ${settingTag}`, [value]);
+              settingsApplied = true;
+            }
+          } else if (enforcementState === 'locked' || enforcementState === 'gate') {
+            // Locked/Gate enforcement: always apply
+            if (currentValue !== value) {
+              SettingsUtil.set(settingTag, value);
+              LogUtil.log(`Applied ${enforcementState}-enforced GM setting: ${settingTag}`, [value]);
+              settingsApplied = true;
+            }
           }
         }
       } catch (error) {
@@ -1169,18 +1263,13 @@ export class SettingsUtil {
 
   /**
    * Saves current GM settings as defaults for enforcement
-   * Called when GM changes settings and enforcement is enabled
+   * Only saves settings that have an enforcement state (not unlocked)
    */
   static saveDefaultSettings() {
     const SETTINGS = getSettings();
-    
+
     // Only GM can save default settings
     if (!game.user?.isGM) {
-      return;
-    }
-
-    // Only save if enforcement is enabled
-    if (!SettingsUtil.get(SETTINGS.enforceGMSettings.tag)) {
       return;
     }
 
@@ -1188,30 +1277,40 @@ export class SettingsUtil {
       _version: Date.now() // Add timestamp to track updates
     };
 
-    // Collect all client-scoped settings
+    // Collect only client-scoped settings that are enforced (not unlocked)
     for (const [key, setting] of Object.entries(SETTINGS)) {
       if (setting.tag && setting.scope === 'client' && !setting.isMenu) {
-        const value = SettingsUtil.get(setting.tag);
-        if (value !== undefined) {
-          defaultSettings[setting.tag] = value;
+        const enforcementState = SettingsUtil.getEnforcementState(setting.tag);
+
+        // Only save if the setting has enforcement (not unlocked)
+        if (enforcementState !== 'unlocked') {
+          const value = SettingsUtil.get(setting.tag);
+          if (value !== undefined) {
+            defaultSettings[setting.tag] = value;
+          }
         }
       }
     }
 
     // Save the collected settings
     SettingsUtil.set(SETTINGS.defaultSettings.tag, defaultSettings);
-    LogUtil.log("Saved default GM settings", [defaultSettings]);
+    LogUtil.log("Saved enforced GM settings", [defaultSettings]);
   }
 
   /**
    * Hook for when settings change to update default settings
+   * Only saves if the changed setting is enforced (but not gate mode)
    */
   static onSettingChange(settingTag) {
     const SETTINGS = getSettings();
 
-    // If GM and enforcement is enabled, save settings immediately
-    if (game.user?.isGM && SettingsUtil.get(SETTINGS.enforceGMSettings.tag)) {
-      SettingsUtil.saveDefaultSettings();
+    // If GM and setting is enforced (but not gate), save settings immediately
+    // Gate mode allows GM to have different value than enforced default
+    if (game.user?.isGM) {
+      const enforcementState = SettingsUtil.getEnforcementState(settingTag);
+      if (enforcementState === 'soft' || enforcementState === 'locked') {
+        SettingsUtil.saveDefaultSettings();
+      }
     }
   }
 
