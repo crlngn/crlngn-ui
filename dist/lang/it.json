@@ -137,6 +137,22 @@
         "hint": "Configura le famiglie di font utilizzate nell'interfaccia",
         "description": "Seleziona o digita il nome di un font personalizzato, se già caricato su Foundry core.",
         "fields": {
+          "enableFontUI": {
+            "label": "Abilita Font UI",
+            "hint": "Applica font personalizzato al testo del corpo dell'interfaccia"
+          },
+          "enableFontTitles": {
+            "label": "Abilita Font Titoli",
+            "hint": "Applica font personalizzato ai titoli dell'interfaccia"
+          },
+          "enableFontJournal": {
+            "label": "Abilita Font Diario",
+            "hint": "Applica font personalizzato al corpo del diario"
+          },
+          "enableFontJournalTitles": {
+            "label": "Abilita Font Titoli Diario",
+            "hint": "Applica font personalizzato ai titoli del diario"
+          },
           "uiBody": {
             "label": "Font UI"
           },

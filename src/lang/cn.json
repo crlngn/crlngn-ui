@@ -137,6 +137,22 @@
         "hint": "配置界面中使用的字体",
         "description": "选择或输入已在 Foundry 核心中加载的自定义字体名称。",
         "fields": {
+          "enableFontUI": {
+            "label": "启用界面字体",
+            "hint": "将自定义字体应用于界面正文"
+          },
+          "enableFontTitles": {
+            "label": "启用标题字体",
+            "hint": "将自定义字体应用于界面标题"
+          },
+          "enableFontJournal": {
+            "label": "启用日志字体",
+            "hint": "将自定义字体应用于日志正文"
+          },
+          "enableFontJournalTitles": {
+            "label": "启用日志标题字体",
+            "hint": "将自定义字体应用于日志标题"
+          },
           "uiBody": {
             "label": "界面字体"
           },

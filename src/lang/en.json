@@ -137,6 +137,22 @@
         "hint": "Configure the font families used throughout the interface",
         "description": "Select or type the name of a custom font, if already loaded on Foundry core. ",
         "fields": {
+          "enableFontUI": {
+            "label": "Enable UI Font",
+            "hint": "Apply custom font to UI body text"
+          },
+          "enableFontTitles": {
+            "label": "Enable Titles Font",
+            "hint": "Apply custom font to UI headings"
+          },
+          "enableFontJournal": {
+            "label": "Enable Journal Font",
+            "hint": "Apply custom font to journal body text"
+          },
+          "enableFontJournalTitles": {
+            "label": "Enable Journal Titles Font",
+            "hint": "Apply custom font to journal headings"
+          },
           "uiBody": {
             "label": "UI Font"
           },

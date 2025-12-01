@@ -360,6 +360,10 @@ export class SettingsUtil {
       case SETTINGS.uiFontTitles.tag:
       case SETTINGS.journalFontBody.tag:
       case SETTINGS.journalFontTitles.tag:
+      case SETTINGS.enableFontUI.tag:
+      case SETTINGS.enableFontTitles.tag:
+      case SETTINGS.enableFontJournal.tag:
+      case SETTINGS.enableFontJournalTitles.tag:
         SettingsUtil.applyCustomFonts(settingTag, value);
         break;
       case SETTINGS.controlsAutoHide.tag:
@@ -744,7 +748,23 @@ export class SettingsUtil {
     });
 
     const body = document.querySelector("body.crlngn-ui");
+    if (!body) return;
+
+    // Handle font enable toggles - add/remove body classes
     switch(tag){
+      case SETTINGS.enableFontUI.tag:
+        body.classList.toggle('cui-font-ui', value ?? customFonts.enableFontUI ?? true);
+        break;
+      case SETTINGS.enableFontTitles.tag:
+        body.classList.toggle('cui-font-t', value ?? customFonts.enableFontTitles ?? true);
+        break;
+      case SETTINGS.enableFontJournal.tag:
+        body.classList.toggle('cui-font-jrnl', value ?? customFonts.enableFontJournal ?? true);
+        break;
+      case SETTINGS.enableFontJournalTitles.tag:
+        body.classList.toggle('cui-font-jrnl-t', value ?? customFonts.enableFontJournalTitles ?? true);
+        break;
+      // Handle font family values
       case SETTINGS.uiFontBody.tag:
         GeneralUtil.addCSSVars('--crlngn-font-family', value || customFonts.uiFontBody || '');
         break;

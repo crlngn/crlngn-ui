@@ -1,7 +1,7 @@
 {
-  "id": "2.12.0",
+  "id": "2.17.0",
   "title": "Updates on Carolingian UI",
-  "content": "<p>Version 2.12.0:</p>\n<ul><li><b>Background Blur and Opacity</b> You can now control background blur and opacity for application windows.</li></ul><p>Version 2.10.0:</p>\n<ul><li><b>Custom Color Themes are Here!</b> Many of you have been asking for this and I've been delaying as I was afraid of the color atrocities I would see done with this feature. </li><li>But alas, you win! You can now customize the color accents for Foundry UI, and if you are feeling adventurous, apply the secondary color to the backgrounds. Use wisely. </li></ul>\n<p><b>If you like this module, consider supporting me on <a href='https://www.patreon.com/carolingiandev/membership'>Patreon</a>.</b></p><p>Join the discussion on <a href='https://discord.gg/P5ygvHXE3R'>Discord</a> or visit the <a href='https://github.com/crlngn/crlngn-ui/releases'>Github repository</a>.</p>",
-  "imageUrl": "https://github.com/crlngn/crlngn-ui/blob/v2/demo/crlngn-ui-color-picker-demo.png?raw=true",
+  "content": "<p>Version 2.17.0:</p>\n<ul><li><b>Disabling Custom Fonts</b> Added option to disable individual custom font settings in case there's conflicts with certain glyph fonts - GM can keep default ui fonts and just change titles, or any combination of the 4 custom fonts</li></ul>\n<p>Version 2.16.0:</p>\n<ul><li><b>Enforcing Settings to Players</b> You can now enforce settings to players individually using the lock icon beside each setting.</li></ul>\n<p><b>If you like this module, consider supporting me on <a href='https://www.patreon.com/carolingiandev/membership'>Patreon</a>.</b></p><p>Join the discussion on <a href='https://discord.gg/P5ygvHXE3R'>Discord</a> or visit the <a href='https://github.com/crlngn/crlngn-ui/releases'>Github repository</a>.</p>",
+  "imageUrl": "https://github.com/crlngn/crlngn-ui/blob/v2/demo/cui-font-settings.png?raw=true",
   "videoUrl": ""
 }

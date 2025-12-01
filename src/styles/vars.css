@@ -27,31 +27,49 @@
   }
 
   body.crlngn-ui {
+    --card-color-bg: var(--control-bg-color);
+  }
+
+  /* UI Body Font - only when enabled */
+  body.crlngn-ui.cui-font-ui {
     --font-body: var(--crlngn-font-family);
     --font-sans: var(--crlngn-font-family);
     --font-serif: var(--crlngn-font-serif);
     --font-blockquote: var(--crlngn-font-family);
-    --dnd5e-font-roboto-slab: var(--crlngn-font-titles);
     --dnd5e-font-roboto: var(--crlngn-font-family);
-    --dnd5e-font-modesto: var(--crlngn-font-journal-title);
-    --dnd5e-font-roboto-condensed: var(--crlngn-font-journal-body);
     --font-primary: var(--crlngn-font-family);
-    --card-color-bg: var(--control-bg-color);
+  }
 
+  /* UI Titles Font - only when enabled */
+  body.crlngn-ui.cui-font-t {
+    --dnd5e-font-roboto-slab: var(--crlngn-font-titles);
     --font-h1: var(--crlngn-font-titles);
     --font-h2: var(--crlngn-font-titles);
     --font-h3: var(--crlngn-font-titles);
     --font-h4: var(--crlngn-font-titles);
     --font-h5: var(--crlngn-font-titles);
     --font-h6: var(--crlngn-font-titles);
+  }
 
-    .journal-sheet-container{
+  /* Journal Body Font - only when enabled */
+  body.crlngn-ui.cui-font-jrnl {
+    --dnd5e-font-roboto-condensed: var(--crlngn-font-journal-body);
+
+    .journal-sheet-container {
+      --font-h5: var(--crlngn-font-journal-body);
+      --font-h6: var(--crlngn-font-journal-body);
+    }
+  }
+
+  /* Journal Titles Font - only when enabled */
+  body.crlngn-ui.cui-font-jrnl-t {
+    --dnd5e-font-modesto: var(--crlngn-font-journal-title);
+
+    .journal-sheet-container {
       --font-h1: var(--crlngn-font-journal-title);
       --font-h2: var(--crlngn-font-journal-title);
       --font-h3: var(--crlngn-font-journal-title);
       --font-h4: var(--crlngn-font-journal-title);
-      --font-h5: var(--crlngn-font-journal-body);
-      --font-h6: var(--crlngn-font-journal-body);
     }
   }
 
@@ -251,6 +269,8 @@
       --color-input-bg: var(--color-dark-bg-50); 
     
       --color-button-bg: rgba(90,120,150,0.5);
+      --button-background-color: rgba(90,120,150,0.5);
+      --button-text-color: var(--color-text-primary);
       --color-input-border: rgba(90,120,150, 0.5);
       --color-border-dark-5: rgba(80, 80, 80, 1);
       --color-sidebar-font: rgba(213, 221, 230, 0.8);
@@ -260,7 +280,7 @@
       --color-text-dark-op: rgba(235,235,235,0.6);
       --color-text-light: rgba(235,235,235,1);*/
       --input-background-alt: var(--color-cool-5);
-      --color-text-secondary:var(--color-light-3);
+      --color-text-secondary:var(--color-light-2);
       --color-text-primary: var(--color-light-1);
 
       /*pf2e*/
@@ -320,7 +340,7 @@
     &.theme-dark #tooltip.application:not(.monks-enhanced-journal).theme-light,
     .themed.theme-light,
     &.theme-dark .theme-light .dnd5e,
-    .chat-log.themed.theme-light{
+    &.crlngn-chat .chat-log.themed.theme-light {
       --color-border: rgba(224, 217, 213, 1);
       /*--control-bg-color: rgba(224, 217, 213, 0.98);*/
       --crlngn-button-bg: rgba(250, 250, 250, 0.15);
@@ -331,6 +351,11 @@
       /*--background: var(--control-bg-color);*/
       --filigree-background-color: transparent !important;
       --input-background-color: rgba(255, 255, 255, 0.2);
+
+      --button-background-color: rgba(90,120,150,0.5);
+      --button-border-color: rgba(90,120,150,0.5);
+      --button-text-color: var(--color-text-primary);
+      
     }
 
     &.theme-dark.crlngn-chat .sidebar-content{
@@ -354,11 +379,13 @@
     .app.theme-dark,
     &.theme-dark,
     #interface.theme-dark,
+    #interface.theme-dark .theme-light,
     &.theme-dark .sidebar-popout:not(.theme-dark),
     .application:not(.monks-enhanced-journal).theme-dark,
     &.theme-light #tooltip.application:not(.monks-enhanced-journal).theme-dark,
     .themed.theme-dark,
-    .chat-log.themed.theme-dark{
+    &.crlngn-chat .chat-log.themed.theme-dark,
+    &.crlngn-chat #interface.theme-dark .chat-log button{
       --color-border: rgba(15, 15, 15, 0.15);
       /*--control-bg-color: var(--color-cool-5-90);*/
       --input-background-alt: var(--color-dark-bg-50);
@@ -368,6 +395,11 @@
       --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.35);
       --dnd5e-color-groove: var(--dnd5e-color-gold);
       /*--background: var(--control-bg-color);*/
+
+      --button-background-color: rgba(96, 108, 119, 0.5);
+      --button-border-color: rgba(96, 108, 119, 0.5);
+      --button-text-color: var(--color-text-primary);
+      --content-link-background: rgba(96, 108, 119, 0.5);
     }
 
     &.stream.theme-light,

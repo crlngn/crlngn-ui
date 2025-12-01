@@ -136,16 +136,11 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   }
   .chat-message .message-content:not(.dnd5e2) {
     /*font-size: var(--font-size-13);*/
-    p, ul, ol, li, span, a, b, strong {
-      font-family: var(--crlngn-font-family);
-    }
     h3, h4, h5, h6 {
-      font-family: var(--crlngn-font-family);
       font-weight: 600;
     }
-    
+
     h1, h2{
-      font-family: var(--crlngn-font-titles);
       font-size: var(--font-size-21);
       font-weight: 600;
     }
@@ -253,19 +248,6 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
     border: 0;
     border-radius: 3px;
   }
-  .chat-message.crlngn h1, 
-  .chat-message.crlngn h2, 
-  .chat-message.crlngn h3{
-    font-family: var(--crlngn-font-titles);
-  }
-
-  .chat-message.crlngn, 
-  .chat-message.crlngn h4, 
-  .chat-message.crlngn h5,
-  .chat-message.crlngn h6,
-  .chat-message.crlngn .card-header {
-    font-family: var(--crlngn-font-family);
-  }
   /*
   &.no-borders{
     :is(.chat-popout, #chat-log, .chat-log) .chat-message,
@@ -288,7 +270,6 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   &.system-dnd5e .chat-message .name-stacked .title {
     letter-spacing: 0.015em;
     font-weight: 600;
-    font-family: var(--crlngn-font-titles);
   }
 
   .crlngn.ddbgl .chat-card .card-header.collapsed{
@@ -416,7 +397,7 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
     background: var(--color-dark-bg-10);
   }
   /* card button layout */
-  .chat-card .card-buttons:not(.midi-buttons) {
+  .chat-card .card-buttons:not(.midi-buttons){
     flex-direction: row; 
     flex-wrap: wrap; 
   }
@@ -811,23 +792,21 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
       background-image: var(--striped-bg-2);
     }
     
-    .chat-message h1, 
-    .chat-message h2, 
+    .chat-message h1,
+    .chat-message h2,
     .chat-message h3{
       color: var(--color-light-1);
-      font-family: var(--crlngn-font-titles);
       &:hover{
         color: var(--color-text-light);
       }
     }
-  
-    .chat-message, 
-    .chat-message h4, 
+
+    .chat-message,
+    .chat-message h4,
     .chat-message h5,
     .chat-message h6,
     .chat-message .card-header {
       color: var(--color-light-1);
-      font-family: var(--crlngn-font-family);
       &:hover{
         color: var(--color-text-light);
       }
@@ -1340,4 +1319,84 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
     filter: none;
   }
 
+  /***********
+  * Draw Steel
+  ********/
+  &.system-draw-steel {
+    dl.power-roll-display span.potency{
+      font-family: "Draw Steel Glyphs";
+    }
+  }
+
+}
+
+/*****************
+Chat font styles - UI body font
+******************/
+body.crlngn-ui.crlngn-chat.cui-font-ui {
+  .chat-message .message-content:not(.dnd5e2) {
+    p, ul, ol, li, span, a, b, strong {
+      font-family: var(--crlngn-font-family);
+    }
+    h3, h4, h5, h6 {
+      font-family: var(--crlngn-font-family);
+    }
+  }
+
+  .chat-message.crlngn,
+  .chat-message.crlngn h4,
+  .chat-message.crlngn h5,
+  .chat-message.crlngn h6,
+  .chat-message.crlngn .card-header {
+    font-family: var(--crlngn-font-family);
+  }
+
+  /* dark mode font overrides */
+  &.stream.theme-dark,
+  #interface.theme-dark,
+  #chat-popout.theme-dark,
+  #chat-pins.theme-dark {
+    .chat-message,
+    .chat-message h4,
+    .chat-message h5,
+    .chat-message h6,
+    .chat-message .card-header {
+      font-family: var(--crlngn-font-family);
+    }
+  }
+}
+
+/*****************
+Chat font styles - UI titles font
+******************/
+body.crlngn-ui.crlngn-chat.cui-font-t {
+  .chat-message .message-content:not(.dnd5e2) {
+    h1, h2 {
+      font-family: var(--crlngn-font-titles);
+    }
+  }
+
+  .chat-message.crlngn h1,
+  .chat-message.crlngn h2,
+  .chat-message.crlngn h3 {
+    font-family: var(--crlngn-font-titles);
+  }
+
+  /* card headers */
+  .chat-message .message-header .name-stacked .title,
+  &.system-dnd5e .chat-message .name-stacked .title {
+    font-family: var(--crlngn-font-titles);
+  }
+
+  /* dark mode font overrides */
+  &.stream.theme-dark,
+  #interface.theme-dark,
+  #chat-popout.theme-dark,
+  #chat-pins.theme-dark {
+    .chat-message h1,
+    .chat-message h2,
+    .chat-message h3 {
+      font-family: var(--crlngn-font-titles);
+    }
+  }
 }

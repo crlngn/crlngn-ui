@@ -4,13 +4,10 @@ body.crlngn-ui{
   #quest-tracker{
     z-index: 1;
     h4{
-      font-family: var(--crlngn-font-titles);
       font-size: 1.25em;
     }
 
     .window-content{
-      font-family: var(--crlngn-font-family);
-
       .quest .title{
         font-size: 1rem;
       }
@@ -34,6 +31,13 @@ body.crlngn-ui{
     #hurry-up {
       transform: scale(0.75);
     }
+  }
+
+  /* Rippers Module Hub */
+  .form-group select:has(option[value="world"]):has(option[value="original"]) {
+    max-width: 2.75rem !important;
+    padding: 0px;
+    margin: 0 0.15rem 0 0 !important;
   }
 
   /*Filepicker+ */
@@ -179,11 +183,9 @@ body.crlngn-ui{
       padding: 12px !important;
     }
     #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper {
-      font-family: var(--crlngn-font-family);
       font-size: var(--font-size-12);
     }
     #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper h2 {
-      font-family: var(--crlngn-font-titles);
       font-size: var(--font-size-20);
     }
     #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper h3 {
@@ -348,7 +350,6 @@ body.crlngn-ui{
         background-color: rgba(0,0,0,0.8);
 
         h1{
-          font-family: var(--crlngn-font-titles) !important;
           line-height: 1.15;
         }
       }
@@ -357,7 +358,6 @@ body.crlngn-ui{
         padding: 0;
       }
       h2.crux__section-header{
-        font-family: var(--crlngn-font-titles) !important;
         border: 0 !important;
         border-radius: 0 !important;
         padding-top: 2px !important;
@@ -368,14 +368,10 @@ body.crlngn-ui{
           display: inline-block;
         }
       }
-      .crux__skill-header{
-        font-family: var(--crlngn-font-titles) !important;
-      }
 
       .crux__group-header {
         h3, h2 {
           border-bottom: 1px solid rgba(255,255,255,0.15) !important;
-          font-family: var(--crlngn-font-titles) !important;
           padding-bottom: 0.25em;
 
         }
@@ -385,19 +381,16 @@ body.crlngn-ui{
         padding: 0 4px !important;
       }
       .crux__item .item-name h4 {
-        font-family: var(--crlngn-font-family) !important;
         font-weight: 500 !important;
       }
       .crux__item .item-name h3,
       .crux__group-header h3 {
-        font-family: var(--crlngn-font-family) !important;
         font-weight: 500 !important;
       }
 
       .crux__utility-button,
       .crux__action-button,
       .crux__end-turn-button {
-        font-family: var(--crlngn-font-family) !important;
         padding: 4px !important;
         border: none !important;
       }
@@ -687,7 +680,6 @@ body.crlngn-ui{
     border-bottom: 1px groove var(--input-background-color);
   }
   .monks-tokenbar .sheet .items-list .items-header h3 {
-    font-family: var(--crlngn-font-titles);
     font-size: var(--font-size-14);
   }
 
@@ -839,7 +831,6 @@ body.crlngn-ui{
       padding: 0.25rem;
       border-radius: 0;
       border-color: var(--color-warm-2);
-      font-family: var(--crlngn-font-family);
       font-weight: 600;
       font-size: var(--font-size-13);
       min-height: 1.8rem;
@@ -1019,5 +1010,67 @@ body.crlngn-ui{
       color: var(--color-text-primary);
     }
   }
-  
+
+}
+
+/* Font styles - UI body font */
+body.crlngn-ui.cui-font-ui {
+  #quest-tracker .window-content {
+    font-family: var(--crlngn-font-family);
+  }
+  #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper {
+    font-family: var(--crlngn-font-family);
+  }
+  &.crux-taskbar-compat #crux .crux__item .item-name h4,
+  #crux .crux__item .item-name h4 {
+    font-family: var(--crlngn-font-family) !important;
+  }
+  &.crux-taskbar-compat #crux .crux__item .item-name h3,
+  &.crux-taskbar-compat #crux .crux__group-header h3,
+  #crux .crux__item .item-name h3,
+  #crux .crux__group-header h3 {
+    font-family: var(--crlngn-font-family) !important;
+  }
+  &.crux-taskbar-compat #crux .crux__utility-button,
+  &.crux-taskbar-compat #crux .crux__action-button,
+  &.crux-taskbar-compat #crux .crux__end-turn-button,
+  #crux .crux__utility-button,
+  #crux .crux__action-button,
+  #crux .crux__end-turn-button {
+    font-family: var(--crlngn-font-family) !important;
+  }
+  #scene-control-toggle .item {
+    font-family: var(--crlngn-font-family);
+  }
+}
+
+/* Font styles - UI titles font */
+body.crlngn-ui.cui-font-t {
+  #quest-tracker h4 {
+    font-family: var(--crlngn-font-titles);
+  }
+  #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper h2 {
+    font-family: var(--crlngn-font-titles);
+  }
+  &.crux-taskbar-compat #crux .crux__container h1,
+  #crux .crux__container h1 {
+    font-family: var(--crlngn-font-titles) !important;
+  }
+  &.crux-taskbar-compat #crux h2.crux__section-header,
+  #crux h2.crux__section-header {
+    font-family: var(--crlngn-font-titles) !important;
+  }
+  &.crux-taskbar-compat #crux .crux__skill-header,
+  #crux .crux__skill-header {
+    font-family: var(--crlngn-font-titles) !important;
+  }
+  &.crux-taskbar-compat #crux .crux__group-header h3,
+  &.crux-taskbar-compat #crux .crux__group-header h2,
+  #crux .crux__group-header h3,
+  #crux .crux__group-header h2 {
+    font-family: var(--crlngn-font-titles) !important;
+  }
+  .monks-tokenbar .sheet .items-list .items-header h3 {
+    font-family: var(--crlngn-font-titles);
+  }
 }

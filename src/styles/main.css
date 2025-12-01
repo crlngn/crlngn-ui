@@ -38,14 +38,50 @@ body.crlngn-ui  {
     border-bottom: 0;
   }
   h1, h2, h3 {
-    font-family: var(--crlngn-font-titles);
     line-height: 1.25;
   }
   h4, h5, h6 {
-    font-family: var(--crlngn-font-family);
     line-height: 1.25;
   }
+}
+body.crlngn-ui.cui-font-t {
+  h1, h2, h3 {
+    font-family: var(--crlngn-font-titles);
+  }
+}
+body.crlngn-ui.cui-font-ui {
+  h4, h5, h6 {
+    font-family: var(--crlngn-font-family);
+  }
+  .sidebar-tab search {
+    input, select, textarea {
+      font-family: var(--crlngn-font-family);
+    }
+  }
+  .standard-form.crlngn h4,
+  .standard-form.crlngn h5,
+  .standard-form.crlngn h6,
+  #crlngn-color-picker h4,
+  #crlngn-color-picker h5,
+  #crlngn-color-picker h6 {
+    font-family: var(--crlngn-font-family);
+  }
+  .standard-form.crlngn span.toggle-hint,
+  #crlngn-color-picker span.toggle-hint {
+    font-family: var(--crlngn-font-family);
+  }
+  .application:not(.monks-enhanced-journal) .window-header .window-title {
+    font-family: var(--crlngn-font-family);
+  }
+  #tooltip {
+    font-family: var(--crlngn-font-family);
+  }
+  :is(.dnd5e2-tooltip, .item-tooltip, .effect-tooltip) .description p span {
+    font-family: var(--crlngn-font-family);
+  }
+}
 
+body.crlngn-ui {
   a.button:hover, button:hover{
     border-color: var(--color-highlights);
   }
@@ -66,7 +102,7 @@ body.crlngn-ui  {
   input[type="checkbox"]:checked::after {
     content: "";
   }*/
-  
+
   .sidebar-tab {
     h4.dice-total{
       font-weight: 600;
@@ -81,14 +117,14 @@ body.crlngn-ui  {
     --dnd5e-color-parchment: rgb(244, 239, 237);
   }
 
-  
+
   input[type=checkbox], input[type=radio] {
     /*--checkbox-checkmark-color: transparent;*/
     &:after{
       font-size: var(--font-size-22);
     }
   }
-  
+
 
   #interface .hidden-ui{
     opacity: 0 !important;
@@ -97,28 +133,19 @@ body.crlngn-ui  {
       pointer-events: none !important;
     }
   }
-  
+
 }
 
 /*************/
 /* JOURNALS */
 body.crlngn-ui  {
-  .journal-entry-content{
-    font-family: var(--crlngn-font-journal-body);
-  }
   .sheet.journal-entry {
     line-height: 1.6;
-    font-family: var(--crlngn-font-journal-body);
 
     h1, h2, h3 {
-      font-family: var(--crlngn-font-journal-title);
       margin: 1.5rem 0 0.5rem 0;
     }
-    .journal-header {
-      font-family: var(--crlngn-font-journal-title);
-    }
     h4, h5, h6 {
-      font-family: var(--crlngn-font-journal-body);
       margin: 1.5rem 0 0.5rem 0;
     }
     .stat-block-finder{
@@ -126,7 +153,35 @@ body.crlngn-ui  {
     }
     p{
       line-height: 1.6;
+    }
+  }
+}
+
+/* Journal Body Font - only when enabled */
+body.crlngn-ui.cui-font-jrnl {
+  .journal-entry-content, .journal-page-content{
+    font-family: var(--crlngn-font-journal-body);
+  }
+  .sheet.journal-entry {
+    font-family: var(--crlngn-font-journal-body);
+    h4, h5, h6 {
       font-family: var(--crlngn-font-journal-body);
+    }
+    p{
+      font-family: var(--crlngn-font-journal-body);
+    }
+  }
+}
+
+/* Journal Titles Font - only when enabled */
+body.crlngn-ui.cui-font-jrnl-t {
+  
+  .sheet.journal-entry, .journal-entry-content {
+    h1, h2, h3 {
+      font-family: var(--crlngn-font-journal-title);
+    }
+    .journal-header {
+      font-family: var(--crlngn-font-journal-title);
     }
   }
 }
@@ -175,6 +230,10 @@ body.crlngn-ui{
     min-width: 35%;
   }
 
+  .standard-form .form-group label:not([for]) {
+    min-width: 20px;
+  }
+
   .standard-form .form-group {
     margin: 6px 0;
   }
@@ -218,9 +277,9 @@ body.crlngn-ui{
   form.application:not(.journal-sheet, .monks-enhanced-journal) .form-footer button,
   .application:not(.dnd5e2, .monks-enhanced-journal) .standard-form button,
   #crlngn-color-picker .form-footer button {
-    height: auto;
+    /*height: auto;*/
     min-height: var(--input-height);
-    padding: 10px 6px;
+    padding: 6px;
     line-height: 125%;
     border: 1px solid var(--color-secondary-75);
     background: var(--color-bg-button);
@@ -305,7 +364,6 @@ body.crlngn-ui{
   .sidebar-tab search {
     input, select, textarea {
       background: var(--color-light-bg-25);
-      font-family: var(--crlngn-font-family);
     }
     input[type=text], input[type=search]{
       text-overflow: ellipsis;
@@ -534,7 +592,6 @@ body.crlngn-ui{
 #crlngn-color-picker {
 
   h4, h5, h6 {
-    font-family: var(--crlngn-font-family);
     line-height: 1.2;
     display: flex;
     align-items: center;
@@ -612,7 +669,6 @@ body.crlngn-ui{
     padding: 5px 8px;
     border: 1px solid var(--color-dark-bg-10, rgba(0,0,0,0.25));
     border-radius: 4px;
-    font-family: var(--crlngn-font-family);
     cursor: pointer;
 
     &:hover{
@@ -1001,13 +1057,8 @@ body.crlngn-ui{
     min-height: 2px;
   }
 
-  .application:not(.monks-enhanced-journal) .window-header .window-title {
-    font-family: var(--crlngn-font-family);
-  }
-  
   #tooltip {
     --tooltip-color: light-dark(var(--color-dark-1), var(--color-light-1));
-    font-family: var(--crlngn-font-family);
     font-size: var(--font-size-12);
     padding: 6px;
     box-shadow: 0 1px 6px rgba(40,40,65,0.7);
@@ -1113,7 +1164,6 @@ body.crlngn-ui {
     p span{
       font-size: var(--font-size-12) !important;
       font-weight: 400;
-      font-family: var(--crlngn-font-family);
     }
   }
 

@@ -221,27 +221,35 @@ export function getSettings() {
     },
 
     customFontsMenu: {
-      tag: "v2-custom-font-families", 
+      tag: "v2-custom-font-families",
       label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.label"),
       title: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.title"),
       hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.hint"),
       description: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.description"),
       propType: Object,
       fields: [
+        'enableFontUI',
         'uiFontBody',
+        'enableFontTitles',
         'uiFontTitles',
+        'enableFontJournal',
         'journalFontBody',
+        'enableFontJournalTitles',
         'journalFontTitles'
       ],
       default: {
+        enableFontUI: true,
         uiFontBody: `"Work Sans", Arial, sans-serif`,
+        enableFontTitles: true,
         uiFontTitles: game.system.id === 'daggerheart' ? `"Cinzel Decorative", Arial, sans-serif` : `"Roboto Slab", Arial, sans-serif`,
-        journalFontBody: `"Work Sans", Arial, sans-serif`, 
+        enableFontJournal: true,
+        journalFontBody: `"Work Sans", Arial, sans-serif`,
+        enableFontJournalTitles: true,
         journalFontTitles: game.system.id === 'daggerheart' ? `"Cinzel Decorative", Arial, sans-serif` : `"Roboto Slab", Arial, sans-serif`
       },
       scope: SETTING_SCOPE.world,
-      config: false, 
-      requiresReload: false 
+      config: false,
+      requiresReload: false
     },
 
     themeAndStylesMenu: {
@@ -783,7 +791,49 @@ export function getSettings() {
       requiresReload: false 
     },
 
-    /* FONTS */
+    /* FONTS - Enable toggles */
+    enableFontUI: {
+      tag: "v2-enable-font-ui",
+      label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.enableFontUI.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.enableFontUI.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+    enableFontTitles: {
+      tag: "v2-enable-font-titles",
+      label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.enableFontTitles.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.enableFontTitles.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+    enableFontJournal: {
+      tag: "v2-enable-font-journal",
+      label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.enableFontJournal.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.enableFontJournal.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+    enableFontJournalTitles: {
+      tag: "v2-enable-font-journal-titles",
+      label: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.enableFontJournalTitles.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.customFontsMenu.fields.enableFontJournalTitles.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+
+    /* FONTS - Font family values */
     uiFontBody: {
       tag: "v2-ui-font-body",
       oldName: "uiFont",
