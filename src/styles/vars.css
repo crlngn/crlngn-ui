@@ -53,9 +53,10 @@
 
   /* Journal Body Font - only when enabled */
   body.crlngn-ui.cui-font-jrnl {
-    --dnd5e-font-roboto-condensed: var(--crlngn-font-journal-body);
+    --dnd5e-font-roboto-condensed: var(--crlngn-font-body);
 
     .journal-sheet-container {
+      --dnd5e-font-roboto-condensed: var(--crlngn-font-journal-body);
       --font-h5: var(--crlngn-font-journal-body);
       --font-h6: var(--crlngn-font-journal-body);
     }
@@ -63,9 +64,10 @@
 
   /* Journal Titles Font - only when enabled */
   body.crlngn-ui.cui-font-jrnl-t {
-    --dnd5e-font-modesto: var(--crlngn-font-journal-title);
+    --dnd5e-font-modesto: var(--crlngn-font-titles);
 
     .journal-sheet-container {
+      --dnd5e-font-modesto: var(--crlngn-font-journal-title);
       --font-h1: var(--crlngn-font-journal-title);
       --font-h2: var(--crlngn-font-journal-title);
       --font-h3: var(--crlngn-font-journal-title);
