@@ -10,7 +10,7 @@
       "reloadRequiredLabel": "È necessario un ricaricamento. Ricaricare ora?",
       "macroBarTooltipKeepOpen": "Aperto",
       "macroBarTooltipAutoHide": "Nascosto",
-      "enforcementTooltip": "Click to change enforcement to players, Alt+Click to change for GM",
+      "enforcementTooltip": "Fai clic per modificare l'applicazione ai giocatori, Alt+clic per modificarla per GM",
       "reset": "Ripristina",
       "save": "Salva",
       "reloadButton": "Ricarica",
@@ -179,9 +179,31 @@
             "label": "Tema Colori",
             "hint": "Seleziona un tema per le evidenziazioni colorate e i colori secondari. Influisce solo su evidenziazioni, input e pulsanti"
           },
+          "playerColorTheme": {
+            "label": "Tema Colori (Giocatore)",
+            "hint": "Seleziona un'opzione per il colore delle evidenziazioni e il colore secondario. Influisce solo su evidenziazioni, input e pulsanti"
+          },
+          "customThemeColors": {
+            "label": "Tema Colori Personalizzato (Mondo)",
+            "hint": "Configurazione del colore personalizzata per il tema del mondo"
+          },
+          "playerCustomThemeColors": {
+            "label": "Tema Colori Personalizzat (Giocatore)",
+            "hint": "Configurazione colore personalizzata per questo giocatore"
+          },
+          "useGlassEffect": {
+            "label": "Abilita effetto vetro (può influenzare le prestazioni)",
+            "hint": "Abilita l'effetto vetro del filtro di sfondo sulle finestre delle applicazioni. Questa funzionalità può causare problemi di prestazioni sui computer più lenti. Disattivala se riscontri ritardi o rallentamenti: il filtro di sfondo non verrà applicato."
+          },
+          "glassTranslucence": {
+            "label": "Trasparenza del vetro",
+            "hint": "Controlla la trasparenza delle finestre. 0 = completamente opaco con sfocatura minima, 1 = altamente trasparente con sfocatura massima. Opacità e sfocatura si regolano inversamente per migliorare la leggibilità."
+          },
+          "customizeColors": "Personalizza Colori",
+          "customizeHint": "Fai clic per aprire il selettore colori e creare colori del tema personalizzati",
           "adjustOtherModules": {
-            "label": "Applica stili ad altri moduli",
-            "hint": "Abilita le mie modifiche di stile e i font personalizzati su altri moduli, come CRUX o Combat Carousel. Se desideri supporto per un modulo specifico, per favore segnalalo su Github issues"
+            "label": "Applica stili in altri moduli",
+            "hint": "Abilita le modifiche in stile UI Carolingian su altri moduli. Se desideri supporto per un modulo specifico, richiedilo tramite la sezione Problemi su Github."
           },
           "applyDarkThemeToModules": {
             "label": "Applica tema scuro a finestre dei moduli",
@@ -192,7 +214,7 @@
             "hint": "Abilita le mie modifiche di stile su altri moduli. Clicca la casella in cima alla lista per selezionare/deselezionare tutto."
           },
           "forcedDarkTheme": {
-            "label": "Forza Tema Oscuro",
+            "label": "Forza Tema Scuro",
             "hint": "SPERIMENTALE. Se la casella di controllo sopra non funziona per un modulo specifico, puoi tentare di forzare sfondo scuro e font chiaro ai moduli tramite selettore CSS. Potrebbe non funzionare sempre se i moduli hanno stili hardcoded. Inserisci nel campo sottostante l'id o la classe CSS degli elementi, separati da virgola. Esempio: #element-id, .element-class"
           },
           "customStyles": {
@@ -204,34 +226,9 @@
             "hint": "<b>Non abilitare questo se si utilizza Force Client Settings o moduli simili.</b> Imposta il tema dell'interfaccia Foundry sul client del giocatore su Scuro se il giocatore l'ha impostato su 'Predefinito Browser'. Se l'hanno specificamente impostato su 'Chiaro', la loro scelta sarà comunque rispettata."
           }
         },
-        "dockDHResources": {
-          "label": "Dock Tracker Risorse Daggerheart",
-          "hint": "Abilita la funzionalità di docking per il tracker (paura) di Daggerheart. Trascina la finestra vicino alla barra macro per agganciarla in fondo allo schermo."
-        },
         "reset": "Ripristina",
-        "save": "Salva",
-        "colorPicker": {
-          "hint": "Ricordati di prenderti cura delle tue retine: per il colore di accento, usa colori con almeno un rating di contrasto 'medio' per una migliore leggibilità.",
-          "title": "Colori Tema Personalizzati",
-          "presets": "Temi Preimpostati",
-          "accentColor": "Colore di Accento",
-          "secondaryColor": "Colore Secondario",
-          "hue": "Tonalità",
-          "saturation": "Saturazione",
-          "lightness": "Luminosità",
-          "accentOnBackground": "Accento su Sfondo",
-          "textOnAccent": "Testo su Accento",
-          "secondaryPreview": "Anteprima Colore Secondario",
-          "contrastGood": "Contrasto: Buono",
-          "contrastMedium": "Contrasto: Medio",
-          "contrastPoor": "Contrasto: Scarso",
-          "apply": "Salva",
-          "applySecondaryColorToBg": {
-            "label": "Applica colore secondario agli sfondi dell'interfaccia Foundry",
-            "hint": "Quando abilitato, il colore secondario sarà applicato agli sfondi dell'interfaccia come barra laterale e controlli. Questo crea un tema colore più unificato."
-          }
-        }
-      },
+        "save": "Salva"
+      },        
       "chatMessagesMenu": {
         "label": "Opzioni Messaggi Chat",
         "title": "Configura Chat",
@@ -319,41 +316,41 @@
         "save": "Salva"
       },
       "cameraDockMenu": {
-        "label": "Camera",
-        "title": "Configura Dock",
-        "hint": "Abilita un dock telecamera fluttuante che puoi posizionare ovunque",
+        "label": "Gruppo Camera",
+        "title": "Configura Gruppo Camera",
+        "hint": "Abilita Gruppo Camera fluttuante che puoi posizionare ovunque, agganciare e ridimensionare",
         "fields": {
           "enableFloatingDock": {
-            "label": "Abilita dock telecamera fluttuante",
+            "label": "Abilita Gruppo Camera fluttuante",
             "hint": "<b>[Richiede ricaricamento]</b> Permette al gruppo del lettore video di essere trascinato e posizionato ovunque sullo schermo"
           }, 
           "dockPosX": {
-            "label": "Posizione orizzontale",
-            "hint": "Posizione del dock telecamera quando impostato per fluttuare. Dal basso a sinistra dello schermo, in pixel"
+            "label": "Posizione orizzontale Gruppo Camera",
+            "hint": "Posizione del Gruppo Camera quando impostato per fluttuare. Dal basso a sinistra dello schermo, in pixel"
           }, 
           "dockPosY": {
-            "label": "Posizione verticale",
-            "hint": "Posizione del dock telecamera quando impostato per fluttuare. Dal basso a sinistra dello schermo, in pixel"
+            "label": "Posizione verticale Gruppo Camera",
+            "hint": "Posizione del Gruppo Camera quando impostato per fluttuare. Dal basso a sinistra dello schermo, in pixel"
           }, 
           "dockWidth": {
-            "label": "Larghezza del gruppo telecamera",
-            "hint": "Dimensioni del dock telecamera non minimizzato quando impostato per fluttuare, in pixel"
+            "label": "Larghezza del Gruppo Camera",
+            "hint": "Dimensioni del Gruppo Camera non minimizzato quando impostato per fluttuare, in pixel"
           }, 
           "dockHeight": {
-            "label": "Altezza del gruppo telecamera",
-            "hint": "Dimensioni del dock telecamera non minimizzato quando impostato per fluttuare, in pixel"
+            "label": "Altezza del Gruppo Camera",
+            "hint": "Dimensioni del Gruppo Camera non minimizzato quando impostato per fluttuare, in pixel"
           },
           "dockCamerasToBottom": {
-            "label": "Consenti aggancio telecamere alla barra macro",
-            "hint": "Quando abilitato, puoi trascinare il gruppo telecamera nella parte inferiore dello schermo (sopra la barra macro) per agganciarlo. Quando agganciato, il gruppo telecamera sarà orizzontale, coprirà l'intera larghezza disponibile e ridurrà i video a un minimo di 140px. Trascinalo lontano dal fondo per sganciarlo."
+            "label": "Consenti aggancio Gruppo Camera alla barra macro",
+            "hint": "Quando abilitato, puoi trascinare il Gruppo Camera nella parte inferiore dello schermo (sopra la barra macro) per agganciarlo. Quando agganciato, il Gruppo Camera sarà orizzontale, coprirà l'intera larghezza disponibile e ridurrà i video a un minimo di 140px. Trascinalo lontano dal fondo per sganciarlo."
           },
           "dockResizeOnUserJoin": {
             "label": "Espandi Dock per Adattare i Video",
             "hint": "Quando abilitato, il dock verrà ridimensionato quando un utente si unisce in modo che i nuovi video siano visibili. Qualsiasi ridimensionamento manuale potrebbe essere sovrascritto quando un nuovo utente si unisce. Per ridimensionamento manuale e scorrimento, disattiva questa opzione.",
             "options": {
-              "off": "DISATTIVATO: Non ridimensionare automaticamente",
-              "horizontal": "Ridimensiona per adattare orizzontalmente",
-              "vertical": "Ridimensiona per adattare verticalmente"
+              "off": "DISATTIVATO: Non espandere automaticamente",
+              "horizontal": "Espandi per adattare orizzontalmente",
+              "vertical": "Espandi per adattare verticalmente"
             }
           },
           "defaultVideoWidth": {
@@ -450,8 +447,7 @@
       },
       "enforceGMSettings": {
         "label": "Applica Impostazioni GM ai Giocatori",
-        "hint": "Quando abilitato, tutti i giocatori utilizzeranno le impostazioni UI del GM quando si connettono. Questo garantisce un'esperienza UI coerente per tutti i giocatori.",
-        "conflictWarning": "Carolingian UI: 'Applica Impostazioni GM ai Giocatori' è disabilitato perché il modulo Force Client Settings è attivo. Utilizzare uno o l'altro, non entrambi."
+        "hint": "Quando abilitato, tutti i giocatori utilizzeranno le impostazioni UI del GM quando si connettono. Questo garantisce un'esperienza UI coerente per tutti i giocatori."
       },
       "defaultSettings": {
         "label": "Impostazioni GM Predefinite",
@@ -497,7 +493,32 @@
       "disableUI":{
         "label": "Disabilita UI in questo client",
         "hint": "Se un giocatore non vuole utilizzare l'interfaccia Carolingian, può disabilitarla. Nessun'altra funzionalità del modulo funzionerà eccetto lo stile scuro nei messaggi chat che può essere disabilitato separatamente."
-      }
+      },
+      "dockDHResources": {
+          "label": "Dock Tracker Risorse Daggerheart",
+          "hint": "Abilita la funzionalità di docking per il tracker (paura) di Daggerheart. Trascina la finestra vicino alla barra macro per agganciarla in fondo allo schermo."
+      },
+      "colorPicker": {
+          "hint": "Ricorda di prenderti cura delle tue retine: per il colore di accento, usa colori con almeno un rating di contrasto 'medio' per una migliore leggibilità.",
+          "title": "Colori Tema Personalizzati",
+          "presets": "Temi Preimpostati",
+          "accentColor": "Colore di Accento",
+          "secondaryColor": "Colore Secondario",
+          "hue": "Tonalità",
+          "saturation": "Saturazione",
+          "lightness": "Luminosità",
+          "accentOnBackground": "Accento su Sfondo",
+          "textOnAccent": "Testo su Accento",
+          "secondaryPreview": "Anteprima Colore Secondario",
+          "contrastGood": "Contrasto: Buono",
+          "contrastMedium": "Contrasto: Medio",
+          "contrastPoor": "Contrasto: Scarso",
+          "apply": "Salva",
+          "applySecondaryColorToBg": {
+            "label": "Applica colore secondario agli sfondi dell'interfaccia Foundry",
+            "hint": "Quando abilitato, il colore secondario sarà applicato agli sfondi dell'interfaccia come barra laterale e controlli. Questo crea un tema colore più unificato."
+          }
+       }
     },
     "dnd5e": {
       "chatCard": {
