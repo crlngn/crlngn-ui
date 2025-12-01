@@ -86,6 +86,14 @@ export class Main {
       Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
     });
 
+    // Scene loading state hooks - add/remove class for CSS targeting
+    Hooks.on(HOOKS_CORE.CANVAS_INIT, () => {
+      document.body.classList.add('scene-loading');
+    });
+    Hooks.on(HOOKS_CORE.CANVAS_READY, () => {
+      document.body.classList.remove('scene-loading');
+    });
+
     Hooks.once(HOOKS_CORE.READY, () => {
       LogUtil.log("Core Ready", [game]);
       if(Main.isIncompatible){

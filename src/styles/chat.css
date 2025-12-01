@@ -26,15 +26,15 @@ body.crlngn-ui.crlngn-chat {
       border-width: 1px;
       border-style: solid;
     }
-    :is(.chat-popout, #chat-log, .chat-log) .chat-message.left-border {
+    :is(.chat-popout, #chat-log, .chat-log) .chat-message:not(.dnd5e-cm).left-border {
       border-width: 0;
       border-left-width: 3px;
     }
-    :is(.chat-popout, #chat-log, .chat-log) .chat-message.right-border {
+    :is(.chat-popout, #chat-log, .chat-log) .chat-message:not(.dnd5e-cm).right-border {
       border-width: 0;
       border-right-width: 3px;
     }
-    :is(.chat-popout, #chat-log, .chat-log) .chat-message.top-border {
+    :is(.chat-popout, #chat-log, .chat-log) .chat-message:not(.dnd5e-cm).top-border {
       border-width: 0;
       border-top-width: 3px;
     }
@@ -205,19 +205,19 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   }
   .chat-message, .chat-message.whisper, .chat-message.blind {
     border-radius: 6px;
-    background: var(--card-color-bg) !important;
+    background: var(--card-color-bg);
     box-shadow: 0 0 0px var(--dnd5e-shadow-45);
   }
   .chat-message .message-header .whisper-to {
     margin-top: 1.25em;
   }
   .chat-message.whisper{
-    background: var(--card-color-bg) !important;
-    background-image: var(--striped-bg) !important;
+    background: var(--card-color-bg);
+    background-image: var(--striped-bg);
   }
   .chat-message.blind{
-    background: var(--card-color-bg) !important;
-    background-image: var(--striped-bg-2) !important;
+    background: var(--card-color-bg);
+    background-image: var(--striped-bg-2);
   }
   .chat-message.whisper span.message-metadata {
     position: relative;

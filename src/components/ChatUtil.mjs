@@ -38,8 +38,8 @@ export class ChatUtil {
   static enrichCard = async(chatMessage, html) => {
     LogUtil.log("renderChatMessage", [ChatUtil.chatBorderColor, ChatUtil.enableChatStyles, BORDER_COLOR_TYPES.playerColor.name, chatMessage.author?.id]); 
     let chatItem = html.get ? html.get(0) : html;
+
     if(!chatItem){ return; }
-    
     chatItem.classList.add('crlngn');
 
     switch(ChatUtil.chatBorderPosition){
@@ -60,7 +60,6 @@ export class ChatUtil {
     if(ChatUtil.chatBorderColor===BORDER_COLOR_TYPES.playerColor.name && chatMessage.author?.id){ 
       chatItem.style.setProperty('border-color', `var(--user-color-${chatMessage.author.id})`, `important`);
       LogUtil.log("renderChatMessage #2", [ChatUtil.chatBorderColor, chatMessage.author?.id]); 
-    
     }
 
 

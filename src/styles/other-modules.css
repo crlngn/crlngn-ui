@@ -1011,6 +1011,25 @@ body.crlngn-ui{
     }
   }
 
+  /* Character Monitor DnD5e */
+  &.crlngn-chat .message.dnd5e-cm-hpMinus {
+    --dnd5e-cm-hpMinus: rgba(245, 118, 118, 0.25);
+    background: var(--dnd5e-cm-hpMinus) !important;
+  }
+  &.crlngn-chat .message.dnd5e-cm-hpPlus {
+    --dnd5e-cm-hpPlus: rgba(118, 245, 192, 0.25);
+    background: var(--dnd5e-cm-hpPlus) !important;
+  }
+
+}
+
+@layer modules {
+  body.crlngn-ui.crlngn-chat {
+    :is(.chat-popout, #chat-log, .chat-log) .chat-message.dnd5e-cm {
+      border-width: 0;
+      text-shadow: -1px -1px 0 #00000066, 1px -1px 0 #00000066, -1px 1px 0 #00000066, 1px 1px 0 #00000066;
+    }
+  }
 }
 
 /* Font styles - UI body font */

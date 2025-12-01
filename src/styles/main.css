@@ -1097,24 +1097,39 @@ body.crlngn-ui{
 
   /*
   <li class="notification info progress" style="--pct: 50%;"></li>
+  Progress bar styling when hide-scene-name setting is enabled:
+  - Always show styled progress bar with text visible
+  - Hide text only during scene loading (scene-loading class present)
   */
-  &.hide-scene-name ol#notifications, 
-  &.hide-scene-name ol#notifications.theme-dark, 
+  &.hide-scene-name ol#notifications,
+  &.hide-scene-name ol#notifications.theme-dark,
   &.hide-scene-name ol#notifications.theme-light {
     .notification.info.progress {
-      height: 8px;
-      padding: 0;
-      font-size: 0;
       border-width: 2px;
       border-radius: 6px;
       box-shadow: 0px 2px 6px rgba(0,0,0,0.5);
     }
     .notification.info.progress::before{
       content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
       width: var(--pct);
       height: 100%;
       background-color: var(--color-warm-2);
       border-radius: 6px;
+      z-index: -1;
+    }
+  }
+
+  /* Hide text only during scene loading */
+  &.hide-scene-name.scene-loading ol#notifications,
+  &.hide-scene-name.scene-loading ol#notifications.theme-dark,
+  &.hide-scene-name.scene-loading ol#notifications.theme-light {
+    .notification.info.progress {
+      height: 8px;
+      padding: 0;
+      font-size: 0;
     }
   }
 
