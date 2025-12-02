@@ -387,7 +387,11 @@
     &.theme-light #tooltip.application:not(.monks-enhanced-journal).theme-dark,
     .themed.theme-dark,
     &.crlngn-chat .chat-log.themed.theme-dark,
-    &.crlngn-chat #interface.theme-dark .chat-log button{
+    &.crlngn-chat #interface.theme-dark .chat-log button,
+    &.crlngn-chat.theme-dark .chat-log,
+    &.crlngn-chat #chat-popout.theme-dark,
+    &.crlngn-chat.theme-dark .chat-log.theme-light,
+    &.crlngn-chat.theme-dark .chat-log button {
       --color-border: rgba(15, 15, 15, 0.15);
       /*--control-bg-color: var(--color-cool-5-90);*/
       --input-background-alt: var(--color-dark-bg-50);

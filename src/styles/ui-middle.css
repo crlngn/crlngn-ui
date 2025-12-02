@@ -1,5 +1,9 @@
 body.crlngn-ui{
 
+  &.crlngn-scene-nav #calendar-hud{
+    margin-block-start: calc(var(--scene-nav-offset) + 10px);
+    --calendar-gap: 4px;
+  }
 
   /* Force hotbar offset to 0 when chat input is hidden */
   &.chat-input-hidden #hotbar,

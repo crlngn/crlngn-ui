@@ -751,6 +751,7 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   &.stream.theme-dark,
   #interface.theme-dark,
   #chat-popout.theme-dark,
+  &.theme-dark #chat-popout,
   #chat-pins.theme-dark {
     .chat-message .message-header .name-stacked .title,
     &.system-dnd5e .chat-message .name-stacked .title {
@@ -852,14 +853,18 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
       opacity: 0.2;
     }
     .chat-message a.content-link, 
-    .chat-message a.inline-roll {
+    .chat-message a.inline-roll, 
+    .chat-message a.roll-link {
       background: var(--chat-button-bg-50);
-      color: var(--color-text-light-5);
+      color: var(--color-text-primary);
       opacity: 0.8;
+    }
+    .chat-message a {
+      color: var(--color-text-primary);
     }
     .chat-message .message-content,
     .chat-message .message-content > * {
-      color: var(--color-text-light);
+      color: var(--color-text-primary);
     }
     .chat-message.ddb-game-log-message .message-content .ddb-card-content a {
       color: var(--color-text-hyperlink);
