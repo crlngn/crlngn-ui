@@ -179,6 +179,28 @@
             "label": "Tema de cores",
             "hint": "Selecione um tema de cores primária e secundária. Isto apenas afeta cores de destaques na interface e botões"
           },
+          "playerColorTheme": {
+            "label": "Tema de Cores (Jogador)",
+            "hint": "Selecione uma opção para as cores de destaque e cor secundária. Afeta apenas destaques, campos de entrada e botões"
+          },
+          "customThemeColors": {
+            "label": "Cores Personalizadas do Tema (Mundo)",
+            "hint": "Configuração de cores personalizadas para o tema do mundo"
+          },
+          "playerCustomThemeColors": {
+            "label": "Cores Personalizadas do Tema (Jogador)",
+            "hint": "Configuração de cores personalizadas para este jogador"
+          },
+          "useGlassEffect": {
+            "label": "Habilitar Efeito de Vidro (pode afetar desempenho)",
+            "hint": "Habilita efeito de vidro com desfoque nas janelas de aplicação. Este recurso pode causar problemas de desempenho em máquinas mais lentas. Desabilite se houver travamentos ou lentidão, e o efeito de desfoque não será aplicado."
+          },
+          "glassTranslucence": {
+            "label": "Nível do Efeito Translúcido",
+            "hint": "Controla a translucidez das janelas. 0 = totalmente opaco com desfoque mínimo, 1 = altamente translúcido com desfoque máximo. Opacidade e desfoque se ajustam inversamente para legibilidade."
+          },
+          "customizeColors": "Personalizar Cores",
+          "customizeHint": "Clique para abrir o seletor de cores e criar cores de tema personalizadas",
           "adjustOtherModules": {
             "label": "Aplicar estilos a outros módulos",
             "hint": "Habilite para aplicar meus ajustes de estilo e fontes customizadas a outros módulos, como Dice Tray, CRUX ou Combat Carousel. Para suporte a outros módulos, solicite no Github"

@@ -179,9 +179,31 @@
             "label": "颜色主题",
             "hint": "为高亮显示和次要颜色选择主题。仅影响UI高亮和按钮"
           },
+          "playerColorTheme": {
+            "label": "颜色主题（玩家）",
+            "hint": "选择高亮和辅助颜色的配色方案。仅影响高亮、输入框和按钮"
+          },
+          "customThemeColors": {
+            "label": "自定义主题颜色（世界）",
+            "hint": "世界主题的自定义颜色配置"
+          },
+          "playerCustomThemeColors": {
+            "label": "自定义主题颜色（玩家）",
+            "hint": "此玩家的自定义颜色配置"
+          },
+          "useGlassEffect": {
+            "label": "启用玻璃效果（可能影响性能）",
+            "hint": "在应用窗口上启用背景模糊玻璃效果。此功能可能会在较慢的机器上导致性能问题。如果遇到卡顿或延迟，请禁用此选项，背景模糊效果将完全不会应用。"
+          },
+          "glassTranslucence": {
+            "label": "玻璃透明度",
+            "hint": "控制窗口的透明度。0 = 完全不透明且模糊效果最小，1 = 高度透明且模糊效果最大。透明度和模糊度反向调节以确保可读性。"
+          },
+          "customizeColors": "自定义颜色",
+          "customizeHint": "点击打开颜色选择器并创建自定义主题颜色",
           "adjustOtherModules": {
-              "label": "在其他模块中应用样式",
-              "hint": "在其他模块上启用我的样式调整和自定义字体，例如CRUX或Combat Carousel。如果您需要支持特定模块，请在Github issues上提出请求"
+            "label": "在其他模块中应用样式",
+            "hint": "在其他模块上启用我的样式调整和自定义字体，例如CRUX或Combat Carousel。如果您需要支持特定模块，请在Github issues上提出请求"
           },
           "applyDarkThemeToModules": {
             "label": "应用暗色主题到模块窗口",
