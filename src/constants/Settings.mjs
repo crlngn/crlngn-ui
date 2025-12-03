@@ -415,7 +415,9 @@ export function getSettings() {
         "useSceneIcons",
         "useSceneBackButton",
         "useScenePreview",
-        "hideInactiveOnFolderToggle"
+        "hideInactiveOnFolderToggle",
+        "subFoldersLayout",
+        "expandScrimToSubfolders"
       ],
       default: {
         hideLoadingSceneName: true,
@@ -425,7 +427,9 @@ export function getSettings() {
         useSceneLookup: true,
         useScenePreview: true,
         useSceneBackButton: true,
-        hideInactiveOnFolderToggle: true
+        hideInactiveOnFolderToggle: true,
+        subFoldersLayout: "parent",
+        expandScrimToSubfolders: false
       },
       scope: SETTING_SCOPE.world,
       config: false, 
@@ -442,12 +446,14 @@ export function getSettings() {
       fields: [
         "navStartCollapsed",
         "showNavOnHover",
-        "sceneItemWidth"
+        "sceneItemWidth",
+        "disableActiveSceneSeparation"
       ],
       default: {
         navStartCollapsed: false,
         showNavOnHover: false,
-        sceneItemWidth: 150
+        sceneItemWidth: 150,
+        disableActiveSceneSeparation: false
       },
       scope: SETTING_SCOPE.client,
       config: false, 
@@ -599,14 +605,40 @@ export function getSettings() {
     },
 
     hideInactiveOnFolderToggle: {
-      tag: "v2-hide-inactive-on-folder-toggle", 
-      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.hideInactiveOnFolderToggle.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.hideInactiveOnFolderToggle.hint"), 
-      propType: Boolean, 
-      default: true, 
-      scope: SETTING_SCOPE.world, 
-      config: false, 
-      requiresReload: false 
+      tag: "v2-hide-inactive-on-folder-toggle",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.hideInactiveOnFolderToggle.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.hideInactiveOnFolderToggle.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+
+    subFoldersLayout: {
+      tag: "v2-sub-folders-layout",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.subFoldersLayout.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.subFoldersLayout.hint"),
+      options: {
+        parent: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.subFoldersLayout.options.parent"),
+        rowStart: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.subFoldersLayout.options.rowStart")
+      },
+      propType: String,
+      default: "parent",
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+
+    expandScrimToSubfolders: {
+      tag: "v2-expand-scrim-to-subfolders",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.expandScrimToSubfolders.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.expandScrimToSubfolders.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
     },
 
     useSceneLookup: {
@@ -644,15 +676,27 @@ export function getSettings() {
     },
 
     hideLoadingSceneName: {
-      tag: "v2-hide-loading-scene-name", 
+      tag: "v2-hide-loading-scene-name",
       oldName: "hideLoadingSceneName",
-      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.hideLoadingSceneName.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.hideLoadingSceneName.hint"), 
-      propType: Boolean, 
-      default: true, 
-      scope: SETTING_SCOPE.world, 
-      config: false, 
-      requiresReload: false 
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.hideLoadingSceneName.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.hideLoadingSceneName.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+
+    disableActiveSceneSeparation: {
+      tag: "v2-disable-active-scene-separation",
+      oldName: "disableActiveSceneSeparation",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.disableActiveSceneSeparation.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.disableActiveSceneSeparation.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
     },
 
     sceneClickToView: { 

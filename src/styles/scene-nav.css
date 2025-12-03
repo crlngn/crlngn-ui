@@ -61,7 +61,7 @@
         left: auto;
         right: 0;
         top: calc((-1 * var(--top-nav-height, 0px)) + 4px);
-        transition: all 0.15s ease-out 0s;
+        transition: all 0.1s ease-out 0s;
         pointer-events: all;
         opacity: 0.25;
       }
@@ -71,7 +71,7 @@
         top: 0;
         left: auto;
         right: var(--control-item-size);
-        transition: all 0.15s ease-out 0.15s;
+        transition: all 0.1s ease-out 0s;
         opacity: 1;
       }
 
@@ -505,6 +505,7 @@
             z-index: 0;
             top: 0;
           }
+          
         }
 
         #scene-navigation-active {
@@ -737,6 +738,10 @@
         }
 
         .scene-navigation-menu {
+          /*
+          .scene.active {
+            border-color: var(--color-highlights-50) !important;
+          }*/
           #crlngn-folder-toggle {
             flex: 0 0 var(--control-item-size);
             width: var(--control-item-size);
@@ -870,7 +875,9 @@
                 }
 
                 &.gm {
-                  opacity: 0.7;
+                  .scene-name {
+                    opacity: 0.7;
+                  }
 
                   &::before {
                     content: "";
@@ -934,6 +941,7 @@
               >.folder-item {
                 border: 1px solid var(--color-secondary);
                 border-top: 1px solid var(--control-bg-color);
+                border-bottom: 1px dashed var(--color-highlights-50);
                 background: var(--color-secondary);
                 width: max-content;
 
@@ -951,6 +959,31 @@
           }
         }
 
+      }
+    }
+
+    /* Subfolder layout: align to row start */
+    &.crlngn-scene-nav.crlngn-subnav-start {
+      #scene-navigation #scene-navigation-inactive {
+        position: relative;
+      }
+
+      #scene-navigation .scene-navigation-menu .folder {
+        position: unset;
+
+        menu.contents {
+          position: absolute;
+          top: var(--control-item-size);
+          left: 0;
+        }
+      }
+    }
+
+    /* Expand scrim/background to cover subfolders */
+    &.crlngn-scene-nav.crlngn-expand-scrim {
+      #scene-navigation.expanded:before {
+        height: var(--scene-nav-offset);
+        background: var(--control-bg-color);
       }
     }
 

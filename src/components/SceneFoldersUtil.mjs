@@ -241,8 +241,11 @@ export class SceneNavFolders {
     await game.user.setFlag(MODULE_ID, "activeSceneFolders", SceneNavFolders.#activeSceneFolders);
     LogUtil.log("updateActiveFolders B", [remove, id, game.user.getFlag(MODULE_ID, "activeSceneFolders"), SceneNavFolders.#activeSceneFolders]);
 
-    // Update scene nav offset after folder state changes
-    setTimeout(() => TopNavigation.applySceneNavOffset(), 100);
+    // Update scene nav offset and nav buttons after folder state changes
+    setTimeout(() => {
+      TopNavigation.applySceneNavOffset();
+      TopNavigation.placeNavButtons();
+    }, 100);
   }
 
   /**

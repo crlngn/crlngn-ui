@@ -395,6 +395,10 @@
             "label": "Ocultar nome da cena na barra de carregamento",
             "hint": "A barra de carregamento mostra o nome da cena, o que pode estragar o conteúdo para os jogadores. Marque esta opção para mostrar apenas uma barra de carregamento fina."
           },
+          "disableActiveSceneSeparation": {
+            "label": "Desabilitar separação ativa/inativa de cenas",
+            "hint": "Quando ativado, as cenas ativas serão exibidas na mesma lista das cenas inativas, em vez de serem separadas no topo."
+          },
           "sceneNavEnabled": {
             "label": "Ativar navegação de cenas",
             "hint": "Se você estiver enfrentando problemas de layout com um módulo incompatível, pode desativar meus estilos personalizados para Navegação de Cenas."
@@ -442,6 +446,18 @@
           "hideInactiveOnFolderToggle": {
             "label": "Ocultar cenas inativas ao mostrar pastas",
             "hint": "A lista de cenas padrão será ocultada quando as pastas estiverem visíveis, e aparecerá novamente quando você ocultar as pastas. Isso visa evitar a duplicação de cenas na navegação."
+          },
+          "subFoldersLayout": {
+            "label": "Alinhamento das cenas em subpastas",
+            "hint": "Escolha como as cenas dentro de subpastas são posicionadas quando a pasta é expandida.",
+            "options": {
+              "parent": "Alinhado com a pasta pai",
+              "rowStart": "Alinhado no início da linha"
+            }
+          },
+          "expandScrimToSubfolders": {
+            "label": "Expandir fundo atrás das subpastas",
+            "hint": "Quando ativado, o fundo da navegação se expande para cobrir as linhas de subpastas quando as pastas estão abertas."
           },
           "sceneItemWidth": {
             "label": "Largura do item de navegação",

@@ -210,6 +210,12 @@ export class SettingsUtil {
       SettingsUtil.apply(SETTINGS[fieldName].tag);
     });
 
+    const playerSceneNavFields = SETTINGS.player_sceneNavMenu.fields;
+    playerSceneNavFields.forEach(fieldName => {
+      SettingsUtil.apply(SETTINGS[fieldName].tag);
+    });
+    ui.nav?.render();
+
     const cameraDockFields = SETTINGS.cameraDockMenu.fields;
     cameraDockFields.forEach(fieldName => {
       SettingsUtil.apply(SETTINGS[fieldName].tag);
@@ -442,6 +448,15 @@ export class SettingsUtil {
         ui.nav?.render(); break;
       case SETTINGS.showNavOnHover.tag:
         TopNavigation.showNavOnHover = value; break;
+      case SETTINGS.disableActiveSceneSeparation.tag:
+        TopNavigation.disableActiveSceneSeparation = value;
+        ui.nav?.render(); break;
+      case SETTINGS.subFoldersLayout.tag:
+        TopNavigation.subFoldersLayout = value;
+        TopNavigation.applySubFoldersLayout(); break;
+      case SETTINGS.expandScrimToSubfolders.tag:
+        TopNavigation.expandScrimToSubfolders = value;
+        TopNavigation.applyExpandScrimToSubfolders(); break;
       case SETTINGS.sceneNavCollapsed.tag:
         TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag); break;
       case SETTINGS.colorTheme.tag:

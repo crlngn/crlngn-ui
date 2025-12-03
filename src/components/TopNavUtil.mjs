@@ -50,6 +50,9 @@ export class TopNavigation {
   static useSceneLookup;
   static sceneClickToView;
   static sceneItemWidth;
+  static disableActiveSceneSeparation;
+  static subFoldersLayout;
+  static expandScrimToSubfolders;
   static isCollapsed;
   static navPos;
 
@@ -219,6 +222,7 @@ export class TopNavigation {
     if(TopNavigation.sceneNavEnabled){
       TopNavigation.handleExtraButtons(nav, navHtml, navData);
       TopNavigation.handleSceneList(nav, navHtml, navData);
+      TopNavigation.handleActiveSceneSeparation(navHtml);
       TopNavigation.handleFolderList(nav, navHtml, navData);
       TopNavigation.setNavPosition(scenePage, false);
       TopNavigation.handleNavState();
@@ -376,6 +380,40 @@ export class TopNavigation {
         });
       }
     }
+  }
+
+  /**
+   * Handles moving active scenes to inactive list when disableActiveSceneSeparation is enabled
+   * Sorts all scenes by navOrder to maintain proper drag-drop ordering
+   * @param {HTMLElement} navHtml - The navigation HTML element
+   */
+  static handleActiveSceneSeparation(navHtml) {
+    if (!TopNavigation.disableActiveSceneSeparation) return;
+
+    const activeList = navHtml.querySelector("#scene-navigation-active");
+    const inactiveList = navHtml.querySelector("#scene-navigation-inactive");
+
+    if (!activeList || !inactiveList) return;
+
+    // Get all scene items from both lists
+    const activeScenes = Array.from(activeList.querySelectorAll("li.scene"));
+    const inactiveScenes = Array.from(inactiveList.querySelectorAll("li.scene"));
+    const allSceneElements = [...activeScenes, ...inactiveScenes];
+
+    // Sort by navOrder from the scene document
+    allSceneElements.sort((a, b) => {
+      const sceneA = game.scenes.get(a.dataset.sceneId);
+      const sceneB = game.scenes.get(b.dataset.sceneId);
+      return (sceneA?.navOrder ?? 0) - (sceneB?.navOrder ?? 0);
+    });
+
+    LogUtil.log("handleActiveSceneSeparation", [allSceneElements.length, "scenes combined and sorted"]);
+
+    // Clear the inactive list and re-add all scenes in sorted order
+    inactiveList.innerHTML = "";
+    allSceneElements.forEach(scene => {
+      inactiveList.appendChild(scene);
+    });
   }
 
   static handleSceneFadeOut(nav, navHtml, navData){
@@ -653,7 +691,18 @@ export class TopNavigation {
     // We need to account for the button width when checking if content overflows
     const navClientWidth = sceneNav.clientWidth;
     const navScrollWidth = sceneNav.scrollWidth;
-    const isNavOverflowing = navScrollWidth > navClientWidth;
+    let isNavOverflowing = navScrollWidth > navClientWidth;
+
+    // When subFoldersLayout is rowStart, also check if active folder contents overflow
+    // since absolute positioning doesn't contribute to parent's scrollWidth
+    if (!isNavOverflowing && TopNavigation.subFoldersLayout === "rowStart") {
+      const activeContents = sceneNav.querySelector(".crlngn-folder-active menu.contents");
+      if (activeContents) {
+        const contentsRight = activeContents.getBoundingClientRect().right;
+        const navRight = sceneNav.getBoundingClientRect().right;
+        isNavOverflowing = contentsRight > navRight;
+      }
+    }
 
     LogUtil.log("placeNavButtons *", [
       TopNavigation.isCollapsed,
@@ -1201,10 +1250,28 @@ export class TopNavigation {
     }
   }
 
-  static applySceneItemWidth = () => { 
+  static applySceneItemWidth = () => {
     const SETTINGS = getSettings();
     const currWidth = SettingsUtil.get(SETTINGS.sceneItemWidth.tag) || 150;
     GeneralUtil.addCSSVars("--scene-nav-item-width", `${currWidth}px`);
+  }
+
+  static applySubFoldersLayout = () => {
+    const body = document.querySelector("body");
+    if (TopNavigation.subFoldersLayout === "rowStart") {
+      body.classList.add("crlngn-subnav-start");
+    } else {
+      body.classList.remove("crlngn-subnav-start");
+    }
+  }
+
+  static applyExpandScrimToSubfolders = () => {
+    const body = document.querySelector("body");
+    if (TopNavigation.expandScrimToSubfolders) {
+      body.classList.add("crlngn-expand-scrim");
+    } else {
+      body.classList.remove("crlngn-expand-scrim");
+    }
   }
 
   static applyTopNavHeight = () => {
@@ -1272,10 +1339,17 @@ export class TopNavigation {
     TopNavigation.useSceneLookup = SettingsUtil.get(SETTINGS.useSceneLookup.tag);
     TopNavigation.sceneClickToView = SettingsUtil.get(SETTINGS.sceneClickToView.tag);
     TopNavigation.sceneItemWidth = SettingsUtil.get(SETTINGS.sceneItemWidth.tag);
+    TopNavigation.disableActiveSceneSeparation = SettingsUtil.get(SETTINGS.disableActiveSceneSeparation.tag);
+    TopNavigation.subFoldersLayout = SettingsUtil.get(SETTINGS.subFoldersLayout.tag);
+    TopNavigation.expandScrimToSubfolders = SettingsUtil.get(SETTINGS.expandScrimToSubfolders.tag);
     TopNavigation.isCollapsed = TopNavigation.navStartCollapsed;
 
     // Apply scene item width CSS variable
     TopNavigation.applySceneItemWidth();
+    // Apply subfolder layout setting
+    TopNavigation.applySubFoldersLayout();
+    // Apply scrim expansion setting
+    TopNavigation.applyExpandScrimToSubfolders();
   }
 
   /**

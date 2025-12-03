@@ -370,6 +370,10 @@
             "label": "Hide scene name from loading bar",
             "hint": "The loading bar shows the scene name, which can spoil content for players. Check this option to show only a thin loading bar instead."
           },
+          "disableActiveSceneSeparation": {
+            "label": "Disable active/inactive scene separation",
+            "hint": "When enabled, active scenes will be displayed in the same list as inactive scenes instead of being separated at the top."
+          },
           "sceneNavEnabled": {
             "label": "Enable custom scene navigation",
             "hint": "[Requires reload] If you are having layout issues with a non-compatible module, you can try to disable my custom styles for Scene Navigation."
@@ -383,7 +387,7 @@
             "hint": "If custom scene navigation is enabled, this option will add a list of folders with scene search to scene navigation bar."
           },
           "useSceneLookup": {
-            "label": "Enable scene lookup on navigation",
+            "label": "Enable scene search on navigation",
             "hint": "If custom scene navigation is enabled, this option will add a button to search for scenes on the navigation bar."
           },
           "navFoldersForPlayers": {
@@ -417,6 +421,18 @@
           "hideInactiveOnFolderToggle": {
             "label": "Hide inactive scenes on folder toggle",
             "hint": "When enabled, default list of scenes will be hidden when folder view is on. The list will show up again when you hide folders. This aims to avoid duplication of scenes in navigation."
+          },
+          "subFoldersLayout": {
+            "label": "Subfolder row alignment",
+            "hint": "Choose how scenes inside subfolders are positioned when the folder is expanded. Only works if folders are enabled.",
+            "options": {
+              "parent": "Aligned with parent folder",
+              "rowStart": "Aligned to row start"
+            }
+          },
+          "expandScrimToSubfolders": {
+            "label": "Expand background behind subfolders",
+            "hint": "When enabled, the navigation background expands to cover subfolder rows when folders are open."
           },
           "sceneItemWidth": {
             "label": "Width of navigation item",
