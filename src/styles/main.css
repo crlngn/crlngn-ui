@@ -111,7 +111,7 @@ body.crlngn-ui {
   fieldset{
     border-style: solid;
     border-width: 1px;
-    border-color: var(--color-secondary-75);
+    border-color: var(--color-cool-4);
   }
   .dnd5e-tooltip {
     --dnd5e-color-parchment: rgb(244, 239, 237);
