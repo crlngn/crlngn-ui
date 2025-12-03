@@ -7,10 +7,18 @@
     </div>
   </li>
   {{/each}}
-  
+
   {{#each scenes}}
-  <li class="ui-control scene gm" data-scene-id="{{this.id}}">
+  <li class="ui-control scene {{this.cssClass}} {{#if this.isGM}}crlngn{{/if}}" data-scene-id="{{this.id}}">
     <span class="scene-name ellipsis">{{this.name}}</span>
+    {{#if this.users}}
+    <ul class="scene-players">
+      {{#each this.users}}
+      <li class="scene-player" style="--color-bg:{{this.color}}; --color-border:{{this.border}}"
+          data-tooltip aria-label="{{this.name}}">{{this.letter}}</li>
+      {{/each}}
+    </ul>
+    {{/if}}
     {{> "modules/crlngn-ui/templates/scene-nav-preview.hbs" scene=this}}
   </li>
   {{/each}}

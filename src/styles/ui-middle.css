@@ -54,9 +54,10 @@ body.crlngn-ui{
       }
 
       #hotbar-page{
-        margin-bottom: 8px;
+        margin-bottom: 0px;
         bottom: var(--hotbar-curr-height, 60px);
         overflow: auto;
+        border-radius: 6px;
         /* deal with scrollbar */
         -ms-overflow-style: none !important;  /* IE and Edge */
         scrollbar-width: none !important;  /* Firefox */

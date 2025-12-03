@@ -837,6 +837,94 @@
               background: var(--control-bg-color);
               position: relative;
               flex-direction: row;
+
+              .scene {
+                position: relative;
+
+                &:after {
+                  font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free";
+                  font-weight: 900;
+                  font-size: var(--font-size-10);
+                  margin-right: 4px;
+                  opacity: 0.6;
+                }
+
+                /* fa-crown - GM currently viewing */
+                &.view.crlngn:after {
+                  content: '\f521';
+                }
+
+                /* fa-bullseye - active for players */
+                &.active.crlngn:after {
+                  content: '\f140';
+                }
+
+                /* both active and current */
+                &.active.view.crlngn:after {
+                  content: '\f521  \f140';
+                }
+
+                /* fa-eye-slash - hidden from players (only when not active/view) */
+                &.gm.crlngn:not(.active):not(.view):after {
+                  content: '\f070';
+                }
+
+                &.gm {
+                  opacity: 0.7;
+
+                  &::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: var(--striped-bg);
+                    opacity: 0.5;
+                    z-index: -1;
+                  }
+                }
+
+                &.active {
+                  background: var(--color-secondary-75);
+                  opacity: 1;
+                }
+
+                ul.scene-players {
+                  height: 8px;
+                  width: calc(100% - 12px);
+                  list-style: none;
+                  margin: 0;
+                  padding: 0;
+                  position: absolute;
+                  left: 6px;
+                  right: auto;
+                  top: auto;
+                  bottom: -1px;
+                  display: flex;
+                  align-items: flex-end;
+                  justify-items: stretch;
+
+                  li.scene-player {
+                    height: 4px;
+                    flex: 1 1 100%;
+                    width: 100%;
+                    max-width: 20px;
+                    margin: 0 0 0 -1px;
+                    line-height: 1;
+                    font-size: 0;
+                    text-align: center;
+                    color: #000;
+                    font-weight: 600;
+                    background: var(--color-border);
+                    border: 1px solid #000;
+                    border-radius: 0;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                  }
+                }
+              }
             }
 
             &.crlngn-folder-active {

@@ -133,7 +133,6 @@ export class TopNavigation {
       TopNavigation.handleSceneFadeOut();
     });
 
-    // Hooks.on(HOOKS_CORE.RENDER_DOCUMENT_DIRECTORY, (directory) => {
     Hooks.on(HOOKS_CORE.RENDER_SCENE_DIRECTORY, (directory) => {
       LogUtil.log(HOOKS_CORE.RENDER_SCENE_DIRECTORY,[directory]);
       const sceneNav = document.querySelector('#scenes .directory-list');
@@ -142,7 +141,6 @@ export class TopNavigation {
       const directoryScenes = sceneNav.querySelectorAll(".directory-item.scene");
       directoryScenes.forEach(sc => {
         const scene = game.scenes.get(sc.dataset.entryId);
-        // LogUtil.log(HOOKS_CORE.RENDER_SCENE_DIRECTORY,["directoryScenes", sc.dataset.entryId, TopNavigation.sceneClickToView]);
         if(TopNavigation.sceneClickToView){
           sc.addEventListener("dblclick", TopNavigation.onActivateScene); // onActivateScene
           sc.addEventListener("click", TopNavigation.onSelectScene);
@@ -158,7 +156,7 @@ export class TopNavigation {
               sc.prepend(iconElem);
             }
             if(game.scenes.current?.id===scene.id){
-              iconElem.classList.add('fa-star');
+              iconElem.classList.add('fa-crown');
               sc.prepend(iconElem);
             }
           }else{
@@ -213,7 +211,7 @@ export class TopNavigation {
     const SETTINGS = getSettings();
     const scenePage = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
     if(TopNavigation.preventNavRender){ return; }
-    LogUtil.log("onRender - "+HOOKS_CORE.RENDER_SCENE_NAV, [navHtml]);
+    LogUtil.log("onRender - "+HOOKS_CORE.RENDER_SCENE_NAV, [navHtml, navData]);
     TopNavigation.checkSceneNavCompat();
     TopNavigation.resetLocalVars();
     TopNavigation.handleHide();

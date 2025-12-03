@@ -718,6 +718,21 @@ body.crlngn-ui{
     border-color: transparent;
   }
 
+  /* Monk's Hotbar Expansion */
+  #hotbar.crlngn-macro.expanded.collapsed{
+    #hotbar-page {
+      max-height: 0;
+      opacity: 0;
+    }
+  }
+  #hotbar.crlngn-macro.expanded:not(.collapsed),
+  #hotbar.crlngn-macro.expanded.collapsed:hover{
+    #hotbar-page {
+      max-height: unset;
+      opacity: 1;
+    }
+  }
+    
   /* PF2e */
   &.system-pf2e #interface #pf2e-hud-persistent #hotbar{
     background: transparent;

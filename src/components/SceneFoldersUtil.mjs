@@ -293,10 +293,45 @@ export class SceneNavFolders {
     if(!targetFolder || !ui.scenes) return {};
     const allFolders = ui.scenes.collection.folders;
     let templateData = {}, folderList = [];
-    let folderScenes = targetFolder.contents ? [...targetFolder.contents] : []; 
+    let folderScenes = targetFolder.contents ? [...targetFolder.contents] : [];
     folderScenes = folderScenes.filter(sc => sc.permission >= 2); // only show scenes with appropriate permission
 
     SceneNavFolders.#currSceneSortMode = game.scenes.sortingMode;
+
+    // Build user viewing data for scenes
+    const userScenes = game.users.reduce((obj, u) => {
+      if (!u.active) return obj;
+      obj[u.viewedScene] ||= [];
+      obj[u.viewedScene].push({
+        name: u.name,
+        letter: u.name[0],
+        color: u.color.multiply(0.5).css,
+        border: u.color
+      });
+      return obj;
+    }, {});
+
+    // Enhance scene data with status info
+    const isGM = game.user?.isGM;
+    folderScenes = folderScenes.map(scene => {
+      const isHidden = scene.ownership.default === 0;
+      const isCurrent = scene.isView; // GM is currently viewing this scene
+      const cssClass = [
+        isCurrent ? "view" : null,
+        scene.active ? "active" : null,
+        isHidden ? "gm" : null
+      ].filter(Boolean).join(" ");
+
+      return {
+        ...scene,
+        isGM,
+        isActive: scene.active,
+        isCurrent,
+        isHidden,
+        cssClass,
+        users: userScenes[scene.id] || null
+      };
+    });
 
     // Folder-specific data
     LogUtil.log("buildFolderData A", [targetFolder.name, targetFolder]);
