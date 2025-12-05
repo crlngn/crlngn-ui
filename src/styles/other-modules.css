@@ -719,14 +719,14 @@ body.crlngn-ui{
   }
 
   /* Monk's Hotbar Expansion */
-  #hotbar.crlngn-macro.expanded.collapsed{
+  #hotbar.crlngn-macro.collapsed{
     #hotbar-page {
       max-height: 0;
       opacity: 0;
     }
   }
-  #hotbar.crlngn-macro.expanded:not(.collapsed),
-  #hotbar.crlngn-macro.expanded.collapsed:hover{
+  #hotbar.crlngn-macro:not(.collapsed),
+  #hotbar.crlngn-macro.collapsed:hover{
     #hotbar-page {
       max-height: unset;
       opacity: 1;

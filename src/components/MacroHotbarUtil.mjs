@@ -86,10 +86,13 @@ export class MacroHotbar {
     directoryBtn?.addEventListener("click", MacroHotbar.handleOpenDirectory);
   }
 
-  static handleCollapse(evt){
+  static async handleCollapse(evt){
     const isCollapsed = game.user.getFlag(MODULE_ID, "hotbarCollapsed");
-    
-    MacroHotbar.applyHotBarCollapse(!isCollapsed);
+    const newState = !isCollapsed;
+
+    // Save the new state to the flag so it persists across re-renders
+    await game.user.setFlag(MODULE_ID, "hotbarCollapsed", newState);
+    MacroHotbar.applyHotBarCollapse(newState);
   }
 
   static handleOpenDirectory(evt){
@@ -135,15 +138,17 @@ export class MacroHotbar {
   static applyHotBarCollapse = async(isCollapsed) => {
     const SETTINGS = getSettings();
     MacroHotbar.macroStartCollapsed = isCollapsed!==undefined ? isCollapsed : SettingsUtil.get(SETTINGS.collapseMacroBar.tag);
-    if(game.user){
+    if(game.user && SettingsUtil.firstLoad){
       await game.user.setFlag(MODULE_ID, "hotbarCollapsed", MacroHotbar.macroStartCollapsed);
     }
 
     const macroControls = document.querySelector("#hotbar #hotbar-controls-right");
     const collapseBtn = macroControls?.querySelector("button[data-action=collapse]");
     const hotbar = document.querySelector("#hotbar");
-    if(MacroHotbar.macroStartCollapsed && hotbar){
-      hotbar.classList.add("collapsed");
+    if((SettingsUtil.firstLoad && MacroHotbar.macroStartCollapsed) ||
+      game.user.getFlag(MODULE_ID, "hotbarCollapsed")
+    ){
+      hotbar?.classList.add("collapsed");
       if(collapseBtn){
         collapseBtn.classList.remove("fa-angle-down");
         collapseBtn.classList.add("fa-angle-up");

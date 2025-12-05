@@ -327,6 +327,7 @@ export class SceneNavFolders {
 
       return {
         ...scene,
+        id: scene.id,
         isGM,
         isActive: scene.active,
         isCurrent,

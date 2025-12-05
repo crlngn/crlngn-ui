@@ -957,32 +957,34 @@ export class TopNavigation {
     const data = isInner ? target.parentNode.dataset : target.dataset;
     const scene = game.scenes.get(data.entryId || data.sceneId);
     // const isSearchResult = target.parentElement?.classList.contains('search-results');
-    
+
     TopNavigation.#previewedScene = '';
     LogUtil.log("onSelectScene",[scene, target, isInner]);
 
+    if (!scene) return;
+
     // Temporarily override the sheet.render method to prevent scene configuration
-    if (scene && scene.sheet && !TopNavigation.#sceneClickTimer) {
-      TopNavigation.#originalRenderMethod = scene?.sheet?.render;
+    if (scene.sheet && !TopNavigation.#sceneClickTimer) {
+      TopNavigation.#originalRenderMethod = scene.sheet.render;
       LogUtil.log("onSelectScene - originalRender",[TopNavigation.#originalRenderMethod]);
       scene.sheet.render = () => { };
       // Restore the original method after a short delay
       setTimeout(() => {
-        scene.sheet.render = TopNavigation.#originalRenderMethod;
+        if (scene.sheet) scene.sheet.render = TopNavigation.#originalRenderMethod;
       }, 500);
     }
 
     // Clear any existing timer
     if (TopNavigation.#sceneClickTimer) {
       clearTimeout(TopNavigation.#sceneClickTimer);
-      scene.sheet.render = TopNavigation.#originalRenderMethod;
+      if (scene.sheet) scene.sheet.render = TopNavigation.#originalRenderMethod;
       TopNavigation.#sceneClickTimer = null;
     }
 
     // Set a new timer for the click action
     TopNavigation.#sceneClickTimer = setTimeout(() => {
       scene.view();
-      scene.sheet.render = TopNavigation.#originalRenderMethod;
+      if (scene.sheet) scene.sheet.render = TopNavigation.#originalRenderMethod;
       TopNavigation.#sceneClickTimer = null;
     }, 350); // 350ms delay to wait for potential double-click
   }
