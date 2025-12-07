@@ -200,7 +200,7 @@ body.crlngn-ui{
     padding: 1px;
   }
 
-  .application .window-content {
+  .application#crlngn-color-picker .window-content {
     z-index: 1001;
   }
 

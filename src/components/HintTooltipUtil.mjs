@@ -83,6 +83,9 @@ export class HintTooltipUtil {
       // Check for form.standard-form or presence of .form-group elements
       if (!element) return;
 
+      // Skip actor/item sheets - they have their own hint handling
+      if (element.classList.contains('sheet')) return;
+
       const hasFormGroups = element.querySelector('.form-group') !== null;
       const isStandardForm = element.querySelector('form.standard-form') !== null;
 
