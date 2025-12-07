@@ -192,7 +192,8 @@
     &.theme-light .application:not(.monks-enhanced-journal).theme-light,
     #interface.theme-light,
     .sidebar-popout.theme-light,
-    &.theme-light .chat-popout.theme-light {
+    &.theme-light .chat-popout.theme-light,
+    &.theme-light #context-menu {
       --color-bg-button: rgba(244, 239, 237,0.9);
     
       --color-secondary: rgb(204, 186, 204);
@@ -234,7 +235,8 @@
     #interface.theme-dark,
     .sidebar-popout.theme-dark,
     &.theme-dark .chat-popout.theme-light
-    &.theme-dark .chat-popout.theme-light {
+    &.theme-dark .chat-popout.theme-light,
+    &.theme-dark #context-menu {
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --input-background-alt: var(--color-dark-bg-50);
       --color-text-secondary: var(--color-light-1);

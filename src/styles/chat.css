@@ -205,19 +205,19 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   }
   .chat-message, .chat-message.whisper, .chat-message.blind {
     border-radius: 6px;
-    background: var(--card-color-bg);
-    box-shadow: 0 0 0px var(--dnd5e-shadow-45);
+    background: var(--card-color-bg) !important;
+    box-shadow: 0 0 0px var(--dnd5e-shadow-45) !important;
   }
   .chat-message .message-header .whisper-to {
     margin-top: 1.25em;
   }
   .chat-message.whisper{
-    background: var(--card-color-bg);
-    background-image: var(--striped-bg);
+    background: var(--card-color-bg) !important;
+    background-image: var(--striped-bg) !important;
   }
   .chat-message.blind{
-    background: var(--card-color-bg);
-    background-image: var(--striped-bg-2);
+    background: var(--card-color-bg) !important;
+    background-image: var(--striped-bg-2) !important;
   }
   .chat-message.whisper span.message-metadata {
     position: relative;
@@ -665,8 +665,9 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   DARK MODE 
   **********/
   &.stream.theme-dark .chat-message,
-  #interface.theme-dark .chat-message {
-    color: var(--color-light-1);
+  #interface.theme-dark .chat-message,
+  &.theme-dark .chat-popout .chat-message {
+    color: var(--color-text-primary);
   }
   &.stream.theme-dark .chat-message p.supplement > strong,
   #interface.theme-dark .chat-message p.supplement > strong,
@@ -719,12 +720,18 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   & > .chat-log.themed.theme-light, #chat-popout.theme-light,
   &.theme-light .chat-popout.theme-light,
   #chat-popout.theme-light button,
-  #chat-pins.theme-light, #chat-pins.theme-light button {
+  #chat-pins.theme-light, #chat-pins.theme-light button,
+  &.theme-dark .application.themed.theme-light .chat-message,
+  #interface.theme-light .chat-message,
+  #chat-popout.theme-light, #chat-popout.theme-light button, 
+  #chat-popout.theme-light .chat-message {
     --dnd5e-background-card: rgba(244, 239, 237,0.8);
     --dnd5e-color-parchment: rgba(244, 239, 237, 1);
     --card-color-bg: var(--dnd5e-background-card, #e8e8ef);
     --dnd5e-color-card: var(--dnd5e-background-card, #e8e8ef);
     --table-background-color: var(--dnd5e-background-card, #e8e8ef);
+    --color-text-primary: var(--color-dark-1);
+    --color-text-secondary: var(--color-dark-2);
   }
 
   &.stream.theme-dark .chat-log,
@@ -734,9 +741,9 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
   &.theme-dark .chat-popout.theme-light,
   #interface.theme-dark .chat-message,
   #chat-popout.theme-dark, #chat-popout.theme-dark button, 
-  #chat-popout.theme-dark .dnd5e2.chat-message,
+  #chat-popout.theme-dark .chat-message,
   #chat-pins.theme-dark, #chat-pins.theme-dark button,
-  &.theme-dark .application.themed.theme-light .dnd5e2.chat-message {
+  &.theme-dark .application.themed.theme-light .chat-message {
     --dnd5e-color-parchment: rgb(32, 37, 43);
     --dnd5e-background-card: rgb(32, 37, 43); 
     --card-color-bg: var(--chat-dark-blue);
@@ -749,7 +756,8 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
     --dnd5e-color-success: #719f50;
     --dnd5e-color-failure: #c15d5d;
     --dnd5e-color-crimson: var(--color-highlights-75);
-    --color-text-primary: var(--color-light-3);
+    --color-text-primary: var(--color-light-1);
+    --color-text-secondary: var(--color-light-2);
   }
 
   &.stream.theme-dark,

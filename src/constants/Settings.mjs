@@ -537,6 +537,31 @@ export function getSettings() {
       requiresReload: false
     },
 
+    bulkLockAction: {
+      tag: "v2-bulk-lock-action",
+      label: game.i18n.localize("CRLNGN_UI.settings.bulkLockAction.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.bulkLockAction.hint"),
+      options: {
+        "": game.i18n.localize("CRLNGN_UI.settings.bulkLockAction.options.select"),
+        "unlocked": game.i18n.localize("CRLNGN_UI.settings.bulkLockAction.options.unlocked"),
+        "soft": game.i18n.localize("CRLNGN_UI.settings.bulkLockAction.options.soft"),
+        "locked": game.i18n.localize("CRLNGN_UI.settings.bulkLockAction.options.locked")
+      },
+      propType: String,
+      default: "",
+      scope: SETTING_SCOPE.world,
+      config: true,
+      requiresReload: false,
+      onChange: (value) => {
+        if (value && game.user?.isGM) {
+          // Trigger the bulk lock action
+          import('../constants/SettingMenus.mjs').then(module => {
+            module.applyBulkLockState(value);
+          });
+        }
+      }
+    },
+
     disableUI: {
       tag: 'disable-ui',
       label: game.i18n.localize("CRLNGN_UI.settings.disableUI.label"),

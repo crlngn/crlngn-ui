@@ -59,6 +59,36 @@
         "buttonLabel": "Patreon support",
         "hint": "If you like Carolingian UI and my other modules, consider supporting the development with a few bucks per month."
       },
+      "exportSettings": {
+        "label": "Troubleshooting",
+        "buttonLabel": "Export settings",
+        "hint": "Export your Carolingian UI settings and active modules to a JSON file for troubleshooting.",
+        "success": "Settings exported successfully!"
+      },
+      "importSettings": {
+        "label": "Import Settings",
+        "buttonLabel": "Import settings",
+        "hint": "Import Carolingian UI settings from a JSON file. GM only.",
+        "success": "Successfully imported {count} settings!",
+        "partialSuccess": "Imported {applied} settings with {errors} errors.",
+        "invalidFile": "Invalid settings file. Must contain cuiSettings or carolingianSettings.",
+        "parseError": "Failed to parse settings file. Please check the file format.",
+        "reloadTitle": "Reload Required",
+        "reloadPrompt": "Settings have been imported. Reload the page to apply all changes?"
+      },
+      "bulkLockAction": {
+        "label": "Bulk Lock Settings (GM)",
+        "hint": "Apply a lock state to all player settings at once. This is a one-time action.",
+        "options": {
+          "select": "-- Select action --",
+          "unlocked": "Unlocked (players can change)",
+          "soft": "Soft Lock (default, players can change)",
+          "locked": "Hard Lock (players cannot change)"
+        },
+        "confirmTitle": "Confirm Bulk Lock Change",
+        "confirmMessage": "Are you sure you want to set ALL player settings to '{state}'? This will overwrite all individual lock states.",
+        "success": "Applied the state to all client settings: '{state}'"
+      },
       "moduleSettingsMenu": {
         "label": "Interface Settings",
         "title": "Configure Options",

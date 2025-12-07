@@ -59,6 +59,36 @@
         "buttonLabel": "Supporto Patreon",
         "hint": "Se ti piace Carolingian UI e i miei altri moduli, considera di supportare lo sviluppo con $2 o $5 al mese."
       },
+      "exportSettings": {
+        "label": "Risoluzione problemi",
+        "buttonLabel": "Esporta impostazioni",
+        "hint": "Esporta le tue impostazioni di Carolingian UI e i moduli attivi in un file JSON per la risoluzione dei problemi.",
+        "success": "Impostazioni esportate con successo!"
+      },
+      "importSettings": {
+        "label": "Importa Impostazioni",
+        "buttonLabel": "Importa impostazioni",
+        "hint": "Importa le impostazioni di Carolingian UI da un file JSON. Solo per GM.",
+        "success": "{count} impostazioni importate con successo!",
+        "partialSuccess": "{applied} impostazioni importate con {errors} errori.",
+        "invalidFile": "File di impostazioni non valido. Deve contenere cuiSettings o carolingianSettings.",
+        "parseError": "Impossibile analizzare il file delle impostazioni. Controlla il formato del file.",
+        "reloadTitle": "Ricaricamento Richiesto",
+        "reloadPrompt": "Le impostazioni sono state importate. Ricaricare la pagina per applicare tutte le modifiche?"
+      },
+      "bulkLockAction": {
+        "label": "Blocco Impostazioni in Massa (GM)",
+        "hint": "Applica uno stato di blocco a tutte le impostazioni dei giocatori contemporaneamente. Questa è un'azione una tantum.",
+        "options": {
+          "select": "-- Seleziona azione --",
+          "unlocked": "Sbloccato (i giocatori possono modificare)",
+          "soft": "Blocco Leggero (predefinito, i giocatori possono modificare)",
+          "locked": "Blocco Totale (i giocatori non possono modificare)"
+        },
+        "confirmTitle": "Conferma Blocco in Massa",
+        "confirmMessage": "Sei sicuro di voler impostare TUTTE le impostazioni dei giocatori su '{state}'? Questo sovrascriverà tutti gli stati di blocco individuali.",
+        "success": "Stato applicato a tutte le impostazioni client: '{state}'"
+      },
       "moduleSettingsMenu": {
         "label": "Impostazioni Interfaccia",
         "title": "Configura Opzioni",

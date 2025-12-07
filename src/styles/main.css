@@ -479,6 +479,20 @@ body.crlngn-ui{
   }
 
 
+  #context-menu{
+    background: var(--background);
+    border: 1px solid transparent;
+    color: var(--color-text-primary);
+    .context-item{
+      padding: 5px 10px;
+      &:hover{
+        border: 1px solid var(--color-highlights-50);
+        background: var(--background);
+        color: var(--color-text-primary);
+      }
+    }
+  }
+
   #interface.theme-dark {
 
     :is(.dnd5e, .dnd5e2, .dnd5e2-journal) .roll-link > i.fa-dice-d20, 
@@ -487,14 +501,14 @@ body.crlngn-ui{
     }
 
     #context-menu{
-      background: var(--color-dark-bg);
+      background: var(--control-bg-color);
       border: 1px solid transparent;
       color: var(--color-light-1);
       .context-item{
         padding: 5px 10px;
         &:hover{
-          border: 1px solid var(--color-secondary-75);
-          background: var(--color-cool-4);
+          border: 1px solid var(--color-highlights-50);
+          background: var(--control-bg-color);
           color: var(--color-light-1);
         }
       }

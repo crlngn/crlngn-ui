@@ -59,6 +59,36 @@
         "buttonLabel": "Apoio no Patreon",
         "hint": "Se você gosta de Carolingian UI e meus outros módulos, considere apoiar o desenvolvimento com $2 ou $5 por mês."
       },
+      "exportSettings": {
+        "label": "Solução de problemas",
+        "buttonLabel": "Exportar configurações",
+        "hint": "Exporte suas configurações do Carolingian UI e módulos ativos para um arquivo JSON para solução de problemas.",
+        "success": "Configurações exportadas com sucesso!"
+      },
+      "importSettings": {
+        "label": "Importar Configurações",
+        "buttonLabel": "Importar configurações",
+        "hint": "Importe configurações do Carolingian UI de um arquivo JSON. Apenas para GM.",
+        "success": "{count} configurações importadas com sucesso!",
+        "partialSuccess": "{applied} configurações importadas com {errors} erros.",
+        "invalidFile": "Arquivo de configurações inválido. Deve conter cuiSettings ou carolingianSettings.",
+        "parseError": "Falha ao analisar arquivo de configurações. Verifique o formato do arquivo.",
+        "reloadTitle": "Recarregamento Necessário",
+        "reloadPrompt": "Configurações foram importadas. Recarregar a página para aplicar todas as mudanças?"
+      },
+      "bulkLockAction": {
+        "label": "Bloquear Configurações em Massa (GM)",
+        "hint": "Aplica um estado de bloqueio a todas as configurações dos jogadores de uma vez. Esta é uma ação única.",
+        "options": {
+          "select": "-- Selecionar ação --",
+          "unlocked": "Desbloqueado (jogadores podem alterar)",
+          "soft": "Bloqueio Suave (padrão, jogadores podem alterar)",
+          "locked": "Bloqueio Total (jogadores não podem alterar)"
+        },
+        "confirmTitle": "Confirmar Bloqueio em Massa",
+        "confirmMessage": "Tem certeza de que deseja definir TODAS as configurações dos jogadores para '{state}'? Isso sobrescreverá todos os estados de bloqueio individuais.",
+        "success": "Estado aplicado a todas as configurações de cliente: '{state}'"
+      },
       "moduleSettingsMenu": {
         "label": "Configurações de Interface",
         "title": "Configurar Opções",

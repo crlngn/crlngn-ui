@@ -59,6 +59,36 @@
         "buttonLabel": "通过 Patreon 支持",
         "hint": "如果您喜欢 Carolingian UI 和我开发的其他模组，欢迎通过每月 $2 或 $5 的赞助来支持后续开发。"
       },
+      "exportSettings": {
+        "label": "故障排除",
+        "buttonLabel": "导出设置",
+        "hint": "将您的 Carolingian UI 设置和活动模组导出为 JSON 文件以便故障排除。",
+        "success": "设置导出成功！"
+      },
+      "importSettings": {
+        "label": "导入设置",
+        "buttonLabel": "导入设置",
+        "hint": "从 JSON 文件导入 Carolingian UI 设置。仅限 GM。",
+        "success": "成功导入 {count} 项设置！",
+        "partialSuccess": "已导入 {applied} 项设置，{errors} 项出错。",
+        "invalidFile": "无效的设置文件。必须包含 cuiSettings 或 carolingianSettings。",
+        "parseError": "解析设置文件失败。请检查文件格式。",
+        "reloadTitle": "需要重新加载",
+        "reloadPrompt": "设置已导入。是否重新加载页面以应用所有更改？"
+      },
+      "bulkLockAction": {
+        "label": "批量锁定设置 (GM)",
+        "hint": "一次性对所有玩家设置应用锁定状态。这是一次性操作。",
+        "options": {
+          "select": "-- 选择操作 --",
+          "unlocked": "未锁定（玩家可更改）",
+          "soft": "软锁定（默认值，玩家可更改）",
+          "locked": "硬锁定（玩家无法更改）"
+        },
+        "confirmTitle": "确认批量锁定更改",
+        "confirmMessage": "您确定要将所有玩家设置设为 '{state}' 吗？这将覆盖所有单独的锁定状态。",
+        "success": "已将状态应用于所有客户端设置：'{state}'"
+      },
       "moduleSettingsMenu": {
         "label": "界面设置",
         "title": "配置选项",

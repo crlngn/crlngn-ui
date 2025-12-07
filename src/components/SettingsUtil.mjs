@@ -83,6 +83,11 @@ export class SettingsUtil {
             if (setting.tag !== 'v2-default-settings' && setting.tag !== 'v2-setting-enforcement') {
               SettingsUtil.onSettingChange(setting.tag);
             }
+
+            // Call custom onChange handler if defined in the setting
+            if (typeof setting.onChange === 'function') {
+              setting.onChange(value);
+            }
           }
         }
   
@@ -1113,8 +1118,10 @@ export class SettingsUtil {
   }
 
   /**
-   * Checks if any Carolingian UI settings are being forced by Force Client Settings module
-   * @returns {boolean} True if FCS is controlling any Carolingian UI settings
+   * Checks if any Carolingian UI settings are being forced by both Force Client Settings
+   * module AND Carolingian UI's enforcement system, with requiresReload: true.
+   * Only these settings are likely to cause actual problems.
+   * @returns {boolean} True if there's a real conflict
    */
   static hasForceClientSettingsConflict = () => {
     const isActive = GeneralUtil.isModuleOn('force-client-settings');
@@ -1123,25 +1130,40 @@ export class SettingsUtil {
     if(!isActive) return false;
 
     try {
-      // FCS stores settings as 'force-client-settings._moduleid.settingname'
-      // Check all registered settings for the pattern 'force-client-settings._crlngn-ui.'
+      const SETTINGS = getSettings();
       const allSettings = game.settings.settings;
-      const crlngnKeys = [];
+      const conflictingSettings = [];
+
+      // Get Carolingian UI's enforcement states
+      const enforcement = SettingsUtil.get(SETTINGS.settingEnforcement.tag) || {};
 
       allSettings.forEach((setting, key) => {
         // FCS uses underscore prefix: force-client-settings._crlngn-ui.xxx
         if(key.startsWith('force-client-settings._crlngn-ui.') ||
            key.startsWith(`force-client-settings._${MODULE_ID}.`)) {
-          crlngnKeys.push(key);
+          // Extract the setting tag from FCS key
+          // e.g., 'force-client-settings._crlngn-ui.v2-scene-controls-fade-out' -> 'v2-scene-controls-fade-out'
+          const settingTag = key.replace('force-client-settings._crlngn-ui.', '')
+                                .replace(`force-client-settings._${MODULE_ID}.`, '');
+
+          // Check if this setting is also enforced by Carolingian UI (not unlocked)
+          const cuiEnforcementState = enforcement[settingTag];
+          const isEnforcedByCUI = cuiEnforcementState && cuiEnforcementState !== 'unlocked';
+
+          // Check if this setting has requiresReload: true
+          const cuiSetting = Object.values(SETTINGS).find(s => s.tag === settingTag);
+          const hasReloadRequired = cuiSetting?.requiresReload === true;
+
+          // Only count as conflict if BOTH enforced by CUI AND requires reload
+          if(isEnforcedByCUI && hasReloadRequired) {
+            conflictingSettings.push({ key, settingTag, cuiEnforcementState });
+          }
         }
       });
 
-      LogUtil.log('Found crlngn settings in FCS:', [crlngnKeys]);
+      LogUtil.log('Found conflicting settings (enforced by both + requiresReload):', [conflictingSettings]);
 
-      const hasCrlngnSettings = crlngnKeys.length > 0;
-      LogUtil.log('Has Carolingian UI settings in FCS:', [hasCrlngnSettings, crlngnKeys.length + ' settings']);
-
-      return hasCrlngnSettings;
+      return conflictingSettings.length > 0;
     } catch(e) {
       LogUtil.log('Error checking FCS conflict', [e]);
       return false;
