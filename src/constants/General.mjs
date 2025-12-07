@@ -169,4 +169,10 @@ export const DARK_MODE_RULES = `
   button:hover{
     background-color: var(--color-warm-2) !important;
   }
+
+  tags.tagify.pf2e-tagify {
+    --tag-bg: var(--color-highlights-50);
+    background-color: var(--color-cool-4) !important;
+    border: 0;
+  }
 `;

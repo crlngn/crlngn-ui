@@ -1,4 +1,4 @@
-import { HOOKS_CORE, HOOKS_DND5E } from "../constants/Hooks.mjs";
+import { HOOKS_CORE, HOOKS_DND5E, HOOKS_PF2E } from "../constants/Hooks.mjs";
 import { getSettings } from "../constants/Settings.mjs";
 import { LogUtil } from "./LogUtil.mjs"; 
 import { SettingsUtil } from "./SettingsUtil.mjs";
@@ -13,14 +13,34 @@ export class SheetsUtil {
   static init(){
     const SETTINGS = getSettings();
     LogUtil.log("SheetsUtil.init", []);
-    if(game.system.id !== "dnd5e" && game.system.id !== "daggerheart"){ return; }
+
     SheetsUtil.themeStylesEnabled = SettingsUtil.get(SETTINGS.applyThemeToSheets.tag);
     SheetsUtil.horizontalSheetTabsEnabled = SettingsUtil.get(SETTINGS.useHorizontalSheetTabs.tag);
 
+    // PF2e-specific hooks
+    if(game.system.id === "pf2e"){
+      Hooks.on(HOOKS_PF2E.RENDER_CHAR_SHEET_PF2E, SheetsUtil.#onRenderPF2eSheet);
+      Hooks.on(HOOKS_CORE.UPDATE_SETTING, SheetsUtil.#onUpdateSettingPF2e);
+      return;
+    }
+
+    // DnD5e and Daggerheart hooks
+    if(game.system.id !== "dnd5e" && game.system.id !== "daggerheart"){ return; }
+
+    Hooks.on(HOOKS_CORE.RENDER_ACTOR_SHEET_V2, SheetsUtil.#onRenderActorSheet);
     Hooks.on(HOOKS_CORE.RENDER_ACTOR_SHEET, SheetsUtil.#onRenderActorSheet);
     Hooks.on(HOOKS_CORE.RENDER_COMPENDIUM_BROWSER, SheetsUtil.#onRenderCompendiumBrowser);
     Hooks.on(HOOKS_CORE.RENDER_ADVANCEMENT_MANAGER, SheetsUtil.#onRenderAdvancementManager);
     Hooks.on(HOOKS_CORE.UPDATE_SETTING, SheetsUtil.#onUpdateSetting);
+  }
+
+  static #onRenderPF2eSheet(actorSheet, html, data){
+    // html may be a jQuery object, so extract the DOM element
+    const element = html instanceof HTMLElement ? html : html[0] || html;
+    LogUtil.log(HOOKS_PF2E.RENDER_CHAR_SHEET_PF2E, [actorSheet, element, data]);
+
+    SheetsUtil.applyThemeToSheets(SheetsUtil.themeStylesEnabled);
+    SheetsUtil.adjustPF2eSheet(element);
   }
 
   static #onRenderActorSheet(actorSheet, html, data){
@@ -35,12 +55,14 @@ export class SheetsUtil {
     }
 
     SheetsUtil.applyThemeToSheets(SheetsUtil.themeStylesEnabled);
-    SheetsUtil.applyHorizontalSheetTabs(SheetsUtil.horizontalSheetTabsEnabled);
-    
-    if(SheetsUtil.horizontalSheetTabsEnabled){
-      setTimeout(() => {
-        SheetsUtil.#addTabScrollButtons();
-      }, 100);
+    if(game.system.id==="dnd5e"){
+      SheetsUtil.applyHorizontalSheetTabs(SheetsUtil.horizontalSheetTabsEnabled);
+      
+      if(SheetsUtil.horizontalSheetTabsEnabled){
+        setTimeout(() => {
+          SheetsUtil.#addTabScrollButtons();
+        }, 100);
+      }
     }
   }
 
@@ -64,6 +86,28 @@ export class SheetsUtil {
     if(applicationTheme === "dark"){
       html.classList.add("theme-dark");
       html.classList.remove("theme-light");
+    }
+  }
+
+  static #onUpdateSettingPF2e(setting, value, options, userId){
+    const SETTINGS = getSettings();
+    // When applyThemeToSheets setting changes, re-render open PF2e actor sheets
+    if(setting.key === `crlngn-ui.${SETTINGS.applyThemeToSheets.tag}`){
+      LogUtil.log(HOOKS_CORE.UPDATE_SETTING, ["applyThemeToSheets changed", value]);
+      SheetsUtil.themeStylesEnabled = value;
+      SheetsUtil.applyThemeToSheets(value);
+
+      // Re-render all open actor sheets
+      Object.values(ui.windows).forEach(app => {
+        if(app.constructor.name === "CharacterSheetPF2e" ||
+           app.constructor.name === "NPCSheetPF2e" ||
+           app.constructor.name === "FamiliarSheetPF2e" ||
+           app.constructor.name === "LootSheetPF2e" ||
+           app.constructor.name === "VehicleSheetPF2e" ||
+           app.constructor.name === "PartySheetPF2e"){
+          app.render(false);
+        }
+      });
     }
   }
 
@@ -117,6 +161,8 @@ export class SheetsUtil {
       SheetsUtil.horizontalSheetTabsEnabled = false;
       SheetsUtil.#removeTabScrollButtons();
     }
+
+    
   }
 
   static applyHorizontalSheetTabs(value){
@@ -202,5 +248,24 @@ export class SheetsUtil {
         wrapper.remove();
       }
     });
+  }
+
+  /**
+   * Adjusts PF2e character sheet layout
+   * Moves the image container from sheet-body to be the first child of the sidebar
+   * @param {HTMLElement} html - The sheet HTML element
+   */
+  static adjustPF2eSheet(html){
+    LogUtil.log("adjustPF2eSheet", []);
+    if(!SheetsUtil.themeStylesEnabled) return;
+
+    const imageContainer = html.querySelector(".sheet-body .image-container");
+    const sidebar = html.querySelector("aside .sidebar");
+    LogUtil.log("adjustPF2eSheet", [imageContainer, sidebar, html]);
+
+    if(imageContainer && sidebar){
+      sidebar.insertBefore(imageContainer, sidebar.firstChild);
+      LogUtil.log("adjustPF2eSheet", ["Moved image-container to sidebar"]);
+    }
   }
 }

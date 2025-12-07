@@ -189,9 +189,10 @@
     }
 
     &.theme-light,
-    .application:not(.monks-enhanced-journal).theme-light,
+    &.theme-light .application:not(.monks-enhanced-journal).theme-light,
     #interface.theme-light,
-    .sidebar-popout.theme-light {
+    .sidebar-popout.theme-light,
+    &.theme-light .chat-popout.theme-light {
       --color-bg-button: rgba(244, 239, 237,0.9);
     
       --color-secondary: rgb(204, 186, 204);
@@ -229,9 +230,11 @@
     }
 
     &.theme-dark,
-    .application:not(.monks-enhanced-journal).theme-dark,
+    &.theme-dark .application:not(.monks-enhanced-journal).theme-dark,
     #interface.theme-dark,
-    .sidebar-popout.theme-dark{
+    .sidebar-popout.theme-dark,
+    &.theme-dark .chat-popout.theme-light
+    &.theme-dark .chat-popout.theme-light {
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --input-background-alt: var(--color-dark-bg-50);
       --color-text-secondary: var(--color-light-1);
@@ -382,6 +385,7 @@
     &.theme-dark,
     #interface.theme-dark,
     #interface.theme-dark .theme-light,
+    #interface.theme-dark .app.themed.theme-light
     &.theme-dark .sidebar-popout:not(.theme-dark),
     .application:not(.monks-enhanced-journal).theme-dark,
     &.theme-light #tooltip.application:not(.monks-enhanced-journal).theme-dark,
@@ -393,14 +397,12 @@
     &.crlngn-chat.theme-dark .chat-log.theme-light,
     &.crlngn-chat.theme-dark .chat-log button {
       --color-border: rgba(15, 15, 15, 0.15);
-      /*--control-bg-color: var(--color-cool-5-90);*/
       --input-background-alt: var(--color-dark-bg-50);
       --color-text-primary: var(--color-light-1);
       --color-text-secondary: var(--color-light-1);
       --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
       --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.35);
       --dnd5e-color-groove: var(--dnd5e-color-gold);
-      /*--background: var(--control-bg-color);*/
 
       --button-background-color: rgba(96, 108, 119, 0.5);
       --button-border-color: rgba(96, 108, 119, 0.5);
@@ -496,8 +498,11 @@
     --color-warm-2: rgb(78, 139, 158);
     --color-warm-3: rgb(60, 120, 146);
 
+    &.theme-dark,
     #interface.theme-dark,
     #chat-popout.theme-dark,
+    .chat-popout.theme-dark,
+    &.theme-dark .chat-popout.theme-light,
     #chat-pins.theme-dark,
     .chat-log.themed.theme-dark,
     .sidebar-popout.theme-dark {
@@ -539,6 +544,8 @@
   .chat-log.themed.theme-light,
   #interface.theme-light,
   #chat-popout.theme-light,
+  .chat-popout.theme-light,
+  &.theme-light .chat-popout.theme-dark,
   #chat-pins.theme-light,
   .sidebar-popout.theme-light {
     --color-secondary: rgba(196, 196, 223, 1);

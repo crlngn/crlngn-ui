@@ -451,6 +451,8 @@ export class SettingsUtil {
       case SETTINGS.disableActiveSceneSeparation.tag:
         TopNavigation.disableActiveSceneSeparation = value;
         ui.nav?.render(); break;
+      case SETTINGS.hideLoadingSceneName.tag:
+        SettingsUtil.applyHideLoadingSceneName(value); break;
       case SETTINGS.subFoldersLayout.tag:
         TopNavigation.subFoldersLayout = value;
         TopNavigation.applySubFoldersLayout(); break;
@@ -930,7 +932,7 @@ export class SettingsUtil {
     const foundryUiConfig = game.settings.get('core','uiConfig') || null;
     
     if(enforceDarkTheme && foundryUiConfig?.colorScheme?.applications==='dark'){
-      SettingsUtil.applyForcedDarkTheme('.app.theme-light:not(.sheet.dnd5e2, .journal-sheet, #hurry-up), #AA-autorec-settings');
+      SettingsUtil.applyForcedDarkTheme('.app.theme-light:not(.sheet.dnd5e2, .journal-sheet, #hurry-up, .sheet), #AA-autorec-settings');
       document.querySelector('body').classList.add('crlngn-forced-dark-theme');
     }
   }

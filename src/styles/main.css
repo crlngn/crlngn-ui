@@ -200,6 +200,10 @@ body.crlngn-ui{
     padding: 1px;
   }
 
+  .application .window-content {
+    z-index: 1001;
+  }
+
   .application:not(.actor, .sheet, .monks-enhanced-journal) .standard-form nav.tabs {
     gap: 0.5em;
     line-height: 1.5;
@@ -1227,6 +1231,9 @@ body.crlngn-ui {
 
 body.crlngn-ui aside.pf2e.effect-info.application {
   transform: none;
+}
+body.crlngn-ui tags.tagify.pf2e-tagify {
+  height: var(--form-field-height);
 }
 
 /*************/

@@ -883,11 +883,7 @@ body.crlngn-ui{
   /* PF2e */
   &.system-pf2e.crlngn-forced-dark-theme {
     .sheet.actor {
-      background: rgba(0,0,0,0.9) !important;
-    }
-    .sheet.actor .window-content .editable > aside,
-    .sheet.actor .window-content .sidebar {
-      background: var(--color-cool-4) !important;
+      background: rgba(0,0,0,0.9);
     }
     
     .sheet.pf2e form .section-header, .sheet.pf2e form .npc-body section header {

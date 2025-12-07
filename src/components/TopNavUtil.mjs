@@ -1306,17 +1306,13 @@ export class TopNavigation {
 
     // When folders are shown, calculate based on number of open folder levels
     if (TopNavigation.navShowRootFolders) {
-      const sceneNavInactive = sceneNav.querySelector("#scene-navigation-inactive");
-
-      // Count visible rows: root level + each active folder's contents
-      let rowCount = 1; // Always have the root level
-
-      // Count each .crlngn-folder-active as it represents an expanded folder showing its contents
-      const activeFolders = sceneNavInactive?.querySelectorAll('.crlngn-folder-active') || [];
-      rowCount += activeFolders.length;
+      // Use the user flag as source of truth for active folder count
+      // activeSceneFolders contains IDs of all expanded folders
+      const activeSceneFolders = game.user?.getFlag(MODULE_ID, "activeSceneFolders") || [];
+      const rowCount = Math.max(1, activeSceneFolders.length);
 
       GeneralUtil.addCSSVars("--scene-nav-offset", `calc(var(--top-nav-height) * ${rowCount})`);
-      LogUtil.log("applySceneNavOffset", ["Rows:", rowCount, "Active folders:", activeFolders.length]);
+      LogUtil.log("applySceneNavOffset", ["Rows:", rowCount, "Active folders:", activeSceneFolders.length, activeSceneFolders]);
     } else {
       // When folders aren't shown, just use the single nav height
       GeneralUtil.addCSSVars("--scene-nav-offset", "var(--top-nav-height)");

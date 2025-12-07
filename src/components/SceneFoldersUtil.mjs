@@ -176,23 +176,32 @@ export class SceneNavFolders {
     const offsetLeft = target.offsetLeft;
     const renderedSubmenu = '';
     const activeFolders = target.parentNode.parentNode.querySelectorAll('.crlngn-folder-active');
-  
+
     const id = target.dataset.folderId || target.parentNode.dataset.folderId;
     const allFolders = ui.scenes.collection.folders;
     const folder = id ? allFolders.get(id) : null;
 
     if(!folder){ return; }
 
+    const isActive = target.classList.contains("crlngn-folder-active") || target.parentNode.classList.contains("crlngn-folder-active");
+
+    // Collect nested folder IDs BEFORE injectSubfolders removes them from DOM
+    let nestedFolderIds = [];
+    if (isActive) {
+      const folderElement = target.parentNode;
+      nestedFolderIds = Array.from(folderElement.querySelectorAll('li.folder') || [])
+        .map(f => f.dataset.folderId);
+    }
+
     await SceneNavFolders.injectSubfolders(folder, target.parentNode);
 
     TopNavigation.addSceneListeners(target.parentNode);
     LogUtil.log("onNavFolderClick", [target, target.parentNode, target.parentNode.dataset]);
 
-    const isActive = target.classList.contains("crlngn-folder-active") || target.parentNode.classList.contains("crlngn-folder-active");
     // target.parentNode.style.setProperty('--parent-offset-left', offsetLeft + 'px');
 
     if(isActive){
-      SceneNavFolders.updateActiveFolders(id, true);
+      SceneNavFolders.updateActiveFolders(id, true, nestedFolderIds);
     }else{
       SceneNavFolders.updateActiveFolders(id, false);
     }
@@ -211,12 +220,10 @@ export class SceneNavFolders {
     const folderItems = targetElement.querySelectorAll("li.folder");
     SceneNavFolders.addFolderListeners(folderItems);
     TopNavigation.addSceneListeners(targetElement.querySelector(".contents"));
-
-    // Update scene nav offset after folder height changes
-    setTimeout(() => TopNavigation.applySceneNavOffset(), 100);
+    // Note: applySceneNavOffset is called by updateActiveFolders after folder state is properly updated
   }
 
-  static updateActiveFolders = async (id, remove=false) => {
+  static updateActiveFolders = async (id, remove=false, nestedFolderIds=[]) => {
     const inactiveList = document.querySelector("#scene-navigation-inactive");
     const target = inactiveList?.querySelector(`li.folder[data-folder-id="${id}"]`);
     const idIndex = SceneNavFolders.#activeSceneFolders.indexOf(id);
@@ -224,8 +231,11 @@ export class SceneNavFolders {
     LogUtil.log("updateActiveFolders A", [idIndex, id, game.user.getFlag(MODULE_ID, "activeSceneFolders"), SceneNavFolders.#activeSceneFolders]);
 
     if(remove){
-      SceneNavFolders.#activeSceneFolders = SceneNavFolders.#activeSceneFolders.filter(fid => fid !== id);
-      target.classList.remove('crlngn-folder-active');
+      // When closing a folder, also remove all nested child folder IDs
+      // nestedFolderIds is passed from #onNavFolderClick (collected before DOM removal)
+      const idsToRemove = [id, ...nestedFolderIds];
+      SceneNavFolders.#activeSceneFolders = SceneNavFolders.#activeSceneFolders.filter(fid => !idsToRemove.includes(fid));
+      target?.classList.remove('crlngn-folder-active');
     }else if(!SceneNavFolders.#activeSceneFolders.includes(id)){
       const siblings = target.parentNode.querySelectorAll("li.folder");
       siblings.forEach(sibling => {

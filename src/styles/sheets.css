@@ -189,9 +189,6 @@ body.crlngn-ui.crlngn-sheets {
         gap: 0.35rem;
         margin: 0;
 
-        .ability-score::before{
-          /*border: 1px solid var(--dnd5e-color-gold);*/
-        }
         .ability-score.flipped::before{
           transform: scaleY(1);
         }

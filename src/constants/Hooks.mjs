@@ -89,7 +89,8 @@ export const HOOKS_CORE = {
   RENDER_TOKEN_HUD: "renderTokenHUD",
 
   /* Sheets */
-  RENDER_ACTOR_SHEET: "renderActorSheetV2",
+  RENDER_ACTOR_SHEET: "renderActorSheet",
+  RENDER_ACTOR_SHEET_V2: "renderActorSheetV2",
   RENDER_ITEM_SHEET: "renderItemSheetV2",
   RENDER_COMPENDIUM_BROWSER: "renderCompendiumBrowser",
   RENDER_ADVANCEMENT_MANAGER: "renderAdvancementManager"
@@ -104,4 +105,8 @@ export const HOOKS_DND5E = {
   // ROLL_ABILITY_TEST: "dnd5e.rollAbilityTest",
   // ROLL_SKILL_TEST: "dnd5e.rollSkillTest"
   // RENDER_ACTOR_SHEET: "renderActorSheet",
+}
+
+export const HOOKS_PF2E = {
+  RENDER_CHAR_SHEET_PF2E: "renderCharacterSheetPF2e"
 }

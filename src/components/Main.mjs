@@ -91,7 +91,10 @@ export class Main {
       document.body.classList.add('scene-loading');
     });
     Hooks.on(HOOKS_CORE.CANVAS_READY, () => {
-      document.body.classList.remove('scene-loading');
+      // Delay removal to allow progress notification to be removed first
+      setTimeout(() => {
+        document.body.classList.remove('scene-loading');
+      }, 500);
     });
 
     Hooks.once(HOOKS_CORE.READY, () => {

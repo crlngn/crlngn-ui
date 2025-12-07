@@ -1555,7 +1555,7 @@ export function getSettings() {
       scope: SETTING_SCOPE.world,
       config: false,
       requiresReload: false,
-      system: ["daggerheart", "dnd5e"]
+      system: ["daggerheart", "dnd5e", "pf2e"]
     },
     useHorizontalSheetTabs: {
       tag: "v2-use-horizontal-tabs",

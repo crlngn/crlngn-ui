@@ -7,6 +7,7 @@ import "./styles/scene-nav.css";
 import "./styles/chat.css";
 import "./styles/camera.css";
 import "./styles/sheets.css";
+import "./styles/sheets-pf2e.css";
 import "./styles/players-list.css";
 import "./styles/other-modules.css";
 import "./styles/systems/daggerheart.css";

@@ -1,0 +1,749 @@
+/* PF2e Sheets */
+/* PC sheet */
+body.crlngn-ui.crlngn-sheets.system-pf2e {
+
+  .app.themed.theme-light,
+  .app.themed-theme-dark {
+    --color-pf-primary: var(--color-warm-2);
+    --color-border-divider: var(--color-highlights-50);
+    --tag-color: var(--color-text-primary);
+    --color-pf-alternate: rgb(120,120,120);
+    --color-pf-secondary: var(--color-highlights-50);
+    --color-pf-tertiary: var(--color-text-primary);
+    --sidebar-label: var(--color-warm-2);
+    --sidebar-title: var(--color-text-primary);
+    --color-pf-inventory-header-bg: transparent;
+    --form-field-height: 1.6rem;
+
+    --color-rarity-common: rgba(107, 107, 107, 0.7);
+    --color-disabled: rgba(107, 107, 107, 0.7);
+
+    --color-bg-size: rgba(90, 154, 122, 0.7);
+    --color-bg-trait: rgba(139, 74, 74, 0.7);
+    --color-border-trait: rgba(216, 195, 132, 0.7);
+    --color-text-trait: var(--color-text-primary);
+    --color-rarity-common: rgba(138, 138, 138, 0.7);
+    --color-rarity-uncommon: rgba(168, 112, 95, 0.7);
+    --color-rarity-rare: rgba(74, 106, 148, 0.7);
+    --color-rarity-unique: rgba(122, 80, 144, 0.7);
+    --color-proficiency-untrained: rgba(96, 96, 96, 0.7);
+    --color-proficiency-trained: rgba(74, 85, 144, 0.7);
+    --color-proficiency-expert: rgba(106, 74, 128, 0.7);
+    --color-proficiency-master: rgba(138, 112, 64, 0.7);
+    --color-proficiency-legendary: rgba(139, 90, 90, 0.7);
+    --color-pf-health-bg: rgba(139, 90, 90, 0.7);
+    --color-pf-health-temp-bg: rgba(74, 85, 144, 0.7);
+
+    --color-pf-tertiary-dark: var(--color-warm-2);
+    --color-pf-tertiary-darker: var(--color-warm-1);
+
+    --color-pf-primary-dark: var(--color-warm-3);
+    --color-pf-primary-darker: var(--color-warm-2);
+    --color-pf-primary-light: var(--color-warm-1);
+    --color-pf-primary-lighter: var(--color-warm-1);
+
+    --color-border-light-tertiary: var(--color-highlights-15);
+    --color-border-trait: var(--color-highlights-15);
+
+    --tertiary: var(--color-highlights-15);
+    --sub: var(--color-highlights-50);
+    --bg-dark: var(--color-highlights-15);
+    --primary-background: var(--color-highlights-25);
+    --color-border: var(--color-highlights-50);
+  }
+
+  &.theme-light .app.themed.theme-dark,
+  .app.themed.theme-light {
+    --color-text-primary: #000;
+    --color-bg-alt: rgba(255,255,255,0.75);
+    --color-bg-input: rgba(0,0,0, 0.05);
+  }
+  &.theme-dark .app.themed.theme-light,
+  .app.themed.theme-dark {
+    --color-text-primary: #fff;
+    --color-bg-alt: rgba(255,255,255,0.075);
+    --color-bg-input: rgba(0,0,0, 0.35);
+  }
+  &.theme-dark .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character .subsection.attributes ul h3.modifier {
+    filter: brightness(3);
+  }
+
+  .actor.sheet.npc,
+  .actor.sheet.character,
+  .actor.sheet.loot,
+  .actor.sheet.party {
+    min-width: 800px;
+    background-color: var(--control-bg-color);
+  }
+
+  .actor.sheet .pf2e.actor form input[type=text],
+  .actor.sheet .pf2e.actor form input[type=number] {
+    color: var(--color-text-primary);
+  }
+
+  .actor.sheet section.window-content,
+  .actor.sheet .crb-style,
+  .actor.sheet.familiar form,
+  .actor.sheet section.window-content .crb-style,
+  .actor.party.sheet form {
+    padding: 0;
+    background: var(--control-bg-color);
+    color: var(--color-text-primary);
+  }
+
+  .sheet.party form > header {
+    background: var(--color-highlights-25);
+  }
+  .sheet.party [data-tab=overview] .member > .data header .blurb {
+    color: var(--color-text-primary);
+    opacity: 0.6;
+  }
+  .sheet.party [data-tab=overview] .member > .data header .resource .empty {
+    border-color: var(--color-highlights-50);
+  }
+
+  .actor.npc.sheet form .sidebar .image-container img {
+    border-radius: 0;
+  }
+  .sheet.party [data-tab=overview] .summary nav button {
+    color: var(--color-text-primary);
+  }
+  .sheet.party form > header .frame-container .player-image {
+    box-shadow: none;
+  }
+
+  .crb-style select {
+    color: var(--color-text-primary);
+  }
+
+  .actor.sheet section.window-content i,
+  .app .window-content i {
+    color: var(--color-text-primary);
+  }
+  .app h4:not(.window-title), .app h6 {
+    color: var(--color-text-primary);
+  }
+  .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content {
+    color: var(--color-text-primary);
+  }
+  .actor.sheet section.window-content {
+    background: var(--control-bg-color);
+  }
+  .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character .subsection.details hr {
+    display: none;
+  }
+  .actor.sheet section.window-content input:not(.pf-rank){
+    color: var(--color-text-primary);
+  }
+  .actor.sheet section.window-content input.details-input,
+  .actor.sheet section.window-content input.search,
+  .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.biography section.editable .editor,
+  .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.biography section.editable input {
+    background-color: var(--color-bg-input);
+    border: 1px solid var(--color-highlights-15);
+    border-radius: 4px;
+    min-height: 1.6rem;
+    margin: 5px 0;
+  }
+  .actor.sheet section.window-content aside select {
+    background-color: var(--color-bg-input);
+    border-color: var(--color-highlights-25);
+  }
+
+  .actor.sheet section.window-content form.crb-style nav.sheet-navigation {
+    height: 2rem;
+    border: 0;
+    gap: 0.25rem;
+    background: var(--color-highlights-50);
+    box-shadow: none;
+  }
+  .actor.sheet section.window-content form.crb-style nav.sheet-navigation .item {
+    background-image: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0.85rem;
+  }
+  .actor.sheet section.window-content form.crb-style nav.sheet-navigation .item.active {
+    background: var(--control-bg-color);
+    color: var(--color-text-primary);
+    background-image: none;
+    box-shadow: none;
+  }
+
+  .actor.sheet section.window-content aside .sidebar {
+    margin-bottom: 0;
+    padding: 0;
+  }
+  .actor.sheet.character section.window-content .sidebar > *:not(.image-container) {
+    margin: 1rem 1rem 0.15rem 1rem;
+  }
+
+  .tags.light > .tag, .tags > .tag.light,
+  .pf2e.actor form .tag-legacy,
+  .actor.sheet section.window-content aside .sidebar ol.tags li,
+  .actor.sheet section.window-content aside .sidebar header button,
+  .actor.sheet section.window-content .currency li > button,
+  .actor.sheet section.window-content button.blue {
+    background: var(--color-highlights-15);
+    padding: 0.35rem 0.5rem .5em 0.5rem;
+    border: 0;
+    border-width: 0;
+    box-shadow: none;
+    color: var(--color-text-primary);
+  }
+  .actor.sheet section.window-content .wealth {
+    box-shadow: none;
+  }
+
+  .actor.sheet section.window-content aside .sidebar header,
+  .actor.sheet section.window-content .inventory .inventory-list > header,
+  .actor.sheet section.window-content .inventory .total-bulk,
+  .actor.sheet section.window-content .currency {
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--color-highlights-25);
+    box-shadow: none;
+    margin: 1.5rem 1rem 0.5rem 1rem;
+    padding: .35em 0;
+  }
+  .actor.sheet section.window-content .inventory .inventory-list > header,
+  .sheet.familiar .section-container .section-header {
+    margin: 0.5rem 0 0.5rem 0;
+    padding-left: 0;
+    opacity: 0.7;
+    border: 0;
+    border-bottom: 1px solid var(--color-highlights-50);
+    background: transparent;
+  }
+
+  .actor.sheet section.window-content .inventory .inventory-list > header h3,
+  .actor.sheet section.window-content .inventory .total-bulk h3,
+  .actor.sheet section.window-content .wealth .item-name,
+  .actor.sheet section.window-content .inventory .inventory-list span,
+  .actor.sheet section.window-content .inventory ul.items span,
+  .actor.sheet section.window-content .inventory .inventory-bottom-summary .encumbrance .encumbrance-label{
+    text-shadow: none;
+    color: var(--color-text-primary);
+  }
+
+  .actor.sheet section.window-content .inventory ul.items {
+    border: 0;
+  }
+  .actor.sheet section.window-content .inventory ul.items > li {
+    line-height: 2.8;
+  }
+
+  .actor.sheet section.window-content aside .logo {
+    margin: 0;
+    width: 100%;
+    height: 60px;
+    display: none;
+  }
+  .actor.sheet section.window-content .item-image.framed {
+    box-shadow: none;
+    border: 1px solid var(--color-highlights-75);
+  }
+
+  .actor.sheet section.window-content aside .sidebar header h2 {
+    color: var(--color-text-primary);
+  }
+
+  .actor.sheet section.window-content aside .sidebar .hitpoints .hp-big .container.current-hp {
+    background-color: var(--color-highlights-25);
+    border: 0;
+    background-image: none;
+    padding: 0.15rem 0.25rem 0.5rem 0.25rem;
+  }
+  .actor.sheet section.window-content aside .sidebar .hitpoints .hp-big .container.current-hp .data-value {
+    margin-top: var(--space-4);
+  }
+
+  .actor.sheet section.window-content aside .sidebar .armor-class .ac,
+  .actor.sheet section.window-content aside .sidebar .armor-class .shield.hp,
+  .actor.sheet section.window-content aside .sidebar .armor-class .shield.hardness {
+    background: none;
+    position: relative;
+    width: 100%;
+    > * {
+      z-index: 1;
+    }
+  }
+  .actor.sheet section.window-content aside .sidebar .armor-class .ac.disabled,
+  .actor.sheet section.window-content aside .sidebar .armor-class .shield.hp.disabled,
+  .actor.sheet section.window-content aside .sidebar .armor-class .shield.hardness.disabled {
+    opacity: 1;
+    filter: saturate(0.15);
+  }
+  .actor.sheet section.window-content .armor-class .shield.hp:before,
+  .actor.sheet section.window-content .armor-class .ac:before,
+  .actor.sheet section.window-content .armor-class .shield.hardness:before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0.5rem;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 100%;
+    max-width: 5rem;
+    max-height: 5rem;
+    background-color: var(--color-highlights-25);
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 120'%3E%3Cpath d='M50 0 C40 0 30 4 25 8 C20 12 15 12 10 8 C8 6 5 10 5 15 L5 50 C5 85 50 118 50 118 C50 118 95 85 95 50 L95 15 C95 10 92 6 90 8 C85 12 80 12 75 8 C70 4 60 0 50 0 Z'/%3E%3C/svg%3E");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    z-index: 0;
+  }
+
+
+  .actor.sheet section.window-content {
+    background-color: var(--control-bg-color);
+    grid:"sidebar header" 5rem "sidebar nav" minmax(min-content, max-content) "sidebar content" 1fr/16rem 1fr;
+  }
+
+  .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character .subsection {
+    margin: 0.5rem 0;
+  }
+
+  .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character .subsection.details {
+    display: block;
+  }
+  .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character .subsection.details .abcd {
+    padding-left: 0;
+    gap: 0.5rem;
+  }
+  .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character .subsection.details .abcd .deity.selected h3 .emblem img {
+    box-shadow: none;
+  }
+  .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character .subsection.details .image-container .actor-image {
+    box-shadow: none;
+    border-radius: 6px;
+  }
+
+  .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character {
+    padding: 1.25rem;
+  }
+  .actor.sheet section.window-content header.char-header{
+    padding: 0.75rem;
+  }
+  .actor.sheet section.window-content header.char-header input,
+  .actor.sheet section.window-content aside input {
+    background: none;
+    box-shadow: none;
+  }
+
+  .actor.sheet section.window-content form.crb-style header.char-header .char-level .level {
+    width: 3rem;
+    height: 3rem;
+    background: var(--color-highlights-25);
+    border-radius: 6px;
+  }
+  .actor.sheet section.window-content header.char-header .char-level .exp-data progress {
+    position: relative;
+    left: 5px;
+    width: 100%;
+  }
+  .actor.sheet section.window-content header.char-header .char-level .exp-data .exp-input {
+    width: 7rem;
+  }
+  .actor.sheet section.window-content .pf-rank {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    box-shadow: none;
+    color: var(--color-light-1);
+    filter: saturate(0.85);
+  }
+
+  .actor.sheet section.window-content form.crb-style header.char-header .char-details h1.char-name input[type=text],
+  .actor.sheet section.window-content form.crb-style header.char-header .char-details h1.char-name span.non-editable {
+    color: var(--color-text-primary);
+    font-variant: none;
+  }
+
+  .crb-style .details-input,
+  .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character .subsection.speeds .speed .label,
+  .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character .subsection.details .abcd .detail h3 {
+    color: var(--color-text-primary);
+    font-variant: none;
+    opacity: 0.85;
+  }
+  .actor.sheet section.window-content form.crb-style section.major > header,
+  .actor.sheet section.window-content form.crb-style section.major > .subsection > header {
+    padding-bottom: 0.3rem;
+  }
+  .actor.sheet section.window-content form.crb-style section.major > header {
+    margin-top: 2rem;
+  }
+  .d20-svg svg path {
+    fill: var(--color-text-primary);
+  }
+  .actor.sheet section.window-content aside .roll-data .d20-svg,
+  .actor.sheet section.window-content aside .roll-data i {
+    width: auto;
+    min-width: var(--font-size-16);
+    height: var(--font-size-16);
+    font-size: var(--font-size-16);
+  }
+
+  .actor.sheet section.window-content .sheet-body .sheet-content .value i,
+  .actor.sheet section.window-content .sheet-body .sheet-content .value {
+    color: var(--color-text-primary);
+  }
+  .tags.paizo-style tag,
+  .tags.paizo-style .tag, .tags.paizo-style select.tag,
+  .tags:not(.package-overview) .tag.tag_secondary,
+  .tags:not(.package-overview) .tag option.tag_secondary {
+    border: 1px solid var(--control-bg-color);
+    color: var(--color-text-primary);
+  }
+
+  .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content .tab.actions ol.actions-list li.action,
+  .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content .tab.actions ol.actions-list li.strike {
+    border-bottom: 1px solid var(--color-border-divider);
+    border-image: none;
+  }
+
+  .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content .tab.actions ol.actions-list li.action button.use-action:not(:disabled),
+  .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content .tab.actions ol.actions-list li.strike button.use-action:not(:disabled) {
+    background: var(--color-highlights-25);
+    color: var(--color-text-primary);
+    border: 1px solid var(--control-bg-color);
+  }
+
+  .actor.sheet section.window-content form.crb-style nav.sub-nav,
+  .actor.sheet.party nav.sub-nav {
+    background: var(--color-bg-alt);
+  }
+
+  .actor.sheet section.window-content .sheet-body .sheet-content .item-image.framed {
+    box-shadow: none;
+    border: 1px solid var(--color-highlights-75);
+  }
+
+  .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.effects .effects-list .item {
+    border-image: none;
+  }
+
+  .actor.sheet section.window-content form.crb-style section.major > header button,
+  .actor.sheet section.window-content form.crb-style section.major > .subsection > header button {
+    background: var(--color-highlights-25);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-11);
+  }
+
+  .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li {
+    font-size: var(--font-size-14);
+  }
+  .actor.sheet section.window-content .hitpoints div input,
+  .actor.sheet section.window-content .hitpoints .max-hp h2,
+  .actor.sheet section.window-content header.char-header .char-level .exp-data .exp-input input {
+    color: var(--color-text-primary);
+  }
+
+  .actor.sheet section.window-content aside .sidebar .perception select,
+  .actor.sheet section.window-content aside .sidebar .initiative select {
+    min-height: 2rem;
+    box-shadow: none;
+  }
+
+  .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content ol.spell-list > li.header-row {
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--color-border-divider);
+    margin-top: 2rem;
+  }
+  .actor.sheet form .spellcasting-entry .header {
+    background-color: var(--color-highlights-50);
+  }
+
+  .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.spellcasting .spellcasting-entry .spell-ability-data .skill-score,
+  .actor.sheet section.window-content .currency .label,
+  .actor.sheet section.window-content form.crb-style nav.sheet-navigation .panel-title,
+  .actor.sheet section.window-content .currency .denomination,
+  .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character .subsection.attributes ul .label {
+    color: var(--color-text-primary);
+  }
+  .actor.sheet section.window-content .currency .denomination .currency-image {
+    box-shadow: none;
+  }
+  .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li a.d20 {
+    filter: none;
+  }
+
+  /* NPC */
+  .actor.npc.sheet form {
+    --faded-border-color: var(--color-highlights-15);
+    --color-pf-inventory-header-bg: var(--color-highlights-15);
+  }
+  .actor.npc.sheet form .npc-body {
+    padding: 1rem;
+    background-color: var(--control-bg-color);
+  }
+  .actor.npc.sheet form .trait {
+    border: 1px solid transparent;
+  }
+  .actor.npc.sheet .tags.paizo-style {
+    padding: 0.15em;
+  }
+  .actor.npc.sheet .tabs > [data-tab] {
+    color: var(--color-text-primary);
+    text-shadow: none;
+    opacity: 0.7;
+  }
+  .actor.npc.sheet .tabs > [data-tab].active {
+    color: var(--color-warm-1);
+    text-shadow: none;
+    opacity: 1;
+  }
+  .pf2e.actor.npc.sheet form{
+    padding: 0;
+  }
+  .actor.npc.sheet .sidebar{
+    flex: 0 0 200px;
+    width: 200px;
+  }
+  .actor.npc.sheet form .sheet-body .section-container .section-header {
+    line-height: unset;
+  }
+  .actor.npc.sheet form .sheet-body .actions-list li.action {
+    margin: 0.25rem 0;
+  }
+
+  .actor.npc.sheet form .sheet-body .entries-list .spellcasting-entry {
+    border: 0;
+  }
+  .actor.npc.sheet form ol.spell-list > li.header-row {
+    border: 0;
+  }
+  .actor.npc.sheet form ol.spell-list {
+    border-bottom: 0;
+  }
+
+  .actor.npc.sheet section.window-content .inventory .inventory-list > header,
+  .actor.npc.sheet section.window-content .inventory .total-bulk {
+    margin: 1rem 0 0.25rem 0;
+    padding-left: 0;
+  }
+
+  .actor.sheet form input[type=text],
+  .actor.sheet form input[type=number] {
+    color: var(--color-text-primary) !important;
+    background-color: rgba(255, 255, 255, 0.05);
+    min-height: var(--form-field-height);
+    padding: 0.25em;
+  }
+  .actor.sheet form input[type=text]::placeholder,
+  .actor.sheet form input[type=number]::placeholder {
+    color: var(--color-text-primary);
+    opacity: 0.6;
+  }
+  .actor.sheet form input[type=text]:hover,
+  .actor.sheet form input[type=number]:hover,
+  .actor.sheet form input[type=text]:focus,
+  .actor.sheet form input[type=number]:focus{
+    box-shadow: none;
+    border: 1px solid var(--color-highlights-75);
+  }
+
+  .actor.npc.sheet .sidebar .subsection {
+    margin: 0.25rem 0.5rem;
+  }
+  .actor.npc.sheet form > .npc-body > header .name {
+    display: flex;
+    align-items: center;
+  }
+  .actor.npc.sheet form .section-container {
+    margin: 1rem 0;
+    color: var(--color-text-primary);
+  }
+  .actor.npc.sheet form .sheet-body .section-container .section-header {
+    background: transparent;
+    padding: 0 0 0.5rem 0;
+    border: 0;
+    border-bottom: 1px solid var(--color-highlights-50);
+  }
+  .actor.npc.sheet form .sheet-body .section-container .section-body {
+    border: 0;
+  }
+
+  .actor.npc.sheet form .notes.active .notes-section > .notes-text {
+    color: var(--color-text-primary);
+    line-height: 1.65;
+    opacity: 0.7;
+  }
+  .actor.npc.sheet form .sheet-body .tab {
+    margin-top: 1rem;
+  }
+  .actor.npc.sheet form .sidebar .subsection .hit-points input.current,
+  .actor.npc.sheet form .sidebar .subsection .hit-points .max {
+    width: 2.8rem;
+  }
+  .actor.npc.sheet form .sidebar .subsection.saves ul {
+    line-height: 1;
+  }
+  .app.actor.sheet .window-header {
+    color: var(--color-text-primary);
+    background-color: var(--control-bg-color);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom: 0;
+  }
+  .sheet.party form > header .details .name {
+    line-height: 1.5;
+    height: 1.5em;
+  }
+  .sheet.party .sidebar .box-list {
+    color: var(--color-text-primary);
+    opacity: 0.7;
+  }
+
+  .sheet.familiar .familiar-section {
+    margin: 0.5rem 0;
+    border: 0;
+  }
+  .sheet.familiar .section-container .section-body {
+    border: 0;
+    padding: 0;
+  }
+  .sheet.familiar .main-section {
+    padding: 0.5rem;
+    gap: 1rem;
+  }
+  .sheet.familiar .section-container .section-header {
+    color: var(--color-text-primary);
+  }
+  .sheet.familiar header .image-container img.actor-image {
+    border-color: transparent;
+  }
+
+  /* loot */
+  .prosemirror menu button {
+    color: var(--color-text-primary);
+  }
+  .sheet.actor.loot form section.sidebar .gm-settings .loot-distribution button {
+    box-shadow:none;
+    color: var(--color-text-primary);
+    border-color: transparent;
+
+    &:hover{
+      background-color: var(--color-highlights-50);
+      border-color: transparent;
+      box-shadow:none;
+    }
+  }
+  .sheet.actor.loot form section.sidebar {
+    border-right: 0;
+  }
+  .sheet.actor.loot form .sheet-header {
+    border-bottom: 0;
+  }
+  .actor.sheet.vehicle .crb-style .sheet-body .sheet-content > .tab.active.details .vehicle-details .frame .actor-image {
+    box-shadow: none;
+  }
+  .sheet.party header.content-header button {
+    background-color: var(--tertiary);
+    border: 1px solid var(--sub);
+    border-radius: 2px;
+    color: var(--color-text-primary);
+    margin-left: 0.15rem;
+  }
+  .actor.sheet.party section.window-content aside {
+    border-right: 0;
+    padding: 1rem 0.5rem;
+  }
+
+  /* fonts */
+  &.cui-font-ui {
+    input,
+    .tags.light > .tag,
+    .tags > .tag.light {
+      font-family: var(--crlngn-font-family);
+      font-weight: 500;
+    }
+    .actor.sheet select {
+      font-family: var(--crlngn-font-family);
+      font-weight: 500;
+    }
+
+    .actor.sheet section.window-content aside .sidebar .roll-data a.modifier {
+      font-family: var(--crlngn-font-titles);
+    }
+
+    .actor.sheet.character span.pips > i {
+      font-size: var(--font-size-10);
+      margin: 0 1px;
+    }
+
+    .actor.sheet section.window-content aside .sidebar .hitpoints .hp-big .container.max-hp,
+    .actor.sheet section.window-content aside .sidebar .hitpoints .hp-big .container.temp-hp {
+      margin-top: 0
+    }
+
+    .actor.sheet section.window-content form.crb-style section.major > header,
+    .actor.sheet section.window-content form.crb-style section.major > .subsection > header,
+    .actor.sheet section.window-content form.crb-style nav.sub-nav a {
+      font-family: var(--crlngn-font-titles);
+      letter-spacing: 0.02rem;
+      font-weight: 400;
+      font-variant: unset;
+    }
+
+    .actor.sheet section.window-content aside,
+    .actor.npc.sheet form .sidebar {
+      background: var(--color-bg-alt);
+      padding: 0;
+      margin-left: 0;
+      font: 500 var(--font-size-12) var(--crlngn-font-family);
+      line-height: 1.5;
+    }
+
+    .actor.sheet section.window-content,
+    .actor.sheet section.window-content .sheet-body .sheet-content>.tab.active.character .subsection.details .abcd .detail h3,
+    .actor.sheet section.window-content .sheet-body .sheet-content>.tab.active.character .subsection.speeds .speed .label,
+    .actor.sheet section.window-content .details-input {
+      font-family: var(--crlngn-font-family);
+    }
+    .actor.sheet section.window-content .subsection.background label span,
+    .actor.sheet section.window-content .details-label {
+      letter-spacing: 0.03rem;
+      color: var(--color-text-primary);
+      opacity: 0.5;
+    }
+
+    .actor.sheet section.window-content header .char-name input,
+    .actor.npc.sheet form > .npc-body > header .name .name-value {
+      font-family: var(--crlngn-font-titles);
+      letter-spacing: 0.03rem;
+      padding: 0.85em 0;
+      font-weight: 500;
+      font-variant: none;
+      color: var(--color-text-primary);
+    }
+
+    .actor.sheet section.window-content .hitpoints div input,
+    .actor.sheet section.window-content .hitpoints .max-hp h2 {
+      font-family: var(--crlngn-font-titles);
+      font-weight: 500;
+      font-variant: none;
+    }
+
+    .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li {
+      font-family: var(--crlngn-font-family);
+    }
+    .actor.npc.sheet form .notes.active .notes-section > .notes-text {
+      font-family: var(--crlngn-font-family);
+    }
+
+    .sheet.party form > header .details,
+    .sheet.party form > header .details .name,
+    .sheet.party [data-tab=overview] .member > .data header .name,
+    .actor.sheet.party nav.sub-nav,
+    .sheet.familiar header .header-content .charname input {
+      font-family: var(--crlngn-font-titles);
+      font-weight: 500;
+      font-variant: none;
+    }
+
+  }
+}
