@@ -249,10 +249,11 @@ body.crlngn-ui{
 
   }
 
+  /*
   &.chat-input-hidden #interface {
 
     #hotbar.crlngn-macro.md.offset {
-      /*
+      
       height: var(--hotbar-size);
       
       margin-bottom: calc((var(--hotbar-size) * -1) + 10px);
@@ -260,11 +261,9 @@ body.crlngn-ui{
       &.collpased{
         margin-bottom: 0;
       }
-      */
     }
 
     #hotbar.crlngn-macro{
-      /*
       #action-bar, &.md.offset #action-bar,
       .hotbar-page-row, &.md.offset .hotbar-page-row {
         width: calc((var(--hotbar-size) * 10) - 5px);
@@ -278,10 +277,9 @@ body.crlngn-ui{
         width: calc((var(--hotbar-size) * 10) - 5px);
         height: var(--hotbar-size);
       }
-      */
     }
 
-  }
+  } */
 
   /* ========================================================================
      MULTI-WINDOW DOCKING LAYOUT

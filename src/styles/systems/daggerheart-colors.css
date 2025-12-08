@@ -1058,10 +1058,6 @@ body.crlngn-ui.system-daggerheart .filter-menu fieldset.filter-section .filter-b
   color: light-dark(#18162e, #18162e);
 }
 
-body.crlngn-ui.system-daggerheart .dice.color-hope:before {
-  background: linear-gradient(139.01deg, var(--color-warm-2) 3.51%, #4c3407 96.49%);
-}
-
 body.crlngn-ui.system-daggerheart.crlngn-sheets .status-bar .status-label {
   background: light-dark(#18162e, var(--color-warm-2));
 }
@@ -1207,48 +1203,48 @@ body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content a[h
 }
 
 body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content button {
-  background: var(--color-warm-2);
+  background: var(--color-highlights-25);
   border: 1px solid #18162e;
-  color: #18162e;
+  color: var(--color-light-1);
   outline: none;
   box-shadow: none;
 }
 
 body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content button:hover {
-  background: #18162e;
-  color: var(--color-warm-2);
+  background: var(--color-highlights-75);
+  color: var(--color-light-1);
 }
 
 body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content button:disabled {
   background: var(--color-warm-2);
-  color: #18162e;
+  color: var(--color-light-1);
 }
 
 body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content button:disabled:hover {
   background: var(--color-warm-2);
-  color: #18162e;
+  color: var(--color-light-1);
 }
 
 body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content button.reverted {
   background: var(--color-highlights-15);
-  color: var(--color-warm-2);
+  color: var(--color-light-1);
   border: 1px solid transparent;
 }
 
 body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content button.reverted:hover {
   background: var(--color-warm-2);
-  color: #18162e;
+  color: var(--color-light-1);
 }
 
 body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content .dice-roll .dice-total {
   box-shadow: none;
   border: none;
   background: var(--color-highlights-15);
-  color: var(--color-warm-2);
+  color: var(--color-light-1);
 }
 
 body.crlngn-ui.system-daggerheart.crlngn-chat #chat-notifications .chat-log .chat-message .message-header .message-header-main .message-sub-header-container h4 {
-  color: var(--color-warm-2);
+  color: var(--color-light-1);
 }
 
 body.crlngn-ui.system-daggerheart .application.daggerheart.dh-style.compendium-browser .window-content .compendium-sidebar::before {
