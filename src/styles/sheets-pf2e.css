@@ -563,7 +563,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     align-items: center;
   }
   .actor.npc.sheet form .section-container {
-    margin: 1rem 0;
+    margin: 0 0 1rem 0;
     color: var(--color-text-primary);
   }
   .actor.npc.sheet form .sheet-body .section-container .section-header {
@@ -638,6 +638,25 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .actor.sheet.character span.pips > i {
     font-size: var(--font-size-10);
   }
+  .sheet.hazard section.window-content form > header {
+    background-color: var(--color-highlights-75);
+    background-image: none;
+    background-blend-mode: unset;
+  }
+  .sheet.hazard section.window-content .section-container .section-body {
+    border: none;
+    padding: 0;
+  }
+
+  .sheet.hazard section.window-content .section-container .section-header,
+  .sheet.hazard section.window-content .section-container .section-header {
+    border: 0;
+    background: transparent;
+    border-bottom: 1px solid var(--color-highlights-50);
+    padding-bottom: 0.25rem;
+    margin: 1rem 0 0.25rem 0;
+  }
+
 
 
   /* loot */
