@@ -146,7 +146,7 @@ export class MacroHotbar {
     const collapseBtn = macroControls?.querySelector("button[data-action=collapse]");
     const hotbar = document.querySelector("#hotbar");
     if((SettingsUtil.firstLoad && MacroHotbar.macroStartCollapsed) ||
-      game.user.getFlag(MODULE_ID, "hotbarCollapsed")
+      game.user?.getFlag(MODULE_ID, "hotbarCollapsed")
     ){
       hotbar?.classList.add("collapsed");
       if(collapseBtn){
