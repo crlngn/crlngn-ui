@@ -42,7 +42,11 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     this.scope = options.scope || 'world';
     this.currentColors = options.currentColors || this.#getDefaultColors();
     this.activeSecondaryTheme = 'dark'; // Default to dark theme tab
-    
+
+    // Initialize checkbox state from saved setting
+    const SETTINGS = getSettings();
+    this.applySecondaryColorToBg = SettingsUtil.get(SETTINGS.applySecondaryColorToBg.tag) || false;
+
     this.#performMigrationIfNeeded();
   }
   
@@ -84,9 +88,8 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     // Use preset themes directly as they now have the correct order
     context.themes = THEMES;
     
-    // Add checkbox states
-    const SETTINGS = getSettings();
-    context.applySecondaryColorToBg = SettingsUtil.get(SETTINGS.applySecondaryColorToBg.tag) || false;
+    // Add checkbox states - use local state to preserve unsaved changes
+    context.applySecondaryColorToBg = this.applySecondaryColorToBg;
     
     // Calculate contrast ratings
     // First box: white text on accent background
@@ -162,7 +165,8 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     return {
       accent: THEMES[0].colorPreview[2],
       secondaryDark: THEMES[0].colorPreview[1],
-      secondaryLight: THEMES[0].colorPreview[0] || 'rgb(223, 227, 231)'
+      secondaryLight: THEMES[0].colorPreview[0] || 'rgb(223, 227, 231)',
+      isPreset: false
     };
   }
 
@@ -203,7 +207,8 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     const colors = {
       accent: accentRGB,
       secondaryDark: this.currentColors.secondaryDark || THEMES[0].colorPreview[1],
-      secondaryLight: this.currentColors.secondaryLight || THEMES[0].colorPreview[0] || 'rgb(223, 227, 231)'
+      secondaryLight: this.currentColors.secondaryLight || THEMES[0].colorPreview[0] || 'rgb(223, 227, 231)',
+      isPreset: this.currentColors.isPreset || false
     };
     
     await SettingsUtil.set(settingTag, colors);
@@ -221,7 +226,7 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
       }
     }
     
-    ColorPickerUtil.applyCustomTheme(colors);
+    ColorPickerUtil.applyCustomTheme(colors, this.applySecondaryColorToBg);
     
     // Handle reload confirmation if needed
     if (confirmReload) {
@@ -285,12 +290,13 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     const button = event.currentTarget;
     const themeName = button.dataset.theme;
     const theme = THEMES.find(t => t.className === themeName);
-    
+
     if (theme) {
       this.currentColors = {
         accent: theme.colorPreview[2],
         secondaryDark: theme.colorPreview[1],
-        secondaryLight: theme.colorPreview[0]
+        secondaryLight: theme.colorPreview[0],
+        isPreset: true
       };
       this.render();
     }
@@ -330,9 +336,10 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     }
     
     this.currentColors.accent = accentRGB;
+    this.currentColors.isPreset = false;
 
     LogUtil.log("ColorPickerDialog._onColorChange", [this.currentColors]);
-    
+
     this.#updatePreview();
     this.#updateSliderGradients();
   }
@@ -383,9 +390,14 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     const secondaryPreviews = content.querySelectorAll('.secondary-preview .preview-item');
     if (secondaryPreviews.length > 0) {
       // Dark theme preview (first box)
-      const darkColor = this.currentColors.secondaryDark || this.currentColors.secondary || THEMES[0].colorPreview[0];
+      let darkColor = this.currentColors.secondaryDark || this.currentColors.secondary || THEMES[0].colorPreview[0];
+
+      // Apply darkening to preview if it's a preset and checkbox is checked
+      if (this.currentColors.isPreset && this.applySecondaryColorToBg) {
+        darkColor = ColorPickerUtil.darkenColor(darkColor, 20);
+      }
       secondaryPreviews[0].style.backgroundColor = darkColor;
-      
+
       // Light theme preview (second box)
       if (secondaryPreviews[1]) {
         const lightColor = this.currentColors.secondaryLight || 'rgb(223, 227, 231)';
@@ -499,6 +511,15 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
       });
     });
 
+    // Track checkbox state changes
+    const bgCheckbox = this.element.querySelector('input[name="applySecondaryColorToBg"]');
+    if (bgCheckbox) {
+      bgCheckbox.addEventListener('change', (event) => {
+        this.applySecondaryColorToBg = event.target.checked;
+        this.#updatePreview(); // Update preview to show darkening effect
+      });
+    }
+
     // Initialize slider gradients and preview
     this.#updateSliderGradients();
     this.#updatePreview();
@@ -611,6 +632,18 @@ export class ColorPickerUtil {
   }
   
   /**
+   * Darken a color by a percentage
+   * @param {string} rgb - RGB color string
+   * @param {number} percent - Percentage to darken (0-100)
+   * @returns {string} Darkened RGB color string
+   */
+  static darkenColor(rgb, percent) {
+    const hsl = this.rgbToHsl(rgb);
+    const newLightness = Math.max(0, hsl.l - percent);
+    return this.hslToRgb(hsl.h, hsl.s, newLightness);
+  }
+
+  /**
    * Get contrast rating label and class
    * @param {string} color1 - First RGB color
    * @param {string} color2 - Second RGB color
@@ -639,14 +672,14 @@ export class ColorPickerUtil {
     const vars = {};
     const match = baseColor.match(/\d+/g);
     if (!match) return vars;
-    
+
     const [r, g, b] = match.map(n => parseInt(n));
     const SETTINGS = getSettings();
     const applySecondaryToBg = SettingsUtil.get(SETTINGS.applySecondaryColorToBg.tag) || false;
-    
+
     // Use the forTheme parameter to determine which theme we're generating for
     const isLightTheme = forTheme === 'light';
-    
+
     if (type === 'accent') {
       // Direct mappings
       vars['--color-warm-2'] = baseColor;
@@ -758,10 +791,13 @@ export class ColorPickerUtil {
   /**
    * Apply custom theme colors to the UI
    * @param {Object} colors - Object with accent and secondary color values
+   * @param {boolean} [applySecondaryToBgOverride] - Optional override for applySecondaryColorToBg setting
    */
-  static applyCustomTheme(colors) {
+  static applyCustomTheme(colors, applySecondaryToBgOverride) {
     const SETTINGS = getSettings();
-    const applySecondaryToBg = SettingsUtil.get(SETTINGS.applySecondaryColorToBg.tag) || false;
+    const applySecondaryToBg = applySecondaryToBgOverride !== undefined
+      ? applySecondaryToBgOverride
+      : (SettingsUtil.get(SETTINGS.applySecondaryColorToBg.tag) || false);
     
     // Remove any existing custom theme style
     const existingStyle = document.getElementById('crlngn-custom-theme-style');
@@ -775,9 +811,16 @@ export class ColorPickerUtil {
     const accentVars = this.generateColorVariations(colors.accent, 'accent');
     
     // Use the provided dark and light secondary colors
-    const secondaryForDark = colors.secondaryDark || colors.secondary || THEMES[0].colorPreview[0];
+    let secondaryForDark = colors.secondaryDark || colors.secondary || THEMES[0].colorPreview[0];
     const secondaryForLight = colors.secondaryLight || 'rgb(223, 227, 231)';
-    
+
+    // If this is a preset AND applySecondaryColorToBg is enabled, darken the dark secondary by 20%
+    LogUtil.log("Preset darkening check", [colors.isPreset, applySecondaryToBg, secondaryForDark]);
+    if (colors.isPreset && applySecondaryToBg) {
+      secondaryForDark = this.darkenColor(secondaryForDark, 20);
+      LogUtil.log("Darkened secondary", [secondaryForDark]);
+    }
+
     LogUtil.log("Secondary colors", [secondaryForDark, secondaryForLight]);
     
     // Generate secondary variables for both themes

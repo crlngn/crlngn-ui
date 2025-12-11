@@ -64,12 +64,14 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   &.theme-light .app.themed.theme-dark,
   .app.themed.theme-light {
     --color-text-primary: #000;
+    --color-text-inverse:#fff;
     --color-bg-alt: rgba(255,255,255,0.75);
     --color-bg-input: rgba(0,0,0, 0.05);
   }
   &.theme-dark .app.themed.theme-light,
   .app.themed.theme-dark {
     --color-text-primary: #fff;
+    --color-text-inverse: #000;
     --color-bg-alt: rgba(255,255,255,0.075);
     --color-bg-input: rgba(0,0,0, 0.35);
   }
@@ -109,6 +111,16 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
   .sheet.party [data-tab=overview] .member > .data header .resource .empty {
     border-color: var(--color-highlights-50);
+  }
+
+  .actor.sheet section.window-content .image-container img.actor-image.minimized {
+    width: 100%;
+    height: 100%;
+    max-width: 100px;
+    max-height: 100px;
+    object-fit: cover;
+    object-position: top center;
+    margin: 0.5rem auto;
   }
 
   .actor.npc.sheet form .sidebar .image-container img {
@@ -170,7 +182,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     background-image: none;
     box-shadow: none;
     border-radius: 0;
-    padding: 0.85rem;
+    margin: 0 0.15rem;
   }
   .actor.sheet section.window-content form.crb-style nav.sheet-navigation .item.active {
     background: var(--control-bg-color);
@@ -179,12 +191,20 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     box-shadow: none;
   }
 
+  .actor.sheet section.window-content form.crb-style nav.sheet-navigation .item svg {
+    fill: var(--color-text-primary);
+  }
+  .actor.sheet section.window-content form.crb-style nav.sheet-navigation .item > span.action-glyph,
+  .actor.sheet section.window-content form.crb-style nav.sheet-navigation .item > i {
+    color: var(--color-text-primary);
+  }
+
   .actor.sheet section.window-content aside .sidebar {
     margin-bottom: 0;
     padding: 0;
   }
   .actor.sheet.character section.window-content .sidebar > *:not(.image-container) {
-    margin: 1rem 1rem 0.15rem 1rem;
+    margin: 0.5rem 1rem 0.15rem 1rem;
   }
 
   .tags.light > .tag, .tags > .tag.light,
@@ -233,6 +253,10 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .actor.sheet section.window-content .inventory .inventory-bottom-summary .encumbrance .encumbrance-label{
     text-shadow: none;
     color: var(--color-text-primary);
+  }
+  .actor.sheet section.window-content .inventory .inventory-list i.fa-stack-1x {
+    color: var(--color-warm-2);
+    font-weight: 800;
   }
 
   .actor.sheet section.window-content .inventory ul.items {
@@ -310,7 +334,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
 
   .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character .subsection {
-    margin: 0.5rem 0;
+    margin: 0 0 0.5rem 0;
   }
 
   .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character .subsection.details {
@@ -339,6 +363,8 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     background: none;
     box-shadow: none;
   }
+
+  
 
   .actor.sheet section.window-content form.crb-style header.char-header .char-level .level {
     width: 3rem;
@@ -625,6 +651,9 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .sheet.familiar header .image-container img.actor-image {
     border-color: transparent;
   }
+  .actor.sheet section.window-content .image-container .hover-icon {
+    text-shadow: -1px -1px 0 var(--color-text-inverse), 1px -1px 0 var(--color-text-inverse), -1px 1px 0 var(--color-text-inverse), 1px 1px 0 var(--color-text-inverse);
+  }
 
   .actor.sheet.character span.pips > i {
     font-size: var(--font-size-10);
@@ -762,7 +791,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     .actor.sheet section.window-content form.crb-style nav.sub-nav a {
       font-family: var(--crlngn-font-titles);
       letter-spacing: 0.02rem;
-      font-weight: 400;
+      font-weight: 700;
       font-variant: unset;
     }
 

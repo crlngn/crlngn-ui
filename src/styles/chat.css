@@ -732,6 +732,7 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
     --table-background-color: var(--dnd5e-background-card, #e8e8ef);
     --color-text-primary: var(--color-dark-1);
     --color-text-secondary: var(--color-dark-2);
+      --color-text-inverse: var(--color-light-1);
   }
 
   &.stream.theme-dark .chat-log,
@@ -758,6 +759,7 @@ body.crlngn-ui.crlngn-chat:not(.system-daggerheart) {
     --dnd5e-color-crimson: var(--color-highlights-75);
     --color-text-primary: var(--color-light-1);
     --color-text-secondary: var(--color-light-2);
+    --color-text-inverse: var(--color-dark-1);
   }
 
   &.stream.theme-dark,

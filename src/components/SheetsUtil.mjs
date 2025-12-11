@@ -1,3 +1,4 @@
+import { MODULE_ID } from "../constants/General.mjs";
 import { HOOKS_CORE, HOOKS_DND5E, HOOKS_PF2E } from "../constants/Hooks.mjs";
 import { getSettings } from "../constants/Settings.mjs";
 import { LogUtil } from "./LogUtil.mjs"; 
@@ -18,11 +19,8 @@ export class SheetsUtil {
     SheetsUtil.horizontalSheetTabsEnabled = SettingsUtil.get(SETTINGS.useHorizontalSheetTabs.tag);
 
     // PF2e-specific hooks
-    if(game.system.id === "pf2e"){
-      Hooks.on(HOOKS_PF2E.RENDER_CHAR_SHEET_PF2E, SheetsUtil.#onRenderPF2eSheet);
-      Hooks.on(HOOKS_CORE.UPDATE_SETTING, SheetsUtil.#onUpdateSettingPF2e);
-      return;
-    }
+    Hooks.on(HOOKS_PF2E.RENDER_CHAR_SHEET_PF2E, SheetsUtil.#onRenderPF2eSheet);
+    Hooks.on(HOOKS_CORE.UPDATE_SETTING, SheetsUtil.#onUpdateSettingPF2e);
 
     // DnD5e and Daggerheart hooks
     if(game.system.id !== "dnd5e" && game.system.id !== "daggerheart"){ return; }
@@ -35,12 +33,12 @@ export class SheetsUtil {
   }
 
   static #onRenderPF2eSheet(actorSheet, html, data){
-    // html may be a jQuery object, so extract the DOM element
+    if(game.system.id !== "pf2e"){ return; }
     const element = html instanceof HTMLElement ? html : html[0] || html;
     LogUtil.log(HOOKS_PF2E.RENDER_CHAR_SHEET_PF2E, [actorSheet, element, data]);
 
-    SheetsUtil.applyThemeToSheets(SheetsUtil.themeStylesEnabled);
     SheetsUtil.adjustPF2eSheet(element);
+    SheetsUtil.applyThemeToSheets(SheetsUtil.themeStylesEnabled);
   }
 
   static #onRenderActorSheet(actorSheet, html, data){
@@ -90,6 +88,7 @@ export class SheetsUtil {
   }
 
   static #onUpdateSettingPF2e(setting, value, options, userId){
+    if(game.system.id !== "pf2e"){ return; }
     const SETTINGS = getSettings();
     // When applyThemeToSheets setting changes, re-render open PF2e actor sheets
     if(setting.key === `crlngn-ui.${SETTINGS.applyThemeToSheets.tag}`){
@@ -259,13 +258,27 @@ export class SheetsUtil {
     LogUtil.log("adjustPF2eSheet", []);
     if(!SheetsUtil.themeStylesEnabled) return;
 
+    const isImgMinimized = game.user?.getFlag(MODULE_ID, 'pf2eActorImgMinimized');
     const imageContainer = html.querySelector(".sheet-body .image-container");
-    const sidebar = html.querySelector("aside .sidebar");
-    LogUtil.log("adjustPF2eSheet", [imageContainer, sidebar, html]);
+    const actorImg = imageContainer.querySelector("img.actor-image");
+    const sheetSidebar = html.querySelector("aside .sidebar");
+    actorImg.setAttribute("data-tooltip", "Right-click to toggle minimize")
 
-    if(imageContainer && sidebar){
-      sidebar.insertBefore(imageContainer, sidebar.firstChild);
+    if(imageContainer && sheetSidebar){
+      sheetSidebar.insertBefore(imageContainer, sheetSidebar.firstChild);
       LogUtil.log("adjustPF2eSheet", ["Moved image-container to sidebar"]);
     }
+    if(isImgMinimized){
+      actorImg.classList.add('minimized');
+    }
+
+    actorImg.addEventListener('mousedown', function(event) {
+      // event.stopPropagation();
+      if (event.button === 2) {
+        game.user?.setFlag(MODULE_ID, 'pf2eActorImgMinimized', !actorImg.classList.contains('minimized'));
+        actorImg.classList.toggle('minimized');
+      }
+    });
+
   }
 }

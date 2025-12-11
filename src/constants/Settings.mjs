@@ -1579,7 +1579,7 @@ export function getSettings() {
       default: true,
       scope: SETTING_SCOPE.world,
       config: false,
-      requiresReload: false,
+      requiresReload: true,
       system: ["daggerheart", "dnd5e", "pf2e"]
     },
     useHorizontalSheetTabs: {

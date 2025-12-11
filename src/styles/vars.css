@@ -162,6 +162,7 @@
     --color-secondary-b-90: rgba(34, 34, 54, 0.90);
     --color-text-secondary: rgb(179, 179, 192);
     --color-text-primary: var(--color-light-1);
+    --color-text-inverse: var(--color-dark-1);
     --color-fieldset-border: var(--color-secondary-25);
     --dnd5e-color-maroon: var(--color-highlights);
     --dnd5e-shadow-45: rgba(0, 0, 0, 0.25); /* make these shadows more nuanced */
@@ -241,6 +242,8 @@
       --input-background-alt: var(--color-dark-bg-50);
       --color-text-secondary: var(--color-light-1);
       --color-text-primary: var(--color-light-1);
+      --color-text-inverse: var(--color-dark-1);
+      --color-text-secondary:var(--color-light-2);
 
       --crlngn-button-bg: rgba(15, 15, 15, 0.15);
       --color-bg-button: rgba(32, 37, 43, 1);
@@ -287,8 +290,7 @@
       --color-text-dark-op: rgba(235,235,235,0.6);
       --color-text-light: rgba(235,235,235,1);*/
       --input-background-alt: var(--color-cool-5);
-      --color-text-secondary:var(--color-light-2);
-      --color-text-primary: var(--color-light-1);
+      
 
       /*pf2e*/
       --color-pf-alternate: rgba(82, 107, 120, 0.44);
@@ -354,6 +356,7 @@
       --input-background-alt: rgba(224, 217, 213, 1);
       --color-text-primary: var(--color-dark-1);
       --color-text-secondary: var(--color-dark-1);
+      --color-text-inverse: var(--color-light-1);
       --sidebar-background: rgba(224, 217, 213, 0.95);
       /*--background: var(--control-bg-color);*/
       --filigree-background-color: transparent !important;
@@ -402,6 +405,7 @@
       --input-background-alt: var(--color-dark-bg-50);
       --color-text-primary: var(--color-light-1);
       --color-text-secondary: var(--color-light-1);
+      --color-text-inverse: var(--color-dark-1);
       --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
       --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.35);
       --dnd5e-color-groove: var(--dnd5e-color-gold);
@@ -527,6 +531,7 @@
       --color-secondary-b-90: rgba(34, 34, 54, 0.90);
       --color-text-secondary: rgb(179, 179, 192);
       --color-text-primary: var(--color-light-1);
+      --color-text-inverse: var(--color-dark-1);
       --control-bg-color: var(--color-cool-5-90);
 
       --color-cool-3: rgb(83, 71, 107);
@@ -565,6 +570,7 @@
     --color-secondary-b-90: rgba(202, 202, 229, 0.90);
     --color-text-secondary: rgba(34, 34, 54, 1);
     --color-text-primary: var(--color-dark-1);
+    --color-text-inverse: var(--color-light-1);
     --control-bg-color: rgba(224, 217, 213, 0.98);
     --color-cool-5-0: rgba(224, 217, 213, 0);
     --color-cool-5-25: rgba(224, 217, 213, 0.25);

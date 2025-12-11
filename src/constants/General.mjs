@@ -43,6 +43,7 @@ export const DARK_MODE_RULES = `
   --input-background-alt: var(--color-dark-bg-50) !important;
   --color-text-secondary: var(--color-light-1) !important;
   --color-text-primary: var(--color-light-1) !important;
+  --color-text-inverse: var(--color-dark-1) !important;
   --button-text-color: var(--color-light-1) !important;
   --color-border-light-1: var(--dnd5e-color-gold) !important;
   --color-text-dark-input: var(--color-light-3) !important;
@@ -89,7 +90,6 @@ export const DARK_MODE_RULES = `
   --input-background-color: var(--color-cool-5) !important;
   --input-background-alt: var(--color-cool-5) !important;
   --color-text-secondary:var(--color-light-3) !important;
-  --color-text-primary: var(--color-light-1) !important;
 
   --color-text-dark-primary: var(--color-light-1) !important;
   --button-border-color: transparent;
