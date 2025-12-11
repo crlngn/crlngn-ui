@@ -262,7 +262,8 @@ export class SheetsUtil {
     const imageContainer = html.querySelector(".sheet-body .image-container");
     const actorImg = imageContainer.querySelector("img.actor-image");
     const sheetSidebar = html.querySelector("aside .sidebar");
-    actorImg.setAttribute("data-tooltip", "Right-click to toggle minimize")
+    actorImg.setAttribute("data-tooltip", "Right-click to toggle minimize");
+    actorImg.setAttribute("data-tooltip-delay", "2000");
 
     if(imageContainer && sheetSidebar){
       sheetSidebar.insertBefore(imageContainer, sheetSidebar.firstChild);
