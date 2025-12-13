@@ -928,6 +928,16 @@ body.crlngn-ui{
     }
   }
 
+  /* Custom System Roll */
+  &.theme-light .custom-system-roll {
+    background: var(--color-secondary-50);
+    border: 1px solid var(--color-secondary-50);
+  }
+  &.theme-dark .custom-system-roll {
+    background: var(--color-dark-bg-50);
+    border: 1px solid var(--color-dark-bg-50);
+  }
+
 
   /* Beneos Module */
   &.crlngn-beneos-module {

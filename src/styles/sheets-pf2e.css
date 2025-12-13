@@ -4,14 +4,16 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
 
   &,
   .app,
+  .application.compendium-browser,
   .themed.theme-light,
   .themed-theme-dark {
     --color-pf-primary: var(--color-warm-2);
     --color-border-divider: var(--color-highlights-50);
     --tag-color: var(--color-text-primary);
-    --color-pf-alternate: rgb(120,120,120);
+    --color-pf-alternate: rgba(120,120,120,0.6);
     --color-pf-secondary: var(--color-highlights-50);
     --color-pf-tertiary: var(--color-text-primary);
+    --color-pf-tertiary-light: var(--color-highlights-50);
     --sidebar-label: var(--color-warm-2);
     --sidebar-title: var(--color-text-primary);
     --color-pf-inventory-header-bg: transparent;
@@ -40,8 +42,8 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     --color-pf-tertiary-dark: var(--color-warm-2);
     --color-pf-tertiary-darker: var(--color-warm-1);
 
-    --color-pf-primary-dark: var(--color-warm-3);
-    --color-pf-primary-darker: var(--color-warm-2);
+    --color-pf-primary-dark: var(--color-warm-1);
+    --color-pf-primary-darker: var(--color-warm-1);
     --color-pf-primary-light: var(--color-warm-1);
     --color-pf-primary-lighter: var(--color-warm-1);
 
@@ -55,6 +57,8 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     --color-border: var(--color-highlights-50);
 
     --sidebar-title: var(--color-warm-1);
+
+    color: var(--color-text-primary);
   }
 
   .crb-hover .tooltipster-box {
@@ -77,6 +81,18 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
   &.theme-dark .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character .subsection.attributes ul h3.modifier {
     filter: brightness(3);
+  }
+
+  .application, .sv-control input {
+    box-shadow: none;
+  }
+  input[type=radio] {
+    min-width: var(--font-size-16);
+    min-height: var(--font-size-16);
+  }
+  
+  input[type=radio]:after {
+    font-size: var(--font-size-16);
   }
 
   .actor.sheet.npc,
@@ -122,6 +138,9 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     object-position: top center;
     margin: 0.5rem auto;
   }
+  .actor.sheet section.window-content .image-container img.actor-image {
+    border: 1px solid var(--color-bg-alt);
+  }
 
   .actor.npc.sheet form .sidebar .image-container img {
     border-radius: 0;
@@ -166,7 +185,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     min-height: 1.6rem;
     margin: 5px 0;
   }
-  .actor.sheet section.window-content aside select {
+  .actor.sheet section.window-content aside {
     background-color: var(--color-bg-input);
     border-color: var(--color-highlights-25);
   }
@@ -203,8 +222,15 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     margin-bottom: 0;
     padding: 0;
   }
-  .actor.sheet.character section.window-content .sidebar > *:not(.image-container) {
+  .actor.sheet.character section.window-content .sidebar > *:not(header, .image-container) {
     margin: 0.5rem 1rem 0.15rem 1rem;
+  }
+
+  .tags.paizo-style {
+    gap: 0.25rem;
+  }
+  .tags.paizo-style .tag{
+    padding: 0.25rem 0.5rem;
   }
 
   .tags.light > .tag, .tags > .tag.light,
@@ -224,7 +250,6 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     box-shadow: none;
   }
 
-  .actor.sheet section.window-content aside .sidebar header,
   .actor.sheet section.window-content .inventory .inventory-list > header,
   .actor.sheet section.window-content .inventory .total-bulk,
   .actor.sheet section.window-content .currency {
@@ -235,16 +260,18 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     margin: 1.5rem 1rem 0.5rem 1rem;
     padding: .35em 0;
   }
-  .actor.sheet section.window-content .inventory .inventory-list > header,
-  .sheet.familiar .section-container .section-header {
-    margin: 0.5rem 0 0.5rem 0;
-    padding-left: 0;
-    opacity: 0.7;
+  .actor.sheet.character section.window-content aside .sidebar > header {
+    background: var(--color-highlights-15);
     border: 0;
-    border-bottom: 1px solid var(--color-highlights-50);
-    background: transparent;
+    box-shadow: none;
+    margin: 1.5rem 1rem .5rem;
+    align-items: center;
+    padding: 0.15rem 0.25rem;
   }
-
+  .actor.sheet section.window-content .inventory .inventory-list > header{
+    margin: 0;
+  }
+  .actor.sheet section.window-content .inventory .inventory-list > header,
   .actor.sheet section.window-content .inventory .inventory-list > header h3,
   .actor.sheet section.window-content .inventory .total-bulk h3,
   .actor.sheet section.window-content .wealth .item-name,
@@ -281,14 +308,27 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     color: var(--color-text-primary);
   }
 
+  .actor.sheet.character section.window-content .crb-style aside .sidebar .hitpoints .hp-big {
+    background-color: var(--color-highlights-15);
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+  }
+
   .actor.sheet section.window-content aside .sidebar .hitpoints .hp-big .container.current-hp {
     background-color: var(--color-highlights-25);
     border: 0;
     background-image: none;
-    padding: 0.15rem 0.25rem 0.5rem 0.25rem;
+    padding: 0.15rem 0.25rem;
+  }
+  .actor.sheet.character section.window-content .crb-style aside .sidebar .hitpoints .hp-big .container.max-hp,
+  .actor.sheet.character section.window-content .crb-style aside .sidebar .hitpoints .hp-big .container.temp-hp {
+    margin: 0;
+    padding: 0.15rem 0.25rem;
+    display: flex;
+    flex-direction: column;
   }
   .actor.sheet section.window-content aside .sidebar .hitpoints .hp-big .container.current-hp .data-value {
-    margin-top: var(--space-4);
+    margin-top: 0;
   }
 
   .actor.sheet section.window-content aside .sidebar .armor-class .ac,
@@ -313,7 +353,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     content: "";
     position: absolute;
     left: 50%;
-    top: 0.5rem;
+    top: 0;
     transform: translateX(-50%);
     width: 100%;
     height: 100%;
@@ -325,6 +365,62 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     mask-repeat: no-repeat;
     mask-position: center;
     z-index: 0;
+  }
+  .actor.sheet.character section.window-content .crb-style aside .sidebar .armor-class .shield-max-status .max .data-value,
+  .actor.sheet.character section.window-content .crb-style aside .sidebar .armor-class .shield .data-value input,
+  .actor.sheet.character section.window-content .crb-style aside .sidebar .data-value h2 {
+    color: var(--color-text-primary);
+    font-weight: 600;
+    font-size: var(--font-size-22);
+    line-height: 1.3;
+  }
+  .actor.sheet.character section.window-content .crb-style aside .sidebar .armor-class .ac, 
+  .actor.sheet.character section.window-content .crb-style aside .sidebar .armor-class .shield {
+    height: 4rem;
+    padding: 0.5rem 0.25rem 0 0.25rem;
+  }
+  .actor.sheet.character section.window-content .crb-style aside .sidebar .armor-class .shield-max-status .max label {
+    margin-bottom: 0;
+  }
+  .actor.sheet.character section.window-content .crb-style aside .sidebar .armor-class .shield-stats ul li .shield-label svg text {
+    fill: var(--color-text-primary);
+    font-size: 6px;
+    font-weight: 600;
+  }
+  
+  .actor.sheet.character section.window-content .crb-style aside .sidebar .armor-class .shield-max-status .max label,
+  .actor.sheet.character section.window-content .crb-style aside .sidebar .armor-class .ac label, 
+  .actor.sheet.character section.window-content .crb-style aside .sidebar .armor-class .shield label,
+  .actor.sheet.character section.window-content .crb-style aside .sidebar .sidebar_label {
+    font-size: var(--font-size-10);
+    color: var(--color-text-primary);
+    opacity: 0.5;
+  }
+  
+
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.pfs > section.level-bump .toggle {
+    width: 50px;
+    height: 18px;
+    background: rgba(0, 0, 0, 0.25);
+    box-shadow: none;
+  }
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.pfs > section.level-bump .toggle.enabled {
+    background: var(--color-highlights-50);
+  }
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.pfs > section.level-bump .toggle label {
+    border-radius: 8px;
+    width: 23px;
+    right: 25px;
+  }
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.pfs > section.level-bump .toggle.enabled label {
+    right: 1px;
+  }
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.pfs > section.level-bump .toggle::after, 
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.pfs > section.level-bump .toggle::before {
+    top: 3px;
+  }
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.pfs > section.level-bump .toggle::after {
+    right: 3px;
   }
 
 
@@ -357,6 +453,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
   .actor.sheet section.window-content header.char-header{
     padding: 0.75rem;
+    background-image: linear-gradient(to top, transparent, var(--color-highlights-25));
   }
   .actor.sheet section.window-content header.char-header input,
   .actor.sheet section.window-content aside input {
@@ -390,10 +487,23 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     filter: saturate(0.85);
   }
 
+  .actor.sheet.character section.window-content .crb-style {
+    grid: "sidebar header" 7rem
+        "sidebar nav" minmax(min-content, max-content)
+        "sidebar content" 1fr / 14.375rem 1fr;
+  }
+
   .actor.sheet section.window-content form.crb-style header.char-header .char-details h1.char-name input[type=text],
   .actor.sheet section.window-content form.crb-style header.char-header .char-details h1.char-name span.non-editable {
     color: var(--color-text-primary);
     font-variant: none;
+    line-height: 1;
+  }
+
+  .actor.sheet.character section.window-content .crb-style aside .sidebar .armor-class .shield-stats ul li .data-value {
+    border: 1px solid var(--color-highlights-50);
+    box-shadow: none;
+    margin-left: 0;
   }
 
   .crb-style .details-input,
@@ -470,16 +580,32 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li {
     font-size: var(--font-size-14);
   }
-  .actor.sheet section.window-content .hitpoints div input,
-  .actor.sheet section.window-content .hitpoints .max-hp h2,
+  .actor.sheet section.window-content .hitpoints .max-hp h2, 
+  .actor.sheet section.window-content .hitpoints div input, 
+  .actor.sheet.character section.window-content .crb-style aside .sidebar .data-value h2 {
+    color: var(--color-text-primary);
+    width: 100%;
+    height: 2rem;
+    margin: 0;
+    font-weight: 600;
+    font-size: var(--font-size-22);
+  }
+
   .actor.sheet section.window-content header.char-header .char-level .exp-data .exp-input input {
     color: var(--color-text-primary);
+    margin: 0 0 0.25rem 0;
+    font-weight: 600;
+    font-size: var(--font-size-14);
   }
 
   .actor.sheet section.window-content aside .sidebar .perception select,
   .actor.sheet section.window-content aside .sidebar .initiative select {
     min-height: 2rem;
     box-shadow: none;
+  }
+  .actor.sheet.character section.window-content .crb-style aside select {
+    background-color: var(--color-highlights-50);
+    border: 0;
   }
 
   .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content ol.spell-list > li.header-row {
@@ -507,19 +633,26 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
 
   /* NPC */
+  .actor.sheet.npc {
+    min-height: 750px;
+  }
+  .actor.sheet.character {
+    min-height: 850px;
+  }
+
   .actor.npc.sheet form {
     --faded-border-color: var(--color-highlights-15);
     --color-pf-inventory-header-bg: var(--color-highlights-15);
   }
   .actor.npc.sheet form .npc-body {
-    padding: 1rem;
+    padding: 0;
     background-color: var(--control-bg-color);
   }
   .actor.npc.sheet form .trait {
     border: 1px solid transparent;
   }
   .actor.npc.sheet .tags.paizo-style {
-    padding: 0.15em;
+    padding: 0;
   }
   .actor.npc.sheet .tabs > [data-tab] {
     color: var(--color-text-primary);
@@ -544,6 +677,9 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .actor.npc.sheet form .sheet-body .actions-list li.action {
     margin: 0.25rem 0;
   }
+  .actor.npc.sheet form .top-sections .attribute-modifiers .list {
+    padding-left: 0;
+  }
 
   .actor.npc.sheet form .sheet-body .entries-list .spellcasting-entry {
     border: 0;
@@ -555,10 +691,34 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     border-bottom: 0;
   }
 
-  .actor.npc.sheet section.window-content .inventory .inventory-list > header,
+  .sheet.npc .window-content .npc-body header{
+    background-image: linear-gradient(to top, transparent, var(--color-highlights-50));
+    padding: 1rem 1.5rem;
+  }
+  .sheet.npc .window-content .npc-body .sheet-body > * {
+    padding: 0.5rem 1.5rem 2rem 1.5rem;
+  }
+
   .actor.npc.sheet section.window-content .inventory .total-bulk {
     margin: 1rem 0 0.25rem 0;
     padding-left: 0;
+  }
+  .actor.npc.sheet section.window-content .inventory .inventory-list > header {
+    margin: 0;
+    padding-left: 0;
+  }
+
+  .actor.npc.sheet form a.roll:not(.inline-roll) {
+    font-weight: 500;
+    font-size: var(--font-size-12);
+  }
+  
+  .actor.npc.sheet form .sheet-body .actions-list li.action .button-group .subsection.attack button,
+  .actor.npc.sheet form .sheet-body .actions-list li.action .button-group .subsection.damage button {
+    padding: 0.75rem 0.5rem;
+    box-shadow: none;
+    font-weight: 500;
+    font-size: var(--font-size-12);
   }
 
   .actor.sheet form input[type=text],
@@ -582,11 +742,17 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
 
   .actor.npc.sheet .sidebar .subsection {
-    margin: 0.25rem 0.5rem;
+    background: var(--color-highlights-15);
+    border-radius: 6px;
+    margin: 0 .5rem;
+    padding: 0.25rem .5rem .5rem .5rem;
   }
+
   .actor.npc.sheet form > .npc-body > header .name {
     display: flex;
     align-items: center;
+    font-family: var(--crlngn-font-titles);
+    font-size: var(--font-size-20);
   }
   .actor.npc.sheet form .section-container {
     margin: 0 0 1rem 0;
@@ -600,6 +766,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
   .actor.npc.sheet form .sheet-body .section-container .section-body {
     border: 0;
+    padding: 0.5rem 0;
   }
 
   .actor.npc.sheet form .notes.active .notes-section > .notes-text {
@@ -608,7 +775,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     opacity: 0.7;
   }
   .actor.npc.sheet form .sheet-body .tab {
-    margin-top: 1rem;
+    margin-top: 0;
   }
   .actor.npc.sheet form .sidebar .subsection .hit-points input.current,
   .actor.npc.sheet form .sidebar .subsection .hit-points .max {
@@ -632,25 +799,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     color: var(--color-text-primary);
     opacity: 0.7;
   }
-
-  .sheet.familiar .familiar-section {
-    margin: 0.5rem 0;
-    border: 0;
-  }
-  .sheet.familiar .section-container .section-body {
-    border: 0;
-    padding: 0;
-  }
-  .sheet.familiar .main-section {
-    padding: 0.5rem;
-    gap: 1rem;
-  }
-  .sheet.familiar .section-container .section-header {
-    color: var(--color-text-primary);
-  }
-  .sheet.familiar header .image-container img.actor-image {
-    border-color: transparent;
-  }
+  
   .actor.sheet section.window-content .image-container .hover-icon {
     text-shadow: -1px -1px 0 var(--color-text-inverse), 1px -1px 0 var(--color-text-inverse), -1px 1px 0 var(--color-text-inverse), 1px 1px 0 var(--color-text-inverse);
   }
@@ -739,11 +888,216 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     opacity: 0.5;
   }
 
+  .actor.sheet section.window-content header tags.tags.paizo-style {
+    background-color: transparent;
+  }
+
   .actor.sheet section.window-content header .char-name input,
   .actor.npc.sheet form > .npc-body > header .name .name-value {
     padding: 0.85em 0;
     color: var(--color-text-primary);
+    background: transparent;
+    font-family: var(--crlngn-font-titles);
+    font-size: var(--font-size-30);
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+    min-height: 3rem;
   }
+  .actor.npc.sheet form > .npc-body > header .name .name-value {
+    margin: 0.5rem 0;
+  }
+  .actor.npc.sheet form .sidebar .subsection header label {
+    text-transform: uppercase;
+    padding-left: 0;
+    margin-top: 0.5rem;
+    opacity: 0.75;
+  }
+
+  /* familiar */
+  .sheet.familiar {
+    min-width: 650px;
+  }
+  .sheet.familiar header .header-content {
+    margin: 1rem;
+  }
+  .sheet.familiar .section-container .section-header {
+    margin: 0.5rem 0 0.5rem 0;
+    padding-left: 0;
+    opacity: 0.7;
+    border: 0;
+    border-bottom: 1px solid var(--color-highlights-50);
+    background: transparent;
+  }
+  .sheet.familiar .familiar-section {
+    margin: 0.5rem 0;
+    border: 0;
+  }
+  .sheet.familiar .section-container .section-body {
+    border: 0;
+    padding: 0;
+    display: flex;
+    gap: 0.25rem;
+  }
+  .sheet.familiar .section-container.skills-sidebar .section-body {
+    gap: 1px;
+  }
+  .sheet.familiar .section-container .section-body a[data-action="roll-check"] {
+    border: 0;
+    border-radius: 0;
+    padding: .15rem .25rem;
+    height: 1.8em;
+    background: var(--color-bg-alt);
+
+    &.perception {
+      margin-bottom: 0;
+      border: 1px solid var(--color-highlights-50);
+    }
+  }
+  .sheet.familiar form > hr {
+    display: none;
+  }
+  .sheet.familiar .main-section {
+    padding: 0 .5rem .5rem .5rem;
+    gap: 1rem;
+  }
+  .sheet.familiar .window-content header {
+    background-image: linear-gradient(to top, transparent, var(--color-highlights-50));
+  }
+  .sheet.familiar header .image-container {
+    align-items: flex-start;
+    width: 120px;
+  }
+  .sheet.familiar header .image-container img.actor-image {
+    border-radius: 0;
+    flex: 0 0 auto;
+    height: 100%;
+    min-width: unset;
+    width: 100%;
+    object-fit: contain;
+    max-height: 180px;
+  }
+  .sheet.familiar .section-container .section-header {
+    color: var(--color-text-primary);
+  }
+  .sheet.familiar header .image-container img.actor-image {
+    border-color: transparent;
+  }
+  .sheet.familiar .actions-list li.action {
+    flex-flow: row nowrap;
+  }
+  .sheet.familiar .actions-list li.action h4 {
+    flex: 1 1 100%;
+  }
+  .sheet.familiar .actions-list li.action .controls {
+    flex: 0 0 auto;
+  }
+  
+  .sheet.familiar section.window-content input[type=text],
+  .sheet.familiar section.window-content input[type=number],
+  .sheet.familiar section.window-content select,
+  .sheet.familiar section.window-content .detail h4 {
+    background-color: var(--color-bg-input);
+    border: 1px solid var(--color-highlights-15);
+    border-radius: 4px;
+    min-height: 2rem;
+    margin: 2px 0;
+    box-shadow: none;
+    line-height: 1.5;
+  }
+  .actor.sheet.familiar section.window-content .header-content .charname {
+    font-family: var(--crlngn-font-titles);
+    font-size: var(--font-size-20);
+  }
+  .actor.sheet.familiar section.window-content .header-content .charname input {
+    background: transparent;
+    box-shadow: none;
+    border: 0;
+    padding: 0;
+    font-weight: 600;
+    font-size: var(--font-size-30);
+    line-height: 1;
+  }
+  .sheet.familiar section.window-content .hp-section input {
+    min-height: 1.5rem;
+    height: 1.5rem;
+  }
+  .sheet.familiar header .header-content .details-section .defenses-section .defenses-list {
+    gap: 4px;
+  }
+  
+  .sheet.familiar header .header-content .details-section .defenses-section .defenses-list .save,
+  .sheet.familiar header .header-content .details-section .defenses-section .defenses-list .ac{
+    flex: 1 1 auto;
+    justify-content: center;
+    min-width: 25px;
+    width: auto;
+    padding: 0.25rem 0.5rem;
+    text-align: center;
+    background: var(--color-highlights-15);
+    border-radius: 4px;
+    font-size: var(--font-size-12);
+  }
+  .sheet.familiar header .header-content .details-section .defenses-section .defenses-list .save .name,
+  .sheet.familiar header .header-content .details-section .defenses-section .defenses-list .ac .name {
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .sheet.familiar header .header-content .details-section .defenses-section .defenses-list .save .value,
+  .sheet.familiar header .header-content .details-section .defenses-section .defenses-list .ac .value {
+    font-size: var(--font-size-16);
+    font-weight: 700;
+  }
+  .sheet.familiar header .header-content .details-section .defenses-section .defenses-list .ac .value i {
+    font-size: var(--font-size-11);
+  }
+  .sheet.familiar .actions-list li.action {
+    line-height: 2em;
+  }
+  .sheet.familiar .tags:not(.package-overview) .tag.tag_alt, 
+  .sheet.familiar .tags:not(.package-overview) .tag option.tag_alt {
+    background-color: var(--color-highlights-25);
+    padding: 0.25rem 0.5rem;
+    box-shadow: none;
+  }
+  .sheet.familiar header .header-content .dying-section .pips {
+    gap: 3px;
+    font-size: var(--font-size-12);
+    color: var(--color-highlights-75);
+  }
+
+  .application.pf2e.compendium-browser nav.tabs {
+    border-image: none;
+    background: transparent;
+    border-top: 1px solid var(--color-highlights-50);
+    border-bottom: 1px solid var(--color-highlights-50);
+    border-width: 1px;
+
+    button {
+      background: transparent;
+      font-size: var(--font-size-14);
+      font-family: var(--crlngn-font-family);
+      min-height: 2.5rem;
+    }
+
+    .browser-tab{
+      margin: 0.5rem 0;
+    }
+
+    fieldset {
+      border: 1px solid var(--color-cool-4);
+    }
+  }
+  .application.pf2e.compendium-browser .browser-tab {
+    margin-top: 0.5rem;
+  }
+
+  .application.pf2e.compendium-browser .checkbox-container label{
+    margin-top: 0.35rem;
+    line-height: 1.25;
+    gap: 0.25rem;
+  }
+  
 
   /* fonts */
   &.cui-font-ui {
@@ -776,12 +1130,22 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     .actor.npc.sheet form .notes.active .notes-section > .notes-text {
       font-family: var(--crlngn-font-family);
     }
-
     
 
   }
 
   &.cui-font-t {
+    .actor.sheet {
+      --serif: var(--crlngn-font-family);
+    }
+
+    .sheet.familiar header .header-content .charname {
+      gap: 0.5rem;
+    }
+
+    .actor.sheet.character section.window-content .crb-style {
+      font-family: var(--crlngn-font-titles);
+    }
 
     .actor.sheet section.window-content aside .sidebar .roll-data a.modifier {
       font-family: var(--crlngn-font-titles);
@@ -803,10 +1167,15 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
       font-variant: none;
     }
 
-    .actor.sheet section.window-content .hitpoints div input,
-    .actor.sheet section.window-content .hitpoints .max-hp h2 {
+    .actor.sheet section.window-content .hitpoints .max-hp h2, 
+    .actor.sheet section.window-content .hitpoints div input, 
+    .actor.sheet.character section.window-content .crb-style aside .sidebar .data-value h2,
+    .actor.sheet section.window-content header.char-header .char-level .exp-data .exp-input input,
+    .actor.sheet.character section.window-content .crb-style aside .sidebar .armor-class .shield-max-status .max .data-value,
+    .actor.sheet.character section.window-content .crb-style aside .sidebar .armor-class .shield .data-value input,
+    .actor.sheet.character section.window-content .crb-style aside .sidebar .data-value h2 {
       font-family: var(--crlngn-font-titles);
-      font-weight: 500;
+      font-weight: 600;
       font-variant: none;
     }
 
