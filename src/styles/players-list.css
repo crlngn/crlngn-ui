@@ -165,7 +165,7 @@ body.crlngn-ui {
         overflow: hidden;
         overflow-y: auto;
       }
-      
+
       #players-inactive {
         padding: 0 6px;
       }
@@ -300,7 +300,7 @@ body.crlngn-ui {
     }
 
     
-    &.minimized. {
+    &.minimized {
       #av-holder.minimized,
       #av-holder.vertical.minimized,
       #av-holder.horizontal.minimized {

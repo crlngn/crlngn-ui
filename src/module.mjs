@@ -10,6 +10,7 @@ import "./styles/sheets.css";
 import "./styles/players-list.css";
 import "./styles/other-modules.css";
 import "./styles/systems/daggerheart.css";
+import "./styles/systems/daggerheart-colors.css";
 import "./styles/systems/daggerheart-fonts.css";
 import "./styles/systems/daggerheart-tracker.css";
 import "./styles/systems/pf2e-sheets.css";
