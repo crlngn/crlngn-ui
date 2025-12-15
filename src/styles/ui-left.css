@@ -32,6 +32,21 @@ body.crlngn-ui{
   }
 
   #interface{
+    #scene-controls menu li {
+        position: relative;
+    }
+    &:not(.crlngn-controls){
+      #ui-left button.control.ui-control:after {
+        display: block;
+        content: "";
+        width: calc(var(--control-size) + 8px);
+        height: calc(var(--control-size) + 8px);
+        position: absolute;
+        left: -4px;
+        z-index: -1;
+      }
+    }
+    
     &.crlngn-controls #ui-left{
       --crlngn-control-size: var(--control-item-size);
       --control-size: var(--crlngn-control-size) !important;

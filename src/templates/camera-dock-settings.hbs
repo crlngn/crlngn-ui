@@ -31,22 +31,31 @@
     <p class="hint">{{fields.defaultVideoWidth.hint}}</p>
   </div>
 
-  <div class="form-group">
-    <label for="dockPosX">{{fields.dockPosX.label}}</label>
-    <input type="number" name="dockPosX" value="{{dockPosX}}" {{#unless enableFloatingDock}}disabled{{/unless}} />
-    
-    <label for="dockPosY">{{fields.dockPosY.label}}</label>
-    <input type="number" name="dockPosY" value="{{dockPosY}}" {{#unless enableFloatingDock}}disabled{{/unless}} />
-    <p class="hint">{{fields.dockPosY.hint}}</p> 
-  </div>
+  <fieldset>
+    <legend>Camera Group Position</legend>
+    <div class="form-group">
+      <p class="hint">{{fields.dockPosY.hint}}</p>
 
-  <div class="form-group">
-    <label for="dockWidth">{{fields.dockWidth.label}}</label>
-    <input type="number" name="dockWidth" value="{{dockWidth}}" {{#unless enableFloatingDock}}disabled{{/unless}} />
-    
-    <label for="dockHeight">{{fields.dockHeight.label}}</label>
-    <input type="number" name="dockHeight" value="{{dockHeight}}" {{#unless enableFloatingDock}}disabled{{/unless}} />
-    <p class="hint">{{fields.dockHeight.hint}}</p> 
-  </div>
+      <label for="dockPosX">{{fields.dockPosX.label}}</label>
+      <input type="number" name="dockPosX" value="{{dockPosX}}" {{#unless enableFloatingDock}}disabled{{/unless}} />
+      
+      <label for="dockPosY">{{fields.dockPosY.label}}</label>
+      <input type="number" name="dockPosY" value="{{dockPosY}}" {{#unless enableFloatingDock}}disabled{{/unless}} />
+      
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Camera Group Size </legend>
+    <div class="form-group">
+      <p class="hint">{{fields.dockHeight.hint}}</p>
+
+      <label for="dockWidth">{{fields.dockWidth.label}}</label>
+      <input type="number" name="dockWidth" value="{{dockWidth}}" {{#unless enableFloatingDock}}disabled{{/unless}} />
+      
+      <label for="dockHeight">{{fields.dockHeight.label}}</label>
+      <input type="number" name="dockHeight" value="{{dockHeight}}" {{#unless enableFloatingDock}}disabled{{/unless}} />
+    </div>
+  </fieldset>
 
 </section>

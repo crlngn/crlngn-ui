@@ -112,6 +112,8 @@ body.crlngn-ui {
     border-style: solid;
     border-width: 1px;
     border-color: var(--color-cool-4);
+    margin: 1rem 0;
+    gap: 0;
   }
   .dnd5e-tooltip {
     --dnd5e-color-parchment: rgb(244, 239, 237);
@@ -778,8 +780,8 @@ body.crlngn-ui{
     overflow: auto;
     
   }
-  .form-group {
-    margin: 0.75em 0;
+  .form-group, fieldset .form-group {
+    margin: 0.5em 0;
     position: relative;
     z-index: 0;
 
@@ -1543,6 +1545,7 @@ body.crlngn-ui tags.tagify.pf2e-tagify {
 body.crlngn-ui {
   .crlngn-hints .standard-form .scrollable {
     min-height: 100px;
+    gap: 0.5rem;
   }
   .crlngn-hints .form-group > p.hint:not(.on):not(.shown),
   .crlngn-hints .form-group > p.notes:not(.on):not(.shown),

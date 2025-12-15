@@ -239,6 +239,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
             partContext.showNoSettings = !hasWorldSettings && !hasClientSettings;
           }
 
+
           if (partId === 'themes') {
             const worldCustomColors = SettingsUtil.get('v2-custom-theme-colors');
             const playerCustomColors = SettingsUtil.get('v2-player-custom-theme-colors');
@@ -258,14 +259,12 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
               return colors;
             };
 
-            // Use custom colors if available, otherwise fallback to default theme colors
             const baseWorldColors = worldCustomColors || {
               accent: THEMES[0].colorPreview[1],
               secondary: THEMES[0].colorPreview[0]
             };
             partContext.customColors = createColorVariants(baseWorldColors);
 
-            // For player colors, fallback to world colors if no player colors are set
             const basePlayerColors = playerCustomColors || worldCustomColors || {
               accent: THEMES[0].colorPreview[1],
               secondary: THEMES[0].colorPreview[0]

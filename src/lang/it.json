@@ -340,6 +340,15 @@
           "playerListAvatars": {
             "label": "Mostra avatar",
             "hint": "Mostra gli avatar dei giocatori nella lista. Cerca l'immagine del personaggio, o l'immagine dell'utente se nessun personaggio è assegnato"
+          },
+          "playerListAvatarSize": {
+            "label": "Dimensione avatar",
+            "hint": "Dimensione degli avatar dei giocatori nella lista.",
+            "options": {
+              "small": "Piccolo",
+              "medium": "Medio",
+              "large": "Grande"
+            }
           }
         },
         "reset": "Ripristina",
@@ -372,7 +381,7 @@
           },
           "dockCamerasToBottom": {
             "label": "Consenti aggancio Gruppo Camera alla barra macro",
-            "hint": "Quando abilitato, puoi trascinare il Gruppo Camera nella parte inferiore dello schermo (sopra la barra macro) per agganciarlo. Quando agganciato, il Gruppo Camera sarà orizzontale, coprirà l'intera larghezza disponibile e ridurrà i video a un minimo di 140px. Trascinalo lontano dal fondo per sganciarlo."
+            "hint": "Quando abilitato, puoi trascinare il Gruppo Camera nella parte inferiore dello schermo (sopra la barra macro) per agganciarlo. Quando agganciato, il Gruppo Camera sarà orizzontale, coprirà l'intera larghezza disponibile e ridurrà i video a un minimo di 150px. Trascinalo lontano dal fondo per sganciarlo."
           },
           "dockResizeOnUserJoin": {
             "label": "Espandi Dock per Adattare i Video",
@@ -385,7 +394,10 @@
           },
           "defaultVideoWidth": {
             "label": "Larghezza video predefinita",
-            "hint": "Larghezza di ogni singola telecamera nel dock, in pixel. La larghezza minima è 140px, per consentire spazio per le icone di controllo della telecamera."
+            "hint": "Larghezza di ogni singola telecamera nel dock, in pixel. La larghezza minima è 150px, per consentire spazio per le icone di controllo della telecamera."
+          },
+          "lockDockPosition": {
+            "tooltip": "Blocca Posizione"
           }
         },
         "reset": "Ripristina",

@@ -103,35 +103,71 @@ body.crlngn-ui{
 
   }
 
-  /* Rest and Recovery 5e */
-  .rest-recovery-prompt-rest-button {
-    width: 100%;
-    flex: 1 1 100%;
-    background: var(--color-secondary-25);
-    padding: 4px 0;
-    margin: 2px 0;
-    justify-content: flex-start;
-    height: var(--crlngn-avatar-size);
-    border: 0;
-    font-size: 1em;
-    font-weight: 600;
-    color: var(--default-color);
-
-    &:hover {
-      background: var(--color-dark-bg-50);
-    }
-
-    &:focus {
+  /* Rest & Recovery 5e / Item Piles */
+  &.crlngn-rest-recovery,
+  &.crlngn-item-piles {
+    .rest-recovery-prompt-rest-button,
+    .item-piles-player-list-trade-button {
+      width: 100%;
+      flex: 1 1 100%;
+      background: transparent;
+      padding: 6px 0;
+      margin: 0;
+      justify-content: flex-start;
+      height: var(--control-item-size);
       border: 0;
-      outline: 0;
-      box-shadow: none;
+      font-size: 1em;
+      font-weight: 600;
+      color: var(--default-color);
+      transition: none;
+
+      &:hover {
+        background: var(--color-highlights-50);
+      }
+
+      &:focus {
+        border: 0;
+        outline: 0;
+        box-shadow: none;
+      }
+
+      i {
+        height: auto;
+        margin-right: 4px;
+      }
     }
 
-    i {
-      width: var(--crlngn-avatar-size);
-      flex: 0 0 var(--crlngn-avatar-size);
-      height: auto;
-      margin-right: 4px;
+    #players.minimized {
+      .rest-recovery-button-parent {
+        flex-direction: column;
+      }
+      button.rest-recovery-prompt-rest-button,
+      button.item-piles-player-list-trade-button {
+        flex: 1 1 100%;
+        min-width: var(--crlngn-avatar-size);
+      }
+      button.rest-recovery-prompt-rest-button i,
+      button.item-piles-player-list-trade-button i {
+        width: calc(var(--crlngn-avatar-size) - 4px);
+        flex: 0 0 calc(var(--crlngn-avatar-size) - 4px);
+      }
+    }
+
+    #players:not(.minimized),
+    #players.minimized:hover {
+      .rest-recovery-button-parent {
+        flex-direction: row;
+      }
+      button.rest-recovery-prompt-rest-button,
+      button.item-piles-player-list-trade-button {
+        flex: 1 1 100%;
+        min-width: 0px;
+      }
+      button.rest-recovery-prompt-rest-button i,
+      button.item-piles-player-list-trade-button i {
+        width: calc(var(--control-item-size) - 12px);
+        flex: 0 0 calc(var(--control-item-size) - 12px);
+      }
     }
   }
 
@@ -986,6 +1022,58 @@ body.crlngn-ui{
   &.crlngn-chat .message.dnd5e-cm-hpPlus {
     --dnd5e-cm-hpPlus: rgba(118, 245, 192, 0.25);
     background: var(--dnd5e-cm-hpPlus) !important;
+  }
+
+  /* Small Time */
+  /* when #players is open */
+  &.crlngn-smalltime{
+    &.crlngn-players-minimized {
+      #smalltime-app.pinned {
+        width: calc(var(--crlngn-avatar-size) + 8px);
+        max-width: calc(var(--crlngn-avatar-size) + 8px);
+        margin-bottom: -14px;
+      }
+      #smalltime-app.pinned #displayContainer {
+        padding: 0;
+      }
+      #smalltime-app.pinned #displayContainer > *:not(#timeDisplay) {
+        display: none;
+      }
+      #smalltime-app.pinned #displayContainer #timeDisplay {
+        font-size: var(--font-size-9);
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      #smalltime-app.pinned #dragHandle {
+        opacity: 0;
+      }
+    }
+
+    &.crlngn-players-minimized #smalltime-app.pinned:hover,
+    &.crlngn-players-minimized #ui-left.players-open #smalltime-app.pinned,
+    &:not(.crlngn-players-minimized) #smalltime-app.pinned {
+      width: var(--max-players-width) !important;
+      max-width: var(--max-players-width) !important;
+      margin-bottom: -14px;
+
+      #displayContainer > *:not(#timeDisplay) {
+        display: inline;
+      }
+
+      #displayContainer #timeDisplay {
+        font-size: initial;
+        width: initial;
+        white-space: initial;
+        overflow: initial;
+        text-overflow: initial;
+      }
+
+      &:hover #dragHandle {
+        opacity: 1;
+      }
+    }
   }
 
 }

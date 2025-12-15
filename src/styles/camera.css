@@ -33,15 +33,15 @@ body.crlngn-ui{
   
   #av-holder{
     --av-width: 160px;
-    --av-height: 140px;
+    --av-height: 150px;
 
     position: absolute;
     left: 0;
     bottom: 0;
     min-width: calc(var(--av-width) + 30px);
-    min-height: calc((var(--av-width)*3/4) + 5px);
+    min-height: calc((var(--av-width)*3/4) + 10px);
     max-width: max(var(--av-width), calc(100vw - var(--sidebar-width)));
-    max-height: max((var(--av-width)*3/4), calc(100vh - 80px));
+    max-height: max(calc(var(--av-width)*3/4 + 10px), calc(100vh - 80px));
     overflow: hidden;
     cursor: move;
     cursor: grab;
@@ -115,7 +115,7 @@ body.crlngn-ui{
         flex-shrink: 1 !important;
         flex-grow: 0 !important;
         flex-basis: auto !important;
-        min-width: 140px !important;
+        min-width: 150px !important;
         max-width: none !important;
         height: auto !important;
         max-height: 100% !important;
@@ -139,6 +139,16 @@ body.crlngn-ui{
     /* Snapping animation */
     &.snapping {
       transition: all 0.3s ease-out;
+    }
+
+    /* Position locked state */
+    &.position-locked {
+      cursor: default;
+
+      .resize-handle {
+        display: none !important;
+        pointer-events: none;
+      }
     }
   }
 
@@ -182,6 +192,8 @@ body.crlngn-ui{
 
         .video-container .user-avatar {
           width: 100%;
+          height: 100%;
+          object-fit: cover;
           background-color: var(--color-dark-bg-50);
           border-radius: 0;
         }
@@ -307,8 +319,9 @@ body.crlngn-ui{
       opacity: 0;
   
       button.icon{
-        font-size: var(--font-size-12);
+        font-size: var(--font-size-10);
         border: 1px solid transparent;
+        font-weight: 600;
         padding: 2px;
       }
       
@@ -319,8 +332,11 @@ body.crlngn-ui{
           display: none;
           transition: all 0.2s ease-out 0.5s;
         }
-        &:before{
+        &:before {
           font-weight: 600;
+          width: calc(var(--control-item-size) - 12px);
+          text-align: center;
+          content: '\f065';
         }
       }
     }
@@ -445,13 +461,16 @@ body.crlngn-ui{
         &:hover{
           background: transparent;
         }
+        button[data-action=toggleLock] {
+          display: none;
+        }
 
         button[data-action=toggleDock]{
           width: auto;
           display: flex;
           flex: 1 1 auto;
           padding: 0;
-          padding-right: 5px;
+          padding-right: 10px;
           text-align: left;
           justify-content: flex-start;
           margin-right: auto;
@@ -464,7 +483,9 @@ body.crlngn-ui{
 
           &:after {
             content: "Show Cameras";
-            font-size: var(--font-size-12);
+            font-size: var(--font-size-11);
+            font-family: var(--font-body);
+            letter-spacing: 0.03em;
             font-weight: 600;
             line-height: 20px;
             vertical-align: middle;
@@ -478,7 +499,12 @@ body.crlngn-ui{
       }
     }
   }
-
+  
+  #av-holder.horizontal.minimized, 
+  #av-holder.minimized, 
+  #av-holder.vertical.minimized{
+    width: 100% !important;
+  }
 }
 
 /* Font styles - UI body font */

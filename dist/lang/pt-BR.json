@@ -365,6 +365,15 @@
           "playerListAvatars": {
             "label": "Mostrar avatares",
             "hint": "Mostrar avatares dos jogadores na lista. Procura pela imagem do personagem, ou imagem do usuário se nenhum personagem estiver atribuído"
+          },
+          "playerListAvatarSize": {
+            "label": "Tamanho do avatar",
+            "hint": "Tamanho dos avatares dos jogadores na lista.",
+            "options": {
+              "small": "Pequeno",
+              "medium": "Médio",
+              "large": "Grande"
+            }
           }
         },
         "reset": "Redefinir",
@@ -397,7 +406,7 @@
           },
           "dockCamerasToBottom": {
             "label": "Permitir acoplagem de câmeras à barra de macros",
-            "hint": "Quando ativado, você pode arrastar o grupo de câmeras para a parte inferior da tela (acima da barra de macros) para acoplá-lo. Quando acoplado, o grupo de câmeras será horizontal, ocupará toda a largura disponível e reduzirá os vídeos a um mínimo de 140px. Arraste-o para longe da parte inferior para desacoplá-lo."
+            "hint": "Quando ativado, você pode arrastar o grupo de câmeras para a parte inferior da tela (acima da barra de macros) para acoplá-lo. Quando acoplado, o grupo de câmeras será horizontal, ocupará toda a largura disponível e reduzirá os vídeos a um mínimo de 150px. Arraste-o para longe da parte inferior para desacoplá-lo."
           },
           "dockResizeOnUserJoin": {
             "label": "Expandir Dock para Ajustar Vídeos",
@@ -410,7 +419,10 @@
           },
           "defaultVideoWidth": {
             "label": "Largura padrão do vídeo",
-            "hint": "Largura de cada câmera individual no dock, em pixels. A largura mínima é 140px, para permitir espaço para os ícones de controle da câmera."
+            "hint": "Largura de cada câmera individual no dock, em pixels. A largura mínima é 150px, para permitir espaço para os ícones de controle da câmera."
+          },
+          "lockDockPosition": {
+            "tooltip": "Bloquear Posição"
           }
         },
         "reset": "Redefinir",

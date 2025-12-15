@@ -42,6 +42,8 @@ export class CameraDockUtil {
   static dockCamerasToBottom = false;
   /** @type {boolean} Whether cameras are currently docked to bottom */
   static isDockedToBottom = false;
+  /** @type {boolean} Whether camera dock position is locked */
+  static isPositionLocked = false;
   
   static applyFadeOut(useFadeOut){
     CameraDockUtil.useFadeOut = useFadeOut;
@@ -55,6 +57,68 @@ export class CameraDockUtil {
     if(CameraDockUtil.cameraContainer){
       CameraDockUtil.cameraContainer.classList.toggle("hidden", hidden);
     }
+  }
+
+  /**
+   * Creates and adds the lock position toggle button to the user controls
+   */
+  static addLockButton() {
+    const SETTINGS = getSettings();
+    const userControls = CameraDockUtil.cameraContainer?.querySelector('#camera-views > .user-controls');
+    if (!userControls) return;
+
+    const existingBtn = userControls.querySelector('[data-action="toggleLock"]');
+    if (existingBtn) existingBtn.remove();
+
+    CameraDockUtil.isPositionLocked = SettingsUtil.get(SETTINGS.lockDockPosition.tag) || false;
+
+    const lockBtn = document.createElement('button');
+    lockBtn.type = 'button';
+    lockBtn.className = 'av-control inline-control icon fa-solid fa-fw';
+    lockBtn.dataset.action = 'toggleLock';
+    lockBtn.dataset.tooltip = game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.lockDockPosition.tooltip");
+    lockBtn.setAttribute('aria-label', game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.lockDockPosition.tooltip"));
+
+    CameraDockUtil.updateLockButtonIcon(lockBtn);
+
+    lockBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      CameraDockUtil.toggleLockPosition();
+    });
+
+    userControls.appendChild(lockBtn);
+    CameraDockUtil.cameraContainer?.classList.toggle('position-locked', CameraDockUtil.isPositionLocked);
+  }
+
+  /**
+   * Updates the lock button icon based on current state
+   * @param {HTMLElement} [btn] - The button element, or finds it if not provided
+   */
+  static updateLockButtonIcon(btn) {
+    const lockBtn = btn || CameraDockUtil.cameraContainer?.querySelector('[data-action="toggleLock"]');
+    if (!lockBtn) return;
+
+    lockBtn.classList.remove('fa-lock', 'fa-unlock-keyhole');
+    if (CameraDockUtil.isPositionLocked) {
+      lockBtn.classList.add('fa-lock');
+    } else {
+      lockBtn.classList.add('fa-unlock-keyhole');
+    }
+  }
+
+  /**
+   * Toggles the lock position state
+   */
+  static toggleLockPosition() {
+    const SETTINGS = getSettings();
+    CameraDockUtil.isPositionLocked = !CameraDockUtil.isPositionLocked;
+
+    SettingsUtil.set(SETTINGS.lockDockPosition.tag, CameraDockUtil.isPositionLocked);
+    CameraDockUtil.updateLockButtonIcon();
+
+    CameraDockUtil.cameraContainer?.classList.toggle('position-locked', CameraDockUtil.isPositionLocked);
+    LogUtil.log("toggleLockPosition", [CameraDockUtil.isPositionLocked]);
   }
 
   static applyCustomStyle(enabled){
@@ -419,7 +483,7 @@ export class CameraDockUtil {
       CameraDockUtil.checkMinimizedState();
     }
     CameraDockUtil.applyFadeOut(CameraDockUtil.useFadeOut);
-
+    CameraDockUtil.addLockButton();
   }
 
   static onRenderPlayersList(){
@@ -574,10 +638,13 @@ export class CameraDockUtil {
     // Handle mouse events
     CameraDockUtil.cameraContainer?.addEventListener("mousedown", (e) => {
       const isMinimized = document.querySelector("#av-holder.minimized #camera-views");
-    
+
       // Only trigger drag on left mouse button (button 0)
       if (e.button !== 0) return;
-      
+
+      // Don't allow dragging if position is locked
+      if (CameraDockUtil.isPositionLocked) return;
+
       const body = document.querySelector("body.crlngn-ui");
       LogUtil.log("mousedown", [e.target.tagName, e.target.parentNode.tagName]);
       if(e.target.tagName=='input' ||
@@ -585,14 +652,14 @@ export class CameraDockUtil {
         return;
       }
       body?.addEventListener("mousemove", CameraDockUtil.#onDragMove);
-      body?.addEventListener("mouseup", CameraDockUtil.#onDragRelease); 
-      
+      body?.addEventListener("mouseup", CameraDockUtil.#onDragRelease);
+
       if (isMinimized) return;
       const offsetBottom = GeneralUtil.getOffsetBottom(CameraDockUtil.cameraContainer);
-      
+
       // Get the current position from transform if it exists
       let currentLeft = CameraDockUtil.cameraContainer?.offsetLeft || 0;
-      
+
       CameraDockUtil.isDragging = true;
       CameraDockUtil.#offsetX = e.clientX - currentLeft;
       CameraDockUtil.#offsetY = (window.innerHeight - e.clientY) - offsetBottom;
@@ -600,14 +667,17 @@ export class CameraDockUtil {
       e.preventDefault();
       e.stopPropagation();
     });
-    
+
     // Handle touch events
     CameraDockUtil.cameraContainer?.addEventListener("touchstart", (e) => {
       const isMinimized = document.querySelector("#av-holder.minimized #camera-views");
       if (!e.touches[0]) return;
-      
+
+      // Don't allow dragging if position is locked
+      if (CameraDockUtil.isPositionLocked) return;
+
       const body = document.querySelector("body.crlngn-ui");
-      
+
       if(e.target.parentNode?.classList.contains('volume-bar')){
         return;
       }
@@ -618,10 +688,10 @@ export class CameraDockUtil {
       if (isMinimized) return;
       const touch = e.touches[0];
       const offsetBottom = GeneralUtil.getOffsetBottom(CameraDockUtil.cameraContainer);
-      
+
       // Get the current position from transform if it exists
       let currentLeft = CameraDockUtil.cameraContainer?.offsetLeft || 0;
-      
+
       CameraDockUtil.isDragging = true;
       CameraDockUtil.#offsetX = touch.clientX - currentLeft;
       CameraDockUtil.#offsetY = (window.innerHeight - touch.clientY) - offsetBottom;
@@ -721,16 +791,19 @@ export class CameraDockUtil {
       CameraDockUtil.cameraContainer.append(resizeHandle);
 
       resizeHandle.addEventListener("mousedown", (e) => {
+        // Don't allow resizing if position is locked
+        if (CameraDockUtil.isPositionLocked) return;
+
         e.preventDefault();
         e.stopPropagation();
         CameraDockUtil.isResizing = true;
-    
+
         CameraDockUtil.#startX = e.clientX;
         CameraDockUtil.#startY = e.clientY;
         CameraDockUtil.#startBottom = parseInt(getComputedStyle(CameraDockUtil.cameraContainer).bottom) || 0;
         CameraDockUtil.#startWidth = CameraDockUtil.cameraContainer.offsetWidth;
         CameraDockUtil.#startHeight = CameraDockUtil.cameraContainer.offsetHeight;
-    
+
         body?.addEventListener("mousemove", CameraDockUtil.#onResize);
         body?.addEventListener("mouseup", CameraDockUtil.#onStopResize);
       });

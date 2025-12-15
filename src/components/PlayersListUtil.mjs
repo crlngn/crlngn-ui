@@ -77,7 +77,7 @@ export class PlayersList {
     LogUtil.log("PlayersList onRender", [component, html, data]);
     const SETTINGS = getSettings();
     const htmlPlayers = html || document.querySelector("#players");
-    if(PlayersList.customStylesEnabled){ 
+    if(PlayersList.customStylesEnabled){
       htmlPlayers?.classList.add("crlngn-ui");
     }else{
       htmlPlayers?.classList.remove("crlngn-ui");
@@ -86,21 +86,85 @@ export class PlayersList {
     PlayersList.applyAvatars();
     PlayersList.handleFadeOut(component, htmlPlayers, data);
     PlayersList.handleHide(component, htmlPlayers, data);
+    PlayersList.setupHoverListeners(htmlPlayers);
+  }
+
+  /**
+   * Sets up hover listeners to toggle class on #ui-left when minimized players list is hovered
+   * @param {HTMLElement} htmlPlayers - The players list element
+   */
+  static setupHoverListeners(htmlPlayers){
+    if(!htmlPlayers) return;
+
+    const uiLeft = document.querySelector("#ui-left");
+    if(!uiLeft) return;
+
+    // Remove existing listeners to avoid duplicates
+    htmlPlayers.removeEventListener("mouseenter", PlayersList.#onPlayersHoverEnter);
+    htmlPlayers.removeEventListener("mouseleave", PlayersList.#onPlayersHoverLeave);
+
+    // Add new listeners
+    htmlPlayers.addEventListener("mouseenter", PlayersList.#onPlayersHoverEnter);
+    htmlPlayers.addEventListener("mouseleave", PlayersList.#onPlayersHoverLeave);
+  }
+
+  static #onPlayersHoverEnter = () => {
+    const isMinimized = document.querySelector("body.crlngn-players-minimized");
+    const uiLeft = document.querySelector("#ui-left");
+    if(isMinimized && uiLeft){
+      uiLeft.classList.add("players-open");
+    }
+  }
+
+  static #onPlayersHoverLeave = () => {
+    const uiLeft = document.querySelector("#ui-left");
+    uiLeft?.classList.remove("players-open");
   }
 
   /**
    * Applies settings for the players list
-   */ 
+   */
   static applyPlayersListSettings(){
     const SETTINGS = getSettings();
-    LogUtil.log("applyPlayersListSettings",[SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)]); 
+    LogUtil.log("applyPlayersListSettings",[SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)]);
     if(SettingsUtil.get(SETTINGS.autoHidePlayerList.tag)){
-      document.querySelector("#players.crlngn-ui")?.classList.add("minimized");
+      document.querySelector("#players")?.classList.add("minimized");
       document.querySelector("body")?.classList.add("crlngn-players-minimized");
     }else{
       document.querySelector("#players")?.classList.remove("minimized");
       document.querySelector("body")?.classList.remove("crlngn-players-minimized");
     }
+
+    // Apply avatar size
+    PlayersList.applyAvatarSize();
+  }
+
+  /**
+   * Applies avatar size from settings
+   */
+  static applyAvatarSize(value){
+    const SETTINGS = getSettings();
+    let sizeKey = value || SettingsUtil.get(SETTINGS.playerListAvatarSize.tag) || SETTINGS.playerListAvatarSize.default;
+
+    // Map the option key to the CSS calc value
+    let avatarSize;
+    if (SETTINGS.playerListAvatarSize.options && SETTINGS.playerListAvatarSize.options[sizeKey]) {
+      avatarSize = SETTINGS.playerListAvatarSize.options[sizeKey].value;
+    } else {
+      // Fallback for legacy values that are already CSS calc formulas
+      avatarSize = sizeKey;
+    }
+
+    // const playersEl = document.querySelector("#players");
+    // if(playersEl){
+    //   playersEl.style.setProperty('--crlngn-avatar-size', avatarSize);
+    // }
+
+    const body = document.querySelector("body");
+    if(body){
+      body.style.setProperty('--crlngn-avatar-size', avatarSize);
+    }
+    LogUtil.log("applyAvatarSize", [sizeKey, avatarSize]);
   }
 
   /**

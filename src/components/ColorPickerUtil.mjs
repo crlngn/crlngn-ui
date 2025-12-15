@@ -90,6 +90,9 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     
     // Add checkbox states - use local state to preserve unsaved changes
     context.applySecondaryColorToBg = this.applySecondaryColorToBg;
+
+    // Add scope so template can conditionally show player-only options
+    context.isPlayerScope = this.scope === 'player';
     
     // Calculate contrast ratings
     // First box: white text on accent background
@@ -212,14 +215,15 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     };
     
     await SettingsUtil.set(settingTag, colors);
-    
+
     let confirmReload = false;
-    if (game.user.isGM && data.applySecondaryColorToBg !== undefined) {
+    // Only save applySecondaryColorToBg for player scope (client setting)
+    if (this.scope === 'player' && data.applySecondaryColorToBg !== undefined) {
       const currentBgSetting = SettingsUtil.get(SETTINGS.applySecondaryColorToBg.tag);
       const newBgSetting = data.applySecondaryColorToBg === 'true';
-      
+
       await SettingsUtil.set(SETTINGS.applySecondaryColorToBg.tag, newBgSetting);
-      
+
       // Check if reload is needed
       if (SETTINGS.applySecondaryColorToBg.requiresReload && currentBgSetting !== newBgSetting) {
         confirmReload = true;

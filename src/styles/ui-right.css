@@ -224,6 +224,24 @@ body.crlngn-ui{
       text-decoration: none;
     }
   }
+  #settings.settings-sidebar button {
+    margin: 0;
+    text-align: center;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+  }
+  #settings.settings-sidebar div {
+    margin: 0;
+    flex-direction: row;
+
+    &.system-badge {
+      flex-direction: column;
+    }
+  }
+  
 
   .sidebar-tab.settings-sidebar,
   .sidebar-tab .documentation,

@@ -119,6 +119,11 @@ class DockedWindow {
       return;
     }
 
+    // Check if camera dock position is locked
+    if (this.windowId === 'camera-dock' && CameraDockUtil.isPositionLocked) {
+      return;
+    }
+
     this.dragState.isDragging = true;
     this.dragState.startX = event.clientX;
     this.dragState.startY = event.clientY;

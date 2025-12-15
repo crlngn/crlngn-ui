@@ -30,6 +30,11 @@ body.crlngn-ui.cui-font-ui.crlngn-chat.system-daggerheart .chat-message .message
   font-family: var(--crlngn-font-family);
 }
 
+body.crlngn-ui.cui-font-ui.crlngn-chat.system-daggerheart .daggerheart .chat-message .chat-roll .roll-part-header span,
+body.crlngn-ui.cui-font-ui.crlngn-chat.system-daggerheart #chat-notifications .chat-message .chat-roll .roll-part-header span {
+  font-family: var(--crlngn-font-family);
+}
+
 body.crlngn-ui.cui-font-ui.crlngn-sheets.system-daggerheart .application.sheet.daggerheart.actor.dh-style .attribution-header-label {
   font-family: var(--crlngn-font-family);
 }
@@ -39,6 +44,29 @@ body.crlngn-ui.cui-font-ui.crlngn-sheets.system-daggerheart .application.sheet.d
 }
 
 body.crlngn-ui.cui-font-ui.crlngn-sheets.system-daggerheart .application.sheet.dh-style .window-header h1 {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.cui-font-ui.crlngn-sheets.system-daggerheart .application.sheet.dh-style {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.cui-font-ui.crlngn-sheets.system-daggerheart .application.setting.dh-style .form-group label,
+body.crlngn-ui.cui-font-ui.crlngn-sheets.system-daggerheart .dh-style select input,
+body.crlngn-ui.cui-font-ui.crlngn-sheets.system-daggerheart .dh-style select,
+body.crlngn-ui.cui-font-ui.crlngn-sheets.system-daggerheart .dh-style select option {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.cui-font-ui.crlngn-sheets.system-daggerheart .application.daggerheart.dh-style.dialog .tab.details .traits-inner-container .trait-container div,
+body.crlngn-ui.cui-font-ui.crlngn-sheets.system-daggerheart .application.daggerheart.dialog.dh-style.views.roll-selection .roll-dialog-container .modifier-container .advantage-chip .label,
+body.crlngn-ui.cui-font-ui.crlngn-sheets.system-daggerheart .application.daggerheart.dialog.dh-style.views.roll-selection .roll-dialog-container .modifier-container .disadvantage-chip .label,
+body.crlngn-ui.cui-font-ui.crlngn-sheets.system-daggerheart .application.sheet.daggerheart.dh-style .input span {
+  font-family: var(--crlngn-font-family);
+}
+
+body.crlngn-ui.cui-font-ui.crlngn-sheets.system-daggerheart .application.daggerheart.dh-style .inventory-item .inventory-item-header .item-label,
+body.crlngn-ui.cui-font-ui.crlngn-sheets.system-daggerheart .daggerheart.dh-style .tab-navigation .navigation-container .navigation-inner-container .feature-tab a {
   font-family: var(--crlngn-font-family);
 }
 
@@ -131,6 +159,12 @@ body.crlngn-ui.cui-font-t.crlngn-chat.system-daggerheart #chat-notifications .ch
 }
 
 body.crlngn-ui.cui-font-t.crlngn-chat.system-daggerheart #chat-notifications .chat-message .chat-roll .roll-part-content .roll-result-container {
+  font-family: var(--crlngn-font-titles);
+}
+
+body.crlngn-ui.cui-font-t.crlngn-chat.system-daggerheart .daggerheart .chat-message .message-content .chat-roll .roll-part-content .roll-result-container,
+body.crlngn-ui.cui-font-t.crlngn-chat.system-daggerheart .daggerheart .chat-message .message-content .chat-roll .roll-part-content .roll-result-container span,
+body.crlngn-ui.cui-font-t.crlngn-chat.system-daggerheart #chat-notifications .chat-message .message-content .chat-roll .roll-part-content .roll-result-container span {
   font-family: var(--crlngn-font-titles);
 }
 

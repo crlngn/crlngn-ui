@@ -35,7 +35,7 @@
 
 @layer modules {
   body.crlngn-ui {
-
+    
     #ui-left-column-2 {
       padding-top: 16px;
       margin-left: 16px !important;
@@ -1024,6 +1024,26 @@
           pointer-events: none !important;
         }
       }
+    }
+    &.crlngn-scene-nav #interface:not(.crlngn-controls) {
+      #ui-left-column-2 {
+        margin: 0 0 0 26px !important;
+      }
+      #scene-navigation.expanded:before {
+        right: 0;
+      }
+      #ui-left-column-1 {
+        padding-top: calc(var(--top-nav-height, 0px) + 16px);
+      }
+      #crlngn-scene-navigation-expand {
+        border-radius: 4px;
+        flex: 0 0 var(--control-size);
+        height: var(--control-size);
+        top: 4px;
+        margin-left: 2px;
+        z-index: 10;
+      }
+
     }
   }
 }

@@ -136,6 +136,7 @@ body.crlngn-ui {
 
     #performance-stats {
       font-family: var(--crlngn-font-family);
+      gap: 4px 8px;
     }
     
     #players-active{
@@ -158,10 +159,15 @@ body.crlngn-ui {
     &.minimized {
       pointer-events: all;
       #players-active, #players-inactive {
-        width: var(--control-item-size);
-        max-width: var(--control-item-size);
-        padding: 6px;
+        width: calc(var(--crlngn-avatar-size) + 8px);
+        max-width: calc(var(--crlngn-avatar-size) + 8px);
+        padding: 10px 6px 6px 6px;
         overflow: hidden;
+        overflow-y: auto;
+      }
+      
+      #players-inactive {
+        padding: 0 6px;
       }
 
       &:hover{
@@ -186,26 +192,37 @@ body.crlngn-ui {
       
       #performance-stats{
         padding: 6px 0 10px 0;
+        display: flex;
         #latency, #fps {
           display: none;
         }
 
-        button#players-expand{
+        button{
           min-width: 28px;
           padding: 0 10px;
+          margin: 0 auto;
         }
       }
 
-      #players-active:hover  #performance-stats{
+      &:hover #performance-stats{
         padding: 6px 12px 10px 4px;
+        width: 100%;
+        flex-wrap: nowrap;
+
         #latency, #fps {
-          display: block;
+          display: flex;
+          flex: 0 0 auto;
         }
         #players-expand {
-          width: var(--crlngn-avatar-size);
-          flex: 0 0 var(--crlngn-avatar-size);
+          width: auto;
+          flex: 0 0 auto;
           display: inline-flex;
           align-items: center;
+          margin: 0 0 0 auto;
+        }
+        button{
+          margin: 0;
+          justify-self: flex-end;
         }
       }
 
@@ -215,7 +232,7 @@ body.crlngn-ui {
             margin-left: 5px;
           }
           &:before {
-            --color-margin: calc((var(--crlngn-avatar-size) - 10px) / 2);
+            --color-margin: calc((var(--crlngn-avatar-size) - 14px) / 2);
             margin: 0 var(--color-margin);
           }
         }
@@ -273,26 +290,40 @@ body.crlngn-ui {
           padding: 8px 4px 0 4px;
           margin: 0;
         }
-
-        /* Rest Recovery 5e */
-        .rest-recovery-prompt-rest-button {
-          background: transparent;
-          min-width: 180px;
-          width: 100%;
-          &:hover{
-            background: var(--color-dark-bg-25);
-          }
-        }
       }
     }
 
     &.crlngn-avatars.minimized {
       #players-inactive {
         padding: 0px;
-        /*max-height: 0px;*/
       }
     }
 
+    
+    &.minimized. {
+      #av-holder.minimized,
+      #av-holder.vertical.minimized,
+      #av-holder.horizontal.minimized {
+        #camera-views > .user-controls {
+          button[data-action=toggleDock]:before {
+            width: calc(var(--crlngn-avatar-size) - 4px);
+          }
+        }
+      }
+    }
+
+    &:not(.minimized),
+    &.minimized:hover {
+      #av-holder.minimized,
+      #av-holder.vertical.minimized,
+      #av-holder.horizontal.minimized {
+        #camera-views > .user-controls {
+          button[data-action=toggleDock]:before {
+            width: calc(var(--control-item-size) - 12px);
+          }
+        }
+      }
+    }
   }
   
 }

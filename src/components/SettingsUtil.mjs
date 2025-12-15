@@ -91,8 +91,22 @@ export class SettingsUtil {
           }
         }
   
-        if(setting.choices || setting.options){
-          settingObj.choices = setting.choices || setting.options;
+        if(setting.choices){
+          settingObj.choices = setting.choices;
+        } else if(setting.options){
+          // Convert options object to choices format expected by Foundry
+          // If options have nested {label, value} structure, extract just the labels
+          const firstOption = Object.values(setting.options)[0];
+          if (firstOption && typeof firstOption === 'object' && firstOption.label) {
+            // Options have nested structure like {small: {label: "Small", value: "..."}}
+            // Convert to flat format like {small: "Small"}
+            settingObj.choices = {};
+            for (const [key, opt] of Object.entries(setting.options)) {
+              settingObj.choices[key] = opt.label;
+            }
+          } else {
+            settingObj.choices = setting.options;
+          }
         }
   
         // @ts-ignore - Valid module ID for settings registration
@@ -366,6 +380,9 @@ export class SettingsUtil {
         break;
       case SETTINGS.autoHidePlayerList.tag:
         PlayersList.applyPlayersListSettings();
+        break;
+      case SETTINGS.playerListAvatarSize.tag:
+        PlayersList.applyAvatarSize(value);
         break;
       case SETTINGS.uiFontBody.tag:
       case SETTINGS.uiFontTitles.tag:

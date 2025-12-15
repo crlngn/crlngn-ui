@@ -340,6 +340,15 @@
           "playerListAvatars": {
             "label": "Show avatars",
             "hint": "Show player avatars for players in the list. It looks for character image, or user image if no character is assigned"
+          },
+          "playerListAvatarSize": {
+            "label": "Avatar size",
+            "hint": "Size of player avatars in the list.",
+            "options": {
+              "small": "Small",
+              "medium": "Medium",
+              "large": "Large"
+            }
           }
         },
         "reset": "Reset",
@@ -372,7 +381,7 @@
           },
           "dockCamerasToBottom": {
             "label": "Allow docking cameras to macro hotbar",
-            "hint": "When enabled, you can drag the camera group to the bottom of the screen (above the macro hotbar) to dock it. When docked, the camera group will be horizontal, span the full available width and shrink videos to a minimum of 140px. Drag it away from the bottom to undock."
+            "hint": "When enabled, you can drag the camera group to the bottom of the screen (above the macro hotbar) to dock it. When docked, the camera group will be horizontal, span the full available width and shrink videos to a minimum of 150px. Drag it away from the bottom to undock."
           },
           "dockResizeOnUserJoin": {
             "label": "Grow Dock to Fit Videos",
@@ -385,7 +394,10 @@
           },
           "defaultVideoWidth": {
             "label": "Default video width",
-            "hint": "Width of each individual camera in dock, in pixels. Minimum width is 140px, to allow space for camera control icons."
+            "hint": "Width of each individual camera in dock, in pixels. Minimum width is 150px, to allow space for camera control icons."
+          },
+          "lockDockPosition": {
+            "tooltip": "Lock Position"
           }
         },
         "reset": "Reset",

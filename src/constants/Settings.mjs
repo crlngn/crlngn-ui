@@ -53,7 +53,7 @@ export const DOCK_RESIZE_OPTIONS = {
   vertical: { name: 'vertical' }
 }
 
-export const MIN_AV_WIDTH = 140;
+export const MIN_AV_WIDTH = 150;
 
 export const THEMES = [
   {
@@ -352,18 +352,20 @@ export function getSettings() {
 
     playersListMenu: {
       isMenu: true,
-      showOnRoot: false, 
-      tag: "v2-players-list-menu", 
+      showOnRoot: false,
+      tag: "v2-players-list-menu",
       label: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.hint"),
       propType: Object,
       fields: [
         "autoHidePlayerList",
-        "playerListAvatars"
+        "playerListAvatars",
+        "playerListAvatarSize"
       ],
       default: {
         autoHidePlayerList: false,
-        playerListAvatars: true
+        playerListAvatars: true,
+        playerListAvatarSize: "small"
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -393,7 +395,7 @@ export function getSettings() {
         dockPosX: 0,
         dockPosY: 120,
         dockWidth: 160,
-        dockHeight: 140
+        dockHeight: 150
       },
       scope: SETTING_SCOPE.client,
       config: false, 
@@ -487,7 +489,10 @@ export function getSettings() {
           { id: 'bg3-inspired-hotbar', enabled: true },
           { id: 'touch-vtt', enabled: true },
           { id: 'breaktime', enabled: true },
-          { id: 'simple-timekeeping', enabled: true }
+          { id: 'simple-timekeeping', enabled: true },
+          { id: 'rest-recovery', enabled: true },
+          { id: 'item-piles', enabled: true },
+          { id: 'smalltime', enabled: true }
         ]
       },
       scope: SETTING_SCOPE.world,
@@ -849,15 +854,40 @@ export function getSettings() {
       requiresReload: false 
     },
 
-    playerListAvatars: { 
-      tag: "v2-player-list-avatars", 
-      label: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.playerListAvatars.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.playerListAvatars.hint"), 
+    playerListAvatars: {
+      tag: "v2-player-list-avatars",
+      label: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.playerListAvatars.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.playerListAvatars.hint"),
       propType: Boolean,
-      default: true, 
-      scope: SETTING_SCOPE.client, 
-      config: false, 
-      requiresReload: false 
+      default: true,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+
+    playerListAvatarSize: {
+      tag: "v2-player-list-avatar-size",
+      label: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.playerListAvatarSize.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.playerListAvatarSize.hint"),
+      propType: String,
+      default: "small",
+      options: {
+        small: {
+          label: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.playerListAvatarSize.options.small"),
+          value: "calc(var(--control-item-size) - 2px)"
+        },
+        medium: {
+          label: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.playerListAvatarSize.options.medium"),
+          value: "calc(var(--control-item-size) + 10px)"
+        },
+        large: {
+          label: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.playerListAvatarSize.options.large"),
+          value: "calc(var(--control-item-size) + 30px)"
+        }
+      },
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
     },
 
     /* FONTS - Enable toggles */
@@ -1068,7 +1098,10 @@ export function getSettings() {
         { id: 'bg3-inspired-hotbar', enabled: true },
         { id: 'touch-vtt', enabled: true },
         { id: 'breaktime', enabled: true },
-        { id: 'simple-timekeeping', enabled: true }
+        { id: 'simple-timekeeping', enabled: true },
+        { id: 'rest-recovery', enabled: true },
+        { id: 'item-piles', enabled: true },
+        { id: 'smalltime', enabled: true }
       ],
       options: {
         "3D Canvas Mapmaking": "levels-3d-preview",
@@ -1079,7 +1112,10 @@ export function getSettings() {
         "Crux": "crux",
         "Dice Tray": "dice-calculator",
         "Hurry Up": "hurry-up",
+        "Item Piles 5e": "item-piles",
+        "Rest and Recovery 5e": "rest-recovery",
         "Simple Timekeeping & Calendar": "simple-timekeeping",
+        "Small Time": "smalltime",
         "Touch VTT": "touch-vtt",
         "Youtube Player": "fvtt-youtube-player"
       },
@@ -1265,7 +1301,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockHeight.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockHeight.hint"),
       propType: Number,
-      default: 145,
+      default: 150,
       scope: SETTING_SCOPE.client,
       config: false, 
       requiresReload: false 
@@ -1291,6 +1327,14 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.cameraDockMenu.fields.dockCamerasToBottom.hint"),
       propType: Boolean,
       default: true,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    lockDockPosition: {
+      tag: "v2-lock-dock-position",
+      propType: Boolean,
+      default: false,
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false
