@@ -709,6 +709,10 @@ body.crlngn-ui{
       opacity: 1;
       position: static;
     }
+
+    &.no-transition {
+      transition: none !important;
+    }
   }
 
   /* Note: Hint icons are now injected as <span class="crlngn-hint-icon"> elements

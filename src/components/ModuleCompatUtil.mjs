@@ -1,5 +1,5 @@
 import { getSettings } from "../constants/Settings.mjs";
-import { HOOKS_CORE } from "../constants/Hooks.mjs";
+import { HOOKS_CORE, HOOKS_CRLNGN } from "../constants/Hooks.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
@@ -30,12 +30,8 @@ export class ModuleCompatUtil {
     }
     ModuleCompatUtil.checkTaskbarLock();
 
-    // Delay module class application to ensure all modules are fully loaded
-    // This addresses timing issues where game.modules.get() may return undefined
-    // for modules that haven't finished initializing yet
-    setTimeout(() => {
-      ModuleCompatUtil.addModuleClasses();
-    }, 100);
+    // Add module classes - at READY hook, game.modules is fully populated
+    ModuleCompatUtil.addModuleClasses();
 
     const isMinimalUiOn = GeneralUtil.isModuleOn('minimal-ui');
     if(isMinimalUiOn){
@@ -123,6 +119,10 @@ export class ModuleCompatUtil {
         }
       }
     });
+
+    // Emit hook so other components know module classes are ready
+    Hooks.callAll(HOOKS_CRLNGN.MODULE_CLASSES_READY);
+    LogUtil.log("Emitted hook:", [HOOKS_CRLNGN.MODULE_CLASSES_READY]);
   }
 
   /**

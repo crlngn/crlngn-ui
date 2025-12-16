@@ -1,5 +1,7 @@
+import { applyBulkLockState } from './SettingMenus.mjs';
+
 export const SETTING_INPUT = {
-  select: "select", 
+  select: "select",
   checkbox: "checkbox",
   text: "text",
   number: "number"
@@ -560,9 +562,7 @@ export function getSettings() {
       onChange: (value) => {
         if (value && game.user?.isGM) {
           // Trigger the bulk lock action
-          import('../constants/SettingMenus.mjs').then(module => {
-            module.applyBulkLockState(value);
-          });
+          applyBulkLockState(value);
         }
       }
     },

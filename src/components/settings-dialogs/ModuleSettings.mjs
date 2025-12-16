@@ -402,7 +402,18 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     LogUtil.log("_onRender", [context, options, this.element]);
     hintToggles.forEach(toggle => {
       toggle.addEventListener('click', () => {
-        ModuleSettings.#element.querySelectorAll('p.hint').forEach(p => p.classList.toggle('shown'));
+        // Clear any show-hint classes from hover interactions before toggling
+        ModuleSettings.#element.querySelectorAll('.form-group.show-hint').forEach(fg => fg.classList.remove('show-hint'));
+
+        // Add no-transition class to prevent glitch when hiding hints
+        const hints = ModuleSettings.#element.querySelectorAll('p.hint');
+        hints.forEach(p => p.classList.add('no-transition'));
+        hints.forEach(p => p.classList.toggle('shown'));
+
+        // Remove no-transition class after a frame
+        requestAnimationFrame(() => {
+          hints.forEach(p => p.classList.remove('no-transition'));
+        });
       });
     });
 
@@ -725,7 +736,8 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     ModuleSettings.#activeTab = tab;
 
     // Inject enforcement icons for the newly rendered tab
-    setTimeout(() => {
+    // Use requestAnimationFrame to wait for tab content to render
+    requestAnimationFrame(() => {
       ModuleSettings.injectEnforcementIcons();
 
       // Also set up click handlers for any new icons
@@ -743,7 +755,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
           });
         });
       }
-    }, 0);
+    });
   }
 
   /**

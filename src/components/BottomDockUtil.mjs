@@ -53,8 +53,10 @@ class DockedWindow {
     const savedState = BottomDockUtil.loadState(this.windowId);
     if (savedState?.docked) {
       LogUtil.log(`BottomDockUtil | Restoring docked state for ${this.windowId}`);
-      // Delay docking to ensure DOM is ready
-      setTimeout(() => this.dockToBottom(true), 100);
+      // Wait for next paint to ensure DOM layout is ready
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => this.dockToBottom(true));
+      });
     }
 
     // Create bound handler we can remove later

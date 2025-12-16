@@ -90,9 +90,9 @@ export class HintTooltipUtil {
       const isStandardForm = element.querySelector('form.standard-form') !== null;
 
       if (hasFormGroups || isStandardForm) {
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           HintTooltipUtil.applyHintHandlers(element);
-        }, 10);
+        });
       }
     });
     hookIds.push(genericId);

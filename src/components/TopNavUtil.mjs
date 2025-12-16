@@ -1,5 +1,5 @@
 import { MODULE_ID } from "../constants/General.mjs";
-import { HOOKS_CORE } from "../constants/Hooks.mjs";
+import { HOOKS_CORE, HOOKS_CRLNGN } from "../constants/Hooks.mjs";
 import { BACK_BUTTON_OPTIONS, getSettings } from "../constants/Settings.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
@@ -56,6 +56,10 @@ export class TopNavigation {
   static isCollapsed;
   static navPos;
 
+  // Initialization state flags for coordinating hook-based setup
+  static #sceneNavRendered = false;
+  static #moduleClassesReady = false;
+
   static init = () => {
     const SETTINGS = getSettings();
 
@@ -79,6 +83,15 @@ export class TopNavigation {
       if(TopNavigation.sceneNavEnabled){
         TopNavigation.placeNavButtons();
       }
+    });
+
+    // Listen for module classes to be ready (fired by ModuleCompatUtil)
+    Hooks.once(HOOKS_CRLNGN.MODULE_CLASSES_READY, () => {
+      TopNavigation.#moduleClassesReady = true;
+      LogUtil.log("MODULE_CLASSES_READY received", [
+        "sceneNavRendered:", TopNavigation.#sceneNavRendered
+      ]);
+      TopNavigation.#tryApplySceneNavOffset();
     });
 
     if(TopNavigation.sceneNavEnabled){
@@ -106,7 +119,7 @@ export class TopNavigation {
           TopNavigation.setCollapsedClass(collapsed);
           TopNavigation.updateToggleButton(!collapsed);
           TopNavigation.applySceneNavOffset();
-        }, 250);
+        }, 100);
       });
 
 
@@ -246,7 +259,10 @@ export class TopNavigation {
       TopNavigation.#timeout = setTimeout(()=>{
         LogUtil.log("NAV no transition remove");
         TopNavigation.placeNavButtons();
-        TopNavigation.applySceneNavOffset();
+
+        // Mark scene nav as rendered and try to apply offset
+        TopNavigation.#sceneNavRendered = true;
+        TopNavigation.#tryApplySceneNavOffset();
       }, 500);
     }
 
@@ -1280,6 +1296,29 @@ export class TopNavigation {
     const SETTINGS = getSettings();
     const sceneNavEnabled = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
     GeneralUtil.addCSSVars("--top-nav-height", `${sceneNavEnabled ? "calc(var(--control-item-size) + 1px)" : "0px"}`);
+  }
+
+  /**
+   * Attempts to apply scene nav offset only when all prerequisites are met.
+   * This ensures proper coordination between scene nav rendering and module class application.
+   * Called from both renderSceneNavigation and moduleClassesReady hooks.
+   * @static
+   * @private
+   */
+  static #tryApplySceneNavOffset = () => {
+    // Only apply offset when both conditions are met:
+    // 1. Scene nav has been rendered (element exists)
+    // 2. Module classes have been applied (for proper CSS targeting)
+    if (TopNavigation.#sceneNavRendered && TopNavigation.#moduleClassesReady) {
+      LogUtil.log("tryApplySceneNavOffset", ["Both conditions met, applying offset"]);
+      TopNavigation.applySceneNavOffset();
+    } else {
+      LogUtil.log("tryApplySceneNavOffset", [
+        "Waiting for conditions:",
+        "sceneNavRendered:", TopNavigation.#sceneNavRendered,
+        "moduleClassesReady:", TopNavigation.#moduleClassesReady
+      ]);
+    }
   }
 
   /**

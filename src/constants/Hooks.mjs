@@ -110,3 +110,14 @@ export const HOOKS_DND5E = {
 export const HOOKS_PF2E = {
   RENDER_CHAR_SHEET_PF2E: "renderCharacterSheetPF2e"
 }
+
+/**
+ * Internal Carolingian UI hooks for module coordination
+ * These hooks ensure proper initialization order between components
+ */
+export const HOOKS_CRLNGN = {
+  /** Fired after module compatibility classes are added to body */
+  MODULE_CLASSES_READY: "crlngn.moduleClassesReady",
+  /** Fired after scene nav offset CSS variable is applied */
+  SCENE_NAV_OFFSET_APPLIED: "crlngn.sceneNavOffsetApplied"
+}

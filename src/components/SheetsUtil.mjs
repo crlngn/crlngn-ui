@@ -57,9 +57,10 @@ export class SheetsUtil {
       SheetsUtil.applyHorizontalSheetTabs(SheetsUtil.horizontalSheetTabsEnabled);
       
       if(SheetsUtil.horizontalSheetTabsEnabled){
-        setTimeout(() => {
+        // Use requestAnimationFrame to wait for DOM paint instead of arbitrary timeout
+        requestAnimationFrame(() => {
           SheetsUtil.#addTabScrollButtons();
-        }, 100);
+        });
       }
     }
   }
@@ -68,9 +69,9 @@ export class SheetsUtil {
     LogUtil.log(HOOKS_CORE.RENDER_COMPENDIUM_BROWSER, [app, html, data]);
 
     if(SheetsUtil.horizontalSheetTabsEnabled){
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         SheetsUtil.#addTabScrollButtons();
-      }, 100);
+      });
     }
   }
 
@@ -220,8 +221,10 @@ export class SheetsUtil {
         }
       };
 
-      // Initial check
-      setTimeout(updateButtonVisibility, 150);
+      // Initial check - use double rAF to ensure layout is computed
+      requestAnimationFrame(() => {
+        requestAnimationFrame(updateButtonVisibility);
+      });
 
       // Create observer and store reference for cleanup
       const resizeObserver = new ResizeObserver(updateButtonVisibility);

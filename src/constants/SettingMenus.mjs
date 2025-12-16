@@ -1,5 +1,7 @@
 import { ModuleSettings } from '../components/settings-dialogs/ModuleSettings.mjs';
 import { MODULE_ID } from './General.mjs';
+import { getSettings, SETTING_SCOPE } from './Settings.mjs';
+import { SettingsUtil } from '../components/SettingsUtil.mjs';
 // import * as lang from '../lang/en.json' assert { type: "json" };
 
 // Opens Patreon URL when instantiated
@@ -245,10 +247,6 @@ export async function applyBulkLockState(state) {
     game.settings.set(MODULE_ID, 'v2-bulk-lock-action', '');
     return;
   }
-
-  // Import settings utilities
-  const { getSettings, SETTING_SCOPE } = await import('./Settings.mjs');
-  const { SettingsUtil } = await import('../components/SettingsUtil.mjs');
 
   const SETTINGS = getSettings();
   let appliedCount = 0;
