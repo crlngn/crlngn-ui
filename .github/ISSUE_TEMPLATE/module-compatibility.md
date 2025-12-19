@@ -1,11 +1,13 @@
 ---
 name: Module Compatibility
-about: Request adjustments for copatibility with another module
+about: Request adjustments for compatibility with another module
 title: ''
 labels: module compat
 assignees: crlngn
 
 ---
+
+**Please export your settings in the "Export settings" button, and add to this issue**
 
 **Which modules are related, in which versions?**
 Example:
