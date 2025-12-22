@@ -1,7 +1,7 @@
 @layer variables {
   body.crlngn-ui {
     /* variables specific top scene nav */
-    --top-nav-height: calc(var(--control-item-size) + 1px);
+    --top-nav-height: calc(var(--control-item-size) + 1px) !important;
     --ui-top-padding: var(--top-nav-height, 0px);
     --crlngn-top-offset: var(--top-nav-height, 0px);
     --ui-controls-margin-left: -100px;

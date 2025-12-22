@@ -1,5 +1,5 @@
 body.crlngn-ui { 
-  --top-nav-height:  var(--control-item-size);
+  --top-nav-height:  var(--control-item-size) !important;
   --ui-controls-margin-left: -100px;
   --folder-header-width: 150px;
   --folder-list-width: 200px;

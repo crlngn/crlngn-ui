@@ -215,7 +215,7 @@ export function getSettings() {
         preventMacroBarReposition: true,
         useFolderStyle: true,
         controlsAutoHide: false,
-        hoverableSettingsHints: false
+        hoverableSettingsHints: true
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -1521,7 +1521,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.hoverableSettingsHints.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.hoverableSettingsHints.hint"),
       propType: Boolean,
-      default: false,
+      default: true,
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: true

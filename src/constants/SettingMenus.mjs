@@ -45,11 +45,23 @@ class ExportSettings extends FormApplication {
       activeModules: []
     };
 
+    // Build a set of menu/container setting tags to skip
+    // These are Object-type settings that store redundant data (individual settings are the source of truth)
+    const SETTINGS = getSettings();
+    const menuSettingTags = new Set();
+    for (const [key, setting] of Object.entries(SETTINGS)) {
+      if (setting.isMenu || (setting.propType === Object && setting.fields)) {
+        menuSettingTags.add(setting.tag);
+      }
+    }
+
     // Get all Carolingian UI settings
     const moduleSettings = game.settings.settings;
     for (const [key, setting] of moduleSettings.entries()) {
       if (key.startsWith(`${MODULE_ID}.`)) {
         const settingKey = key.replace(`${MODULE_ID}.`, '');
+        // Skip menu/container settings - they're not the source of truth
+        if (menuSettingTags.has(settingKey)) continue;
         try {
           exportData.cuiSettings[settingKey] = game.settings.get(MODULE_ID, settingKey);
         } catch (e) {

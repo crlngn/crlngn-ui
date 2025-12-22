@@ -1347,8 +1347,9 @@ export class TopNavigation {
     if (TopNavigation.navShowRootFolders) {
       // Use the user flag as source of truth for active folder count
       // activeSceneFolders contains IDs of all expanded folders
+      // Add 1 for the root folder row that's always visible
       const activeSceneFolders = game.user?.getFlag(MODULE_ID, "activeSceneFolders") || [];
-      const rowCount = Math.max(1, activeSceneFolders.length);
+      const rowCount = activeSceneFolders.length;
 
       GeneralUtil.addCSSVars("--scene-nav-offset", `calc(var(--top-nav-height) * ${rowCount})`);
       LogUtil.log("applySceneNavOffset", ["Rows:", rowCount, "Active folders:", activeSceneFolders.length, activeSceneFolders]);
