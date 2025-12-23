@@ -4,6 +4,7 @@ import "./styles/ui-left.css";
 import "./styles/ui-right.css";
 import "./styles/ui-middle.css";
 import "./styles/scene-nav.css";
+import "./styles/chat-tokens.css";
 import "./styles/chat.css";
 import "./styles/camera.css";
 import "./styles/sheets.css";

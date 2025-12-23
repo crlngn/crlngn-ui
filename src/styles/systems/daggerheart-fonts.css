@@ -14,24 +14,24 @@
    UI BODY FONT - only when cui-font-ui enabled
    ======================================== */
 
-body.crlngn-ui.cui-font-ui.crlngn-chat.system-daggerheart #chat-message {
+body.crlngn-ui.cui-font-ui.crlngn-chat-dh.system-daggerheart #chat-message {
   font-family: var(--crlngn-font-family);
 }
 
-body.crlngn-ui.cui-font-ui.crlngn-chat.system-daggerheart #chat-notifications .chat-log .chat-message .message-header .message-header-metadata .message-metadata {
+body.crlngn-ui.cui-font-ui.crlngn-chat-dh.system-daggerheart #chat-notifications .chat-log .chat-message .message-header .message-header-metadata .message-metadata {
   font-family: var(--crlngn-font-family);
 }
 
-body.crlngn-ui.cui-font-ui.crlngn-chat.system-daggerheart #interface.theme-light .chat-message:not(.duality) .message-content .roll-buttons button {
+body.crlngn-ui.cui-font-ui.crlngn-chat-dh.system-daggerheart #interface.theme-light .chat-message:not(.duality) .message-content .roll-buttons button {
   font-family: var(--crlngn-font-family);
 }
 
-body.crlngn-ui.cui-font-ui.crlngn-chat.system-daggerheart .chat-message .message-content {
+body.crlngn-ui.cui-font-ui.crlngn-chat-dh.system-daggerheart .chat-message .message-content {
   font-family: var(--crlngn-font-family);
 }
 
-body.crlngn-ui.cui-font-ui.crlngn-chat.system-daggerheart .daggerheart .chat-message .chat-roll .roll-part-header span,
-body.crlngn-ui.cui-font-ui.crlngn-chat.system-daggerheart #chat-notifications .chat-message .chat-roll .roll-part-header span {
+body.crlngn-ui.cui-font-ui.crlngn-chat-dh.system-daggerheart .daggerheart .chat-message .chat-roll .roll-part-header span,
+body.crlngn-ui.cui-font-ui.crlngn-chat-dh.system-daggerheart #chat-notifications .chat-message .chat-roll .roll-part-header span {
   font-family: var(--crlngn-font-family);
 }
 
@@ -154,21 +154,21 @@ body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style li {
    UI TITLES FONT - only when cui-font-t enabled
    ======================================== */
 
-body.crlngn-ui.cui-font-t.crlngn-chat.system-daggerheart #chat-notifications .chat-log .chat-message .message-header .message-header-main .message-sub-header-container h4 {
+body.crlngn-ui.cui-font-t.crlngn-chat-dh.system-daggerheart #chat-notifications .chat-log .chat-message .message-header .message-header-main .message-sub-header-container h4 {
   font-family: var(--crlngn-font-titles);
 }
 
-body.crlngn-ui.cui-font-t.crlngn-chat.system-daggerheart #chat-notifications .chat-message .chat-roll .roll-part-content .roll-result-container {
+body.crlngn-ui.cui-font-t.crlngn-chat-dh.system-daggerheart #chat-notifications .chat-message .chat-roll .roll-part-content .roll-result-container {
   font-family: var(--crlngn-font-titles);
 }
 
-body.crlngn-ui.cui-font-t.crlngn-chat.system-daggerheart .daggerheart .chat-message .message-content .chat-roll .roll-part-content .roll-result-container,
-body.crlngn-ui.cui-font-t.crlngn-chat.system-daggerheart .daggerheart .chat-message .message-content .chat-roll .roll-part-content .roll-result-container span,
-body.crlngn-ui.cui-font-t.crlngn-chat.system-daggerheart #chat-notifications .chat-message .message-content .chat-roll .roll-part-content .roll-result-container span {
+body.crlngn-ui.cui-font-t.crlngn-chat-dh.system-daggerheart .daggerheart .chat-message .message-content .chat-roll .roll-part-content .roll-result-container,
+body.crlngn-ui.cui-font-t.crlngn-chat-dh.system-daggerheart .daggerheart .chat-message .message-content .chat-roll .roll-part-content .roll-result-container span,
+body.crlngn-ui.cui-font-t.crlngn-chat-dh.system-daggerheart #chat-notifications .chat-message .message-content .chat-roll .roll-part-content .roll-result-container span {
   font-family: var(--crlngn-font-titles);
 }
 
-body.crlngn-ui.cui-font-t.crlngn-chat.system-daggerheart #chat-notifications .chat-message .roll-dice {
+body.crlngn-ui.cui-font-t.crlngn-chat-dh.system-daggerheart #chat-notifications .chat-message .roll-dice {
   font-family: var(--crlngn-font-titles);
 }
 

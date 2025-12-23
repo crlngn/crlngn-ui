@@ -659,7 +659,17 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     let settings;
     if (formData.object) {
       settings = foundry.utils.expandObject(formData.object);
-    } 
+    }
+
+    // Handle unchecked checkboxes - they're not included in form data
+    // We need to explicitly set them to false if they're boolean settings
+    const checkboxes = html.querySelectorAll('input[type="checkbox"][name]');
+    checkboxes.forEach(checkbox => {
+      const fieldName = checkbox.name;
+      if (settings[fieldName] === undefined && SETTINGS[fieldName]?.propType === Boolean) {
+        settings[fieldName] = false;
+      }
+    });
 
     let fieldNames = [];
 

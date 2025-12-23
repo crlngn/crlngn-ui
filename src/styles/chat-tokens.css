@@ -1,0 +1,151 @@
+/* ============================================
+   CHAT THEME TOKENS
+   Carolingian UI - Chat theming variables
+
+   This file defines all --cui-chat-* tokens that
+   control chat message appearance. The tokens are
+   set once for light mode (defaults) and once for
+   dark mode, eliminating repetitive theme selectors.
+   ============================================ */
+
+/* Light mode defaults */
+body.crlngn-ui.crlngn-chat {
+  /* Card backgrounds */
+  --cui-chat-card-bg: var(--dnd5e-background-card, rgba(244, 239, 237, 0.8));
+  --cui-chat-card-shadow: 0 0 0px var(--dnd5e-shadow-45);
+
+  /* Text colors */
+  --cui-chat-text-primary: var(--color-dark-1);
+  --cui-chat-text-secondary: var(--color-dark-2);
+  --cui-chat-text-muted: var(--color-dark-4);
+
+  /* Status colors (success/failure) */
+  --cui-chat-color-success: #719f50;
+  --cui-chat-color-failure: #c15d5d;
+  --cui-chat-color-success-bg: rgba(108, 215, 119, 0.35);
+  --cui-chat-color-failure-bg: rgba(209, 83, 83, 0.35);
+
+  /* Button styling */
+  --cui-chat-button-bg: rgba(32, 37, 43, 0.15);
+  --cui-chat-button-border: var(--color-dark-bg-10);
+  --cui-chat-button-text: var(--color-text-dark);
+  --cui-chat-button-hover-bg: var(--color-dark-bg-75);
+
+  /* Links */
+  --cui-chat-link-bg: transparent;
+  --cui-chat-link-color: inherit;
+  --cui-chat-link-opacity: 1;
+
+  /* Decorative elements */
+  --cui-chat-description-bg: rgba(255, 255, 255, 0.35);
+  --cui-chat-separator-color: var(--color-dark-bg-50);
+  --cui-chat-dice-bg: var(--color-dark-bg-10);
+  --cui-chat-dice-color: inherit;
+  --cui-chat-pill-bg: var(--chat-button-bg-15);
+
+  /* Metadata (time, whisper labels) */
+  --cui-chat-metadata-color: inherit;
+  --cui-chat-metadata-opacity: 0.5;
+
+  /* Table styling */
+  --cui-chat-table-bg: var(--dnd5e-background-card, #e8e8ef);
+}
+
+/* ============================================
+   DARK MODE TOKENS
+   Single unified definition for ALL dark contexts
+   ============================================ */
+body.crlngn-ui.crlngn-chat {
+  /* Stream dark mode */
+  &.stream.theme-dark,
+  /* Standard dark mode containers */
+  :is(
+    #interface.theme-dark,
+    .chat-popout.theme-dark,
+    #chat-popout.theme-dark,
+    #chat-pins.theme-dark,
+    .chat-log.themed.theme-dark
+  ),
+  /* Mixed theme scenarios */
+  &.theme-dark :is(.chat-popout.theme-light, .chat-log.theme-light),
+  &.theme-dark .themed.theme-light .dnd5e2.chat-message {
+    /* Card backgrounds */
+    --cui-chat-card-bg: var(--chat-dark-blue, rgba(24, 32, 38, 1));
+
+    /* Text colors */
+    --cui-chat-text-primary: var(--color-light-1);
+    --cui-chat-text-secondary: var(--color-light-2);
+    --cui-chat-text-muted: var(--color-light-4);
+
+    /* Button styling */
+    --cui-chat-button-bg: rgba(32, 37, 43, 0.5);
+    --cui-chat-button-border: var(--color-dark-bg-50);
+    --cui-chat-button-text: var(--color-text-dark);
+    --cui-chat-button-hover-bg: var(--color-dark-bg-75);
+
+    /* Links */
+    --cui-chat-link-bg: var(--chat-button-bg-50);
+    --cui-chat-link-color: var(--color-light-1);
+    --cui-chat-link-opacity: 0.8;
+
+    /* Decorative elements */
+    --cui-chat-description-bg: var(--color-dark-bg-10);
+    --cui-chat-separator-color: var(--color-border-dark-1);
+    --cui-chat-dice-bg: var(--chat-button-bg-75);
+    --cui-chat-dice-color: var(--color-light-1);
+    --cui-chat-pill-bg: var(--chat-dark-bg);
+
+    /* Metadata */
+    --cui-chat-metadata-color: rgba(255,255,255,0.4);
+    --cui-chat-metadata-opacity: 1;
+
+    /* Table styling */
+    --cui-chat-table-bg: var(--chat-dark-blue);
+
+    /* ============================================
+       D&D 5e SYSTEM VARIABLE OVERRIDES
+       Override dnd5e's internal variables for dark mode
+       ============================================ */
+    --dnd5e-color-parchment: rgb(32, 37, 43);
+    --dnd5e-background-card: rgb(32, 37, 43);
+    --card-color-bg: var(--chat-dark-blue);
+    --dnd5e-color-card: var(--chat-dark-blue);
+    --table-background-color: var(--chat-dark-blue);
+    --dnd5e-color-success-background: rgba(108, 215, 119, 0.35);
+    --dnd5e-color-failure-background: rgba(209, 83, 83, 0.35);
+    --dnd5e-text-color-success: #719f50;
+    --dnd5e-text-color-failure: #c15d5d;
+    --dnd5e-color-success: #719f50;
+    --dnd5e-color-failure: #c15d5d;
+    --dnd5e-color-crimson: var(--color-highlights-75);
+    --color-text-primary: var(--color-light-1);
+    --color-text-secondary: var(--color-light-2);
+    --color-text-inverse: var(--color-dark-1);
+
+    /* Chat message specific overrides */
+    .chat-message,
+    .chat-message button {
+      --dnd5e-color-parchment: rgb(32, 37, 43);
+      --dnd5e-background-card: rgb(32, 37, 43);
+      --card-color-bg: var(--chat-dark-blue);
+      --dnd5e-color-card: var(--chat-dark-blue);
+      --table-background-color: var(--chat-dark-blue);
+      --dnd5e-color-success-background: rgba(108, 215, 119, 0.35);
+      --dnd5e-color-failure-background: rgba(209, 83, 83, 0.35);
+      --dnd5e-text-color-success: #719f50;
+      --dnd5e-text-color-failure: #c15d5d;
+      --dnd5e-color-success: #719f50;
+      --dnd5e-color-failure: #c15d5d;
+    }
+  }
+}
+
+/* ============================================
+   PF2e SYSTEM TOKEN OVERRIDES
+   ============================================ */
+body.crlngn-ui.crlngn-chat.system-pf2e {
+  :is(#interface.theme-dark, #chat-popout.theme-dark) {
+    --cui-chat-color-success: rgb(105, 177, 231);
+    --cui-chat-color-failure: rgb(217, 92, 86);
+  }
+}

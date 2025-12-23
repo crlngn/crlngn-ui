@@ -40,12 +40,26 @@ body.crlngn-ui.system-daggerheart {
   --beige: var(--color-light-1);
   --deep-black: var(--color-dark-2);
   --dark: var(--color-dark-1);
+
+  #chat .chat-message,
+  #chat-popout .chat-message {
+    --golden: initial;
+    --golden-secondary: initial;
+    --golden-10: initial;
+    --golden-40: initial;
+    --golden-90: initial;
+    --golden-bg: initial;
+  }
 }
 /* ========================================
    CHAT MESSAGES
    ======================================== */
 
-body.crlngn-ui.crlngn-chat.system-daggerheart {
+body.crlngn-ui.crlngn-chat-dh.system-daggerheart {
+  
+  .chat-message .message-content button {
+    background: var(--color-warm-2);
+  }
 
   #countdowns {
     margin-top: calc(var(--scene-nav-offset, 0px) + 20px);
@@ -1480,7 +1494,7 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets {
    CHAT MESSAGE OVERRIDES
    ======================================== */
 
-body.crlngn-ui.system-daggerheart.crlngn-chat {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh {
 
   .daggerheart .chat-message .roll-formula,
   #chat-notifications .chat-message .roll-formula {

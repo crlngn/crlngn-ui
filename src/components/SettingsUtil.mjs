@@ -55,7 +55,14 @@ export class SettingsUtil {
             const SETTINGS = getSettings();
 
             // Check if this setting is enforced and user is not GM
-            if (!game.user.isGM && setting.scope === 'client' && SettingsUtil.shouldEnforceSetting(setting.tag)) {
+            // Only block changes for 'locked' or 'gate' modes, NOT 'soft' mode
+            // Soft mode only applies defaults on first load, then allows player changes
+            const enforcementState = SettingsUtil.getEnforcementState(setting.tag);
+            const shouldBlock = !game.user.isGM &&
+                                setting.scope === 'client' &&
+                                (enforcementState === 'locked' || enforcementState === 'gate');
+
+            if (shouldBlock) {
               // Revert to GM's default value
               const defaultSettings = SettingsUtil.get(SETTINGS.defaultSettings.tag) || {};
               const gmDefault = defaultSettings[setting.tag];
@@ -648,13 +655,22 @@ export class SettingsUtil {
     const SETTINGS = getSettings();
     const chatMsgSettings = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
     const body = document.querySelector("body");
+    const isDaggerheart = game.system?.id === 'daggerheart';
 
     LogUtil.log("applyChatStyles", [chatMsgSettings, SETTINGS]);
 
-    if(chatMsgSettings){ 
-      body.classList.add("crlngn-chat"); 
+    if(chatMsgSettings){
+      // Daggerheart has its own chat styles, so use separate class
+      if(isDaggerheart){
+        body.classList.add("crlngn-chat-dh");
+        body.classList.remove("crlngn-chat");
+      } else {
+        body.classList.add("crlngn-chat");
+        body.classList.remove("crlngn-chat-dh");
+      }
     }else{
-      body.classList.remove("crlngn-chat"); 
+      body.classList.remove("crlngn-chat");
+      body.classList.remove("crlngn-chat-dh");
     }
   }
 
@@ -889,17 +905,26 @@ export class SettingsUtil {
       LogUtil.log("Applied custom theme colors", [ customColors, migratedFrom ]);
     } else {
       const themeName = value || SettingsUtil.get(SETTINGS.playerColorTheme.tag) || SettingsUtil.get(SETTINGS.colorTheme.tag) || "";
-      
+
       THEMES.forEach((theme)=>{
         if(theme.className){
           body.classList.remove(theme.className);
         }
       });
-      
+
       if(themeName){
         body.classList.add(themeName);
       }
-      LogUtil.log("Applied legacy theme", [themeName]);
+
+      // Apply default theme colors to ensure CSS variables are set
+      const defaultColors = {
+        accent: THEMES[0].colorPreview[2],
+        secondaryDark: THEMES[0].colorPreview[1],
+        secondaryLight: THEMES[0].colorPreview[0] || 'rgb(223, 227, 231)',
+        isPreset: false
+      };
+      ColorPickerUtil.applyCustomTheme(defaultColors);
+      LogUtil.log("Applied default theme colors", [defaultColors]);
     }
   }
 

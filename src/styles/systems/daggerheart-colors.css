@@ -1086,123 +1086,124 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets .status-bar .progress-bar {
   background: #18162e;
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .daggerheart.chat.domain-card .domain-card-move .domain-card-header:hover {
+/*
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .daggerheart.chat.domain-card .domain-card-move .domain-card-header:hover {
   background: var(--color-highlights-15);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .daggerheart.chat.domain-card .domain-card-move .domain-card-header .domain-label .title {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .daggerheart.chat.domain-card .domain-card-move .domain-card-header .domain-label .title {
   color: var(--color-warm-2);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .daggerheart.chat.action .action-move .action-section:hover {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .daggerheart.chat.action .action-move .action-section:hover {
   background: var(--color-highlights-15);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .daggerheart.chat.action .action-move .action-section .action-header .title {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .daggerheart.chat.action .action-move .action-section .action-header .title {
   color: var(--color-warm-2);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat #interface.theme-light #chat-notifications .chat-log .chat-message.duality .message-header .message-sub-header-container h4 {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh #interface.theme-light #chat-notifications .chat-log .chat-message.duality .message-header .message-sub-header-container h4 {
   color: var(--color-warm-2);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat #interface.theme-light #chat-notifications .chat-log .chat-message.duality.hope {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh #interface.theme-light #chat-notifications .chat-log .chat-message.duality.hope {
   --text-color: var(--color-warm-2);
   --bg-color: var(--color-highlights-50);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat #interface.theme-light #chat-notifications .chat-log .chat-message.duality.hope .message-content {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh #interface.theme-light #chat-notifications .chat-log .chat-message.duality.hope .message-content {
   background-color: var(--color-warm-2)1a;
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat #chat-notifications .chat-message {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh #chat-notifications .chat-message {
   --text-color: var(--color-warm-2);
   --bg-color: var(--color-highlights-50);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat #chat-notifications .chat-message.duality.hope {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh #chat-notifications .chat-message.duality.hope {
   --text-color: var(--color-warm-2);
   --bg-color: var(--color-highlights-50);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat #chat-notifications .chat-message.duality.hope .message-content {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh #chat-notifications .chat-message.duality.hope .message-content {
   background-color: var(--color-warm-2)1a;
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat #chat-notifications .chat-message .roll-dice .roll-die .reroll-button:hover {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh #chat-notifications .chat-message .roll-dice .roll-die .reroll-button:hover {
   filter: drop-shadow(0 0 3px var(--color-warm-2));
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .daggerheart.chat.damage-summary .token-target-container.clickable:hover {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .daggerheart.chat.damage-summary .token-target-container.clickable:hover {
   background: var(--color-highlights-15);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .daggerheart.chat.damage-summary .token-target-container header::after {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .daggerheart.chat.damage-summary .token-target-container header::after {
   background: var(--color-warm-2);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .daggerheart.chat.downtime .downtime-moves-list .downtime-move .downtime-label:hover {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .daggerheart.chat.downtime .downtime-moves-list .downtime-move .downtime-label:hover {
   background: light-dark(#18162e10, var(--color-highlights-15));
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .daggerheart.chat.downtime .downtime-moves-list .downtime-move .downtime-label .header-label .title {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .daggerheart.chat.downtime .downtime-moves-list .downtime-move .downtime-label .header-label .title {
   color: var(--color-warm-2);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .daggerheart.chat.effect-summary .actor-header::after {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .daggerheart.chat.effect-summary .actor-header::after {
   background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, var(--color-warm-2) 100%);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .daggerheart.chat.effect-summary .actor-header::after {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .daggerheart.chat.effect-summary .actor-header::after {
   background: linear-gradient(90deg, var(--color-warm-2) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .daggerheart.chat.effect-summary .token-target-container.clickable:hover {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .daggerheart.chat.effect-summary .token-target-container.clickable:hover {
   background: var(--color-highlights-15);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .daggerheart.chat.effect-summary .token-target-container .title {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .daggerheart.chat.effect-summary .token-target-container .title {
   color: var(--color-warm-2);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .daggerheart.chat.effect-summary .effect-target-container:hover {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .daggerheart.chat.effect-summary .effect-target-container:hover {
   background: var(--color-highlights-15);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .daggerheart.chat.effect-summary .effect-target-container .effect-label .title {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .daggerheart.chat.effect-summary .effect-target-container .effect-label .title {
   color: var(--color-warm-2);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content .group-roll .group-roll-section .group-roll-header .group-roll-header-expand-section i {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .chat-message .message-content .group-roll .group-roll-section .group-roll-header .group-roll-header-expand-section i {
   color: light-dark(#18162e, var(--color-warm-2));
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content .group-roll .group-roll-section .group-roll-content.finished {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .chat-message .message-content .group-roll .group-roll-section .group-roll-content.finished {
   background: light-dark(#18162e10, var(--color-highlights-15));
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content .group-roll .group-roll-section .group-roll-content .group-roll-main-roll .main-roll-content {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .chat-message .message-content .group-roll .group-roll-section .group-roll-content .group-roll-main-roll .main-roll-content {
   color: light-dark(#18162e, var(--color-warm-2));
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content .group-roll .group-roll-section .group-roll-content .group-roll-member .group-roll-rolling img:hover {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .chat-message .message-content .group-roll .group-roll-section .group-roll-content .group-roll-member .group-roll-rolling img:hover {
   filter: drop-shadow(0 0 8px light-dark(#18162e, var(--color-warm-2)));
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content .group-roll .group-roll-section .group-roll-content .group-roll-member .roll-results {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .chat-message .message-content .group-roll .group-roll-section .group-roll-content .group-roll-member .roll-results {
   background: light-dark(#18162e10, var(--color-highlights-15));
   color: light-dark(#18162e, var(--color-warm-2));
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content a[href] {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .chat-message .message-content a[href] {
   color: light-dark(#18162e, var(--color-warm-2));
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content a[href].active {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .chat-message .message-content a[href].active {
   text-shadow: 0 0 8px light-dark(#18162e, var(--color-warm-2));
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content button {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .chat-message .message-content button {
   background: var(--color-highlights-25);
   border: 1px solid #18162e;
   color: var(--color-light-1);
@@ -1210,42 +1211,43 @@ body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content but
   box-shadow: none;
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content button:hover {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .chat-message .message-content button:hover {
   background: var(--color-highlights-75);
   color: var(--color-light-1);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content button:disabled {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .chat-message .message-content button:disabled {
   background: var(--color-warm-2);
   color: var(--color-light-1);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content button:disabled:hover {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .chat-message .message-content button:disabled:hover {
   background: var(--color-warm-2);
   color: var(--color-light-1);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content button.reverted {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .chat-message .message-content button.reverted {
   background: var(--color-highlights-15);
   color: var(--color-light-1);
   border: 1px solid transparent;
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content button.reverted:hover {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .chat-message .message-content button.reverted:hover {
   background: var(--color-warm-2);
   color: var(--color-light-1);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat .chat-message .message-content .dice-roll .dice-total {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh .chat-message .message-content .dice-roll .dice-total {
   box-shadow: none;
   border: none;
   background: var(--color-highlights-15);
   color: var(--color-light-1);
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-chat #chat-notifications .chat-log .chat-message .message-header .message-header-main .message-sub-header-container h4 {
+body.crlngn-ui.system-daggerheart.crlngn-chat-dh #chat-notifications .chat-log .chat-message .message-header .message-header-main .message-sub-header-container h4 {
   color: var(--color-light-1);
 }
+*/
 
 body.crlngn-ui.system-daggerheart .application.daggerheart.dh-style.compendium-browser .window-content .compendium-sidebar::before {
   background: var(--color-warm-2);
