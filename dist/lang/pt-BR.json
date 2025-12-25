@@ -284,7 +284,7 @@
           }
         }
       },
-      "chatMessagesMenu": {
+      "sidebarMenu": {
         "label": "Opções de Mensagens de Chat",
         "title": "Configurar Chat",
         "hint": "[Requer recarregamento] Modificar a aparência e o comportamento dos cartões de mensagens de chat no painel lateral direito",
@@ -335,6 +335,12 @@
           "showChatNotificationsOnTop": {
             "label": "Mostrar Notificações de Chat do Topo",
             "hint": "Quando ativado, as notificações de cartão de chat aparecem do topo da área de entrada de chat em vez da parte inferior."
+          },
+          "hiddenSidebarTabs": {
+            "label": "Visibilidade e Ordem das Abas",
+            "hint": "Controle quais abas da barra lateral são visíveis para mestres e jogadores. Abas ocultas não aparecerão na barra lateral.",
+            "hideForGM": "Ocultar para Mestre",
+            "hideForPlayer": "Ocultar para Jogador"
           }
         },
         "reset": "Redefinir",
@@ -513,6 +519,7 @@
         "label": "Sistema",
         "title": "Configurar opções para sistemas específicos",
         "hint": "",
+        "currentSystem": "Sistema Atual",
         "noSettingsForSystem": "Nenhuma configuração específica para o sistema atual",
         "modulesLabel": "Outros Módulos",
         "fields": {

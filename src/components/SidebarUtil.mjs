@@ -66,6 +66,7 @@ export class SidebarTabs {
     SidebarTabs.handleFadeOut(component, html, data);
     SidebarTabs.handleHide(component, html, data);
     SidebarTabs.applyFolderStyles(SidebarTabs.folderStylesEnabled);
+    SidebarTabs.applyHiddenTabs();
 
     // Reapply horizontal tabs if enabled
     if(SidebarTabs.useHorizontalSidebarTabs){
@@ -305,6 +306,81 @@ export class SidebarTabs {
     const arrows = document.querySelectorAll(".crlngn-tab-arrow");
     arrows.forEach(arrow => arrow.remove());
     LogUtil.log("removeHorizontalTabsArrows", "Arrows removed");
+  }
+
+  /**
+   * Applies hidden tab settings based on user role (GM vs player)
+   * Hides sidebar tab icons according to the hiddenSidebarTabs setting
+   * Also applies custom tab order if configured
+   */
+  static applyHiddenTabs = () => {
+    const SETTINGS = getSettings();
+    const hiddenTabs = SettingsUtil.get(SETTINGS.hiddenSidebarTabs?.tag) || [];
+    const isGM = game.user?.isGM;
+
+    // Get the sidebar tabs container
+    const sidebarTabs = document.querySelector("#sidebar-tabs menu");
+    if (!sidebarTabs) return;
+
+    // Get all li elements (tab containers) and reset hidden class
+    const allTabItems = sidebarTabs.querySelectorAll("li");
+    allTabItems.forEach(li => {
+      li.classList.remove("crlngn-hidden-tab");
+    });
+
+    // Separate collapse button from regular tabs
+    const collapseItem = sidebarTabs.querySelector("li:has(button.collapse), li:has([data-action='toggleState'])");
+    const regularTabItems = Array.from(allTabItems).filter(li =>
+      !li.querySelector("button.collapse") && !li.querySelector("[data-action='toggleState']")
+    );
+
+    // Apply custom tab order if we have saved settings
+    if (hiddenTabs.length > 0) {
+      const savedOrder = hiddenTabs.map(t => t.tabId);
+
+      // Sort regular tabs by saved order
+      regularTabItems.sort((a, b) => {
+        const aTab = a.querySelector("[data-tab]");
+        const bTab = b.querySelector("[data-tab]");
+        const aIndex = aTab ? savedOrder.indexOf(aTab.dataset.tab) : -1;
+        const bIndex = bTab ? savedOrder.indexOf(bTab.dataset.tab) : -1;
+
+        // If both are in saved order, use that order
+        if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+        // If only a is in saved order, it comes first
+        if (aIndex !== -1) return -1;
+        // If only b is in saved order, it comes first
+        if (bIndex !== -1) return 1;
+        // Neither in saved order, maintain current order
+        return 0;
+      });
+    }
+
+    // Re-append regular tabs in the new order
+    regularTabItems.forEach(li => {
+      sidebarTabs.appendChild(li);
+    });
+
+    // Always ensure collapse button is at the end
+    if (collapseItem) {
+      sidebarTabs.appendChild(collapseItem);
+    }
+
+    // Then hide the appropriate tabs based on settings and user role
+    hiddenTabs.forEach(tabSetting => {
+      const shouldHide = (isGM && tabSetting.hideForGM) || (!isGM && tabSetting.hideForPlayer);
+
+      if (shouldHide) {
+        // Find the li containing the tab button and add hidden class to the li
+        const tabButton = sidebarTabs.querySelector(`[data-tab="${tabSetting.tabId}"]`);
+        const tabLi = tabButton?.closest("li");
+        if (tabLi) {
+          tabLi.classList.add("crlngn-hidden-tab");
+        }
+      }
+    });
+
+    LogUtil.log("applyHiddenTabs", [hiddenTabs, "isGM:", isGM]);
   }
 
 }

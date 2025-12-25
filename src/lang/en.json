@@ -259,7 +259,7 @@
         "reset": "Reset",
         "save": "Save"
       },
-      "chatMessagesMenu": {
+      "sidebarMenu": {
         "label": "Chat",
         "title": "Configure Chat",
         "hint": "Modify the look and behavior of the chat message cards on right side panel",
@@ -310,6 +310,12 @@
           "showChatNotificationsOnTop": {
             "label": "Show Chat Notifications From the Top",
             "hint": "When enabled, chat card notifications appear from the top of the chat input area instead of the bottom."
+          },
+          "hiddenSidebarTabs": {
+            "label": "Sidebar Tabs Visibility & Order",
+            "hint": "Control which sidebar tabs are visible for GMs and players. Hidden tabs will not appear in the sidebar.",
+            "hideForGM": "Hide for GM",
+            "hideForPlayer": "Hide for Player"
           }
         },
         "reset": "Reset",
@@ -488,6 +494,7 @@
         "label": "System",
         "title": "Configure options for specific systems",
         "hint": "",
+        "currentSystem": "Current System",
         "noSettingsForSystem": "No specific settings for the current system",
         "modulesLabel": "Other Modules",
         "fields": {

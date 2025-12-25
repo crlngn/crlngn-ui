@@ -9,6 +9,10 @@
   </div>
   {{/if}}
 
+  <div class="form-group">
+    <label>{{localize "CRLNGN_UI.settings.systemsMenu.currentSystem"}}: {{currentSystem}}</label>
+  </div>
+
   {{#if isGM}}
   {{#if (hasWorldSettings fields)}}
   <h4><i class="fas fa-globe"></i> {{localize "CRLNGN_UI.ui.worldSettingsLabel"}}</h4>

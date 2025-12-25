@@ -78,7 +78,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       isGMOnly: true
     },
     chat: {
-      menuKey: "chatMessagesMenu",
+      menuKey: "sidebarMenu",
       template: "modules/crlngn-ui/templates/chat-messages-settings.hbs",
       isGMOnly: false
     },
@@ -272,13 +272,107 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
             partContext.playerCustomColors = createColorVariants(basePlayerColors);
           }
 
-          partContext.sidebarTabs = Object.values(foundry.applications?.sidebar?.tabs || {}).map(tab => ({
-            tabName: tab.tabName,
-            name: tab.name,
-            hideForGM: false,
-            hideForPlayer: false,
-            localizedName: `CRLNGN_UI.settings.sidebarTabs.${tab.name}`
-          }));
+        }
+
+        // Prepare sidebar tabs for sidebarMenu (partId is 'chat')
+        if (partId === 'chat') {
+          const SETTINGS = getSettings();
+          const savedHiddenTabs = SettingsUtil.get(SETTINGS.hiddenSidebarTabs?.tag) || [];
+          const hiddenTabsMap = new Map(savedHiddenTabs.map(t => [t.tabId, t]));
+
+          // Build order from saved settings first (preserves custom order), then from DOM
+          const savedOrder = savedHiddenTabs.map(t => t.tabId);
+
+          // Get all sidebar tab buttons from the DOM (includes module-added tabs)
+          const sidebarTabButtons = document.querySelectorAll('#sidebar-tabs menu [data-tab]');
+          const domOrder = Array.from(sidebarTabButtons).map(btn => btn.dataset.tab);
+
+          // Use saved order if available, fallback to DOM order for any new tabs
+          const tabOrder = savedOrder.length > 0 ? savedOrder : domOrder;
+
+          // Map tab names to CONFIG icons (for core tabs)
+          const tabIconMap = {
+            chat: CONFIG.ChatMessage?.sidebarIcon || 'fas fa-comments',
+            combat: CONFIG.Combat?.sidebarIcon || 'fas fa-swords',
+            scenes: CONFIG.Scene?.sidebarIcon || 'fas fa-map',
+            actors: CONFIG.Actor?.sidebarIcon || 'fas fa-user',
+            items: CONFIG.Item?.sidebarIcon || 'fas fa-suitcase',
+            journal: CONFIG.JournalEntry?.sidebarIcon || 'fas fa-book-open',
+            tables: CONFIG.RollTable?.sidebarIcon || 'fas fa-th-list',
+            cards: CONFIG.Cards?.sidebarIcon || 'fa-solid fa-cards',
+            playlists: CONFIG.Playlist?.sidebarIcon || 'fas fa-music',
+            compendium: 'fas fa-atlas',
+            settings: 'fas fa-cogs'
+          };
+
+          // Build tabs from DOM to include module-added tabs
+          // Filter out collapse/toggle buttons that aren't actual tabs, and deduplicate
+          const seenTabs = new Set();
+          partContext.sidebarTabs = Array.from(sidebarTabButtons)
+          .filter((tabButton) => {
+            const tabName = tabButton.dataset.tab;
+            const action = tabButton.dataset.action;
+            // Exclude collapse button, toggle actions, and duplicates
+            if (!tabName || action === 'toggleState' || tabButton.classList.contains('collapse')) {
+              return false;
+            }
+            if (seenTabs.has(tabName)) {
+              return false;
+            }
+            seenTabs.add(tabName);
+            return true;
+          })
+          .map((tabButton) => {
+            const tabName = tabButton.dataset.tab;
+            const saved = hiddenTabsMap.get(tabName) || {};
+
+            // Get icon from CONFIG map first, then from DOM
+            let icon = tabIconMap[tabName];
+            if (!icon) {
+              // Helper to extract FA classes from an element
+              const getFaClasses = (element) => {
+                if (!element) return [];
+                return Array.from(element.classList).filter(cls =>
+                  cls.startsWith('fa-') || cls === 'fa' || cls === 'fas' ||
+                  cls === 'far' || cls === 'fab' || cls === 'fa-solid' || cls === 'fa-regular'
+                );
+              };
+
+              // First try nested <i> element
+              const iconElement = tabButton.querySelector('i');
+              const iconFaClasses = getFaClasses(iconElement);
+
+              if (iconFaClasses.length > 0) {
+                icon = iconFaClasses.join(' ');
+              } else {
+                // Check if button itself has FA icon classes (e.g., FilePicker Plus)
+                const buttonFaClasses = getFaClasses(tabButton);
+                icon = buttonFaClasses.length > 0 ? buttonFaClasses.join(' ') : 'fas fa-file';
+              }
+            }
+
+            // Use saved order position, or use DOM order for new tabs
+            let orderIndex = savedOrder.indexOf(tabName);
+            if (orderIndex === -1) {
+              // Not in saved order, append after saved items using DOM position
+              orderIndex = savedOrder.length + domOrder.indexOf(tabName);
+            }
+
+            // Get label from tooltip, aria-label, or use tabName as fallback
+            const tooltip = tabButton.dataset?.tooltip || tabButton.ariaLabel || tabName;
+
+            return {
+              tabName: tabName,
+              name: tabName,
+              label: game.i18n.localize(tooltip),
+              icon: icon,
+              hideForGM: saved.hideForGM || false,
+              hideForPlayer: saved.hideForPlayer || false,
+              order: orderIndex
+            };
+          }).sort((a, b) => a.order - b.order);
+
+          LogUtil.log("sidebarTabs prepared", [partContext.sidebarTabs]);
         }
         break;
       }
@@ -297,6 +391,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const fieldNames = SETTINGS[menuKey]?.fields || [];
     const playerFieldNames = SETTINGS["player_"+menuKey]?.fields || [];
     const currentSystem = game.system?.id;
+    const currentSystemTitle = game.system?.title;
 
     if(!fieldNames || fieldNames.length===0) return {};
     const fields = {};
@@ -357,7 +452,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         fieldDefaults[fieldName] = SETTINGS[fieldName].default;
       }
     });
-    return {fields: fields, fieldValues: fieldValues, fieldDefaults: fieldDefaults, currentSystem: currentSystem};
+    return {fields: fields, fieldValues: fieldValues, fieldDefaults: fieldDefaults, currentSystem: currentSystemTitle};
   }
 
   /**
@@ -443,10 +538,131 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
           ModuleSettings.handleEnforcementIconClick(event, icon);
         });
       });
+
+      // Setup drag and drop for sidebar tabs reordering
+      ModuleSettings.setupSidebarTabsDragDrop();
     }
 
     // const controlSettings = SettingsUtil.get(SETTINGS.moduleSettingsMenu.tag);
     LogUtil.log("_onRender", [context, options]);
+  }
+
+  /**
+   * Sets up drag and drop functionality for sidebar tabs reordering
+   * @static
+   */
+  static setupSidebarTabsDragDrop() {
+    const container = ModuleSettings.#element?.querySelector('.sidebar-tabs-list[data-drag-container]');
+    if (!container) return;
+
+    const rows = container.querySelectorAll('.sidebar-tab-row:not(.header-row)');
+    let draggedElement = null;
+
+    // Create placeholder element
+    const placeholder = document.createElement('div');
+    placeholder.className = 'sidebar-tab-row drag-placeholder';
+    placeholder.innerHTML = '<span class="placeholder-text"></span>';
+
+    const removePlaceholder = () => {
+      if (placeholder.parentNode) {
+        placeholder.parentNode.removeChild(placeholder);
+      }
+    };
+
+    const getDropTarget = (e) => {
+      const allRows = Array.from(container.querySelectorAll('.sidebar-tab-row:not(.header-row):not(.dragging):not(.drag-placeholder)'));
+      const headerRow = container.querySelector('.sidebar-tab-row.header-row');
+
+      for (const row of allRows) {
+        const rect = row.getBoundingClientRect();
+        const midY = rect.top + rect.height / 2;
+
+        if (e.clientY < midY) {
+          return { element: row, position: 'before' };
+        }
+      }
+
+      // If we're past all rows, insert at end
+      if (allRows.length > 0) {
+        return { element: allRows[allRows.length - 1], position: 'after' };
+      }
+
+      // Insert after header if no rows
+      return { element: headerRow, position: 'after' };
+    };
+
+    rows.forEach(row => {
+      row.addEventListener('dragstart', (e) => {
+        draggedElement = row;
+        row.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', row.dataset.tabName);
+
+        // Delay to allow drag image to be captured
+        setTimeout(() => {
+          row.style.opacity = '0.4';
+        }, 0);
+      });
+
+      row.addEventListener('dragend', () => {
+        row.classList.remove('dragging');
+        row.style.opacity = '';
+        removePlaceholder();
+        draggedElement = null;
+      });
+    });
+
+    // Handle dragover on container for better drop targeting
+    container.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+
+      if (!draggedElement) return;
+
+      const target = getDropTarget(e);
+      if (!target.element) return;
+
+      // Position placeholder
+      if (target.position === 'before') {
+        container.insertBefore(placeholder, target.element);
+      } else {
+        container.insertBefore(placeholder, target.element.nextSibling);
+      }
+    });
+
+    container.addEventListener('dragleave', (e) => {
+      // Only remove if leaving the container entirely
+      if (!container.contains(e.relatedTarget)) {
+        removePlaceholder();
+      }
+    });
+
+    container.addEventListener('drop', (e) => {
+      e.preventDefault();
+
+      if (!draggedElement) return;
+
+      // Insert dragged element where placeholder is
+      if (placeholder.parentNode) {
+        container.insertBefore(draggedElement, placeholder);
+      }
+
+      removePlaceholder();
+      LogUtil.log('Sidebar tabs reordered', [ModuleSettings.getSidebarTabsOrder()]);
+    });
+  }
+
+  /**
+   * Gets the current order of sidebar tabs from the DOM
+   * @static
+   * @returns {string[]} Array of tab names in their current order
+   */
+  static getSidebarTabsOrder() {
+    const container = ModuleSettings.#element?.querySelector('.sidebar-tabs-list[data-drag-container]');
+    if (!container) return [];
+
+    const rows = container.querySelectorAll('.sidebar-tab-row:not(.header-row)');
+    return Array.from(rows).map(row => row.dataset.tabName);
   }
 
   static handleRangeInputs(rangeInput, valueInput){
@@ -678,6 +894,44 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
     const selectedPlayerTheme = THEMES.find(theme => theme.label===settings.playerColorTheme);
     settings.playerColorTheme = selectedPlayerTheme ? selectedPlayerTheme.className : "";
+
+    // Handle hiddenSidebarTabs - collect hideTab_* checkboxes into array
+    if (activeTab === 'chat') {
+      const hiddenTabs = [];
+      const hideTabPattern = /^hideTab_(.+)_(gm|player)$/;
+
+      // Get the current order from the DOM (respects drag-and-drop reordering)
+      const tabOrder = ModuleSettings.getSidebarTabsOrder();
+
+      const tabNames = new Set();
+      Object.keys(settings).forEach(key => {
+        const match = key.match(hideTabPattern);
+        if (match) {
+          tabNames.add(match[1]);
+        }
+      });
+
+      // Process tabs in the order they appear in the DOM
+      tabOrder.forEach(tabName => {
+        if (!tabNames.has(tabName)) return;
+
+        const hideForGM = settings[`hideTab_${tabName}_gm`] || false;
+        const hideForPlayer = settings[`hideTab_${tabName}_player`] || false;
+
+        // Always include tab in array to preserve order, even if not hidden
+        hiddenTabs.push({
+          tabId: tabName,
+          hideForGM,
+          hideForPlayer
+        });
+
+        delete settings[`hideTab_${tabName}_gm`];
+        delete settings[`hideTab_${tabName}_player`];
+      });
+
+      settings.hiddenSidebarTabs = hiddenTabs;
+      LogUtil.log('Processed hiddenSidebarTabs with order', [hiddenTabs]);
+    }
 
     // Handle otherModulesList
     if (activeTab === 'system' && settings.otherModulesList !== undefined) {

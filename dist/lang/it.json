@@ -259,7 +259,7 @@
         "reset": "Ripristina",
         "save": "Salva"
       },        
-      "chatMessagesMenu": {
+      "sidebarMenu": {
         "label": "Opzioni Messaggi Chat",
         "title": "Configura Chat",
         "hint": "Modifica l'aspetto e il comportamento dei riquadri dei messaggi chat nel pannello laterale destro",
@@ -310,6 +310,12 @@
           "showChatNotificationsOnTop": {
             "label": "Mostra Notifiche Chat dall'Alto",
             "hint": "Quando abilitato, le notifiche dei messaggi chat appaiono dall'alto dell'area di input della chat invece che dal basso."
+          },
+          "hiddenSidebarTabs": {
+            "label": "Visibilità e Ordine delle Schede",
+            "hint": "Controlla quali schede della barra laterale sono visibili per GM e giocatori. Le schede nascoste non appariranno nella barra laterale.",
+            "hideForGM": "Nascondi per GM",
+            "hideForPlayer": "Nascondi per Giocatore"
           }
         },
         "reset": "Ripristina",
@@ -488,6 +494,7 @@
         "label": "Sistema",
         "title": "Configurare opzioni per sistemi specifici",
         "hint": "",
+        "currentSystem": "Sistema Attuale",
         "noSettingsForSystem": "Nessuna impostazione specifica per il sistema corrente",
         "modulesLabel": "Altri Moduli",
         "fields": {

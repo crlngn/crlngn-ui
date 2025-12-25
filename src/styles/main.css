@@ -616,6 +616,7 @@ body.crlngn-ui{
     display: flex;
     align-items: center;
     margin-bottom: 0.25em;
+    margin-top: 1.25rem;
 
     i{
       font-size: var(--font-size-12);
@@ -1638,22 +1639,151 @@ body.crlngn-ui {
   }
 }
 
-/* Setting Enforcement Lock Icons */
-.crlngn-enforce-icon {
-  cursor: pointer;
-  margin-right: 0.5rem;
-  font-size: 0.9em;
-  opacity: 0.7;
-  transition: opacity 0.2s ease;
+body.crlngn-ui {
+  /* Setting Enforcement Lock Icons */
+  .crlngn-enforce-icon {
+    cursor: pointer;
+    margin-right: 0.5rem;
+    font-size: 0.9em;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+
+  .crlngn-enforce-icon:hover {
+    opacity: 1;
+  }
+
+  .crlngn-locked-icon {
+    margin-right: 0.5rem;
+    font-size: 0.9em;
+    opacity: 0.6;
+    cursor: help;
+  }
+
+  /* Sidebar Tab Visibility Settings UI */
+  .standard-form.crlngn .sidebar-tabs-visibility {
+    margin: 1rem 0;
+    flex-wrap: wrap;
+
+    > label {
+      flex: 0 0 100%;
+      width: 100%;
+    }
+  }
+
+  .standard-form.crlngn .sidebar-tabs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: var(--color-secondary-15);
+    border: 1px solid var(--color-cool-4);
+    border-radius: 6px;
+    padding: 0.5rem;
+    flex: 0 0 100%;
+    width: 100%;
+  }
+
+  .standard-form.crlngn .sidebar-tab-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--color-dark-bg-25);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover:not(.header-row) {
+      background: var(--color-secondary-25);
+    }
+
+    &.header-row {
+      background: var(--color-secondary-25);
+      font-weight: 600;
+      font-size: 0.85em;
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid var(--color-cool-4);
+    }
+  }
+
+  .standard-form.crlngn .sidebar-tab-row .hide-option-header {
+    flex: 0 0 80px;
+    min-width: 80px;
+    text-align: center;
+    font-size: 0.85em;
+  }
+
+  .standard-form.crlngn .sidebar-tab-row .tab-icon {
+    flex: 0 0 24px;
+    text-align: center;
+    font-size: 1rem;
+    opacity: 0.8;
+  }
+
+  .standard-form.crlngn .sidebar-tab-row .tab-name {
+    flex: 1 1 auto;
+    font-weight: 500;
+    min-width: 120px;
+  }
+
+  .standard-form.crlngn .sidebar-tab-row label.hide-option {
+    flex: 0 0 80px;
+    width: 80px;
+    max-width: 80px;
+    min-width: 80px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9em;
+    font-weight: normal;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+
+    input[type="checkbox"] {
+      margin: 0;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .standard-form.crlngn .sidebar-tab-row .drag-handle {
+    flex: 0 0 20px;
+    text-align: center;
+    cursor: grab;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  .standard-form.crlngn .sidebar-tab-row.header-row .drag-handle {
+    cursor: default;
+  }
+
+  .standard-form.crlngn .sidebar-tab-row.dragging {
+    opacity: 0.4;
+    background: var(--color-highlights-25);
+  }
+
+  .standard-form.crlngn .sidebar-tab-row.drag-placeholder {
+    height: 42px;
+    background: var(--color-highlights-25);
+    border: 2px dashed var(--color-highlights);
+    border-radius: 4px;
+    margin: 2px 0;
+  }
+
 }
 
-.crlngn-enforce-icon:hover {
-  opacity: 1;
-}
-
-.crlngn-locked-icon {
-  margin-right: 0.5rem;
-  font-size: 0.9em;
-  opacity: 0.6;
-  cursor: help;
+/* Hidden Sidebar Tab Styles - must be outside body nesting */
+body.crlngn-ui #sidebar-tabs menu li.crlngn-hidden-tab {
+  display: none !important;
 }

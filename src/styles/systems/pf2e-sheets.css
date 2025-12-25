@@ -108,6 +108,11 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     color: var(--color-text-primary);
   }
 
+  .actor.sheet a.inline-check, .actor.sheet span[data-pf2-check] {
+    color: var(--color-text-primary);
+    background-color: var(--color-highlights-15);
+  }
+
   .actor.sheet section.window-content,
   .actor.sheet .crb-style,
   .actor.sheet.familiar form,
@@ -264,9 +269,9 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     background: var(--color-highlights-15);
     border: 0;
     box-shadow: none;
-    margin: 1.5rem 1rem .5rem;
+    margin: 1.5rem 0 .5rem 0;
     align-items: center;
-    padding: 0.15rem 0.25rem;
+    padding: 0.15rem 1rem;
   }
   .actor.sheet section.window-content .inventory .inventory-list > header{
     margin: 0;
@@ -614,6 +619,24 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     border-bottom: 1px solid var(--color-border-divider);
     margin-top: 2rem;
   }
+  .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content ol.spell-list > li .item-summary {
+    background: transparent;
+    color: var(--color-text-primary);
+  }
+
+  .actor.sheet section.window-content .item-summary .description .addendum {
+    background: var(--color-highlights-15);
+  }
+  
+  .actor.sheet section.window-content .item-summary .description .addendum p {
+    color: var(--color-text-primary);
+  }
+  .actor.sheet section.window-content .item-summary .description .addendum h4{
+    text-align: left;
+    font-size: 0.9rem;    
+    color: var(--color-text-primary);
+  }
+  
   .actor.sheet form .spellcasting-entry .header {
     background-color: var(--color-highlights-50);
   }
@@ -1145,6 +1168,9 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
 
     .actor.sheet.character section.window-content .crb-style {
       font-family: var(--crlngn-font-titles);
+    }
+    .actor.sheet.character section.window-content .crb-style p {
+      font-family: var(--crlngn-font-family);
     }
 
     .actor.sheet section.window-content aside .sidebar .roll-data a.modifier {

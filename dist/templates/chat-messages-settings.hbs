@@ -4,7 +4,7 @@
   <h4><i class="fas fa-user"></i> {{localize "CRLNGN_UI.ui.clientSettingsLabel"}} <span class="toggle-hint">{{localize 'CRLNGN_UI.ui.toggleHints'}}</span></h4>
   <hr/>
   {{!-- <h2>{{localize "CRLNGN_UI.settings.customFontsDialog.label"}}</h2> --}}
-  <p class="hint">{{localize "CRLNGN_UI.settings.chatMessagesMenu.hint"}}</p>
+  <p class="hint">{{localize "CRLNGN_UI.settings.sidebarMenu.hint"}}</p>
 
   <div class="form-group range">
     <label for="sideBarWidth">{{fields.sideBarWidth.label}}</label>
@@ -66,6 +66,38 @@
     <input type="checkbox" name="showChatNotificationsOnTop" {{#if showChatNotificationsOnTop}}checked{{/if}} {{#if fields.showChatNotificationsOnTop.isLocked}}disabled{{/if}} />
     <p class="hint">{{fields.showChatNotificationsOnTop.hint}}</p>
   </div>
+
+  {{#if isGM}}
+  <h4><i class="fas fa-crown"></i> {{localize "CRLNGN_UI.ui.worldSettingsLabel"}} <span class="toggle-hint">{{localize 'CRLNGN_UI.ui.toggleHints'}}</span></h4>
+  <hr/>
+
+  <div class="form-group sidebar-tabs-visibility">
+    <label>{{fields.hiddenSidebarTabs.label}}</label>
+    <p class="hint">{{fields.hiddenSidebarTabs.hint}}</p>
+    <div class="sidebar-tabs-list" data-drag-container="sidebar-tabs">
+      <div class="sidebar-tab-row header-row">
+        <span class="drag-handle"></span>
+        <span class="tab-icon"></span>
+        <span class="tab-name">{{localize "CRLNGN_UI.settings.sidebarTabs.tabsColumn"}}</span>
+        <span class="hide-option-header">{{localize "CRLNGN_UI.settings.sidebarTabs.gmHideColumn"}}</span>
+        <span class="hide-option-header">{{localize "CRLNGN_UI.settings.sidebarTabs.playerHideColumn"}}</span>
+      </div>
+      {{#each sidebarTabs}}
+      <div class="sidebar-tab-row" data-tab-name="{{this.name}}" draggable="true">
+        <span class="drag-handle"><i class="fas fa-grip-vertical"></i></span>
+        <span class="tab-icon"><i class="{{this.icon}}"></i></span>
+        <span class="tab-name">{{this.label}}</span>
+        <label class="hide-option">
+          <input type="checkbox" name="hideTab_{{this.name}}_gm" {{#if this.hideForGM}}checked{{/if}} />
+        </label>
+        <label class="hide-option">
+          <input type="checkbox" name="hideTab_{{this.name}}_player" {{#if this.hideForPlayer}}checked{{/if}} />
+        </label>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+  {{/if}}
 
   {{!-- <div class="form-group">
     <label for="useLeftChatBorder">{{fields.useLeftChatBorder.label}}</label>

@@ -562,6 +562,8 @@ export class SettingsUtil {
         SidebarTabs.applyHorizontalSidebarTabs(value); break;
       case SETTINGS.showChatNotificationsOnTop.tag:
         SidebarTabs.applyShowChatNotificationsOnTop(value); break;
+      case SETTINGS.hiddenSidebarTabs.tag:
+        SidebarTabs.applyHiddenTabs(); break;
       case SETTINGS.applyThemeToSheets.tag:
         SheetsUtil.applyThemeToSheets(value); break;
       case SETTINGS.useHorizontalSheetTabs.tag:
