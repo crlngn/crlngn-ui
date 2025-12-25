@@ -38,6 +38,7 @@ class ExportSettings extends FormApplication {
       foundryVersion: game.version,
       systemId: game.system.id,
       systemVersion: game.system.version,
+      environment: this.#detectEnvironment(),
       coreSettings: {
         uiConfig: game.settings.get('core', 'uiConfig')
       },
@@ -89,6 +90,102 @@ class ExportSettings extends FormApplication {
     saveDataToFile(jsonStr, 'application/json', filename);
 
     ui.notifications.info(game.i18n.localize("CRLNGN_UI.settings.exportSettings.success"));
+  }
+
+  /**
+   * Detects the user's environment including browser, platform, and client type
+   * @returns {object} Environment information
+   */
+  #detectEnvironment() {
+    const ua = navigator.userAgent;
+    const env = {
+      userAgent: ua,
+      platform: this.#detectPlatform(ua),
+      client: this.#detectClient(ua),
+      browser: this.#detectBrowser(ua),
+      screenResolution: `${window.screen.width}x${window.screen.height}`,
+      windowSize: `${window.innerWidth}x${window.innerHeight}`,
+      pixelRatio: window.devicePixelRatio || 1,
+      language: navigator.language
+    };
+    return env;
+  }
+
+  /**
+   * Detects the operating system platform
+   * @param {string} ua - User agent string
+   * @returns {string} Platform name
+   */
+  #detectPlatform(ua) {
+    if (ua.includes('Win')) return 'Windows';
+    if (ua.includes('Mac')) return 'macOS';
+    if (ua.includes('Linux')) return 'Linux';
+    if (ua.includes('Android')) return 'Android';
+    if (ua.includes('iOS') || ua.includes('iPhone') || ua.includes('iPad')) return 'iOS';
+    return 'Unknown';
+  }
+
+  /**
+   * Detects whether running in Electron app, browser, or portable
+   * @param {string} ua - User agent string
+   * @returns {string} Client type description
+   */
+  #detectClient(ua) {
+    // Electron app detection (Foundry's standalone app)
+    if (ua.includes('Electron')) {
+      // Check if it might be portable (harder to detect definitively)
+      // Portable usually has same Electron signature
+      return 'Foundry App (Electron)';
+    }
+    // Browser detection
+    return 'Web Browser';
+  }
+
+  /**
+   * Detects the browser name and version
+   * @param {string} ua - User agent string
+   * @returns {string} Browser name and version
+   */
+  #detectBrowser(ua) {
+    // Electron (Foundry App)
+    if (ua.includes('Electron')) {
+      const electronMatch = ua.match(/Electron\/(\d+[\d.]*)/);
+      const chromeMatch = ua.match(/Chrome\/(\d+[\d.]*)/);
+      const electronVer = electronMatch ? electronMatch[1] : 'Unknown';
+      const chromeVer = chromeMatch ? chromeMatch[1] : 'Unknown';
+      return `Electron ${electronVer} (Chromium ${chromeVer})`;
+    }
+    // Edge (must check before Chrome as Edge includes "Chrome" in UA)
+    if (ua.includes('Edg/')) {
+      const match = ua.match(/Edg\/(\d+[\d.]*)/);
+      return match ? `Microsoft Edge ${match[1]}` : 'Microsoft Edge';
+    }
+    // Opera (must check before Chrome as Opera includes "Chrome" in UA)
+    if (ua.includes('OPR/') || ua.includes('Opera')) {
+      const match = ua.match(/OPR\/(\d+[\d.]*)/) || ua.match(/Opera\/(\d+[\d.]*)/);
+      return match ? `Opera ${match[1]}` : 'Opera';
+    }
+    // Chrome
+    if (ua.includes('Chrome/') && !ua.includes('Chromium')) {
+      const match = ua.match(/Chrome\/(\d+[\d.]*)/);
+      return match ? `Google Chrome ${match[1]}` : 'Google Chrome';
+    }
+    // Firefox
+    if (ua.includes('Firefox/')) {
+      const match = ua.match(/Firefox\/(\d+[\d.]*)/);
+      return match ? `Mozilla Firefox ${match[1]}` : 'Mozilla Firefox';
+    }
+    // Safari (must check after Chrome as some browsers include Safari in UA)
+    if (ua.includes('Safari/') && !ua.includes('Chrome')) {
+      const match = ua.match(/Version\/(\d+[\d.]*)/);
+      return match ? `Safari ${match[1]}` : 'Safari';
+    }
+    // Chromium
+    if (ua.includes('Chromium/')) {
+      const match = ua.match(/Chromium\/(\d+[\d.]*)/);
+      return match ? `Chromium ${match[1]}` : 'Chromium';
+    }
+    return 'Unknown Browser';
   }
 }
 

@@ -30,8 +30,10 @@ export class ModuleCompatUtil {
     }
     ModuleCompatUtil.checkTaskbarLock();
 
-    // Add module classes - at READY hook, game.modules is fully populated
+    // Add module classes - at READY hook, game.modules should be populated
+    // Also start retry interval in case some modules aren't fully loaded yet
     ModuleCompatUtil.addModuleClasses();
+    ModuleCompatUtil.startModuleClassesRetry();
 
     const isMinimalUiOn = GeneralUtil.isModuleOn('minimal-ui');
     if(isMinimalUiOn){
@@ -76,15 +78,34 @@ export class ModuleCompatUtil {
     }
   }
 
+  static #addModuleClassesAttempts = 0;
+  static #addModuleClassesInterval = null;
+
   static addModuleClasses = () => {
     const SETTINGS = getSettings();
-    const moduleList = SettingsUtil.get(SETTINGS.otherModulesList.tag) || [];
+    let moduleList = SettingsUtil.get(SETTINGS.otherModulesList.tag) || [];
     LogUtil.log("addModuleClasses", [moduleList]);
 
-    // Ensure it's an array (defensive programming)
+    // If moduleList is not an array, try to convert it
     if (!Array.isArray(moduleList)) {
-      console.warn('otherModulesList is not an array, skipping module classes');
-      return;
+      LogUtil.warn('otherModulesList is not an array, attempting to convert', [moduleList]);
+
+      if (typeof moduleList === 'string' && moduleList.length > 0) {
+        // Old string format: "'module-a','module-b'" - convert to array
+        const enabledModules = moduleList
+          .split(',')
+          .map(item => item.replace(/['''"]/g, "").trim())
+          .filter(id => id.length > 0);
+
+        moduleList = Object.values(SETTINGS.otherModulesList.options).map(moduleId => {
+          const cleanId = moduleId.replace(/['''"]/g, "").trim();
+          return { id: cleanId, enabled: enabledModules.includes(cleanId) };
+        });
+        LogUtil.log('Converted string to array format', [moduleList]);
+      } else {
+        // Fallback to defaults if conversion not possible
+        moduleList = SETTINGS.otherModulesList.default || [];
+      }
     }
 
     // First, remove all possible module classes
@@ -123,6 +144,34 @@ export class ModuleCompatUtil {
     // Emit hook so other components know module classes are ready
     Hooks.callAll(HOOKS_CRLNGN.MODULE_CLASSES_READY);
     LogUtil.log("Emitted hook:", [HOOKS_CRLNGN.MODULE_CLASSES_READY]);
+  }
+
+  /**
+   * Starts a retry interval to ensure module classes are added
+   * Will retry every second for up to 10 attempts
+   * @static
+   */
+  static startModuleClassesRetry = () => {
+    ModuleCompatUtil.#addModuleClassesAttempts = 0;
+
+    // Clear any existing interval
+    if (ModuleCompatUtil.#addModuleClassesInterval) {
+      clearInterval(ModuleCompatUtil.#addModuleClassesInterval);
+    }
+
+    ModuleCompatUtil.#addModuleClassesInterval = setInterval(() => {
+      ModuleCompatUtil.#addModuleClassesAttempts++;
+      LogUtil.log(`addModuleClasses retry attempt ${ModuleCompatUtil.#addModuleClassesAttempts}`);
+
+      ModuleCompatUtil.addModuleClasses();
+
+      // Stop after 10 attempts
+      if (ModuleCompatUtil.#addModuleClassesAttempts >= 10) {
+        clearInterval(ModuleCompatUtil.#addModuleClassesInterval);
+        ModuleCompatUtil.#addModuleClassesInterval = null;
+        LogUtil.log("addModuleClasses retry complete after 10 attempts");
+      }
+    }, 1000);
   }
 
   /**

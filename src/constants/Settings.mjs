@@ -1079,14 +1079,10 @@ export function getSettings() {
     },
 
     otherModulesList: {
-      tag: "v2-other-modules-list-a3",
+      tag: "v2-other-modules",
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.hint"),
       propType: Array,
-      // Array of objects: [{ id: 'module-id', enabled: true/false }]
-      // Storing all modules explicitly allows us to distinguish between:
-      // - User disabled a module: { id: 'foo', enabled: false } (preserved)
-      // - Module is new: not in array at all (auto-enabled on merge)
       default: [
         { id: 'levels-3d-preview', enabled: true },
         { id: 'beneos-module', enabled: true },
