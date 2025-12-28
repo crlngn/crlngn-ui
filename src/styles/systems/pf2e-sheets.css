@@ -7,7 +7,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .application.compendium-browser,
   .themed.theme-light,
   .themed.theme-dark {
-    --color-pf-primary: var(--color-text-primary);
+    --color-pf-primary: var(--color-text-hyperlink);
     --color-border-divider: var(--color-highlights-50);
     --tag-color: var(--color-text-primary);
     --color-pf-alternate: var(--color-text-tertiary);
@@ -160,6 +160,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
 
   .crb-style select {
     color: var(--color-text-primary);
+    background-color: var(--color-highlights-25);
   }
 
   .actor.sheet section.window-content i,
@@ -190,6 +191,9 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     border-radius: 4px;
     min-height: 1.6rem;
     margin: 5px 0;
+  }
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.biography section .editor .editor-content {
+    line-height: 1.5;
   }
   .actor.sheet section.window-content aside {
     background-color: var(--color-bg-input);
@@ -310,7 +314,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.effects,
   .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.biography,
   .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.pfs {
-    padding: 0.5rem 1rem 1rem 1rem;
+    padding: 0.5rem 1.5rem 1rem 1.5rem;
   }
 
   .actor.sheet section.window-content .inventory .inventory-list > header,
@@ -624,7 +628,29 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
 
   .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li {
+    position: relative;
     font-size: var(--font-size-14);
+    border-color: transparent;
+    padding: 0 0.75rem 0 0.5rem;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-image-repeat: repeat;
+      border-image-slice: 11;
+      border-image-source: url(/systems/pf2e/assets/sheet/frame-elegant.svg);
+      border-image-width: 14px;
+      border-style: double;
+      pointer-events: none;
+    }
+  }
+
+  &.theme-dark .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li:before {
+    filter: brightness(4);
   }
   .actor.sheet section.window-content .hitpoints .max-hp h2, 
   .actor.sheet section.window-content .hitpoints div input, 
@@ -793,6 +819,9 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     font-size: var(--font-size-12);
   }
 
+  .actor.npc.sheet form .sheet-body .actions-list li.action .button-group .subsection.damage button {
+    background-color: var(--color-bg-trait);
+  }
   .actor.sheet form input[type=text],
   .actor.sheet form input[type=number] {
     color: var(--color-text-primary) !important;
