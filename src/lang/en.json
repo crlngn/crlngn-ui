@@ -505,6 +505,10 @@
           "useHorizontalSheetTabs": {
             "label": "Use horizontal tabs with labels on sheets",
             "hint": "Only works when custom styles for sheets are enabled. This applies horizontal tabs with labels on 5e actor sheets instead of the lateral icon tabs"
+          },
+          "enableIconsOnSheets": {
+            "label": "Enable chat and tooltip icons on sheets",
+            "hint": "Show 'Display in Chat' overlay on item images and scroll icons for item tooltips on character sheets"
           }
         },
         "reset": "Reset",

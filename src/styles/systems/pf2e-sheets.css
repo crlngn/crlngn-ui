@@ -7,7 +7,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .application.compendium-browser,
   .themed.theme-light,
   .themed-theme-dark {
-    --color-pf-primary: var(--color-warm-2);
+    --color-pf-primary: var(--color-text-primary);
     --color-border-divider: var(--color-highlights-50);
     --tag-color: var(--color-text-primary);
     --color-pf-alternate: rgba(120,120,120,0.6);
@@ -255,9 +255,17 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     box-shadow: none;
   }
 
-  .actor.sheet section.window-content .inventory .inventory-list > header,
-  .actor.sheet section.window-content .inventory .total-bulk,
   .actor.sheet section.window-content .currency {
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--color-highlights-25);
+    box-shadow: none;
+    margin: 1.5rem 0 0 0;
+    padding: .35em 0;
+  }
+
+  .actor.sheet section.window-content .inventory .inventory-list > header,
+  .actor.sheet section.window-content .inventory .total-bulk {
     background: transparent;
     border: 0;
     border-bottom: 1px solid var(--color-highlights-25);
@@ -523,7 +531,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     padding-bottom: 0.3rem;
   }
   .actor.sheet section.window-content form.crb-style section.major > header {
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
   .d20-svg svg path {
     fill: var(--color-text-primary);
@@ -534,6 +542,10 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     min-width: var(--font-size-16);
     height: var(--font-size-16);
     font-size: var(--font-size-16);
+  }
+
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.feats .feat-section {
+    padding-bottom: 0;
   }
 
   .actor.sheet section.window-content .sheet-body .sheet-content .value i,
@@ -613,11 +625,15 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     border: 0;
   }
 
+  .actor.sheet section.window-content .inventory .inventory-list>header {
+    margin-top: 1rem;
+  }
+
   .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content ol.spell-list > li.header-row {
     background: transparent;
     border: 0;
     border-bottom: 1px solid var(--color-border-divider);
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
   .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content ol.spell-list > li .item-summary {
     background: transparent;
@@ -639,6 +655,10 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   
   .actor.sheet form .spellcasting-entry .header {
     background-color: var(--color-highlights-50);
+  }
+
+  .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.spellcasting .spellcasting-entry .spell-ability-data {
+    margin: 0 0.5rem;
   }
 
   .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.spellcasting .spellcasting-entry .spell-ability-data .skill-score,

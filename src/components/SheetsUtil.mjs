@@ -10,6 +10,7 @@ import { SettingsUtil } from "./SettingsUtil.mjs";
 export class SheetsUtil {
   static themeStylesEnabled = true;
   static horizontalSheetTabsEnabled = true;
+  static iconsOnSheetsEnabled = true;
 
   static init(){
     const SETTINGS = getSettings();
@@ -17,6 +18,7 @@ export class SheetsUtil {
 
     SheetsUtil.themeStylesEnabled = SettingsUtil.get(SETTINGS.applyThemeToSheets.tag);
     SheetsUtil.horizontalSheetTabsEnabled = SettingsUtil.get(SETTINGS.useHorizontalSheetTabs.tag);
+    SheetsUtil.iconsOnSheetsEnabled = SettingsUtil.get(SETTINGS.enableIconsOnSheets.tag);
 
     // PF2e-specific hooks
     Hooks.on(HOOKS_PF2E.RENDER_CHAR_SHEET_PF2E, SheetsUtil.#onRenderPF2eSheet);
@@ -63,8 +65,13 @@ export class SheetsUtil {
         });
       }
 
-      // Add "Display in Chat" overlay to item images
-      SheetsUtil.#addChatOverlays(html, actorSheet);
+      // Add "Display in Chat" overlay and tooltip icons (only when theme styles and icons enabled)
+      if(SheetsUtil.themeStylesEnabled && SheetsUtil.iconsOnSheetsEnabled){
+        SheetsUtil.#addChatOverlays(html, actorSheet);
+
+        // Convert item tooltips to click-to-show icons
+        SheetsUtil.#convertItemTooltips(html);
+      }
     }
   }
 
@@ -265,8 +272,8 @@ export class SheetsUtil {
     // Skip if overlays already added to this sheet
     if(html._crlngnChatOverlaysAdded) return;
 
-    // Select the img.item-image elements
-    const itemImages = html.querySelectorAll(".items-section .item .item-row img.item-image");
+    // Select the img.item-image elements, excluding effects (which don't have displayCard)
+    const itemImages = html.querySelectorAll(".items-section .item:not(.effect) .item-row img.item-image");
 
     itemImages.forEach(img => {
       const parent = img.parentElement;
@@ -309,6 +316,49 @@ export class SheetsUtil {
 
     // Mark sheet as processed
     html._crlngnChatOverlaysAdded = true;
+  }
+
+  /**
+   * Converts item hover tooltips to click-to-show scroll icons
+   * Removes the automatic tooltip behavior and adds a scroll icon that shows the tooltip on click
+   * @param {HTMLElement} html - The sheet HTML element
+   */
+  static #convertItemTooltips(html){
+    // Skip if already processed
+    if(html._crlngnItemTooltipsConverted) return;
+
+    // Find all item-name elements that have item-tooltip class
+    const itemNames = html.querySelectorAll(".items-section .item .item-row .item-name.item-tooltip");
+
+    itemNames.forEach(itemName => {
+      // Store the tooltip data before removing it
+      const tooltipContent = itemName.getAttribute("data-tooltip");
+      const tooltipClass = itemName.getAttribute("data-tooltip-class");
+      const tooltipDirection = itemName.getAttribute("data-tooltip-direction");
+      const itemUuid = itemName.querySelector("section.loading")?.getAttribute("data-uuid");
+
+      // Remove tooltip attributes and class from the item name
+      itemName.classList.remove("item-tooltip");
+      itemName.removeAttribute("data-tooltip");
+      itemName.removeAttribute("data-tooltip-class");
+      itemName.removeAttribute("data-tooltip-direction");
+
+      // Create the scroll icon button
+      const scrollBtn = document.createElement("a");
+      scrollBtn.className = "crlngn-tooltip-btn item-tooltip";
+      scrollBtn.innerHTML = '<i class="fa-solid fa-scroll"></i>';
+
+      // Re-apply tooltip attributes to the scroll button
+      if(tooltipContent) scrollBtn.setAttribute("data-tooltip", tooltipContent);
+      if(tooltipClass) scrollBtn.setAttribute("data-tooltip-class", tooltipClass);
+      if(tooltipDirection) scrollBtn.setAttribute("data-tooltip-direction", tooltipDirection);
+
+      // Append scroll button to the end of item-name so it's always last
+      itemName.appendChild(scrollBtn);
+    });
+
+    // Mark sheet as processed
+    html._crlngnItemTooltipsConverted = true;
   }
 
   /**

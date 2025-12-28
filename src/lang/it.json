@@ -505,6 +505,10 @@
           "useHorizontalSheetTabs": {
             "label": "Usa schede orizzontali con etichette",
             "hint": "Funziona solo quando gli stili personalizzati per le schede sono abilitati. Attiva per utilizzare schede orizzontali con etichette sulle schede dei personaggi di DnD5e anziché le schede laterali con icone"
+          },
+          "enableIconsOnSheets": {
+            "label": "Abilita icone chat e tooltip sulle schede",
+            "hint": "Mostra sovrapposizione 'Visualizza in Chat' sulle immagini degli oggetti e icone pergamena per i tooltip sulle schede dei personaggi"
           }
         },
         "reset": "Ripristina",

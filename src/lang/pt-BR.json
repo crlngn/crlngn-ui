@@ -530,6 +530,10 @@
           "useHorizontalSheetTabs": {
             "label": "Usar abas horizontais com rótulos",
             "hint": "Funciona apenas quando temas estiverem aplicados às fichas. Ative para usar abas horizontais com rótulos nas fichas de personagens de DnD5e em vez das abas laterais com ícones"
+          },
+          "enableIconsOnSheets": {
+            "label": "Habilitar ícones de chat e tooltip nas fichas",
+            "hint": "Mostrar sobreposição 'Exibir no Chat' nas imagens de itens e ícones de pergaminho para tooltips nas fichas de personagem"
           }
         },
         "reset": "Redefinir",

@@ -513,10 +513,12 @@ export function getSettings() {
       propType: Object,
       fields: [
         "useHorizontalSheetTabs",
+        "enableIconsOnSheets",
         "dockDHResources"
       ],
       default: {
         useHorizontalSheetTabs: true,
+        enableIconsOnSheets: true,
         dockDHResources: true
       },
       scope: SETTING_SCOPE.client,
@@ -1641,6 +1643,17 @@ export function getSettings() {
       tag: "v2-use-horizontal-tabs",
       label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.useHorizontalSheetTabs.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.useHorizontalSheetTabs.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false,
+      system: ["dnd5e"]
+    },
+    enableIconsOnSheets: {
+      tag: "v2-enable-icons-on-sheets",
+      label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.enableIconsOnSheets.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.enableIconsOnSheets.hint"),
       propType: Boolean,
       default: true,
       scope: SETTING_SCOPE.client,
