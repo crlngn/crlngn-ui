@@ -6,11 +6,11 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .app,
   .application.compendium-browser,
   .themed.theme-light,
-  .themed-theme-dark {
+  .themed.theme-dark {
     --color-pf-primary: var(--color-text-primary);
     --color-border-divider: var(--color-highlights-50);
     --tag-color: var(--color-text-primary);
-    --color-pf-alternate: rgba(120,120,120,0.6);
+    --color-pf-alternate: var(--color-text-tertiary);
     --color-pf-secondary: var(--color-highlights-50);
     --color-pf-tertiary: var(--color-text-primary);
     --color-pf-tertiary-light: var(--color-highlights-50);
@@ -79,8 +79,9 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     --color-bg-alt: rgba(255,255,255,0.075);
     --color-bg-input: rgba(0,0,0, 0.35);
   }
-  &.theme-dark .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character .subsection.attributes ul h3.modifier {
-    filter: brightness(3);
+  &.theme-dark .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character .subsection.attributes ul h3.modifier,
+  &.theme-dark .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active ul.option-toggles {
+    filter: brightness(4);
   }
 
   .application, .sv-control input {
@@ -214,6 +215,12 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     background-image: none;
     box-shadow: none;
   }
+  .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content .directory-list .action-header {
+    background: var(--color-highlights-15);
+    border: 0;
+    box-shadow: none;
+    margin: 0.5rem 0 0.25rem 0;
+  }
 
   .actor.sheet section.window-content form.crb-style nav.sheet-navigation .item svg {
     fill: var(--color-text-primary);
@@ -284,6 +291,28 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .actor.sheet section.window-content .inventory .inventory-list > header{
     margin: 0;
   }
+  .actor.sheet section.window-content .item-name h3,
+  .actor.sheet section.window-content h3.item-name  {
+    font-size: 1.35em;
+    padding: 0;
+  }
+  .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content .directory-list .action-header h3 input.item-name-input, 
+  .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content .directory-list .action-header h4 input.item-name-input {
+    font-size: 1rem;
+  }
+
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.inventory,
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.spellcasting .spell-collections,
+  .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content .tab.actions .actions-container .actions-tabs-wrapper .actions-panels .actions-panel.active,
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.crafting .known-formulas,
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.proficiencies,
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.feats,
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.effects,
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.biography,
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.pfs {
+    padding: 0.5rem 1rem 1rem 1rem;
+  }
+
   .actor.sheet section.window-content .inventory .inventory-list > header,
   .actor.sheet section.window-content .inventory .inventory-list > header h3,
   .actor.sheet section.window-content .inventory .total-bulk h3,
@@ -1172,6 +1201,11 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     }
     .actor.npc.sheet form .notes.active .notes-section > .notes-text {
       font-family: var(--crlngn-font-family);
+    }
+
+    .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.spellcasting .spellcasting-entry .spell-ability-data .spell-ability .spell-tradition {
+      font-family: var(--crlngn-font-family);
+      font-weight: 500;
     }
     
 
