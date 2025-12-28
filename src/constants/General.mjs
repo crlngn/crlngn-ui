@@ -94,6 +94,25 @@ export const DARK_MODE_RULES = `
   --color-text-dark-primary: var(--color-light-1) !important;
   --button-border-color: transparent;
 
+  /* Foundry themed.theme-light variables - inverted for dark mode */
+  --color-text-emphatic: var(--color-light-1) !important;
+  --color-text-subtle: var(--color-light-4) !important;
+  --color-text-selection: var(--color-dark-1) !important;
+  --color-text-selection-bg: var(--color-light-3) !important;
+  --content-link-border-color: var(--color-light-5) !important;
+  --content-link-icon-color: var(--color-light-3) !important;
+  --content-link-text-color: var(--color-light-2) !important;
+  --sidebar-separator: 2px groove var(--color-dark-3) !important;
+  --sidebar-entry-hover-bg: rgba(0, 0, 0, 0.25) !important;
+  --sidebar-folder-color: #7a9a8a !important;
+  --table-background-color: transparent !important;
+  --table-header-bg-color: rgba(255, 255, 255, 0.1) !important;
+  --table-header-border-color: var(--color-light-5) !important;
+  --table-header-text-color: inherit !important;
+  --table-row-color-even: rgba(255, 255, 255, 0.1) !important;
+  --table-row-color-odd: transparent !important;
+  --table-row-color-highlight: var(--color-cool-5-75) !important;
+
   background: var(--color-dark-bg-90) !important;
   color: var(--color-light-1) !important;
 

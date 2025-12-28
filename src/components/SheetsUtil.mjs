@@ -45,7 +45,7 @@ export class SheetsUtil {
     LogUtil.log(HOOKS_CORE.RENDER_ACTOR_SHEET, [actorSheet, html.querySelector(".sheet-body"), data]);
 
     html.querySelector(".sheet-body .main-content")?.addEventListener("scroll", SheetsUtil.#onSheetBodyScroll);
-    
+
     const tabs = html.querySelectorAll("nav.tabs > a.item");
     for (const tab of tabs) {
       tab.removeAttribute("data-tooltip");
@@ -55,13 +55,16 @@ export class SheetsUtil {
     SheetsUtil.applyThemeToSheets(SheetsUtil.themeStylesEnabled);
     if(game.system.id==="dnd5e"){
       SheetsUtil.applyHorizontalSheetTabs(SheetsUtil.horizontalSheetTabsEnabled);
-      
+
       if(SheetsUtil.horizontalSheetTabsEnabled){
         // Use requestAnimationFrame to wait for DOM paint instead of arbitrary timeout
         requestAnimationFrame(() => {
           SheetsUtil.#addTabScrollButtons();
         });
       }
+
+      // Add "Display in Chat" overlay to item images
+      SheetsUtil.#addChatOverlays(html, actorSheet);
     }
   }
 
@@ -250,6 +253,62 @@ export class SheetsUtil {
         wrapper.remove();
       }
     });
+  }
+
+  /**
+   * Adds "Display in Chat" overlay icons to item images on D&D 5e actor sheets
+   * All tab content is rendered at once, so we just need to add overlays once
+   * @param {HTMLElement} html - The sheet HTML element
+   * @param {ActorSheet} actorSheet - The actor sheet application
+   */
+  static #addChatOverlays(html, actorSheet){
+    // Skip if overlays already added to this sheet
+    if(html._crlngnChatOverlaysAdded) return;
+
+    // Select the img.item-image elements
+    const itemImages = html.querySelectorAll(".items-section .item .item-row img.item-image");
+
+    itemImages.forEach(img => {
+      const parent = img.parentElement;
+      // Skip if overlay already exists in the parent
+      if(parent.querySelector(".crlngn-chat-overlay")) return;
+
+      // Create a wrapper div to contain both img and overlay
+      const wrapper = document.createElement("div");
+      wrapper.className = "crlngn-chat-img-wrapper";
+
+      // Insert wrapper before the image, then move image into wrapper
+      parent.insertBefore(wrapper, img);
+      wrapper.appendChild(img);
+
+      const overlay = document.createElement("div");
+      overlay.className = "crlngn-chat-overlay";
+      overlay.innerHTML = '<i class="fa-solid fa-comment"></i>';
+      overlay.setAttribute("data-tooltip", game.i18n.localize("DND5E.DisplayCard"));
+
+      overlay.addEventListener("click", async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Get the item UUID from the parent li.item element
+        const itemLi = img.closest("li.item");
+        const itemUuid = itemLi?.dataset?.uuid;
+
+        if(itemUuid){
+          const item = await fromUuid(itemUuid);
+          if(item?.displayCard){
+            item.displayCard();
+          } else {
+            LogUtil.log("SheetsUtil.#addChatOverlays", ["Item not found or displayCard not available", itemUuid]);
+          }
+        }
+      });
+
+      wrapper.appendChild(overlay);
+    });
+
+    // Mark sheet as processed
+    html._crlngnChatOverlaysAdded = true;
   }
 
   /**

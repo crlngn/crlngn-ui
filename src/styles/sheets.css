@@ -436,11 +436,40 @@ body.crlngn-ui.crlngn-sheets {
     z-index: 0;
     /*background: var(--control-bg-color);*/
   }
-  .dnd5e2 .items-section .items-header .item-image, 
+  .dnd5e2 .items-section .items-header .item-image,
   .dnd5e2 .items-section .item .item-image,
   .dnd5e2.sheet.actor .classes.pills-lg .class .icons img {
     border: 0;
     box-shadow: none;
+  }
+
+  /* Display in Chat hover overlay on item images */
+  .dnd5e2.sheet.actor .items-section .item .item-row .crlngn-chat-img-wrapper {
+    position: relative;
+    display: inline-flex;
+  }
+  .dnd5e2.sheet.actor .items-section .item .item-row .crlngn-chat-img-wrapper .crlngn-chat-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--color-light-1, #fff);
+    opacity: 0;
+    transition: opacity 0.15s ease-out;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 1;
+  }
+  .dnd5e2.sheet.actor .items-section .item .item-row .crlngn-chat-img-wrapper .crlngn-chat-overlay i {
+    font-size: 1.2em;
+  }
+  .dnd5e2.sheet.actor .items-section .item:hover .item-row .crlngn-chat-img-wrapper .crlngn-chat-overlay {
+    opacity: 1;
+  }
+  .dnd5e2.sheet.actor .items-section .item .item-row .crlngn-chat-img-wrapper .crlngn-chat-overlay:hover {
+    background: rgba(0, 0, 0, 0.85);
   } 
 
   .dnd5e2 .gold-button::after, .dnd5e2.standard-form button.gold-button::after {

@@ -616,7 +616,6 @@ body.crlngn-ui{
     display: flex;
     align-items: center;
     margin-bottom: 0.25em;
-    margin-top: 1.25rem;
 
     i{
       font-size: var(--font-size-12);

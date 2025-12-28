@@ -103,6 +103,207 @@ body.crlngn-ui{
 
   }
 
+  /* Monk's Enhanced Journal - Custom font when journal font setting is enabled */
+  &.crlngn-monks-enhanced-journal.cui-font-jrnl-t .monks-enhanced-journal {
+    --mej-font-family: var(--crlngn-font-journal-title);
+  }
+
+  /* Monk's Enhanced Journal - Dark theme for application window */
+  &.crlngn-monks-enhanced-journal .monks-enhanced-journal.themed.theme-dark {
+    /* Invert MEJ variables for dark mode */
+    --mej-color-form-label: rgb(var(--mej-light-2));
+    --mej-placeholder-color: rgba(var(--mej-light-5), 0.7);
+
+    /* Header */
+    --mej-header-border-color: var(--color-dark-bg, #1e1e1e);
+    --mej-header-background: var(--color-secondary-75, rgb(40, 44, 52));
+    --mej-header-color: var(--mej-color-form-label);
+    --mej-header-tab-color: var(--mej-header-color);
+    --mej-header-tab-btn-color: var(--color-light-3, rgb(180, 180, 180));
+    --mej-header-tab-background: var(--color-secondary-50, rgba(50, 55, 65, 0.5));
+    --mej-header-tab-border: 1px solid var(--color-cool-4, rgb(70, 70, 80));
+    --mej-header-tab-active: var(--color-secondary-75, rgba(60, 65, 75, 0.9));
+    --mej-header-tab-hover: inherit;
+    --mej-header-tab-active-hover: inherit;
+    --mej-header-bookmark-color: var(--mej-header-color);
+    --mej-header-bookmark-background: var(--color-secondary-50, rgba(50, 55, 65, 0.3));
+    --mej-header-bookmark-border: var(--color-cool-4, rgb(70, 70, 80));
+    --mej-header-bookmark-hover: var(--color-highlights-25, rgba(255, 255, 255, 0.1));
+    --mej-header-add-bookmark-background: var(--mej-header-bookmark-background);
+    --mej-header-add-bookmark-border: var(--mej-header-bookmark-border);
+    --mej-header-add-bookmark-color: var(--mej-header-bookmark-color);
+    --mej-header-add-bookmark-hover: var(--mej-header-bookmark-hover);
+    --mej-header-nav-color: var(--mej-header-color);
+    --mej-header-nav-background: var(--color-secondary, rgb(35, 40, 48));
+    --mej-header-nav-btn-background: var(--color-secondary-75, rgba(60, 65, 75, 0.8));
+    --mej-header-nav-btn-border: var(--color-cool-4, rgb(70, 70, 80));
+    --mej-header-nav-btn-disabled: var(--color-light-5, rgb(100, 100, 100));
+    --mej-header-nav-btn-background-disabled: transparent;
+    --mej-header-nav-btn-border-disabled: transparent;
+    --mej-header-nav-btn-background-hover: var(--mej-header-nav-btn-background);
+    --mej-header-nav-input-border: var(--color-cool-4, rgb(80, 85, 95));
+    --mej-header-nav-input-background: var(--color-highlights-05, rgba(255, 255, 255, 0.05));
+    --mej-header-nav-input-color: var(--color-light-1, rgb(220, 220, 220));
+    --mej-header-nav-input-placeholder-color: var(--mej-placeholder-color);
+    --mej-header-nav-input-focus-background: var(--color-cool-4-50, rgba(80, 85, 95, 0.4));
+    --mej-header-nav-input-focus-border: var(--color-cool-5, rgb(100, 105, 115));
+    --mej-header-nav-input-focus-color: var(--mej-header-nav-input-color);
+    --mej-header-nav-input-error-background: rgba(255, 0, 0, 0.15);
+    --mej-header-nav-vertical-line: var(--color-cool-5-75, rgb(60, 65, 75));
+
+    /* Footer */
+    --mej-footer-color: var(--mej-color-form-label);
+    --mej-footer-background: var(--color-secondary, rgb(35, 40, 48));
+    --mej-footer-border: var(--color-cool-4, rgb(60, 60, 60));
+    --mej-footer-btn-background: var(--color-cool-5-75, rgba(60, 65, 75, 0.8));
+    --mej-footer-btn-background-hover: var(--mej-footer-btn-background);
+    --mej-footer-btn-border: var(--color-cool-4, rgb(70, 70, 80));
+    --mej-footer-btn-disabled: var(--color-light-5, rgb(100, 100, 100));
+    --mej-footer-btn-background-disabled: transparent;
+    --mej-footer-btn-border-disabled: transparent;
+
+    /* Sheet */
+    --mej-sheet-color: var(--mej-color-form-label);
+    --mej-sheet-header-border: rgb(120, 80, 70);
+    --mej-sheet-header-underline: rgb(140, 90, 80);
+    --mej-sheet-header-name-color: var(--mej-sheet-header-input-color);
+    --mej-sheet-header-name-background: none;
+    --mej-sheet-header-name-background-hover: none;
+    --mej-sheet-header-input-color: var(--mej-color-form-label);
+    --mej-sheet-header-input-border: 1px solid var(--color-cool-4, rgb(80, 85, 95));
+    --mej-sheet-header-input-background: var(--color-highlights-15, rgba(255, 255, 255, 0.1));
+    --mej-sheet-header-label-color: var(--color-light-3, rgb(160, 165, 175));
+    --mej-sheet-header-button-color: rgba(var(--mej-light-5), 0.7);
+    --mej-sheet-header-button-background: var(--color-highlights-15, rgba(255, 255, 255, 0.1));
+    --mej-sheet-header-detail-input-color: var(--color-light-1, rgb(220, 220, 220));
+    --mej-sheet-header-search-color: var(--mej-sheet-header-input-color);
+    --mej-sheet-header-search-placeholder: var(--mej-placeholder-color);
+    --mej-sheet-header-search-background: var(--mej-sheet-header-input-background);
+    --mej-sheet-header-search-background-hover: var(--mej-sheet-header-input-background);
+    --mej-sheet-detailed-header-border: var(--color-cool-5-75, rgb(60, 65, 75));
+    --mej-sheet-tab-color: var(--mej-sheet-color);
+    --mej-sheet-tab-color-hover: inherit;
+    --mej-sheet-tab-color-active: var(--mej-sheet-tab-color);
+    --mej-sheet-tab-background: var(--color-secondary-25, rgba(50, 55, 65, 0.3));
+    --mej-sheet-tab-bottom-border: var(--color-cool-5-75, rgb(60, 65, 75));
+    --mej-sheet-tab-border: 3px solid var(--color-cool-4, rgb(70, 75, 85));
+    --mej-sheet-tab-border-active: rgb(180, 140, 130);
+    --mej-sheet-tab-border-items: rgb(140, 130, 80);
+    --mej-sheet-page-control-color: var(--mej-sheet-color);
+    --mej-sheet-page-control-background: var(--color-cool-4, rgb(70, 75, 85));
+    --mej-sheet-page-control-background-hover: var(--mej-sheet-page-control-background);
+    --mej-sheet-details-section-border: var(--color-cool-5-75, rgb(60, 65, 75));
+    --mej-sheet-input-border: 1px solid var(--color-cool-4, rgb(80, 85, 95));
+    --mej-sheet-input-background: var(--color-highlights-05, rgba(255, 255, 255, 0.05));
+    --mej-sheet-input-color: var(--mej-color-form-label);
+    --mej-sheet-button-background: var(--color-cool-4, rgb(70, 75, 85));
+    --mej-sheet-button-background-hover: var(--mej-sheet-button-background);
+    --mej-sheet-button-color: var(--mej-sheet-color);
+
+    /* Item list */
+    --mej-itemlist-background: var(--color-highlights-05, rgba(255, 255, 255, 0.05));
+    --mej-itemlist-colour: var(--color-light-3, rgb(160, 165, 175));
+    --mej-itemlist-border: var(--color-cool-5-75, rgb(60, 65, 75));
+    --mej-itemlist-item-border: var(--color-cool-4, rgb(70, 75, 85));
+    --mej-itemlist-item-name: var(--color-light-1, rgb(220, 220, 220));
+    --mej-itemlist-item-content: var(--color-light-2, rgb(200, 200, 200));
+    --mej-itemlist-item-disabled: var(--color-light-5, rgb(120, 120, 120));
+    --mej-itemlist-alternate-row: var(--color-highlights-05, rgba(255, 255, 255, 0.05));
+    --mej-itemlist-control-background: var(--color-cool-5-50, rgba(60, 65, 75, 0.4));
+    --mej-itemlist-control-border: var(--color-cool-4, rgb(70, 75, 85));
+    --mej-itemlist-control-color: var(--mej-itemlist-colour);
+    --mej-itemlist-control-color-hover: var(--mej-itemlist-colour);
+    --mej-itemlist-header-color: var(--mej-itemlist-colour);
+    --mej-itemlist-header-control-color: var(--mej-itemlist-colour);
+    --mej-itemlist-input-color: var(--color-light-1, rgb(220, 220, 220));
+    --mej-itemlist-input-border: transparent;
+    --mej-itemlist-input-background: var(--color-highlights-05, rgba(255, 255, 255, 0.05));
+
+    /* Sidebar */
+    --mej-sidebar-background: var(--color-cool-5-50, rgba(32, 37, 43, 0.6));
+    --mej-sidebar-button-background: var(--color-highlights-15, rgba(255, 255, 255, 0.1));
+    --mej-sidebar-button-border: var(--color-cool-5-75, rgb(60, 65, 75));
+    --mej-sidebar-input-border: var(--color-cool-4, rgb(70, 75, 85));
+    --mej-sidebar-input-background: var(--color-cool-5-75, rgba(60, 65, 75, 0.8));
+    --mej-sidebar-input-background-focus: var(--color-cool-4-75, rgba(70, 75, 85, 0.8));
+    --mej-sidebar-input-color: var(--color-light-1, rgb(220, 220, 220));
+    --mej-sidebar-input-placeholder-color: var(--mej-placeholder-color);
+    --mej-sidebar-label-color: rgb(var(--mej-light-2));
+    --mej-sidebar-folder-border-collapsed: var(--color-cool-4, rgb(80, 85, 95));
+    --mej-sidebar-folder-border: var(--color-cool-4, rgb(90, 95, 105));
+    --mej-sidebar-folder-background-collapsed: var(--color-cool-5-75, rgb(60, 65, 75));
+    --mej-sidebar-folder-background: var(--color-secondary-75, rgb(50, 55, 65));
+    --mej-sidebar-folder-color-collapsed: var(--color-light-2, rgb(200, 200, 200));
+    --mej-sidebar-folder-context-color: var(--mej-color-form-label);
+    --mej-sidebar-subfolder-border: var(--color-cool-4, rgb(70, 75, 85));
+    --mej-sidebar-document-color: var(--mej-color-form-label);
+    --mej-sidebar-document-border-top: var(--color-secondary-75, rgb(55, 60, 70));
+    --mej-sidebar-document-border-botom: var(--color-secondary, rgb(45, 50, 60));
+
+    /* Misc */
+    --mej-icon-background: var(--color-secondary-75, rgba(50, 55, 65, 1));
+    --mej-icon-shadow: rgba(0, 0, 0, 0.6);
+    --mej-icon-outline: var(--color-highlights-25, rgba(255, 255, 255, 0.2));
+    --mej-blank-color: var(--color-warm-2, rgba(255, 255, 255, 0.5));
+    --mej-blank-recent-background: var(--color-secondary-25, rgba(50, 55, 65, 0.3));
+    --mej-blank-recent-border: var(--color-cool-4-50, rgba(80, 85, 95, 0.5));
+    --mej-blank-link-hover: var(--color-highlights-75, rgba(255, 255, 255, 0.8));
+    --mej-instruction: var(--color-light-4, rgb(150, 150, 150));
+
+    /* Window content background for non-themed pages */
+    .window-content {
+      background: var(--color-cool-5, rgb(32, 37, 43)) !important;
+    }
+
+    /* Override red shadows on nav buttons */
+    .enhanced-journal-footer .nav-button:not(.disabled):hover,
+    .enhanced-journal-header .navigation .nav-button:not(.disabled):hover {
+      box-shadow: 0 0 5px var(--color-warm-2);
+      text-shadow: 0 0 8px var(--color-warm-2);
+    }
+
+    .directory-sidebar > section .directory-header button,
+    .enhanced-journal-header .navigation .nav-button {
+      border: transparent;
+      background-color: var(--color-bg-button);
+    }
+  }
+
+  /* Item Piles - Svelte select dropdown (attached to body, not inside .app) */
+  &.crlngn-item-piles.theme-dark,
+  &.crlngn-item-piles.crlngn-forced-dark-theme {
+    .svelte-select,
+    .svelte-select-list,
+    [class*="svelte-select"] {
+      background: var(--color-dark-bg-95, rgb(32, 37, 43)) !important;
+      color: var(--color-light-1, #e0e0e0) !important;
+      border-color: var(--color-cool-4, #444) !important;
+      /* Override inline --input-color: black */
+      --input-color: var(--color-light-1, #e0e0e0) !important;
+      --item-color: var(--color-light-1, #e0e0e0) !important;
+      --item-hover-bg: var(--color-cool-5-50, rgba(60, 70, 80, 0.5)) !important;
+      --item-is-active-bg: var(--color-highlights-50, rgba(100, 120, 150, 0.5)) !important;
+      --group-title-color: var(--color-light-3, #aaa) !important;
+      --list-background: var(--color-dark-bg-95, rgb(32, 37, 43)) !important;
+      --background: var(--color-dark-bg-95, rgb(32, 37, 43)) !important;
+
+      * {
+        color: var(--color-light-1, #e0e0e0) !important;
+      }
+
+      .item, .list-item, [class*="item"] {
+        color: var(--color-light-1, #e0e0e0) !important;
+        &:hover, &.hover, &.active {
+          background: var(--color-cool-5-50, rgba(60, 70, 80, 0.5)) !important;
+        }
+      }
+      .list-group-title, [class*="group-title"] {
+        color: var(--color-light-3, #aaa) !important;
+        background: transparent !important;
+      }
+    }
+  }
+
   /* Rest & Recovery 5e / Item Piles */
   &.crlngn-rest-recovery,
   &.crlngn-item-piles {
