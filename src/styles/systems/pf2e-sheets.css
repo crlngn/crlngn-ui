@@ -158,7 +158,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     box-shadow: none;
   }
 
-  .crb-style select {
+  .actor.sheet .crb-style select:not(.skill-proficiency) {
     color: var(--color-text-primary);
     background-color: var(--color-highlights-25);
   }
@@ -331,6 +331,12 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     color: var(--color-warm-2);
     font-weight: 800;
   }
+  .actor.sheet section.window-content .inventory .inventory-list a.invested i.fa-solid.fa-gem {
+    opacity: 0.5;
+  }
+  .actor.sheet section.window-content .inventory .inventory-list a.invested.active i.fa-solid.fa-gem {
+    opacity: 1;
+  }
 
   .actor.sheet section.window-content .inventory ul.items {
     border: 0;
@@ -492,6 +498,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character .subsection.details .image-container .actor-image {
     box-shadow: none;
     border-radius: 6px;
+    display: none;
   }
 
   .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.character {
@@ -627,11 +634,22 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     font-size: var(--font-size-11);
   }
 
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list {
+    gap: 0.25rem 1.5rem;
+  }
+
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li .modifier, 
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li .dc {
+    margin: 0.5rem;
+  }
+
   .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li {
     position: relative;
     font-size: var(--font-size-14);
+    background: var(--color-bg-alt);
     border-color: transparent;
-    padding: 0 0.75rem 0 0.5rem;
+    padding: 0 0.25rem 0 0;
+    border: 0;
 
     &:before {
       content: "";
@@ -640,18 +658,16 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
       left: 0;
       width: 100%;
       height: 100%;
-      border-image-repeat: repeat;
-      border-image-slice: 11;
-      border-image-source: url(/systems/pf2e/assets/sheet/frame-elegant.svg);
-      border-image-width: 14px;
-      border-style: double;
+      border-image-source: none;
       pointer-events: none;
+      border: 0;
     }
   }
-
-  &.theme-dark .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li:before {
-    filter: brightness(4);
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li a.hover {
+    text-decoration: none;
   }
+
+
   .actor.sheet section.window-content .hitpoints .max-hp h2, 
   .actor.sheet section.window-content .hitpoints div input, 
   .actor.sheet.character section.window-content .crb-style aside .sidebar .data-value h2 {
