@@ -181,6 +181,12 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     filter: brightness(4);
   }
 
+  .app.sheet {
+    background: var(--background);
+    backdrop-filter: blur(var(--background-blur, 0px));
+    -webkit-backdrop-filter: blur(var(--background-blur, 0px));
+  }
+
   .app.sheet .window-header {
     color: var(--color-text-primary);
     background-color: var(--control-bg-color);
@@ -191,6 +197,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .app.sheet .window-content {
     color: var(--color-text-primary);
     background: transparent;
+    background-color: transparent;
   }
   .app.sheet input[type="text"], 
   .app.sheet input[type="number"], 
