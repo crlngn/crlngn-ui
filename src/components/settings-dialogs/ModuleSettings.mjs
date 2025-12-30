@@ -1146,9 +1146,19 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     if (useGlassEffectCheckbox) {
       const toggleGlassEffectFields = () => {
         const isChecked = useGlassEffectCheckbox.checked;
-        const glassTranslucenceField = themesContent.querySelector('.form-group.range:has(input[name="glassTranslucence"])');
+        const glassTranslucenceField = themesContent.querySelector('.form-group:has(input[name="glassTranslucence"])');
+        const glassTranslucenceRange = themesContent.querySelector('input[name="glassTranslucence"]');
+        const glassTranslucenceValue = themesContent.querySelector('input[name="glassTranslucence_value"]');
 
-        if (glassTranslucenceField) glassTranslucenceField.style.display = isChecked ? 'flex' : 'none';
+        if (glassTranslucenceField) {
+          glassTranslucenceField.style.display = isChecked ? 'flex' : 'none';
+        }
+        if (glassTranslucenceRange) {
+          glassTranslucenceRange.disabled = !isChecked;
+        }
+        if (glassTranslucenceValue) {
+          glassTranslucenceValue.disabled = !isChecked;
+        }
       };
 
       // Set initial state

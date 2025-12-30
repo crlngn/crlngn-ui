@@ -55,8 +55,8 @@ body.crlngn-ui{
       content: '';
       background-color: var(--control-bg-color);
       display: flex;
-      width: calc(100% - var(--folder-padding, 0px) - 1px);
-      height: calc(100% - 1px);
+      width: calc(100% - var(--folder-padding, 0px));
+      height: 100%;
       z-index: -1;
       position: absolute;
     }
