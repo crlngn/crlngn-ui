@@ -22,6 +22,7 @@ export class SheetsUtil {
 
     // PF2e-specific hooks
     Hooks.on(HOOKS_PF2E.RENDER_CHAR_SHEET_PF2E, SheetsUtil.#onRenderPF2eSheet);
+    Hooks.on(HOOKS_PF2E.RENDER_NPC_SHEET_PF2E, SheetsUtil.#onRenderPF2eNpcSheet);
     Hooks.on(HOOKS_CORE.UPDATE_SETTING, SheetsUtil.#onUpdateSettingPF2e);
 
     // DnD5e and Daggerheart hooks
@@ -40,6 +41,15 @@ export class SheetsUtil {
     LogUtil.log(HOOKS_PF2E.RENDER_CHAR_SHEET_PF2E, [actorSheet, element, data]);
 
     SheetsUtil.adjustPF2eSheet(element);
+    SheetsUtil.applyThemeToSheets(SheetsUtil.themeStylesEnabled);
+  }
+
+  static #onRenderPF2eNpcSheet(actorSheet, html, data){
+    if(game.system.id !== "pf2e"){ return; }
+    const element = html instanceof HTMLElement ? html : html[0] || html;
+    LogUtil.log(HOOKS_PF2E.RENDER_NPC_SHEET_PF2E, [actorSheet, element, data]);
+
+    SheetsUtil.adjustPF2eNpcSheet(element);
     SheetsUtil.applyThemeToSheets(SheetsUtil.themeStylesEnabled);
   }
 
@@ -393,5 +403,37 @@ export class SheetsUtil {
       }
     });
 
+  }
+
+  /**
+   * Adjusts PF2e NPC sheet layout
+   * Adds right-click minimize functionality to the actor image
+   * @param {HTMLElement} html - The sheet HTML element
+   */
+  static adjustPF2eNpcSheet(html){
+    LogUtil.log("adjustPF2eNpcSheet", []);
+    if(!SheetsUtil.themeStylesEnabled) return;
+
+    const isImgMinimized = game.user?.getFlag(MODULE_ID, 'pf2eNpcImgMinimized');
+    const imageContainer = html.querySelector(".sidebar .image-container");
+    if(!imageContainer) return;
+
+    // NPC sheets use img.profile-img instead of img.actor-image
+    const actorImg = imageContainer.querySelector("img.profile-img") || imageContainer.querySelector("img.actor-image");
+    if(!actorImg) return;
+
+    actorImg.setAttribute("data-tooltip", "Right-click to toggle minimize");
+    actorImg.setAttribute("data-tooltip-delay", "2000");
+
+    if(isImgMinimized){
+      actorImg.classList.add('minimized');
+    }
+
+    actorImg.addEventListener('mousedown', function(event) {
+      if (event.button === 2) {
+        game.user?.setFlag(MODULE_ID, 'pf2eNpcImgMinimized', !actorImg.classList.contains('minimized'));
+        actorImg.classList.toggle('minimized');
+      }
+    });
   }
 }

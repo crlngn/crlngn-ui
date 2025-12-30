@@ -218,6 +218,9 @@ body.crlngn-ui{
       }
     }
   }
+  .directory.compendium-sidebar .header-actions button i {
+    display: none;
+  }
 
   #settings .dnd5e2 {
     .unlist a {

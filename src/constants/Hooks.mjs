@@ -108,7 +108,8 @@ export const HOOKS_DND5E = {
 }
 
 export const HOOKS_PF2E = {
-  RENDER_CHAR_SHEET_PF2E: "renderCharacterSheetPF2e"
+  RENDER_CHAR_SHEET_PF2E: "renderCharacterSheetPF2e",
+  RENDER_NPC_SHEET_PF2E: "renderNPCSheetPF2e"
 }
 
 /**
