@@ -66,6 +66,11 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   
   .app.window-app .window-content {
     color: var(--color-text-primary);
+    background: var(--background);
+  }
+  .app hr {
+    border-top: 1px solid var(--color-highlights-25);
+    border-bottom: 1px solid transparent;
   }
 
   /* Tagify dropdown styling for PF2e dark mode - must be outside main selector as dropdown is appended to body */
