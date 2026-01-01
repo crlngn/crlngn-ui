@@ -483,6 +483,7 @@ export function getSettings() {
         adjustOtherModules: true,
         otherModulesList: [
           { id: 'levels-3d-preview', enabled: true },
+          { id: 'autoanimations', enabled: true },
           { id: 'beneos-module', enabled: true },
           { id: 'bg3-inspired-hotbar', enabled: true },
           { id: 'breaktime', enabled: true },
@@ -1089,6 +1090,7 @@ export function getSettings() {
       propType: Array,
       default: [
         { id: 'levels-3d-preview', enabled: true },
+        { id: 'autoanimations', enabled: true },
         { id: 'beneos-module', enabled: true },
         { id: 'bg3-inspired-hotbar', enabled: true },
         { id: 'breaktime', enabled: true },
@@ -1106,6 +1108,7 @@ export function getSettings() {
       ],
       options: {
         "3D Canvas Mapmaking": "levels-3d-preview",
+        "Automated Animations": "autoanimations",
         "Beneos Module": "beneos-module",
         "BG3 Inspired Hotbar": "bg3-inspired-hotbar",
         "Breaktime": "breaktime",

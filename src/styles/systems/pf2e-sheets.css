@@ -810,6 +810,12 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
       border: 0;
     }
   }
+  &.theme-light .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li {
+    background: light-dark(rgba(0, 0, 0, 0.05));
+  } 
+  &.theme-dark .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li {
+    background: light-dark(rgba(255, 255, 255, 0.05));
+  } 
   .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li a.hover {
     text-decoration: none;
   }
@@ -1371,6 +1377,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
 
   .sheet.spellcasting-entry > .window-content ol.spell-list > li.header-row {
     border-color: transparent;
+    margin-top: 1rem;
   }
   
   .sheet.spellcasting-entry > .window-content h1 {
@@ -1483,6 +1490,11 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     }
     .actor.sheet.character section.window-content .crb-style p {
       font-family: var(--crlngn-font-family);
+    }
+
+    .app.attribute-builder .window-content .summary-row .hint-container {
+      background: var(--color-bg-alt);
+      border: 0;
     }
     
 

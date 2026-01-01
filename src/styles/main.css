@@ -334,7 +334,6 @@ body.crlngn-ui{
       color: var(--color-highlights);
     }
   }
-  
 
   .application:not(.monks-enhanced-journal) .header-actions {
     padding-inline: 0px;
@@ -1135,6 +1134,7 @@ body.crlngn-ui{
   &.hide-scene-name ol#notifications.theme-dark,
   &.hide-scene-name ol#notifications.theme-light {
     .notification.info.progress {
+      border-color: rgba(255,255,255,0.15);
       border-width: 2px;
       border-radius: 6px;
       box-shadow: 0px 2px 6px rgba(0,0,0,0.5);
@@ -1142,6 +1142,7 @@ body.crlngn-ui{
     .notification.info.progress::before{
       content: "";
       position: absolute;
+      display: block;
       left: 0;
       top: 0;
       width: var(--pct);

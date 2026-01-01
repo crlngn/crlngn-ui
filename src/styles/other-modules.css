@@ -773,6 +773,12 @@ body.crlngn-ui{
     }
   }
 
+  /* Simple Fog - prevent simple fog configuration from being hidden */
+  &.crlngn-scene-nav aside#simplefog-filter-config {
+    left: calc(var(--control-item-size) * 3) !important;
+    top: calc(var(--scene-nav-offset) + 10px) !important;
+  }
+
 
 
   #breaktime-app {
@@ -1007,8 +1013,10 @@ body.crlngn-ui{
     width: calc(var(--control-columns) * var(--crlngn-control-size) + (var(--control-columns) - 1) * 8px);
   }
 
-  .crlngn-dark-mode{
+    /* Automated Animations */
+  &.crlngn-autoanimations.theme-dark #AA-autorec-settings {
     --background: var(--color-dark-bg-95) !important;
+    --color-border: transparent;
     --filigree-background-color: var(--color-dark-bg-10) !important;
     --dnd5e-border-dotted: 1px dotted var(--color-cool-4) !important;
     --dnd5e-color-gold: rgba(159, 146, 117, 0.4) !important;
@@ -1068,11 +1076,26 @@ body.crlngn-ui{
 
     background: var(--color-dark-bg-90) !important;
     color: var(--color-light-1) !important;
+    border-color: transparent;
 
+    input[type="checkbox"] {
+      background: transparent;
+    }
+
+    div,
     p, a, span, div, aside, section, label, form, button, table, td, tr, th, h1, h2, h3, h4, h5, h6, ul, ol, li, i, b, strong, u{
       color: var(--color-light-1) !important;
       background: transparent !important;
       border-color: var(--color-cool-4);
+    }
+
+    header ul li {
+      font-family: var(--crlngn-font-titles);
+      font-size: 0.9em;
+      opacity: 0.6;
+    }
+    header ul li.active{
+      opacity: 1;
     }
 
     .window-header, .window-content, header, footer {
@@ -1089,10 +1112,6 @@ body.crlngn-ui{
       &:hover{
         background-color: var(--color-warm-2) !important;
       }
-    }
-
-    .actor.sheet section.window-content .inventory ul.items > li > .data .item-controls {
-      
     }
 
   }
@@ -1296,6 +1315,29 @@ body.crlngn-ui{
       &:hover #dragHandle {
         opacity: 1;
       }
+    }
+  }
+
+  /* PF2e Workbench */
+  &.crlngn-sheets {
+    .xdy-pf2e-workbench-rarity-common {
+      border-color: var(--color-text-primary);
+      color: var(--color-text-primary);
+    }
+
+    .xdy-pf2e-workbench-rarity-uncommon {
+        border-color: #ca7a64;
+        color: #ca7a64;
+    }
+
+    .xdy-pf2e-workbench-rarity-rare {
+        border-color: #6b9dec;
+        color: #6b9dec;
+    }
+
+    .xdy-pf2e-workbench-rarity-unique {
+        border-color: #bb83f0;
+        color: #bb83f0;
     }
   }
 
