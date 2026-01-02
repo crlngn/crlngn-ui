@@ -201,7 +201,6 @@
     &.theme-light .chat-popout.theme-light,
     &.theme-light #context-menu {
       --color-bg-button: rgba(244, 239, 237,0.9);
-    
       --color-secondary: rgb(204, 186, 204);
       --color-secondary-bright: rgba(236, 224, 236, 1);
       --color-secondary-bright-50: rgba(236, 224, 236, 0.5);
@@ -229,6 +228,11 @@
       .dnd5e2:not(.theme-dark){
         --filigree-border-color: rgba(158, 138, 138, 0.5);
       }
+    }
+
+    &.theme-dark .form-footer button,
+    &.theme-light .theme-dark button {
+      --color-bg-button: rgba(32,37,43);
     }
     
     /* dark mode */

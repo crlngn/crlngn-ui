@@ -1014,79 +1014,104 @@ body.crlngn-ui{
   }
 
     /* Automated Animations */
-  &.crlngn-autoanimations.theme-dark #AA-autorec-settings {
-    --background: var(--color-dark-bg-95) !important;
+  &.crlngn-autoanimations.theme-dark #AA-autorec-settings,
+  &.crlngn-autoanimations.theme-dark #AA-item-settings {
+    --background: var(--color-dark-bg-95);
     --color-border: transparent;
-    --filigree-background-color: var(--color-dark-bg-10) !important;
-    --dnd5e-border-dotted: 1px dotted var(--color-cool-4) !important;
-    --dnd5e-color-gold: rgba(159, 146, 117, 0.4) !important;
-    --input-background-color: var(--color-cool-4) !important;
-    --chat-dark-blue: rgba(24, 32, 38, 1) !important;
-    --input-background-alt: var(--color-dark-bg-50) !important;
-    --color-text-secondary: var(--color-light-1) !important;
-    --color-text-primary: var(--color-light-1) !important;
-    --color-text-inverse: var(--color-dark-1) !important;
-    --button-text-color: var(--color-light-1) !important;
-    --color-border-light-1: var(--dnd5e-color-gold) !important;
-    --color-text-dark-input: var(--color-light-1) !important;
+    --filigree-background-color: var(--color-dark-bg-10);
+    --dnd5e-border-dotted: 1px dotted var(--color-cool-4);
+    --dnd5e-color-gold: rgba(159, 146, 117, 0.4);
+    --input-background-color: var(--color-cool-4);
+    --chat-dark-blue: rgba(24, 32, 38, 1);
+    --input-background-alt: var(--color-dark-bg-50);
+    --color-text-secondary: var(--color-light-1);
+    --color-text-primary: var(--color-light-1);
+    --color-text-inverse: var(--color-dark-1);
+    --button-text-color: var(--color-light-1);
+    --color-border-light-1: var(--dnd5e-color-gold);
+    --color-text-dark-input: var(--color-light-1);
 
-    --crlngn-button-bg: rgba(15, 15, 15, 0.15) !important;
-    --color-bg-button: rgba(32, 37, 43, 1) !important;
-    --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.35) !important;
-    --dnd5e-color-groove: var(--dnd5e-color-gold) !important;
-    --dnd5e-sheet-bg: rgb(37, 40, 48) !important;
-    --sidebar-background: var(--control-bg-color, var(--color-cool-5-90)) !important;
-    --dnd5e-color-parchment: rgb(32, 37, 43) !important;
-    --dnd5e-background-card: rgb(32, 37, 43) !important; 
-    --dnd5e-background-parchment: rgb(32, 37, 43) !important;
+    --crlngn-button-bg: rgba(15, 15, 15, 0.15);
+    --color-bg-button: rgba(32, 37, 43, 1);
+    --dnd5e-border-groove: 1px solid rgba(36, 36, 36, 0.35);
+    --dnd5e-color-groove: var(--dnd5e-color-gold);
+    --dnd5e-sheet-bg: rgb(37, 40, 48);
+    --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
+    --dnd5e-color-parchment: rgb(32, 37, 43);
+    --dnd5e-background-card: rgb(32, 37, 43); 
+    --dnd5e-background-parchment: rgb(32, 37, 43);
 
-    --color-pf-alternate: rgba(82, 107, 120, 0.44) !important;
-    --color-text-gray-blue: rgb(168, 180, 188, 1) !important;
-    --color-text-gray-blue-b: rgb(138, 155, 168, 1) !important;
-    --chat-button-bg: rgba(32, 37, 43, 1) !important;
-    --chat-button-bg-15: rgba(32, 37, 43, 0.15) !important;
-    --chat-button-bg-25: rgba(32, 37, 43, 0.25) !important;
-    --chat-button-bg-50: rgba(32, 37, 43, 0.5) !important;
-    --chat-button-bg-75: rgba(32, 37, 43, 0.75) !important;
-    --chat-dark-blue: rgba(24, 32, 38, 1) !important;
-    --chat-dark-blue-b: rgb(29, 36, 48, 1) !important; 
-    --chat-dark-bg: rgba(32, 37, 43, 1) !important; 
-    --chat-dark-bg-15: rgba(32, 37, 43, 0.15) !important;
-    --chat-dark-bg-25: rgba(32, 37, 43, 0.25) !important;
-    --chat-dark-bg-50: rgba(32, 37, 43, 0.50) !important; 
-    --chat-dark-bg-75: rgba(32, 37, 43, 0.75) !important; 
-    --chat-dark-bg-90: rgba(32, 37, 43, 0.90) !important; 
+    --color-pf-alternate: rgba(82, 107, 120, 0.44);
+    --color-text-gray-blue: rgb(168, 180, 188, 1);
+    --color-text-gray-blue-b: rgb(138, 155, 168, 1);
+    --chat-button-bg: rgba(32, 37, 43, 1);
+    --chat-button-bg-15: rgba(32, 37, 43, 0.15);
+    --chat-button-bg-25: rgba(32, 37, 43, 0.25);
+    --chat-button-bg-50: rgba(32, 37, 43, 0.5);
+    --chat-button-bg-75: rgba(32, 37, 43, 0.75);
+    --chat-dark-blue: rgba(24, 32, 38, 1);
+    --chat-dark-blue-b: rgb(29, 36, 48, 1); 
+    --chat-dark-bg: rgba(32, 37, 43, 1); 
+    --chat-dark-bg-15: rgba(32, 37, 43, 0.15);
+    --chat-dark-bg-25: rgba(32, 37, 43, 0.25);
+    --chat-dark-bg-50: rgba(32, 37, 43, 0.50); 
+    --chat-dark-bg-75: rgba(32, 37, 43, 0.75); 
+    --chat-dark-bg-90: rgba(32, 37, 43, 0.90); 
 
-    --color-input-bg: var(--color-dark-bg-50) !important; 
+    --color-input-bg: var(--color-dark-bg-50); 
   
-    --color-button-bg: rgba(90,120,150,0.5) !important;
-    --color-input-border: rgba(90,120,150, 0.5) !important;
-    --color-border-dark-5: rgba(80, 80, 80, 1) !important;
-    --color-sidebar-font: rgba(213, 221, 230, 0.8) !important;
+    --color-button-bg: rgba(90,120,150,0.5);
+    --color-input-border: rgba(90,120,150, 0.5);
+    --color-border-dark-5: rgba(80, 80, 80, 1);
+    --color-sidebar-font: rgba(213, 221, 230, 0.8);
 
-    --color-text-dark: rgba(235,235,235,1) !important;
-    --color-text-dark-op: rgba(235,235,235,0.6) !important;
-    --color-text-light: rgba(235,235,235,1) !important;
-    --input-background-color: var(--color-cool-5) !important;
-    --input-background-alt: var(--color-cool-5) !important;
-    --color-text-secondary:var(--color-light-3) !important;
-    --color-text-primary: var(--color-light-1) !important;
-    --color-text-dark-primary: var(--color-light-1) !important;
+    --color-text-dark: rgba(235,235,235,1);
+    --color-text-dark-op: rgba(235,235,235,0.6);
+    --color-text-light: rgba(235,235,235,1);
+    --input-background-color: var(--color-cool-5);
+    --input-background-alt: var(--color-cool-5);
+    --color-text-secondary:var(--color-light-3);
+    --color-text-primary: var(--color-light-1);
+    --color-text-dark-primary: var(--color-light-1);
     --color-text-inverse: var(--color-dark-1);
 
-    background: var(--color-dark-bg-90) !important;
-    color: var(--color-light-1) !important;
+    --tjs-input-color: var(--color-text-secondary);
+    --input-height: 1.5rem;
+
+    background: var(--color-dark-bg-90);
+    color: var(--color-light-1);
     border-color: transparent;
 
     input[type="checkbox"] {
       background: transparent;
     }
+    main {
+      margin-top: 1rem;
+    }
 
-    div,
     p, a, span, div, aside, section, label, form, button, table, td, tr, th, h1, h2, h3, h4, h5, h6, ul, ol, li, i, b, strong, u{
-      color: var(--color-light-1) !important;
-      background: transparent !important;
+      color: var(--color-light-1);
+      background: transparent;
       border-color: var(--color-cool-4);
+    }
+    nav.tjs-menu {
+      background: var(--color-dark-bg-90);
+      color: var(--color-light-1);
+      border-color: transparent;
+    }
+    button[role="switch"] {
+      background: var(--color-cool-4);
+    }
+    button[role=switch][aria-checked=true] {
+      background-color: var(--accent-color);
+    }
+    div.aa-bgGreen {
+      background-color: rgba(80, 222, 99, 0.35) !important;
+    }
+
+    header.animation {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
     }
 
     header ul li {
@@ -1099,18 +1124,18 @@ body.crlngn-ui{
     }
 
     .window-header, .window-content, header, footer {
-      background: var(--color-dark-bg-90) !important;
-      color: var(--color-light-1) !important;
+      background: var(--color-dark-bg-90);
+      color: var(--color-light-1);
     }
 
     .window-header{
-      border-bottom: 1px solid var(--color-cool-4) !important;
+      border-bottom: 1px solid var(--color-cool-4);
     }
 
     button{
-      color: var(--color-light-1) !important;
+      color: var(--color-light-1);
       &:hover{
-        background-color: var(--color-warm-2) !important;
+        background-color: var(--color-warm-2);
       }
     }
 

@@ -720,13 +720,6 @@ export class TopNavigation {
       }
     }
 
-    LogUtil.log("placeNavButtons *", [
-      TopNavigation.isCollapsed,
-      isNavOverflowing,
-      existingButtons,
-      {navClientWidth, navScrollWidth, btnWidth}
-    ]);
-
     if(!isNavOverflowing
       || TopNavigation.isCollapsed
       || TopNavigation.#uiLeft.classList.contains('navigation-collapsed')){

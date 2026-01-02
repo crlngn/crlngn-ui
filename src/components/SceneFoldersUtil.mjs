@@ -77,7 +77,8 @@ export class SceneNavFolders {
       TopNavigation.setNavPosition(0);
       const toggleOn = !TopNavigation.navShowRootFolders;
       SettingsUtil.set(SETTINGS.navShowRootFolders.tag, toggleOn);
-      TopNavigation.placeNavButtons();
+      // placeNavButtons is called by renderFolderList after folders are rendered
+      // and again after 500ms timeout in onRender to ensure proper overflow detection
     });
     activeScenesMenu?.append(folderToggle);
 

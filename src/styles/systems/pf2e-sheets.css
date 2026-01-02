@@ -64,7 +64,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     color: var(--color-text-primary);
   }
   
-  .app.window-app .window-content {
+  .app.window-app:not(.journal-sheet) .window-content {
     color: var(--color-text-primary);
     background: var(--background);
   }
@@ -151,7 +151,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .app.themed.theme-light {
     --color-text-primary: #000;
     --color-text-inverse:#fff;
-    --color-bg-alt: rgba(255,255,255,0.75);
+    --color-bg-alt: rgba(255,255,255,0.35);
     --color-bg-input: rgba(0,0,0, 0.05);
   }
   &.theme-dark .app.themed.theme-light,
@@ -159,7 +159,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     --color-text-primary: #fff;
     --color-text-inverse: #000;
     --color-bg-alt: rgba(255,255,255,0.075);
-    --color-bg-input: rgba(0,0,0, 0.35);
+    --color-bg-input: rgba(255,255,255, 0.05);
   }
   /* option-toggles border in pseudo-element for dark mode brightness filter */
   .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active ul.option-toggles {
@@ -199,10 +199,10 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
 
   .app.sheet .window-header {
     color: var(--color-text-primary);
-    background-color: var(--control-bg-color);
+    background-color: var(--color-alt-bg);
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
-    border-bottom: 0;
+    border-bottom: 1px solid var(--color-bg-alt);
   }
   .app.sheet .window-content {
     color: var(--color-text-primary);
@@ -1366,8 +1366,24 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   /* spellcasting and items */
   .sheet.spellcasting-entry .window-content,
   .sheet.item .window-content {
-    padding: 0.75rem;
-    line-height: 1.65;
+    padding: 1.25rem;
+    line-height: 1.5;
+  }
+  .pf2e.item.sheet form > nav {
+    border-bottom: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .pf2e.item.sheet form > nav > .tabs > a {
+    font-size: var(--font-size-14);
+    opacity: 0.7;
+  }
+  .pf2e.item.sheet form > nav > .tabs > a.active {
+    opacity: 1;
+  }
+
+  .sheet.item form .sheet-body .tab.active label {
+    color: var(--color-text-secondary);
   }
 
   .sheet.spellcasting-entry nav.sheet-tabs, 
@@ -1400,13 +1416,13 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .pf2e.item.sheet form > header input[type=number], 
   .pf2e.item.sheet form > header tagify-tags {
     color: var(--color-text-primary);
-    margin: 0.5rem 0;
+    margin: 0.25rem 0;
   }
   .pf2e.item.sheet form .sheet-content input[type=checkbox], 
   .pf2e.item.sheet form .sheet-content input[type=number], 
   .pf2e.item.sheet form .sheet-content input[type=text], 
   .pf2e.item.sheet form .sheet-content select {
-    background: var(--color-bg-input);
+    background: var(--color-bg-button);
     border: 0;
   }
   .pf2e.item.sheet form .sheet-body .tab.active.description .editor a.add-gm-notes, .pf2e.item.sheet form .sheet-body .tab.active.description .editor a.editor-edit {
