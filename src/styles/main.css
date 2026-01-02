@@ -87,8 +87,8 @@ body.crlngn-ui {
   }
 
   .content-link, .inline-roll {
-    border-color: light-dark(rgba(255,255,255,0.3), rgba(255,255,255,0.075));
-    background-color: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.2));
+    border-color: light-dark(rgba(255,255,255,0.3), rgba(255,255,255,0.05));
+    background-color: light-dark(rgba(0,0,0,0.05), rgba(255,255,255,0.1));
     color: inherit;
   }
   /*
@@ -141,8 +141,30 @@ body.crlngn-ui {
 /*************/
 /* JOURNALS */
 body.crlngn-ui  {
+  .app.journal-entry.sheet {
+    .journal-entry-content {
+      background: var(--control-bg-color);
+      border: 2px solid #000;
+    }
+    .journal-sidebar {
+      background: transparent;
+      color: var(--color-text-primary);
+    }
+    .action-buttons button{
+      color: var(--color-text-primary);
+      background: var(--color-bg-button);
+      border-color: transparent;
+    }
+  }
+  &.theme-dark .form-footer button
   .sheet.journal-entry {
     line-height: 1.6;
+    /*
+    .action-buttons button {
+      border-color: transparent;
+      background: var(--color-bg-button);
+      color: var(--color-text-primary);
+    }*/
 
     h1, h2, h3 {
       margin: 1.5rem 0 0.5rem 0;
@@ -157,6 +179,7 @@ body.crlngn-ui  {
       line-height: 1.6;
     }
   }
+    
 }
 
 /* Journal Body Font - only when enabled */
@@ -204,6 +227,11 @@ body.crlngn-ui{
 
   .application#crlngn-color-picker .window-content {
     z-index: 1001;
+  }
+
+  nav.sheet-tabs.tabs a {
+    line-height: 1.5;
+    padding: 0.5rem 0;
   }
 
   .application:not(.actor, .sheet, .monks-enhanced-journal) .standard-form nav.tabs {
@@ -262,15 +290,15 @@ body.crlngn-ui{
   .sidebar-tab .standard-form .form-group {
     gap: 0.25em;
   } 
-
+/*
   form.application .journal-sheet.theme-light{
     --color-bg-button: initial;
-  }
+  }*/
   .journal-sidebar .directory-item.entry {
     padding: 4px 12px;
   }
   .app.journal-sheet .journal-sidebar input {
-    background: var(--color-cool-5-75);
+    background: var(--color-bg-input);
     border: 1px solid var(--color-cool-5);
     /* padding: 8px; */
     min-height: var(--input-height);
