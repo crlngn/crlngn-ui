@@ -73,6 +73,8 @@ body.crlngn-ui{
   }
 
   .sidebar-tab {
+    background: var(--background);
+    backdrop-filter: blur(var(--background-blur, 0px));
     
     li.directory-item.folder{
       .folder-name {
