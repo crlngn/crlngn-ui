@@ -64,7 +64,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     color: var(--color-text-primary);
   }
   
-  .app.window-app:not(.journal-sheet) .window-content {
+  .app.window-app:not(.sheet, .journal-sheet) .window-content {
     color: var(--color-text-primary);
     background: var(--background);
   }
@@ -334,6 +334,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
   .actor.sheet section.window-content input:not(.pf-rank){
     color: var(--color-text-primary);
+    min-height: 1.85rem;
   }
   .actor.sheet section.window-content input.details-input,
   .actor.sheet section.window-content input.search,
@@ -1364,26 +1365,40 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
 
   /* spellcasting and items */
+  &.theme-dark .app.sheet.item button,
+  &.theme-dark .app.sheet.item input{
+    --color-bg-button: rgba(255, 255, 255, 0.1);
+  }
+  .app.sheet.item input,
+  .app.sheet.item button {
+    --input-height: 2rem;
+    min-height: var(--input-height);
+    background-color: var(--color-bg-button);
+  }
   .sheet.spellcasting-entry .window-content,
   .sheet.item .window-content {
     padding: 1.25rem;
     line-height: 1.5;
   }
-  .pf2e.item.sheet form > nav {
+  .item.sheet form > nav {
     border-bottom: 1px solid var(--color-border);
     border-top: 1px solid var(--color-border);
   }
 
-  .pf2e.item.sheet form > nav > .tabs > a {
+  .item.sheet form > nav > .tabs > a {
     font-size: var(--font-size-14);
     opacity: 0.7;
   }
-  .pf2e.item.sheet form > nav > .tabs > a.active {
+  .item.sheet form > nav > .tabs > a.active {
     opacity: 1;
   }
 
   .sheet.item form .sheet-body .tab.active label {
     color: var(--color-text-secondary);
+  }
+  .sheet.item form .tab button {
+    color: var(--color-text-primary);
+    background: var(--color-bg-button);
   }
 
   .sheet.spellcasting-entry nav.sheet-tabs, 
@@ -1457,6 +1472,11 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     color: var(--color-text-primary);
     opacity: 1;
   }
+
+  .app.attribute-builder .window-content .summary-row .hint-container {
+    background: var(--color-bg-alt);
+    border: 0;
+  }
   
 
   /* fonts */
@@ -1508,9 +1528,9 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
       font-family: var(--crlngn-font-family);
     }
 
-    .app.attribute-builder .window-content .summary-row .hint-container {
-      background: var(--color-bg-alt);
-      border: 0;
+    .app.sheet,
+    .app.item.sheet form > nav > .tabs > a {
+      font-family: var(--crlngn-font-family);
     }
     
 

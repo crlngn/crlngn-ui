@@ -1099,6 +1099,11 @@ body.crlngn-ui {
   .dnd5e2.sheet.actor.character .sheet-header .document-name {
     line-height: 105%;
   }
+  body.game .sheet.app header.sheet-header img {
+    flex: 0 0 80px;
+    height: 80px;
+    margin-right: 16px;
+  }
 }
 
 /**************
