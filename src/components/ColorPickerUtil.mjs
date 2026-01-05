@@ -819,13 +819,9 @@ export class ColorPickerUtil {
     const secondaryForLight = colors.secondaryLight || 'rgb(223, 227, 231)';
 
     // If this is a preset AND applySecondaryColorToBg is enabled, darken the dark secondary by 20%
-    LogUtil.log("Preset darkening check", [colors.isPreset, applySecondaryToBg, secondaryForDark]);
     if (colors.isPreset && applySecondaryToBg) {
       secondaryForDark = this.darkenColor(secondaryForDark, 20);
-      LogUtil.log("Darkened secondary", [secondaryForDark]);
     }
-
-    LogUtil.log("Secondary colors", [secondaryForDark, secondaryForLight]);
     
     // Generate secondary variables for both themes
     const secondaryVarsDark = this.generateColorVariations(secondaryForDark, 'secondary', 'dark');
@@ -868,14 +864,15 @@ export class ColorPickerUtil {
       }
     `;
     if (applySecondaryToBg) {
+      cssText += `body.crlngn-ui.crlngn-journals .application.sheet.journal-sheet:not(.dnd5e2-journal),
+        body.crlngn-ui.crlngn-journals .application.sheet.journal-sheet:not(.dnd5e2-journal) * {
+          --color-light-1: light-dark(var(--color-dark-1), var(--color-light-1));
+          --input-text-color: light-dark(var(--color-dark-1), var(--color-light-1));
+        }
+      `;
       cssText += `
         body.crlngn-ui {
           --tools-visible-opacity: 0.75;
-        }
-        body.crlngn-ui .application.sheet.journal-sheet:not(.dnd5e2-journal),
-        body.crlngn-ui .application.sheet.journal-sheet:not(.dnd5e2-journal) * {
-          --color-light-1: light-dark(var(--color-dark-1), var(--color-light-1));
-          --input-text-color: light-dark(var(--color-dark-1), var(--color-light-1));
         }
         body.crlngn-ui.theme-dark input[type=checkbox], 
         body.crlngn-ui.theme-dark input[type=radio]{

@@ -139,8 +139,23 @@ body.crlngn-ui {
 }
 
 /*************/
-/* JOURNALS */
-body.crlngn-ui  {
+/* JOURNAL TOGGLE BUTTON */
+body.crlngn-ui {
+  .crlngn-journal-toggle {
+    opacity: 0.5;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  &.crlngn-journals .crlngn-journal-toggle {
+    opacity: 1;
+    color: var(--color-text-primary);
+  }
+}
+
+/*************/
+/* JOURNALS - only when journal styles enabled */
+body.crlngn-ui.crlngn-journals {
   .app.journal-entry.sheet {
     .journal-entry-content {
       background: var(--control-bg-color);
@@ -156,7 +171,6 @@ body.crlngn-ui  {
       border-color: transparent;
     }
   }
-  &.theme-dark .form-footer button
   .sheet.journal-entry {
     line-height: 1.6;
     /*
@@ -178,12 +192,15 @@ body.crlngn-ui  {
     p{
       line-height: 1.6;
     }
+
+    .window-title {
+      margin: 0.5rem 0;
+    }
   }
-    
 }
 
-/* Journal Body Font - only when enabled */
-body.crlngn-ui.cui-font-jrnl {
+/* Journal Body Font - only when enabled AND journal styles enabled */
+body.crlngn-ui.crlngn-journals.cui-font-jrnl {
   .journal-entry-content, .journal-page-content{
     font-family: var(--crlngn-font-journal-body);
   }
@@ -198,9 +215,9 @@ body.crlngn-ui.cui-font-jrnl {
   }
 }
 
-/* Journal Titles Font - only when enabled */
-body.crlngn-ui.cui-font-jrnl-t {
-  
+/* Journal Titles Font - only when enabled AND journal styles enabled */
+body.crlngn-ui.crlngn-journals.cui-font-jrnl-t {
+
   .sheet.journal-entry, .journal-entry-content {
     h1, h2, h3 {
       font-family: var(--crlngn-font-journal-title);
@@ -261,8 +278,7 @@ body.crlngn-ui{
   .standard-form .form-group > label, 
   .standard-form .form-group > span.label {
     line-height: 1.5;
-    min-width: 35%;
-    min-width: 240px;
+    min-width: max(190px, 35%);
   }
 
   .standard-form .form-group label:not([for]) {
@@ -290,21 +306,6 @@ body.crlngn-ui{
 
   .sidebar-tab .standard-form .form-group {
     gap: 0.25em;
-  } 
-/*
-  form.application .journal-sheet.theme-light{
-    --color-bg-button: initial;
-  }*/
-  .journal-sidebar .directory-item.entry {
-    padding: 4px 12px;
-  }
-  .app.journal-sheet .journal-sidebar input {
-    background: var(--color-bg-input);
-    border: 1px solid var(--color-cool-5);
-    /* padding: 8px; */
-    min-height: var(--input-height);
-    box-shadow: none;
-    color: inherit;
   }
 
   .application:not(.dnd5e2, .monks-enhanced-journal) .dialog-buttons button, 

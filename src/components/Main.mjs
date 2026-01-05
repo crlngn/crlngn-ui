@@ -20,6 +20,7 @@ import { TokenWheel } from "./TokenWheelUtil.mjs";
 import { SheetsUtil } from "./SheetsUtil.mjs";
 import { HintTooltipUtil } from "./HintTooltipUtil.mjs";
 import { BottomDockUtil } from "./BottomDockUtil.mjs";
+import { JournalUtil } from "./JournalUtil.mjs";
 
 /**
  * Main class handling core module initialization and setup
@@ -142,6 +143,7 @@ export class Main {
       ModuleCompatUtil.init();
       UpdateNewsUtil.init();
       SheetsUtil.init();
+      JournalUtil.init();
       HintTooltipUtil.init();
       BottomDockUtil.setup();
       SidebarTabs.onReady();

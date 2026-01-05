@@ -47,6 +47,10 @@
         "preloadScene": "Preload scene for players",
         "sceneConfig": "Scene Configuration"
       },
+      "journalToggle": {
+        "enable": "Enable Carolingian Journal Styles",
+        "disable": "Disable Carolingian Journal Styles"
+      },
       "updates": {
         "label": "Last Update ID",
         "hint": "Tracks the last displayed update notification"
@@ -228,6 +232,10 @@
           "glassTranslucence": {
             "label": "Glass Translucence",
             "hint": "Controls the translucence of windows. 0 = fully opaque with minimal blur, 1 = highly translucent with maximum blur. Opacity and blur adjust inversely for readability."
+          },
+          "enableJournalStyles": {
+            "label": "Apply styles to journal sheets",
+            "hint": "Enable to apply Carolingian UI styling to journal entry sheets. Disable if third-party journal modules have styling conflicts."
           },
           "customizeColors": "Customize Colors",
           "customizeHint": "Click to open the color picker and create custom theme colors",

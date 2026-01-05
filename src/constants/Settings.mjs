@@ -289,12 +289,14 @@ export function getSettings() {
       fields: [
         "playerColorTheme",
         "useGlassEffect",
-        "glassTranslucence"
+        "glassTranslucence",
+        "enableJournalStyles"
       ],
       default: {
         playerColorTheme: "",
         useGlassEffect: false,
-        glassTranslucence: 0.7
+        glassTranslucence: 0.7,
+        enableJournalStyles: true
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -1641,6 +1643,16 @@ export function getSettings() {
       config: false,
       requiresReload: true,
       system: ["daggerheart", "dnd5e", "pf2e"]
+    },
+    enableJournalStyles: {
+      tag: "v2-enable-journal-styles",
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.enableJournalStyles.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.enableJournalStyles.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
     },
     useHorizontalSheetTabs: {
       tag: "v2-use-horizontal-tabs",

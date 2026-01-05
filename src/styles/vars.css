@@ -199,6 +199,7 @@
     #interface.theme-light,
     .sidebar-popout.theme-light,
     &.theme-light .chat-popout.theme-light,
+    &.theme-dark .sheet.theme-light .form-footer button,
     &.theme-light #context-menu {
       --color-bg-button: rgba(244, 239, 237,0.9);
       --color-secondary: rgb(204, 186, 204);

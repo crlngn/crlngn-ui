@@ -13,6 +13,7 @@ import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
 import { PlayersList } from "./PlayersListUtil.mjs";
 import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
 import { SheetsUtil } from "./SheetsUtil.mjs";
+import { JournalUtil } from "./JournalUtil.mjs";
 import { SidebarTabs } from "./SidebarUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
 import { ColorPickerUtil } from "./ColorPickerUtil.mjs";
@@ -566,6 +567,8 @@ export class SettingsUtil {
         SidebarTabs.applyHiddenTabs(); break;
       case SETTINGS.applyThemeToSheets.tag:
         SheetsUtil.applyThemeToSheets(value); break;
+      case SETTINGS.enableJournalStyles.tag:
+        JournalUtil.applyJournalStyles(value); break;
       case SETTINGS.useHorizontalSheetTabs.tag:
         SheetsUtil.applyHorizontalSheetTabs(value); break;
       case SETTINGS.useGlassEffect.tag:

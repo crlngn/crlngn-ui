@@ -93,7 +93,10 @@ export const HOOKS_CORE = {
   RENDER_ACTOR_SHEET_V2: "renderActorSheetV2",
   RENDER_ITEM_SHEET: "renderItemSheetV2",
   RENDER_COMPENDIUM_BROWSER: "renderCompendiumBrowser",
-  RENDER_ADVANCEMENT_MANAGER: "renderAdvancementManager"
+  RENDER_ADVANCEMENT_MANAGER: "renderAdvancementManager",
+
+  /* Journal */
+  RENDER_JOURNAL_SHEET: "renderJournalSheet"
 }
 
 /**
