@@ -1101,6 +1101,7 @@ export class SettingsUtil {
     if (Array.isArray(currSetting)) {
       const defaultList = SETTINGS.otherModulesList.default;
       const mergedList = [];
+      const currentIds = new Set(currSetting.map(m => m.id));
 
       // Start with all default modules
       defaultList.forEach(defaultModule => {
@@ -1115,9 +1116,13 @@ export class SettingsUtil {
         }
       });
 
-      // If the merged list is different from current, update the setting
-      if (mergedList.length !== currSetting.length) {
-        LogUtil.log("applyOtherModulesList - merged missing modules", [currSetting.length, 'to', mergedList.length]);
+      // Check if any modules are missing from current setting
+      const defaultIds = new Set(defaultList.map(m => m.id));
+      const hasMissingModules = [...defaultIds].some(id => !currentIds.has(id));
+
+      // If there are missing modules, update the setting
+      if (hasMissingModules || mergedList.length !== currSetting.length) {
+        LogUtil.log("applyOtherModulesList - merged missing modules", [currSetting.length, 'to', mergedList.length, 'missing:', [...defaultIds].filter(id => !currentIds.has(id))]);
         SettingsUtil.set(SETTINGS.otherModulesList.tag, mergedList);
         currSetting = mergedList;
       }

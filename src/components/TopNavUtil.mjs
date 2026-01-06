@@ -1339,16 +1339,21 @@ export class TopNavigation {
     // When folders are shown, calculate based on number of open folder levels
     if (TopNavigation.navShowRootFolders) {
       // Use the user flag as source of truth for active folder count
-      // activeSceneFolders contains IDs of all expanded folders
-      // Add 1 for the root folder row that's always visible
       const activeSceneFolders = game.user?.getFlag(MODULE_ID, "activeSceneFolders") || [];
-      const rowCount = activeSceneFolders.length;
 
-      GeneralUtil.addCSSVars("--scene-nav-offset", `calc(var(--top-nav-height) * ${rowCount})`);
-      LogUtil.log("applySceneNavOffset", ["Rows:", rowCount, "Active folders:", activeSceneFolders.length, activeSceneFolders]);
+      // Filter out stale folder IDs that no longer exist in the scene directory
+      const validFolderIds = activeSceneFolders.filter(folderId => {
+        return game.folders?.get(folderId)?.type === 'Scene';
+      });
+
+      // +1 for root folder row that's always visible when folders are shown
+      const rowCount = validFolderIds.length + 1;
+
+      GeneralUtil.addCSSVars("--scene-nav-offset", `calc(var(--control-item-size) * ${rowCount})`);
+      LogUtil.log("applySceneNavOffset", ["Rows:", rowCount, "Valid folders:", validFolderIds.length, validFolderIds]);
     } else {
       // When folders aren't shown, just use the single nav height
-      GeneralUtil.addCSSVars("--scene-nav-offset", "var(--top-nav-height)");
+      GeneralUtil.addCSSVars("--scene-nav-offset", "var(--control-item-size)");
       LogUtil.log("applySceneNavOffset", ["Single nav height"]);
     }
   }

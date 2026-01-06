@@ -92,6 +92,16 @@ export class SceneNavFolders {
   static renderFolderList = async (folderElement) => {
     SceneNavFolders.#activeSceneFolders = game.user.getFlag(MODULE_ID, "activeSceneFolders") || [];
 
+    // Clean up stale folder IDs that no longer exist
+    const validFolderIds = SceneNavFolders.#activeSceneFolders.filter(folderId => {
+      return game.folders?.get(folderId)?.type === 'Scene';
+    });
+    if (validFolderIds.length !== SceneNavFolders.#activeSceneFolders.length) {
+      SceneNavFolders.#activeSceneFolders = validFolderIds;
+      game.user.setFlag(MODULE_ID, "activeSceneFolders", validFolderIds);
+      LogUtil.log("Cleaned up stale folder IDs", [validFolderIds]);
+    }
+
     let targetElement;
     const allFolders = ui.scenes.collection.folders;
     const folder = folderElement ? allFolders.get(folderElement.dataset.folderId) : { name: "", id: DEFAULT_FOLDER_ID };

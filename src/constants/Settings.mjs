@@ -1086,7 +1086,7 @@ export function getSettings() {
     },
 
     otherModulesList: {
-      tag: "v2-other-modules",
+      tag: "v2-other-modules-list-1",
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.otherModulesList.hint"),
       propType: Array,
