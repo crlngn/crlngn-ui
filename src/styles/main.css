@@ -278,7 +278,7 @@ body.crlngn-ui{
   .standard-form .form-group > label, 
   .standard-form .form-group > span.label {
     line-height: 1.5;
-    min-width: max(190px, 35%);
+    min-width: 30%;
   }
 
   .standard-form .form-group label:not([for]) {
