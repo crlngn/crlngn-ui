@@ -251,6 +251,13 @@ body.crlngn-ui{
     padding: 0.5rem 0;
   }
 
+  .app form button {
+    background: var(--crlngn-button-bg);
+    color: var(--color-text-primary);
+    border: 1px solid transparent;
+    margin: 2px 0;
+  }
+
   .application:not(.actor, .sheet, .monks-enhanced-journal) .standard-form nav.tabs {
     gap: 0.5em;
     line-height: 1.5;
@@ -283,6 +290,9 @@ body.crlngn-ui{
 
   .standard-form .form-group label:not([for]) {
     min-width: 20px;
+  }
+  #settings-config .form-group > label {
+    min-width: 190px;
   }
 
   .standard-form .form-group {

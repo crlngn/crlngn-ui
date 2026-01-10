@@ -377,8 +377,8 @@ export class SheetsUtil {
    * @param {HTMLElement} html - The sheet HTML element
    */
   static adjustPF2eSheet(html){
-    LogUtil.log("adjustPF2eSheet", []);
-    if(!SheetsUtil.themeStylesEnabled) return;
+    const SETTINGS = getSettings();
+    if(SettingsUtil.get(SETTINGS.disableUI.tag) || !SheetsUtil.themeStylesEnabled) return;
 
     const isImgMinimized = game.user?.getFlag(MODULE_ID, 'pf2eActorImgMinimized');
     const imageContainer = html.querySelector(".sheet-body .image-container");

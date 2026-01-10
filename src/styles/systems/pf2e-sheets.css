@@ -4,6 +4,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   --checkbox-checkmark-color: var(--color-text-secondary);
   --checkbox-fill-color: var(--color-text-primary);
   --checkbox-border-color: var(--color-highlights-50); 
+  --visibility-gm-bg: var(--color-highlights-50); 
 
   &,
   .app,
@@ -14,11 +15,13 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     --color-border-divider: var(--color-highlights-25);
     --tag-color: var(--color-text-primary);
     --color-pf-alternate: var(--color-text-tertiary);
+    --color-pf-alternate-light: var(--color-text-tertiary);
     --color-pf-secondary: var(--color-warm-2);
     --color-pf-tertiary: var(--color-text-primary);
     --color-pf-tertiary-light: var(--color-highlights-75);
     --sidebar-label: var(--color-warm-2);
     --sidebar-title: var(--color-text-primary);
+    --visibility-gm-bg: var(--color-highlights-50); 
     --color-pf-inventory-header-bg: transparent;
     --form-field-height: 1.6rem;
 
@@ -256,6 +259,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     padding: 0;
     background: transparent;/*var(--control-bg-color);*/
     color: var(--color-text-primary);
+    letter-spacing: 0;
   }
 
   .sheet.spellcasting-entry {
@@ -335,6 +339,10 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .actor.sheet section.window-content input:not(.pf-rank){
     color: var(--color-text-primary);
     min-height: 1.85rem;
+  }
+  .actor.sheet section.window-content form.crb-style section.major > .subsection > header button input, 
+  .actor.sheet section.window-content form.crb-style section.major > header button input {
+    min-height: unset;
   }
   .actor.sheet section.window-content input.details-input,
   .actor.sheet section.window-content input.search,
@@ -437,6 +445,13 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     box-shadow: none;
     margin: 1.5rem 1rem 0.5rem 1rem;
     padding: .35em 0;
+  }
+  .actor.sheet section.window-content .inventory ul.items > li .item-summary {
+    background: transparent;
+    padding: 10px 0;
+  }
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.actions ol.actions-list li.strike .ammo .loaded {
+    border: 1px solid transparent;
   }
   .actor.sheet section.window-content form.crb-style nav.sheet-navigation .panel-title {
     color: var(--color-text-primary);
@@ -757,6 +772,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content .tab.actions ol.actions-list li.strike {
     border-bottom: 1px solid var(--color-border-divider);
     border-image: none;
+    padding: 6px 0;
   }
 
   .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content .tab.actions ol.actions-list li.action button.use-action:not(:disabled),
@@ -866,6 +882,10 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     color: var(--color-text-primary);
   }
 
+  .actor.sheet section.window-content .item-summary .description,
+  .actor.sheet section.window-content .item-summary > section {
+    padding: 6px 0;
+  }
   .actor.sheet section.window-content .item-summary .description .addendum {
     background: var(--color-highlights-15);
   }
@@ -881,6 +901,10 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   
   .actor.sheet form .spellcasting-entry .header {
     background-color: var(--color-highlights-50);
+  }
+
+  .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content > .tab {
+    padding: 0;
   }
 
   .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.spellcasting .spellcasting-entry .spell-ability-data {
@@ -899,6 +923,14 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
   .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li a.d20 {
     filter: none;
+  }
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.crafting ol.formula-list li.formula-level-header.formula-level-header, 
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.crafting ol.formula-list li.formula-item.formula-level-header {
+    background: var(--color-alt-bg);
+    border: 0;
+    color: var(--color-text-primary);
+    height: auto;
+    margin: 1rem 0 0 0;
   }
 
   /* NPC */
@@ -1546,6 +1578,10 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
 
     .actor.sheet.character section.window-content .crb-style {
       font-family: var(--crlngn-font-titles);
+    }
+    .actor.sheet.character section.window-content .crb-style .directory-list {
+      font-family: var(--crlngn-font-family);
+      letter-spacing: 0.015em;
     }
 
     .actor.sheet section.window-content aside .sidebar .roll-data a.modifier {
