@@ -147,7 +147,7 @@ body.crlngn-ui.crlngn-chat {
       font-size: var(--font-size-16);
     }
     .action-glyph{
-      font-family: "Pathfinder2eActions", sans-serif;
+      font-family: "Pathfinder2eActions", sans-serif !important;
     }
   }
 
@@ -1043,7 +1043,7 @@ body.crlngn-ui.crlngn-chat {
   /* PF2e base styles (theme-agnostic) */
   &.system-pf2e {
     .action-glyph {
-      font-family: "Pathfinder2eActions", sans-serif;
+      font-family: "Pathfinder2eActions", sans-serif !important;
     }
 
     .chat-message .message-content {

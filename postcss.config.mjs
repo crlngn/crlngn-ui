@@ -9,11 +9,12 @@ export default {
     postcssNesting(),
     postcssCustomProperties(),
     postcssDiscardDuplicates(),
-    postcssPresetEnv({ 
+    postcssPresetEnv({
       stage: 1,
       features: {
-        'nesting-rules': false // Disable nesting in postcss-preset-env
-      } 
+        'nesting-rules': false, // Disable nesting in postcss-preset-env
+        'relative-color-syntax': false // Don't transform oklch(from ...) - let browser handle it
+      }
     }),
     cssnano({
       preset: ["default", {
@@ -21,7 +22,8 @@ export default {
           removeAll: true,
         },
         normalizeWhitespace: true,
-        reduceIdents: false
+        reduceIdents: false,
+        colormin: false // Don't minify oklch/relative color syntax
       }]
     })
   ]

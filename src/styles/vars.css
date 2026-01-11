@@ -221,6 +221,8 @@
       --dnd5e-tabs-bg: var(--color-warm-2);
       --color-alt-bg: rgba(21, 21, 21, 0.15);
       --control-active-bg-color: rgba(245, 245, 245, 0.75);
+      --color-text-primary: var(--color-dark-1);
+      --color-text-inverted: var(--color-light-1);
 
       input {
         --input-text-color: var(--color-text-primary);
@@ -285,6 +287,8 @@
       --chat-dark-bg-90: rgba(32, 37, 43, 0.90); 
       --color-alt-bg: rgba(238, 238, 238, 0.15);
       --control-active-bg-color: rgba(32, 37, 43, 0.75);
+      --color-text-primary: var(--color-light-1);
+      --color-text-inverted: var(--color-dark-1);
 
       --color-input-bg: var(--color-dark-bg-50); 
     

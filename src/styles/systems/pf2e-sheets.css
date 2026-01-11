@@ -63,7 +63,11 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     --color-border: var(--color-highlights-50);
 
     --sidebar-title: var(--color-warm-1); 
-
+  }
+  .app:not(.journal-sheet),
+  .application.compendium-browser,
+  .themed.theme-light:not(.chat-log),
+  .themed.theme-dark {
     color: var(--color-text-primary);
   }
   
@@ -151,14 +155,16 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     border-right: 0;
   }
   &.theme-light .app.themed.theme-dark,
-  .app.themed.theme-light {
+  .app.themed.theme-light,
+  &.theme-light .app {
     --color-text-primary: #000;
     --color-text-inverse:#fff;
     --color-bg-alt: rgba(255,255,255,0.35);
     --color-bg-input: rgba(0,0,0, 0.05);
   }
   &.theme-dark .app.themed.theme-light,
-  .app.themed.theme-dark {
+  .app.themed.theme-dark,
+  &.theme-dark .app {
     --color-text-primary: #fff;
     --color-text-inverse: #000;
     --color-bg-alt: rgba(255,255,255,0.075);
@@ -201,8 +207,8 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
 
   .app.sheet .window-header {
-    color: var(--color-text-primary);
-    background-color: var(--color-alt-bg);
+    color: inherit;
+    /*background-color: var(--color-alt-bg);*/
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     border-bottom: 1px solid var(--color-bg-alt);
@@ -219,6 +225,10 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .app.sheet input[type="time"], 
   .app.sheet input[type="search"] {
     color: var(--color-text-primary);
+  }
+  .app.sheet input[type=search]::placeholder {
+    color: var(--color-text-primary);
+    opacity: 0.6;
   }
 
   .application, .sv-control input {
@@ -926,7 +936,8 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
   .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.crafting ol.formula-list li.formula-level-header.formula-level-header, 
   .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.crafting ol.formula-list li.formula-item.formula-level-header {
-    background: var(--color-alt-bg);
+    background: transparent;
+    padding: 0;
     border: 0;
     color: var(--color-text-primary);
     height: auto;
@@ -988,6 +999,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
   .actor.npc.sheet form ol.spell-list > li.header-row {
     border: 0;
+    background: transparent;
   }
   .actor.npc.sheet form ol.spell-list {
     border-bottom: 0;

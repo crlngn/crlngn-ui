@@ -43,6 +43,10 @@ body.crlngn-ui  {
   h4, h5, h6 {
     line-height: 1.25;
   }
+
+  .window-header, .window-header > *, .window-header .window-title > * {
+    text-shadow: 0px 1px 2px var(--color-text-inverted);
+  }
 }
 body.crlngn-ui.cui-font-t {
   h1, h2, h3 {
@@ -612,8 +616,8 @@ body.crlngn-ui{
     
     .journal-entry-content a.inline-roll > i,
     .journal-entry-content a.content-link > i {
-      color: var(--color-text-dark-1);
-      filter: brightness(0);
+      color: var(--color-text-primary);
+      filter: brightness(0.5);
     }
     .standard-form.datalists .dropdown-options, .standard-form textarea  {
       background: var(--color-cool-4);
