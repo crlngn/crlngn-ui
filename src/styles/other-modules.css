@@ -395,7 +395,7 @@ body.crlngn-ui{
   }
 
   /* Combat Carousel */
-  &.crlngn-combat-carousel {
+  &.crlngn-combat-tracker-dock {
     &.navigation-collapsed{
       --crlngn-top-offset: 0px;
     }
@@ -416,6 +416,10 @@ body.crlngn-ui{
       margin-top: var(--crlngn-top-offset);
       pointer-events: none;
       z-index: 0;
+
+      .combat-dock {
+        pointer-events: none;
+      }
   
       &:hover{
         z-index: 1001;
@@ -426,12 +430,23 @@ body.crlngn-ui{
       }
   
       .buttons-container {
+        display: flex;
+        flex-direction: column;
         justify-content: flex-start;
         gap: 1px;
+        padding: 0;
     
         i{
           border: none;
           border-radius: 0; 
+        }
+
+        button { 
+          flex: 0 0 24px;
+          height: 24px;
+          width: 24px;
+          min-height: 24px;
+          font-size: 0.7rem;
         }
         
       }

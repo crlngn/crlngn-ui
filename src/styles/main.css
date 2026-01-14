@@ -117,7 +117,7 @@ body.crlngn-ui {
     border-width: 1px;
     border-color: var(--color-cool-4);
     margin: 1rem 0;
-    gap: 0;
+    gap: 2px;
   }
   .dnd5e-tooltip {
     --dnd5e-color-parchment: rgb(244, 239, 237);

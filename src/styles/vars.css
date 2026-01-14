@@ -232,6 +232,12 @@
         --filigree-border-color: rgba(158, 138, 138, 0.5);
       }
     }
+    &.theme-light .chat-bubble {
+      --color-text-primary: var(--color-dark-1);
+      --background: var(--control-bg-color, var(--color-cool-5-90));
+      background: var(--background);
+      color: var(--color-text-primary);
+    }
 
     &.theme-dark .form-footer button,
     &.theme-light .theme-dark button {
@@ -244,7 +250,7 @@
     }
 
     &.theme-dark,
-    &.theme-dark .application:not(.monks-enhanced-journal).theme-dark,
+    &.theme-dark .application:not(.monks-enhanced-journal).theme-dark
     #interface.theme-dark,
     .sidebar-popout.theme-dark,
     &.theme-dark .chat-popout.theme-light
@@ -312,6 +318,13 @@
       input {
         --input-text-color: var(--color-text-primary);
       }
+    }
+
+    &.theme-dark .theme-light .chat-bubble {
+      --color-text-primary: var(--color-light-1);
+      --background: var(--control-bg-color, var(--color-cool-5-90));
+      background: var(--background);
+      color: var(--color-text-primary);
     }
 
     --color-light-1: #f7f4f8;

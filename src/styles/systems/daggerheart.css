@@ -310,6 +310,10 @@ body.crlngn-ui.system-daggerheart {
     color: light-dark(var(--dark), var(--beige));
   }
 
+  .application.daggerheart.dialog.dh-style.views.roll-selection .roll-dialog-container .experience-container {
+    gap: 10px;
+  }
+
   /* Character creation dialog */
   .daggerheart.dh-style.dialog.character-creation .setup-tabs button {
     border-color: light-dark(var(--dark-blue), var(--color-warm-2));
@@ -546,7 +550,7 @@ body.crlngn-ui.system-daggerheart {
 
   /* Multi-select tags for dialogs */
   .dh-style:not(.application.sheet) multi-select .tags .tag {
-    color: light-dark(var(--dark-blue), var(--color-warm-2));
+    color: light-dark(var(--dark-blue), var(--color-text-primary));
     background-color: light-dark(var(--dark-blue-10), var(--color-highlights-50));
   }
 

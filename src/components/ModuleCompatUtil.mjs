@@ -114,29 +114,26 @@ export class ModuleCompatUtil {
       document.querySelector('body').classList.remove('crlngn-' + moduleId);
     });
 
-    // Then add classes for enabled modules that are actually installed and active
+    // Then add classes for enabled modules that are installed
     moduleList.forEach(item => {
       if (item.enabled && item.id) {
         const cleanId = item.id.trim();
 
-        // Check if module is actually installed and active
+        // Check if module is installed (exists in game.modules)
         const moduleData = game.modules.get(cleanId);
-        const isModuleActive = moduleData?.active;
+        const isModuleInstalled = !!moduleData;
 
         LogUtil.log(`Checking module: ${cleanId}`, [
           'enabled in settings:', item.enabled,
           'moduleData:', moduleData,
-          'active:', isModuleActive
+          'installed:', isModuleInstalled
         ]);
 
-        if (isModuleActive) {
+        if (isModuleInstalled) {
           document.querySelector('body').classList.add('crlngn-' + cleanId);
-          LogUtil.log(`Added class for active module: crlngn-${cleanId}`);
+          LogUtil.log(`Added class for installed module: crlngn-${cleanId}`);
         } else {
-          LogUtil.log(`Skipping class for inactive/missing module: ${cleanId}`, [
-            'Module exists:', !!moduleData,
-            'Module active:', isModuleActive
-          ]);
+          LogUtil.log(`Skipping class for missing module: ${cleanId}`);
         }
       }
     });
