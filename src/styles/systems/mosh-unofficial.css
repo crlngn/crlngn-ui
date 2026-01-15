@@ -1,0 +1,12 @@
+body.crlngn-ui.crlngn-chat{
+  .mosh .rollcontainer {
+    background: rgba(255, 255, 255, 0.05);
+    margin-top: 1rem;
+  }
+}
+
+body.crlngn-ui.cui-font-t {
+  .mosh .rollcontainer {
+    font-family: var(--crlngn-font-family);
+  }
+}

@@ -2,85 +2,95 @@
    DAGGERHEART RESOURCES DOCKING STYLES
    Docking functionality for Daggerheart's #resources window
    Only applied when the dockDHResources setting is enabled
+   Disabled on mobile screen sizes (< 768px)
    ======================================================================== */
 
-/* Only apply docking styles when setting is enabled */
-body.system-daggerheart.crlngn-dh-dock {
+/* Only apply docking styles when setting is enabled and not on mobile */
+@media (min-width: 768px) {
+  body.system-daggerheart.crlngn-dh-dock {
 
-  #resources.application .window-header {
-    max-height: 1.5rem;
-  }
-  #resources.application .window-content {
-    backdrop-filter: none;
-  }
-  #resources .window-content #resource-fear .resource-bar {
-    min-width: 250px;
-  }
-
-  #resources .window-content #resource-fear i {
-    border-radius: 4px;
-    width: 2.4rem;
-  }
-
-  #resources {
-    min-height: 70px !important;
-  }
-
-  #resources.docked {
-    position: relative !important;
-    z-index: 1000 !important;
-    width: auto !important;
-    height: 70px !important;
-    left: auto !important;
-    top: auto !important;
-    bottom: 10px !important;
-    pointer-events: all !important;
-  }
-
-  /* Hide resize handle when docked */
-  #resources.docked .window-resize-handle {
-    display: none !important;
-  }
-
-  /* Snap indicator - visual feedback when dragging near dock zone */
-  #resources.near-snap {
-    outline: 5px solid var(--color-warm-2, #ff6b35);
-    outline-offset: -5px;
-    animation: outline-pulse 0.75s infinite linear;
-  }
-
-  /* Pulse animation for snap indicator */
-  @keyframes outline-pulse {
-    0%, 100% {
-      outline-color: var(--color-warm-2, #ff6b35);
-      outline-width: 5px;
+    #resources.application .window-header {
+      max-height: 1.5rem;
     }
-    50% {
-      outline-color: var(--color-warm-1, #ffaa00);
-      outline-width: 3px;
+    #resources.application .window-content {
+      backdrop-filter: none;
+    }
+    #resources .window-content #resource-fear .resource-bar {
+      min-width: 250px;
+    }
+
+    #resources .window-content #resource-fear i {
+      border-radius: 4px;
+      width: 2.4rem;
+    }
+
+    #resources {
+      min-height: 70px !important;
+    }
+
+    #resources.docked {
+      position: relative !important;
+      z-index: 1000 !important;
+      width: auto !important;
+      height: 70px !important;
+      left: auto !important;
+      top: auto !important;
+      bottom: 10px !important;
+      pointer-events: all !important;
+    }
+
+    /* Hide resize handle when docked */
+    #resources.docked .window-resize-handle {
+      display: none !important;
+    }
+
+    /* Snap indicator - visual feedback when dragging near dock zone */
+    #resources.near-snap {
+      outline: 5px solid var(--color-warm-2, #ff6b35);
+      outline-offset: -5px;
+      animation: outline-pulse 0.75s infinite linear;
+    }
+
+    /* Pulse animation for snap indicator */
+    @keyframes outline-pulse {
+      0%, 100% {
+        outline-color: var(--color-warm-2, #ff6b35);
+        outline-width: 5px;
+      }
+      50% {
+        outline-color: var(--color-warm-1, #ffaa00);
+        outline-width: 3px;
+      }
+    }
+
+    /* Smooth snapping animation when docking */
+    #resources.snapping {
+      transition: all 0.3s ease-in-out !important;
+    }
+
+    /* Ensure docked resources window has proper spacing */
+    #ui-bottom #resources.docked {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 90%;
+    }
+
+    /* Adjust resources content when docked for better visibility */
+    #resources.docked .window-content {
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    /* Ensure window header remains draggable when docked */
+    #resources.docked .window-header {
+      cursor: move;
     }
   }
+}
 
-  /* Smooth snapping animation when docking */
-  #resources.snapping {
-    transition: all 0.3s ease-in-out !important;
-  }
-
-  /* Ensure docked resources window has proper spacing */
-  #ui-bottom #resources.docked {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 90%;
-  }
-
-  /* Adjust resources content when docked for better visibility */
-  #resources.docked .window-content {
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  /* Ensure window header remains draggable when docked */
-  #resources.docked .window-header {
-    cursor: move;
+/* On mobile, ensure #resources behaves as a normal floating window */
+@media (max-width: 767px) {
+  body.system-daggerheart.crlngn-dh-dock #resources.docked {
+    position: fixed !important;
   }
 }

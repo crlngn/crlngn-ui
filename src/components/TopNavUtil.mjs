@@ -76,6 +76,9 @@ export class TopNavigation {
       body.classList.remove("crlngn-scene-nav");
     }
 
+    // Add classes for extra buttons (back button and scene lookup)
+    TopNavigation.updateExtraButtonClasses();
+
     // add class to ui nav when sidebar changes state (needed for horizontal sidebar tabs)
     Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, (sidebar) => {
       LogUtil.log(HOOKS_CORE.COLLAPSE_SIDE_BAR, [sidebar]);
@@ -1356,6 +1359,35 @@ export class TopNavigation {
       GeneralUtil.addCSSVars("--scene-nav-offset", "var(--control-item-size)");
       LogUtil.log("applySceneNavOffset", ["Single nav height"]);
     }
+  }
+
+  /**
+   * Updates body classes for extra buttons (back button and scene lookup)
+   * These classes are used by CSS to calculate scene nav width
+   * @static
+   */
+  static updateExtraButtonClasses = () => {
+    const body = document.querySelector("body");
+
+    // Back button - available for all users
+    if (TopNavigation.useSceneBackButton) {
+      body.classList.add("crlngn-back-btn");
+    } else {
+      body.classList.remove("crlngn-back-btn");
+    }
+
+    // Scene lookup - only available for GMs
+    if (TopNavigation.useSceneLookup && game.user?.isGM) {
+      body.classList.add("crlngn-scene-lookup");
+    } else {
+      body.classList.remove("crlngn-scene-lookup");
+    }
+
+    LogUtil.log("updateExtraButtonClasses", [
+      "useSceneBackButton:", TopNavigation.useSceneBackButton,
+      "useSceneLookup:", TopNavigation.useSceneLookup,
+      "isGM:", game.user?.isGM
+    ]);
   }
 
   /**

@@ -462,9 +462,11 @@ export class SettingsUtil {
         game.scenes?.directory?.render(); break;
       case SETTINGS.useSceneBackButton.tag:
         TopNavigation.useSceneBackButton = value;
+        TopNavigation.updateExtraButtonClasses();
         ui.nav?.render(); break;
       case SETTINGS.useSceneLookup.tag:
         TopNavigation.useSceneLookup = value;
+        TopNavigation.updateExtraButtonClasses();
         ui.nav?.render(); break;
       case SETTINGS.useScenePreview.tag:
         TopNavigation.useScenePreview = value;

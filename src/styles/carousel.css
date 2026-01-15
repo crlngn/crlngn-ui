@@ -1,0 +1,4 @@
+/* for compact combat tracker */
+#combat-popout header.combat-tracker-header {
+  display: none;
+}

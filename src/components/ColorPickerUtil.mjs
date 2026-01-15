@@ -844,7 +844,8 @@ export class ColorPickerUtil {
       body.crlngn-ui .themed.theme-dark .ui-control, 
       body.crlngn-ui .themed.theme-dark .placeable-hud, 
       body.crlngn-ui .themed.theme-dark #measurement .waypoint-label,
-      body.crlngn-ui .themed.theme-dark #players {
+      body.crlngn-ui .themed.theme-dark #players,
+      body.crlngn-ui .application.dialog {
         ${Object.entries(secondaryVarsDark).map(([k, v]) => `${k}: ${v};`).join('\n    ')}
       }
       

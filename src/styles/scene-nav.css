@@ -15,10 +15,21 @@
     --crlngn-crux-width: 0px;
     --default-color: var(--color-dark-1);
 
+    /* Extra buttons width - base is 0, incremented by body classes */
+    --crlngn-extra-btns-count: 0;
+    /* Sidebar tabs bar width - subtracted for vertical tabs, 0 for horizontal */
+    --crlngn-sidebar-tabs-width: var(--control-item-size);
+    --ui-left-control-width: var(--control-item-size);
+
     &.crlngn-tabs {
       --controls-width: calc(var(--control-item-size, 0px) * 2);
     }
-  
+
+    /* Horizontal sidebar tabs don't need width subtraction */
+    &.crlngn-horiz-sidebar-tabs {
+      --crlngn-sidebar-tabs-width: 0px;
+    }
+
     #interface {
 
       &.crux-active {
@@ -26,9 +37,22 @@
       }
     }
 
-    /* Scene nav width calculations - these depend on variables defined above */
-    --scene-nav-full-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--control-item-size));
-    --scene-nav-partial-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--sidebar-width) - var(--control-item-size));
+    /* Increment extra buttons count based on active features */
+    &.crlngn-back-btn {
+      --crlngn-extra-btns-count: 1;
+    }
+
+    &.crlngn-scene-lookup {
+      --crlngn-extra-btns-count: 1;
+    }
+
+    &.crlngn-back-btn.crlngn-scene-lookup {
+      --crlngn-extra-btns-count: 2;
+    }
+
+    /* Scene nav width calculations - subtract space for extra buttons and sidebar tabs */
+    --scene-nav-full-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--control-item-size) - (var(--control-item-size) * var(--crlngn-extra-btns-count)) - var(--crlngn-sidebar-tabs-width));
+    --scene-nav-partial-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--sidebar-width) - var(--control-item-size) - (var(--control-item-size) * var(--crlngn-extra-btns-count)) - var(--ui-left-control-width));
     --scene-nav-curr-width: var(--scene-nav-full-width);
   }
 }

@@ -200,7 +200,8 @@
     .sidebar-popout.theme-light,
     &.theme-light .chat-popout.theme-light,
     &.theme-dark .sheet.theme-light .form-footer button,
-    &.theme-light #context-menu {
+    &.theme-light #context-menu,
+    &.theme-light .application.dialog {
       --color-bg-button: rgba(244, 239, 237,0.9);
       --color-secondary: rgb(204, 186, 204);
       --color-secondary-bright: rgba(236, 224, 236, 1);
@@ -255,7 +256,8 @@
     .sidebar-popout.theme-dark,
     &.theme-dark .chat-popout.theme-light
     &.theme-dark .chat-popout.theme-light,
-    &.theme-dark #context-menu {
+    &.theme-dark #context-menu,
+    &.theme-dark .application.dialog {
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --input-background-alt: var(--color-dark-bg-50);
       --color-text-secondary: var(--color-light-1);
