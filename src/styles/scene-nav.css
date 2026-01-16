@@ -10,7 +10,7 @@
     --scene-nav-item-width: calc(var(--font-size-10) * 18);
     --folder-nav-item-width: var(--control-item-size);
     --nav-btn-width: calc(var(--control-item-size) * 2);
-    --interface-width: calc(100vw / var(--ui-scale));
+    --interface-width: calc(100dvw / var(--ui-scale));
     --controls-width: calc(var(--control-item-size, 0px) * 0);
     --crlngn-crux-width: 0px;
     --default-color: var(--color-dark-1);
@@ -51,8 +51,8 @@
     }
 
     /* Scene nav width calculations - subtract space for extra buttons and sidebar tabs */
-    --scene-nav-full-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--control-item-size) - (var(--control-item-size) * var(--crlngn-extra-btns-count)) - var(--crlngn-sidebar-tabs-width));
-    --scene-nav-partial-width: calc(var(--interface-width) - var(--crlngn-crux-width, 0px) - var(--sidebar-width) - var(--control-item-size) - (var(--control-item-size) * var(--crlngn-extra-btns-count)) - var(--ui-left-control-width));
+    --scene-nav-full-width: calc(var(--interface-width) - var(--crlngn-sidebar-tabs-width));
+    --scene-nav-partial-width: calc(var(--interface-width) - var(--sidebar-width, 0px) - var(--control-item-size) - var(--crlngn-sidebar-tabs-width));
     --scene-nav-curr-width: var(--scene-nav-full-width);
   }
 }

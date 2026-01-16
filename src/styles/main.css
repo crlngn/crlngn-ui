@@ -255,7 +255,7 @@ body.crlngn-ui{
     padding: 0.5rem 0;
   }
 
-  .app form button {
+  .app:not(.default.sheet) form button {
     background: var(--crlngn-button-bg);
     color: var(--color-text-primary);
     border: 1px solid transparent;
