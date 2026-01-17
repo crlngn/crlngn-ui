@@ -529,13 +529,29 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     if (game.user.isGM) {
       const lockIcons = ModuleSettings.#element.querySelectorAll('.crlngn-enforce-icon');
       lockIcons.forEach(icon => {
-        // Set the correct icon class based on current state
-        const state = icon.dataset.state || 'unlocked';
-        ModuleSettings.updateEnforcementIcon(icon, state);
+        // Get fresh enforcement state from settings, not from stale dataset
+        const settingTagsStr = icon.dataset.setting;
+        if (!settingTagsStr) return;
 
-        // Add click handler
+        const settingTags = settingTagsStr.split(',');
+        const freshState = SettingsUtil.getEnforcementState(settingTags[0]) || 'unlocked';
+
+        // Update the icon to reflect current state
+        ModuleSettings.updateEnforcementIcon(icon, freshState);
+
+        // Mark as handler attached to avoid duplicates
+        icon.dataset.handlerAttached = 'true';
+
+        // Add click handler (normal click cycles states, alt+click toggles gate)
         icon.addEventListener('click', (event) => {
           ModuleSettings.handleEnforcementIconClick(event, icon);
+        });
+
+        // Add right-click handler as alternative for gate mode toggle
+        icon.addEventListener('contextmenu', (event) => {
+          event.preventDefault();
+          // Treat right-click same as alt+click
+          ModuleSettings.handleEnforcementIconClick(event, icon, true);
         });
       });
 
@@ -715,39 +731,77 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const SETTINGS = getSettings();
     const searchRoot = targetElement || ModuleSettings.#element;
 
+    LogUtil.log('injectEnforcementIcons called', [{ searchRoot, targetElement }]);
+
     // Get all labels in the target element
     const labels = searchRoot.querySelectorAll('label');
+    LogUtil.log(`Found ${labels.length} labels to process`);
 
     labels.forEach(label => {
-      let fieldName = label.getAttribute('for');
+      // Check if icon already exists (avoid duplicates)
+      const existingIcon = label.querySelector('.crlngn-enforce-icon, .crlngn-locked-icon');
+      if (existingIcon) return;
 
-      // If no 'for' attribute, try to find the first input in the same parent
-      if (!fieldName) {
-        const parent = label.closest('li, .form-group');
-        if (parent) {
+      const parent = label.closest('li, .form-group');
+      if (!parent) return;
+
+      // Check if this is an interface-elements table row (has multiple inputs)
+      const isTableRow = parent.closest('.interface-elements .elements-list');
+
+      let settingTags = [];
+      let fieldNames = [];
+      let enforcementState = 'unlocked';
+
+      if (isTableRow) {
+        // Interface elements table: get ALL inputs in the row
+        const allInputs = parent.querySelectorAll('input[name], select[name]');
+        allInputs.forEach(input => {
+          const name = input.getAttribute('name');
+          if (name && SETTINGS[name] && SETTINGS[name].scope === 'client' && SETTINGS[name].config === false) {
+            fieldNames.push(name);
+            settingTags.push(SETTINGS[name].tag);
+            // Use the most restrictive enforcement state from all settings in the row
+            const state = SettingsUtil.getEnforcementState(SETTINGS[name].tag) || 'unlocked';
+            if (state === 'gate' || (state === 'locked' && enforcementState !== 'gate')) {
+              enforcementState = state;
+            } else if (state === 'soft' && enforcementState === 'unlocked') {
+              enforcementState = state;
+            }
+          }
+        });
+
+        if (settingTags.length === 0) return;
+        LogUtil.log(`Processing table row with ${settingTags.length} settings`, [{ settingTags, enforcementState }]);
+      } else {
+        // Regular form group: single setting
+        let fieldName = label.getAttribute('for');
+        if (!fieldName) {
           const firstInput = parent.querySelector('input[name], select[name]');
           if (firstInput) {
             fieldName = firstInput.getAttribute('name');
           }
         }
+
+        if (!fieldName || !SETTINGS[fieldName]) {
+          LogUtil.log(`Skipping label - no matching setting`, [{ fieldName, labelText: label.textContent?.trim() }]);
+          return;
+        }
+
+        const setting = SETTINGS[fieldName];
+        if (setting.scope !== 'client' || setting.config !== false) {
+          LogUtil.log(`Skipping ${fieldName} - not client/config:false`, [{ scope: setting.scope, config: setting.config }]);
+          return;
+        }
+
+        fieldNames = [fieldName];
+        settingTags = [setting.tag];
+        enforcementState = SettingsUtil.getEnforcementState(setting.tag) || 'unlocked';
+        LogUtil.log(`Processing ${fieldName}`, [{ tag: setting.tag, enforcementState }]);
       }
-
-      if (!fieldName || !SETTINGS[fieldName]) return;
-
-      const setting = SETTINGS[fieldName];
-
-      // Only process client-scoped settings with config: false
-      if (setting.scope !== 'client' || setting.config !== false) return;
-
-      const enforcementState = SettingsUtil.getEnforcementState(setting.tag) || 'unlocked';
 
       // For GMs, always show icon (even if unlocked) so they can change it
       // For players, only show icon if locked
       if (!game.user.isGM && enforcementState === 'unlocked') return;
-
-      // Check if icon already exists (avoid duplicates)
-      const existingIcon = label.querySelector('.crlngn-enforce-icon, .crlngn-locked-icon');
-      if (existingIcon) return;
 
       // Determine if setting is locked for this user
       const isLocked = (enforcementState === 'locked' || enforcementState === 'gate');
@@ -758,8 +812,10 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         // Create clickable enforcement icon for GM
         icon = document.createElement('i');
         icon.className = 'fas crlngn-enforce-icon';
-        icon.dataset.setting = setting.tag;
+        // Store all setting tags (comma-separated for table rows)
+        icon.dataset.setting = settingTags.join(',');
         icon.dataset.state = enforcementState;
+        icon.dataset.isMulti = isTableRow ? 'true' : 'false';
         icon.title = game.i18n.localize('CRLNGN_UI.ui.enforcementTooltip');
 
         // Set initial icon class based on state
@@ -780,14 +836,17 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       // Prepend icon to label if it was created
       if (icon) {
         label.prepend(icon);
+        LogUtil.log(`Created enforcement icon`, [{ settingTags, state: enforcementState, isMulti: isTableRow }]);
       }
 
-      // Disable the corresponding input if locked for players
+      // Disable the corresponding inputs if locked for players
       if (!game.user.isGM && isLocked) {
-        const input = ModuleSettings.#element.querySelector(`[name="${fieldName}"]`);
-        if (input) {
-          input.disabled = true;
-        }
+        fieldNames.forEach(fieldName => {
+          const input = ModuleSettings.#element.querySelector(`[name="${fieldName}"]`);
+          if (input) {
+            input.disabled = true;
+          }
+        });
       }
     });
   }
@@ -797,16 +856,80 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
    * @static
    * @param {Event} event - The click event
    * @param {HTMLElement} icon - The icon element
+   * @param {boolean} forceAltClick - Force alt-click behavior (for right-click handler)
    */
-  static handleEnforcementIconClick(event, icon) {
+  static handleEnforcementIconClick(event, icon, forceAltClick = false) {
     event.preventDefault();
     event.stopPropagation();
 
-    const settingTag = icon.dataset.setting;
-    if (!settingTag) return;
+    const settingTagsStr = icon.dataset.setting;
+    if (!settingTagsStr) return;
 
-    const isAltClick = event.altKey;
-    const newState = SettingsUtil.cycleEnforcementState(settingTag, isAltClick);
+    const isAltClick = forceAltClick || event.altKey;
+    const settingTags = settingTagsStr.split(',');
+
+    LogUtil.log(`handleEnforcementIconClick: ${settingTagsStr}`, [{ isAltClick, forceAltClick, altKey: event.altKey, tagCount: settingTags.length }]);
+
+    // Get current state from the first setting to determine what to cycle to
+    const currentState = SettingsUtil.getEnforcementState(settingTags[0]);
+    LogUtil.log(`Current state for ${settingTags[0]}:`, [currentState]);
+
+    // Calculate new state once (don't cycle each setting independently)
+    let newState;
+    if (isAltClick) {
+      newState = currentState === 'gate' ? 'locked' : 'gate';
+      LogUtil.log(`Alt-click: ${currentState} -> ${newState}`);
+    } else {
+      const cycle = {
+        'unlocked': 'soft',
+        'soft': 'locked',
+        'locked': 'unlocked',
+        'gate': 'soft'
+      };
+      newState = cycle[currentState];
+      LogUtil.log(`Normal click: ${currentState} -> ${newState}`);
+    }
+
+    // Apply the same new state to all settings
+    const SETTINGS = getSettings();
+    settingTags.forEach((tag) => {
+      // When entering gate mode, save the current value as the enforced default first
+      if (isAltClick && newState === 'gate' && currentState !== 'gate') {
+        const defaultSettings = SettingsUtil.get(SETTINGS.defaultSettings.tag) || {};
+        const currentValue = SettingsUtil.get(tag);
+        if (currentValue !== undefined) {
+          defaultSettings[tag] = currentValue;
+          SettingsUtil.set(SETTINGS.defaultSettings.tag, defaultSettings);
+        }
+        LogUtil.log(`Entering gate mode: saved ${tag} = ${currentValue} as enforced default`);
+      }
+
+      // When exiting gate mode, restore the GM's setting to the enforced default (player value)
+      if (isAltClick && newState === 'locked' && currentState === 'gate') {
+        const defaultSettings = SettingsUtil.get(SETTINGS.defaultSettings.tag) || {};
+        const enforcedDefault = defaultSettings[tag];
+        if (enforcedDefault !== undefined) {
+          // Restore GM's setting to the enforced default
+          SettingsUtil.set(tag, enforcedDefault);
+          LogUtil.log(`Exiting gate mode: restored ${tag} = ${enforcedDefault} (enforced default)`);
+
+          // Update the checkbox/input in the UI to reflect the restored value
+          const fieldName = Object.entries(SETTINGS).find(([key, setting]) => setting.tag === tag)?.[0];
+          if (fieldName) {
+            const input = ModuleSettings.#element?.querySelector(`[name="${fieldName}"]`);
+            if (input) {
+              if (input.type === 'checkbox') {
+                input.checked = enforcedDefault;
+              } else {
+                input.value = enforcedDefault;
+              }
+            }
+          }
+        }
+      }
+
+      SettingsUtil.setEnforcementState(tag, newState);
+    });
 
     // Update icon class based on new state
     ModuleSettings.updateEnforcementIcon(icon, newState);
@@ -824,8 +947,10 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
    * @param {string} state - The enforcement state
    */
   static updateEnforcementIcon(icon, state) {
+    LogUtil.log(`updateEnforcementIcon called`, [{ state, iconClasses: icon.className }]);
+
     // Remove all state classes
-    icon.classList.remove('fa-lock-keyhole-open', 'fa-unlock-keyhole', 'fa-lock', 'fa-dungeon');
+    icon.classList.remove('fa-lock-keyhole-open', 'fa-unlock-keyhole', 'fa-lock', 'fa-dungeon', 'fa-user-shield');
 
     // Add appropriate class based on state
     const iconClasses = {
@@ -837,6 +962,8 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
     icon.classList.add(iconClasses[state]);
     icon.dataset.state = state;
+
+    LogUtil.log(`updateEnforcementIcon done`, [{ newClasses: icon.className, dataState: icon.dataset.state }]);
   }
 
   /**
@@ -1002,20 +1129,40 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     // Inject enforcement icons for the newly rendered tab
     // Use requestAnimationFrame to wait for tab content to render
     requestAnimationFrame(() => {
-      ModuleSettings.injectEnforcementIcons();
+      // Get the active tab content element
+      const activeTabContent = ModuleSettings.#element.querySelector(`.form-content[data-tab="${tab}"]`);
 
-      // Also set up click handlers for any new icons
-      if (game.user.isGM) {
-        const lockIcons = ModuleSettings.#element.querySelectorAll('.crlngn-enforce-icon');
+      // Inject icons only for the active tab content
+      if (activeTabContent) {
+        ModuleSettings.injectEnforcementIcons(activeTabContent);
+      }
+
+      // Also set up click handlers for any new icons in the active tab
+      if (game.user.isGM && activeTabContent) {
+        const lockIcons = activeTabContent.querySelectorAll('.crlngn-enforce-icon');
         lockIcons.forEach(icon => {
+          // Get fresh enforcement state from settings, not from stale dataset
+          const settingTagsStr = icon.dataset.setting;
+          if (!settingTagsStr) return;
+
+          const settingTags = settingTagsStr.split(',');
+          const freshState = SettingsUtil.getEnforcementState(settingTags[0]) || 'unlocked';
+
+          // Always update the icon to reflect current state
+          ModuleSettings.updateEnforcementIcon(icon, freshState);
+
+          // Only attach handlers if not already attached
           if (icon.dataset.handlerAttached) return;
           icon.dataset.handlerAttached = 'true';
 
-          const state = icon.dataset.state || 'unlocked';
-          ModuleSettings.updateEnforcementIcon(icon, state);
-
           icon.addEventListener('click', (event) => {
             ModuleSettings.handleEnforcementIconClick(event, icon);
+          });
+
+          // Add right-click handler as alternative for gate mode toggle
+          icon.addEventListener('contextmenu', (event) => {
+            event.preventDefault();
+            ModuleSettings.handleEnforcementIconClick(event, icon, true);
           });
         });
       }

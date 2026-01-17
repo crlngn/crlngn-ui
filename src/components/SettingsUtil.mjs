@@ -1232,7 +1232,9 @@ export class SettingsUtil {
   static getEnforcementState(settingTag) {
     const SETTINGS = getSettings();
     const enforcement = SettingsUtil.get(SETTINGS.settingEnforcement.tag) || {};
-    return enforcement[settingTag] || 'unlocked';
+    const state = enforcement[settingTag] || 'unlocked';
+    LogUtil.log(`getEnforcementState for ${settingTag}:`, [state, enforcement]);
+    return state;
   }
 
   /**
@@ -1255,11 +1257,25 @@ export class SettingsUtil {
    * @returns {string} The new enforcement state
    */
   static cycleEnforcementState(settingTag, isAltClick = false) {
+    const SETTINGS = getSettings();
     const currentState = SettingsUtil.getEnforcementState(settingTag);
 
     if (isAltClick) {
       // Alt-click: toggle gate mode
       const newState = currentState === 'gate' ? 'locked' : 'gate';
+
+      // When entering gate mode, save the current value as the enforced default FIRST
+      // This captures what players should see before GM changes their own value
+      if (newState === 'gate' && currentState !== 'gate') {
+        const defaultSettings = SettingsUtil.get(SETTINGS.defaultSettings.tag) || {};
+        const currentValue = SettingsUtil.get(settingTag);
+        if (currentValue !== undefined) {
+          defaultSettings[settingTag] = currentValue;
+          SettingsUtil.set(SETTINGS.defaultSettings.tag, defaultSettings);
+          LogUtil.log(`Saved default for gate mode: ${settingTag}`, [currentValue]);
+        }
+      }
+
       SettingsUtil.setEnforcementState(settingTag, newState);
       return newState;
     } else {
@@ -1366,7 +1382,10 @@ export class SettingsUtil {
       return;
     }
 
+    // Start with existing defaults to preserve gate mode values
+    const existingDefaults = SettingsUtil.get(SETTINGS.defaultSettings.tag) || {};
     const defaultSettings = {
+      ...existingDefaults,
       _version: Date.now() // Add timestamp to track updates
     };
 
@@ -1375,13 +1394,17 @@ export class SettingsUtil {
       if (setting.tag && setting.scope === 'client' && !setting.isMenu) {
         const enforcementState = SettingsUtil.getEnforcementState(setting.tag);
 
-        // Only save if the setting has enforcement (not unlocked)
-        if (enforcementState !== 'unlocked') {
+        if (enforcementState === 'unlocked') {
+          // Remove unlocked settings from defaults
+          delete defaultSettings[setting.tag];
+        } else if (enforcementState === 'soft' || enforcementState === 'locked') {
+          // Soft/Locked: save current GM value as the enforced default
           const value = SettingsUtil.get(setting.tag);
           if (value !== undefined) {
             defaultSettings[setting.tag] = value;
           }
         }
+        // Gate mode: don't update - preserve whatever was saved when entering gate mode
       }
     }
 
