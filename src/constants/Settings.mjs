@@ -452,12 +452,14 @@ export function getSettings() {
       propType: Object,
       fields: [
         "navStartCollapsed",
+        "collapseNavDuringCombat",
         "showNavOnHover",
         "sceneItemWidth",
         "disableActiveSceneSeparation"
       ],
       default: {
         navStartCollapsed: false,
+        collapseNavDuringCombat: false,
         showNavOnHover: false,
         sceneItemWidth: 150,
         disableActiveSceneSeparation: false
@@ -619,15 +621,26 @@ export function getSettings() {
       requiresReload: false 
     },
 
-    navStartCollapsed: { 
-      tag: "v2-nav-start-collapsed", 
-      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navStartCollapsed.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navStartCollapsed.hint"), 
-      propType: Boolean, 
-      default: false, 
-      scope: SETTING_SCOPE.client, 
-      config: false, 
-      requiresReload: false 
+    navStartCollapsed: {
+      tag: "v2-nav-start-collapsed",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navStartCollapsed.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navStartCollapsed.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+
+    collapseNavDuringCombat: {
+      tag: "v2-collapse-nav-during-combat",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.collapseNavDuringCombat.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.collapseNavDuringCombat.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
     },
 
     navShowRootFolders: { 

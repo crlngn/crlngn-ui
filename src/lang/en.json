@@ -454,6 +454,10 @@
             "label": "Start collapsed",
             "hint": "Enable this option to collapse the scene navigation when loading Foundry, regardless of previous saved state."
           },
+          "collapseNavDuringCombat": {
+            "label": "Collapse during combat",
+            "hint": "Automatically collapse the scene navigation when combat starts. The navigation will restore to its previous state when combat ends."
+          },
           "sceneClickToView": {
             "label": "Enable Click/Double Click to View/Activate",
             "hint": "When enabled, clicking on the scene in scene once opens that scene. Double clicking activates it."

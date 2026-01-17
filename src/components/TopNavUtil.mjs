@@ -55,6 +55,9 @@ export class TopNavigation {
   static expandScrimToSubfolders;
   static isCollapsed;
   static navPos;
+  static collapseNavDuringCombat;
+  // Track nav state before combat for restoration
+  static #navStateBeforeCombat = null;
 
   // Initialization state flags for coordinating hook-based setup
   static #sceneNavRendered = false;
@@ -107,6 +110,9 @@ export class TopNavigation {
         if(GeneralUtil.isModuleOn("forien-quest-log")){
           Hooks.on("questTrackerBoundaries", (boundaries) => boundaries.top = 42);
         }
+
+        // Check for existing combat with combatants on load
+        TopNavigation.checkForActiveCombat();
       })
 
       // re-add buttons when scene nav collapses or expands
@@ -150,6 +156,30 @@ export class TopNavigation {
         TopNavigation.#visitedScenes.push(sceneId);
       }
       TopNavigation.handleSceneFadeOut();
+    });
+
+    // Combat hooks for auto-collapse during combat
+    Hooks.on(HOOKS_CORE.COMBAT_START, (combat, updateData) => {
+      TopNavigation.onCombatStart(combat);
+    });
+
+    Hooks.on(HOOKS_CORE.DELETE_COMBAT, (combat, options, userId) => {
+      TopNavigation.onCombatEnd(combat);
+    });
+
+    // Also check on combat update (when combatants are added or combat state changes)
+    Hooks.on(HOOKS_CORE.UPDATE_COMBAT, (combat, updateData, options, userId) => {
+      TopNavigation.onCombatUpdate(combat, updateData);
+    });
+
+    // Check when combatants are added to combat tracker
+    Hooks.on(HOOKS_CORE.CREATE_COMBATANT, (combatant, options, userId) => {
+      TopNavigation.onCombatantCreated(combatant);
+    });
+
+    // Check when combatants are removed from combat tracker
+    Hooks.on(HOOKS_CORE.DELETE_COMBATANT, (combatant, options, userId) => {
+      TopNavigation.onCombatantDeleted(combatant);
     });
 
     Hooks.on(HOOKS_CORE.RENDER_SCENE_DIRECTORY, (directory) => {
@@ -1391,6 +1421,182 @@ export class TopNavigation {
   }
 
   /**
+   * Check if there's a combat with any combatants
+   * Used on initial load to handle existing combats
+   */
+  static checkForActiveCombat = () => {
+    if (!TopNavigation.collapseNavDuringCombat || !TopNavigation.sceneNavEnabled) return;
+
+    // Check if there's any combat with combatants
+    const combatWithCombatants = TopNavigation.getCombatWithCombatants();
+
+    if (combatWithCombatants) {
+      LogUtil.log("checkForActiveCombat - found combat with combatants", [
+        "combat:", combatWithCombatants.id,
+        "combatants:", combatWithCombatants.combatants?.size,
+        "isCollapsed:", TopNavigation.isCollapsed
+      ]);
+
+      // Store current nav state before collapsing (only if not already collapsed)
+      if (TopNavigation.#navStateBeforeCombat === null) {
+        TopNavigation.#navStateBeforeCombat = !TopNavigation.isCollapsed;
+      }
+
+      // Collapse the navigation
+      if (!TopNavigation.isCollapsed) {
+        TopNavigation.toggleNav(true);
+      }
+    }
+  }
+
+  /**
+   * Get any combat that has combatants (any token, not just players)
+   * @returns {Combat|null} The combat or null
+   */
+  static getCombatWithCombatants = () => {
+    const combats = game.combats?.contents || [];
+
+    for (const combat of combats) {
+      // Check if combat has any combatants
+      if (combat.combatants?.size > 0) {
+        return combat;
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Handle combat update - check if combat has combatants
+   * @param {Combat} combat - The combat that was updated
+   * @param {object} updateData - The update data
+   */
+  static onCombatUpdate = (combat, updateData) => {
+    if (!TopNavigation.collapseNavDuringCombat || !TopNavigation.sceneNavEnabled) return;
+
+    // Check if combat has any combatants and nav is not collapsed
+    if (combat.combatants?.size > 0 && !TopNavigation.isCollapsed) {
+      // Store current nav state before collapsing (only if not already stored)
+      if (TopNavigation.#navStateBeforeCombat === null) {
+        TopNavigation.#navStateBeforeCombat = true; // was expanded
+      }
+
+      LogUtil.log("onCombatUpdate - collapsing nav for combat with combatants", [
+        "combat:", combat.id,
+        "combatants:", combat.combatants?.size
+      ]);
+
+      TopNavigation.toggleNav(true);
+    }
+  }
+
+  /**
+   * Handle combat start - collapse navigation if setting is enabled
+   * @param {Combat} combat - The combat that started
+   */
+  static onCombatStart = (combat) => {
+    if (!TopNavigation.collapseNavDuringCombat || !TopNavigation.sceneNavEnabled) return;
+
+    // Check if combat has any combatants
+    if (combat.combatants?.size === 0) {
+      LogUtil.log("onCombatStart - no combatants, skipping collapse", [combat.id]);
+      return;
+    }
+
+    // Store current nav state before collapsing
+    if (TopNavigation.#navStateBeforeCombat === null) {
+      TopNavigation.#navStateBeforeCombat = !TopNavigation.isCollapsed; // true = was expanded
+    }
+
+    LogUtil.log("onCombatStart - collapsing nav", [
+      "wasExpanded:", TopNavigation.#navStateBeforeCombat,
+      "combat:", combat?.id,
+      "combatants:", combat.combatants?.size
+    ]);
+
+    // Collapse the navigation
+    if (!TopNavigation.isCollapsed) {
+      TopNavigation.toggleNav(true);
+    }
+  }
+
+  /**
+   * Handle combat end - restore navigation to previous state if setting is enabled
+   * @param {Combat} combat - The combat that ended
+   */
+  static onCombatEnd = (combat) => {
+    if (!TopNavigation.collapseNavDuringCombat || !TopNavigation.sceneNavEnabled) return;
+
+    // Only restore if no other combats with combatants exist
+    const combatWithCombatants = TopNavigation.getCombatWithCombatants();
+    if (combatWithCombatants) return;
+
+    LogUtil.log("onCombatEnd - restoring nav", [
+      "wasExpanded:", TopNavigation.#navStateBeforeCombat,
+      "combat:", combat?.id
+    ]);
+
+    // Restore navigation to previous state
+    if (TopNavigation.#navStateBeforeCombat === true) {
+      TopNavigation.toggleNav(false); // Expand
+    }
+
+    // Clear the stored state
+    TopNavigation.#navStateBeforeCombat = null;
+  }
+
+  /**
+   * Handle combatant created - collapse nav when any combatant is added
+   * @param {Combatant} combatant - The combatant that was created
+   */
+  static onCombatantCreated = (combatant) => {
+    if (!TopNavigation.collapseNavDuringCombat || !TopNavigation.sceneNavEnabled) return;
+
+    LogUtil.log("onCombatantCreated - combatant added", [
+      "combatant:", combatant.name,
+      "isCollapsed:", TopNavigation.isCollapsed
+    ]);
+
+    // Store current nav state before collapsing (only if not already stored)
+    if (TopNavigation.#navStateBeforeCombat === null && !TopNavigation.isCollapsed) {
+      TopNavigation.#navStateBeforeCombat = true; // was expanded
+    }
+
+    // Collapse the navigation
+    if (!TopNavigation.isCollapsed) {
+      TopNavigation.toggleNav(true);
+    }
+  }
+
+  /**
+   * Handle combatant deleted - restore nav if no more combatants in any combat
+   * @param {Combatant} combatant - The combatant that was deleted
+   */
+  static onCombatantDeleted = (combatant) => {
+    if (!TopNavigation.collapseNavDuringCombat || !TopNavigation.sceneNavEnabled) return;
+
+    // Check if there are still combats with combatants
+    // Need to use setTimeout because the combatant is still in the list during this hook
+    setTimeout(() => {
+      const combatWithCombatants = TopNavigation.getCombatWithCombatants();
+
+      if (!combatWithCombatants) {
+        LogUtil.log("onCombatantDeleted - no more combatants, restoring nav", [
+          "wasExpanded:", TopNavigation.#navStateBeforeCombat
+        ]);
+
+        // Restore navigation to previous state
+        if (TopNavigation.#navStateBeforeCombat === true) {
+          TopNavigation.toggleNav(false); // Expand
+        }
+
+        // Clear the stored state
+        TopNavigation.#navStateBeforeCombat = null;
+      }
+    }, 100);
+  }
+
+  /**
    * Load all settings from storage
    */
   static loadSettings() {
@@ -1410,6 +1616,7 @@ export class TopNavigation {
     TopNavigation.disableActiveSceneSeparation = SettingsUtil.get(SETTINGS.disableActiveSceneSeparation.tag);
     TopNavigation.subFoldersLayout = SettingsUtil.get(SETTINGS.subFoldersLayout.tag);
     TopNavigation.expandScrimToSubfolders = SettingsUtil.get(SETTINGS.expandScrimToSubfolders.tag);
+    TopNavigation.collapseNavDuringCombat = SettingsUtil.get(SETTINGS.collapseNavDuringCombat.tag);
     TopNavigation.isCollapsed = TopNavigation.navStartCollapsed;
 
     // Apply scene item width CSS variable

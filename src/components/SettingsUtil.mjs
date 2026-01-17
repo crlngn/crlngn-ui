@@ -476,8 +476,10 @@ export class SettingsUtil {
         TopNavigation.applySceneItemWidth();
         break;
       case SETTINGS.navStartCollapsed.tag:
-        TopNavigation.navStartCollapsed = value; 
+        TopNavigation.navStartCollapsed = value;
         ui.nav?.render(); break;
+      case SETTINGS.collapseNavDuringCombat.tag:
+        TopNavigation.collapseNavDuringCombat = value; break;
       case SETTINGS.showNavOnHover.tag:
         TopNavigation.showNavOnHover = value; break;
       case SETTINGS.disableActiveSceneSeparation.tag:

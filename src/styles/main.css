@@ -256,7 +256,7 @@ body.crlngn-ui{
   }
 
   .app:not(.default.sheet) form button {
-    background: var(--crlngn-button-bg);
+    background-color: var(--crlngn-button-bg);
     color: var(--color-text-primary);
     border: 1px solid transparent;
     margin: 2px 0;
@@ -332,7 +332,7 @@ body.crlngn-ui{
     padding: 6px;
     line-height: 125%;
     border: 1px solid var(--color-secondary-75);
-    background: var(--color-bg-button);
+    background-color: var(--color-bg-button);
     border: 1px solid rgba(0, 0, 0, 0.25);
     color: var(--color-text-primary);
     
@@ -341,12 +341,12 @@ body.crlngn-ui{
     }
     &:hover {
       border: 1px solid var(--color-warm-3);
-      background: var(--color-highlights-75);
+      background-color: var(--color-highlights-75);
       color: var(--color-text-light-0);
     }
     &:focus {
       border: 1px solid var(--color-highlights-75);
-      background: var(--color-highlights-75);
+      background-color: var(--color-highlights-75);
       color: var(--color-text-light-0);
     }
 
@@ -360,7 +360,7 @@ body.crlngn-ui{
   form.application:not(.journal-sheet, .monks-enhanced-journal) .form-footer button.icon,
   .application:not(.dnd5e2, .monks-enhanced-journal) .standard-form button.icon {
     border: 1px solid transparent;
-    background: transparent;
+    background-color: transparent;
     color: inherit;
 
     &.default {
@@ -369,12 +369,12 @@ body.crlngn-ui{
     }
     &:hover {
       border: 1px solid transparent;
-      background: transparent;
+      background-color: transparent;
       color: var(--color-highlights);
     }
     &:focus {
       border: 1px solid transparent;
-      background: transparent;
+      background-color: transparent;
       color: var(--color-highlights);
     }
   }
@@ -1064,17 +1064,17 @@ body.crlngn-ui {
     border: 1px solid transparent;
     &.default {
       border: 1px solid var(--color-highlights);
-      background: var(--color-highlights);
+      background-color: var(--color-highlights);
       color: var(--color-light-1);
     }
     &:hover {
       border: 1px solid var(--color-highlights-75);
-      background: var(--color-highlights-75);
+      background-color: var(--color-highlights-75);
       color: var(--color-light-1);
     }
     &:focus {
       border: 1px solid var(--color-highlights);
-      background: var(--color-highlights);
+      background-color: var(--color-highlights);
       color: var(--color-light-1);
     }
   }
@@ -1287,7 +1287,7 @@ body.crlngn-ui {
     }
 
     button, form button{
-      background: var(--color-bg-button);
+      background-color: var(--color-bg-button);
       color: var(--color-light-1);
       border: 1px solid transparent;
 

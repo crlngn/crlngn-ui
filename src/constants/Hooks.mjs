@@ -96,7 +96,16 @@ export const HOOKS_CORE = {
   RENDER_ADVANCEMENT_MANAGER: "renderAdvancementManager",
 
   /* Journal */
-  RENDER_JOURNAL_SHEET: "renderJournalSheet"
+  RENDER_JOURNAL_SHEET: "renderJournalSheet",
+
+  /* Combat */
+  COMBAT_START: "combatStart",
+  COMBAT_TURN: "combatTurn",
+  COMBAT_ROUND: "combatRound",
+  DELETE_COMBAT: "deleteCombat",
+  UPDATE_COMBAT: "updateCombat",
+  CREATE_COMBATANT: "createCombatant",
+  DELETE_COMBATANT: "deleteCombatant"
 }
 
 /**

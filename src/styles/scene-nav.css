@@ -50,9 +50,14 @@
       --crlngn-extra-btns-count: 2;
     }
 
+    /* When scene nav is disabled, set top offset to 0 */
+    &:not(.crlngn-scene-nav) {
+      --crlngn-top-offset: 0px;
+    }
+
     /* Scene nav width calculations - subtract space for extra buttons and sidebar tabs */
     --scene-nav-full-width: calc(var(--interface-width) - var(--crlngn-sidebar-tabs-width));
-    --scene-nav-partial-width: calc(var(--interface-width) - var(--sidebar-width, 0px) - var(--control-item-size) - var(--crlngn-sidebar-tabs-width));
+    --scene-nav-partial-width: calc(var(--interface-width) - var(--sidebar-width, 0px) - var(--crlngn-sidebar-tabs-width));
     --scene-nav-curr-width: var(--scene-nav-full-width);
   }
 }
@@ -78,11 +83,11 @@
         display: block;
         position: fixed;
         background: var(--background);
-        width: 100%;
+        width: var(--scene-nav-curr-width);
         height: var(--top-nav-height, 0px);
         padding: 0 0 1px 0;
         margin: 0;
-        left: auto;
+        left: 0; 
         right: 0;
         top: calc((-1 * var(--top-nav-height, 0px)) + 4px);
         transition: all 0.1s ease-out 0s;
@@ -158,10 +163,10 @@
 
       #scene-navigation {
         order: 1;
-        width: var(--scene-nav-full-width);
-        max-width: var(--scene-nav-full-width);
+        width: var(--scene-nav-curr-width);
+        max-width: var(--scene-nav-curr-width);
         height: max(75vh, 360px);
-        flex: 0 0 var(--scene-nav-full-width);
+        flex: 0 0 var(--scene-nav-curr-width);
         position: relative;
         flex-direction: row;
         flex-wrap: nowrap;
@@ -428,7 +433,7 @@
         justify-content: center;
         border-radius: 0;
         border: 1px solid transparent;
-        right: calc(var(--control-item-size) * 0);
+        right: calc(var(--control-item-size) * 2);
         left: auto;
         top: 0;
         margin: 0;
@@ -437,7 +442,7 @@
         position: absolute;
 
         &.ui-nav-left {
-          right: calc(var(--control-item-size) * 2);
+          right: calc(var(--control-item-size) * 3);
         }
 
         &:active,
@@ -458,10 +463,10 @@
 
       &.crlngn-tabs {
         #ui-left-column-2 button.crlngn-btn {
-          right: var(--control-item-size);
+          right: calc(var(--control-item-size) * 2);
 
           &.ui-nav-left {
-            right: calc(var(--control-item-size) * 2);
+            right: calc(var(--control-item-size) * 3);
           }
         }
       }

@@ -861,7 +861,7 @@ body.crlngn-ui{
       }
 
       button, form button{
-        background: var(--color-bg-button);
+        background-color: var(--color-bg-button);
         /* color: var(--color-light-1); */
         border: 1px solid transparent;
 
