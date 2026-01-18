@@ -56,12 +56,29 @@ export class TopNavigation {
   static isCollapsed;
   static navPos;
   static collapseNavDuringCombat;
+  static enableCombatTrackerCarousel;
+  static combatCarouselScale;
   // Track nav state before combat for restoration
   static #navStateBeforeCombat = null;
+  // Track if we popped out the combat tracker
+  static #combatTrackerPoppedOut = false;
+  // Combat tracker docking state
+  static #combatTrackerDockState = {
+    isDragging: false,
+    startX: 0,
+    startY: 0,
+    startLeft: 0,
+    startTop: 0,
+    boundDragMove: null,
+    boundDragEnd: null,
+    isDocked: false
+  };
 
   // Initialization state flags for coordinating hook-based setup
   static #sceneNavRendered = false;
   static #moduleClassesReady = false;
+  // Track pending turn change to coordinate with render
+  static #pendingTurnChange = null;
 
   static init = () => {
     const SETTINGS = getSettings();
@@ -100,6 +117,19 @@ export class TopNavigation {
       TopNavigation.#tryApplySceneNavOffset();
     });
 
+    // Listen for READY hook to check for active combat on load
+    // Use a delay to ensure ui.combat is fully initialized
+    Hooks.once(HOOKS_CORE.READY, () => {
+      // Wait for sidebar and combat tracker to be fully ready
+      setTimeout(() => {
+        LogUtil.log("READY + delay - checking for active combat", [
+          "ui.combat:", !!ui.combat,
+          "ui.combat.renderPopout:", typeof ui.combat?.renderPopout
+        ]);
+        TopNavigation.checkForActiveCombat();
+      }, 500);
+    });
+
     if(TopNavigation.sceneNavEnabled){
       this.checkSceneNavCompat();
       this.preloadTemplates();
@@ -110,9 +140,6 @@ export class TopNavigation {
         if(GeneralUtil.isModuleOn("forien-quest-log")){
           Hooks.on("questTrackerBoundaries", (boundaries) => boundaries.top = 42);
         }
-
-        // Check for existing combat with combatants on load
-        TopNavigation.checkForActiveCombat();
       })
 
       // re-add buttons when scene nav collapses or expands
@@ -128,7 +155,7 @@ export class TopNavigation {
           TopNavigation.setCollapsedClass(collapsed);
           TopNavigation.updateToggleButton(!collapsed);
           TopNavigation.applySceneNavOffset();
-        }, 100);
+        }, 30);
       });
 
 
@@ -180,6 +207,21 @@ export class TopNavigation {
     // Check when combatants are removed from combat tracker
     Hooks.on(HOOKS_CORE.DELETE_COMBATANT, (combatant, options, userId) => {
       TopNavigation.onCombatantDeleted(combatant);
+    });
+
+    // Hook into combatTurn (fires BEFORE database update) to prepare for animation
+    Hooks.on(HOOKS_CORE.COMBAT_TURN, (combat, updateData, options) => {
+      TopNavigation.onCombatTurnPre(combat, updateData, options);
+    });
+
+    // Hook into combatRound (fires BEFORE database update for round changes)
+    Hooks.on(HOOKS_CORE.COMBAT_ROUND, (combat, updateData, options) => {
+      TopNavigation.onCombatRoundPre(combat, updateData, options);
+    });
+
+    // Hook into combat tracker render to add our toggle button
+    Hooks.on(HOOKS_CORE.RENDER_COMBAT_TRACKER, (app, html, data) => {
+      TopNavigation.onRenderCombatTracker(app, html, data);
     });
 
     Hooks.on(HOOKS_CORE.RENDER_SCENE_DIRECTORY, (directory) => {
@@ -296,7 +338,7 @@ export class TopNavigation {
         // Mark scene nav as rendered and try to apply offset
         TopNavigation.#sceneNavRendered = true;
         TopNavigation.#tryApplySceneNavOffset();
-      }, 500);
+      }, 100);
     }
 
     // Hide inactive scenes if folders are open (GM only)
@@ -1240,21 +1282,16 @@ export class TopNavigation {
   static updateScenePreview = async (sceneElement, sceneId) => {
     if (!TopNavigation.sceneNavEnabled || !sceneElement || !sceneId) return;
     
-    // Get fresh scene data directly from the game.scenes collection
     const scene = game.scenes.get(sceneId);
     if (!scene) return;
     
     const oldPreview = sceneElement.querySelector('.scene-preview');
     if (!oldPreview) return;
     
-    // Store the open state before replacing
     const wasOpen = oldPreview.classList.contains('open');
     
-    // Log the scene data for debugging
     LogUtil.log("Scene data for preview", [sceneId, scene.environment?.globalLight?.enabled, scene.tokenVision]);
     
-    // Directly use the scene object for the template to ensure we have the latest data
-    // This is important for properties like environment.globalLight.enabled
     const templateData = {
       id: scene.id,
       name: scene.name,
@@ -1264,16 +1301,13 @@ export class TopNavigation {
       isGM: game.user?.isGM
     };
     
-    // Render the new preview with the direct data
     const previewTemplate = await GeneralUtil.renderTemplate(
       `modules/${MODULE_ID}/templates/scene-nav-preview.hbs`, 
       templateData
     );
     
-    // Replace the old preview with the new one
     oldPreview.outerHTML = previewTemplate;
     
-    // Re-add event listeners to the new preview
     const newPreview = sceneElement.querySelector('.scene-preview');
     if (wasOpen && newPreview) {
       newPreview.classList.add('open');
@@ -1281,7 +1315,6 @@ export class TopNavigation {
     
     // Re-attach all necessary event listeners
     if (TopNavigation.sceneNavEnabled && TopNavigation.useScenePreview) {
-      // Reattach hover events
       sceneElement.removeEventListener("mouseenter", TopNavigation.onScenePreviewOn);
       sceneElement.removeEventListener("mouseleave", TopNavigation.onScenePreviewOff);
       sceneElement.addEventListener("mouseenter", TopNavigation.onScenePreviewOn);
@@ -1332,9 +1365,6 @@ export class TopNavigation {
    * @private
    */
   static #tryApplySceneNavOffset = () => {
-    // Only apply offset when both conditions are met:
-    // 1. Scene nav has been rendered (element exists)
-    // 2. Module classes have been applied (for proper CSS targeting)
     if (TopNavigation.#sceneNavRendered && TopNavigation.#moduleClassesReady) {
       LogUtil.log("tryApplySceneNavOffset", ["Both conditions met, applying offset"]);
       TopNavigation.applySceneNavOffset();
@@ -1359,33 +1389,25 @@ export class TopNavigation {
       return;
     }
 
-    // Check if scene navigation is hidden (collapsed)
     const isExpanded = sceneNav.classList.contains('expanded');
 
     if (!isExpanded) {
-      // When navigation is collapsed, just use a small offset
-      GeneralUtil.addCSSVars("--scene-nav-offset", "10px");
-      LogUtil.log("applySceneNavOffset", ["Collapsed - 10px"]);
+      GeneralUtil.addCSSVars("--scene-nav-offset", "0px");
       return;
     }
 
-    // When folders are shown, calculate based on number of open folder levels
     if (TopNavigation.navShowRootFolders) {
-      // Use the user flag as source of truth for active folder count
       const activeSceneFolders = game.user?.getFlag(MODULE_ID, "activeSceneFolders") || [];
 
-      // Filter out stale folder IDs that no longer exist in the scene directory
       const validFolderIds = activeSceneFolders.filter(folderId => {
         return game.folders?.get(folderId)?.type === 'Scene';
       });
 
-      // +1 for root folder row that's always visible when folders are shown
       const rowCount = validFolderIds.length + 1;
 
       GeneralUtil.addCSSVars("--scene-nav-offset", `calc(var(--control-item-size) * ${rowCount})`);
       LogUtil.log("applySceneNavOffset", ["Rows:", rowCount, "Valid folders:", validFolderIds.length, validFolderIds]);
     } else {
-      // When folders aren't shown, just use the single nav height
       GeneralUtil.addCSSVars("--scene-nav-offset", "var(--control-item-size)");
       LogUtil.log("applySceneNavOffset", ["Single nav height"]);
     }
@@ -1399,14 +1421,12 @@ export class TopNavigation {
   static updateExtraButtonClasses = () => {
     const body = document.querySelector("body");
 
-    // Back button - available for all users
     if (TopNavigation.useSceneBackButton) {
       body.classList.add("crlngn-back-btn");
     } else {
       body.classList.remove("crlngn-back-btn");
     }
 
-    // Scene lookup - only available for GMs
     if (TopNavigation.useSceneLookup && game.user?.isGM) {
       body.classList.add("crlngn-scene-lookup");
     } else {
@@ -1425,26 +1445,32 @@ export class TopNavigation {
    * Used on initial load to handle existing combats
    */
   static checkForActiveCombat = () => {
-    if (!TopNavigation.collapseNavDuringCombat || !TopNavigation.sceneNavEnabled) return;
+    LogUtil.log("checkForActiveCombat - called", [
+      "enableCombatTrackerCarousel:", TopNavigation.enableCombatTrackerCarousel
+    ]);
 
-    // Check if there's any combat with combatants
+    // Early exit if feature is disabled
+    if (!TopNavigation.enableCombatTrackerCarousel) return;
+
     const combatWithCombatants = TopNavigation.getCombatWithCombatants();
 
+    LogUtil.log("checkForActiveCombat - combatWithCombatants", [
+      "found:", !!combatWithCombatants,
+      "combatants:", combatWithCombatants?.combatants?.size
+    ]);
+
     if (combatWithCombatants) {
-      LogUtil.log("checkForActiveCombat - found combat with combatants", [
-        "combat:", combatWithCombatants.id,
-        "combatants:", combatWithCombatants.combatants?.size,
-        "isCollapsed:", TopNavigation.isCollapsed
-      ]);
+      // Call directly since we're hooked into renderSidebar which means ui.combat is ready
+      TopNavigation.popOutCombatTracker();
 
-      // Store current nav state before collapsing (only if not already collapsed)
-      if (TopNavigation.#navStateBeforeCombat === null) {
-        TopNavigation.#navStateBeforeCombat = !TopNavigation.isCollapsed;
-      }
+      if (TopNavigation.collapseNavDuringCombat && TopNavigation.sceneNavEnabled) {
+        if (TopNavigation.#navStateBeforeCombat === null) {
+          TopNavigation.#navStateBeforeCombat = !TopNavigation.isCollapsed;
+        }
 
-      // Collapse the navigation
-      if (!TopNavigation.isCollapsed) {
-        TopNavigation.toggleNav(true);
+        if (!TopNavigation.isCollapsed) {
+          TopNavigation.toggleNav(true);
+        }
       }
     }
   }
@@ -1457,7 +1483,6 @@ export class TopNavigation {
     const combats = game.combats?.contents || [];
 
     for (const combat of combats) {
-      // Check if combat has any combatants
       if (combat.combatants?.size > 0) {
         return combat;
       }
@@ -1472,126 +1497,131 @@ export class TopNavigation {
    * @param {object} updateData - The update data
    */
   static onCombatUpdate = (combat, updateData) => {
-    if (!TopNavigation.collapseNavDuringCombat || !TopNavigation.sceneNavEnabled) return;
-
-    // Check if combat has any combatants and nav is not collapsed
-    if (combat.combatants?.size > 0 && !TopNavigation.isCollapsed) {
-      // Store current nav state before collapsing (only if not already stored)
-      if (TopNavigation.#navStateBeforeCombat === null) {
-        TopNavigation.#navStateBeforeCombat = true; // was expanded
-      }
-
-      LogUtil.log("onCombatUpdate - collapsing nav for combat with combatants", [
+    if (combat.combatants?.size > 0) {
+      LogUtil.log("onCombatUpdate - combat with combatants", [
         "combat:", combat.id,
         "combatants:", combat.combatants?.size
       ]);
 
-      TopNavigation.toggleNav(true);
+      TopNavigation.popOutCombatTracker();
+
+      // Update the combat toggle button state
+      TopNavigation.#updateCombatToggleButton();
+
+      if (TopNavigation.collapseNavDuringCombat && TopNavigation.sceneNavEnabled && !TopNavigation.isCollapsed) {
+        if (TopNavigation.#navStateBeforeCombat === null) {
+          TopNavigation.#navStateBeforeCombat = true; // was expanded
+        }
+
+        TopNavigation.toggleNav(true);
+      }
     }
   }
 
   /**
-   * Handle combat start - collapse navigation if setting is enabled
+   * Handle combat start - pop out combat tracker and collapse navigation if settings are enabled
    * @param {Combat} combat - The combat that started
    */
   static onCombatStart = (combat) => {
-    if (!TopNavigation.collapseNavDuringCombat || !TopNavigation.sceneNavEnabled) return;
-
-    // Check if combat has any combatants
     if (combat.combatants?.size === 0) {
-      LogUtil.log("onCombatStart - no combatants, skipping collapse", [combat.id]);
+      LogUtil.log("onCombatStart - no combatants, skipping", [combat.id]);
       return;
     }
 
-    // Store current nav state before collapsing
-    if (TopNavigation.#navStateBeforeCombat === null) {
-      TopNavigation.#navStateBeforeCombat = !TopNavigation.isCollapsed; // true = was expanded
-    }
-
-    LogUtil.log("onCombatStart - collapsing nav", [
-      "wasExpanded:", TopNavigation.#navStateBeforeCombat,
+    LogUtil.log("onCombatStart - combat started", [
       "combat:", combat?.id,
       "combatants:", combat.combatants?.size
     ]);
 
-    // Collapse the navigation
-    if (!TopNavigation.isCollapsed) {
-      TopNavigation.toggleNav(true);
+    TopNavigation.popOutCombatTracker();
+
+    // Update the combat toggle button state
+    setTimeout(() => TopNavigation.#updateCombatToggleButton(), 150);
+
+    if (TopNavigation.collapseNavDuringCombat && TopNavigation.sceneNavEnabled) {
+      if (TopNavigation.#navStateBeforeCombat === null) {
+        TopNavigation.#navStateBeforeCombat = !TopNavigation.isCollapsed; // true = was expanded
+      }
+
+      if (!TopNavigation.isCollapsed) {
+        TopNavigation.toggleNav(true);
+      }
     }
   }
 
   /**
-   * Handle combat end - restore navigation to previous state if setting is enabled
+   * Handle combat end - restore navigation and close combat tracker if setting is enabled
    * @param {Combat} combat - The combat that ended
    */
   static onCombatEnd = (combat) => {
-    if (!TopNavigation.collapseNavDuringCombat || !TopNavigation.sceneNavEnabled) return;
-
-    // Only restore if no other combats with combatants exist
     const combatWithCombatants = TopNavigation.getCombatWithCombatants();
     if (combatWithCombatants) return;
 
-    LogUtil.log("onCombatEnd - restoring nav", [
+    LogUtil.log("onCombatEnd - combat ended", [
       "wasExpanded:", TopNavigation.#navStateBeforeCombat,
       "combat:", combat?.id
     ]);
 
-    // Restore navigation to previous state
-    if (TopNavigation.#navStateBeforeCombat === true) {
-      TopNavigation.toggleNav(false); // Expand
-    }
+    TopNavigation.closeCombatTrackerPopout();
 
-    // Clear the stored state
-    TopNavigation.#navStateBeforeCombat = null;
+    if (TopNavigation.collapseNavDuringCombat && TopNavigation.sceneNavEnabled) {
+      if (TopNavigation.#navStateBeforeCombat === true) {
+        TopNavigation.toggleNav(false); // Expand
+      }
+
+      TopNavigation.#navStateBeforeCombat = null;
+    }
   }
 
   /**
-   * Handle combatant created - collapse nav when any combatant is added
+   * Handle combatant created - collapse nav and pop out combat tracker when any combatant is added
    * @param {Combatant} combatant - The combatant that was created
    */
   static onCombatantCreated = (combatant) => {
-    if (!TopNavigation.collapseNavDuringCombat || !TopNavigation.sceneNavEnabled) return;
-
     LogUtil.log("onCombatantCreated - combatant added", [
       "combatant:", combatant.name,
-      "isCollapsed:", TopNavigation.isCollapsed
+      "isCollapsed:", TopNavigation.isCollapsed,
+      "enableCombatTrackerCarousel:", TopNavigation.enableCombatTrackerCarousel
     ]);
 
-    // Store current nav state before collapsing (only if not already stored)
-    if (TopNavigation.#navStateBeforeCombat === null && !TopNavigation.isCollapsed) {
-      TopNavigation.#navStateBeforeCombat = true; // was expanded
-    }
+    // Early exit if feature is disabled
+    if (!TopNavigation.enableCombatTrackerCarousel) return;
 
-    // Collapse the navigation
-    if (!TopNavigation.isCollapsed) {
-      TopNavigation.toggleNav(true);
+    TopNavigation.popOutCombatTracker();
+
+    if (TopNavigation.collapseNavDuringCombat && TopNavigation.sceneNavEnabled) {
+      if (TopNavigation.#navStateBeforeCombat === null && !TopNavigation.isCollapsed) {
+        TopNavigation.#navStateBeforeCombat = true; // was expanded
+      }
+
+      if (!TopNavigation.isCollapsed) {
+        TopNavigation.toggleNav(true);
+      }
     }
   }
 
   /**
-   * Handle combatant deleted - restore nav if no more combatants in any combat
+   * Handle combatant deleted - restore nav and close combat tracker if no more combatants in any combat
    * @param {Combatant} combatant - The combatant that was deleted
    */
   static onCombatantDeleted = (combatant) => {
-    if (!TopNavigation.collapseNavDuringCombat || !TopNavigation.sceneNavEnabled) return;
-
-    // Check if there are still combats with combatants
-    // Need to use setTimeout because the combatant is still in the list during this hook
     setTimeout(() => {
       const combatWithCombatants = TopNavigation.getCombatWithCombatants();
 
       if (!combatWithCombatants) {
-        LogUtil.log("onCombatantDeleted - no more combatants, restoring nav", [
+        LogUtil.log("onCombatantDeleted - no more combatants", [
           "wasExpanded:", TopNavigation.#navStateBeforeCombat
         ]);
 
-        // Restore navigation to previous state
-        if (TopNavigation.#navStateBeforeCombat === true) {
-          TopNavigation.toggleNav(false); // Expand
-        }
+        TopNavigation.closeCombatTrackerPopout();
 
-        // Clear the stored state
-        TopNavigation.#navStateBeforeCombat = null;
+        if (TopNavigation.collapseNavDuringCombat && TopNavigation.sceneNavEnabled) {
+          if (TopNavigation.#navStateBeforeCombat === true) {
+            TopNavigation.toggleNav(false); // Expand
+          }
+
+          TopNavigation.#navStateBeforeCombat = null;
+        }
       }
     }, 100);
   }
@@ -1617,13 +1647,14 @@ export class TopNavigation {
     TopNavigation.subFoldersLayout = SettingsUtil.get(SETTINGS.subFoldersLayout.tag);
     TopNavigation.expandScrimToSubfolders = SettingsUtil.get(SETTINGS.expandScrimToSubfolders.tag);
     TopNavigation.collapseNavDuringCombat = SettingsUtil.get(SETTINGS.collapseNavDuringCombat.tag);
+    TopNavigation.enableCombatTrackerCarousel = SettingsUtil.get(SETTINGS.enableCombatTrackerCarousel.tag);
+    TopNavigation.combatCarouselScale = SettingsUtil.get(SETTINGS.combatCarouselScale.tag) ?? 1;
     TopNavigation.isCollapsed = TopNavigation.navStartCollapsed;
 
-    // Apply scene item width CSS variable
+    TopNavigation.applyCombatTrackerCarouselClass();
+
     TopNavigation.applySceneItemWidth();
-    // Apply subfolder layout setting
     TopNavigation.applySubFoldersLayout();
-    // Apply scrim expansion setting
     TopNavigation.applyExpandScrimToSubfolders();
   }
 
@@ -1631,21 +1662,722 @@ export class TopNavigation {
    * Refresh settings after GM enforcement
    */
   static refreshSettings() {
-    // Reload all settings
     TopNavigation.loadSettings();
-    
-    // Update body classes
+
     const body = document.querySelector("body");
     if(TopNavigation.sceneNavEnabled){
       body.classList.add("crlngn-scene-nav");
     }else{
       body.classList.remove("crlngn-scene-nav");
     }
-    
-    // Re-render scene navigation if it exists
+
     if (ui.nav) {
       ui.nav.render();
     }
   }
-  
+
+  /**
+   * Apply the combat tracker carousel body class and scale based on settings
+   */
+  static applyCombatTrackerCarouselClass = () => {
+    const body = document.querySelector("body");
+    if (TopNavigation.enableCombatTrackerCarousel) {
+      body.classList.add("crlngn-combat-tracker");
+      // Apply scale to existing popout if present
+      TopNavigation.applyCombatCarouselScale();
+    } else {
+      body.classList.remove("crlngn-combat-tracker");
+    }
+  }
+
+  /**
+   * Apply combat carousel scale to the popout element
+   */
+  static applyCombatCarouselScale = () => {
+    const combatPopout = document.querySelector('#combat-popout');
+    if (!combatPopout) return;
+
+    const scale = TopNavigation.combatCarouselScale ?? 1;
+    combatPopout.style.setProperty('--carousel-scale', scale);
+  }
+
+  /**
+   * Handle combat tracker render - add toggle button to popout
+   * @param {Application} app - The combat tracker application
+   * @param {jQuery|HTMLElement} html - The rendered HTML
+   * @param {object} data - The render data
+   */
+  static onRenderCombatTracker = (app, html, data) => {
+    // Check if this is the popout by looking at the element ID
+    // The popout has id="combat-popout" while the sidebar version has id="combat"
+    // The html parameter can be jQuery or HTMLElement, and may be the inner content
+    const element = html?.[0] || html;
+    const elementId = element?.id || app.element?.[0]?.id || app.id;
+
+    // Also check if the popout exists in DOM (more reliable for V2 apps)
+    const popoutExists = document.querySelector('#combat-popout') !== null;
+    const isPopout = elementId === 'combat-popout' || (popoutExists && app.id === 'combat-popout');
+
+    // Log unconditionally to verify the hook fires
+    LogUtil.log("onRenderCombatTracker - hook fired", [
+      "enableCombatTrackerCarousel:", TopNavigation.enableCombatTrackerCarousel,
+      "app.id:", app?.id,
+      "elementId:", elementId,
+      "popoutExists:", popoutExists,
+      "isPopout:", isPopout
+    ]);
+
+    if (!TopNavigation.enableCombatTrackerCarousel) return;
+
+    // Only process the popout version
+    if (!isPopout) return;
+
+    LogUtil.log("onRenderCombatTracker - popout rendered", [app, html]);
+
+    // Wait a frame for the DOM to be ready
+    requestAnimationFrame(() => {
+      const combatPopout = document.querySelector('#combat-popout');
+      if (!combatPopout) return;
+
+      // Apply scale setting
+      TopNavigation.applyCombatCarouselScale();
+
+      // Flatten combatant groups for carousel display
+      TopNavigation.#flattenCombatantGroups(combatPopout);
+
+      const windowHeader = combatPopout.querySelector('.window-header');
+      if (windowHeader) {
+        TopNavigation.#addCombatToggleButton(combatPopout, windowHeader);
+      }
+
+      // Also initialize docking behavior
+      TopNavigation.initCombatTrackerDocking();
+
+      // Always use instant positioning - DOM reorder provides visual continuity
+      TopNavigation.#pendingTurnChange = null;
+      TopNavigation.#rotateCombatCarouselInstant();
+    });
+  }
+
+  /**
+   * Handle combat turn PRE-change (fires BEFORE database update)
+   * Sets up pending turn change so renderApplicationV2 can hide tracker
+   * @param {Combat} combat - The combat instance
+   * @param {object} updateData - Contains new round/turn values
+   * @param {object} options - Update options (includes direction)
+   */
+  static onCombatTurnPre = (combat, updateData, options) => {
+    if (!TopNavigation.enableCombatTrackerCarousel) return;
+
+    const priorRound = combat.round;
+    const priorTurn = combat.turn;
+    const newRound = updateData.round ?? priorRound;
+    const newTurn = updateData.turn ?? priorTurn;
+
+    // Determine direction based on turn/round comparison
+    const isForward = (newRound > priorRound) ||
+      (newRound === priorRound && newTurn > priorTurn);
+
+    // Detect round wrap (going from last turn to first turn of new round)
+    const isRoundWrap = newRound > priorRound && newTurn === 0;
+
+    LogUtil.log("onCombatTurnPre - about to change turn", [
+      "combat:", combat?.id,
+      "prior:", { round: priorRound, turn: priorTurn },
+      "new:", { round: newRound, turn: newTurn },
+      "direction:", isForward ? "forward" : "backward",
+      "isRoundWrap:", isRoundWrap
+    ]);
+
+    // Store pending turn change
+    TopNavigation.#pendingTurnChange = {
+      isForward,
+      wrapCount: isRoundWrap ? priorTurn + 1 : 0
+    };
+  }
+
+  /**
+   * Handle combat round PRE-change (fires BEFORE database update for round changes)
+   * @param {Combat} combat - The combat instance
+   * @param {object} updateData - Contains new round/turn values
+   * @param {object} options - Update options (includes direction)
+   */
+  static onCombatRoundPre = (combat, updateData, options) => {
+    if (!TopNavigation.enableCombatTrackerCarousel) return;
+
+    const priorRound = combat.round;
+    const priorTurn = combat.turn;
+    const newRound = updateData.round ?? priorRound;
+    const newTurn = updateData.turn ?? 0;
+
+    // Determine direction
+    const isForward = newRound > priorRound;
+
+    // For round wrap forward, we need to wrap all remaining combatants
+    const isRoundWrap = isForward && newTurn === 0;
+
+    LogUtil.log("onCombatRoundPre - about to change round", [
+      "combat:", combat?.id,
+      "prior:", { round: priorRound, turn: priorTurn },
+      "new:", { round: newRound, turn: newTurn },
+      "direction:", isForward ? "forward" : "backward",
+      "isRoundWrap:", isRoundWrap
+    ]);
+
+    // Store pending turn change
+    TopNavigation.#pendingTurnChange = {
+      isForward,
+      wrapCount: isRoundWrap ? priorTurn + 1 : 0
+    };
+  }
+
+  /**
+   * Flatten combatant groups for carousel display
+   * Foundry groups NPCs with same initiative - we need to unpack them as flat items
+   * @param {HTMLElement} combatPopout - The combat popout element
+   */
+  static #flattenCombatantGroups = (combatPopout) => {
+    const tracker = combatPopout.querySelector('.combat-tracker');
+    if (!tracker) return;
+
+    const groups = tracker.querySelectorAll('li.combatant-group');
+    if (groups.length === 0) return;
+
+    groups.forEach(group => {
+      const childCombatants = group.querySelectorAll('.group-children > li.combatant');
+      if (childCombatants.length === 0) return;
+
+      childCombatants.forEach(combatant => {
+        tracker.insertBefore(combatant, group);
+      });
+
+      group.remove();
+    });
+
+    LogUtil.log("flattenCombatantGroups - flattened groups", [
+      "groups flattened:", groups.length
+    ]);
+  }
+
+  /**
+   * Reorder items so the active combatant is centered in the DOM
+   * Move items from end to beginning (or vice versa) to keep active centered
+   * Total item count stays the same - true infinite carousel
+   * @param {HTMLElement} tracker - The .combat-tracker element
+   */
+  static #reorderForInfiniteCarousel = (tracker) => {
+    const combatants = Array.from(tracker.querySelectorAll(':scope > li.combatant'));
+    const count = combatants.length;
+    if (count < 3) return;
+
+    const activeIndex = combatants.findIndex(c => c.classList.contains('active'));
+    if (activeIndex === -1) return;
+
+    // We want roughly equal items on each side of active
+    // Target: active at index count/2 (middle of array)
+    const targetIndex = Math.floor(count / 2);
+    const itemsToMove = targetIndex - activeIndex;
+
+    LogUtil.log("reorderForInfiniteCarousel", [
+      "count:", count,
+      "activeIndex:", activeIndex,
+      "targetIndex:", targetIndex,
+      "itemsToMove:", itemsToMove
+    ]);
+
+    if (itemsToMove > 0) {
+      // Active is too close to start - move items from end to beginning
+      for (let i = 0; i < itemsToMove; i++) {
+        const lastItem = tracker.lastElementChild;
+        if (lastItem && lastItem.classList.contains('combatant') && !lastItem.classList.contains('active')) {
+          tracker.insertBefore(lastItem, tracker.firstChild);
+        }
+      }
+    } else if (itemsToMove < 0) {
+      // Active is too close to end - move items from beginning to end
+      const movesNeeded = Math.abs(itemsToMove);
+      for (let i = 0; i < movesNeeded; i++) {
+        const firstItem = tracker.firstElementChild;
+        if (firstItem && firstItem.classList.contains('combatant') && !firstItem.classList.contains('active')) {
+          tracker.appendChild(firstItem);
+        }
+      }
+    }
+  }
+
+  /**
+   * Center the carousel on the active combatant using translateX
+   * @param {HTMLElement} tracker - The .combat-tracker element
+   * @param {boolean} animate - Whether to animate
+   */
+  static #centerCarousel = (tracker, animate = true) => {
+    const activeCombatant = tracker.querySelector(':scope > li.combatant.active');
+    if (!activeCombatant) return;
+
+    // Use parent container width (visible viewport), not tracker width (all items)
+    const viewportWidth = tracker.parentElement?.clientWidth || tracker.clientWidth;
+    const activeLeft = activeCombatant.offsetLeft;
+    const activeWidth = activeCombatant.offsetWidth;
+
+    // Calculate offset to center the active item in the visible viewport
+    const offset = (viewportWidth / 2) - activeLeft - (activeWidth / 2);
+
+    const allItems = tracker.querySelectorAll(':scope > li.combatant');
+
+    if (!animate) {
+      allItems.forEach(li => {
+        li.style.transition = 'none';
+        li.style.transform = `translateX(${offset}px)`;
+      });
+      tracker.offsetHeight;
+      allItems.forEach(li => {
+        li.style.transition = '';
+      });
+    } else {
+      allItems.forEach(li => {
+        li.style.transform = `translateX(${offset}px)`;
+      });
+    }
+
+    LogUtil.log("centerCarousel", [
+      "viewportWidth:", viewportWidth,
+      "activeLeft:", activeLeft,
+      "offset:", offset,
+      "animate:", animate
+    ]);
+  }
+
+  /**
+   * Instantly center the active combatant without animation (for initial render)
+   */
+  static #rotateCombatCarouselInstant = () => {
+    const combatPopout = document.querySelector('#combat-popout');
+    if (!combatPopout) return;
+
+    const tracker = combatPopout.querySelector('.combat-tracker');
+    if (!tracker) return;
+
+    // Reorder DOM so active is roughly centered
+    TopNavigation.#reorderForInfiniteCarousel(tracker);
+
+    // Force reflow after DOM reorder to get accurate measurements
+    tracker.offsetHeight;
+
+    // Apply centering transform
+    TopNavigation.#centerCarousel(tracker, false);
+  }
+
+  /**
+   * Animated carousel - reorder and center with animation
+   */
+  static #rotateCombatCarouselAnimated = () => {
+    const combatPopout = document.querySelector('#combat-popout');
+    if (!combatPopout) return;
+
+    const tracker = combatPopout.querySelector('.combat-tracker');
+    if (!tracker) return;
+
+    // Reorder DOM so active is roughly centered
+    TopNavigation.#reorderForInfiniteCarousel(tracker);
+
+    // Apply centering transform with animation
+    TopNavigation.#centerCarousel(tracker, true);
+  }
+
+  /**
+   * Pop out the combat tracker when combat has combatants
+   * @param {number} retryCount - Number of retries attempted (internal use)
+   */
+  static popOutCombatTracker = (retryCount = 0) => {
+    const MAX_RETRIES = 5;
+    const RETRY_DELAY = 200;
+
+    LogUtil.log("popOutCombatTracker - called", [
+      "enableCombatTrackerCarousel:", TopNavigation.enableCombatTrackerCarousel,
+      "combatTrackerPoppedOut:", TopNavigation.#combatTrackerPoppedOut,
+      "retryCount:", retryCount,
+      "ui.combat:", !!ui.combat,
+      "ui.combat.renderPopout:", typeof ui.combat?.renderPopout
+    ]);
+
+    if (!TopNavigation.enableCombatTrackerCarousel) return;
+
+    // If already popped out, check if popout element exists and reinitialize if needed
+    if (TopNavigation.#combatTrackerPoppedOut) {
+      const existingPopout = document.querySelector('#combat-popout');
+      if (existingPopout) {
+        // Re-initialize docking in case it wasn't set up
+        TopNavigation.initCombatTrackerDocking();
+      }
+      return;
+    }
+
+    // Check if popout already exists and is rendered
+    if (ui.combat?.popout && ui.combat.popout.rendered) {
+      TopNavigation.#combatTrackerPoppedOut = true;
+      // The onRenderCombatTracker hook will handle initialization
+      // But in case it already rendered, try to initialize now
+      TopNavigation.initCombatTrackerDocking();
+      return;
+    }
+
+    // Check if ui.combat is ready - use renderPopout() for Foundry V13+ (ApplicationV2)
+    if (!ui.combat || typeof ui.combat.renderPopout !== 'function') {
+      if (retryCount < MAX_RETRIES) {
+        LogUtil.log("popOutCombatTracker - ui.combat not ready, retrying...", [
+          "retryCount:", retryCount
+        ]);
+        setTimeout(() => TopNavigation.popOutCombatTracker(retryCount + 1), RETRY_DELAY);
+      } else {
+        LogUtil.log("popOutCombatTracker - ui.combat not ready after max retries", [
+          "ui.combat:", !!ui.combat
+        ]);
+      }
+      return;
+    }
+
+    LogUtil.log("popOutCombatTracker - popping out combat tracker");
+
+    // Use renderPopout() for Foundry V13+ (ApplicationV2)
+    ui.combat.renderPopout();
+    TopNavigation.#combatTrackerPoppedOut = true;
+  }
+
+  /**
+   * Close the combat tracker popout when combat ends
+   */
+  static closeCombatTrackerPopout = () => {
+    if (!TopNavigation.enableCombatTrackerCarousel) return;
+    if (!TopNavigation.#combatTrackerPoppedOut) return;
+
+    LogUtil.log("closeCombatTrackerPopout - closing combat tracker popout");
+
+    // Close the combat tracker popout - try multiple methods for V2 compatibility
+    const combatPopout = document.querySelector('#combat-popout');
+    if (combatPopout) {
+      // Try to find and click the close button
+      const closeBtn = combatPopout.querySelector('[data-action="close"]');
+      if (closeBtn) {
+        closeBtn.click();
+      } else {
+        // Fallback: try the old API
+        ui.combat?.popout?.close();
+      }
+    }
+    TopNavigation.#combatTrackerPoppedOut = false;
+  }
+
+  /**
+   * Initialize docking behavior for combat tracker popout
+   * Called when combat tracker is popped out
+   */
+  static initCombatTrackerDocking = () => {
+    // Log unconditionally to verify this is called
+    LogUtil.log("initCombatTrackerDocking - called", [
+      "enableCombatTrackerCarousel:", TopNavigation.enableCombatTrackerCarousel
+    ]);
+
+    if (!TopNavigation.enableCombatTrackerCarousel) return;
+
+    // Wait for the popout to render
+    setTimeout(() => {
+      const combatPopout = document.querySelector('#combat-popout');
+      if (!combatPopout) {
+        LogUtil.log("initCombatTrackerDocking - no popout found, aborting");
+        return;
+      }
+
+      // Check if already initialized to avoid duplicate listeners
+      if (combatPopout.dataset.crlngnDockingInitialized === 'true') {
+        LogUtil.log("initCombatTrackerDocking - already initialized, skipping");
+        return;
+      }
+
+      const windowHeader = combatPopout.querySelector('.window-header');
+      const windowContent = combatPopout.querySelector('.window-content');
+
+      LogUtil.log("initCombatTrackerDocking - elements found", [
+        "windowHeader:", windowHeader,
+        "windowContent:", windowContent
+      ]);
+
+      // Add drag listener only to window header (not content, to avoid interfering with combatant clicks)
+      if (windowHeader) {
+        windowHeader.addEventListener('mousedown', TopNavigation.#onCombatTrackerDragStart, true);
+        LogUtil.log("initCombatTrackerDocking - added listener to windowHeader");
+      }
+
+      // Mark as initialized
+      combatPopout.dataset.crlngnDockingInitialized = 'true';
+
+      // Add combat toggle button to window header
+      TopNavigation.#addCombatToggleButton(combatPopout, windowHeader);
+
+      // Load saved dock state - default to docked if no preference saved
+      const savedState = game.user?.getFlag(MODULE_ID, 'combatTrackerDocked');
+      // If savedState is undefined (never set), default to true (docked)
+      const shouldDock = savedState !== false;
+      if (shouldDock) {
+        TopNavigation.#combatTrackerDockState.isDocked = true;
+        TopNavigation.#applyCombatTrackerDockedStyles(combatPopout);
+      }
+
+      LogUtil.log("initCombatTrackerDocking - initialized", [combatPopout]);
+    }, 150); // Slightly longer delay to ensure render is complete
+  }
+
+  /**
+   * Add combat toggle button to the window header
+   * @param {HTMLElement} combatPopout - The combat tracker popout element
+   * @param {HTMLElement} windowHeader - The window header element
+   */
+  static #addCombatToggleButton = (combatPopout, windowHeader) => {
+    if (!windowHeader) return;
+
+    // Check if button already exists
+    if (windowHeader.querySelector('.crlngn-combat-toggle')) return;
+
+    const combat = game.combat;
+    const isStarted = combat?.started;
+
+    // Create toggle button
+    const toggleBtn = document.createElement('button');
+    toggleBtn.type = 'button';
+    toggleBtn.className = `crlngn-combat-toggle ${isStarted ? 'combat-active' : ''}`;
+    toggleBtn.dataset.tooltip = isStarted
+      ? game.i18n.localize('COMBAT.End')
+      : game.i18n.localize('COMBAT.Begin');
+    toggleBtn.innerHTML = `<i class="fas ${isStarted ? 'fa-stop' : 'fa-play'}"></i>`;
+
+    // Add click handler
+    toggleBtn.addEventListener('click', async (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const combat = game.combat;
+      if (!combat) return;
+
+      if (combat.started) {
+        // End combat
+        await combat.endCombat();
+      } else {
+        // Start combat
+        await combat.startCombat();
+      }
+
+      // Update button state
+      TopNavigation.#updateCombatToggleButton(combatPopout);
+    });
+
+    // Insert at the end of window header
+    windowHeader.appendChild(toggleBtn);
+  }
+
+  /**
+   * Update the combat toggle button state
+   * @param {HTMLElement} combatPopout - The combat tracker popout element
+   */
+  static #updateCombatToggleButton = (combatPopout) => {
+    if (!combatPopout) {
+      combatPopout = document.querySelector('#combat-popout');
+    }
+    if (!combatPopout) return;
+
+    const toggleBtn = combatPopout.querySelector('.crlngn-combat-toggle');
+    if (!toggleBtn) return;
+
+    const combat = game.combat;
+    const isStarted = combat?.started;
+
+    toggleBtn.className = `crlngn-combat-toggle ${isStarted ? 'combat-active' : ''}`;
+    toggleBtn.dataset.tooltip = isStarted
+      ? game.i18n.localize('COMBAT.End')
+      : game.i18n.localize('COMBAT.Begin');
+    toggleBtn.innerHTML = `<i class="fas ${isStarted ? 'fa-stop' : 'fa-play'}"></i>`;
+  }
+
+  /**
+   * Handle combat tracker drag start
+   * @param {MouseEvent} event
+   */
+  static #onCombatTrackerDragStart = (event) => {
+    if (event.button !== 0) return; // Only left mouse button
+
+    // Verify the event is from the combat popout specifically
+    const combatPopout = event.target.closest('#combat-popout');
+    if (!combatPopout) {
+      // This event is from a different window, let it pass through
+      return;
+    }
+
+    LogUtil.log("Combat tracker drag start - handler called", [
+      "button:", event.button,
+      "target:", event.target,
+      "target.tagName:", event.target?.tagName
+    ]);
+
+    // Skip if clicking on buttons, links, inputs, or other interactive elements
+    if (event.target.closest('button') ||
+        event.target.closest('a') ||
+        event.target.closest('input') ||
+        event.target.closest('.combatant-controls') ||
+        event.target.closest('.token-initiative')) {
+      LogUtil.log("Combat tracker drag start - skipped due to interactive element");
+      return;
+    }
+
+    const state = TopNavigation.#combatTrackerDockState;
+    state.isDragging = true;
+    state.startX = event.clientX;
+    state.startY = event.clientY;
+
+    const rect = combatPopout.getBoundingClientRect();
+    state.startLeft = rect.left;
+    state.startTop = rect.top;
+
+    // If currently docked, undock first
+    if (state.isDocked) {
+      TopNavigation.#undockCombatTracker(combatPopout);
+      // Center element on cursor after undocking
+      const newRect = combatPopout.getBoundingClientRect();
+      state.startLeft = event.clientX - (newRect.width / 2);
+      state.startTop = event.clientY - 15; // Offset for header
+      combatPopout.style.left = `${state.startLeft}px`;
+      combatPopout.style.top = `${state.startTop}px`;
+    }
+
+    // Create bound handlers
+    state.boundDragMove = TopNavigation.#onCombatTrackerDragMove;
+    state.boundDragEnd = TopNavigation.#onCombatTrackerDragEnd;
+
+    document.addEventListener('mousemove', state.boundDragMove);
+    document.addEventListener('mouseup', state.boundDragEnd);
+
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation(); // Prevent Foundry's drag handler
+
+    LogUtil.log("Combat tracker drag start", [state]);
+  }
+
+  /**
+   * Handle combat tracker drag move
+   * @param {MouseEvent} event
+   */
+  static #onCombatTrackerDragMove = (event) => {
+    const state = TopNavigation.#combatTrackerDockState;
+    if (!state.isDragging) return;
+
+    const combatPopout = document.querySelector('#combat-popout');
+    if (!combatPopout) return;
+
+    const deltaX = event.clientX - state.startX;
+    const deltaY = event.clientY - state.startY;
+
+    const newLeft = state.startLeft + deltaX;
+    const newTop = state.startTop + deltaY;
+
+    combatPopout.style.left = `${newLeft}px`;
+    combatPopout.style.top = `${newTop}px`;
+
+    // Check if in snap zone (within 50px of top edge)
+    const SNAP_DISTANCE = 50;
+    const rect = combatPopout.getBoundingClientRect();
+
+    LogUtil.log("Combat tracker drag move", [
+      "rect.top:", rect.top,
+      "SNAP_DISTANCE:", SNAP_DISTANCE,
+      "inSnapZone:", rect.top <= SNAP_DISTANCE
+    ]);
+
+    if (rect.top <= SNAP_DISTANCE) {
+      combatPopout.classList.add('near-dock');
+    } else {
+      combatPopout.classList.remove('near-dock');
+    }
+  }
+
+  /**
+   * Handle combat tracker drag end
+   * @param {MouseEvent} event
+   */
+  static #onCombatTrackerDragEnd = (event) => {
+    const state = TopNavigation.#combatTrackerDockState;
+    if (!state.isDragging) return;
+
+    document.removeEventListener('mousemove', state.boundDragMove);
+    document.removeEventListener('mouseup', state.boundDragEnd);
+
+    const combatPopout = document.querySelector('#combat-popout');
+    if (!combatPopout) return;
+
+    combatPopout.classList.remove('near-dock');
+
+    // Check if should dock (within 50px of top edge)
+    const SNAP_DISTANCE = 50;
+    const rect = combatPopout.getBoundingClientRect();
+
+    if (rect.top <= SNAP_DISTANCE) {
+      TopNavigation.#dockCombatTracker(combatPopout);
+    } else {
+      // Save undocked position
+      game.user?.setFlag(MODULE_ID, 'combatTrackerDocked', false);
+      state.isDocked = false;
+    }
+
+    state.isDragging = false;
+
+    LogUtil.log("Combat tracker drag end", [state.isDocked]);
+  }
+
+  /**
+   * Apply docked styles to combat tracker
+   * @param {HTMLElement} combatPopout
+   */
+  static #applyCombatTrackerDockedStyles = (combatPopout) => {
+    combatPopout.classList.add('docked-top');
+    combatPopout.style.zIndex = '101';
+    combatPopout.style.left = '50%';
+    combatPopout.style.top = 'var(--crlngn-top-offset)';
+    // Scale is applied via CSS using --carousel-scale variable
+  }
+
+  /**
+   * Dock combat tracker to top of screen
+   * @param {HTMLElement} combatPopout
+   */
+  static #dockCombatTracker = (combatPopout) => {
+    const state = TopNavigation.#combatTrackerDockState;
+
+    // Add snapping animation
+    combatPopout.classList.add('snapping');
+    setTimeout(() => combatPopout.classList.remove('snapping'), 300);
+
+    // Apply docked styles
+    TopNavigation.#applyCombatTrackerDockedStyles(combatPopout);
+
+    // Save state
+    game.user?.setFlag(MODULE_ID, 'combatTrackerDocked', true);
+    state.isDocked = true;
+
+    LogUtil.log("Combat tracker docked to top");
+  }
+
+  /**
+   * Undock combat tracker from top
+   * @param {HTMLElement} combatPopout
+   */
+  static #undockCombatTracker = (combatPopout) => {
+    const state = TopNavigation.#combatTrackerDockState;
+
+    combatPopout.classList.remove('docked-top');
+    combatPopout.style.transform = '';
+
+    // Save state
+    game.user?.setFlag(MODULE_ID, 'combatTrackerDocked', false);
+    state.isDocked = false;
+
+    LogUtil.log("Combat tracker undocked");
+  }
+
 }

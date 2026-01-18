@@ -160,7 +160,16 @@
           "preventMacroBarReposition": {
             "label": "Prevent Macro Bar Reposition",
             "hint": "When enabled, hiding the chat input box also prevents the macro hotbar from being repositioned when sidebar tab changes. Keeps the macro hotbar in its original position regardless of sidebar state."
-          }
+          },
+          "enableCombatTrackerCarousel": {
+            "label": "Use Draggable Combat Carousel",
+            "hint": "When enabled, the combat tracker will automatically pop out when combat has combatants and close when combat ends. Also enables custom styling for the popped out tracker."
+          },
+          "combatCarouselScale": {
+            "label": "Docked Carousel Scale",
+            "hint": "Scale of the combat carousel when docked to the top of the screen. Range: 0.7 (70%) to 1.5 (150%)."
+          },
+          "combatFieldset": "Combat Tracker"
         },
         "reset": "Reset",
         "save": "Save"
@@ -318,6 +327,10 @@
           "showChatNotificationsOnTop": {
             "label": "Show Chat Notifications From the Top",
             "hint": "When enabled, chat card notifications appear from the top of the chat input area instead of the bottom."
+          },
+          "useFolderStyle": {
+            "label": "Discreet folder colors on sidebar",
+            "hint": "Enable more discreet colors on sidebar directory folders, showing the selected color only on the borders, for a nicer look."
           },
           "hiddenSidebarTabs": {
             "label": "Sidebar Tabs Visibility & Order",
@@ -562,10 +575,6 @@
       "collapseMacroBar": {
         "label": "Auto-Hide Macro Bar",
         "hint": "Enable to have the macro hotbar start collapsed by default, and show up on hover."
-      },
-      "useFolderStyle": {
-        "label": "Discreet folder colors on sidebar",
-        "hint": "Enable more discreet colors on sidebar directory folders, showing the selected color only on the borders, for a nicer look."
       },
       "debugMode": {
         "label": "Debug Mode",

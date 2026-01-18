@@ -266,7 +266,7 @@ export class SceneNavFolders {
     setTimeout(() => {
       TopNavigation.applySceneNavOffset();
       TopNavigation.placeNavButtons();
-    }, 100);
+    }, 30);
   }
 
   /**

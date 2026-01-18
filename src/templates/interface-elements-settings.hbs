@@ -64,6 +64,25 @@
   <p>&nbsp;</p>
   <hr/>
 
+  <fieldset>
+    <legend>{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.fields.combatFieldset"}}</legend>
+
+    <div class="form-group">
+      <label for="enableCombatTrackerCarousel">{{fields.enableCombatTrackerCarousel.label}}</label>
+      <input type="checkbox" name="enableCombatTrackerCarousel" {{#if enableCombatTrackerCarousel}}checked{{/if}} {{#if fields.enableCombatTrackerCarousel.isLocked}}disabled{{/if}} />
+      <p class="hint">{{fields.enableCombatTrackerCarousel.hint}}</p>
+    </div>
+
+    <div class="form-group">
+      <label for="combatCarouselScale">{{fields.combatCarouselScale.label}}</label>
+      <div class="form-fields">
+        <input type="range" name="combatCarouselScale" min="0.7" max="1.5" step="0.1" value="{{combatCarouselScale}}" {{#if fields.combatCarouselScale.isLocked}}disabled{{/if}} />
+        <input type="number" name="combatCarouselScale_value" class="range-value-input" min="0.7" max="1.5" step="0.1" value="{{combatCarouselScale}}" {{#if fields.combatCarouselScale.isLocked}}disabled{{/if}} />
+      </div>
+      <p class="hint">{{fields.combatCarouselScale.hint}}</p>
+    </div>
+  </fieldset>
+
   <div class="form-group">
     <label for="controlsAutoHide">{{fields.controlsAutoHide.label}}</label>
     <input type="checkbox" name="controlsAutoHide" {{#if controlsAutoHide}}checked{{/if}} {{#if fields.controlsAutoHide.isLocked}}disabled{{/if}} />
@@ -74,12 +93,6 @@
     <label for="collapseMacroBar">{{fields.collapseMacroBar.label}}</label>
     <input type="checkbox" name="collapseMacroBar" {{#if collapseMacroBar}}checked{{/if}} {{#if fields.collapseMacroBar.isLocked}}disabled{{/if}} />
     <p class="hint">{{{fields.collapseMacroBar.hint}}}</p>
-  </div>
-
-  <div class="form-group">
-    <label for="useFolderStyle">{{fields.useFolderStyle.label}}</label>
-    <input type="checkbox" name="useFolderStyle" {{#if useFolderStyle}}checked{{/if}} />
-    <p class="hint">{{{fields.useFolderStyle.hint}}}</p>
   </div>
 
   <div class="form-group">

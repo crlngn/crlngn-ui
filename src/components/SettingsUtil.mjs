@@ -581,6 +581,12 @@ export class SettingsUtil {
         SettingsUtil.applyTranslucence(value); break;
       case SETTINGS.hideLoadingSceneName.tag:
         SettingsUtil.applyHideLoadingSceneName(value); break;
+      case SETTINGS.enableCombatTrackerCarousel.tag:
+        TopNavigation.enableCombatTrackerCarousel = value;
+        TopNavigation.applyCombatTrackerCarouselClass(); break;
+      case SETTINGS.combatCarouselScale.tag:
+        TopNavigation.combatCarouselScale = value;
+        TopNavigation.applyCombatCarouselScale(); break;
       default:
         // do nothing
     }

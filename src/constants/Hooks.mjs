@@ -101,11 +101,13 @@ export const HOOKS_CORE = {
   /* Combat */
   COMBAT_START: "combatStart",
   COMBAT_TURN: "combatTurn",
+  COMBAT_TURN_CHANGE: "combatTurnChange",
   COMBAT_ROUND: "combatRound",
   DELETE_COMBAT: "deleteCombat",
   UPDATE_COMBAT: "updateCombat",
   CREATE_COMBATANT: "createCombatant",
-  DELETE_COMBATANT: "deleteCombatant"
+  DELETE_COMBATANT: "deleteCombatant",
+  RENDER_COMBAT_TRACKER: "renderCombatTracker"
 }
 
 /**

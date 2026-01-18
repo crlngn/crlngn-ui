@@ -9,6 +9,7 @@ import "./styles/chat.css";
 import "./styles/camera.css";
 import "./styles/sheets.css";
 import "./styles/players-list.css";
+import "./styles/combat-tracker.css";
 import "./styles/other-modules.css";
 import "./styles/systems/daggerheart.css";
 import "./styles/systems/daggerheart-colors.css";

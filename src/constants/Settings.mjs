@@ -181,9 +181,10 @@ export function getSettings() {
 
         "collapseMacroBar",
         "preventMacroBarReposition",
-        "useFolderStyle",
         "controlsAutoHide",
-        "hoverableSettingsHints"
+        "hoverableSettingsHints",
+        "enableCombatTrackerCarousel",
+        "combatCarouselScale"
       ],
       default: {
         // Fade out
@@ -213,9 +214,10 @@ export function getSettings() {
 
         collapseMacroBar: false,
         preventMacroBarReposition: true,
-        useFolderStyle: true,
         controlsAutoHide: false,
-        hoverableSettingsHints: true
+        hoverableSettingsHints: true,
+        enableCombatTrackerCarousel: true,
+        combatCarouselScale: 1
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -319,6 +321,7 @@ export function getSettings() {
         "closeSidebarWhenIdle",
         "useHorizontalSidebarTabs",
         "showChatNotificationsOnTop",
+        "useFolderStyle",
         "hiddenSidebarTabs"
       ],
       default: {
@@ -330,7 +333,8 @@ export function getSettings() {
         openChatLogOnLoad: false,
         closeSidebarWhenIdle: false,
         useHorizontalSidebarTabs: false,
-        showChatNotificationsOnTop: false
+        showChatNotificationsOnTop: false,
+        useFolderStyle: true
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -829,15 +833,15 @@ export function getSettings() {
       requiresReload: false 
     },
 
-    useFolderStyle: { 
-      tag: "v2-use-folder-style", 
-      label: game.i18n.localize("CRLNGN_UI.settings.useFolderStyle.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.useFolderStyle.hint"), 
+    useFolderStyle: {
+      tag: "v2-use-folder-style",
+      label: game.i18n.localize("CRLNGN_UI.settings.sidebarMenu.fields.useFolderStyle.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.sidebarMenu.fields.useFolderStyle.hint"),
       propType: Boolean,
-      default: true, 
-      scope: SETTING_SCOPE.client, 
-      config: false, 
-      requiresReload: false 
+      default: true,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
     },
 
     // enforceDarkMode: { 
@@ -1688,6 +1692,28 @@ export function getSettings() {
       config: false,
       requiresReload: false,
       system: ["dnd5e"]
+    },
+
+    /* Combat Tracker */
+    enableCombatTrackerCarousel: {
+      tag: "v2-enable-combat-tracker-carousel",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.enableCombatTrackerCarousel.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.enableCombatTrackerCarousel.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    combatCarouselScale: {
+      tag: "v2-combat-carousel-scale",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.combatCarouselScale.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.combatCarouselScale.hint"),
+      propType: Number,
+      default: 1,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
     },
 
   }

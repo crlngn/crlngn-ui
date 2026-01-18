@@ -1,0 +1,329 @@
+body.crlngn-ui.crlngn-combat-tracker {
+
+  /* Blinking animation for near-dock state */
+  @keyframes dock-blink {
+    0%, 100% {
+      outline-color: var(--color-warm-2);
+      outline-offset: 2px;
+    }
+    50% {
+      outline-color: transparent;
+      outline-offset: 4px;
+    }
+  }
+
+  #combat-popout{
+    --carousel-scale: 1;
+    --combatant-base-width: 5.5rem;
+    --combatant-base-height: 7rem;
+    --combatant-width: calc(var(--combatant-base-width) * var(--carousel-scale));
+    --combatant-height: calc(var(--combatant-base-height) * var(--carousel-scale));
+    width: max-content !important;
+    overflow: visible;
+    display: flex;
+    flex-direction: row;
+    border: 0;
+    padding: 0.25rem;
+    background: transparent;
+    position: absolute;
+
+    &:hover{
+      background: var(--background);
+    }
+
+    .window-header, nav.combat-controls{
+      --input-height: 1.25rem;
+      background: transparent;
+      border: 0;
+      border-radius: 6px 6px 0 0;
+      font-size: 0;
+      max-height: unset;
+      padding: 0;
+      opacity: 0;
+      order: 3;
+      width: calc(26px * var(--carousel-scale));
+      align-self: stretch;
+      max-width: calc(26px * var(--carousel-scale));
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+    }
+    nav.combat-controls {
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 0;
+      order: 0;
+      pointer-events: none;
+      position: absolute;
+      left: calc(-26px * var(--carousel-scale)); /* Position to the left of window-content */
+      top: 0;
+      align-items:flex-end;
+      font-size: var(--font-size-12);
+      z-index: 20; /* Above clipped content */
+    }
+    nav.combat-controls button {
+      align-self: flex-start;
+      background: transparent;
+      border-radius: 4px;
+      flex: 1 1 auto;
+      font-size: calc(1em * var(--carousel-scale));
+      height: 2em;
+      margin: 0;
+      min-height: 2em;
+      padding: .5em;
+      pointer-events: all;
+      width: 2em;
+    }
+    nav.combat-controls button:hover {
+      background: var(--color-highlights-50);
+    }
+
+
+    /* Hide original start/end combat buttons - we use our toggle in window-header */
+    button.combat-control[data-action="startCombat"],
+    button.combat-control[data-action="endCombat"] {
+      display: none;
+    }
+
+    /* Hide default window header elements except close button and our toggle */
+    .window-header > *:not(.crlngn-combat-toggle):not([data-action="close"]) {
+      display: none !important;
+    }
+
+    .window-header > [data-action="close"] {
+      --button-size: 1.5em;
+      font-size: var(--font-size-12) !important;
+      order: -1;
+    }
+
+    &:hover .window-header {
+      display: flex;
+      opacity: 1;
+    }
+
+    &:hover nav.combat-controls {
+      display: flex;
+      opacity: 1;
+    }
+
+    .window-header:after {
+      content: "";
+      height: 1.5rem;
+      margin-top: 2rem;
+      width: 100%;
+      position: absolute;
+      pointer-events: all;
+    }
+
+    .window-content {
+      gap: 0;
+      overflow: visible;
+      z-index: 10;
+      background: var(--background);
+      margin: 0 0 0 calc(26px * var(--carousel-scale));
+      padding: 0.15rem;
+      border-radius: 6px;
+      max-width: calc(100dvw - (2 * var(--sidebar-width)) - (var(--control-item-size)*4));
+      /* position: static (default) - so absolutely positioned nav with containing block #combat-popout won't be clipped */
+    }
+
+    header.combat-tracker-header {
+      display: none;
+    }
+
+    .combat-tracker {
+      display: flex;
+      flex-direction: row;
+      overflow: hidden; /* Clip transformed items */
+      gap: 0.25rem;
+    }
+
+    /* Transition applied to items for carousel animation */
+    .combat-tracker > li.combatant {
+      transition: transform 0.3s ease-out;
+    }
+
+
+    
+    /* Combat toggle button in window header */
+    .window-header .crlngn-combat-toggle {
+      background: var(--color-cool-5);
+      border: 1px solid var(--color-cool-4);
+      border-radius: 4px;
+      color: var(--color-text-primary);
+      cursor: pointer;
+      font-size: var(--font-size-12) !important;
+      padding: 3px;
+      margin-top: auto;
+      margin-bottom: 4px;
+      pointer-events: all;
+      transition: background 0.2s ease, border-color 0.2s ease;
+      width: 100%;
+      max-width: 26px;
+      max-height: 26px;
+      text-align:center;
+    }
+
+    .window-header .crlngn-combat-toggle i {
+      margin: 0;
+    }
+
+    .window-header .crlngn-combat-toggle:hover {
+      background: var(--color-cool-4);
+      border-color: var(--color-cool-3);
+    }
+
+    .window-header .crlngn-combat-toggle.combat-active {
+      background: var(--color-warm-2);
+      border-color: var(--color-warm-1);
+      color: var(--color-text-light-0);
+    }
+
+    .window-header .crlngn-combat-toggle.combat-active:hover {
+      background: var(--color-warm-1);
+    }
+
+    li.combatant {
+      position: relative;
+      overflow: visible;
+      width: var(--combatant-width);
+      flex: 0 0 var(--combatant-width);
+      border: 1px solid var(--color-cool-4);
+      height: var(--combatant-height);
+      padding: 0;
+      opacity: 0.65;
+      /* No default transition - animation is controlled via inline styles in JS */
+    }
+
+    li.combatant:hover {
+      opacity: 1;
+    }
+
+    li.combatant > *:not(img) {
+      position: absolute;
+    }
+    
+    li.combatant > .token-image {
+      width: 100%;
+      height: 100%;
+      flex: 0 0 100%;
+      filter: saturate(0.75);
+    }
+    li.combatant.active {
+      border-color: var(--color-warm-2);
+      opacity: 1;
+    }
+    li.combatant.active > .token-image {
+      opacity: 1;
+      filter: saturate(1);
+    }
+
+    li.combatant .token-name {
+      position: absolute;
+      background: transparent;
+      padding: 0 3px;
+      border-radius: 8px;
+      gap: 2px;
+      bottom: 0;
+      width: 100%;
+    }
+    li.combatant .token-name > .name {
+      display: none;
+    }
+
+    li.combatant > .token-resource {
+      display: none;
+    }
+
+    li.combatant .token-name .combatant-controls {
+      gap: 0;
+      padding: 0 3px;
+      width: 100%;
+      font-size: var(--font-size-10);
+      justify-content: center;
+    }
+    li.combatant .token-name .combatant-controls > button.inline-control {
+      background: transparent;
+      color: var(--color-text-primary);
+      flex: 0 0 2em;
+      font-size: calc(1em * var(--carousel-scale));
+      width: 2em;
+      height: 2em;
+      padding: 0.25em;
+    }
+    li.combatant .token-name .token-effects {
+      display: none;
+    }
+
+    li.combatant > .token-initiative {
+      background: transparent;
+      height: 100%;
+      width: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+    li.combatant.active > .token-initiative {
+      opacity: 1;
+    }
+    li.combatant > .token-initiative:hover {
+      opacity: 1;
+    }
+
+    li.combatant > .token-initiative .initiative-input,
+    li.combatant > .token-initiative > span {
+      width: 40px;
+      height: 18px;
+      font-size: var(--font-size-11);
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      background: var(--color-cool-4);
+      display: flex;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transform-origin: 0 0;
+      transform: scale(var(--carousel-scale));
+    }
+
+    li.combatant > .token-initiative button {
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      pointer-events: all;
+    }
+    li.combatant > .token-initiative button:hover{
+      filter: brightness(10);
+      border-color: transparent;
+    }
+
+    &.vertical {
+      .combat-tracker {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    /* Near dock state - blinking outline while dragging near top */
+    &.near-dock {
+      outline: 4px solid var(--color-warm-2);
+      outline-offset: 2px;
+      animation: dock-blink 0.5s ease-in-out infinite;
+    }
+
+    /* Snapping animation */
+    &.snapping {
+      transition: left 0.3s ease-out, top 0.3s ease-out, transform 0.3s ease-out;
+    }
+
+    /* Docked to top state */
+    &.docked-top {
+      z-index: 95 !important;
+      left: 50% !important;
+      top: var(--scene-nav-offset) !important;
+      transform: translate(-50%) !important;
+    }
+  }
+
+}

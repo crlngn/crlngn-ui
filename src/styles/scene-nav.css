@@ -98,7 +98,7 @@
       #scene-navigation.expanded:before {
         position: fixed;
         top: 0;
-        left: auto;
+        left: 0;
         right: var(--control-item-size);
         transition: all 0.1s ease-out 0s;
         opacity: 1;
@@ -1059,7 +1059,7 @@
         margin: 0 0 0 26px !important;
       }
       #scene-navigation.expanded:before {
-        right: 0;
+        left: 0;
       }
       #ui-left-column-1 {
         padding-top: calc(var(--top-nav-height, 0px) + 16px);
