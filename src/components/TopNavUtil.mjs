@@ -73,6 +73,17 @@ export class TopNavigation {
     boundDragEnd: null,
     isDocked: false
   };
+  // Stacked carousel state for combat tracker
+  static #carouselStackState = {
+    allCombatantIds: [],
+    visibleCount: 0,
+    visibleStartIndex: 0,
+    leftStackCount: 0,
+    rightStackCount: 0,
+    containerWidth: 0
+  };
+  // ResizeObserver for carousel responsiveness
+  static #carouselResizeObserver = null;
 
   // Initialization state flags for coordinating hook-based setup
   static #sceneNavRendered = false;
@@ -1753,9 +1764,9 @@ export class TopNavigation {
       // Also initialize docking behavior
       TopNavigation.initCombatTrackerDocking();
 
-      // Always use instant positioning - DOM reorder provides visual continuity
+      // Initialize the stacked carousel system
       TopNavigation.#pendingTurnChange = null;
-      TopNavigation.#rotateCombatCarouselInstant();
+      TopNavigation.#initStackedCarousel(combatPopout);
     });
   }
 
@@ -1860,128 +1871,304 @@ export class TopNavigation {
   }
 
   /**
-   * Reorder items so the active combatant is centered in the DOM
-   * Move items from end to beginning (or vice versa) to keep active centered
-   * Total item count stays the same - true infinite carousel
+   * Calculate how many combatant cards can fit in the visible area
+   * @param {number} containerWidth - Width of the container in pixels
+   * @param {number} totalCombatants - Total number of combatants
+   * @returns {number} Number of visible cards (odd number when stacks needed)
+   */
+  static #calculateVisibleCount = (containerWidth, totalCombatants) => {
+    const scale = TopNavigation.combatCarouselScale ?? 1;
+    const baseFontSize = 16;
+    const cardWidth = 5.5 * baseFontSize * scale;
+    const gap = 0.25 * baseFontSize;
+    const stackWidth = 4.5 * baseFontSize * scale;
+
+    const allCardsWidth = (totalCombatants * cardWidth) + ((totalCombatants - 1) * gap);
+    if (allCardsWidth <= containerWidth) {
+      return totalCombatants;
+    }
+
+    const availableForCards = containerWidth - (2 * stackWidth) - (4 * gap);
+    let visibleCount = Math.floor((availableForCards + gap) / (cardWidth + gap));
+
+    if (visibleCount % 2 === 0) {
+      visibleCount = Math.max(1, visibleCount - 1);
+    }
+
+    return Math.max(1, visibleCount);
+  }
+
+  /**
+   * Initialize the stacked carousel system
+   * @param {HTMLElement} combatPopout - The combat popout element
+   */
+  static #initStackedCarousel = (combatPopout) => {
+    const tracker = combatPopout?.querySelector('.combat-tracker');
+    if (!tracker) return;
+
+    TopNavigation.#recalculateStackState(tracker);
+    TopNavigation.#buildStackedCarouselDOM(tracker);
+    TopNavigation.#initCarouselResizeObserver(combatPopout);
+  }
+
+  /**
+   * Recalculate the stacked carousel state based on current combatants and container size
    * @param {HTMLElement} tracker - The .combat-tracker element
    */
-  static #reorderForInfiniteCarousel = (tracker) => {
+  static #recalculateStackState = (tracker) => {
+    const state = TopNavigation.#carouselStackState;
     const combatants = Array.from(tracker.querySelectorAll(':scope > li.combatant'));
-    const count = combatants.length;
-    if (count < 3) return;
 
-    const activeIndex = combatants.findIndex(c => c.classList.contains('active'));
+    state.allCombatantIds = combatants.map(c => c.dataset.combatantId);
+
+    const windowContent = tracker.closest('.window-content');
+    state.containerWidth = windowContent?.clientWidth || tracker.parentElement?.clientWidth || 800;
+
+    const totalCount = state.allCombatantIds.length;
+    state.visibleCount = TopNavigation.#calculateVisibleCount(state.containerWidth, totalCount);
+
+    if (state.visibleCount >= totalCount) {
+      state.visibleStartIndex = 0;
+      state.leftStackCount = 0;
+      state.rightStackCount = 0;
+      return;
+    }
+
+    const combat = game.combat;
+    const activeId = combat?.combatant?.id;
+    let activeIndex = activeId ? state.allCombatantIds.indexOf(activeId) : 0;
+    if (activeIndex === -1) activeIndex = 0;
+
+    const centerOffset = Math.floor(state.visibleCount / 2);
+    let idealStart = activeIndex - centerOffset;
+
+    if (idealStart < 0) {
+      idealStart = 0;
+    } else if (idealStart + state.visibleCount > totalCount) {
+      idealStart = totalCount - state.visibleCount;
+    }
+
+    state.visibleStartIndex = idealStart;
+    state.leftStackCount = idealStart;
+    state.rightStackCount = totalCount - idealStart - state.visibleCount;
+  }
+
+  /**
+   * Create a stack element for the left or right side
+   * @param {HTMLElement} tracker - The tracker element (to find combatant data)
+   * @param {'left'|'right'} side - Which side the stack is on
+   * @param {number} count - Number of items in the stack
+   * @param {number} topIndex - Index of the topmost combatant in the stack
+   * @returns {HTMLElement} The stack element
+   */
+  static #createStackElement = (tracker, side, count, topIndex) => {
+    const state = TopNavigation.#carouselStackState;
+    const topCombatantId = state.allCombatantIds[topIndex];
+
+    const stack = document.createElement('li');
+    stack.className = `crlngn-card-stack stack-${side}`;
+    stack.dataset.stackCount = count;
+    stack.dataset.side = side;
+    stack.dataset.topIndex = topIndex;
+
+    const back = document.createElement('div');
+    back.className = 'stack-card-back';
+    stack.appendChild(back);
+
+    const front = document.createElement('div');
+    front.className = 'stack-card-front';
+
+    const combat = game.combat;
+    const combatant = combat?.combatants.get(topCombatantId);
+    if (combatant) {
+      const img = document.createElement('img');
+      img.src = combatant.token?.texture?.src || combatant.img || '';
+      img.className = 'token-image';
+      img.alt = combatant.name || '';
+      front.appendChild(img);
+    }
+    stack.appendChild(front);
+
+    const caret = document.createElement('i');
+    caret.className = `stack-caret fas fa-caret-${side}`;
+    stack.appendChild(caret);
+
+    const badge = document.createElement('span');
+    badge.className = 'stack-count-badge';
+    badge.textContent = count;
+    stack.appendChild(badge);
+
+    stack.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      TopNavigation.#onStackClick(side);
+    });
+
+    return stack;
+  }
+
+  /**
+   * Build the stacked carousel DOM based on current state
+   * @param {HTMLElement} tracker - The .combat-tracker element
+   * @param {'left'|'right'|'none'} animateDirection - Direction of animation or 'none'
+   */
+  static #buildStackedCarouselDOM = (tracker, animateDirection = 'none') => {
+    const state = TopNavigation.#carouselStackState;
+
+    tracker.querySelectorAll('.crlngn-card-stack').forEach(el => el.remove());
+
+    const allCombatants = Array.from(tracker.querySelectorAll(':scope > li.combatant'));
+
+    allCombatants.forEach((c) => {
+      c.style.display = 'none';
+      c.classList.remove('slide-in-left', 'slide-in-right');
+    });
+
+    const visibleEnd = state.visibleStartIndex + state.visibleCount;
+    for (let i = state.visibleStartIndex; i < visibleEnd && i < allCombatants.length; i++) {
+      const combatant = allCombatants[i];
+      combatant.style.display = '';
+
+      if (animateDirection === 'right' && i === visibleEnd - 1) {
+        combatant.classList.add('slide-in-right');
+      } else if (animateDirection === 'left' && i === state.visibleStartIndex) {
+        combatant.classList.add('slide-in-left');
+      }
+    }
+
+    if (state.leftStackCount > 0) {
+      const topLeftIndex = state.visibleStartIndex - 1;
+      const leftStack = TopNavigation.#createStackElement(tracker, 'left', state.leftStackCount, topLeftIndex);
+
+      const firstVisible = allCombatants[state.visibleStartIndex];
+      if (firstVisible) {
+        tracker.insertBefore(leftStack, firstVisible);
+      }
+    }
+
+    if (state.rightStackCount > 0) {
+      const topRightIndex = state.visibleStartIndex + state.visibleCount;
+      const rightStack = TopNavigation.#createStackElement(tracker, 'right', state.rightStackCount, topRightIndex);
+      tracker.appendChild(rightStack);
+    }
+
+    tracker.classList.add('crlngn-stacked-carousel');
+
+    LogUtil.log("buildStackedCarouselDOM", [
+      "visibleCount:", state.visibleCount,
+      "visibleStartIndex:", state.visibleStartIndex,
+      "leftStackCount:", state.leftStackCount,
+      "rightStackCount:", state.rightStackCount,
+      "animateDirection:", animateDirection
+    ]);
+  }
+
+  /**
+   * Handle click on a stack to reveal one card
+   * @param {'left'|'right'} side - Which stack was clicked
+   */
+  static #onStackClick = (side) => {
+    const state = TopNavigation.#carouselStackState;
+    const combatPopout = document.querySelector('#combat-popout');
+    const tracker = combatPopout?.querySelector('.combat-tracker');
+    if (!tracker) return;
+
+    if (side === 'right' && state.rightStackCount > 0) {
+      state.visibleStartIndex++;
+      state.leftStackCount++;
+      state.rightStackCount--;
+      TopNavigation.#buildStackedCarouselDOM(tracker, 'right');
+    } else if (side === 'left' && state.leftStackCount > 0) {
+      state.visibleStartIndex--;
+      state.leftStackCount--;
+      state.rightStackCount++;
+      TopNavigation.#buildStackedCarouselDOM(tracker, 'left');
+    }
+  }
+
+  /**
+   * Center the carousel view on the active combatant
+   * Called when turn changes to auto-scroll to the new active
+   * @param {boolean} animate - Whether to animate the transition
+   */
+  static #centerOnActiveCombatant = (animate = true) => {
+    const combatPopout = document.querySelector('#combat-popout');
+    const tracker = combatPopout?.querySelector('.combat-tracker');
+    if (!tracker) return;
+
+    const state = TopNavigation.#carouselStackState;
+    const combat = game.combat;
+    if (!combat) return;
+
+    const activeId = combat.combatant?.id;
+    if (!activeId) return;
+
+    const activeIndex = state.allCombatantIds.indexOf(activeId);
     if (activeIndex === -1) return;
 
-    // We want roughly equal items on each side of active
-    // Target: active at index count/2 (middle of array)
-    const targetIndex = Math.floor(count / 2);
-    const itemsToMove = targetIndex - activeIndex;
+    const totalCount = state.allCombatantIds.length;
 
-    LogUtil.log("reorderForInfiniteCarousel", [
-      "count:", count,
-      "activeIndex:", activeIndex,
-      "targetIndex:", targetIndex,
-      "itemsToMove:", itemsToMove
-    ]);
-
-    if (itemsToMove > 0) {
-      // Active is too close to start - move items from end to beginning
-      for (let i = 0; i < itemsToMove; i++) {
-        const lastItem = tracker.lastElementChild;
-        if (lastItem && lastItem.classList.contains('combatant') && !lastItem.classList.contains('active')) {
-          tracker.insertBefore(lastItem, tracker.firstChild);
-        }
-      }
-    } else if (itemsToMove < 0) {
-      // Active is too close to end - move items from beginning to end
-      const movesNeeded = Math.abs(itemsToMove);
-      for (let i = 0; i < movesNeeded; i++) {
-        const firstItem = tracker.firstElementChild;
-        if (firstItem && firstItem.classList.contains('combatant') && !firstItem.classList.contains('active')) {
-          tracker.appendChild(firstItem);
-        }
-      }
-    }
-  }
-
-  /**
-   * Center the carousel on the active combatant using translateX
-   * @param {HTMLElement} tracker - The .combat-tracker element
-   * @param {boolean} animate - Whether to animate
-   */
-  static #centerCarousel = (tracker, animate = true) => {
-    const activeCombatant = tracker.querySelector(':scope > li.combatant.active');
-    if (!activeCombatant) return;
-
-    // Use parent container width (visible viewport), not tracker width (all items)
-    const viewportWidth = tracker.parentElement?.clientWidth || tracker.clientWidth;
-    const activeLeft = activeCombatant.offsetLeft;
-    const activeWidth = activeCombatant.offsetWidth;
-
-    // Calculate offset to center the active item in the visible viewport
-    const offset = (viewportWidth / 2) - activeLeft - (activeWidth / 2);
-
-    const allItems = tracker.querySelectorAll(':scope > li.combatant');
-
-    if (!animate) {
-      allItems.forEach(li => {
-        li.style.transition = 'none';
-        li.style.transform = `translateX(${offset}px)`;
-      });
-      tracker.offsetHeight;
-      allItems.forEach(li => {
-        li.style.transition = '';
-      });
-    } else {
-      allItems.forEach(li => {
-        li.style.transform = `translateX(${offset}px)`;
-      });
+    if (state.visibleCount >= totalCount) {
+      return;
     }
 
-    LogUtil.log("centerCarousel", [
-      "viewportWidth:", viewportWidth,
-      "activeLeft:", activeLeft,
-      "offset:", offset,
-      "animate:", animate
-    ]);
+    const isCurrentlyVisible = activeIndex >= state.visibleStartIndex &&
+                               activeIndex < state.visibleStartIndex + state.visibleCount;
+    if (isCurrentlyVisible) {
+      return;
+    }
+
+    const oldStartIndex = state.visibleStartIndex;
+    const centerOffset = Math.floor(state.visibleCount / 2);
+    let idealStart = activeIndex - centerOffset;
+
+    if (idealStart < 0) {
+      idealStart = 0;
+    } else if (idealStart + state.visibleCount > totalCount) {
+      idealStart = totalCount - state.visibleCount;
+    }
+
+    state.visibleStartIndex = idealStart;
+    state.leftStackCount = idealStart;
+    state.rightStackCount = totalCount - idealStart - state.visibleCount;
+
+    const direction = animate ? (idealStart > oldStartIndex ? 'right' : 'left') : 'none';
+    TopNavigation.#buildStackedCarouselDOM(tracker, direction);
   }
 
   /**
-   * Instantly center the active combatant without animation (for initial render)
+   * Initialize ResizeObserver for carousel responsiveness
+   * @param {HTMLElement} combatPopout - The combat popout element
    */
-  static #rotateCombatCarouselInstant = () => {
-    const combatPopout = document.querySelector('#combat-popout');
-    if (!combatPopout) return;
+  static #initCarouselResizeObserver = (combatPopout) => {
+    if (TopNavigation.#carouselResizeObserver) {
+      TopNavigation.#carouselResizeObserver.disconnect();
+    }
 
-    const tracker = combatPopout.querySelector('.combat-tracker');
-    if (!tracker) return;
+    const windowContent = combatPopout.querySelector('.window-content');
+    if (!windowContent) return;
 
-    // Reorder DOM so active is roughly centered
-    TopNavigation.#reorderForInfiniteCarousel(tracker);
+    TopNavigation.#carouselResizeObserver = new ResizeObserver(
+      GeneralUtil.debounce(() => {
+        const tracker = combatPopout.querySelector('.combat-tracker');
+        if (tracker) {
+          TopNavigation.#recalculateStackState(tracker);
+          TopNavigation.#buildStackedCarouselDOM(tracker);
+        }
+      }, 100)
+    );
 
-    // Force reflow after DOM reorder to get accurate measurements
-    tracker.offsetHeight;
-
-    // Apply centering transform
-    TopNavigation.#centerCarousel(tracker, false);
+    TopNavigation.#carouselResizeObserver.observe(windowContent);
   }
 
   /**
-   * Animated carousel - reorder and center with animation
+   * Clean up the carousel ResizeObserver
    */
-  static #rotateCombatCarouselAnimated = () => {
-    const combatPopout = document.querySelector('#combat-popout');
-    if (!combatPopout) return;
-
-    const tracker = combatPopout.querySelector('.combat-tracker');
-    if (!tracker) return;
-
-    // Reorder DOM so active is roughly centered
-    TopNavigation.#reorderForInfiniteCarousel(tracker);
-
-    // Apply centering transform with animation
-    TopNavigation.#centerCarousel(tracker, true);
+  static #cleanupCarouselResizeObserver = () => {
+    if (TopNavigation.#carouselResizeObserver) {
+      TopNavigation.#carouselResizeObserver.disconnect();
+      TopNavigation.#carouselResizeObserver = null;
+    }
   }
 
   /**
@@ -2051,6 +2238,9 @@ export class TopNavigation {
     if (!TopNavigation.#combatTrackerPoppedOut) return;
 
     LogUtil.log("closeCombatTrackerPopout - closing combat tracker popout");
+
+    // Clean up the resize observer
+    TopNavigation.#cleanupCarouselResizeObserver();
 
     // Close the combat tracker popout - try multiple methods for V2 compatibility
     const combatPopout = document.querySelector('#combat-popout');
