@@ -654,12 +654,15 @@ export class CombatCarousel {
     const TRACK = CombatCarousel.#TRACK;
     const HALF_TRACK = TRACK / 2;
 
+    const isEvenCount = state.allCombatantIds.length % 2 === 0;
+    const evenOffset = isEvenCount ? (STEP / 2) : 0;
+
     const itemX = index * STEP;
     let pos = itemX - state.scrollX;
 
     if (CombatCarousel.#shouldUseInfiniteWrap()) {
-      if (pos < -HALF_TRACK) pos += TRACK;
-      if (pos > HALF_TRACK) pos -= TRACK;
+      if (pos < -HALF_TRACK - evenOffset) pos += TRACK;
+      if (pos > HALF_TRACK - evenOffset) pos -= TRACK;
     }
 
     return pos;
@@ -684,6 +687,9 @@ export class CombatCarousel {
     const containerCenter = trackerWidth / 2;
     const useInfiniteWrap = CombatCarousel.#shouldUseInfiniteWrap();
 
+    const isEvenCount = state.allCombatantIds.length % 2 === 0;
+    const evenOffset = isEvenCount ? (STEP / 2) : 0;
+
     state.allCombatantIds.forEach((id, index) => {
       const element = Array.from(combatantElements).find(
         el => el.dataset.combatantId === id
@@ -693,7 +699,7 @@ export class CombatCarousel {
       let screenX;
       if (useInfiniteWrap) {
         const pos = CombatCarousel.#getWrappedPosition(index);
-        screenX = containerCenter + pos - (cardWidth / 2);
+        screenX = containerCenter + pos - (cardWidth / 2) + evenOffset;
       } else {
         screenX = index * STEP;
       }
@@ -703,83 +709,53 @@ export class CombatCarousel {
       element.style.position = 'absolute';
     });
 
-    CombatCarousel.#updateTurnIndicator(tracker, containerCenter, cardWidth);
-
-    if (useInfiniteWrap) {
-      CombatCarousel.#updateClonePositions(tracker, containerCenter, cardWidth, STEP);
-    }
+    CombatCarousel.#updateTurnIndicator(tracker, containerCenter, cardWidth, evenOffset);
   }
 
   /**
    * Update clone positions during animation (without recreating them)
+   * Clones have a cloneIndex data attribute that determines their virtual position
+   * @param {HTMLElement} tracker - The tracker element
+   * @param {number} containerCenter - Center X of the container
+   * @param {number} cardWidth - Width of a card
+   * @param {number} STEP - Step size between cards
    */
   static #updateClonePositions = (tracker, containerCenter, cardWidth, STEP) => {
     const state = CombatCarousel.#state;
     const totalCount = state.allCombatantIds.length;
     const trackerWidth = tracker.offsetWidth || state.containerWidth;
-    const combatantElements = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
+    const clones = tracker.querySelectorAll('.crlngn-clone');
 
-    let leftMostIndex = -1;
-    let leftMostX = Infinity;
-    let rightMostIndex = -1;
-    let rightMostX = -Infinity;
+    clones.forEach(clone => {
+      const cloneIdx = parseInt(clone.dataset.cloneIndex, 10);
+      if (isNaN(cloneIdx)) return;
 
-    state.allCombatantIds.forEach((id, index) => {
-      const pos = CombatCarousel.#getWrappedPosition(index);
+      const pos = CombatCarousel.#getWrappedPositionForIndex(cloneIdx, totalCount);
       const screenX = containerCenter + pos - (cardWidth / 2);
 
-      if (screenX < leftMostX && screenX >= -cardWidth && screenX < trackerWidth) {
-        leftMostX = screenX;
-        leftMostIndex = index;
-      }
-      if (screenX > rightMostX && screenX >= -cardWidth && screenX < trackerWidth) {
-        rightMostX = screenX;
-        rightMostIndex = index;
+      if (screenX >= -STEP && screenX < trackerWidth + STEP) {
+        clone.style.transform = `translateX(${screenX}px)`;
+        clone.style.display = '';
+      } else {
+        clone.style.display = 'none';
       }
     });
+  }
 
-    if (leftMostIndex === -1 || rightMostIndex === -1) return;
+  /**
+   * Get wrapped position for a virtual index (can be negative or > totalCount)
+   * @param {number} virtualIndex - The virtual index (can be outside 0..totalCount-1)
+   * @param {number} totalCount - Total number of real combatants
+   * @returns {number} The position relative to viewport center
+   */
+  static #getWrappedPositionForIndex = (virtualIndex, totalCount) => {
+    const state = CombatCarousel.#state;
+    const STEP = CombatCarousel.#STEP;
 
-    const clones = tracker.querySelectorAll('.crlngn-clone');
-    let cloneIndex = 0;
+    const itemX = virtualIndex * STEP;
+    const pos = itemX - state.scrollX;
 
-    let currentX = leftMostX - STEP;
-    let currentSourceIndex = (leftMostIndex - 1 + totalCount) % totalCount;
-    while (currentX > -cardWidth && cloneIndex < clones.length) {
-      const sourceId = state.allCombatantIds[currentSourceIndex];
-      const sourceEl = Array.from(combatantElements).find(el => el.dataset.combatantId === sourceId);
-      if (sourceEl && clones[cloneIndex]) {
-        clones[cloneIndex].innerHTML = sourceEl.innerHTML;
-        clones[cloneIndex].className = sourceEl.className;
-        clones[cloneIndex].classList.add('crlngn-clone');
-        clones[cloneIndex].style.transform = `translateX(${currentX}px)`;
-        clones[cloneIndex].style.display = '';
-        cloneIndex++;
-      }
-      currentX -= STEP;
-      currentSourceIndex = (currentSourceIndex - 1 + totalCount) % totalCount;
-    }
-
-    currentX = rightMostX + STEP;
-    currentSourceIndex = (rightMostIndex + 1) % totalCount;
-    while (currentX < trackerWidth && cloneIndex < clones.length) {
-      const sourceId = state.allCombatantIds[currentSourceIndex];
-      const sourceEl = Array.from(combatantElements).find(el => el.dataset.combatantId === sourceId);
-      if (sourceEl && clones[cloneIndex]) {
-        clones[cloneIndex].innerHTML = sourceEl.innerHTML;
-        clones[cloneIndex].className = sourceEl.className;
-        clones[cloneIndex].classList.add('crlngn-clone');
-        clones[cloneIndex].style.transform = `translateX(${currentX}px)`;
-        clones[cloneIndex].style.display = '';
-        cloneIndex++;
-      }
-      currentX += STEP;
-      currentSourceIndex = (currentSourceIndex + 1) % totalCount;
-    }
-
-    for (let i = cloneIndex; i < clones.length; i++) {
-      clones[i].style.display = 'none';
-    }
+    return pos;
   }
 
   /**
@@ -809,7 +785,7 @@ export class CombatCarousel {
 
   /**
    * Update edge clones to fill gaps on both sides of the carousel
-   * Creates full clones that wrap around to fill any visible gaps
+   * Creates a fixed number of clones that will be positioned during updateTransforms
    * @param {HTMLElement} tracker - The tracker element
    * @param {number} containerCenter - Center X of the container
    * @param {number} cardWidth - Width of a card
@@ -824,32 +800,11 @@ export class CombatCarousel {
     const trackerWidth = tracker.offsetWidth || state.containerWidth;
     const combatantElements = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
 
-    let leftMostIndex = -1;
-    let leftMostX = Infinity;
-    let rightMostIndex = -1;
-    let rightMostX = -Infinity;
+    const clonesNeededPerSide = Math.ceil(trackerWidth / STEP) + 2;
 
-    state.allCombatantIds.forEach((id, index) => {
-      const pos = CombatCarousel.#getWrappedPosition(index);
-      const screenX = containerCenter + pos - (cardWidth / 2);
-
-      if (screenX < leftMostX && screenX >= -cardWidth && screenX < trackerWidth) {
-        leftMostX = screenX;
-        leftMostIndex = index;
-      }
-      if (screenX > rightMostX && screenX >= -cardWidth && screenX < trackerWidth) {
-        rightMostX = screenX;
-        rightMostIndex = index;
-      }
-    });
-
-    if (leftMostIndex === -1 || rightMostIndex === -1) return;
-
-    let currentX = leftMostX - STEP;
-    let currentIndex = (leftMostIndex - 1 + totalCount) % totalCount;
-
-    while (currentX > -cardWidth) {
-      const sourceId = state.allCombatantIds[currentIndex];
+    for (let i = 0; i < clonesNeededPerSide; i++) {
+      const sourceIndex = CombatCarousel.#mod(-(i + 1), totalCount);
+      const sourceId = state.allCombatantIds[sourceIndex];
       const sourceEl = Array.from(combatantElements).find(
         el => el.dataset.combatantId === sourceId
       );
@@ -860,18 +815,14 @@ export class CombatCarousel {
         clone.style.pointerEvents = 'none';
         clone.style.position = 'absolute';
         clone.style.left = '0';
-        clone.style.transform = `translateX(${currentX}px)`;
+        clone.dataset.cloneIndex = String(-(i + 1));
         tracker.appendChild(clone);
       }
-      currentX -= STEP;
-      currentIndex = (currentIndex - 1 + totalCount) % totalCount;
     }
 
-    currentX = rightMostX + STEP;
-    currentIndex = (rightMostIndex + 1) % totalCount;
-
-    while (currentX < trackerWidth) {
-      const sourceId = state.allCombatantIds[currentIndex];
+    for (let i = 0; i < clonesNeededPerSide; i++) {
+      const sourceIndex = (totalCount + i) % totalCount;
+      const sourceId = state.allCombatantIds[sourceIndex];
       const sourceEl = Array.from(combatantElements).find(
         el => el.dataset.combatantId === sourceId
       );
@@ -882,11 +833,9 @@ export class CombatCarousel {
         clone.style.pointerEvents = 'none';
         clone.style.position = 'absolute';
         clone.style.left = '0';
-        clone.style.transform = `translateX(${currentX}px)`;
+        clone.dataset.cloneIndex = String(totalCount + i);
         tracker.appendChild(clone);
       }
-      currentX += STEP;
-      currentIndex = (currentIndex + 1) % totalCount;
     }
   }
 
@@ -895,8 +844,9 @@ export class CombatCarousel {
    * @param {HTMLElement} tracker - The tracker element
    * @param {number} containerCenter - Center X of the container
    * @param {number} cardWidth - Width of a card
+   * @param {number} evenOffset - Offset for even combatant counts
    */
-  static #updateTurnIndicator = (tracker, containerCenter, cardWidth) => {
+  static #updateTurnIndicator = (tracker, containerCenter, cardWidth, evenOffset = 0) => {
     const gap = 0.25 * 16;
 
     let indicator = tracker.querySelector('.crlngn-turn-indicator');
@@ -906,7 +856,7 @@ export class CombatCarousel {
     }
 
     const indicatorPos = CombatCarousel.#getWrappedPosition(0);
-    const firstCardLeftEdge = containerCenter + indicatorPos - (cardWidth / 2);
+    const firstCardLeftEdge = containerCenter + indicatorPos - (cardWidth / 2) + evenOffset;
     const indicatorX = firstCardLeftEdge - gap;
 
     indicator.style.transform = `translateX(${indicatorX}px)`;
@@ -1355,7 +1305,6 @@ export class CombatCarousel {
     }
 
     CombatCarousel.#updateTransforms();
-    CombatCarousel.#rebuildClones();
 
     LogUtil.log("CombatCarousel.buildDOM (infinite)", [
       "visibleCount:", state.visibleCount,
