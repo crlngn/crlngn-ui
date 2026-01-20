@@ -107,7 +107,8 @@ export const HOOKS_CORE = {
   UPDATE_COMBAT: "updateCombat",
   CREATE_COMBATANT: "createCombatant",
   DELETE_COMBATANT: "deleteCombatant",
-  RENDER_COMBAT_TRACKER: "renderCombatTracker"
+  RENDER_COMBAT_TRACKER: "renderCombatTracker",
+  PRE_RENDER_COMBAT_TRACKER: "preRenderCombatTracker"
 }
 
 /**

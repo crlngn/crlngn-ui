@@ -169,6 +169,10 @@
             "label": "Docked Carousel Scale",
             "hint": "Scale of the combat carousel when docked to the top of the screen. Range: 0.7 (70%) to 1.5 (150%)."
           },
+          "combatTrackerTakeFullWidth": {
+            "label": "Carousel Responds to Sidebar",
+            "hint": "When enabled, the carousel takes full available width when the sidebar is collapsed, and adjusts when the sidebar is expanded."
+          },
           "combatFieldset": "Combat Tracker"
         },
         "reset": "Reset",

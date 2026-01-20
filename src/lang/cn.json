@@ -156,7 +156,20 @@
           "preventMacroBarReposition": {
             "label": "防止宏栏重新定位",
             "hint": "启用后，隐藏聊天输入框时也会防止宏快捷栏在侧边栏标签更改时被重新定位。无论侧边栏状态如何，都保持宏快捷栏在其原始位置。"
-          }
+          },
+          "enableCombatTrackerCarousel": {
+            "label": "使用可拖拽战斗轮播",
+            "hint": "启用后，当战斗有参战者时，战斗追踪器将自动弹出，并在战斗结束时关闭。还启用弹出追踪器的自定义样式。"
+          },
+          "combatCarouselScale": {
+            "label": "停靠轮播缩放",
+            "hint": "当战斗轮播停靠在屏幕顶部时的缩放比例。范围：0.7（70%）至1.5（150%）。"
+          },
+          "combatTrackerTakeFullWidth": {
+            "label": "侧边栏收起时展开轮播",
+            "hint": "启用后，当侧边栏收起时，轮播将占据全部可用宽度，并在侧边栏展开时进行调整。"
+          },
+          "combatFieldset": "战斗追踪器"
         },
         "reset": "重置",
         "save": "保存"

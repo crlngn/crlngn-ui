@@ -5,6 +5,7 @@ import { BORDER_COLOR_TYPES, DOCK_RESIZE_OPTIONS, getSettings, ICON_SIZES, THEME
 import { CameraDockUtil } from "./CameraDockUtil.mjs";
 import { ChatLogControls } from "./ChatLogControlsUtil.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
+import { CombatTrackerManager } from "./CombatTrackerManager.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LeftControls } from "./LeftControlsUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
@@ -582,11 +583,11 @@ export class SettingsUtil {
       case SETTINGS.hideLoadingSceneName.tag:
         SettingsUtil.applyHideLoadingSceneName(value); break;
       case SETTINGS.enableCombatTrackerCarousel.tag:
-        TopNavigation.enableCombatTrackerCarousel = value;
-        TopNavigation.applyCombatTrackerCarouselClass(); break;
+        CombatTrackerManager.enableCombatTrackerCarousel = value;
+        CombatTrackerManager.applyBodyClass(); break;
       case SETTINGS.combatCarouselScale.tag:
-        TopNavigation.combatCarouselScale = value;
-        TopNavigation.applyCombatCarouselScale(); break;
+        CombatTrackerManager.combatCarouselScale = value;
+        CombatTrackerManager.applyScale(); break;
       default:
         // do nothing
     }

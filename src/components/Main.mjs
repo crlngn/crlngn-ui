@@ -2,6 +2,7 @@ import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
+import { CombatTrackerManager } from "./CombatTrackerManager.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
 import { PlayersList } from "./PlayersListUtil.mjs";
 import { getSettings } from "../constants/Settings.mjs";
@@ -150,9 +151,16 @@ export class Main {
 
       SettingsUtil.resetFoundryThemeSettings();
 
+      // Scene nav specific ready actions
+      TopNavigation.handleSceneFadeOut();
+      if(GeneralUtil.isModuleOn("forien-quest-log")){
+        Hooks.on("questTrackerBoundaries", (boundaries) => boundaries.top = 42);
+      }
+
       setTimeout(()=>{
         ui.combat.popout?.close();
-      }, 200)
+        CombatTrackerManager.checkForActiveCombat();
+      }, 500)
 
       // Check for Force Client Settings conflict and warn user
       // Only warns if settings are enforced by BOTH modules AND have requiresReload: true

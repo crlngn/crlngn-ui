@@ -27,16 +27,21 @@ body.crlngn-ui.crlngn-combat-tracker {
     background: transparent;
     position: absolute;
 
+    &.hidden {
+      display: none;
+    }
+
     &:hover{
       background: var(--background);
     }
 
     .window-header, nav.combat-controls{
       --input-height: 1.25rem;
-      background: transparent;
+      background: var(--background);
       border: 0;
       border-radius: 6px 6px 0 0;
-      font-size: 0;
+      font-size: var(--font-size-10);
+      min-height: 100%;
       max-height: unset;
       padding: 0;
       opacity: 0;
@@ -86,7 +91,7 @@ body.crlngn-ui.crlngn-combat-tracker {
     }
 
     /* Hide default window header elements except close button and our toggle */
-    .window-header > *:not(.crlngn-combat-toggle):not([data-action="close"]) {
+    .window-header > *:not(.crlngn-combat-toggle-container):not([data-action="close"]) {
       display: none !important;
     }
 
@@ -120,12 +125,22 @@ body.crlngn-ui.crlngn-combat-tracker {
       overflow: visible;
       z-index: 10;
       background: var(--background);
-      margin: 0 0 0 calc(26px * var(--carousel-scale));
+      margin-left: calc(26px * var(--carousel-scale));
       padding: 0.15rem;
       border-radius: 6px;
       max-width: calc(100dvw - (2 * var(--sidebar-width)) - (var(--control-item-size)*4));
       /* position: static (default) - so absolutely positioned nav with containing block #combat-popout won't be clipped */
+
+      .crlngn-no-combatants {
+        color: var(--color-text-light-5);
+        font-size: var(--font-size-12);
+        margin: 0;
+        padding: 1rem 2rem;
+        text-align: center;
+        white-space: nowrap;
+      }
     }
+
 
     header.combat-tracker-header {
       display: none;
@@ -145,6 +160,33 @@ body.crlngn-ui.crlngn-combat-tracker {
 
 
     
+    /* Combat toggle button container */
+    .window-header .crlngn-combat-toggle-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: auto;
+      margin-bottom: 4px;
+    }
+
+    /* Round counter badge in nav controls */
+    nav.combat-controls .crlngn-round-counter {
+      background: transparent;
+      border-radius: 2px;
+      color: var(--color-text-primary);
+      font-size: calc(1.25em * var(--carousel-scale));
+      font-weight: 600;
+      height: auto;
+      line-height: 1.2em;
+      margin: 0 2px 0 0;
+      padding: 0;
+      pointer-events: none;
+      text-align: center;
+      width: calc(100% - 2px);
+      border: 1px solid var(--color-highlights-50);
+    }
+
     /* Combat toggle button in window header */
     .window-header .crlngn-combat-toggle {
       background: var(--color-cool-5);
@@ -152,15 +194,13 @@ body.crlngn-ui.crlngn-combat-tracker {
       border-radius: 4px;
       color: var(--color-text-primary);
       cursor: pointer;
-      font-size: var(--font-size-12) !important;
+      font-size: calc(1.5em * var(--carousel-scale));
       padding: 3px;
-      margin-top: auto;
-      margin-bottom: 4px;
       pointer-events: all;
       transition: background 0.2s ease, border-color 0.2s ease;
       width: 100%;
-      max-width: 26px;
-      max-height: 26px;
+      width: 1.6em;
+      height: 1.6em;
       text-align:center;
     }
 
@@ -174,9 +214,9 @@ body.crlngn-ui.crlngn-combat-tracker {
     }
 
     .window-header .crlngn-combat-toggle.combat-active {
-      background: var(--color-warm-2);
-      border-color: var(--color-warm-1);
-      color: var(--color-text-light-0);
+      background: transparent;
+      border-color: transparent;
+      color: var(--color-text-primary);
     }
 
     .window-header .crlngn-combat-toggle.combat-active:hover {
@@ -241,6 +281,11 @@ body.crlngn-ui.crlngn-combat-tracker {
       width: 100%;
       font-size: var(--font-size-10);
       justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+    li.combatant:hover .token-name .combatant-controls {
+      opacity: 1;
     }
     li.combatant .token-name .combatant-controls > button.inline-control {
       background: transparent;
@@ -262,12 +307,6 @@ body.crlngn-ui.crlngn-combat-tracker {
       z-index: 1;
       pointer-events: none;
     }
-    li.combatant.active > .token-initiative {
-      opacity: 1;
-    }
-    li.combatant > .token-initiative:hover {
-      opacity: 1;
-    }
 
     li.combatant > .token-initiative .initiative-input,
     li.combatant > .token-initiative > span {
@@ -285,6 +324,13 @@ body.crlngn-ui.crlngn-combat-tracker {
       border-radius: 4px;
       transform-origin: 0 0;
       transform: scale(var(--carousel-scale));
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    li.combatant:hover > .token-initiative .initiative-input,
+    li.combatant:hover > .token-initiative > span {
+      opacity: 1;
     }
 
     li.combatant > .token-initiative button {
@@ -319,124 +365,67 @@ body.crlngn-ui.crlngn-combat-tracker {
 
     /* Docked to top state */
     &.docked-top {
-      z-index: 95 !important;
+      z-index: calc(var(--z-index-app) - 1) !important;
       left: 50% !important;
       top: var(--scene-nav-offset) !important;
       transform: translate(-50%) !important;
     }
 
-    /* Stacked carousel styles */
-    .combat-tracker.crlngn-stacked-carousel {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 0.25rem;
-      overflow: visible;
-    }
-
-    /* Stack container */
-    .crlngn-card-stack {
+    /* Infinite carousel styles */
+    .combat-tracker.crlngn-infinite-carousel {
       position: relative;
-      width: var(--combatant-width);
-      height: var(--combatant-height);
-      cursor: pointer;
-      flex: 0 0 var(--combatant-width);
-      transition: transform 0.15s ease;
-    }
-
-    .crlngn-card-stack:hover {
-      transform: scale(1.05);
-    }
-
-    /* Back card (shadow/offset effect) */
-    .crlngn-card-stack .stack-card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: var(--color-cool-4);
-      border: 1px solid var(--color-cool-3);
-      border-radius: 4px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    .crlngn-card-stack.stack-left .stack-card-back {
-      left: -4px;
-      top: 2px;
-    }
-
-    .crlngn-card-stack.stack-right .stack-card-back {
-      right: -4px;
-      top: 2px;
-    }
-
-    /* Front card (top of stack) */
-    .crlngn-card-stack .stack-card-front {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: var(--color-cool-5);
-      border: 1px solid var(--color-cool-4);
-      border-radius: 4px;
       overflow: hidden;
-      z-index: 1;
+      cursor: grab;
+      touch-action: pan-y;
+      user-select: none;
+      min-height: var(--combatant-height);
     }
 
-    .crlngn-card-stack .stack-card-front .token-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: saturate(0.5) brightness(0.8);
+    .combat-tracker.crlngn-infinite-carousel:active {
+      cursor: grabbing;
     }
 
-    /* Caret icon overlay */
-    .crlngn-card-stack .stack-caret {
+    .combat-tracker.crlngn-infinite-carousel > li.combatant {
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: calc(3rem * var(--carousel-scale, 1));
-      color: white;
-      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
-      z-index: 3;
+      left: 0;
+      top: 0;
+      transition: none;
+    }
+
+    /* Clone elements shown at carousel edges for visual balance */
+    .combat-tracker.crlngn-infinite-carousel > li.combatant.crlngn-clone {
+      opacity: 0.35;
       pointer-events: none;
-      opacity: 0.3;
-      transition: opacity 0.15s ease;
     }
 
-    .crlngn-card-stack:hover .stack-caret {
-      opacity: 1;
-    }
-
-    .crlngn-card-stack.stack-left .stack-caret {
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .crlngn-card-stack.stack-right .stack-caret {
-      right: 50%;
-      transform: translate(50%, -50%);
-    }
-
-    /* Stack count badge */
-    .crlngn-card-stack .stack-count-badge {
-      align-items: center;
-      background: var(--color-highlights-50);
-      border-radius: 50%;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-      color: var(--color-text-primary);
-      display: flex;
-      font-size: var(--font-size-11);
-      font-weight: 600;
-      height: 16px;
-      justify-content: center;
-      min-width: 16px;
-      padding: 2px 4px;
+    /* Turn start indicator - marks the beginning of initiative order */
+    .combat-tracker.crlngn-infinite-carousel .crlngn-turn-indicator {
       position: absolute;
-      right: 2px;
-      bottom: 2px;
-      z-index: 2;
+      left: 0;
+      top: 0;
+      width: 2px;
+      height: var(--combatant-height);
+      background: var(--color-warm-2);
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 4px;
+      box-shadow: 0 0 6px var(--color-warm-2);
     }
 
-    /* Slide animations for stacked carousel */
+    .combat-tracker.crlngn-infinite-carousel .crlngn-turn-indicator i {
+      color: var(--color-warm-2);
+      font-size: calc(0.75rem * var(--carousel-scale, 1));
+      text-shadow: 0 0 4px var(--color-warm-2);
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* Slide animations for carousel */
     @keyframes slide-in-from-left {
       from {
         opacity: 0;
@@ -459,21 +448,16 @@ body.crlngn-ui.crlngn-combat-tracker {
       }
     }
 
-    .combat-tracker.crlngn-stacked-carousel li.combatant.slide-in-left {
+    .combat-tracker.crlngn-infinite-carousel li.combatant.slide-in-left {
       animation: slide-in-from-left 0.3s ease-out;
     }
 
-    .combat-tracker.crlngn-stacked-carousel li.combatant.slide-in-right {
+    .combat-tracker.crlngn-infinite-carousel li.combatant.slide-in-right {
       animation: slide-in-from-right 0.3s ease-out;
     }
 
-    /* In stacked mode, remove the transform-based positioning */
-    .combat-tracker.crlngn-stacked-carousel > li.combatant {
-      transform: none !important;
-    }
-
-    /* Mobile responsive adjustments */
-    @media (max-width: 768px) {
+    /* Mobile and portrait tablet responsive adjustments */
+    @media (max-width: 768px), (max-width: 1024px) and (orientation: portrait) {
       --carousel-scale: 0.7;
 
       .window-content {
@@ -492,4 +476,24 @@ body.crlngn-ui.crlngn-combat-tracker {
     }
   }
 
+}
+
+/* When full-width setting enabled and sidebar is collapsed, expand carousel to full width */
+body.crlngn-ui.crlngn-combat-tracker.crlngn-carousel-full-width:not(.crlngn-sidebar-expanded) {
+  #combat-popout.docked-top .window-content {
+    max-width: calc(100dvw - (var(--control-item-size)*4));
+    /* Remove left margin offset when in full-width mode so centering works properly */
+    margin-left: 0;
+  }
+
+  #combat-popout.docked-top .combat-tracker {
+    max-width: calc(100dvw - (var(--control-item-size)*4));
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Reposition nav controls when margin is removed */
+  #combat-popout.docked-top nav.combat-controls {
+    left: 0;
+  }
 }

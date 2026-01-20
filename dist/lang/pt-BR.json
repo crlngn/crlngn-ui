@@ -156,7 +156,20 @@
           "preventMacroBarReposition": {
             "label": "Evitar Reposicionamento da Barra de Macros",
             "hint": "Quando ativado, ocultar a caixa de entrada de bate-papo também impede que a barra de macros seja reposicionada quando a aba da barra lateral muda. Mantém a barra de macros em sua posição original, independentemente do estado da barra lateral."
-          }
+          },
+          "enableCombatTrackerCarousel": {
+            "label": "Usar Carrossel de Combate Arrastável",
+            "hint": "Quando ativado, o rastreador de combate aparecerá automaticamente quando o combate tiver combatentes e fechará quando o combate terminar. Também ativa o estilo personalizado para o rastreador destacado."
+          },
+          "combatCarouselScale": {
+            "label": "Escala do Carrossel Ancorado",
+            "hint": "Escala do carrossel de combate quando ancorado no topo da tela. Intervalo: 0.7 (70%) a 1.5 (150%)."
+          },
+          "combatTrackerTakeFullWidth": {
+            "label": "Expandir Carrossel quando Barra Lateral Recolhida",
+            "hint": "Quando ativado, o carrossel ocupa toda a largura disponível quando a barra lateral está recolhida, e se ajusta quando a barra lateral é expandida."
+          },
+          "combatFieldset": "Rastreador de Combate"
         },
         "reset": "Redefinir",
         "save": "Salvar"

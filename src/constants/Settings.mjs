@@ -184,7 +184,8 @@ export function getSettings() {
         "controlsAutoHide",
         "hoverableSettingsHints",
         "enableCombatTrackerCarousel",
-        "combatCarouselScale"
+        "combatCarouselScale",
+        "combatTrackerTakeFullWidth"
       ],
       default: {
         // Fade out
@@ -217,7 +218,8 @@ export function getSettings() {
         controlsAutoHide: false,
         hoverableSettingsHints: true,
         enableCombatTrackerCarousel: true,
-        combatCarouselScale: 1
+        combatCarouselScale: 1,
+        combatTrackerTakeFullWidth: false
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -1711,6 +1713,16 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.combatCarouselScale.hint"),
       propType: Number,
       default: 1,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    combatTrackerTakeFullWidth: {
+      tag: "v2-combat-tracker-full-width",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.combatTrackerTakeFullWidth.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.combatTrackerTakeFullWidth.hint"),
+      propType: Boolean,
+      default: false,
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false

@@ -1,3 +1,5 @@
+import './lib/libwrapper-shim.js';
+
 import "./styles/vars.css";
 import "./styles/main.css";
 import "./styles/ui-left.css";

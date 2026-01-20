@@ -547,6 +547,22 @@ export class GeneralUtil {
   }
   
   /**
+   * Creates a debounced version of a function that delays execution until after wait milliseconds
+   * have elapsed since the last invocation
+   * @param {Function} fn - The function to debounce
+   * @param {number} wait - The delay in milliseconds
+   * @returns {Function} The debounced function
+   */
+  static debounce(fn, wait) {
+    let timeout;
+    return function(...args) {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => fn.apply(context, args), wait);
+    };
+  }
+
+  /**
    * Parses CSS string into a structured format with base properties and nested rules
    * @param {string} css - CSS string to parse
    * @return {Object} Object with baseProperties array and nestedRules array
