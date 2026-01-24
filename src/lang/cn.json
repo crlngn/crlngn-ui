@@ -51,7 +51,20 @@
         "label": "最新更新ID",
         "hint": "跟踪最后显示的更新通知"
       },
-      "toggleChatBox": "切换聊天框"
+      "toggleChatBox": "切换聊天框",
+      "journalToggle": {
+        "enable": "启用卡洛林日志样式",
+        "disable": "禁用卡洛林日志样式"
+      },
+      "carouselWelcome": {
+        "title": "新功能：战斗轮播",
+        "message": "Carolingian UI 有一个新的可拖拽和可停靠的战斗轮播。您想启用此功能吗？",
+        "yes": "是的，启用",
+        "no": "不，保持默认",
+        "enabledNotification": "战斗轮播已启用。您可以在模块设置中更改此选项。",
+        "disabledNotification": "战斗轮播已禁用。您可以稍后在模块设置中启用它。",
+        "moduleWarning": "警告：Combat Carousel 模块当前处于活动状态。请考虑禁用它以避免冲突。"
+      }
     },
     "settings": {
       "supportPatreon": {
@@ -590,6 +603,9 @@
         "label": "在此客户端禁用界面",
         "hint": "如果玩家不想使用卡罗琳界面，可以禁用它。除了聊天卡片中的深色样式（可以单独禁用）外，模组的其他功能将不会生效。"
       }
+    },
+    "combat": {
+      "noCombatants": "战斗中没有参战者"
     },
     "dnd5e": {
       "chatCard": {

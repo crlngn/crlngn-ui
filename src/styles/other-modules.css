@@ -17,6 +17,9 @@ body.crlngn-ui{
 
   /* Token Action HUD */
   #token-action-hud-app {
+    &:hover{
+      z-index:10000;
+    }
     .tah-style-foundry-vtt-dark-compact{
       --tah-button-hover-border: var(--color-highlights);
       --tah-button-hover-box-shadow: 0 2px 0 -1px var(--color-highlights), 0 0 0 1px var(--color-highlights), 0 0 8px var(--color-highlights);

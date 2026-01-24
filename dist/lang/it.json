@@ -51,7 +51,20 @@
         "label": "Ultimo ID Aggiornamento",
         "hint": "Traccia l'ultima notifica di aggiornamento visualizzata"
       },
-      "toggleChatBox": "Pulsante Chat"
+      "toggleChatBox": "Pulsante Chat",
+      "journalToggle": {
+        "enable": "Abilita Stili Diario Carolingian",
+        "disable": "Disabilita Stili Diario Carolingian"
+      },
+      "carouselWelcome": {
+        "title": "Nuova funzionalità: Carosello di Combattimento",
+        "message": "Carolingian UI ha un nuovo Carosello di Combattimento trascinabile e agganciabile. Vuoi abilitare questa funzionalità?",
+        "yes": "Sì, Abilita",
+        "no": "No, Mantieni Predefinito",
+        "enabledNotification": "Il Carosello di Combattimento è stato abilitato. Puoi modificarlo nelle impostazioni del modulo.",
+        "disabledNotification": "Il Carosello di Combattimento è stato disabilitato. Puoi abilitarlo più tardi nelle impostazioni del modulo.",
+        "moduleWarning": "Attenzione: Il modulo Combat Carousel è attualmente attivo. Considera di disabilitarlo per evitare conflitti."
+      }
     },
     "settings": {
       "supportPatreon": {
@@ -601,6 +614,9 @@
             "hint": "Quando abilitato, il colore secondario sarà applicato agli sfondi dell'interfaccia come barra laterale e controlli. Questo crea un tema colore più unificato."
           }
        }
+    },
+    "combat": {
+      "noCombatants": "Nessun combattente nell'incontro"
     },
     "dnd5e": {
       "chatCard": {

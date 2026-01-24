@@ -160,7 +160,10 @@ export class Main {
       setTimeout(()=>{
         ui.combat.popout?.close();
         CombatTrackerManager.checkForActiveCombat();
-      }, 500)
+      }, 500);
+
+      // Show carousel welcome dialog for GM on first load
+      Main.#showCarouselWelcomeDialog();
 
       // Check for Force Client Settings conflict and warn user
       // Only warns if settings are enforced by BOTH modules AND have requiresReload: true
@@ -200,10 +203,63 @@ export class Main {
    * @param {ChatMessage} chatMessage - The chat message being rendered
    * @param {jQuery} html - The HTML element of the chat message
    */
-  static #onRenderChatMessage = (chatMessage, html, c) => { 
+  static #onRenderChatMessage = (chatMessage, html, c) => {
     LogUtil.log(HOOKS_CORE.RENDER_CHAT_MESSAGE,[chatMessage, html, c]);
-  
+
     ChatUtil.enrichCard(chatMessage, html);
+  }
+
+  /**
+   * Show carousel welcome dialog for GM on first load
+   * Only shows once per world, saves answer to world flag
+   */
+  static #showCarouselWelcomeDialog = async () => {
+    if (!game.user?.isGM) return;
+
+    const SETTINGS = getSettings();
+    const hasSeenDialog = SettingsUtil.get(SETTINGS.carouselWelcomeShown.tag) ?? false;
+
+    if (hasSeenDialog) return;
+
+    const isCarouselModuleOn = GeneralUtil.isModuleOn('combat-carousel');
+    const i18nPath = 'CRLNGN_UI.ui.carouselWelcome';
+
+    let content = `
+      <div style="text-align: center; padding: 0.5rem;">
+        <img src="modules/${MODULE_ID}/assets/combat-carousel-cui.webp"
+             alt="Combat Carousel Preview"
+             style="max-width: 100%; border-radius: 8px; margin-bottom: 1rem;" />
+        <p>${game.i18n.localize(`${i18nPath}.message`)}</p>
+        ${isCarouselModuleOn ? `<p style="color: var(--color-warm-2); font-weight: bold;">${game.i18n.localize(`${i18nPath}.moduleWarning`)}</p>` : ''}
+      </div>
+    `;
+
+    const result = await foundry.applications.api.DialogV2.confirm({
+      window: { title: game.i18n.localize(`${i18nPath}.title`) },
+      content,
+      yes: {
+        label: game.i18n.localize(`${i18nPath}.yes`),
+        icon: "",
+        default: true,
+        callback: () => true
+      },
+      no: {
+        label: game.i18n.localize(`${i18nPath}.no`),
+        icon: "",
+        callback: () => false
+      },
+      rejectClose: false
+    });
+
+    if (result === true) {
+      await SettingsUtil.set(SETTINGS.carouselWelcomeShown.tag, true);
+      await SettingsUtil.set(SETTINGS.enableCombatTrackerCarousel.tag, true);
+      ui.notifications.info(game.i18n.localize(`${i18nPath}.enabledNotification`));
+    } else if (result === false) {
+      await SettingsUtil.set(SETTINGS.carouselWelcomeShown.tag, true);
+      await SettingsUtil.set(SETTINGS.enableCombatTrackerCarousel.tag, false);
+      ui.notifications.info(game.i18n.localize(`${i18nPath}.disabledNotification`));
+    }
   }
 
 }

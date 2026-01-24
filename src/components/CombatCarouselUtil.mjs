@@ -43,6 +43,7 @@ export class CombatCarousel {
   static #currentTrackerElement = null;
   static #boundWindowResize = null;
   static #sidebarHookId = null;
+  static #previousCombatantIds = [];
 
   static get state() {
     return CombatCarousel.#state;
@@ -411,7 +412,7 @@ export class CombatCarousel {
     const scale = CombatCarousel.#getCurrentScale();
     const baseFontSize = 16;
     const cardWidth = 5.5 * baseFontSize * scale;
-    const gap = 0.25 * baseFontSize;
+    const gap = 0.5 * baseFontSize;
     const trackerWidth = (state.visibleCount * cardWidth) + ((state.visibleCount - 1) * gap);
 
     tracker.style.width = `${trackerWidth}px`;
@@ -426,18 +427,143 @@ export class CombatCarousel {
   static #refreshCombatants = (tracker) => {
     const state = CombatCarousel.#state;
     const combatants = Array.from(tracker.querySelectorAll(':scope > li.combatant'));
-    state.allCombatantIds = combatants.map(c => c.dataset.combatantId);
+    const newIds = combatants.map(c => c.dataset.combatantId);
+    const addedIds = newIds.filter(id => !CombatCarousel.#previousCombatantIds.includes(id));
 
-    CombatCarousel.#recalculateState(tracker);
-    CombatCarousel.#calculateTrackConstants();
+    if (addedIds.length > 0) {
+      const oldStep = CombatCarousel.#STEP;
+      const oldIds = [...CombatCarousel.#previousCombatantIds];
+      const oldTrackerWidth = CombatCarousel.#trackerWidth;
+      state.allCombatantIds = newIds;
 
-    if (CombatCarousel.#trackerWidth > 0) {
-      tracker.style.width = `${CombatCarousel.#trackerWidth}px`;
-      tracker.style.minWidth = `${CombatCarousel.#trackerWidth}px`;
+      CombatCarousel.#recalculateState(tracker);
+      CombatCarousel.#calculateTrackConstants();
+
+      if (CombatCarousel.#trackerWidth > 0) {
+        tracker.style.width = `${CombatCarousel.#trackerWidth}px`;
+        tracker.style.minWidth = `${CombatCarousel.#trackerWidth}px`;
+      }
+
+      tracker.classList.add('crlngn-infinite-carousel');
+      CombatCarousel.#updateTransforms();
+      CombatCarousel.#addResourceBars(tracker);
+      CombatCarousel.#animateNewCombatants(tracker, addedIds, oldIds, oldStep, oldTrackerWidth);
+    } else {
+      state.allCombatantIds = newIds;
+
+      CombatCarousel.#recalculateState(tracker);
+      CombatCarousel.#calculateTrackConstants();
+
+      if (CombatCarousel.#trackerWidth > 0) {
+        tracker.style.width = `${CombatCarousel.#trackerWidth}px`;
+        tracker.style.minWidth = `${CombatCarousel.#trackerWidth}px`;
+      }
+
+      tracker.classList.add('crlngn-infinite-carousel');
+      CombatCarousel.#updateTransforms();
+      CombatCarousel.#addResourceBars(tracker);
     }
 
-    tracker.classList.add('crlngn-infinite-carousel');
-    CombatCarousel.#updateTransforms();
+    CombatCarousel.#previousCombatantIds = [...newIds];
+  }
+
+
+  /**
+   * Animate newly added combatants with a two-phase effect:
+   * Phase 1: existing items shift to make space (transform transition)
+   * Phase 2: new item slides down into the opened space
+   * @param {HTMLElement} tracker - The tracker element
+   * @param {string[]} addedIds - IDs of newly added combatants
+   * @param {string[]} oldIds - Previous combatant IDs before the new ones were added
+   * @param {number} oldStep - The STEP value before recalculation
+   */
+  static #animateNewCombatants = (tracker, addedIds, oldIds, oldStep, oldTrackerWidth) => {
+    const existingItems = tracker.querySelectorAll(':scope > li.combatant');
+    const newTransforms = new Map();
+
+    tracker.style.overflow = 'visible';
+
+    addedIds.forEach(id => {
+      const element = tracker.querySelector(`li.combatant[data-combatant-id="${id}"]`);
+      if (!element) return;
+      element.style.top = '-100%';
+      element.style.opacity = '0';
+      element.classList.add('crlngn-slide-down');
+    });
+
+    const state = CombatCarousel.#state;
+    const scale = CombatCarousel.#getCurrentScale();
+    const baseFontSize = 16;
+    const cardWidth = 5.5 * baseFontSize * scale;
+    const oldContainerCenter = oldTrackerWidth / 2;
+    const oldTrack = oldIds.length * oldStep;
+    const isOldEvenCount = oldIds.length % 2 === 0;
+    const oldEvenOffset = isOldEvenCount ? (oldStep / 2) : 0;
+
+    const oldScreenXMap = new Map();
+    existingItems.forEach(el => {
+      const id = el.dataset.combatantId;
+      if (addedIds.includes(id)) return;
+      newTransforms.set(id, el.style.transform);
+      const oldIndex = oldIds.indexOf(id);
+      if (oldIndex !== -1) {
+        const itemX = oldIndex * oldStep;
+        let pos = itemX - state.scrollX;
+        if (oldIds.length >= 2) {
+          const halfTrack = oldTrack / 2;
+          if (pos < -halfTrack - oldEvenOffset) pos += oldTrack;
+          if (pos > halfTrack - oldEvenOffset) pos -= oldTrack;
+        }
+        const screenX = oldContainerCenter + pos - (cardWidth / 2) + oldEvenOffset;
+        oldScreenXMap.set(id, screenX);
+        el.style.transform = `translateX(${screenX}px)`;
+      }
+    });
+
+    requestAnimationFrame(() => {
+      existingItems.forEach(el => {
+        const id = el.dataset.combatantId;
+        if (addedIds.includes(id)) return;
+        const newTransform = newTransforms.get(id);
+        if (!newTransform) return;
+        const newXMatch = newTransform.match(/translateX\(([^)]+)px\)/);
+        const newX = newXMatch ? parseFloat(newXMatch[1]) : 0;
+        const oldX = oldScreenXMap.get(id) ?? newX;
+
+        if (newX < oldX) {
+          el.style.opacity = '0';
+          el.style.transform = newTransform;
+          setTimeout(() => { el.style.transition = 'opacity 0.2s ease-out'; el.style.opacity = ''; }, 50);
+        } else {
+          el.style.transition = 'transform 0.25s ease-out';
+          el.style.transform = newTransform;
+        }
+      });
+
+      setTimeout(() => {
+        existingItems.forEach(el => {
+          if (!addedIds.includes(el.dataset.combatantId)) {
+            el.style.transition = '';
+            el.style.opacity = '';
+          }
+        });
+
+        addedIds.forEach(id => {
+          const element = tracker.querySelector(`li.combatant[data-combatant-id="${id}"]`);
+          if (!element) return;
+          element.offsetHeight;
+          element.style.transition = 'top 0.3s ease-out, opacity 0.3s ease-out';
+          element.style.opacity = '';
+          element.style.top = '0';
+          element.addEventListener('transitionend', (e) => {
+            if (e.propertyName !== 'top') return;
+            element.classList.remove('crlngn-slide-down');
+            element.style.transition = '';
+            tracker.style.overflow = '';
+          });
+        });
+      }, 250);
+    });
   }
 
   /**
@@ -454,6 +580,7 @@ export class CombatCarousel {
     CombatCarousel.#initialized = false;
     CombatCarousel.#trackerWidth = 0;
     CombatCarousel.#currentTrackerElement = null;
+    CombatCarousel.#previousCombatantIds = [];
   }
 
   /**
@@ -533,7 +660,7 @@ export class CombatCarousel {
   }
 
   /**
-   * Add round counter badge to nav.combat-controls
+   * Add round counter badge to nav.combat-controls and fix tooltip directions
    * @param {HTMLElement} combatPopout - The combat tracker popout element
    */
   static #addRoundCounter = (combatPopout) => {
@@ -541,6 +668,11 @@ export class CombatCarousel {
 
     const navControls = combatPopout.querySelector('nav.combat-controls');
     if (!navControls) return;
+
+    // Set tooltip direction to LEFT for all buttons in combat controls
+    navControls.querySelectorAll('button').forEach(btn => {
+      btn.setAttribute('data-tooltip-direction', 'LEFT');
+    });
 
     if (navControls.querySelector('.crlngn-round-counter')) return;
 
@@ -628,7 +760,7 @@ export class CombatCarousel {
     const scale = CombatCarousel.#getCurrentScale();
     const baseFontSize = 16;
     const cardWidth = 5.5 * baseFontSize * scale;
-    const gap = 0.25 * baseFontSize;
+    const gap = 0.5 * baseFontSize;
 
     CombatCarousel.#STEP = cardWidth + gap;
     CombatCarousel.#TRACK = state.allCombatantIds.length * CombatCarousel.#STEP;
@@ -680,7 +812,7 @@ export class CombatCarousel {
     const scale = CombatCarousel.#getCurrentScale();
     const baseFontSize = 16;
     const cardWidth = 5.5 * baseFontSize * scale;
-    const gap = 0.25 * baseFontSize;
+    const gap = 0.5 * baseFontSize;
     const STEP = CombatCarousel.#STEP;
 
     const trackerWidth = tracker.offsetWidth || state.containerWidth;
@@ -847,7 +979,9 @@ export class CombatCarousel {
    * @param {number} evenOffset - Offset for even combatant counts
    */
   static #updateTurnIndicator = (tracker, containerCenter, cardWidth, evenOffset = 0) => {
-    const gap = 0.25 * 16;
+    const scale = CombatCarousel.#getCurrentScale();
+    const baseFontSize = 16;
+    const gap = 0.5 * baseFontSize * scale;
 
     let indicator = tracker.querySelector('.crlngn-turn-indicator');
     if (!indicator) {
@@ -857,7 +991,7 @@ export class CombatCarousel {
 
     const indicatorPos = CombatCarousel.#getWrappedPosition(0);
     const firstCardLeftEdge = containerCenter + indicatorPos - (cardWidth / 2) + evenOffset;
-    const indicatorX = firstCardLeftEdge - gap;
+    const indicatorX = firstCardLeftEdge - (gap / 2);
 
     indicator.style.transform = `translateX(${indicatorX}px)`;
   }
@@ -871,6 +1005,128 @@ export class CombatCarousel {
     indicator.className = 'crlngn-turn-indicator';
 
     return indicator;
+  }
+
+  /**
+   * Get the resource data for a combatant based on combat tracker settings
+   * The resource path is configured per-world in Combat Tracker settings
+   * Handles multiple path formats used by different game systems:
+   * - Direct object path (e.g., "attributes.hp" with .value and .max properties)
+   * - Value path (e.g., "attributes.hp.value" - derives max from sibling .max)
+   * @param {Combatant} combatant - The combatant document
+   * @returns {{value: number, max: number}|null} The resource data or null
+   */
+  static #getCombatantResource = (combatant) => {
+    if (!combatant?.actor) return null;
+
+    const resourcePath = game.settings.get("core", "combatTrackerConfig")?.resource;
+    if (!resourcePath) return null;
+
+    const actorSystem = combatant.actor.system;
+    let value, max;
+
+    // First try: get the resource directly (might be an object or a value)
+    const resource = foundry.utils.getProperty(actorSystem, resourcePath);
+
+    if (resource && typeof resource === 'object') {
+      // Path points to an object with value/max properties
+      value = resource.value;
+      max = resource.max;
+    } else {
+      // Path points to the value directly - try to find max
+      value = resource;
+
+      // Try appending ".max" to the resource path
+      max = foundry.utils.getProperty(actorSystem, resourcePath + ".max");
+
+      // If that didn't work, try replacing ".value" with ".max"
+      if (max === undefined && resourcePath.endsWith(".value")) {
+        const maxPath = resourcePath.replace(/\.value$/, ".max");
+        max = foundry.utils.getProperty(actorSystem, maxPath);
+      }
+
+      // If still no max, try getting parent object's max
+      if (max === undefined) {
+        const pathParts = resourcePath.split('.');
+        if (pathParts.length > 1) {
+          pathParts.pop();
+          const parentPath = pathParts.join('.');
+          const parentResource = foundry.utils.getProperty(actorSystem, parentPath);
+          if (parentResource && typeof parentResource === 'object') {
+            max = parentResource.max;
+          }
+        }
+      }
+    }
+
+    if (typeof value !== 'number' || typeof max !== 'number') return null;
+
+    return { value, max };
+  }
+
+  /**
+   * Update the resource bar display for a combatant
+   * Sets CSS variable for bar width and color state classes
+   * @param {HTMLElement} element - The combatant li element
+   * @param {Combatant} combatant - The combatant document
+   */
+  static #updateResourceBarElement = (element, combatant) => {
+    const resourceEl = element.querySelector('.token-resource');
+    if (!resourceEl) return;
+
+    const resource = CombatCarousel.#getCombatantResource(combatant);
+    if (!resource) return;
+
+    const percentage = resource.max > 0 ? Math.max(0, Math.min(100, (resource.value / resource.max) * 100)) : 0;
+
+    resourceEl.style.setProperty('--resource-pct', `${percentage}%`);
+    resourceEl.classList.remove('critical', 'wounded');
+    if (percentage <= 25) {
+      resourceEl.classList.add('critical');
+    } else if (percentage <= 50) {
+      resourceEl.classList.add('wounded');
+    }
+  }
+
+  /**
+   * Update resource bars for all combatants in the carousel
+   * Called after render or when actor data changes
+   */
+  static updateResourceBars = () => {
+    const tracker = document.querySelector('#combat-popout .combat-tracker');
+    if (!tracker) return;
+
+    const combat = game.combat;
+    if (!combat) return;
+
+    const combatantElements = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
+
+    combatantElements.forEach(element => {
+      const combatantId = element.dataset.combatantId;
+      const combatant = combat.combatants.get(combatantId);
+      if (!combatant) return;
+
+      CombatCarousel.#updateResourceBarElement(element, combatant);
+    });
+  }
+
+  /**
+   * Add resource bars to all combatants after carousel init
+   * @param {HTMLElement} tracker - The tracker element
+   */
+  static #addResourceBars = (tracker) => {
+    const combat = game.combat;
+    if (!combat) return;
+
+    const combatantElements = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
+
+    combatantElements.forEach(element => {
+      const combatantId = element.dataset.combatantId;
+      const combatant = combat.combatants.get(combatantId);
+      if (!combatant) return;
+
+      CombatCarousel.#updateResourceBarElement(element, combatant);
+    });
   }
 
   /**
@@ -993,7 +1249,7 @@ export class CombatCarousel {
         state.targetScrollX = null;
         state.velocity = 0;
       } else {
-        state.scrollX += diff * 0.08;
+        state.scrollX += diff * 0.15;
       }
     } else {
       if (!state.isDragging && Math.abs(state.velocity) > CombatCarousel.#SNAP_VELOCITY_THRESHOLD) {
@@ -1199,7 +1455,7 @@ export class CombatCarousel {
     const scale = CombatCarousel.#getCurrentScale();
     const baseFontSize = 16;
     const cardWidth = 5.5 * baseFontSize * scale;
-    const gap = 0.25 * baseFontSize;
+    const gap = 0.5 * baseFontSize;
 
     const allCardsWidth = (totalCombatants * cardWidth) + ((totalCombatants - 1) * gap);
     if (allCardsWidth <= containerWidth) {
@@ -1279,7 +1535,7 @@ export class CombatCarousel {
     const scale = CombatCarousel.#getCurrentScale();
     const baseFontSize = 16;
     const cardWidth = 5.5 * baseFontSize * scale;
-    const gap = 0.25 * baseFontSize;
+    const gap = 0.5 * baseFontSize;
     const trackerWidth = (state.visibleCount * cardWidth) + ((state.visibleCount - 1) * gap);
     tracker.style.width = `${trackerWidth}px`;
     tracker.style.minWidth = `${trackerWidth}px`;
@@ -1305,6 +1561,15 @@ export class CombatCarousel {
     }
 
     CombatCarousel.#updateTransforms();
+    CombatCarousel.#addResourceBars(tracker);
+
+    // Defer a second transform update to ensure turn indicator is positioned
+    // correctly after browser has completed layout
+    requestAnimationFrame(() => {
+      CombatCarousel.#updateTransforms();
+    });
+
+    CombatCarousel.#previousCombatantIds = [...state.allCombatantIds];
 
     LogUtil.log("CombatCarousel.buildDOM (infinite)", [
       "visibleCount:", state.visibleCount,

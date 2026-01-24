@@ -97,8 +97,7 @@
       </div>
     </div>
 
-    {{#if isPlayerScope}}
-    <!-- Background Color Option (client setting, only shown for player color picker) -->
+    <!-- Background Color Option (client setting, shown in both world and player color pickers) -->
     <div class="form-group">
       <label>
         <input type="checkbox" name="applySecondaryColorToBg" {{#if applySecondaryColorToBg}}checked{{/if}} />
@@ -106,6 +105,5 @@
       </label>
       <p class="hint">{{localize "CRLNGN_UI.settings.colorPicker.applySecondaryColorToBg.hint"}}</p>
     </div>
-    {{/if}}
 
 </div>

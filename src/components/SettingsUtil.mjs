@@ -1,5 +1,5 @@
 import { DARK_MODE_RULES, MODULE_ID } from "../constants/General.mjs";
-import { HOOKS_CORE } from "../constants/Hooks.mjs";
+import { HOOKS_CORE, HOOKS_CRLNGN } from "../constants/Hooks.mjs";
 import { getSettingMenus } from "../constants/SettingMenus.mjs";
 import { BORDER_COLOR_TYPES, DOCK_RESIZE_OPTIONS, getSettings, ICON_SIZES, THEMES, UI_SCALE } from "../constants/Settings.mjs";
 import { CameraDockUtil } from "./CameraDockUtil.mjs";
@@ -28,6 +28,31 @@ export class SettingsUtil {
   static firstLoad = true;
   static foundryUiConfig = null;
   static coreColorScheme = null;
+
+  /** Settings tags that control UI element visibility (fade, enable, hide) */
+  static #uiVisibilitySettings = [
+    'v2-scene-controls-fade-out',
+    'v2-sidebar-tabs-fade-out',
+    'v2-chat-log-controls-fade-out',
+    'v2-player-list-fade-out',
+    'v2-camera-fade-out',
+    'v2-macro-hotbar-fade-out',
+    'v2-scene-nav-fade-out',
+    'v2-enable-scene-controls',
+    'v2-enable-sidebar-tabs',
+    'v2-enable-chat-log-controls',
+    'v2-enable-player-list',
+    'v2-enable-floating-dock',
+    'v2-enable-macro-layout',
+    'v2-scene-nav-enabled',
+    'v2-scene-controls-hide',
+    'v2-sidebar-tabs-hide',
+    'v2-chat-log-controls-hide',
+    'v2-player-list-hide',
+    'v2-camera-dock-hide',
+    'v2-macro-hotbar-hide',
+    'v2-scene-nav-hide'
+  ];
 
   /**
    * Registers all module settings with Foundry VTT
@@ -584,14 +609,31 @@ export class SettingsUtil {
         SettingsUtil.applyHideLoadingSceneName(value); break;
       case SETTINGS.enableCombatTrackerCarousel.tag:
         CombatTrackerManager.enableCombatTrackerCarousel = value;
-        CombatTrackerManager.applyBodyClass(); break;
+        CombatTrackerManager.applyBodyClass();
+        ui.combat?.popout?.render(); break;
       case SETTINGS.combatCarouselScale.tag:
         CombatTrackerManager.combatCarouselScale = value;
         CombatTrackerManager.applyScale(); break;
+      case SETTINGS.combatTrackerTakeFullWidth.tag:
+        CombatTrackerManager.combatTrackerTakeFullWidth = value;
+        document.body.classList.toggle('crlngn-carousel-full-width', value);
+        ui.combat?.popout?.render(); break;
+      case SETTINGS.carouselImageSource.tag:
+        CombatTrackerManager.carouselImageSource = value;
+        ui.combat?.popout?.render(); break;
+      case SETTINGS.carouselShowEffects.tag:
+        CombatTrackerManager.carouselShowEffects = value;
+        document.body.classList.toggle('crlngn-show-effects', value);
+        ui.combat?.popout?.render(); break;
       default:
         // do nothing
     }
-    
+
+    // Fire hook if this is a UI element visibility setting
+    if (SettingsUtil.#uiVisibilitySettings.includes(settingTag)) {
+      Hooks.callAll(HOOKS_CRLNGN.ELEMENT_VISIBILITY_CHANGED, settingTag, value);
+    }
+
   }
 
   /**

@@ -107,8 +107,12 @@ export const HOOKS_CORE = {
   UPDATE_COMBAT: "updateCombat",
   CREATE_COMBATANT: "createCombatant",
   DELETE_COMBATANT: "deleteCombatant",
+  UPDATE_COMBATANT: "updateCombatant",
   RENDER_COMBAT_TRACKER: "renderCombatTracker",
-  PRE_RENDER_COMBAT_TRACKER: "preRenderCombatTracker"
+  PRE_RENDER_COMBAT_TRACKER: "preRenderCombatTracker",
+
+  /* Actor */
+  UPDATE_ACTOR: "updateActor"
 }
 
 /**
@@ -135,5 +139,7 @@ export const HOOKS_CRLNGN = {
   /** Fired after module compatibility classes are added to body */
   MODULE_CLASSES_READY: "crlngn.moduleClassesReady",
   /** Fired after scene nav offset CSS variable is applied */
-  SCENE_NAV_OFFSET_APPLIED: "crlngn.sceneNavOffsetApplied"
+  SCENE_NAV_OFFSET_APPLIED: "crlngn.sceneNavOffsetApplied",
+  /** Fired when a UI element visibility setting changes (fade, enable, hide) */
+  ELEMENT_VISIBILITY_CHANGED: "crlngn-ui.elementVisibilityChanged"
 }

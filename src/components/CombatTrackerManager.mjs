@@ -2,6 +2,8 @@ import { LogUtil } from "./LogUtil.mjs";
 import { MODULE_ID } from "../constants/General.mjs";
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { CombatCarousel } from "./CombatCarouselUtil.mjs";
+import { SettingsUtil } from "./SettingsUtil.mjs";
+import { getSettings } from "../constants/Settings.mjs";
 
 /**
  * Manages the combat tracker popout, docking, and combat lifecycle events
@@ -12,6 +14,8 @@ export class CombatTrackerManager {
   static enableCombatTrackerCarousel = false;
   static combatCarouselScale = 1;
   static combatTrackerTakeFullWidth = false;
+  static carouselImageSource = "token";
+  static carouselShowEffects = false;
 
   static #navCollapseCallback = null;
   static #navExpandCallback = null;
@@ -48,6 +52,7 @@ export class CombatTrackerManager {
     Hooks.on(HOOKS_CORE.COMBAT_TURN, (combat, updateData, options) => CombatTrackerManager.onCombatTurnPre(combat, updateData, options));
     Hooks.on(HOOKS_CORE.COMBAT_ROUND, (combat, updateData, options) => CombatTrackerManager.onCombatRoundPre(combat, updateData, options));
     Hooks.on(HOOKS_CORE.RENDER_COMBAT_TRACKER, (app, html, data) => CombatTrackerManager.onRenderCombatTracker(app, html, data));
+    Hooks.on(HOOKS_CORE.UPDATE_ACTOR, (actor, updateData, options, userId) => CombatTrackerManager.onActorUpdate(actor, updateData));
 
     Hooks.once(HOOKS_CORE.READY, () => {
       CombatCarousel.registerCombatWrappers();
@@ -55,18 +60,35 @@ export class CombatTrackerManager {
   }
 
   /**
-   * Update settings from external source (TopNavUtil)
+   * Load settings directly from SettingsUtil
    */
-  static updateSettings = (settings) => {
-    CombatTrackerManager.collapseNavDuringCombat = settings.collapseNavDuringCombat;
-    CombatTrackerManager.enableCombatTrackerCarousel = settings.enableCombatTrackerCarousel;
-    CombatTrackerManager.combatCarouselScale = settings.combatCarouselScale;
-    CombatTrackerManager.combatTrackerTakeFullWidth = settings.combatTrackerTakeFullWidth;
+  static loadSettings = () => {
+    const SETTINGS = getSettings();
 
-    if (settings.combatTrackerTakeFullWidth) {
+    CombatTrackerManager.collapseNavDuringCombat = SettingsUtil.get(SETTINGS.collapseNavDuringCombat.tag) ?? false;
+    CombatTrackerManager.enableCombatTrackerCarousel = SettingsUtil.get(SETTINGS.enableCombatTrackerCarousel.tag) ?? false;
+    CombatTrackerManager.combatCarouselScale = SettingsUtil.get(SETTINGS.combatCarouselScale.tag) ?? 1;
+    CombatTrackerManager.combatTrackerTakeFullWidth = SettingsUtil.get(SETTINGS.combatTrackerTakeFullWidth.tag) ?? false;
+    CombatTrackerManager.carouselImageSource = SettingsUtil.get(SETTINGS.carouselImageSource.tag) ?? "token";
+    CombatTrackerManager.carouselShowEffects = SettingsUtil.get(SETTINGS.carouselShowEffects.tag) ?? false;
+
+    CombatTrackerManager.#applyBodyClasses();
+  }
+
+  /**
+   * Apply body classes based on current settings
+   */
+  static #applyBodyClasses = () => {
+    if (CombatTrackerManager.combatTrackerTakeFullWidth) {
       document.body.classList.add('crlngn-carousel-full-width');
     } else {
       document.body.classList.remove('crlngn-carousel-full-width');
+    }
+
+    if (CombatTrackerManager.carouselShowEffects) {
+      document.body.classList.add('crlngn-show-effects');
+    } else {
+      document.body.classList.remove('crlngn-show-effects');
     }
   }
 
@@ -252,6 +274,23 @@ export class CombatTrackerManager {
   }
 
   /**
+   * Handle actor update - refresh resource bars in carousel when HP changes
+   * @param {Actor} actor - The actor that was updated
+   * @param {object} updateData - The update data
+   */
+  static onActorUpdate = (actor, updateData) => {
+    if (!CombatTrackerManager.enableCombatTrackerCarousel) return;
+
+    const combat = game.combat;
+    if (!combat) return;
+
+    const isInCombat = combat.combatants.some(c => c.actor?.id === actor.id);
+    if (!isInCombat) return;
+
+    CombatCarousel.updateResourceBars();
+  }
+
+  /**
    * Handle combatant deleted - restore nav and close combat tracker if no more combatants in any combat
    * @param {Combatant} combatant - The combatant that was deleted
    */
@@ -374,6 +413,23 @@ export class CombatTrackerManager {
         CombatCarousel.addCombatToggleButton(combatPopout, windowHeader);
       }
 
+      const navControls = combatPopout.querySelector('nav.combat-controls');
+      if (navControls) {
+        navControls.querySelectorAll('button').forEach(btn => {
+          btn.setAttribute('data-tooltip-direction', 'LEFT');
+        });
+        if (!navControls.querySelector('.crlngn-round-counter')) {
+          const combat = game.combat;
+          const isStarted = combat?.started;
+          const round = combat?.round || 0;
+          const roundBadge = document.createElement('span');
+          roundBadge.className = 'crlngn-round-counter';
+          roundBadge.textContent = round;
+          roundBadge.style.display = isStarted && round > 0 ? '' : 'none';
+          navControls.appendChild(roundBadge);
+        }
+      }
+
       const tracker = combatPopout.querySelector('.combat-tracker');
       const combatants = tracker?.querySelectorAll(':scope > li.combatant');
       const hasCombatants = combatants && combatants.length > 0;
@@ -382,13 +438,93 @@ export class CombatTrackerManager {
 
       if (hasCombatants) {
         CombatTrackerManager.#pendingTurnChange = null;
+        CombatTrackerManager.#updateCombatantImages(tracker);
+        CombatTrackerManager.#copyEffectsTooltips(tracker);
         CombatCarousel.init(combatPopout);
 
         if (tracker && CombatCarousel.state.allCombatantIds.length > 0) {
           CombatCarousel.adjustTrackerWidth(tracker);
         }
       }
+
+      CombatTrackerManager.#updateRollInitiativeBar(combatPopout);
     });
+  }
+
+  /**
+   * Update combatant images based on the carouselImageSource setting
+   * When set to "actor", replaces token images with actor portraits
+   * @param {HTMLElement} tracker - The combat tracker element
+   */
+  static #updateCombatantImages = (tracker) => {
+    if (CombatTrackerManager.carouselImageSource !== "actor") return;
+
+    const combat = game.combat;
+    if (!combat) return;
+
+    const combatantElements = tracker.querySelectorAll(':scope > li.combatant');
+    combatantElements.forEach(element => {
+      const combatantId = element.dataset.combatantId;
+      const combatant = combat.combatants.get(combatantId);
+      if (!combatant?.actor) return;
+
+      const actorImg = combatant.actor.img;
+      if (!actorImg) return;
+
+      const tokenImage = element.querySelector('.token-image');
+      if (tokenImage && tokenImage.src !== actorImg) {
+        tokenImage.src = actorImg;
+      }
+    });
+  }
+
+  /**
+   * Copy data-tooltip-html from .token-effects to the parent li.combatant
+   * Also creates visible effects display when carouselShowEffects is enabled
+   * @param {HTMLElement} tracker - The combat tracker element
+   */
+  static #copyEffectsTooltips = (tracker) => {
+    const combatantElements = tracker.querySelectorAll(':scope > li.combatant');
+    combatantElements.forEach(element => {
+      const tokenEffects = element.querySelector('.token-effects');
+      if (!tokenEffects) return;
+
+      const tooltipHtml = tokenEffects.getAttribute('data-tooltip-html');
+      if (tooltipHtml) {
+        element.setAttribute('data-tooltip-html', tooltipHtml);
+        element.classList.add('effects-tooltip');
+
+        if (CombatTrackerManager.carouselShowEffects) {
+          CombatTrackerManager.#createEffectsDisplay(element, tokenEffects);
+        }
+      }
+    });
+  }
+
+  /**
+   * Create a visible effects display element below the combatant card
+   * Parses the tooltip HTML and appends the effects list structure
+   * @param {HTMLElement} combatantEl - The combatant li element
+   * @param {HTMLElement} tokenEffects - The token-effects element containing effect data
+   */
+  static #createEffectsDisplay = (combatantEl, tokenEffects) => {
+    let existingDisplay = combatantEl.querySelector('.crlngn-effects-display');
+    if (existingDisplay) existingDisplay.remove();
+
+    const tooltipHtml = tokenEffects.getAttribute('data-tooltip-html');
+    if (!tooltipHtml) return;
+
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = tooltipHtml;
+
+    const effectsList = tempDiv.querySelector('ul');
+    if (!effectsList || effectsList.children.length === 0) return;
+
+    const display = document.createElement('div');
+    display.className = 'crlngn-effects-display';
+    display.appendChild(effectsList.cloneNode(true));
+
+    combatantEl.appendChild(display);
   }
 
   /**
@@ -758,12 +894,94 @@ export class CombatTrackerManager {
       if (!messageEl) {
         messageEl = document.createElement('p');
         messageEl.className = 'crlngn-no-combatants';
-        messageEl.textContent = game.i18n.localize('COMBAT.NoCombatants');
+        messageEl.textContent = game.i18n.localize('CRLNGN_UI.combat.noCombatants');
         windowContent.appendChild(messageEl);
       }
       messageEl.style.display = '';
     } else if (messageEl) {
       messageEl.style.display = 'none';
+    }
+  }
+
+  /**
+   * Update the floating roll initiative bar visibility
+   * Shows when combatants exist but haven't all rolled initiative
+   * @param {HTMLElement} combatPopout - The combat popout element
+   */
+  static #updateRollInitiativeBar = (combatPopout) => {
+    if (!combatPopout) return;
+
+    const combat = game.combat;
+    if (!combat) {
+      CombatTrackerManager.#hideRollInitiativeBar(combatPopout);
+      return;
+    }
+
+    const combatants = combat.combatants;
+    if (!combatants || combatants.size === 0) {
+      CombatTrackerManager.#hideRollInitiativeBar(combatPopout);
+      return;
+    }
+
+    const hasUnrolledInitiative = combatants.some(c => c.initiative === null || c.initiative === undefined);
+
+    if (hasUnrolledInitiative) {
+      CombatTrackerManager.#showRollInitiativeBar(combatPopout);
+    } else {
+      CombatTrackerManager.#hideRollInitiativeBar(combatPopout);
+    }
+  }
+
+  /**
+   * Show the floating roll initiative bar
+   * @param {HTMLElement} combatPopout - The combat popout element
+   */
+  static #showRollInitiativeBar = (combatPopout) => {
+    if (!combatPopout) return;
+
+    const windowContent = combatPopout.querySelector('.window-content');
+    if (!windowContent) return;
+
+    let bar = windowContent.querySelector('.crlngn-roll-initiative-bar');
+
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.className = 'crlngn-roll-initiative-bar';
+
+      const rollAllBtn = document.createElement('button');
+      rollAllBtn.type = 'button';
+      rollAllBtn.className = 'inline-control combat-control icon fa-solid fa-users';
+      rollAllBtn.setAttribute('data-action', 'rollAll');
+      rollAllBtn.setAttribute('data-tooltip', 'COMBAT.RollAll');
+      rollAllBtn.setAttribute('aria-label', game.i18n.localize('COMBAT.RollAll'));
+      rollAllBtn.addEventListener('click', () => game.combat?.rollAll());
+
+      const rollNpcBtn = document.createElement('button');
+      rollNpcBtn.type = 'button';
+      rollNpcBtn.className = 'inline-control combat-control icon fa-solid fa-users-cog';
+      rollNpcBtn.setAttribute('data-action', 'rollNPC');
+      rollNpcBtn.setAttribute('data-tooltip', 'COMBAT.RollNPC');
+      rollNpcBtn.setAttribute('aria-label', game.i18n.localize('COMBAT.RollNPC'));
+      rollNpcBtn.addEventListener('click', () => game.combat?.rollNPC());
+
+      bar.appendChild(rollAllBtn);
+      bar.appendChild(rollNpcBtn);
+
+      windowContent.appendChild(bar);
+    }
+
+    bar.style.display = '';
+  }
+
+  /**
+   * Hide the floating roll initiative bar
+   * @param {HTMLElement} combatPopout - The combat popout element
+   */
+  static #hideRollInitiativeBar = (combatPopout) => {
+    const windowContent = combatPopout?.querySelector('.window-content');
+    const bar = windowContent?.querySelector('.crlngn-roll-initiative-bar');
+    if (bar) {
+      bar.style.display = 'none';
     }
   }
 }

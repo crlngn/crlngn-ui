@@ -56,10 +56,6 @@ export class TopNavigation {
   static expandScrimToSubfolders;
   static isCollapsed;
   static navPos;
-  static collapseNavDuringCombat;
-  static enableCombatTrackerCarousel;
-  static combatCarouselScale;
-  static combatTrackerTakeFullWidth;
 
   // Initialization state flags for coordinating hook-based setup
   static #sceneNavRendered = false;
@@ -327,10 +323,58 @@ export class TopNavigation {
   }
 
   /**
+   * Unwraps scene items that have been wrapped by systems (e.g., Daggerheart)
+   * Detects li.scene-wrapper > div.scene pattern and moves classes/attributes to the li
+   * @param {HTMLElement} navHtml - The navigation HTML element
+   */
+  static #unwrapSceneItems = (navHtml) => {
+    const wrappedItems = navHtml.querySelectorAll('.scene-navigation-menu li.scene-wrapper');
+    if (wrappedItems.length === 0) return;
+
+    LogUtil.log("unwrapSceneItems - found wrapped scenes", [wrappedItems.length]);
+
+    wrappedItems.forEach(wrapper => {
+      const innerDiv = wrapper.querySelector(':scope > div.scene, :scope > div.ui-control');
+      if (!innerDiv) return;
+
+      // Move classes from inner div to the li wrapper
+      innerDiv.classList.forEach(cls => {
+        if (cls !== 'ui-control') {
+          wrapper.classList.add(cls);
+        }
+      });
+      wrapper.classList.remove('scene-wrapper');
+
+      // Copy data attributes from inner div to li
+      for (const [key, value] of Object.entries(innerDiv.dataset)) {
+        wrapper.dataset[key] = value;
+      }
+
+      // Copy other relevant attributes
+      if (innerDiv.hasAttribute('draggable')) {
+        wrapper.setAttribute('draggable', innerDiv.getAttribute('draggable'));
+      }
+      if (innerDiv.hasAttribute('data-action')) {
+        wrapper.setAttribute('data-action', innerDiv.getAttribute('data-action'));
+      }
+
+      // Move inner div's children to the li
+      while (innerDiv.firstChild) {
+        wrapper.appendChild(innerDiv.firstChild);
+      }
+
+      // Remove the now-empty inner div
+      innerDiv.remove();
+    });
+  }
+
+  /**
    * Add scene preview to nav, if the setting is enabled
    */
   static handleSceneList = async (nav, navHtml, navData) =>{
     LogUtil.log("handleSceneList", [nav, navHtml, navData, TopNavigation.useScenePreview, game.user?.isGM]);
+
+    TopNavigation.#unwrapSceneItems(navHtml);
 
     const allSceneLi = navHtml.querySelectorAll(".scene-navigation-menu li.scene");
 
@@ -1388,13 +1432,9 @@ export class TopNavigation {
     TopNavigation.disableActiveSceneSeparation = SettingsUtil.get(SETTINGS.disableActiveSceneSeparation.tag);
     TopNavigation.subFoldersLayout = SettingsUtil.get(SETTINGS.subFoldersLayout.tag);
     TopNavigation.expandScrimToSubfolders = SettingsUtil.get(SETTINGS.expandScrimToSubfolders.tag);
-    TopNavigation.collapseNavDuringCombat = SettingsUtil.get(SETTINGS.collapseNavDuringCombat.tag);
-    TopNavigation.enableCombatTrackerCarousel = SettingsUtil.get(SETTINGS.enableCombatTrackerCarousel.tag);
-    TopNavigation.combatCarouselScale = SettingsUtil.get(SETTINGS.combatCarouselScale.tag) ?? 1;
-    TopNavigation.combatTrackerTakeFullWidth = SettingsUtil.get(SETTINGS.combatTrackerTakeFullWidth.tag) ?? false;
     TopNavigation.isCollapsed = TopNavigation.navStartCollapsed;
 
-    TopNavigation.#syncCombatTrackerManagerSettings();
+    CombatTrackerManager.loadSettings();
     CombatTrackerManager.applyBodyClass();
     TopNavigation.applySceneItemWidth();
     TopNavigation.applySubFoldersLayout();
@@ -1405,22 +1445,13 @@ export class TopNavigation {
    * Initialize CombatTrackerManager with nav callbacks and register hooks
    */
   static #initCombatTrackerManager = () => {
-    TopNavigation.#syncCombatTrackerManagerSettings();
+    CombatTrackerManager.loadSettings();
     CombatTrackerManager.init(
       () => TopNavigation.toggleNav(true),
       () => TopNavigation.toggleNav(false),
       () => TopNavigation.isCollapsed,
       () => TopNavigation.sceneNavEnabled
     );
-  }
-
-  static #syncCombatTrackerManagerSettings = () => {
-    CombatTrackerManager.updateSettings({
-      collapseNavDuringCombat: TopNavigation.collapseNavDuringCombat,
-      enableCombatTrackerCarousel: TopNavigation.enableCombatTrackerCarousel,
-      combatCarouselScale: TopNavigation.combatCarouselScale,
-      combatTrackerTakeFullWidth: TopNavigation.combatTrackerTakeFullWidth
-    });
   }
 
   /**

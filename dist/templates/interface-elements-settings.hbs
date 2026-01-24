@@ -87,6 +87,21 @@
       </div>
       <p class="hint">{{fields.combatCarouselScale.hint}}</p>
     </div>
+
+    <div class="form-group">
+      <label for="carouselImageSource">{{fields.carouselImageSource.label}}</label>
+      <select name="carouselImageSource" {{#if fields.carouselImageSource.isLocked}}disabled{{/if}}>
+        <option value="token" {{#if (eq carouselImageSource "token")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselImageSource.options.token"}}</option>
+        <option value="actor" {{#if (eq carouselImageSource "actor")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselImageSource.options.actor"}}</option>
+      </select>
+      <p class="hint">{{fields.carouselImageSource.hint}}</p>
+    </div>
+
+    <div class="form-group">
+      <label for="carouselShowEffects">{{fields.carouselShowEffects.label}}</label>
+      <input type="checkbox" name="carouselShowEffects" {{#if carouselShowEffects}}checked{{/if}} {{#if fields.carouselShowEffects.isLocked}}disabled{{/if}} />
+      <p class="hint">{{fields.carouselShowEffects.hint}}</p>
+    </div>
   </fieldset>
 
   <div class="form-group">

@@ -1687,4 +1687,23 @@ body.crlngn-ui.system-daggerheart.crlngn-chat-dh {
   #chat-notifications .chat-log .chat-message .message-header .message-header-main .message-sub-header-container h4 {
     color: var(--color-light-1);
   }
+
+}
+
+/* Scene nav items after unwrap - only when CUI scene nav is enabled */
+body.crlngn-ui.system-daggerheart.crlngn-scene-nav {
+  .scene-navigation-menu li.scene {
+    display: inline-flex;
+    justify-content: flex-start;
+    gap: 3px;
+  }
+
+  .scene-navigation-menu li.scene button {
+    padding: 0px;
+    background: transparent;
+    flex: 0 0 calc(var(--control-item-size) * 0.4);
+    max-height: calc(var(--control-item-size) * 0.4);
+    border: none;
+    width: calc(var(--control-item-size) * 0.4);
+  }
 }

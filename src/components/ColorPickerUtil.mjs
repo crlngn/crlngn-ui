@@ -43,9 +43,15 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     this.currentColors = options.currentColors || this.#getDefaultColors();
     this.activeSecondaryTheme = 'dark'; // Default to dark theme tab
 
-    // Initialize checkbox state from saved setting
+    // Initialize checkbox state from saved setting based on scope
     const SETTINGS = getSettings();
-    this.applySecondaryColorToBg = SettingsUtil.get(SETTINGS.applySecondaryColorToBg.tag) || false;
+    if (this.scope === 'player') {
+      // For player scope, show only the player setting value
+      this.applySecondaryColorToBg = SettingsUtil.get(SETTINGS.playerApplySecondaryColorToBg.tag) === true;
+    } else {
+      // For world scope, use world setting
+      this.applySecondaryColorToBg = SettingsUtil.get(SETTINGS.applySecondaryColorToBg.tag) === true;
+    }
 
     this.#performMigrationIfNeeded();
   }
@@ -217,12 +223,15 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     await SettingsUtil.set(settingTag, colors);
 
     let confirmReload = false;
-    // Only save applySecondaryColorToBg for player scope (client setting)
-    if (this.scope === 'player' && data.applySecondaryColorToBg !== undefined) {
-      const currentBgSetting = SettingsUtil.get(SETTINGS.applySecondaryColorToBg.tag);
+    // Save applySecondaryColorToBg based on scope (world or player setting)
+    if (data.applySecondaryColorToBg !== undefined) {
+      const bgSettingTag = this.scope === 'player'
+        ? SETTINGS.playerApplySecondaryColorToBg.tag
+        : SETTINGS.applySecondaryColorToBg.tag;
+      const currentBgSetting = SettingsUtil.get(bgSettingTag);
       const newBgSetting = data.applySecondaryColorToBg === 'true';
 
-      await SettingsUtil.set(SETTINGS.applySecondaryColorToBg.tag, newBgSetting);
+      await SettingsUtil.set(bgSettingTag, newBgSetting);
 
       // Check if reload is needed
       if (SETTINGS.applySecondaryColorToBg.requiresReload && currentBgSetting !== newBgSetting) {
@@ -679,7 +688,12 @@ export class ColorPickerUtil {
 
     const [r, g, b] = match.map(n => parseInt(n));
     const SETTINGS = getSettings();
-    const applySecondaryToBg = SettingsUtil.get(SETTINGS.applySecondaryColorToBg.tag) || false;
+    // Determine which setting to use based on whether player has custom colors
+    const playerCustomColors = SettingsUtil.get(SETTINGS.playerCustomThemeColors.tag);
+    const hasPlayerColors = playerCustomColors?.accent && (playerCustomColors?.secondaryDark || playerCustomColors?.secondary);
+    const applySecondaryToBg = hasPlayerColors
+      ? SettingsUtil.get(SETTINGS.playerApplySecondaryColorToBg.tag) === true
+      : SettingsUtil.get(SETTINGS.applySecondaryColorToBg.tag) === true;
 
     // Use the forTheme parameter to determine which theme we're generating for
     const isLightTheme = forTheme === 'light';
@@ -799,9 +813,22 @@ export class ColorPickerUtil {
    */
   static applyCustomTheme(colors, applySecondaryToBgOverride) {
     const SETTINGS = getSettings();
-    const applySecondaryToBg = applySecondaryToBgOverride !== undefined
-      ? applySecondaryToBgOverride
-      : (SettingsUtil.get(SETTINGS.applySecondaryColorToBg.tag) || false);
+    let applySecondaryToBg;
+    if (applySecondaryToBgOverride !== undefined) {
+      applySecondaryToBg = applySecondaryToBgOverride;
+    } else {
+      // Determine which setting to use based on whether player has custom colors
+      const playerCustomColors = SettingsUtil.get(SETTINGS.playerCustomThemeColors.tag);
+      const hasPlayerColors = playerCustomColors?.accent && (playerCustomColors?.secondaryDark || playerCustomColors?.secondary);
+
+      if (hasPlayerColors) {
+        // Player has custom colors, use player's applySecondaryColorToBg setting
+        applySecondaryToBg = SettingsUtil.get(SETTINGS.playerApplySecondaryColorToBg.tag) === true;
+      } else {
+        // No player colors, use world's applySecondaryColorToBg setting
+        applySecondaryToBg = SettingsUtil.get(SETTINGS.applySecondaryColorToBg.tag) === true;
+      }
+    }
     
     // Remove any existing custom theme style
     const existingStyle = document.getElementById('crlngn-custom-theme-style');

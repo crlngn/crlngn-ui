@@ -55,6 +55,11 @@ export const DOCK_RESIZE_OPTIONS = {
   vertical: { name: 'vertical' }
 }
 
+export const CAROUSEL_IMAGE_SOURCE = {
+  token: { name: 'token' },
+  actor: { name: 'actor' }
+}
+
 export const MIN_AV_WIDTH = 150;
 
 export const THEMES = [
@@ -185,7 +190,9 @@ export function getSettings() {
         "hoverableSettingsHints",
         "enableCombatTrackerCarousel",
         "combatCarouselScale",
-        "combatTrackerTakeFullWidth"
+        "combatTrackerTakeFullWidth",
+        "carouselImageSource",
+        "carouselShowEffects"
       ],
       default: {
         // Fade out
@@ -219,7 +226,9 @@ export function getSettings() {
         hoverableSettingsHints: true,
         enableCombatTrackerCarousel: true,
         combatCarouselScale: 1,
-        combatTrackerTakeFullWidth: false
+        combatTrackerTakeFullWidth: false,
+        carouselImageSource: "actor",
+        carouselShowEffects: false
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -1033,6 +1042,17 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.colorPicker.applySecondaryColorToBg.hint"),
       propType: Boolean,
       default: false,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: true
+    },
+
+    playerApplySecondaryColorToBg: {
+      tag: "v2-player-apply-secondary-color-to-bg",
+      label: game.i18n.localize("CRLNGN_UI.settings.colorPicker.applySecondaryColorToBg.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.colorPicker.applySecondaryColorToBg.hint"),
+      propType: Boolean,
+      default: false,
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: true
@@ -1724,6 +1744,34 @@ export function getSettings() {
       propType: Boolean,
       default: false,
       scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    carouselImageSource: {
+      tag: "v2-carousel-image-source",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselImageSource.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselImageSource.hint"),
+      propType: String,
+      default: "token",
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    carouselShowEffects: {
+      tag: "v2-carousel-show-effects",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowEffects.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowEffects.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    carouselWelcomeShown: {
+      tag: "carouselWelcomeShown",
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.world,
       config: false,
       requiresReload: false
     },

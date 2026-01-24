@@ -51,7 +51,20 @@
         "label": "Último ID de Atualização",
         "hint": "Rastreia a última notificação de atualização exibida"
       },
-      "toggleChatBox": "Caixa de Mensagens"
+      "toggleChatBox": "Caixa de Mensagens",
+      "journalToggle": {
+        "enable": "Ativar Estilos de Diário Carolingian",
+        "disable": "Desativar Estilos de Diário Carolingian"
+      },
+      "carouselWelcome": {
+        "title": "Novo recurso: Carrossel de Combate",
+        "message": "Carolingian UI tem um novo Carrossel de Combate arrastável e acoplável. Gostaria de ativar este recurso?",
+        "yes": "Sim, Ativar",
+        "no": "Não, Manter Padrão",
+        "enabledNotification": "O Carrossel de Combate foi ativado. Você pode alterar isso nas configurações do módulo.",
+        "disabledNotification": "O Carrossel de Combate foi desativado. Você pode ativá-lo mais tarde nas configurações do módulo.",
+        "moduleWarning": "Aviso: O módulo Combat Carousel está atualmente ativo. Considere desativá-lo para evitar conflitos."
+      }
     },
     "settings": {
       "supportPatreon": {
@@ -602,7 +615,10 @@
         "label": "Desativar Interface neste Cliente",
         "hint": "Se um jogador não quiser usar a interface de Carolingian UI, pode desativá-la. Nenhuma outra funcionalidade do módulo funcionará, exceto o estilo escuro nos cartões de chat - que pode ser desativado separadamente."
       }
-    }, 
+    },
+    "combat": {
+      "noCombatants": "Nenhum combatente no encontro"
+    },
     "dnd5e": {
       "chatCard": {
         "buttons": {

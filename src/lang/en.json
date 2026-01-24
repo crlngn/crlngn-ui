@@ -55,7 +55,16 @@
         "label": "Last Update ID",
         "hint": "Tracks the last displayed update notification"
       },
-      "toggleChatBox": "Toggle Chat Box"
+      "toggleChatBox": "Toggle Chat Box",
+      "carouselWelcome": {
+        "title": "New feature: Combat Encounter Carousel",
+        "message": "Carolingian UI has a new draggable and dockable Combat Encounter Carousel. Would you like to enable this feature?",
+        "yes": "Yes, Enable",
+        "no": "No, Keep Default",
+        "enabledNotification": "Combat Carousel has been enabled. You can change this in module settings.",
+        "disabledNotification": "Combat Carousel has been disabled. You can enable it later in module settings.",
+        "moduleWarning": "Warning: The Combat Carousel module is currently active. Consider disabling it to avoid conflicts."
+      }
     },
     "settings": {
       "supportPatreon": {
@@ -171,7 +180,19 @@
           },
           "combatTrackerTakeFullWidth": {
             "label": "Carousel Responds to Sidebar",
-            "hint": "When enabled, the carousel takes full available width when the sidebar is collapsed, and adjusts when the sidebar is expanded."
+            "hint": "When enabled, the carousel takes full available width if necessary when the sidebar is collapsed, and adjusts back when the sidebar is expanded."
+          },
+          "carouselImageSource": {
+            "label": "Carousel Image Source",
+            "hint": "Choose whether to display token images or actor/character portraits in the combat carousel.",
+            "options": {
+              "token": "Token Image",
+              "actor": "Actor Portrait"
+            }
+          },
+          "carouselShowEffects": {
+            "label": "Always Show Effects Tooltip",
+            "hint": "When enabled, combatants with active effects will always display their effects tooltip below the card."
           },
           "combatFieldset": "Combat Tracker"
         },
@@ -613,6 +634,9 @@
           "hint": "When enabled, the secondary color will be applied to interface backgrounds like sidebar and controls. This creates a more unified color theme."
         }
       }
+    },
+    "combat": {
+      "noCombatants": "No combatants in encounter"
     },
     "dnd5e": {
       "chatCard": {
