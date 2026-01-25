@@ -154,7 +154,8 @@ export class CombatTrackerManager {
   }
 
   /**
-   * Get any combat that has combatants (any token, not just players)
+   * Get any combat that has player-owned combatants
+   * Only returns a combat if it includes at least one player character
    * @returns {Combat|null} The combat or null
    */
   static getCombatWithCombatants = () => {
@@ -162,7 +163,10 @@ export class CombatTrackerManager {
 
     for (const combat of combats) {
       if (combat.combatants?.size > 0) {
-        return combat;
+        const hasPlayerCombatant = combat.combatants.some(c => c.actor?.hasPlayerOwner);
+        if (hasPlayerCombatant) {
+          return combat;
+        }
       }
     }
 
@@ -560,6 +564,9 @@ export class CombatTrackerManager {
     const RETRY_DELAY = 200;
 
     if (!CombatTrackerManager.enableCombatTrackerCarousel) return;
+
+    const combatWithCombatants = CombatTrackerManager.getCombatWithCombatants();
+    if (!combatWithCombatants) return;
 
     if (CombatTrackerManager.#combatTrackerPoppedOut) {
       const existingPopout = document.querySelector('#combat-popout');
