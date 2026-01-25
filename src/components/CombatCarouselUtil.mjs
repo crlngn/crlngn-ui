@@ -412,7 +412,7 @@ export class CombatCarousel {
     const scale = CombatCarousel.#getCurrentScale();
     const baseFontSize = 16;
     const cardWidth = 5.5 * baseFontSize * scale;
-    const gap = 0.5 * baseFontSize;
+    const gap = 0.5 * baseFontSize * scale;
     const trackerWidth = (state.visibleCount * cardWidth) + ((state.visibleCount - 1) * gap);
 
     tracker.style.width = `${trackerWidth}px`;
@@ -760,7 +760,7 @@ export class CombatCarousel {
     const scale = CombatCarousel.#getCurrentScale();
     const baseFontSize = 16;
     const cardWidth = 5.5 * baseFontSize * scale;
-    const gap = 0.5 * baseFontSize;
+    const gap = 0.5 * baseFontSize * scale;
 
     CombatCarousel.#STEP = cardWidth + gap;
     CombatCarousel.#TRACK = state.allCombatantIds.length * CombatCarousel.#STEP;
@@ -812,7 +812,7 @@ export class CombatCarousel {
     const scale = CombatCarousel.#getCurrentScale();
     const baseFontSize = 16;
     const cardWidth = 5.5 * baseFontSize * scale;
-    const gap = 0.5 * baseFontSize;
+    const gap = 0.5 * baseFontSize * scale;
     const STEP = CombatCarousel.#STEP;
 
     const trackerWidth = tracker.offsetWidth || state.containerWidth;
@@ -1455,7 +1455,7 @@ export class CombatCarousel {
     const scale = CombatCarousel.#getCurrentScale();
     const baseFontSize = 16;
     const cardWidth = 5.5 * baseFontSize * scale;
-    const gap = 0.5 * baseFontSize;
+    const gap = 0.5 * baseFontSize * scale;
 
     const allCardsWidth = (totalCombatants * cardWidth) + ((totalCombatants - 1) * gap);
     if (allCardsWidth <= containerWidth) {
@@ -1535,7 +1535,7 @@ export class CombatCarousel {
     const scale = CombatCarousel.#getCurrentScale();
     const baseFontSize = 16;
     const cardWidth = 5.5 * baseFontSize * scale;
-    const gap = 0.5 * baseFontSize;
+    const gap = 0.5 * baseFontSize * scale;
     const trackerWidth = (state.visibleCount * cardWidth) + ((state.visibleCount - 1) * gap);
     tracker.style.width = `${trackerWidth}px`;
     tracker.style.minWidth = `${trackerWidth}px`;

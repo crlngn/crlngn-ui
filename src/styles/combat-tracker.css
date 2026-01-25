@@ -94,8 +94,10 @@ body.crlngn-ui.crlngn-combat-tracker {
     }
 
     /* Hide original start/end combat buttons - we use our toggle in window-header */
+    /* Hide End Turn button (combat-control-lg) - we show it in floating bar */
     button.combat-control[data-action="startCombat"],
-    button.combat-control[data-action="endCombat"] {
+    button.combat-control[data-action="endCombat"],
+    nav.combat-controls button.combat-control-lg {
       display: none;
     }
 
@@ -193,11 +195,11 @@ body.crlngn-ui.crlngn-combat-tracker {
       font-weight: 600;
       height: auto;
       line-height: 1.2em;
-      margin: 0 2px 0 0;
+      margin: 2px 2px 0 0;
       padding: 0;
       pointer-events: none;
       text-align: center;
-      width: calc(100% - 2px);
+      width: calc(24px * var(--carousel-scale));
       border: 1px solid var(--color-highlights-50);
     }
 
@@ -536,19 +538,63 @@ body.crlngn-ui.crlngn-combat-tracker {
     /* Mobile and portrait tablet responsive adjustments */
     @media (max-width: 768px), (max-width: 1024px) and (orientation: portrait) {
       --carousel-scale: 0.7;
+      background: var(--background) !important;
 
       .window-content {
         max-width: calc(100dvw - 2rem);
+      }
+
+      .window-header {
+        position: relative;
+        right: 0;
+        top: 0;
+        left: auto;
+        bottom: auto;
+        flex-direction: column;
+        width: calc(26px * var(--carousel-scale));
+        max-width: calc(26px * var(--carousel-scale));
+        height: 100%;
+      }
+    }
+
+    /* Small mobile screens - remove constraints so content can fit */
+    @media (max-width: 540px) {
+      &.docked-top {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        top: 0 !important;
+        max-width: 100dvw;
+      }
+
+      .window-content {
+        max-width: 100dvw;
         margin-left: 0;
+        overflow: visible;
+      }
+
+      .combat-tracker {
+        max-width: 100dvw;
+        overflow: hidden;
       }
 
       nav.combat-controls {
         left: 0;
-        top: auto;
-        bottom: 100%;
-        flex-direction: row;
-        width: 100%;
-        max-width: unset;
+        top: 0;
+        flex-direction: column;
+        height: auto;
+        width: auto;
+        z-index: 25;
+      }
+    }
+
+    /* Touch devices - always show controls since hover doesn't work */
+    @media (hover: none) and (pointer: coarse) {
+      .window-header, nav.combat-controls {
+        opacity: 1;
+      }
+
+      .window-content {
+        margin-left: calc(26px * var(--carousel-scale));
       }
     }
   }
@@ -570,8 +616,15 @@ body.crlngn-ui.crlngn-combat-tracker.crlngn-carousel-full-width:not(.crlngn-side
 
   /* Reposition nav controls when margin is removed */
   #combat-popout.docked-top nav.combat-controls {
-    left: 0;
     left: calc(-26px * var(--carousel-scale));
+  }
+
+  /* Mobile full-width override */
+  @media (max-width: 540px) {
+    #combat-popout.docked-top .window-content,
+    #combat-popout.docked-top .combat-tracker {
+      max-width: 100dvw;
+    }
   }
 }
 
@@ -636,34 +689,67 @@ body.crlngn-ui.crlngn-combat-tracker.crlngn-show-effects {
 }
 
 /* Floating Roll Initiative Bar */
-#combat-popout .crlngn-roll-initiative-bar {
-  position: absolute;
-  top: calc(100% + 5px);
-  left: 50%;
-  transform: translateX(-50%);
-  width: auto;
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  padding: 4px 12px;
-  background: var(--background);
-  border-radius: 20px;
-  z-index: 10;
-}
+body.crlngn-ui.crlngn-combat-tracker{
+  #combat-popout .crlngn-roll-initiative-bar,
+  #combat-popout .crlngn-end-turn-bar {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding: 4px 12px;
+    background: var(--background);
+    border-radius: 20px;
+    z-index: 10;
+  }
 
-#combat-popout .crlngn-roll-initiative-bar button {
-  width: calc(1.5rem * var(--carousel-scale, 1));
-  height: calc(1.5rem * var(--carousel-scale, 1));
-  font-size: calc(0.75rem * var(--carousel-scale, 1));
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.15s ease;
-}
+  #combat-popout .crlngn-roll-initiative-bar button {
+    width: calc(1.5rem * var(--carousel-scale, 1));
+    height: calc(1.5rem * var(--carousel-scale, 1));
+    font-size: calc(0.75rem * var(--carousel-scale, 1));
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.15s ease;
+  }
 
-#combat-popout .crlngn-roll-initiative-bar button:hover {
-  opacity: 0.7;
+  #combat-popout .crlngn-roll-initiative-bar button:hover {
+    opacity: 0.7;
+  }
+
+  #combat-popout .crlngn-end-turn-bar button {
+    background: transparent;
+    border: 0;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    font-size: var(--font-size-12);
+    color: var(--color-text-primary);
+    min-height: 32px;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+
+  #combat-popout .crlngn-end-turn-bar button:hover,
+  #combat-popout .crlngn-end-turn-bar button:active {
+    background: var(--color-warm-2);
+  }
+
+  #combat-popout .crlngn-end-turn-bar button i {
+    font-size: var(--font-size-11);
+  }
+
+  #combat-popout .crlngn-end-turn-bar button span {
+    font-size: var(--font-size-12);
+    white-space: nowrap;
+  }
+
 }

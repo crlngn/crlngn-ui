@@ -448,6 +448,7 @@ export class CombatTrackerManager {
       }
 
       CombatTrackerManager.#updateRollInitiativeBar(combatPopout);
+      CombatTrackerManager.#updateEndTurnBar(combatPopout);
     });
   }
 
@@ -905,11 +906,16 @@ export class CombatTrackerManager {
 
   /**
    * Update the floating roll initiative bar visibility
-   * Shows when combatants exist but haven't all rolled initiative
+   * Shows when combatants exist but haven't all rolled initiative (GM only)
    * @param {HTMLElement} combatPopout - The combat popout element
    */
   static #updateRollInitiativeBar = (combatPopout) => {
     if (!combatPopout) return;
+
+    if (!game.user?.isGM) {
+      CombatTrackerManager.#hideRollInitiativeBar(combatPopout);
+      return;
+    }
 
     const combat = game.combat;
     if (!combat) {
@@ -980,6 +986,80 @@ export class CombatTrackerManager {
   static #hideRollInitiativeBar = (combatPopout) => {
     const windowContent = combatPopout?.querySelector('.window-content');
     const bar = windowContent?.querySelector('.crlngn-roll-initiative-bar');
+    if (bar) {
+      bar.style.display = 'none';
+    }
+  }
+
+  /**
+   * Update the floating End Turn bar visibility
+   * Shows for players when it's their turn
+   * @param {HTMLElement} combatPopout - The combat popout element
+   */
+  static #updateEndTurnBar = (combatPopout) => {
+    if (!combatPopout) return;
+
+    const combat = game.combat;
+    if (!combat || !combat.started) {
+      CombatTrackerManager.#hideEndTurnBar(combatPopout);
+      return;
+    }
+
+    const currentCombatant = combat.combatant;
+    if (!currentCombatant) {
+      CombatTrackerManager.#hideEndTurnBar(combatPopout);
+      return;
+    }
+
+    const isPlayersTurn = currentCombatant.isOwner && !game.user?.isGM;
+
+    if (isPlayersTurn) {
+      CombatTrackerManager.#showEndTurnBar(combatPopout);
+    } else {
+      CombatTrackerManager.#hideEndTurnBar(combatPopout);
+    }
+  }
+
+  /**
+   * Show the floating End Turn bar
+   * @param {HTMLElement} combatPopout - The combat popout element
+   */
+  static #showEndTurnBar = (combatPopout) => {
+    if (!combatPopout) return;
+
+    const windowContent = combatPopout.querySelector('.window-content');
+    if (!windowContent) return;
+
+    let bar = windowContent.querySelector('.crlngn-end-turn-bar');
+
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.className = 'crlngn-end-turn-bar';
+
+      const endTurnLabel = game.i18n.localize('COMBAT.TurnEnd');
+      const endTurnBtn = document.createElement('button');
+      endTurnBtn.type = 'button';
+      endTurnBtn.className = 'combat-control';
+      endTurnBtn.setAttribute('data-action', 'endTurn');
+      endTurnBtn.setAttribute('data-tooltip', endTurnLabel);
+      endTurnBtn.setAttribute('aria-label', endTurnLabel);
+      endTurnBtn.innerHTML = `<i class="fa-solid fa-check"></i><span>${endTurnLabel}</span>`;
+      endTurnBtn.addEventListener('click', () => game.combat?.nextTurn());
+
+      bar.appendChild(endTurnBtn);
+      windowContent.appendChild(bar);
+    }
+
+    bar.style.display = '';
+  }
+
+  /**
+   * Hide the floating End Turn bar
+   * @param {HTMLElement} combatPopout - The combat popout element
+   */
+  static #hideEndTurnBar = (combatPopout) => {
+    const windowContent = combatPopout?.querySelector('.window-content');
+    const bar = windowContent?.querySelector('.crlngn-end-turn-bar');
     if (bar) {
       bar.style.display = 'none';
     }
