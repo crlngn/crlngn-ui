@@ -131,6 +131,11 @@ export const HOOKS_PF2E = {
   RENDER_NPC_SHEET_PF2E: "renderNPCSheetPF2e"
 }
 
+export const HOOKS_SF2E = {
+  RENDER_CHAR_SHEET_SF2E: "renderCharacterSheetSF2e",
+  RENDER_NPC_SHEET_SF2E: "renderNPCSheetSF2e"
+}
+
 /**
  * Internal Carolingian UI hooks for module coordination
  * These hooks ensure proper initialization order between components

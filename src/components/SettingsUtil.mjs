@@ -621,9 +621,11 @@ export class SettingsUtil {
       case SETTINGS.carouselImageSource.tag:
         CombatTrackerManager.carouselImageSource = value;
         ui.combat?.popout?.render(); break;
-      case SETTINGS.carouselShowEffects.tag:
-        CombatTrackerManager.carouselShowEffects = value;
-        document.body.classList.toggle('crlngn-show-effects', value);
+      case SETTINGS.carouselShowAllHP.tag:
+        CombatTrackerManager.carouselShowAllHP = value;
+        ui.combat?.popout?.render(); break;
+      case SETTINGS.carouselHideDefeated.tag:
+        CombatTrackerManager.carouselHideDefeated = value;
         ui.combat?.popout?.render(); break;
       default:
         // do nothing

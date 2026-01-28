@@ -20,7 +20,7 @@ export class SheetsUtil {
     SheetsUtil.horizontalSheetTabsEnabled = SettingsUtil.get(SETTINGS.useHorizontalSheetTabs.tag);
     SheetsUtil.iconsOnSheetsEnabled = SettingsUtil.get(SETTINGS.enableIconsOnSheets.tag);
 
-    // PF2e-specific hooks
+    // PF2e / SF2e hooks (sf2e reuses PF2e sheet classes and hook names)
     Hooks.on(HOOKS_PF2E.RENDER_CHAR_SHEET_PF2E, SheetsUtil.#onRenderPF2eSheet);
     Hooks.on(HOOKS_PF2E.RENDER_NPC_SHEET_PF2E, SheetsUtil.#onRenderPF2eNpcSheet);
     Hooks.on(HOOKS_CORE.UPDATE_SETTING, SheetsUtil.#onUpdateSettingPF2e);
@@ -36,7 +36,7 @@ export class SheetsUtil {
   }
 
   static #onRenderPF2eSheet(actorSheet, html, data){
-    if(game.system.id !== "pf2e"){ return; }
+    if(game.system.id !== "pf2e" && game.system.id !== "sf2e"){ return; }
     const element = html instanceof HTMLElement ? html : html[0] || html;
     LogUtil.log(HOOKS_PF2E.RENDER_CHAR_SHEET_PF2E, [actorSheet, element, data]);
 
@@ -45,7 +45,7 @@ export class SheetsUtil {
   }
 
   static #onRenderPF2eNpcSheet(actorSheet, html, data){
-    if(game.system.id !== "pf2e"){ return; }
+    if(game.system.id !== "pf2e" && game.system.id !== "sf2e"){ return; }
     const element = html instanceof HTMLElement ? html : html[0] || html;
     LogUtil.log(HOOKS_PF2E.RENDER_NPC_SHEET_PF2E, [actorSheet, element, data]);
 
@@ -109,15 +109,13 @@ export class SheetsUtil {
   }
 
   static #onUpdateSettingPF2e(setting, value, options, userId){
-    if(game.system.id !== "pf2e"){ return; }
+    if(game.system.id !== "pf2e" && game.system.id !== "sf2e"){ return; }
     const SETTINGS = getSettings();
-    // When applyThemeToSheets setting changes, re-render open PF2e actor sheets
     if(setting.key === `crlngn-ui.${SETTINGS.applyThemeToSheets.tag}`){
       LogUtil.log(HOOKS_CORE.UPDATE_SETTING, ["applyThemeToSheets changed", value]);
       SheetsUtil.themeStylesEnabled = value;
       SheetsUtil.applyThemeToSheets(value);
 
-      // Re-render all open actor sheets
       Object.values(ui.windows).forEach(app => {
         if(app.constructor.name === "CharacterSheetPF2e" ||
            app.constructor.name === "NPCSheetPF2e" ||

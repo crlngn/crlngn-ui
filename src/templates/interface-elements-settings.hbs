@@ -96,12 +96,19 @@
       </select>
       <p class="hint">{{fields.carouselImageSource.hint}}</p>
     </div>
+    
+    <div class="form-group">
+      <label for="carouselHideDefeated">{{fields.carouselHideDefeated.label}}</label>
+      <input type="checkbox" name="carouselHideDefeated" {{#if carouselHideDefeated}}checked{{/if}} {{#if fields.carouselHideDefeated.isLocked}}disabled{{/if}} />
+      <p class="hint">{{fields.carouselHideDefeated.hint}}</p>
+    </div>
 
     <div class="form-group">
-      <label for="carouselShowEffects">{{fields.carouselShowEffects.label}}</label>
-      <input type="checkbox" name="carouselShowEffects" {{#if carouselShowEffects}}checked{{/if}} {{#if fields.carouselShowEffects.isLocked}}disabled{{/if}} />
-      <p class="hint">{{fields.carouselShowEffects.hint}}</p>
+      <label for="carouselShowAllHP">{{fields.carouselShowAllHP.label}}</label>
+      <input type="checkbox" name="carouselShowAllHP" {{#if carouselShowAllHP}}checked{{/if}} {{#if fields.carouselShowAllHP.isLocked}}disabled{{/if}} />
+      <p class="hint">{{fields.carouselShowAllHP.hint}}</p>
     </div>
+
   </fieldset>
 
   <div class="form-group">

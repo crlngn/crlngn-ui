@@ -182,6 +182,22 @@
             "label": "Espandi Carosello quando Barra Laterale Compressa",
             "hint": "Quando abilitato, il carosello occupa tutta la larghezza disponibile quando la barra laterale è compressa, e si adatta quando la barra laterale è espansa."
           },
+          "carouselImageSource": {
+            "label": "Sorgente Immagine Carosello",
+            "hint": "Scegli se visualizzare le immagini dei token o i ritratti degli attori/personaggi nel carosello di combattimento.",
+            "options": {
+              "token": "Immagine Token",
+              "actor": "Ritratto Attore"
+            }
+          },
+          "carouselShowAllHP": {
+            "label": "Mostra Barra HP per Tutti i Combattenti",
+            "hint": "Quando abilitato, il carosello mostra le barre HP per tutti i combattenti, anche quelli per cui il giocatore non ha il permesso Osservatore. Questa è un'impostazione mondiale (solo GM)."
+          },
+          "carouselHideDefeated": {
+            "label": "Nascondi Combattenti Sconfitti",
+            "hint": "Quando abilitato, i combattenti sconfitti vengono rimossi dal carosello e le posizioni rimanenti vengono ricalcolate."
+          },
           "combatFieldset": "Tracker di Combattimento"
         },
         "reset": "Ripristina",
@@ -616,7 +632,9 @@
        }
     },
     "combat": {
-      "noCombatants": "Nessun combattente nell'incontro"
+      "noCombatants": "Nessun combattente nell'incontro",
+      "closedNotice": "Quando vuoi ripristinare il carosello, fai clic destro sulla scheda combattimento nella barra laterale",
+      "noTrackedResource": "Mostra Barra HP per Tutti è abilitato, ma nessuna Risorsa Tracciata è configurata nelle impostazioni del Tracker di Combattimento."
     },
     "dnd5e": {
       "chatCard": {

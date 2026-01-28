@@ -1299,13 +1299,13 @@ body.crlngn-ui {
 }
 
 /*************/
-/* PF2E */
+/* PF2E / SF2E */
 /*************/
 
-body.crlngn-ui aside.pf2e.effect-info.application {
+body.crlngn-ui aside:is(.pf2e, .sf2e).effect-info.application {
   transform: none;
 }
-body.crlngn-ui tags.tagify.pf2e-tagify {
+body.crlngn-ui tags.tagify:is(.pf2e-tagify, .sf2e-tagify) {
   height: var(--form-field-height);
 }
 

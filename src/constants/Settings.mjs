@@ -192,7 +192,8 @@ export function getSettings() {
         "combatCarouselScale",
         "combatTrackerTakeFullWidth",
         "carouselImageSource",
-        "carouselShowEffects"
+        "carouselShowAllHP",
+        "carouselHideDefeated"
       ],
       default: {
         // Fade out
@@ -228,7 +229,8 @@ export function getSettings() {
         combatCarouselScale: 1,
         combatTrackerTakeFullWidth: false,
         carouselImageSource: "actor",
-        carouselShowEffects: false
+        carouselShowAllHP: false,
+        carouselHideDefeated: false
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -1592,7 +1594,7 @@ export function getSettings() {
       default: true,
       scope: SETTING_SCOPE.client,
       config: false,
-      requiresReload: false
+      requiresReload: true
     },
 
     /* INTERFACE ELEMENTS ENABLE OPTIONS */
@@ -1681,7 +1683,7 @@ export function getSettings() {
       scope: SETTING_SCOPE.world,
       config: false,
       requiresReload: true,
-      system: ["daggerheart", "dnd5e", "pf2e"]
+      system: ["daggerheart", "dnd5e", "pf2e", "sf2e"]
     },
     enableJournalStyles: {
       tag: "v2-enable-journal-styles",
@@ -1757,13 +1759,23 @@ export function getSettings() {
       config: false,
       requiresReload: false
     },
-    carouselShowEffects: {
-      tag: "v2-carousel-show-effects",
-      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowEffects.label"),
-      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowEffects.hint"),
+    carouselHideDefeated: {
+      tag: "v2-carousel-hide-defeated",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselHideDefeated.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselHideDefeated.hint"),
       propType: Boolean,
       default: false,
       scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    carouselShowAllHP: {
+      tag: "v2-carousel-show-all-hp",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowAllHP.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowAllHP.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.world,
       config: false,
       requiresReload: false
     },

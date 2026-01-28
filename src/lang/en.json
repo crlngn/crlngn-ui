@@ -190,9 +190,13 @@
               "actor": "Actor Portrait"
             }
           },
-          "carouselShowEffects": {
-            "label": "Always Show Effects Tooltip",
-            "hint": "When enabled, combatants with active effects will always display their effects tooltip below the card."
+          "carouselShowAllHP": {
+            "label": "Show HP Bar for All Combatants",
+            "hint": "When enabled, the carousel shows HP bars for all combatants, even those the player doesn't have Observer permission for. This is a world setting (GM only)."
+          },
+          "carouselHideDefeated": {
+            "label": "Hide Defeated Combatants",
+            "hint": "When enabled, defeated combatants are removed from the carousel so remaining positions are recalculated."
           },
           "combatFieldset": "Combat Tracker"
         },
@@ -636,7 +640,9 @@
       }
     },
     "combat": {
-      "noCombatants": "No combatants in encounter"
+      "noCombatants": "No combatants in encounter",
+      "closedNotice": "When you want the carousel back, right-click the combat tab on sidebar",
+      "noTrackedResource": "Combat Encounter is set to show resource bar for all charcters, but no tracked resource in Core Foundry is configured in Combat Tracker settings."
     },
     "dnd5e": {
       "chatCard": {

@@ -141,9 +141,9 @@ body.crlngn-ui.crlngn-chat {
 }
 
 /* ============================================
-   PF2e SYSTEM TOKEN OVERRIDES
+   PF2e / SF2e SYSTEM TOKEN OVERRIDES
    ============================================ */
-body.crlngn-ui.crlngn-chat.system-pf2e {
+body.crlngn-ui.crlngn-chat:is(.system-pf2e, .system-sf2e) {
   :is(#interface.theme-dark, #chat-popout.theme-dark) {
     --cui-chat-color-success: rgb(105, 177, 231);
     --cui-chat-color-failure: rgb(217, 92, 86);

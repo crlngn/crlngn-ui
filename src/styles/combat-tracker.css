@@ -44,7 +44,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       left: calc(-26px * var(--carousel-scale) / 2);
     }*/
 
-    .window-header, nav.combat-controls{
+    .window-header{
       --input-height: 1.25rem;
       background: transparent;
       border: 0;
@@ -64,33 +64,59 @@ body.crlngn-ui.crlngn-combat-tracker {
       transition: opacity 0.3s ease-out;
     }
     nav.combat-controls {
-      flex-direction: column;
-      justify-content: flex-start;
+      align-items: center;
+      background: var(--background);
+      border: 0;
+      border-radius: 20px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      display: flex;
+      flex-direction: row;
+      font-size: var(--font-size-12);
       gap: 0;
-      order: 0;
+      justify-content: center;
+      left: 50%;
+      max-width: none;
+      opacity: 0;
+      padding: 2px 16px 2px 16px;
       pointer-events: none;
       position: absolute;
-      left: calc(-26px * var(--carousel-scale)); /* Position to the left of window-content */
-      top: 0;
-      align-items:flex-end;
-      font-size: var(--font-size-12);
-      z-index: 20; /* Above clipped content */
+      top: 100%;
+      transform: translate(-50%);
+      transition: opacity .3s ease-out;
+      width: auto;
+      min-width: min-content;
+      z-index: 20;
     }
     nav.combat-controls button {
-      align-self: flex-start;
       background: transparent;
+      border: 0;
       border-radius: 4px;
-      flex: 1 1 auto;
-      font-size: calc(1em * var(--carousel-scale));
-      height: 2em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      font-size: calc(1.25em * var(--carousel-scale));
+      width: calc(2rem * var(--carousel-scale, 1));
+      height: calc(1.5rem * var(--carousel-scale, 1));
       margin: 0;
-      min-height: 2em;
-      padding: .5em;
+      padding: 0.25em;
       pointer-events: all;
-      width: 2em;
+      transition: opacity 0.1s ease;
     }
     nav.combat-controls button:hover {
-      background: var(--color-highlights-50);
+      opacity: 0.7;
+    }
+    nav.combat-controls .crlngn-nav-separator {
+      width: 1px;
+      height: 1rem;
+      background: var(--color-cool-4);
+      margin: 0 4px;
+      flex: 0 0 1px;
+    }
+    nav.combat-controls.crlngn-nav-rounded {
+      border-radius: 20px;
     }
 
     /* Hide original start/end combat buttons - we use our toggle in window-header */
@@ -110,6 +136,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       --button-size: 1.5em;
       font-size: var(--font-size-12) !important;
       order: -1;
+      align-self: center;
     }
 
     .window-header:after {
@@ -131,8 +158,6 @@ body.crlngn-ui.crlngn-combat-tracker {
       padding: 0.15rem;
       border-radius: 6px;
       max-width: calc(100dvw - (2 * var(--sidebar-width)) - (var(--control-item-size)*4));
-      margin-left: calc(26px * var(--carousel-scale));
-
       .crlngn-no-combatants {
         color: var(--color-text-light-5);
         font-size: var(--font-size-12);
@@ -148,9 +173,10 @@ body.crlngn-ui.crlngn-combat-tracker {
       opacity: 1;
     }
 
-    &:hover nav.combat-controls {
-      display: flex;
+    &:has(.window-content:hover) nav.combat-controls,
+    nav.combat-controls:hover {
       opacity: 1;
+      pointer-events: all;
     }
 
     &:hover .window-content {
@@ -167,6 +193,13 @@ body.crlngn-ui.crlngn-combat-tracker {
       flex-direction: row;
       overflow: hidden; /* Clip transformed items */
       gap: calc(0.5rem * var(--carousel-scale, 1));
+    }
+
+    .combat-tracker > li.combatant[data-group-key="green"] {
+      border-bottom: 2px solid var(--color-green, #4caf50);
+    }
+    .combat-tracker > li.combatant[data-group-key="red"] {
+      border-bottom: 2px solid var(--color-red, #f44336);
     }
 
     /* Transition applied to items for carousel animation */
@@ -191,15 +224,14 @@ body.crlngn-ui.crlngn-combat-tracker {
       background: transparent;
       border-radius: 2px;
       color: var(--color-text-primary);
-      font-size: calc(1.25em * var(--carousel-scale));
+      font-size: calc(1em * var(--carousel-scale));
       font-weight: 600;
       height: auto;
       line-height: 1.2em;
-      margin: 2px 2px 0 0;
-      padding: 0;
+      margin: 0;
+      padding: 0 4px;
       pointer-events: none;
       text-align: center;
-      width: calc(24px * var(--carousel-scale));
       border: 1px solid var(--color-highlights-50);
     }
 
@@ -371,6 +403,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       width: 2em;
       height: 2em;
       padding: 0.25em;
+      text-shadow: 0 2px 3px rgba(0, 0, 0, 0.75);
     }
     li.combatant .token-name .token-effects {
       display: none;
@@ -434,9 +467,16 @@ body.crlngn-ui.crlngn-combat-tracker {
       animation: dock-blink 0.5s ease-in-out infinite;
     }
 
+    /* Near dock state - blinking outline while dragging near bottom */
+    &.near-dock-bottom {
+      outline: 4px solid var(--color-warm-2);
+      outline-offset: 2px;
+      animation: dock-blink 0.5s ease-in-out infinite;
+    }
+
     /* Snapping animation */
     &.snapping {
-      transition: left 0.3s ease-out, top 0.3s ease-out, transform 0.3s ease-out;
+      transition: left 0.3s ease-out, top 0.3s ease-out, bottom 0.3s ease-out, transform 0.3s ease-out;
     }
 
     /* Docked to top state */
@@ -445,6 +485,27 @@ body.crlngn-ui.crlngn-combat-tracker {
       left: 50% !important;
       top: var(--scene-nav-offset) !important;
       transform: translate(-50%) !important;
+    }
+
+    /* Docked to bottom state */
+    &.docked-bottom {
+      z-index: calc(var(--z-index-app) - 1) !important;
+      left: auto !important;
+      top: auto !important;
+      transform: none !important;
+      position: relative !important;
+      width: auto !important;
+      pointer-events: all;
+    }
+
+    /* Nav controls appear above when bottom-docked */
+    &.docked-bottom nav.combat-controls {
+      top: auto;
+      bottom: 100%;
+      border-radius: 20px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      padding: 4px 12px 0px 12px;
     }
 
     /* Infinite carousel styles */
@@ -566,9 +627,12 @@ body.crlngn-ui.crlngn-combat-tracker {
         max-width: 100dvw;
       }
 
+      &.docked-bottom {
+        max-width: 100dvw;
+      }
+
       .window-content {
         max-width: 100dvw;
-        margin-left: 0;
         overflow: visible;
       }
 
@@ -578,23 +642,19 @@ body.crlngn-ui.crlngn-combat-tracker {
       }
 
       nav.combat-controls {
-        left: 0;
-        top: 0;
-        flex-direction: column;
-        height: auto;
-        width: auto;
-        z-index: 25;
+        flex-wrap: wrap;
+        max-width: 100dvw;
       }
     }
 
     /* Touch devices - always show controls since hover doesn't work */
     @media (hover: none) and (pointer: coarse) {
-      .window-header, nav.combat-controls {
+      .window-header {
         opacity: 1;
       }
-
-      .window-content {
-        margin-left: calc(26px * var(--carousel-scale));
+      nav.combat-controls {
+        opacity: 1;
+        pointer-events: all;
       }
     }
   }
@@ -603,153 +663,27 @@ body.crlngn-ui.crlngn-combat-tracker {
 
 /* When full-width setting enabled and sidebar is collapsed, expand carousel to full width */
 body.crlngn-ui.crlngn-combat-tracker.crlngn-carousel-full-width:not(.crlngn-sidebar-expanded) {
-  #combat-popout.docked-top .window-content {
+  #combat-popout.docked-top .window-content,
+  #combat-popout.docked-bottom .window-content {
     max-width: calc(100dvw - (var(--control-item-size)*4));
-    margin-left: calc(26px * var(--carousel-scale));
   }
 
-  #combat-popout.docked-top .combat-tracker {
+  #combat-popout.docked-top .combat-tracker,
+  #combat-popout.docked-bottom .combat-tracker {
     max-width: calc(100dvw - (var(--control-item-size)*4));
     margin-left: auto;
     margin-right: auto;
   }
 
-  /* Reposition nav controls when margin is removed */
-  #combat-popout.docked-top nav.combat-controls {
-    left: calc(-26px * var(--carousel-scale));
-  }
-
   /* Mobile full-width override */
   @media (max-width: 540px) {
     #combat-popout.docked-top .window-content,
-    #combat-popout.docked-top .combat-tracker {
+    #combat-popout.docked-top .combat-tracker,
+    #combat-popout.docked-bottom .window-content,
+    #combat-popout.docked-bottom .combat-tracker {
       max-width: 100dvw;
     }
   }
 }
 
-/* Always-visible effects tooltip when setting is enabled */
-body.crlngn-ui.crlngn-combat-tracker.crlngn-show-effects {
-  #combat-popout .combat-tracker {
-    overflow: visible;
-  }
 
-  #combat-popout .combat-tracker li.combatant {
-    overflow: visible;
-  }
-
-  #combat-popout .combat-tracker li.combatant .crlngn-effects-display {
-    background: var(--background);
-    border: 1px solid var(--color-cool-4);
-    border-radius: 4px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    font-size: .6rem;
-    font-size: calc(.6rem * var(--carousel-scale, 1));
-    left: 50%;
-    margin-top: 2px;
-    padding: 4px;
-    pointer-events: none;
-    position: absolute;
-    top: 100%;
-    transform: translate(-50%);
-    width: 100%;
-    z-index: 100;
-  }
-
-  #combat-popout .combat-tracker li.combatant .crlngn-effects-display ul {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    gap: 2px;
-    align-items: center;
-    justify-content: center;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  #combat-popout .combat-tracker li.combatant .crlngn-effects-display li {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    width: auto;
-  }
-
-  #combat-popout .combat-tracker li.combatant .crlngn-effects-display img {
-    width: calc(0.8rem * var(--carousel-scale, 1));
-    height: calc(0.8rem * var(--carousel-scale, 1));
-    border: 0;
-    flex-shrink: 0;
-  }
-
-  #combat-popout .combat-tracker li.combatant .crlngn-effects-display span {
-    display: none;
-  }
-}
-
-/* Floating Roll Initiative Bar */
-body.crlngn-ui.crlngn-combat-tracker{
-  #combat-popout .crlngn-roll-initiative-bar,
-  #combat-popout .crlngn-end-turn-bar {
-    position: absolute;
-    top: calc(100% + 5px);
-    left: 50%;
-    transform: translateX(-50%);
-    width: auto;
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    padding: 4px 12px;
-    background: var(--background);
-    border-radius: 20px;
-    z-index: 10;
-  }
-
-  #combat-popout .crlngn-roll-initiative-bar button {
-    width: calc(1.5rem * var(--carousel-scale, 1));
-    height: calc(1.5rem * var(--carousel-scale, 1));
-    font-size: calc(0.75rem * var(--carousel-scale, 1));
-    background: transparent;
-    border: 0;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.15s ease;
-  }
-
-  #combat-popout .crlngn-roll-initiative-bar button:hover {
-    opacity: 0.7;
-  }
-
-  #combat-popout .crlngn-end-turn-bar button {
-    background: transparent;
-    border: 0;
-    border-radius: 12px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 2px 8px;
-    font-size: var(--font-size-12);
-    color: var(--color-text-primary);
-    min-height: 32px;
-    transition: background 0.15s ease, border-color 0.15s ease;
-  }
-
-  #combat-popout .crlngn-end-turn-bar button:hover,
-  #combat-popout .crlngn-end-turn-bar button:active {
-    background: var(--color-warm-2);
-  }
-
-  #combat-popout .crlngn-end-turn-bar button i {
-    font-size: var(--font-size-11);
-  }
-
-  #combat-popout .crlngn-end-turn-bar button span {
-    font-size: var(--font-size-12);
-    white-space: nowrap;
-  }
-
-}

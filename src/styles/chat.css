@@ -1040,8 +1040,8 @@ body.crlngn-ui.crlngn-chat {
   PF2e System
   *******/
 
-  /* PF2e base styles (theme-agnostic) */
-  &.system-pf2e {
+  /* PF2e / SF2e base styles (theme-agnostic) */
+  &:is(.system-pf2e, .system-sf2e) {
     .action-glyph {
       font-family: "Pathfinder2eActions", sans-serif !important;
     }
@@ -1099,8 +1099,8 @@ body.crlngn-ui.crlngn-chat {
     }
   }
 
-  /* PF2e dark mode specific */
-  &.system-pf2e :is(#interface.theme-dark, #chat-popout.theme-dark) {
+  /* PF2e / SF2e dark mode specific */
+  &:is(.system-pf2e, .system-sf2e) :is(#interface.theme-dark, #chat-popout.theme-dark) {
     --visibility-gm-bg: rgba(255, 255, 255, 0.1);
     --visibility-owner-bg: rgba(235, 235, 235, 0.1);
     background-color: transparent;

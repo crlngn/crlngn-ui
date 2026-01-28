@@ -1368,7 +1368,7 @@ export class TopNavigation {
       return;
     }
 
-    if (TopNavigation.navShowRootFolders) {
+    if (TopNavigation.navShowRootFolders && game.user?.isGM) {
       const activeSceneFolders = game.user?.getFlag(MODULE_ID, "activeSceneFolders") || [];
 
       const validFolderIds = activeSceneFolders.filter(folderId => {

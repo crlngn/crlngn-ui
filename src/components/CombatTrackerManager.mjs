@@ -15,7 +15,8 @@ export class CombatTrackerManager {
   static combatCarouselScale = 1;
   static combatTrackerTakeFullWidth = false;
   static carouselImageSource = "token";
-  static carouselShowEffects = false;
+  static carouselHideDefeated = false;
+  static carouselShowAllHP = false;
 
   static #navCollapseCallback = null;
   static #navExpandCallback = null;
@@ -31,9 +32,10 @@ export class CombatTrackerManager {
     startTop: 0,
     boundDragMove: null,
     boundDragEnd: null,
-    isDocked: false
+    isDocked: false // false | 'top' | 'bottom'
   };
   static #pendingTurnChange = null;
+  static #programmaticClose = false;
 
   /**
    * Initialize combat tracker manager and register hooks
@@ -70,7 +72,8 @@ export class CombatTrackerManager {
     CombatTrackerManager.combatCarouselScale = SettingsUtil.get(SETTINGS.combatCarouselScale.tag) ?? 1;
     CombatTrackerManager.combatTrackerTakeFullWidth = SettingsUtil.get(SETTINGS.combatTrackerTakeFullWidth.tag) ?? false;
     CombatTrackerManager.carouselImageSource = SettingsUtil.get(SETTINGS.carouselImageSource.tag) ?? "token";
-    CombatTrackerManager.carouselShowEffects = SettingsUtil.get(SETTINGS.carouselShowEffects.tag) ?? false;
+    CombatTrackerManager.carouselHideDefeated = SettingsUtil.get(SETTINGS.carouselHideDefeated.tag) ?? false;
+    CombatTrackerManager.carouselShowAllHP = SettingsUtil.get(SETTINGS.carouselShowAllHP.tag) ?? false;
 
     CombatTrackerManager.#applyBodyClasses();
   }
@@ -85,11 +88,6 @@ export class CombatTrackerManager {
       document.body.classList.remove('crlngn-carousel-full-width');
     }
 
-    if (CombatTrackerManager.carouselShowEffects) {
-      document.body.classList.add('crlngn-show-effects');
-    } else {
-      document.body.classList.remove('crlngn-show-effects');
-    }
   }
 
   /**
@@ -405,6 +403,16 @@ export class CombatTrackerManager {
 
     CombatTrackerManager.initDocking();
 
+    const closeBtn = combatPopout.querySelector('[data-action="close"]');
+    if (closeBtn && !closeBtn.dataset.crlngnCloseNotice) {
+      closeBtn.dataset.crlngnCloseNotice = 'true';
+      closeBtn.addEventListener('click', () => {
+        if (!CombatTrackerManager.#programmaticClose) {
+          ui.notifications?.info(game.i18n.localize('CRLNGN_UI.combat.closedNotice'));
+        }
+      });
+    }
+
     requestAnimationFrame(() => {
       const combatPopout = document.querySelector('#combat-popout');
       if (!combatPopout) return;
@@ -419,22 +427,36 @@ export class CombatTrackerManager {
 
       const navControls = combatPopout.querySelector('nav.combat-controls');
       if (navControls) {
+        const tooltipDir = CombatTrackerManager.#dockState.isDocked === 'bottom' ? 'DOWN' : 'UP';
         navControls.querySelectorAll('button').forEach(btn => {
-          btn.setAttribute('data-tooltip-direction', 'LEFT');
+          btn.setAttribute('data-tooltip-direction', tooltipDir);
         });
-        if (!navControls.querySelector('.crlngn-round-counter')) {
-          const combat = game.combat;
-          const isStarted = combat?.started;
-          const round = combat?.round || 0;
-          const roundBadge = document.createElement('span');
-          roundBadge.className = 'crlngn-round-counter';
-          roundBadge.textContent = round;
-          roundBadge.style.display = isStarted && round > 0 ? '' : 'none';
-          navControls.appendChild(roundBadge);
+        if (game.system.id !== 'daggerheart') {
+          if (!navControls.querySelector('.crlngn-round-counter')) {
+            const combat = game.combat;
+            const isStarted = combat?.started;
+            const round = combat?.round || 0;
+            const roundBadge = document.createElement('span');
+            roundBadge.className = 'crlngn-round-counter';
+            roundBadge.textContent = round;
+            roundBadge.style.display = isStarted && round > 0 ? '' : 'none';
+            navControls.appendChild(roundBadge);
+          }
+          CombatTrackerManager.#injectInitiativeButtons(navControls);
+          CombatTrackerManager.#injectEndTurnButton(navControls);
         }
       }
 
       const tracker = combatPopout.querySelector('.combat-tracker');
+
+      if (CombatTrackerManager.carouselHideDefeated && tracker) {
+        tracker.querySelectorAll(':scope > li.combatant.defeated').forEach(el => el.remove());
+      }
+
+      if (CombatTrackerManager.carouselShowAllHP && tracker) {
+        CombatCarousel.ensureResourceBars(tracker);
+      }
+
       const combatants = tracker?.querySelectorAll(':scope > li.combatant');
       const hasCombatants = combatants && combatants.length > 0;
 
@@ -451,8 +473,11 @@ export class CombatTrackerManager {
         }
       }
 
-      CombatTrackerManager.#updateRollInitiativeBar(combatPopout);
-      CombatTrackerManager.#updateEndTurnBar(combatPopout);
+      if (game.system.id !== 'daggerheart') {
+        CombatTrackerManager.#updateInitiativeButtons(combatPopout);
+        CombatTrackerManager.#updateEndTurnButton(combatPopout);
+      }
+      CombatTrackerManager.#updateNavBorderRadius(combatPopout);
     });
   }
 
@@ -485,7 +510,6 @@ export class CombatTrackerManager {
 
   /**
    * Copy data-tooltip-html from .token-effects to the parent li.combatant
-   * Also creates visible effects display when carouselShowEffects is enabled
    * @param {HTMLElement} tracker - The combat tracker element
    */
   static #copyEffectsTooltips = (tracker) => {
@@ -498,38 +522,8 @@ export class CombatTrackerManager {
       if (tooltipHtml) {
         element.setAttribute('data-tooltip-html', tooltipHtml);
         element.classList.add('effects-tooltip');
-
-        if (CombatTrackerManager.carouselShowEffects) {
-          CombatTrackerManager.#createEffectsDisplay(element, tokenEffects);
-        }
       }
     });
-  }
-
-  /**
-   * Create a visible effects display element below the combatant card
-   * Parses the tooltip HTML and appends the effects list structure
-   * @param {HTMLElement} combatantEl - The combatant li element
-   * @param {HTMLElement} tokenEffects - The token-effects element containing effect data
-   */
-  static #createEffectsDisplay = (combatantEl, tokenEffects) => {
-    let existingDisplay = combatantEl.querySelector('.crlngn-effects-display');
-    if (existingDisplay) existingDisplay.remove();
-
-    const tooltipHtml = tokenEffects.getAttribute('data-tooltip-html');
-    if (!tooltipHtml) return;
-
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = tooltipHtml;
-
-    const effectsList = tempDiv.querySelector('ul');
-    if (!effectsList || effectsList.children.length === 0) return;
-
-    const display = document.createElement('div');
-    display.className = 'crlngn-effects-display';
-    display.appendChild(effectsList.cloneNode(true));
-
-    combatantEl.appendChild(display);
   }
 
   /**
@@ -612,6 +606,7 @@ export class CombatTrackerManager {
     LogUtil.log("closeCombatTrackerPopout - closing combat tracker popout");
 
     CombatCarousel.cleanup();
+    CombatTrackerManager.#programmaticClose = true;
 
     const combatPopout = document.querySelector('#combat-popout');
     if (combatPopout) {
@@ -623,6 +618,7 @@ export class CombatTrackerManager {
       }
     }
     CombatTrackerManager.#combatTrackerPoppedOut = false;
+    CombatTrackerManager.#programmaticClose = false;
   }
 
   /**
@@ -641,18 +637,30 @@ export class CombatTrackerManager {
       return;
     }
 
-    const savedState = game.user?.getFlag(MODULE_ID, 'combatTrackerDocked');
-    const shouldDock = savedState !== false;
-    const hasDockClass = combatPopout.classList.contains('docked-top');
+    let savedState = game.user?.getFlag(MODULE_ID, 'combatTrackerDocked');
+
+    if (savedState === true) {
+      savedState = 'top';
+      game.user?.setFlag(MODULE_ID, 'combatTrackerDocked', 'top');
+    }
+
+    const dockPosition = (savedState === undefined) ? 'top' : savedState;
+    const hasDockClass = combatPopout.classList.contains('docked-top') || combatPopout.classList.contains('docked-bottom');
+
     LogUtil.log("initDocking - checking saved state", [
       "savedState:", savedState,
-      "shouldDock:", shouldDock,
+      "dockPosition:", dockPosition,
       "hasDockClass:", hasDockClass
     ]);
-    if (shouldDock && !hasDockClass) {
-      CombatTrackerManager.#dockState.isDocked = true;
-      CombatTrackerManager.#applyDockedStyles(combatPopout);
-    } else if (savedState === false) {
+
+    if (dockPosition && !hasDockClass) {
+      CombatTrackerManager.#dockState.isDocked = dockPosition;
+      if (dockPosition === 'bottom') {
+        CombatTrackerManager.#applyDockedBottomStyles(combatPopout);
+      } else {
+        CombatTrackerManager.#applyDockedTopStyles(combatPopout);
+      }
+    } else if (dockPosition === false) {
       CombatTrackerManager.#dockState.isDocked = false;
       const savedPosition = game.user?.getFlag(MODULE_ID, 'combatTrackerPosition');
       LogUtil.log("initDocking - restoring undocked position", [
@@ -693,6 +701,22 @@ export class CombatTrackerManager {
     CombatCarousel.addCombatToggleButton(combatPopout, windowHeader);
 
     LogUtil.log("initDocking - initialized", [combatPopout]);
+  }
+
+  /**
+   * Check if the combat tracker is near the bottom dock zone (hotbar)
+   * @param {DOMRect} rect - Bounding rect of the combat popout
+   * @returns {boolean}
+   */
+  static #isNearBottomDock = (rect) => {
+    const hotbar = document.querySelector('#hotbar');
+    if (!hotbar) return false;
+
+    const SNAP_DISTANCE = 50;
+    const hotbarRect = hotbar.getBoundingClientRect();
+    const distanceToHotbar = hotbarRect.top - rect.bottom;
+
+    return Math.abs(distanceToHotbar) <= SNAP_DISTANCE;
   }
 
   /**
@@ -777,18 +801,17 @@ export class CombatTrackerManager {
 
     const SNAP_DISTANCE = 50;
     const rect = combatPopout.getBoundingClientRect();
+    const nearTop = rect.top <= SNAP_DISTANCE;
+    const nearBottom = CombatTrackerManager.#isNearBottomDock(rect);
 
     LogUtil.log("Combat tracker drag move", [
       "rect.top:", rect.top,
-      "SNAP_DISTANCE:", SNAP_DISTANCE,
-      "inSnapZone:", rect.top <= SNAP_DISTANCE
+      "nearTop:", nearTop,
+      "nearBottom:", nearBottom
     ]);
 
-    if (rect.top <= SNAP_DISTANCE) {
-      combatPopout.classList.add('near-dock');
-    } else {
-      combatPopout.classList.remove('near-dock');
-    }
+    combatPopout.classList.toggle('near-dock', nearTop);
+    combatPopout.classList.toggle('near-dock-bottom', nearBottom);
   }
 
   /**
@@ -805,13 +828,15 @@ export class CombatTrackerManager {
     const combatPopout = document.querySelector('#combat-popout');
     if (!combatPopout) return;
 
-    combatPopout.classList.remove('near-dock');
+    combatPopout.classList.remove('near-dock', 'near-dock-bottom');
 
     const SNAP_DISTANCE = 50;
     const rect = combatPopout.getBoundingClientRect();
 
     if (rect.top <= SNAP_DISTANCE) {
-      CombatTrackerManager.#dock(combatPopout);
+      CombatTrackerManager.#dock(combatPopout, 'top');
+    } else if (CombatTrackerManager.#isNearBottomDock(rect)) {
+      CombatTrackerManager.#dock(combatPopout, 'bottom');
     } else {
       const finalLeft = parseInt(combatPopout.style.left, 10) || rect.left;
       const finalTop = parseInt(combatPopout.style.top, 10) || rect.top;
@@ -826,10 +851,10 @@ export class CombatTrackerManager {
   }
 
   /**
-   * Apply docked styles to combat tracker
+   * Apply top-docked styles to combat tracker
    * @param {HTMLElement} combatPopout
    */
-  static #applyDockedStyles = (combatPopout) => {
+  static #applyDockedTopStyles = (combatPopout) => {
     combatPopout.classList.add('docked-top');
     combatPopout.style.zIndex = 'calc(var(--z-index-app) - 1)';
     combatPopout.style.left = '50%';
@@ -842,25 +867,46 @@ export class CombatTrackerManager {
   }
 
   /**
-   * Dock combat tracker to top of screen
+   * Apply bottom-docked styles to combat tracker
    * @param {HTMLElement} combatPopout
    */
-  static #dock = (combatPopout) => {
+  static #applyDockedBottomStyles = (combatPopout) => {
+    combatPopout.classList.add('docked-bottom');
+    combatPopout.style.zIndex = 'calc(var(--z-index-app) - 1)';
+    combatPopout.style.left = 'auto';
+    combatPopout.style.top = 'auto';
+
+    const uiBottom = document.querySelector('#ui-bottom');
+    if (uiBottom && combatPopout.parentElement !== uiBottom) {
+      uiBottom.prepend(combatPopout);
+    }
+  }
+
+  /**
+   * Dock combat tracker to top or bottom of screen
+   * @param {HTMLElement} combatPopout
+   * @param {'top'|'bottom'} position
+   */
+  static #dock = (combatPopout, position = 'top') => {
     const state = CombatTrackerManager.#dockState;
 
     combatPopout.classList.add('snapping');
     setTimeout(() => combatPopout.classList.remove('snapping'), 200);
 
-    CombatTrackerManager.#applyDockedStyles(combatPopout);
+    if (position === 'bottom') {
+      CombatTrackerManager.#applyDockedBottomStyles(combatPopout);
+    } else {
+      CombatTrackerManager.#applyDockedTopStyles(combatPopout);
+    }
 
-    game.user?.setFlag(MODULE_ID, 'combatTrackerDocked', true);
-    state.isDocked = true;
+    game.user?.setFlag(MODULE_ID, 'combatTrackerDocked', position);
+    state.isDocked = position;
 
-    LogUtil.log("Combat tracker docked to top");
+    LogUtil.log("Combat tracker docked to " + position);
   }
 
   /**
-   * Undock combat tracker from top
+   * Undock combat tracker from top or bottom
    * @param {HTMLElement} combatPopout
    */
   static #undock = (combatPopout) => {
@@ -870,11 +916,12 @@ export class CombatTrackerManager {
     const currentLeft = rect.left;
     const currentTop = rect.top;
 
-    combatPopout.classList.remove('docked-top');
+    combatPopout.classList.remove('docked-top', 'docked-bottom');
     combatPopout.style.transform = '';
     combatPopout.style.zIndex = '';
+    combatPopout.style.bottom = '';
 
-    if (combatPopout.parentElement?.id === 'interface') {
+    if (combatPopout.parentElement?.id === 'interface' || combatPopout.parentElement?.id === 'ui-bottom') {
       document.body.appendChild(combatPopout);
     }
 
@@ -912,163 +959,153 @@ export class CombatTrackerManager {
   }
 
   /**
-   * Update the floating roll initiative bar visibility
+   * Inject initiative roll buttons and separator into nav.combat-controls
+   * Only creates elements if they don't already exist (GM only)
+   * @param {HTMLElement} navControls - The nav.combat-controls element
+   */
+  static #injectInitiativeButtons = (navControls) => {
+    if (!navControls) return;
+    if (!game.user?.isGM) return;
+    if (navControls.querySelector('.crlngn-initiative-group')) return;
+
+    const group = document.createElement('div');
+    group.className = 'crlngn-initiative-group';
+    group.style.display = 'contents';
+
+    const tooltipDir = CombatTrackerManager.#dockState.isDocked === 'bottom' ? 'DOWN' : 'UP';
+
+    const rollAllBtn = document.createElement('button');
+    rollAllBtn.type = 'button';
+    rollAllBtn.className = 'inline-control combat-control icon fa-solid fa-users';
+    rollAllBtn.setAttribute('data-action', 'rollAll');
+    rollAllBtn.setAttribute('data-tooltip', 'COMBAT.RollAll');
+    rollAllBtn.setAttribute('data-tooltip-direction', tooltipDir);
+    rollAllBtn.setAttribute('aria-label', game.i18n.localize('COMBAT.RollAll'));
+    rollAllBtn.addEventListener('click', () => game.combat?.rollAll());
+
+    const rollNpcBtn = document.createElement('button');
+    rollNpcBtn.type = 'button';
+    rollNpcBtn.className = 'inline-control combat-control icon fa-solid fa-users-cog';
+    rollNpcBtn.setAttribute('data-action', 'rollNPC');
+    rollNpcBtn.setAttribute('data-tooltip', 'COMBAT.RollNPC');
+    rollNpcBtn.setAttribute('data-tooltip-direction', tooltipDir);
+    rollNpcBtn.setAttribute('aria-label', game.i18n.localize('COMBAT.RollNPC'));
+    rollNpcBtn.addEventListener('click', () => game.combat?.rollNPC());
+
+    const separator = document.createElement('span');
+    separator.className = 'crlngn-nav-separator';
+
+    group.appendChild(rollAllBtn);
+    group.appendChild(rollNpcBtn);
+    group.appendChild(separator);
+
+    navControls.insertBefore(group, navControls.firstChild);
+  }
+
+  /**
+   * Update initiative button visibility within nav.combat-controls
    * Shows when combatants exist but haven't all rolled initiative (GM only)
    * @param {HTMLElement} combatPopout - The combat popout element
    */
-  static #updateRollInitiativeBar = (combatPopout) => {
+  static #updateInitiativeButtons = (combatPopout) => {
     if (!combatPopout) return;
 
+    const navControls = combatPopout.querySelector('nav.combat-controls');
+    const group = navControls?.querySelector('.crlngn-initiative-group');
+    if (!group) return;
+
     if (!game.user?.isGM) {
-      CombatTrackerManager.#hideRollInitiativeBar(combatPopout);
+      group.style.display = 'none';
       return;
     }
 
     const combat = game.combat;
-    if (!combat) {
-      CombatTrackerManager.#hideRollInitiativeBar(combatPopout);
+    if (!combat || !combat.combatants || combat.combatants.size === 0) {
+      group.style.display = 'none';
       return;
     }
 
-    const combatants = combat.combatants;
-    if (!combatants || combatants.size === 0) {
-      CombatTrackerManager.#hideRollInitiativeBar(combatPopout);
-      return;
-    }
-
-    const hasUnrolledInitiative = combatants.some(c => c.initiative === null || c.initiative === undefined);
-
-    if (hasUnrolledInitiative) {
-      CombatTrackerManager.#showRollInitiativeBar(combatPopout);
-    } else {
-      CombatTrackerManager.#hideRollInitiativeBar(combatPopout);
-    }
+    const hasUnrolledInitiative = combat.combatants.some(c => c.initiative === null || c.initiative === undefined);
+    group.style.display = hasUnrolledInitiative ? 'contents' : 'none';
   }
 
   /**
-   * Show the floating roll initiative bar
+   * Inject an End Turn button and separator into nav.combat-controls
+   * Only creates elements if they don't already exist (non-GM players only)
+   * @param {HTMLElement} navControls - The nav.combat-controls element
+   */
+  static #injectEndTurnButton = (navControls) => {
+    if (!navControls) return;
+    if (game.user?.isGM) return;
+    if (navControls.querySelector('.crlngn-end-turn-group')) return;
+
+    const group = document.createElement('div');
+    group.className = 'crlngn-end-turn-group';
+    group.style.display = 'none';
+
+    const separator = document.createElement('span');
+    separator.className = 'crlngn-nav-separator';
+
+    const tooltipDir = CombatTrackerManager.#dockState.isDocked === 'bottom' ? 'DOWN' : 'UP';
+    const endTurnLabel = game.i18n.localize('COMBAT.TurnEnd');
+    const endTurnBtn = document.createElement('button');
+    endTurnBtn.type = 'button';
+    endTurnBtn.className = 'combat-control icon fa-solid fa-check';
+    endTurnBtn.setAttribute('data-action', 'endTurn');
+    endTurnBtn.setAttribute('data-tooltip', endTurnLabel);
+    endTurnBtn.setAttribute('data-tooltip-direction', tooltipDir);
+    endTurnBtn.setAttribute('aria-label', endTurnLabel);
+    endTurnBtn.addEventListener('click', () => game.combat?.nextTurn());
+
+    group.appendChild(separator);
+    group.appendChild(endTurnBtn);
+
+    navControls.appendChild(group);
+  }
+
+  /**
+   * Update End Turn button visibility within nav.combat-controls
+   * Shows for non-GM players when it's their turn
    * @param {HTMLElement} combatPopout - The combat popout element
    */
-  static #showRollInitiativeBar = (combatPopout) => {
+  static #updateEndTurnButton = (combatPopout) => {
     if (!combatPopout) return;
 
-    const windowContent = combatPopout.querySelector('.window-content');
-    if (!windowContent) return;
-
-    let bar = windowContent.querySelector('.crlngn-roll-initiative-bar');
-
-    if (!bar) {
-      bar = document.createElement('div');
-      bar.className = 'crlngn-roll-initiative-bar';
-
-      const rollAllBtn = document.createElement('button');
-      rollAllBtn.type = 'button';
-      rollAllBtn.className = 'inline-control combat-control icon fa-solid fa-users';
-      rollAllBtn.setAttribute('data-action', 'rollAll');
-      rollAllBtn.setAttribute('data-tooltip', 'COMBAT.RollAll');
-      rollAllBtn.setAttribute('aria-label', game.i18n.localize('COMBAT.RollAll'));
-      rollAllBtn.addEventListener('click', () => game.combat?.rollAll());
-
-      const rollNpcBtn = document.createElement('button');
-      rollNpcBtn.type = 'button';
-      rollNpcBtn.className = 'inline-control combat-control icon fa-solid fa-users-cog';
-      rollNpcBtn.setAttribute('data-action', 'rollNPC');
-      rollNpcBtn.setAttribute('data-tooltip', 'COMBAT.RollNPC');
-      rollNpcBtn.setAttribute('aria-label', game.i18n.localize('COMBAT.RollNPC'));
-      rollNpcBtn.addEventListener('click', () => game.combat?.rollNPC());
-
-      bar.appendChild(rollAllBtn);
-      bar.appendChild(rollNpcBtn);
-
-      windowContent.appendChild(bar);
-    }
-
-    bar.style.display = '';
-  }
-
-  /**
-   * Hide the floating roll initiative bar
-   * @param {HTMLElement} combatPopout - The combat popout element
-   */
-  static #hideRollInitiativeBar = (combatPopout) => {
-    const windowContent = combatPopout?.querySelector('.window-content');
-    const bar = windowContent?.querySelector('.crlngn-roll-initiative-bar');
-    if (bar) {
-      bar.style.display = 'none';
-    }
-  }
-
-  /**
-   * Update the floating End Turn bar visibility
-   * Shows for players when it's their turn
-   * @param {HTMLElement} combatPopout - The combat popout element
-   */
-  static #updateEndTurnBar = (combatPopout) => {
-    if (!combatPopout) return;
+    const navControls = combatPopout.querySelector('nav.combat-controls');
+    const group = navControls?.querySelector('.crlngn-end-turn-group');
+    if (!group) return;
 
     const combat = game.combat;
     if (!combat || !combat.started) {
-      CombatTrackerManager.#hideEndTurnBar(combatPopout);
+      group.style.display = 'none';
       return;
     }
 
     const currentCombatant = combat.combatant;
     if (!currentCombatant) {
-      CombatTrackerManager.#hideEndTurnBar(combatPopout);
+      group.style.display = 'none';
       return;
     }
 
     const isPlayersTurn = currentCombatant.isOwner && !game.user?.isGM;
-
-    if (isPlayersTurn) {
-      CombatTrackerManager.#showEndTurnBar(combatPopout);
-    } else {
-      CombatTrackerManager.#hideEndTurnBar(combatPopout);
-    }
+    group.style.display = isPlayersTurn ? 'contents' : 'none';
   }
 
   /**
-   * Show the floating End Turn bar
+   * Toggle fully rounded corners on nav.combat-controls when it is wider
+   * than the combatant list, otherwise use flush top corners
    * @param {HTMLElement} combatPopout - The combat popout element
    */
-  static #showEndTurnBar = (combatPopout) => {
-    if (!combatPopout) return;
+  static #updateNavBorderRadius = (combatPopout) => {
+    const navControls = combatPopout?.querySelector('nav.combat-controls');
+    const tracker = combatPopout?.querySelector('.combat-tracker');
+    if (!navControls || !tracker) return;
 
-    const windowContent = combatPopout.querySelector('.window-content');
-    if (!windowContent) return;
+    const trackerWidth = tracker.offsetWidth;
+    navControls.style.width = 'min-content';
+    const navMinWidth = navControls.offsetWidth;
+    navControls.style.width = '';
 
-    let bar = windowContent.querySelector('.crlngn-end-turn-bar');
-
-    if (!bar) {
-      bar = document.createElement('div');
-      bar.className = 'crlngn-end-turn-bar';
-
-      const endTurnLabel = game.i18n.localize('COMBAT.TurnEnd');
-      const endTurnBtn = document.createElement('button');
-      endTurnBtn.type = 'button';
-      endTurnBtn.className = 'combat-control';
-      endTurnBtn.setAttribute('data-action', 'endTurn');
-      endTurnBtn.setAttribute('data-tooltip', endTurnLabel);
-      endTurnBtn.setAttribute('aria-label', endTurnLabel);
-      endTurnBtn.innerHTML = `<i class="fa-solid fa-check"></i><span>${endTurnLabel}</span>`;
-      endTurnBtn.addEventListener('click', () => game.combat?.nextTurn());
-
-      bar.appendChild(endTurnBtn);
-      windowContent.appendChild(bar);
-    }
-
-    bar.style.display = '';
-  }
-
-  /**
-   * Hide the floating End Turn bar
-   * @param {HTMLElement} combatPopout - The combat popout element
-   */
-  static #hideEndTurnBar = (combatPopout) => {
-    const windowContent = combatPopout?.querySelector('.window-content');
-    const bar = windowContent?.querySelector('.crlngn-end-turn-bar');
-    if (bar) {
-      bar.style.display = 'none';
-    }
+    navControls.classList.toggle('crlngn-nav-rounded', navMinWidth >= trackerWidth);
   }
 }

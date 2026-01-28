@@ -72,6 +72,8 @@ export class CombatCarousel {
     const tracker = combatPopout?.querySelector('.combat-tracker');
     if (!tracker) return;
 
+    CombatCarousel.#disableSortable(combatPopout);
+
     if (CombatCarousel.#initialized) {
       CombatCarousel.#refreshCombatants(tracker);
       CombatCarousel.#ensureDragListeners(tracker);
@@ -86,6 +88,36 @@ export class CombatCarousel {
     CombatCarousel.#currentTrackerElement = tracker;
     CombatCarousel.#initResizeObserver(combatPopout);
     CombatCarousel.#initialized = true;
+  }
+
+  /**
+   * Disable external Sortable.js drag behavior on the combat popout.
+   * Systems like PF2e attach Sortable.js to ol.combat-tracker for reordering combatants.
+   * Sortable.js uses pointerdown events and modifies element transforms during drag,
+   * which conflicts with the carousel's translateX positioning.
+   * This destroys the Sortable instance on every render (PF2e recreates it each time)
+   * and prevents native dragstart events as an additional safeguard.
+   * @param {HTMLElement} combatPopout - The #combat-popout element
+   */
+  static #disableSortable = (combatPopout) => {
+    const tracker = combatPopout.querySelector('.combat-tracker');
+    if (tracker) {
+      for (const key of Object.keys(tracker)) {
+        if (key.startsWith('Sortable')) {
+          tracker[key]?.destroy?.();
+          break;
+        }
+      }
+    }
+
+    if (!combatPopout.dataset.crlngnDragDisabled) {
+      combatPopout.dataset.crlngnDragDisabled = 'true';
+      combatPopout.addEventListener('dragstart', (e) => {
+        if (e.target.closest('.combat-tracker')) {
+          e.preventDefault();
+        }
+      }, true);
+    }
   }
 
   /**
@@ -231,6 +263,10 @@ export class CombatCarousel {
   static #wrapNextTurn = async function(wrapped, ...args) {
     const combat = this;
 
+    if (game.system.id === 'daggerheart') {
+      return wrapped.call(this, ...args);
+    }
+
     if (!CombatCarousel.#isCarouselActive() || !combat?.started) {
       return wrapped.call(this, ...args);
     }
@@ -280,6 +316,10 @@ export class CombatCarousel {
   static #wrapPreviousTurn = async function(wrapped, ...args) {
     const combat = this;
 
+    if (game.system.id === 'daggerheart') {
+      return wrapped.call(this, ...args);
+    }
+
     if (!CombatCarousel.#isCarouselActive() || !combat?.started) {
       return wrapped.call(this, ...args);
     }
@@ -321,6 +361,10 @@ export class CombatCarousel {
   static #wrapNextRound = async function(wrapped, ...args) {
     const combat = this;
 
+    if (game.system.id === 'daggerheart') {
+      return wrapped.call(this, ...args);
+    }
+
     if (!CombatCarousel.#isCarouselActive() || !combat?.started) {
       return wrapped.call(this, ...args);
     }
@@ -360,6 +404,10 @@ export class CombatCarousel {
    */
   static #wrapPreviousRound = async function(wrapped, ...args) {
     const combat = this;
+
+    if (game.system.id === 'daggerheart') {
+      return wrapped.call(this, ...args);
+    }
 
     if (!CombatCarousel.#isCarouselActive() || !combat?.started) {
       return wrapped.call(this, ...args);
@@ -427,6 +475,7 @@ export class CombatCarousel {
   static #refreshCombatants = (tracker) => {
     const state = CombatCarousel.#state;
     const combatants = Array.from(tracker.querySelectorAll(':scope > li.combatant'));
+    combatants.forEach(c => c.setAttribute('draggable', 'false'));
     const newIds = combatants.map(c => c.dataset.combatantId);
     const addedIds = newIds.filter(id => !CombatCarousel.#previousCombatantIds.includes(id));
 
@@ -592,23 +641,72 @@ export class CombatCarousel {
     const tracker = combatPopout?.querySelector('.combat-tracker');
     if (!tracker) return;
 
-    const groups = tracker.querySelectorAll('li.combatant-group');
-    if (groups.length === 0) return;
+    const groups = tracker.querySelectorAll('li.combatant-group, li[data-group-key]');
+    if (groups.length > 0) {
+      groups.forEach(group => {
+        const childCombatants = group.querySelectorAll('.group-children > li.combatant');
+        if (childCombatants.length === 0) return;
 
-    groups.forEach(group => {
-      const childCombatants = group.querySelectorAll('.group-children > li.combatant');
-      if (childCombatants.length === 0) return;
+        const groupKey = group.dataset?.groupKey;
+        childCombatants.forEach(combatant => {
+          if (groupKey) {
+            combatant.dataset.groupKey = groupKey;
+          }
+          tracker.insertBefore(combatant, group);
+        });
 
-      childCombatants.forEach(combatant => {
-        tracker.insertBefore(combatant, group);
+        group.remove();
       });
 
-      group.remove();
-    });
+      LogUtil.log("flattenCombatantGroups - flattened groups", [
+        "groups flattened:", groups.length
+      ]);
+    }
 
-    LogUtil.log("flattenCombatantGroups - flattened groups", [
-      "groups flattened:", groups.length
-    ]);
+    const nestedLists = tracker.querySelectorAll(':scope > div > ol.combat-tracker');
+    if (nestedLists.length > 0) {
+      nestedLists.forEach(ol => {
+        const combatants = ol.querySelectorAll(':scope > li.combatant');
+        combatants.forEach(combatant => {
+          tracker.appendChild(combatant);
+        });
+      });
+      tracker.querySelectorAll(':scope > div').forEach(wrapper => wrapper.remove());
+
+      LogUtil.log("flattenCombatantGroups - flattened Daggerheart sections", [
+        "nested lists:", nestedLists.length
+      ]);
+    }
+  }
+
+  static #noTrackedResourceWarned = false;
+
+  /**
+   * Ensure every combatant li has a .token-resource element
+   * Creates the element if Foundry's template omitted it (due to lacking Observer permission)
+   * @param {HTMLElement} tracker - The combat tracker element
+   */
+  static ensureResourceBars = (tracker) => {
+    const resourcePath = game.settings.get("core", "combatTrackerConfig")?.resource;
+    if (!resourcePath) {
+      if (!CombatCarousel.#noTrackedResourceWarned) {
+        CombatCarousel.#noTrackedResourceWarned = true;
+        ui.notifications?.warn(game.i18n.localize('CRLNGN_UI.combat.noTrackedResource'));
+      }
+      return;
+    }
+
+    const combatantElements = tracker.querySelectorAll(':scope > li.combatant');
+    combatantElements.forEach(element => {
+      if (!element.querySelector('.token-resource')) {
+        const resourceEl = document.createElement('div');
+        resourceEl.className = 'token-resource';
+        const resourceInner = document.createElement('span');
+        resourceInner.className = 'resource';
+        resourceEl.appendChild(resourceInner);
+        element.appendChild(resourceEl);
+      }
+    });
   }
 
   /**
@@ -669,9 +767,8 @@ export class CombatCarousel {
     const navControls = combatPopout.querySelector('nav.combat-controls');
     if (!navControls) return;
 
-    // Set tooltip direction to LEFT for all buttons in combat controls
     navControls.querySelectorAll('button').forEach(btn => {
-      btn.setAttribute('data-tooltip-direction', 'LEFT');
+      btn.setAttribute('data-tooltip-direction', 'UP');
     });
 
     if (navControls.querySelector('.crlngn-round-counter')) return;
@@ -1014,7 +1111,7 @@ export class CombatCarousel {
    * - Direct object path (e.g., "attributes.hp" with .value and .max properties)
    * - Value path (e.g., "attributes.hp.value" - derives max from sibling .max)
    * @param {Combatant} combatant - The combatant document
-   * @returns {{value: number, max: number}|null} The resource data or null
+   * @returns {{value: number, max: number, isReversed: boolean}|null} The resource data or null
    */
   static #getCombatantResource = (combatant) => {
     if (!combatant?.actor) return null;
@@ -1023,29 +1120,25 @@ export class CombatCarousel {
     if (!resourcePath) return null;
 
     const actorSystem = combatant.actor.system;
-    let value, max;
+    let value, max, isReversed = false;
 
     // First try: get the resource directly (might be an object or a value)
     const resource = foundry.utils.getProperty(actorSystem, resourcePath);
 
     if (resource && typeof resource === 'object') {
-      // Path points to an object with value/max properties
       value = resource.value;
       max = resource.max;
+      if (resource.isReversed === true) isReversed = true;
     } else {
-      // Path points to the value directly - try to find max
       value = resource;
 
-      // Try appending ".max" to the resource path
       max = foundry.utils.getProperty(actorSystem, resourcePath + ".max");
 
-      // If that didn't work, try replacing ".value" with ".max"
       if (max === undefined && resourcePath.endsWith(".value")) {
         const maxPath = resourcePath.replace(/\.value$/, ".max");
         max = foundry.utils.getProperty(actorSystem, maxPath);
       }
 
-      // If still no max, try getting parent object's max
       if (max === undefined) {
         const pathParts = resourcePath.split('.');
         if (pathParts.length > 1) {
@@ -1057,11 +1150,19 @@ export class CombatCarousel {
           }
         }
       }
+
+      const pathParts = resourcePath.split('.');
+      if (pathParts.length > 1) {
+        pathParts.pop();
+        const parentPath = pathParts.join('.');
+        const parentResource = foundry.utils.getProperty(actorSystem, parentPath);
+        if (parentResource?.isReversed === true) isReversed = true;
+      }
     }
 
     if (typeof value !== 'number' || typeof max !== 'number') return null;
 
-    return { value, max };
+    return { value, max, isReversed };
   }
 
   /**
@@ -1077,7 +1178,12 @@ export class CombatCarousel {
     const resource = CombatCarousel.#getCombatantResource(combatant);
     if (!resource) return;
 
-    const percentage = resource.max > 0 ? Math.max(0, Math.min(100, (resource.value / resource.max) * 100)) : 0;
+    let percentage;
+    if (resource.isReversed) {
+      percentage = resource.max > 0 ? Math.max(0, Math.min(100, ((resource.max - resource.value) / resource.max) * 100)) : 100;
+    } else {
+      percentage = resource.max > 0 ? Math.max(0, Math.min(100, (resource.value / resource.max) * 100)) : 0;
+    }
 
     resourceEl.style.setProperty('--resource-pct', `${percentage}%`);
     resourceEl.classList.remove('critical', 'wounded');
@@ -1331,6 +1437,7 @@ export class CombatCarousel {
     CombatCarousel.#boundPointerUp = CombatCarousel.#onPointerUp.bind(CombatCarousel);
 
     tracker.addEventListener('pointerdown', CombatCarousel.#onPointerDown);
+    tracker.addEventListener('click', CombatCarousel.#onClickCapture, true);
     CombatCarousel.#currentTrackerElement = tracker;
   }
 
@@ -1347,6 +1454,7 @@ export class CombatCarousel {
     }
 
     tracker.addEventListener('pointerdown', CombatCarousel.#onPointerDown);
+    tracker.addEventListener('click', CombatCarousel.#onClickCapture, true);
     CombatCarousel.#currentTrackerElement = tracker;
 
     LogUtil.log("CombatCarousel - Re-attached drag listeners to new tracker element");
@@ -1358,8 +1466,22 @@ export class CombatCarousel {
    */
   static #removeDragListeners = (tracker) => {
     tracker.removeEventListener('pointerdown', CombatCarousel.#onPointerDown);
+    tracker.removeEventListener('click', CombatCarousel.#onClickCapture, true);
     document.removeEventListener('pointermove', CombatCarousel.#boundPointerMove);
     document.removeEventListener('pointerup', CombatCarousel.#boundPointerUp);
+  }
+
+  /**
+   * Capture-phase click handler that prevents Foundry's activateCombatant
+   * action from firing when a combatant is clicked in the carousel.
+   * Our #onPointerUp handler provides the desired behavior (pan to token).
+   * @param {MouseEvent} e
+   */
+  static #onClickCapture = (e) => {
+    if (e.target.closest('li.combatant') && !e.target.closest('button')) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
   }
 
   /**
@@ -1432,9 +1554,15 @@ export class CombatCarousel {
 
     if (wasClick) {
       const target = document.elementFromPoint(e.clientX, e.clientY);
-      const combatant = target?.closest('li.combatant[data-action="activateCombatant"]');
-      if (combatant) {
-        combatant.click();
+      const combatantEl = target?.closest('li.combatant[data-combatant-id]');
+      if (combatantEl) {
+        const combatantId = combatantEl.dataset.combatantId;
+        const combatant = game.combat?.combatants.get(combatantId);
+        const token = combatant?.token?.object;
+        if (token?.visible) {
+          if (!token.controlled) token.control({releaseOthers: true});
+          canvas.animatePan(token.center);
+        }
       }
       return;
     }
@@ -1477,7 +1605,7 @@ export class CombatCarousel {
     state.allCombatantIds = combatants.map(c => c.dataset.combatantId);
 
     const combatPopout = tracker.closest('#combat-popout');
-    const isDocked = combatPopout?.classList.contains('docked-top');
+    const isDocked = combatPopout?.classList.contains('docked-top') || combatPopout?.classList.contains('docked-bottom');
 
     if (isDocked) {
       const screenWidth = window.innerWidth;
@@ -1528,6 +1656,7 @@ export class CombatCarousel {
       c.style.display = '';
       c.style.opacity = '';
       c.style.transition = '';
+      c.setAttribute('draggable', 'false');
     });
 
     tracker.classList.add('crlngn-infinite-carousel');

@@ -456,8 +456,8 @@
   }
 
   /*****************/
-  /* PF2e */
-  body.crlngn-ui.system-pf2e.crlngn-chat {
+  /* PF2e / SF2e */
+  body.crlngn-ui:is(.system-pf2e, .system-sf2e).crlngn-chat {
     #interface.theme-dark .chat-log.themed.theme-light,
     #interface.theme-dark .chat-log.themed.theme-dark {
       --color-text-tertiary: var(--color-light-2);

@@ -182,6 +182,22 @@
             "label": "Expandir Carrossel quando Barra Lateral Recolhida",
             "hint": "Quando ativado, o carrossel ocupa toda a largura disponível quando a barra lateral está recolhida, e se ajusta quando a barra lateral é expandida."
           },
+          "carouselImageSource": {
+            "label": "Fonte de Imagem do Carrossel",
+            "hint": "Escolha se deseja exibir imagens de token ou retratos de ator/personagem no carrossel de combate.",
+            "options": {
+              "token": "Imagem do Token",
+              "actor": "Retrato do Ator"
+            }
+          },
+          "carouselShowAllHP": {
+            "label": "Mostrar Barra de HP para Todos os Combatentes",
+            "hint": "Quando ativado, o carrossel mostra barras de HP para todos os combatentes, mesmo aqueles para os quais o jogador não tem permissão de Observador. Esta é uma configuração de mundo (apenas GM)."
+          },
+          "carouselHideDefeated": {
+            "label": "Ocultar Combatentes Derrotados",
+            "hint": "Quando ativado, combatentes derrotados são removidos do carrossel e as posições restantes são recalculadas."
+          },
           "combatFieldset": "Rastreador de Combate"
         },
         "reset": "Redefinir",
@@ -617,7 +633,9 @@
       }
     },
     "combat": {
-      "noCombatants": "Nenhum combatente no encontro"
+      "noCombatants": "Nenhum combatente no encontro",
+      "closedNotice": "Quando quiser o carrossel de volta, clique com o botão direito na aba de combate na barra lateral",
+      "noTrackedResource": "Mostrar Barra de HP para Todos está ativado, mas nenhum Recurso Rastreado está configurado nas configurações do Rastreador de Combate."
     },
     "dnd5e": {
       "chatCard": {

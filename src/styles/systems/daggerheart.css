@@ -749,6 +749,23 @@ body.crlngn-ui.system-daggerheart {
   .daggerheart.dh-style.tooltip .tooltip-tags .tooltip-tag {
     border: 1px solid light-dark(var(--dark-blue), var(--color-warm-2));
   }
+
+  &.crlngn-combat-tracker #combat-popout .spotlight-control {
+    font-size: 18px;
+    right: 3px;
+    top: 3px;
+    left: auto;
+    padding: 6px;
+    width: 30px;
+    height: 30px;
+    aspect-ratio: 1;
+    color: var(--color-text-primary);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.75);
+    background: transparent;
+  }
+  &.crlngn-combat-tracker #combat-popout .spotlight-control:hover {
+    border-color: transparent;
+  }
 }
 
 /* ========================================
