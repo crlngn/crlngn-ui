@@ -128,6 +128,14 @@
         "label": "Sidebar Expand/Collapse",
         "hint": "Expands or collapses the right sidebar"
       },
+      "combatPrev": {
+        "label": "Combat: Previous Turn",
+        "hint": "Go to the previous turn in combat. Only works when you own the current combatant."
+      },
+      "combatNext": {
+        "label": "Combat: Next Turn",
+        "hint": "Advance to the next turn in combat. Only works when you own the current combatant."
+      },
       "sidebarTabs": {
         "ChatLog": "Chat Messages",
         "CombatTracker": "Combat Encounters",
@@ -188,6 +196,14 @@
             "options": {
               "token": "Token Image",
               "actor": "Actor Portrait"
+            }
+          },
+          "combatTrackerLayout": {
+            "label": "Combat Tracker Layout",
+            "hint": "Choose how the combat tracker behaves. Carousel mode centers on the active combatant and wraps around. Simple list mode is left-aligned and scrolls to show the active combatant when needed.",
+            "options": {
+              "carousel": "Carousel (centered, wraps around)",
+              "simple": "Simple list (no carousel)"
             }
           },
           "carouselShowAllHP": {

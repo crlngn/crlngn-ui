@@ -15,6 +15,7 @@ export class CombatTrackerManager {
   static combatCarouselScale = 1;
   static combatTrackerTakeFullWidth = false;
   static carouselImageSource = "token";
+  static combatTrackerLayout = "carousel";
   static carouselHideDefeated = false;
   static carouselShowAllHP = false;
 
@@ -36,6 +37,9 @@ export class CombatTrackerManager {
   };
   static #pendingTurnChange = null;
   static #programmaticClose = false;
+  static #lastRenderTime = 0;
+  static #renderThrottleMs = 150;
+  static #pendingRenderTimeout = null;
 
   /**
    * Initialize combat tracker manager and register hooks
@@ -53,6 +57,12 @@ export class CombatTrackerManager {
     Hooks.on(HOOKS_CORE.DELETE_COMBATANT, (combatant) => CombatTrackerManager.onCombatantDeleted(combatant));
     Hooks.on(HOOKS_CORE.COMBAT_TURN, (combat, updateData, options) => CombatTrackerManager.onCombatTurnPre(combat, updateData, options));
     Hooks.on(HOOKS_CORE.COMBAT_ROUND, (combat, updateData, options) => CombatTrackerManager.onCombatRoundPre(combat, updateData, options));
+    Hooks.on(HOOKS_CORE.PRE_RENDER_COMBAT_TRACKER, () => {
+      if (!CombatTrackerManager.#shouldAllowRender()) {
+        return false;
+      }
+      CombatCarousel.cacheImages();
+    });
     Hooks.on(HOOKS_CORE.RENDER_COMBAT_TRACKER, (app, html, data) => CombatTrackerManager.onRenderCombatTracker(app, html, data));
     Hooks.on(HOOKS_CORE.UPDATE_ACTOR, (actor, updateData, options, userId) => CombatTrackerManager.onActorUpdate(actor, updateData));
 
@@ -72,6 +82,7 @@ export class CombatTrackerManager {
     CombatTrackerManager.combatCarouselScale = SettingsUtil.get(SETTINGS.combatCarouselScale.tag) ?? 1;
     CombatTrackerManager.combatTrackerTakeFullWidth = SettingsUtil.get(SETTINGS.combatTrackerTakeFullWidth.tag) ?? false;
     CombatTrackerManager.carouselImageSource = SettingsUtil.get(SETTINGS.carouselImageSource.tag) ?? "token";
+    CombatTrackerManager.combatTrackerLayout = SettingsUtil.get(SETTINGS.combatTrackerLayout.tag) ?? "carousel";
     CombatTrackerManager.carouselHideDefeated = SettingsUtil.get(SETTINGS.carouselHideDefeated.tag) ?? false;
     CombatTrackerManager.carouselShowAllHP = SettingsUtil.get(SETTINGS.carouselShowAllHP.tag) ?? false;
 
@@ -88,6 +99,32 @@ export class CombatTrackerManager {
       document.body.classList.remove('crlngn-carousel-full-width');
     }
 
+  }
+
+  /**
+   * Throttle rapid combat tracker renders to prevent flicker during batch operations.
+   * Returns true if render should proceed, false to suppress.
+   */
+  static #shouldAllowRender = () => {
+    if (!CombatTrackerManager.enableCombatTrackerCarousel) return true;
+
+    const now = Date.now();
+    const timeSinceLastRender = now - CombatTrackerManager.#lastRenderTime;
+
+    if (timeSinceLastRender < CombatTrackerManager.#renderThrottleMs) {
+      if (CombatTrackerManager.#pendingRenderTimeout) {
+        clearTimeout(CombatTrackerManager.#pendingRenderTimeout);
+      }
+      CombatTrackerManager.#pendingRenderTimeout = setTimeout(() => {
+        CombatTrackerManager.#pendingRenderTimeout = null;
+        ui.combat?.render();
+      }, CombatTrackerManager.#renderThrottleMs);
+
+      return false;
+    }
+
+    CombatTrackerManager.#lastRenderTime = now;
+    return true;
   }
 
   /**
@@ -367,14 +404,6 @@ export class CombatTrackerManager {
 
     const isForward = newRound > priorRound;
     const isRoundWrap = isForward && newTurn === 0;
-
-    LogUtil.log("onCombatRoundPre - about to change round", [
-      "combat:", combat?.id,
-      "prior:", { round: priorRound, turn: priorTurn },
-      "new:", { round: newRound, turn: newTurn },
-      "direction:", isForward ? "forward" : "backward",
-      "isRoundWrap:", isRoundWrap
-    ]);
 
     CombatTrackerManager.#pendingTurnChange = {
       isForward,

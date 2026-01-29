@@ -192,6 +192,7 @@ export function getSettings() {
         "combatCarouselScale",
         "combatTrackerTakeFullWidth",
         "carouselImageSource",
+        "combatTrackerLayout",
         "carouselShowAllHP",
         "carouselHideDefeated"
       ],
@@ -229,6 +230,7 @@ export function getSettings() {
         combatCarouselScale: 1,
         combatTrackerTakeFullWidth: false,
         carouselImageSource: "actor",
+        combatTrackerLayout: "carousel",
         carouselShowAllHP: false,
         carouselHideDefeated: false
       },
@@ -1776,6 +1778,16 @@ export function getSettings() {
       propType: Boolean,
       default: true,
       scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+    combatTrackerLayout: {
+      tag: "v2-combat-tracker-layout",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.combatTrackerLayout.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.combatTrackerLayout.hint"),
+      propType: String,
+      default: "carousel",
+      scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false
     },

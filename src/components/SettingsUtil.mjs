@@ -182,6 +182,44 @@ export class SettingsUtil {
       restricted: false, // Restrict this Keybinding to gamemaster only?
     });
 
+    game.keybindings.register(MODULE_ID, "combatPrev", {
+      name: game.i18n.localize("CRLNGN_UI.settings.combatPrev.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.combatPrev.hint"),
+      editable: [
+        {
+          key: "ArrowLeft",
+          modifiers: [foundry.helpers.interaction.KeyboardManager.MODIFIER_KEYS.SHIFT]
+        }
+      ],
+      onDown: () => {  },
+      onUp: () => {
+        if (!game.combat) return;
+        const isOwner = game.combat.combatant?.isOwner;
+        if (!isOwner) return;
+        game.combat.previousTurn();
+      },
+      restricted: false,
+    });
+
+    game.keybindings.register(MODULE_ID, "combatNext", {
+      name: game.i18n.localize("CRLNGN_UI.settings.combatNext.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.combatNext.hint"),
+      editable: [
+        {
+          key: "ArrowRight",
+          modifiers: [foundry.helpers.interaction.KeyboardManager.MODIFIER_KEYS.SHIFT]
+        }
+      ],
+      onDown: () => {  },
+      onUp: () => {
+        if (!game.combat) return;
+        const isOwner = game.combat.combatant?.isOwner;
+        if (!isOwner) return;
+        game.combat.nextTurn();
+      },
+      restricted: false,
+    });
+
     /**
      * Register all menus from getSettingMenus
      */

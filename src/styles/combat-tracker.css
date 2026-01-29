@@ -86,7 +86,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       transition: opacity .3s ease-out;
       width: auto;
       min-width: min-content;
-      z-index: 20;
+      z-index: 0;
     }
     nav.combat-controls button {
       background: transparent;
@@ -191,8 +191,10 @@ body.crlngn-ui.crlngn-combat-tracker {
     .combat-tracker {
       display: flex;
       flex-direction: row;
-      overflow: hidden; /* Clip transformed items */
+      overflow: visible;
+      clip-path: inset(-20% calc(var(--combatant-width) * -0.04)); /* Allow vertical overflow and small left/right overflow */
       gap: calc(0.5rem * var(--carousel-scale, 1));
+      z-index: 1;
     }
 
     .combat-tracker > li.combatant[data-group-key="green"] {
@@ -280,7 +282,8 @@ body.crlngn-ui.crlngn-combat-tracker {
       height: var(--combatant-height);
       padding: 0;
       opacity: 0.65;
-      /* No default transition - animation is controlled via inline styles in JS */
+      transition: height 0.15s ease-out;
+      cursor: grab;
     }
 
     li.combatant:hover {
@@ -302,6 +305,14 @@ body.crlngn-ui.crlngn-combat-tracker {
       border-color: var(--color-warm-2);
       border-width: 2px;
       opacity: 1;
+      height: calc(var(--combatant-height) * 1.12);
+      width: calc(var(--combatant-width) * 1.08);
+      margin-top: -2px;
+      margin-left: calc(var(--combatant-width) * -0.04);
+      z-index: 10;
+    }
+    &.docked-bottom li.combatant.active {
+      margin-top: calc(2px + (var(--combatant-height) * -0.12));
     }
     li.combatant.active::before {
       border-color: transparent;
@@ -369,6 +380,10 @@ body.crlngn-ui.crlngn-combat-tracker {
       width: var(--resource-pct, 100%);
       background: var(--color-positive, #68b76a);
       transition: width 0.3s ease-out;
+    }
+
+    li.combatant > .token-resource.no-transition::before {
+      transition: none;
     }
 
     li.combatant > .token-resource.wounded::before {
@@ -505,13 +520,13 @@ body.crlngn-ui.crlngn-combat-tracker {
       border-radius: 20px;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
-      padding: 4px 12px 0px 12px;
+      padding: 4px 12px 2px 12px;
     }
 
     /* Infinite carousel styles */
     .combat-tracker.crlngn-infinite-carousel {
       position: relative;
-      overflow: hidden;
+      overflow: visible;
       cursor: grab;
       touch-action: pan-y;
       user-select: none;
@@ -560,6 +575,20 @@ body.crlngn-ui.crlngn-combat-tracker {
       left: 50%;
       transform: translateX(-50%);
     }
+
+    .combat-tracker.crlngn-infinite-carousel .crlngn-turn-indicator:after{
+      display: block;
+      content: "";
+      position: absolute;
+      bottom: 0;
+      width: 0; 
+      height: 0; 
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      
+      border-bottom: 5px solid var(--color-warm-2);
+    }
+    
 
     /* Slide animations for carousel */
     @keyframes slide-in-from-left {

@@ -196,6 +196,16 @@ body.crlngn-ui{
     }
   }
 
+  #combat {
+    .group-header {
+      padding: 8px 0;
+      background-color: var(--color-highlights-15);
+    }
+    .encounter-cr{
+      background-color: var(--color-highlights-15);
+    }
+  }
+
   .themed.theme-dark{
     --control-bg-color: var(--color-cool-5-90);
 

@@ -2,6 +2,7 @@ import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { LibWrapperUtil } from "./LibWrapperUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
+import { getSettings } from "../constants/Settings.mjs";
 
 /**
  * Manages an infinite carousel for the combat tracker
@@ -44,6 +45,7 @@ export class CombatCarousel {
   static #boundWindowResize = null;
   static #sidebarHookId = null;
   static #previousCombatantIds = [];
+  static #imageCache = new Map();
 
   static get state() {
     return CombatCarousel.#state;
@@ -73,6 +75,7 @@ export class CombatCarousel {
     if (!tracker) return;
 
     CombatCarousel.#disableSortable(combatPopout);
+    CombatCarousel.#restoreImages(tracker);
 
     if (CombatCarousel.#initialized) {
       CombatCarousel.#refreshCombatants(tracker);
@@ -88,6 +91,46 @@ export class CombatCarousel {
     CombatCarousel.#currentTrackerElement = tracker;
     CombatCarousel.#initResizeObserver(combatPopout);
     CombatCarousel.#initialized = true;
+
+    CombatCarousel.centerOnActive(false);
+  }
+
+  /**
+   * Cache current combatant images before re-render to prevent blinking.
+   * Call this from preRenderCombatTracker hook.
+   */
+  static cacheImages = () => {
+    const tracker = document.querySelector('#combat-popout .combat-tracker');
+    if (!tracker) return;
+
+    const combatants = tracker.querySelectorAll(':scope > li.combatant');
+    combatants.forEach(combatant => {
+      const id = combatant.dataset.combatantId;
+      const img = combatant.querySelector('.token-image');
+      if (id && img && img.complete) {
+        CombatCarousel.#imageCache.set(id, img.cloneNode(true));
+      }
+    });
+  }
+
+  /**
+   * Restore cached images to prevent loading blink after re-render.
+   * @param {HTMLElement} tracker - The combat tracker element
+   */
+  static #restoreImages = (tracker) => {
+    if (CombatCarousel.#imageCache.size === 0) return;
+
+    const combatants = tracker.querySelectorAll(':scope > li.combatant');
+    combatants.forEach(combatant => {
+      const id = combatant.dataset.combatantId;
+      const cachedImg = CombatCarousel.#imageCache.get(id);
+      if (cachedImg) {
+        const newImg = combatant.querySelector('.token-image');
+        if (newImg && cachedImg.src === newImg.src) {
+          newImg.replaceWith(cachedImg.cloneNode(true));
+        }
+      }
+    });
   }
 
   /**
@@ -630,6 +673,7 @@ export class CombatCarousel {
     CombatCarousel.#trackerWidth = 0;
     CombatCarousel.#currentTrackerElement = null;
     CombatCarousel.#previousCombatantIds = [];
+    CombatCarousel.#imageCache.clear();
   }
 
   /**
@@ -864,10 +908,27 @@ export class CombatCarousel {
   }
 
   /**
+   * Get the maximum scroll value for simple list mode (clamped scrolling)
+   * Returns 0 if all combatants fit in the visible area
+   */
+  static #getMaxScrollX = () => {
+    const state = CombatCarousel.#state;
+    const STEP = CombatCarousel.#STEP;
+    const totalWidth = state.allCombatantIds.length * STEP;
+    const visibleWidth = state.visibleCount * STEP;
+    return Math.max(0, totalWidth - visibleWidth);
+  }
+
+  /**
    * Check if we should use infinite wrapping
-   * Always returns true when there are at least 2 combatants
+   * Returns true for carousel mode with 2+ combatants, false for simple list mode
    */
   static #shouldUseInfiniteWrap = () => {
+    const SETTINGS = getSettings();
+    const interactionType = SettingsUtil.get(SETTINGS.combatTrackerLayout?.tag) ?? "carousel";
+    if (interactionType === "simple") {
+      return false;
+    }
     const state = CombatCarousel.#state;
     return state.allCombatantIds.length >= 2;
   }
@@ -930,7 +991,7 @@ export class CombatCarousel {
         const pos = CombatCarousel.#getWrappedPosition(index);
         screenX = containerCenter + pos - (cardWidth / 2) + evenOffset;
       } else {
-        screenX = index * STEP;
+        screenX = (index * STEP) - state.scrollX;
       }
 
       element.style.transform = `translateX(${screenX}px)`;
@@ -938,7 +999,11 @@ export class CombatCarousel {
       element.style.position = 'absolute';
     });
 
-    CombatCarousel.#updateTurnIndicator(tracker, containerCenter, cardWidth, evenOffset);
+    if (useInfiniteWrap) {
+      CombatCarousel.#updateTurnIndicator(tracker, containerCenter, cardWidth, evenOffset);
+    } else {
+      tracker.querySelector('.crlngn-turn-indicator')?.remove();
+    }
   }
 
   /**
@@ -1170,8 +1235,9 @@ export class CombatCarousel {
    * Sets CSS variable for bar width and color state classes
    * @param {HTMLElement} element - The combatant li element
    * @param {Combatant} combatant - The combatant document
+   * @param {boolean} skipTransition - If true, disables CSS transition during update
    */
-  static #updateResourceBarElement = (element, combatant) => {
+  static #updateResourceBarElement = (element, combatant, skipTransition = false) => {
     const resourceEl = element.querySelector('.token-resource');
     if (!resourceEl) return;
 
@@ -1185,12 +1251,21 @@ export class CombatCarousel {
       percentage = resource.max > 0 ? Math.max(0, Math.min(100, (resource.value / resource.max) * 100)) : 0;
     }
 
+    if (skipTransition) {
+      resourceEl.classList.add('no-transition');
+    }
+
     resourceEl.style.setProperty('--resource-pct', `${percentage}%`);
     resourceEl.classList.remove('critical', 'wounded');
     if (percentage <= 25) {
       resourceEl.classList.add('critical');
     } else if (percentage <= 50) {
       resourceEl.classList.add('wounded');
+    }
+
+    if (skipTransition) {
+      resourceEl.offsetHeight;
+      resourceEl.classList.remove('no-transition');
     }
   }
 
@@ -1218,6 +1293,7 @@ export class CombatCarousel {
 
   /**
    * Add resource bars to all combatants after carousel init
+   * Skips transition to prevent animation on initial render
    * @param {HTMLElement} tracker - The tracker element
    */
   static #addResourceBars = (tracker) => {
@@ -1231,7 +1307,7 @@ export class CombatCarousel {
       const combatant = combat.combatants.get(combatantId);
       if (!combatant) return;
 
-      CombatCarousel.#updateResourceBarElement(element, combatant);
+      CombatCarousel.#updateResourceBarElement(element, combatant, true);
     });
   }
 
@@ -1275,8 +1351,7 @@ export class CombatCarousel {
   }
 
   /**
-   * Center the carousel view on the active combatant
-   * @param {boolean} animate - Whether to animate the transition
+   * Check if carousel centering should be enforced (carousel mode only)
    */
   static #shouldEnforceCentering = () => {
     const state = CombatCarousel.#state;
@@ -1287,18 +1362,23 @@ export class CombatCarousel {
     return true;
   }
 
+  /**
+   * Scroll to show the active combatant.
+   * In carousel mode: centers the active combatant.
+   * In simple list mode: scrolls only if the active combatant is outside the visible area.
+   * @param {boolean} animate - Whether to animate the transition
+   */
   static centerOnActive = (animate = true) => {
     if (CombatCarousel.#skipNextCenter) {
       CombatCarousel.#skipNextCenter = false;
       return;
     }
 
-    if (!CombatCarousel.#shouldEnforceCentering()) {
-      return;
-    }
-
     const state = CombatCarousel.#state;
     const combat = game.combat;
+
+    if (!combat?.started) return;
+    if (state.allCombatantIds.length < 2) return;
 
     const activeId = combat.combatant?.id;
     if (!activeId) return;
@@ -1307,15 +1387,39 @@ export class CombatCarousel {
     if (activeIndex === -1) return;
 
     const STEP = CombatCarousel.#STEP;
-    const targetScrollX = activeIndex * STEP;
+    const useInfiniteWrap = CombatCarousel.#shouldUseInfiniteWrap();
 
-    if (animate) {
-      const delta = CombatCarousel.#getShortestPath(activeIndex);
-      state.targetScrollX = state.scrollX + delta;
-      CombatCarousel.#startAnimationLoop();
+    if (useInfiniteWrap) {
+      const targetScrollX = activeIndex * STEP;
+      if (animate) {
+        const delta = CombatCarousel.#getShortestPath(activeIndex);
+        state.targetScrollX = state.scrollX + delta;
+        CombatCarousel.#startAnimationLoop();
+      } else {
+        state.scrollX = targetScrollX;
+        CombatCarousel.#updateTransforms();
+      }
     } else {
-      state.scrollX = targetScrollX;
-      CombatCarousel.#updateTransforms();
+      const activePosition = activeIndex * STEP;
+      const visibleWidth = state.visibleCount * STEP;
+      const maxScrollX = CombatCarousel.#getMaxScrollX();
+
+      let targetScrollX = null;
+      if (activePosition < state.scrollX) {
+        targetScrollX = activePosition;
+      } else if (activePosition >= state.scrollX + visibleWidth) {
+        targetScrollX = Math.min(activePosition - visibleWidth + STEP, maxScrollX);
+      }
+
+      if (targetScrollX !== null) {
+        if (animate) {
+          state.targetScrollX = targetScrollX;
+          CombatCarousel.#startAnimationLoop();
+        } else {
+          state.scrollX = targetScrollX;
+          CombatCarousel.#updateTransforms();
+        }
+      }
     }
   }
 
@@ -1342,6 +1446,8 @@ export class CombatCarousel {
   static #tick = (currentTime) => {
     const state = CombatCarousel.#state;
     const TRACK = CombatCarousel.#TRACK;
+    const useInfiniteWrap = CombatCarousel.#shouldUseInfiniteWrap();
+    const maxScrollX = CombatCarousel.#getMaxScrollX();
 
     if (!state.isAnimating) return;
 
@@ -1351,7 +1457,11 @@ export class CombatCarousel {
     if (state.targetScrollX !== null) {
       const diff = state.targetScrollX - state.scrollX;
       if (Math.abs(diff) < 0.5) {
-        state.scrollX = CombatCarousel.#mod(state.targetScrollX, TRACK);
+        if (useInfiniteWrap) {
+          state.scrollX = CombatCarousel.#mod(state.targetScrollX, TRACK);
+        } else {
+          state.scrollX = Math.max(0, Math.min(state.targetScrollX, maxScrollX));
+        }
         state.targetScrollX = null;
         state.velocity = 0;
       } else {
@@ -1364,7 +1474,17 @@ export class CombatCarousel {
       }
 
       if (TRACK > 0) {
-        state.scrollX = CombatCarousel.#mod(state.scrollX, TRACK);
+        if (useInfiniteWrap) {
+          state.scrollX = CombatCarousel.#mod(state.scrollX, TRACK);
+        } else {
+          if (state.scrollX < 0) {
+            state.scrollX = 0;
+            state.velocity = 0;
+          } else if (state.scrollX > maxScrollX) {
+            state.scrollX = maxScrollX;
+            state.velocity = 0;
+          }
+        }
       }
     }
 
@@ -1376,7 +1496,7 @@ export class CombatCarousel {
     if (shouldContinue) {
       CombatCarousel.#animationFrameId = requestAnimationFrame(CombatCarousel.#tick);
     } else {
-      if (!state.isDragging) {
+      if (!state.isDragging && useInfiniteWrap) {
         CombatCarousel.#snapToNearestCard();
       }
       state.isAnimating = false;
@@ -1489,10 +1609,12 @@ export class CombatCarousel {
    * @param {PointerEvent} e
    */
   static #onPointerDown = (e) => {
+    if (e.button !== 0) return;
     if (e.target.closest('button')) return;
-    if (!CombatCarousel.#shouldUseInfiniteWrap()) return;
 
     const state = CombatCarousel.#state;
+    if (state.allCombatantIds.length < 2) return;
+
     const tracker = e.currentTarget;
 
     tracker.setPointerCapture(e.pointerId);
@@ -1527,7 +1649,13 @@ export class CombatCarousel {
 
     const TRACK = CombatCarousel.#TRACK;
     if (TRACK > 0) {
-      state.scrollX = CombatCarousel.#mod(state.scrollX - dx * CombatCarousel.#DRAG_SENS, TRACK);
+      const newScrollX = state.scrollX - dx * CombatCarousel.#DRAG_SENS;
+      if (CombatCarousel.#shouldUseInfiniteWrap()) {
+        state.scrollX = CombatCarousel.#mod(newScrollX, TRACK);
+      } else {
+        const maxScrollX = CombatCarousel.#getMaxScrollX();
+        state.scrollX = Math.max(0, Math.min(newScrollX, maxScrollX));
+      }
     }
 
     CombatCarousel.#updateTransforms();
@@ -1736,6 +1864,15 @@ export class CombatCarousel {
         CombatCarousel.#recalculateState(tracker);
         CombatCarousel.#calculateTrackConstants();
         CombatCarousel.adjustTrackerWidth(tracker);
+
+        if (!CombatCarousel.#shouldUseInfiniteWrap()) {
+          const maxScrollX = CombatCarousel.#getMaxScrollX();
+          const state = CombatCarousel.#state;
+          if (state.scrollX > maxScrollX) {
+            state.scrollX = maxScrollX;
+          }
+        }
+
         CombatCarousel.#updateTransforms();
       }
     }, 100);

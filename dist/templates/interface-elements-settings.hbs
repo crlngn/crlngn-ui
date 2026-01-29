@@ -96,7 +96,16 @@
       </select>
       <p class="hint">{{fields.carouselImageSource.hint}}</p>
     </div>
-    
+
+    <div class="form-group">
+      <label for="combatTrackerLayout">{{fields.combatTrackerLayout.label}}</label>
+      <select name="combatTrackerLayout" {{#if fields.combatTrackerLayout.isLocked}}disabled{{/if}}>
+        <option value="carousel" {{#if (eq combatTrackerLayout "carousel")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.fields.combatTrackerLayout.options.carousel"}}</option>
+        <option value="simple" {{#if (eq combatTrackerLayout "simple")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.fields.combatTrackerLayout.options.simple"}}</option>
+      </select>
+      <p class="hint">{{fields.combatTrackerLayout.hint}}</p>
+    </div>
+
     <div class="form-group">
       <label for="carouselHideDefeated">{{fields.carouselHideDefeated.label}}</label>
       <input type="checkbox" name="carouselHideDefeated" {{#if carouselHideDefeated}}checked{{/if}} {{#if fields.carouselHideDefeated.isLocked}}disabled{{/if}} />
