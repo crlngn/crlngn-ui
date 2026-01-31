@@ -156,15 +156,16 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
    * @private
    */
   #getDefaultColors() {
-    const settingTag = this.scope === 'player' ? 'v2-player-custom-theme-colors' : 'v2-custom-theme-colors';
+    const SETTINGS = getSettings();
+    const settingTag = this.scope === 'player' ? SETTINGS.playerCustomThemeColors.tag : SETTINGS.customThemeColors.tag;
     const customColors = SettingsUtil.get(settingTag);
     if (customColors?.accent && customColors?.secondaryDark) {
       return customColors;
     }
-    
+
     // If player scope and no player colors, fallback to world colors
     if (this.scope === 'player') {
-      const worldColors = SettingsUtil.get('v2-custom-theme-colors');
+      const worldColors = SettingsUtil.get(SETTINGS.customThemeColors.tag);
       if (worldColors?.accent && worldColors?.secondaryDark) {
         return worldColors;
       }

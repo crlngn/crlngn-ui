@@ -5,7 +5,7 @@ import { BORDER_COLOR_TYPES, DOCK_RESIZE_OPTIONS, getSettings, ICON_SIZES, THEME
 import { CameraDockUtil } from "./CameraDockUtil.mjs";
 import { ChatLogControls } from "./ChatLogControlsUtil.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
-import { CombatTrackerManager } from "./CombatTrackerManager.mjs";
+import { CombatTrackerManager } from "./combat-tracker/CombatTrackerManager.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LeftControls } from "./LeftControlsUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";

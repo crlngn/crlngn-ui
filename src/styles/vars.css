@@ -370,7 +370,7 @@
     --input-border-color: var(--color-secondary);
 
     &.theme-dark .application:not(.monks-enhanced-journal).theme-light,
-    .app.theme-light,
+    &.theme-light .app.theme-light,
     &.theme-light,
     #interface.theme-light,
     &.theme-light .sidebar-popout:not(.theme-dark),
@@ -416,6 +416,7 @@
 
     &.theme-light .application:not(.monks-enhanced-journal).theme-dark,
     .app.theme-dark,
+    &.theme-dark .theme-light,
     &.theme-dark,
     #interface.theme-dark,
     #interface.theme-dark .theme-light,

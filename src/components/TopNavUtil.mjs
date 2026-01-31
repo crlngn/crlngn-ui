@@ -1,7 +1,7 @@
 import { MODULE_ID } from "../constants/General.mjs";
 import { HOOKS_CORE, HOOKS_CRLNGN } from "../constants/Hooks.mjs";
 import { BACK_BUTTON_OPTIONS, getSettings } from "../constants/Settings.mjs";
-import { CombatTrackerManager } from "./CombatTrackerManager.mjs";
+import { CombatTrackerManager } from "./combat-tracker/CombatTrackerManager.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SceneNavFolders } from "./SceneFoldersUtil.mjs";

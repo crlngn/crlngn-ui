@@ -218,6 +218,27 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
             }
           }
 
+          if (partId === 'interface') {
+            // Prepare tracked resource choices for combat carousel
+            try {
+              const TokenDocument = foundry.utils.getDocumentClass("Token");
+              const attributes = TokenDocument.getTrackedAttributes();
+              attributes.bar.forEach(a => a.push("value"));
+              const choices = TokenDocument.getTrackedAttributeChoices(attributes);
+              const currentResource = SettingsUtil.get(SETTINGS.carouselTrackedResource?.tag) || '';
+
+              partContext.trackedResourceChoices = choices.map(choice => ({
+                value: choice.value,
+                label: choice.label,
+                group: choice.group,
+                selected: choice.value === currentResource
+              }));
+            } catch (e) {
+              LogUtil.warn('Failed to get tracked resource choices', [e]);
+              partContext.trackedResourceChoices = [];
+            }
+          }
+
           if (partId === 'system') {
             partContext.currentSystem = menuContext.currentSystem;
 
@@ -241,8 +262,8 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
 
           if (partId === 'themes') {
-            const worldCustomColors = SettingsUtil.get('v2-custom-theme-colors');
-            const playerCustomColors = SettingsUtil.get('v2-player-custom-theme-colors');
+            const worldCustomColors = SettingsUtil.get(SETTINGS.customThemeColors.tag);
+            const playerCustomColors = SettingsUtil.get(SETTINGS.playerCustomThemeColors.tag);
 
             const createColorVariants = (colors) => {
               if (!colors.secondary) return colors;

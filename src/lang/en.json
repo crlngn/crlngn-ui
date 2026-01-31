@@ -207,8 +207,17 @@
             }
           },
           "carouselShowAllHP": {
-            "label": "Show HP Bar for All Combatants",
-            "hint": "When enabled, the carousel shows HP bars for all combatants, even those the player doesn't have Observer permission for. This is a world setting (GM only)."
+            "label": "Resource Bar Visibility",
+            "hint": "Controls who can see resource/HP bars on combatants. Requires a Tracked Resource to be configured. This is a world setting (GM).",
+            "options": {
+              "gmOnly": "GM only (players see owned)",
+              "all": "Everyone sees all",
+              "disabled": "Disabled"
+            }
+          },
+          "carouselTrackedResource": {
+            "label": "Tracked Resource",
+            "hint": "The resource attribute to display on combatant cards (e.g. HP). This is a world setting (GM)."
           },
           "carouselHideDefeated": {
             "label": "Hide Defeated Combatants",
@@ -658,7 +667,10 @@
     "combat": {
       "noCombatants": "No combatants in encounter",
       "closedNotice": "When you want the carousel back, right-click the combat tab on sidebar",
-      "noTrackedResource": "Combat Encounter is set to show resource bar for all charcters, but no tracked resource in Core Foundry is configured in Combat Tracker settings."
+      "noTrackedResource": "Combat Encounter is set to show resource bar for all charcters, but no tracked resource in Core Foundry is configured in Combat Tracker settings.",
+      "configureResourceTitle": "Configure Resource Bar",
+      "configureResourceMessage": "The carousel is set to show resource/HP bars for all combatants, but no tracked resource is configured. Select a resource to track below:",
+      "trackedResource": "Tracked Resource"
     },
     "dnd5e": {
       "chatCard": {

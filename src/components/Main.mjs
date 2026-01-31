@@ -2,7 +2,7 @@ import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
-import { CombatTrackerManager } from "./CombatTrackerManager.mjs";
+import { CombatTrackerManager } from "./combat-tracker/CombatTrackerManager.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
 import { PlayersList } from "./PlayersListUtil.mjs";
 import { getSettings } from "../constants/Settings.mjs";

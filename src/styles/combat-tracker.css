@@ -28,6 +28,7 @@ body.crlngn-ui.crlngn-combat-tracker {
     backdrop-filter: none !important;
     position: absolute;
     min-width: 60px;
+    min-height: calc(var(--combatant-height) + 4px);
     z-index: calc(var(--z-index-app) - 1);
 
     &.hidden {
@@ -67,9 +68,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       align-items: center;
       background: var(--background);
       border: 0;
-      border-radius: 20px;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
+      border-radius: 24px;
       display: flex;
       flex-direction: row;
       font-size: var(--font-size-12);
@@ -78,15 +77,22 @@ body.crlngn-ui.crlngn-combat-tracker {
       left: 50%;
       max-width: none;
       opacity: 0;
-      padding: 2px 16px 2px 16px;
+      padding: 4px 16px;
       pointer-events: none;
       position: absolute;
-      top: 100%;
+      top: calc(100% + var(--combatant-height)*0.2);
       transform: translate(-50%);
       transition: opacity .3s ease-out;
       width: auto;
       min-width: min-content;
       z-index: 0;
+    }
+    nav.combat-controls:before{
+      content: "";
+      position: absolute;
+      top: calc(var(--combatant-height) * -0.2);
+      height: calc(var(--combatant-height)*0.2);
+      width: 100%;
     }
     nav.combat-controls button {
       background: transparent;
@@ -135,7 +141,8 @@ body.crlngn-ui.crlngn-combat-tracker {
     .window-header > [data-action="close"] {
       --button-size: 1.5em;
       font-size: var(--font-size-12) !important;
-      order: -1;
+      color: var(--color-text-primary);
+      order: 0;
       align-self: center;
     }
 
@@ -154,7 +161,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       overflow: visible;
       z-index: 10;
       background: var(--background) !important;
-      margin-left: 0;
+      margin-left: calc(26px * var(--carousel-scale));
       padding: 0.15rem;
       border-radius: 6px;
       max-width: calc(100dvw - (2 * var(--sidebar-width)) - (var(--control-item-size)*4));
@@ -180,7 +187,6 @@ body.crlngn-ui.crlngn-combat-tracker {
     }
 
     &:hover .window-content {
-      /*margin-left: calc(26px * var(--carousel-scale));*/
       background: var(--background) !important;
     }
 
@@ -198,15 +204,30 @@ body.crlngn-ui.crlngn-combat-tracker {
     }
 
     .combat-tracker > li.combatant[data-group-key="green"] {
-      border-bottom: 2px solid var(--color-green, #4caf50);
+      border-bottom: 2px solid var(--ose-group-color-green, #4caf50);
     }
     .combat-tracker > li.combatant[data-group-key="red"] {
-      border-bottom: 2px solid var(--color-red, #f44336);
+      border-bottom: 2px solid var(--ose-group-color-red, #f44336);
+    }
+    .combat-tracker > li.combatant[data-group-key="yellow"] {
+      border-bottom: 2px solid var(--ose-group-color-yellow, #ffeb3b);
+    }
+    .combat-tracker > li.combatant[data-group-key="purple"] {
+      border-bottom: 2px solid var(--ose-group-color-purple, #9c27b0);
+    }
+    .combat-tracker > li.combatant[data-group-key="blue"] {
+      border-bottom: 2px solid var(--ose-group-color-blue, #2196f3);
+    }
+    .combat-tracker > li.combatant[data-group-key="orange"] {
+      border-bottom: 2px solid var(--ose-group-color-orange, #ff9800);
+    }
+    .combat-tracker > li.combatant[data-group-key="white"] {
+      border-bottom: 2px solid var(--ose-group-color-white, #ffffff);
     }
 
-    /* Transition applied to items for carousel animation */
     .combat-tracker > li.combatant {
-      transition: transform 0.3s ease-out;
+      background: var(--background);
+      transition: height 0.15s ease-out, width 0.15s ease-out, margin-left 0.15s ease-out, margin-top 0.15s ease-out !important;
     }
 
 
@@ -239,8 +260,8 @@ body.crlngn-ui.crlngn-combat-tracker {
 
     /* Combat toggle button in window header */
     .window-header .crlngn-combat-toggle {
-      background: var(--color-cool-5);
-      border: 1px solid var(--color-cool-4);
+      background: var(--background);
+      border: 1px solid var(--background);
       border-radius: 4px;
       color: var(--color-text-primary);
       cursor: pointer;
@@ -290,6 +311,17 @@ body.crlngn-ui.crlngn-combat-tracker {
       opacity: 1;
     }
 
+    li.combatant:before {
+      background: linear-gradient(0deg, rgba(0, 0, 0, .5), transparent);
+      top: 70%;
+      content: "";
+      height: 30%;
+      position: absolute;
+      width: 100%;
+      z-index: 1;
+      border: 0;
+    }
+
     li.combatant > *:not(img) {
       position: absolute;
     }
@@ -299,20 +331,23 @@ body.crlngn-ui.crlngn-combat-tracker {
       height: 100%;
       flex: 0 0 100%;
       filter: saturate(0.75);
+      z-index: 0;
+      object-fit: cover;
+      transform-origin: center center;
     }
 
     li.combatant.active {
       border-color: var(--color-warm-2);
       border-width: 2px;
       opacity: 1;
-      height: calc(var(--combatant-height) * 1.12);
-      width: calc(var(--combatant-width) * 1.08);
+      height: calc(var(--combatant-height) * 1.15);
+      width: calc(var(--combatant-width) * 1.12);
       margin-top: -2px;
-      margin-left: calc(var(--combatant-width) * -0.04);
+      margin-left: calc(var(--combatant-width) * -0.06);
       z-index: 10;
     }
     &.docked-bottom li.combatant.active {
-      margin-top: calc(2px + (var(--combatant-height) * -0.12));
+      margin-top: calc(2px + (var(--combatant-height) * -0.15));
     }
     li.combatant.active::before {
       border-color: transparent;
@@ -361,7 +396,7 @@ body.crlngn-ui.crlngn-combat-tracker {
     /* Resource bar at bottom of combatant card */
     li.combatant > .token-resource {
       position: absolute;
-      bottom: 2px;
+      bottom: 4px;
       left: 3px;
       width: calc(100% - 6px);
       height: 3px;
@@ -398,7 +433,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       display: none;
     }
 
-    li.combatant .token-name .combatant-controls {
+    li.combatant .token-name .combatant-controls{
       gap: 0;
       padding: 0 3px;
       width: 100%;
@@ -406,19 +441,40 @@ body.crlngn-ui.crlngn-combat-tracker {
       justify-content: center;
       opacity: 0;
       transition: opacity 0.3s ease-out;
+      padding-bottom: 5px;
     }
-    li.combatant:hover .token-name .combatant-controls {
+    li.combatant .initiative-delay,
+    li.combatant .initiative-return {
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: var(--font-size-14);
+      width: 26px;
+      height: 26px;
+      min-height: 26px;
+      opacity: 0;
+    }
+    li.combatant .initiative-return {
       opacity: 1;
+    }
+    li.combatant:hover .token-name .combatant-controls,
+    li.combatant:hover .initiative-delay {
+      opacity: 1;
+    }
+    li.combatant .token-name .combatant-controls > * {
+      pointer-events: all;
     }
     li.combatant .token-name .combatant-controls > button.inline-control {
       background: transparent;
-      color: var(--color-text-primary);
+      color: #fff;
       flex: 0 0 2em;
       font-size: calc(1em * var(--carousel-scale));
       width: 2em;
       height: 2em;
       padding: 0.25em;
-      text-shadow: 0 2px 3px rgba(0, 0, 0, 0.75);
+      text-shadow: 0 2px 2px rgba(0, 0, 0, 0.85);
+    }
+    li.combatant .token-name .combatant-controls > button.inline-control:hover {
+      background: var(--color-warm-2);
     }
     li.combatant .token-name .token-effects {
       display: none;
@@ -433,35 +489,54 @@ body.crlngn-ui.crlngn-combat-tracker {
     }
 
     li.combatant > .token-initiative .initiative-input,
-    li.combatant > .token-initiative > span {
+    li.combatant > .token-initiative > span,
+    li.combatant > .token-initiative input.easy-init-input {
       width: 40px;
-      height: 18px;
+      height: 24px;
       font-size: var(--font-size-11);
       position: absolute;
       top: 1px;
       left: 1px;
-      background: var(--color-cool-4);
       display: flex;
       text-align: center;
       align-items: center;
       justify-content: center;
-      border-radius: 4px;
+      border-radius: 2px;
       transform-origin: 0 0;
       transform: scale(var(--carousel-scale));
       opacity: 0;
       transition: opacity 0.3s ease-out;
+      background: var(--control-bg-color);
+    }
+    li.combatant > .token-initiative > * {
+      pointer-events: all;
     }
 
     li.combatant:hover > .token-initiative .initiative-input,
-    li.combatant:hover > .token-initiative > span {
+    li.combatant:hover > .token-initiative > span,
+    li.combatant:hover > .token-initiative input.easy-init-input {
       opacity: 1;
     }
 
     li.combatant > .token-initiative button {
-      width: 36px;
-      height: 36px;
       cursor: pointer;
       pointer-events: all;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      border: none;
+      transition: none;
+      background-size: 50% 50%;
+    }
+    li.combatant > .token-initiative:before{
+      content: "";
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top:0;
+      left:0;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: -1;
     }
     li.combatant > .token-initiative button:hover{
       filter: brightness(10);
@@ -496,9 +571,9 @@ body.crlngn-ui.crlngn-combat-tracker {
 
     /* Docked to top state */
     &.docked-top {
-      z-index: calc(var(--z-index-app) - 1) !important;
+      z-index: calc(var(--z-index-app) + 1) !important;
       left: 50% !important;
-      top: var(--scene-nav-offset) !important;
+      top: calc(var(--scene-nav-offset) + (var(--combatant-height) * .12) - 3px) !important;
       transform: translate(-50%) !important;
     }
 
@@ -516,11 +591,17 @@ body.crlngn-ui.crlngn-combat-tracker {
     /* Nav controls appear above when bottom-docked */
     &.docked-bottom nav.combat-controls {
       top: auto;
-      bottom: 100%;
+      bottom: calc(100% + calc(var(--combatant-height) * 0.2));
       border-radius: 20px;
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-      padding: 4px 12px 2px 12px;
+      padding: 2px 12px 2px 12px;
+    }
+    &.docked-bottom nav.combat-controls:before{
+      content: "";
+      position: absolute;
+      bottom: calc(var(--combatant-height) * -0.2);
+      top: auto;
+      height: calc(var(--combatant-height) * 0.2);
+      width: 100%;
     }
 
     /* Infinite carousel styles */
@@ -542,6 +623,11 @@ body.crlngn-ui.crlngn-combat-tracker {
       left: 0;
       top: 0;
       transition: none;
+      visibility: hidden;
+    }
+
+    .combat-tracker.crlngn-infinite-carousel > li.combatant.crlngn-positioned {
+      visibility: visible;
     }
 
     /* Clone elements shown at carousel edges for visual balance */

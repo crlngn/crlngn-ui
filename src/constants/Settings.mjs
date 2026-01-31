@@ -194,6 +194,7 @@ export function getSettings() {
         "carouselImageSource",
         "combatTrackerLayout",
         "carouselShowAllHP",
+        "carouselTrackedResource",
         "carouselHideDefeated"
       ],
       default: {
@@ -231,7 +232,8 @@ export function getSettings() {
         combatTrackerTakeFullWidth: false,
         carouselImageSource: "actor",
         combatTrackerLayout: "carousel",
-        carouselShowAllHP: false,
+        carouselShowAllHP: "gmOnly",
+        carouselTrackedResource: "",
         carouselHideDefeated: false
       },
       scope: SETTING_SCOPE.client,
@@ -1775,8 +1777,23 @@ export function getSettings() {
       tag: "v2-carousel-show-all-hp",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowAllHP.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowAllHP.hint"),
-      propType: Boolean,
-      default: true,
+      propType: String,
+      options: {
+        gmOnly: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowAllHP.options.gmOnly"),
+        all: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowAllHP.options.all"),
+        disabled: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowAllHP.options.disabled")
+      },
+      default: "gmOnly",
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+    carouselTrackedResource: {
+      tag: "v2-carousel-tracked-resource",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselTrackedResource.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselTrackedResource.hint"),
+      propType: String,
+      default: "",
       scope: SETTING_SCOPE.world,
       config: false,
       requiresReload: false

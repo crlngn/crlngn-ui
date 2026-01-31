@@ -1,9 +1,9 @@
-import { LogUtil } from "./LogUtil.mjs";
-import { MODULE_ID } from "../constants/General.mjs";
-import { HOOKS_CORE } from "../constants/Hooks.mjs";
+import { LogUtil } from "../LogUtil.mjs";
+import { MODULE_ID } from "../../constants/General.mjs";
+import { HOOKS_CORE } from "../../constants/Hooks.mjs";
 import { CombatCarousel } from "./CombatCarouselUtil.mjs";
-import { SettingsUtil } from "./SettingsUtil.mjs";
-import { getSettings } from "../constants/Settings.mjs";
+import { SettingsUtil } from "../SettingsUtil.mjs";
+import { getSettings } from "../../constants/Settings.mjs";
 
 /**
  * Manages the combat tracker popout, docking, and combat lifecycle events
@@ -17,7 +17,7 @@ export class CombatTrackerManager {
   static carouselImageSource = "token";
   static combatTrackerLayout = "carousel";
   static carouselHideDefeated = false;
-  static carouselShowAllHP = false;
+  static carouselShowAllHP = "gmOnly";
 
   static #navCollapseCallback = null;
   static #navExpandCallback = null;
@@ -65,6 +65,7 @@ export class CombatTrackerManager {
     });
     Hooks.on(HOOKS_CORE.RENDER_COMBAT_TRACKER, (app, html, data) => CombatTrackerManager.onRenderCombatTracker(app, html, data));
     Hooks.on(HOOKS_CORE.UPDATE_ACTOR, (actor, updateData, options, userId) => CombatTrackerManager.onActorUpdate(actor, updateData));
+    Hooks.on(HOOKS_CORE.CANVAS_READY, () => CombatTrackerManager.onCanvasReady());
 
     Hooks.once(HOOKS_CORE.READY, () => {
       CombatCarousel.registerCombatWrappers();
@@ -84,9 +85,24 @@ export class CombatTrackerManager {
     CombatTrackerManager.carouselImageSource = SettingsUtil.get(SETTINGS.carouselImageSource.tag) ?? "token";
     CombatTrackerManager.combatTrackerLayout = SettingsUtil.get(SETTINGS.combatTrackerLayout.tag) ?? "carousel";
     CombatTrackerManager.carouselHideDefeated = SettingsUtil.get(SETTINGS.carouselHideDefeated.tag) ?? false;
-    CombatTrackerManager.carouselShowAllHP = SettingsUtil.get(SETTINGS.carouselShowAllHP.tag) ?? false;
+    CombatTrackerManager.carouselShowAllHP = SettingsUtil.get(SETTINGS.carouselShowAllHP.tag) ?? "gmOnly";
 
     CombatTrackerManager.#applyBodyClasses();
+  }
+
+  /**
+   * Apply system-specific inline style overrides to combat popout
+   * Uses inline styles to beat CSS layer !important rules from game systems
+   * @param {HTMLElement} combatPopout - The combat popout element
+   */
+  static #applySystemOverrides = (combatPopout) => {
+    if (!combatPopout) return;
+
+    if (game.system.id === 'gurps') {
+      combatPopout.style.setProperty('overflow', 'visible', 'important');
+      combatPopout.style.setProperty('overflow-y', 'visible', 'important');
+      combatPopout.style.setProperty('resize', 'none', 'important');
+    }
   }
 
   /**
@@ -313,6 +329,28 @@ export class CombatTrackerManager {
   }
 
   /**
+   * Handle canvas ready - re-render combat tracker popout after scene changes
+   * This ensures the carousel height is properly calculated after the canvas is fully loaded
+   */
+  static onCanvasReady = () => {
+    if (!CombatTrackerManager.enableCombatTrackerCarousel) return;
+
+    const combatPopout = document.querySelector('#combat-popout');
+    if (!combatPopout) return;
+
+    const combatWithCombatants = CombatTrackerManager.getCombatWithCombatants();
+    if (!combatWithCombatants) return;
+
+    LogUtil.log("onCanvasReady - re-rendering combat tracker after scene change");
+
+    CombatCarousel.resetInitialization();
+
+    setTimeout(() => {
+      ui.combat?.popout?.render(true);
+    }, 100);
+  }
+
+  /**
    * Handle actor update - refresh resource bars in carousel when HP changes
    * @param {Actor} actor - The actor that was updated
    * @param {object} updateData - The update data
@@ -446,6 +484,12 @@ export class CombatTrackerManager {
       const combatPopout = document.querySelector('#combat-popout');
       if (!combatPopout) return;
 
+      const tracker = combatPopout.querySelector('.combat-tracker');
+      if (tracker) {
+        tracker.classList.add('crlngn-infinite-carousel');
+      }
+
+      CombatTrackerManager.#applySystemOverrides(combatPopout);
       CombatCarousel.applyScale(combatPopout, CombatTrackerManager.combatCarouselScale);
       CombatCarousel.flattenCombatantGroups(combatPopout);
 
@@ -476,13 +520,11 @@ export class CombatTrackerManager {
         }
       }
 
-      const tracker = combatPopout.querySelector('.combat-tracker');
-
       if (CombatTrackerManager.carouselHideDefeated && tracker) {
         tracker.querySelectorAll(':scope > li.combatant.defeated').forEach(el => el.remove());
       }
 
-      if (CombatTrackerManager.carouselShowAllHP && tracker) {
+      if (CombatTrackerManager.carouselShowAllHP !== 'disabled' && tracker) {
         CombatCarousel.ensureResourceBars(tracker);
       }
 
@@ -494,6 +536,7 @@ export class CombatTrackerManager {
       if (hasCombatants) {
         CombatTrackerManager.#pendingTurnChange = null;
         CombatTrackerManager.#updateCombatantImages(tracker);
+        CombatTrackerManager.#applyTokenScaleCorrection(tracker);
         CombatTrackerManager.#copyEffectsTooltips(tracker);
         CombatCarousel.init(combatPopout);
 
@@ -533,6 +576,33 @@ export class CombatTrackerManager {
       const tokenImage = element.querySelector('.token-image');
       if (tokenImage && tokenImage.src !== actorImg) {
         tokenImage.src = actorImg;
+      }
+    });
+  }
+
+  /**
+   * Apply token ring subject scale correction to combatant images
+   * Only applies when carouselImageSource is "token" (default)
+   * @param {HTMLElement} tracker - The combat tracker element
+   */
+  static #applyTokenScaleCorrection = (tracker) => {
+    if (CombatTrackerManager.carouselImageSource !== "token") return;
+
+    const combat = game.combat;
+    if (!combat) return;
+
+    const combatantElements = tracker.querySelectorAll(':scope > li.combatant');
+    combatantElements.forEach(element => {
+      const combatantId = element.dataset.combatantId;
+      const combatant = combat.combatants.get(combatantId);
+      if (!combatant?.token) return;
+
+      const scaleCorrection = combatant.token.ring?.subject?.scale;
+      if (!scaleCorrection || scaleCorrection === 1) return;
+
+      const tokenImage = element.querySelector('.token-image');
+      if (tokenImage) {
+        tokenImage.style.transform = `scale(${scaleCorrection})`;
       }
     });
   }

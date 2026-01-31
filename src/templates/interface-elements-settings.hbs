@@ -114,8 +114,23 @@
 
     <div class="form-group">
       <label for="carouselShowAllHP">{{fields.carouselShowAllHP.label}}</label>
-      <input type="checkbox" name="carouselShowAllHP" {{#if carouselShowAllHP}}checked{{/if}} {{#if fields.carouselShowAllHP.isLocked}}disabled{{/if}} />
+      <select name="carouselShowAllHP" {{#if fields.carouselShowAllHP.isLocked}}disabled{{/if}}>
+        <option value="gmOnly" {{#if (eq carouselShowAllHP "gmOnly")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowAllHP.options.gmOnly"}}</option>
+        <option value="all" {{#if (eq carouselShowAllHP "all")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowAllHP.options.all"}}</option>
+        <option value="disabled" {{#if (eq carouselShowAllHP "disabled")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowAllHP.options.disabled"}}</option>
+      </select>
       <p class="hint">{{fields.carouselShowAllHP.hint}}</p>
+    </div>
+
+    <div class="form-group">
+      <label for="carouselTrackedResource">{{fields.carouselTrackedResource.label}}</label>
+      <select name="carouselTrackedResource" {{#if fields.carouselTrackedResource.isLocked}}disabled{{/if}}>
+        <option value="">— None —</option>
+        {{#each trackedResourceChoices}}
+        <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+        {{/each}}
+      </select>
+      <p class="hint">{{fields.carouselTrackedResource.hint}}</p>
     </div>
 
   </fieldset>
