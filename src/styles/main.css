@@ -117,6 +117,8 @@ body.crlngn-ui {
   }
   .dnd5e-tooltip {
     --dnd5e-color-parchment: rgb(244, 239, 237);
+    --color-text-primary: var(--color-dark-1);
+    --color-text-secodary: var(--color-dark-3);
   }
 
 
