@@ -121,24 +121,27 @@ export const CarouselTransforms = {
       );
       if (!element) return;
 
-      let screenX;
       if (useInfiniteWrap) {
         const pos = CarouselTransforms.getWrappedPosition(index, state, STEP, config.TRACK);
-        screenX = containerCenter + pos - (cardWidth / 2) + evenOffset;
+        const screenX = containerCenter + pos - (cardWidth / 2) + evenOffset;
+        element.style.transform = `translateX(${screenX}px)`;
+        element.style.left = '0';
+        element.style.position = 'absolute';
+        element.classList.add('crlngn-positioned');
       } else {
-        screenX = (index * STEP) - state.scrollX;
+        element.style.transform = '';
+        element.style.left = '';
+        element.style.position = '';
+        element.classList.remove('crlngn-positioned');
       }
-
-      element.style.transform = `translateX(${screenX}px)`;
-      element.style.left = '0';
-      element.style.position = 'absolute';
-      element.classList.add('crlngn-positioned');
     });
 
     if (useInfiniteWrap) {
+      CarouselTransforms.updateClonePositions(tracker, containerCenter, cardWidth, STEP, state, evenOffset);
       CarouselTransforms.updateTurnIndicator(tracker, containerCenter, cardWidth, evenOffset, state, config);
     } else {
       tracker.querySelector('.crlngn-turn-indicator')?.remove();
+      tracker.querySelectorAll('.crlngn-clone').forEach(c => c.remove());
     }
   },
 
@@ -149,9 +152,9 @@ export const CarouselTransforms = {
    * @param {number} cardWidth - Width of a card
    * @param {number} STEP - Step size between cards
    * @param {object} state - Carousel state object
+   * @param {number} evenOffset - Offset for even combatant counts
    */
-  updateClonePositions(tracker, containerCenter, cardWidth, STEP, state) {
-    const totalCount = state.allCombatantIds.length;
+  updateClonePositions(tracker, containerCenter, cardWidth, STEP, state, evenOffset = 0) {
     const trackerWidth = tracker.offsetWidth || state.containerWidth;
     const clones = tracker.querySelectorAll('.crlngn-clone');
 
@@ -160,11 +163,12 @@ export const CarouselTransforms = {
       if (isNaN(cloneIdx)) return;
 
       const pos = CarouselTransforms.getWrappedPositionForIndex(cloneIdx, state, STEP);
-      const screenX = containerCenter + pos - (cardWidth / 2);
+      const screenX = containerCenter + pos - (cardWidth / 2) + evenOffset;
 
       if (screenX >= -STEP && screenX < trackerWidth + STEP) {
         clone.style.transform = `translateX(${screenX}px)`;
         clone.style.display = '';
+        clone.classList.add('crlngn-positioned');
       } else {
         clone.style.display = 'none';
       }

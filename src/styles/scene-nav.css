@@ -1056,7 +1056,7 @@
     }
     &.crlngn-scene-nav #interface:not(.crlngn-controls) {
       #ui-left-column-2 {
-        margin: 0 0 0 26px !important;
+        margin: 0 0 0 20px !important;
       }
       #scene-navigation.expanded:before {
         left: 0;

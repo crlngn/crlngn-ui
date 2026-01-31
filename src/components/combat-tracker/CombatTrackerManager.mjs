@@ -484,15 +484,11 @@ export class CombatTrackerManager {
       const combatPopout = document.querySelector('#combat-popout');
       if (!combatPopout) return;
 
-      const tracker = combatPopout.querySelector('.combat-tracker');
-      if (tracker) {
-        tracker.classList.add('crlngn-infinite-carousel');
-      }
-
       CombatTrackerManager.#applySystemOverrides(combatPopout);
       CombatCarousel.applyScale(combatPopout, CombatTrackerManager.combatCarouselScale);
       CombatCarousel.flattenCombatantGroups(combatPopout);
 
+      const tracker = combatPopout.querySelector('.combat-tracker');
       const windowHeader = combatPopout.querySelector('.window-header');
       if (windowHeader) {
         CombatCarousel.addCombatToggleButton(combatPopout, windowHeader);

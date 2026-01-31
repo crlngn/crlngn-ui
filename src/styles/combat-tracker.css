@@ -42,7 +42,7 @@ body.crlngn-ui.crlngn-combat-tracker {
 
     /*
     &.docked-top:hover{
-      left: calc(-26px * var(--carousel-scale) / 2);
+      left: calc(-20px * var(--carousel-scale) / 2);
     }*/
 
     .window-header{
@@ -56,9 +56,9 @@ body.crlngn-ui.crlngn-combat-tracker {
       padding: 0;
       opacity: 0;
       order: 3;
-      width: calc(26px * var(--carousel-scale));
+      width: calc(20px * var(--carousel-scale));
       align-self: stretch;
-      max-width: calc(26px * var(--carousel-scale));
+      max-width: calc(20px * var(--carousel-scale));
       align-items: flex-start;
       display: flex;
       flex-direction: column;
@@ -161,7 +161,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       overflow: visible;
       z-index: 10;
       background: var(--background) !important;
-      margin-left: calc(26px * var(--carousel-scale));
+      margin-left: calc(20px * var(--carousel-scale));
       padding: 0.15rem;
       border-radius: 6px;
       max-width: calc(100dvw - (2 * var(--sidebar-width)) - (var(--control-item-size)*4));
@@ -198,7 +198,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       display: flex;
       flex-direction: row;
       overflow: visible;
-      clip-path: inset(-20% calc(var(--combatant-width) * -0.04)); /* Allow vertical overflow and small left/right overflow */
+      clip-path: inset(-20% calc(var(--combatant-width) * -0.06)); /* Allow vertical overflow and small left/right overflow */
       gap: calc(0.5rem * var(--carousel-scale, 1));
       z-index: 1;
     }
@@ -270,7 +270,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       pointer-events: all;
       transition: background 0.2s ease, border-color 0.2s ease;
       width: 100%;
-      width: 1.6em;
+      width: 18px;
       height: 1.6em;
       text-align:center;
     }
@@ -303,7 +303,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       height: var(--combatant-height);
       padding: 0;
       opacity: 0.65;
-      transition: height 0.15s ease-out;
+      transition: height 0.15s ease-out, width 0.15s ease-out, margin-left 0.15s ease-out, margin-top 0.15s ease-out !important;
       cursor: grab;
     }
 
@@ -342,8 +342,10 @@ body.crlngn-ui.crlngn-combat-tracker {
       opacity: 1;
       height: calc(var(--combatant-height) * 1.15);
       width: calc(var(--combatant-width) * 1.12);
+      flex: 0 0 calc(var(--combatant-width) * 1.12);
       margin-top: -2px;
       margin-left: calc(var(--combatant-width) * -0.06);
+      margin-bottom: calc(var(--combatant-height) * -0.15);
       z-index: 10;
     }
     &.docked-bottom li.combatant.active {
@@ -448,9 +450,9 @@ body.crlngn-ui.crlngn-combat-tracker {
       left: 50%;
       transform: translateX(-50%);
       font-size: var(--font-size-14);
-      width: 26px;
-      height: 26px;
-      min-height: 26px;
+      width: 20px;
+      height: 20px;
+      min-height: 20px;
       opacity: 0;
     }
     li.combatant .initiative-return {
@@ -604,6 +606,14 @@ body.crlngn-ui.crlngn-combat-tracker {
       width: 100%;
     }
 
+    /* Simple list mode - fixed height container with overflow for active */
+    .combat-tracker:not(.crlngn-infinite-carousel) {
+      height: var(--combatant-height);
+      min-height: var(--combatant-height);
+      align-items: flex-start;
+      overflow: visible;
+    }
+
     /* Infinite carousel styles */
     .combat-tracker.crlngn-infinite-carousel {
       position: relative;
@@ -727,8 +737,8 @@ body.crlngn-ui.crlngn-combat-tracker {
         left: auto;
         bottom: auto;
         flex-direction: column;
-        width: calc(26px * var(--carousel-scale));
-        max-width: calc(26px * var(--carousel-scale));
+        width: calc(20px * var(--carousel-scale));
+        max-width: calc(20px * var(--carousel-scale));
         height: 100%;
       }
     }

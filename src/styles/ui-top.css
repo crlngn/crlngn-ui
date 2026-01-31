@@ -683,7 +683,7 @@ body.crlngn-ui {
             font-size: var(--font-size-12);
             padding: 8px;
             margin: 8px;
-            width: calc(100% - 26px);
+            width: calc(100% - 20px);
             /*text-align: center;*/
 
             &:focus, &:hover{

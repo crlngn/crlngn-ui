@@ -17,6 +17,7 @@ export const CarouselInteraction = {
   boundPointerMove: null,
   boundPointerUp: null,
   currentTrackerElement: null,
+  snapTimeoutId: null,
 
   /**
    * Get the index of the combatant currently closest to center
@@ -175,7 +176,7 @@ export const CarouselInteraction = {
         state.scrollX += diff * 0.15;
       }
     } else {
-      if (!state.isDragging && Math.abs(state.velocity) > CarouselInteraction.SNAP_VELOCITY_THRESHOLD) {
+      if (!state.isDragging && Math.abs(state.velocity) > 0.1) {
         state.scrollX += state.velocity * dt;
         state.velocity *= Math.pow(CarouselInteraction.FRICTION, dt);
       }
@@ -205,10 +206,10 @@ export const CarouselInteraction = {
         (time) => CarouselInteraction.tick(time, state, config)
       );
     } else {
-      if (!state.isDragging && useInfiniteWrap) {
-        CarouselInteraction.snapToNearestCard(state, config);
-      }
       state.isAnimating = false;
+      if (!state.isDragging && useInfiniteWrap) {
+        CarouselInteraction.scheduleSnap(state, config);
+      }
     }
   },
 
@@ -231,6 +232,34 @@ export const CarouselInteraction = {
     if (Math.abs(diff) > 0.5) {
       state.targetScrollX = state.scrollX + diff;
       CarouselInteraction.startAnimationLoop(state, config);
+    }
+  },
+
+  /**
+   * Schedule a debounced snap to nearest card
+   * @param {object} state - Carousel state object
+   * @param {object} config - Configuration with STEP, TRACK
+   * @param {number} delay - Delay in ms before snapping (default 150ms)
+   */
+  scheduleSnap(state, config, delay = 150) {
+    if (CarouselInteraction.snapTimeoutId) {
+      clearTimeout(CarouselInteraction.snapTimeoutId);
+    }
+    CarouselInteraction.snapTimeoutId = setTimeout(() => {
+      CarouselInteraction.snapTimeoutId = null;
+      if (!state.isDragging && !state.isAnimating && CarouselTransforms.shouldUseInfiniteWrap(state)) {
+        CarouselInteraction.snapToNearestCard(state, config);
+      }
+    }, delay);
+  },
+
+  /**
+   * Cancel any scheduled snap
+   */
+  cancelScheduledSnap() {
+    if (CarouselInteraction.snapTimeoutId) {
+      clearTimeout(CarouselInteraction.snapTimeoutId);
+      CarouselInteraction.snapTimeoutId = null;
     }
   },
 
@@ -289,6 +318,9 @@ export const CarouselInteraction = {
       CarouselInteraction.removeDragListeners(CarouselInteraction.currentTrackerElement);
     }
 
+    CarouselInteraction.boundPointerMove = (e) => CarouselInteraction.onPointerMove(e, state, config);
+    CarouselInteraction.boundPointerUp = (e) => CarouselInteraction.onPointerUp(e, state, config);
+
     tracker.addEventListener('pointerdown', (e) => CarouselInteraction.onPointerDown(e, state, config));
     tracker.addEventListener('click', CarouselInteraction.onClickCapture, true);
     CarouselInteraction.currentTrackerElement = tracker;
@@ -327,7 +359,7 @@ export const CarouselInteraction = {
    */
   onPointerDown(e, state, config) {
     if (e.button !== 0) return;
-    if (e.target.closest('button, input, select, textarea, a, [data-action]')) return;
+    if (e.target.closest('button, input, select, textarea')) return;
 
     if (state.allCombatantIds.length < 2) return;
 
@@ -343,6 +375,7 @@ export const CarouselInteraction = {
     state.targetScrollX = null;
 
     CarouselInteraction.stopAnimationLoop(state);
+    CarouselInteraction.cancelScheduledSnap();
 
     document.addEventListener('pointermove', CarouselInteraction.boundPointerMove);
     document.addEventListener('pointerup', CarouselInteraction.boundPointerUp);

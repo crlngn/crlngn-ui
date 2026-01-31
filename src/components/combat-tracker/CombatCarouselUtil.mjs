@@ -133,21 +133,6 @@ export class CombatCarousel {
    * Disable external Sortable.js drag behavior on the combat popout.
    */
   static #disableSortable = (combatPopout) => {
-    const tracker = combatPopout.querySelector('.combat-tracker');
-    if (tracker) {
-      for (const key of Object.keys(tracker)) {
-        if (key.startsWith('Sortable')) {
-          try {
-            tracker[key]?.destroy?.();
-          } catch (e) {
-            // Sortable may fail if element references are stale
-          }
-          delete tracker[key];
-          break;
-        }
-      }
-    }
-
     if (!combatPopout.dataset.crlngnDragDisabled) {
       combatPopout.dataset.crlngnDragDisabled = 'true';
       combatPopout.addEventListener('dragstart', (e) => {
@@ -224,7 +209,11 @@ export class CombatCarousel {
         tracker.style.minWidth = `${CombatCarousel.#trackerWidth}px`;
       }
 
-      tracker.classList.add('crlngn-infinite-carousel');
+      if (CarouselTransforms.shouldUseInfiniteWrap(state)) {
+        tracker.classList.add('crlngn-infinite-carousel');
+      } else {
+        tracker.classList.remove('crlngn-infinite-carousel');
+      }
       CarouselTransforms.updateTransforms(state, CombatCarousel.#getConfig());
       CombatCarousel.#addResourceBars(tracker);
       CombatCarousel.#animateNewCombatants(tracker, addedIds, oldIds, oldStep, oldTrackerWidth);
@@ -239,7 +228,11 @@ export class CombatCarousel {
         tracker.style.minWidth = `${CombatCarousel.#trackerWidth}px`;
       }
 
-      tracker.classList.add('crlngn-infinite-carousel');
+      if (CarouselTransforms.shouldUseInfiniteWrap(state)) {
+        tracker.classList.add('crlngn-infinite-carousel');
+      } else {
+        tracker.classList.remove('crlngn-infinite-carousel');
+      }
       CarouselTransforms.updateTransforms(state, CombatCarousel.#getConfig());
       CombatCarousel.#addResourceBars(tracker);
     }
@@ -896,7 +889,11 @@ export class CombatCarousel {
       c.setAttribute('draggable', 'false');
     });
 
-    tracker.classList.add('crlngn-infinite-carousel');
+    if (CarouselTransforms.shouldUseInfiniteWrap(state)) {
+      tracker.classList.add('crlngn-infinite-carousel');
+    } else {
+      tracker.classList.remove('crlngn-infinite-carousel');
+    }
 
     const scale = CombatCarousel.#getCurrentScale();
     const baseFontSize = 16;
