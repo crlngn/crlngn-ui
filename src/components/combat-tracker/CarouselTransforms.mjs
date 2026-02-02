@@ -63,34 +63,22 @@ export const CarouselTransforms = {
    * @param {object} state - Carousel state object
    * @param {number} STEP - Step size between cards
    * @param {number} TRACK - Total track length
+   * @param {number} [wrapThreshold] - Optional custom wrap threshold (defaults to HALF_TRACK)
    * @returns {number} The wrapped position relative to viewport center
    */
-  getWrappedPosition(index, state, STEP, TRACK) {
+  getWrappedPosition(index, state, STEP, TRACK, wrapThreshold) {
     const HALF_TRACK = TRACK / 2;
-    const isEvenCount = state.allCombatantIds.length % 2 === 0;
-    const evenOffset = isEvenCount ? (STEP / 2) : 0;
+    const threshold = wrapThreshold ?? HALF_TRACK;
 
     const itemX = index * STEP;
     let pos = itemX - state.scrollX;
 
     if (CarouselTransforms.shouldUseInfiniteWrap(state)) {
-      if (pos < -HALF_TRACK - evenOffset) pos += TRACK;
-      if (pos > HALF_TRACK - evenOffset) pos -= TRACK;
+      if (pos < -threshold) pos += TRACK;
+      if (pos >= threshold) pos -= TRACK;
     }
 
     return pos;
-  },
-
-  /**
-   * Get wrapped position for a virtual index (can be negative or > totalCount)
-   * @param {number} virtualIndex - The virtual index (can be outside 0..totalCount-1)
-   * @param {object} state - Carousel state object
-   * @param {number} STEP - Step size between cards
-   * @returns {number} The position relative to viewport center
-   */
-  getWrappedPositionForIndex(virtualIndex, state, STEP) {
-    const itemX = virtualIndex * STEP;
-    return itemX - state.scrollX;
   },
 
   /**
@@ -102,28 +90,35 @@ export const CarouselTransforms = {
     const tracker = document.querySelector('#combat-popout .combat-tracker');
     if (!tracker) return;
 
+    // Skip update if tracker width hasn't been properly initialized
+    if (!config.trackerWidth || config.trackerWidth <= 0) {
+      return;
+    }
+
     const combatantElements = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
     const scale = config.getCurrentScale();
     const baseFontSize = 16;
     const cardWidth = 5.5 * baseFontSize * scale;
     const STEP = config.STEP;
 
-    const trackerWidth = tracker.offsetWidth || state.containerWidth;
+    const trackerWidth = config.trackerWidth;
     const containerCenter = trackerWidth / 2;
     const useInfiniteWrap = CarouselTransforms.shouldUseInfiniteWrap(state);
 
-    const isEvenCount = state.allCombatantIds.length % 2 === 0;
-    const evenOffset = isEvenCount ? (STEP / 2) : 0;
+    const HALF_TRACK = config.TRACK / 2;
+    const visualThreshold = containerCenter + (cardWidth / 2);
+    const wrapThreshold = Math.min(HALF_TRACK, visualThreshold);
+
+    const elementMap = new Map();
+    combatantElements.forEach(el => elementMap.set(el.dataset.combatantId, el));
 
     state.allCombatantIds.forEach((id, index) => {
-      const element = Array.from(combatantElements).find(
-        el => el.dataset.combatantId === id
-      );
+      const element = elementMap.get(id);
       if (!element) return;
 
       if (useInfiniteWrap) {
-        const pos = CarouselTransforms.getWrappedPosition(index, state, STEP, config.TRACK);
-        const screenX = containerCenter + pos - (cardWidth / 2) + evenOffset;
+        const pos = CarouselTransforms.getWrappedPosition(index, state, STEP, config.TRACK, wrapThreshold);
+        const screenX = Math.round(containerCenter + pos - (cardWidth / 2));
         element.style.transform = `translateX(${screenX}px)`;
         element.style.left = '0';
         element.style.position = 'absolute';
@@ -137,42 +132,12 @@ export const CarouselTransforms = {
     });
 
     if (useInfiniteWrap) {
-      CarouselTransforms.updateClonePositions(tracker, containerCenter, cardWidth, STEP, state, evenOffset);
-      CarouselTransforms.updateTurnIndicator(tracker, containerCenter, cardWidth, evenOffset, state, config);
+      CarouselTransforms.updateEdgeClones(tracker, containerCenter, cardWidth, STEP, state, wrapThreshold);
+      CarouselTransforms.updateTurnIndicator(tracker, containerCenter, cardWidth, state, config, wrapThreshold);
     } else {
       tracker.querySelector('.crlngn-turn-indicator')?.remove();
-      tracker.querySelectorAll('.crlngn-clone').forEach(c => c.remove());
+      tracker.querySelector('.crlngn-clone')?.remove();
     }
-  },
-
-  /**
-   * Update clone positions during animation (without recreating them)
-   * @param {HTMLElement} tracker - The tracker element
-   * @param {number} containerCenter - Center X of the container
-   * @param {number} cardWidth - Width of a card
-   * @param {number} STEP - Step size between cards
-   * @param {object} state - Carousel state object
-   * @param {number} evenOffset - Offset for even combatant counts
-   */
-  updateClonePositions(tracker, containerCenter, cardWidth, STEP, state, evenOffset = 0) {
-    const trackerWidth = tracker.offsetWidth || state.containerWidth;
-    const clones = tracker.querySelectorAll('.crlngn-clone');
-
-    clones.forEach(clone => {
-      const cloneIdx = parseInt(clone.dataset.cloneIndex, 10);
-      if (isNaN(cloneIdx)) return;
-
-      const pos = CarouselTransforms.getWrappedPositionForIndex(cloneIdx, state, STEP);
-      const screenX = containerCenter + pos - (cardWidth / 2) + evenOffset;
-
-      if (screenX >= -STEP && screenX < trackerWidth + STEP) {
-        clone.style.transform = `translateX(${screenX}px)`;
-        clone.style.display = '';
-        clone.classList.add('crlngn-positioned');
-      } else {
-        clone.style.display = 'none';
-      }
-    });
   },
 
   /**
@@ -184,9 +149,14 @@ export const CarouselTransforms = {
     const tracker = document.querySelector('#combat-popout .combat-tracker');
     if (!tracker) return;
 
-    tracker.querySelectorAll('.crlngn-clone').forEach(c => c.remove());
+    tracker.querySelector('.crlngn-clone')?.remove();
 
     if (!CarouselTransforms.shouldUseInfiniteWrap(state)) {
+      return;
+    }
+
+    // Skip if tracker width hasn't been properly initialized
+    if (!config.trackerWidth || config.trackerWidth <= 0) {
       return;
     }
 
@@ -195,10 +165,14 @@ export const CarouselTransforms = {
     const cardWidth = 5.5 * baseFontSize * scale;
     const STEP = config.STEP;
 
-    const trackerWidth = tracker.offsetWidth || state.containerWidth;
+    const trackerWidth = config.trackerWidth;
     const containerCenter = trackerWidth / 2;
 
-    CarouselTransforms.updateEdgeClones(tracker, containerCenter, cardWidth, STEP, state);
+    const HALF_TRACK = config.TRACK / 2;
+    const visualThreshold = containerCenter + (cardWidth / 2);
+    const wrapThreshold = Math.min(HALF_TRACK, visualThreshold);
+
+    CarouselTransforms.updateEdgeClones(tracker, containerCenter, cardWidth, STEP, state, wrapThreshold);
   },
 
   /**
@@ -208,49 +182,56 @@ export const CarouselTransforms = {
    * @param {number} cardWidth - Width of a card
    * @param {number} STEP - Step size (cardWidth + gap)
    * @param {object} state - Carousel state object
+   * @param {number} wrapThreshold - The wrap threshold for positioning
    */
-  updateEdgeClones(tracker, containerCenter, cardWidth, STEP, state) {
+  updateEdgeClones(tracker, containerCenter, cardWidth, STEP, state, wrapThreshold) {
     const totalCount = state.allCombatantIds.length;
     if (totalCount < 2) return;
 
-    const trackerWidth = tracker.offsetWidth || state.containerWidth;
-    const combatantElements = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
-    const clonesNeededPerSide = Math.ceil(trackerWidth / STEP) + 2;
+    const TRACK = totalCount * STEP;
 
-    for (let i = 0; i < clonesNeededPerSide; i++) {
-      const sourceIndex = CarouselTransforms.mod(-(i + 1), totalCount);
-      const sourceId = state.allCombatantIds[sourceIndex];
-      const sourceEl = Array.from(combatantElements).find(
-        el => el.dataset.combatantId === sourceId
-      );
-      if (sourceEl) {
-        const clone = sourceEl.cloneNode(true);
-        clone.classList.add('crlngn-clone');
-        clone.removeAttribute('data-combatant-id');
-        clone.style.pointerEvents = 'none';
-        clone.style.position = 'absolute';
-        clone.style.left = '0';
-        clone.dataset.cloneIndex = String(-(i + 1));
-        tracker.appendChild(clone);
+    let leftmostIndex = 0;
+    let leftmostScreenX = Infinity;
+    let rightmostScreenX = -Infinity;
+
+    state.allCombatantIds.forEach((id, index) => {
+      const pos = CarouselTransforms.getWrappedPosition(index, state, STEP, TRACK, wrapThreshold);
+      const screenX = Math.round(containerCenter + pos - (cardWidth / 2));
+      if (screenX < leftmostScreenX) {
+        leftmostScreenX = screenX;
+        leftmostIndex = index;
       }
+      if (screenX > rightmostScreenX) {
+        rightmostScreenX = screenX;
+      }
+    });
+
+    const sourceId = state.allCombatantIds[leftmostIndex];
+    const cloneScreenX = Math.round(rightmostScreenX + STEP);
+
+    let existingClone = tracker.querySelector('.crlngn-clone');
+
+    if (existingClone && existingClone.dataset.cloneSourceId === sourceId) {
+      existingClone.style.transform = `translateX(${cloneScreenX}px)`;
+      return;
     }
 
-    for (let i = 0; i < clonesNeededPerSide; i++) {
-      const sourceIndex = (totalCount + i) % totalCount;
-      const sourceId = state.allCombatantIds[sourceIndex];
-      const sourceEl = Array.from(combatantElements).find(
-        el => el.dataset.combatantId === sourceId
-      );
-      if (sourceEl) {
-        const clone = sourceEl.cloneNode(true);
-        clone.classList.add('crlngn-clone');
-        clone.removeAttribute('data-combatant-id');
-        clone.style.pointerEvents = 'none';
-        clone.style.position = 'absolute';
-        clone.style.left = '0';
-        clone.dataset.cloneIndex = String(totalCount + i);
-        tracker.appendChild(clone);
-      }
+    if (existingClone) {
+      existingClone.remove();
+    }
+
+    const sourceEl = tracker.querySelector(`li.combatant[data-combatant-id="${sourceId}"]:not(.crlngn-clone)`);
+    if (sourceEl) {
+      const clone = sourceEl.cloneNode(true);
+      clone.classList.add('crlngn-clone');
+      clone.removeAttribute('data-combatant-id');
+      clone.dataset.cloneSourceId = sourceId;
+      clone.style.pointerEvents = 'none';
+      clone.style.position = 'absolute';
+      clone.style.left = '0';
+      clone.style.transform = `translateX(${cloneScreenX}px)`;
+      clone.classList.add('crlngn-positioned');
+      tracker.appendChild(clone);
     }
   },
 
@@ -259,11 +240,11 @@ export const CarouselTransforms = {
    * @param {HTMLElement} tracker - The tracker element
    * @param {number} containerCenter - Center X of the container
    * @param {number} cardWidth - Width of a card
-   * @param {number} evenOffset - Offset for even combatant counts
    * @param {object} state - Carousel state object
    * @param {object} config - Configuration with scale getter and constants
+   * @param {number} wrapThreshold - The wrap threshold for positioning
    */
-  updateTurnIndicator(tracker, containerCenter, cardWidth, evenOffset, state, config) {
+  updateTurnIndicator(tracker, containerCenter, cardWidth, state, config, wrapThreshold) {
     const scale = config.getCurrentScale();
     const baseFontSize = 16;
     const gap = 0.5 * baseFontSize * scale;
@@ -274,9 +255,9 @@ export const CarouselTransforms = {
       tracker.appendChild(indicator);
     }
 
-    const indicatorPos = CarouselTransforms.getWrappedPosition(0, state, config.STEP, config.TRACK);
-    const firstCardLeftEdge = containerCenter + indicatorPos - (cardWidth / 2) + evenOffset;
-    const indicatorX = firstCardLeftEdge - (gap / 2);
+    const indicatorPos = CarouselTransforms.getWrappedPosition(0, state, config.STEP, config.TRACK, wrapThreshold);
+    const firstCardLeftEdge = containerCenter + indicatorPos - (cardWidth / 2);
+    const indicatorX = Math.round(firstCardLeftEdge - (gap / 2));
 
     indicator.style.transform = `translateX(${indicatorX}px)`;
   },

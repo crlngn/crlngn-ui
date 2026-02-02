@@ -36,7 +36,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       resizable: true
     },
     position: {
-      width: 740,
+      width: 820,
       height: "auto"
     },
     actions: {
@@ -95,6 +95,11 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     camera: {
       menuKey: "cameraDockMenu",
       template: "modules/crlngn-ui/templates/camera-dock-settings.hbs",
+      isGMOnly: false
+    },
+    combat: {
+      menuKey: "combatTrackerMenu",
+      template: "modules/crlngn-ui/templates/combat-tracker-settings.hbs",
       isGMOnly: false
     },
     footer: {
@@ -218,7 +223,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
             }
           }
 
-          if (partId === 'interface') {
+          if (partId === 'combat') {
             // Prepare tracked resource choices for combat carousel
             try {
               const TokenDocument = foundry.utils.getDocumentClass("Token");

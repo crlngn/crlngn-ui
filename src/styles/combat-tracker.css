@@ -1,16 +1,22 @@
-body.crlngn-ui.crlngn-combat-tracker {
-
-  /* Blinking animation for near-dock state */
-  @keyframes dock-blink {
-    0%, 100% {
-      outline-color: var(--color-warm-2);
-      outline-offset: 2px;
-    }
-    50% {
-      outline-color: transparent;
-      outline-offset: 4px;
-    }
+/* Blinking animation for near-dock state */
+@keyframes dock-blink {
+  0%, 100% {
+    outline-color: var(--color-warm-2);
+    outline-offset: 2px;
   }
+  50% {
+    outline-color: transparent;
+    outline-offset: 4px;
+  }
+}
+
+/* Spin animation for roll initiative button */
+@keyframes crlngn-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+body.crlngn-ui.crlngn-combat-tracker {
 
   #combat-popout{
     --carousel-scale: 1;
@@ -198,7 +204,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       display: flex;
       flex-direction: row;
       overflow: visible;
-      clip-path: inset(-20% calc(var(--combatant-width) * -0.06)); /* Allow vertical overflow and small left/right overflow */
+      clip-path: inset(-20% 0); 
       gap: calc(0.5rem * var(--carousel-scale, 1));
       z-index: 1;
     }
@@ -335,6 +341,9 @@ body.crlngn-ui.crlngn-combat-tracker {
       object-fit: cover;
       transform-origin: center center;
     }
+    li.combatant:hover > .token-image {
+      filter: saturate(1);
+    }
 
     li.combatant.active {
       border-color: var(--color-warm-2);
@@ -390,6 +399,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       gap: 2px;
       bottom: 0;
       width: 100%;
+      z-index: 10;
     }
     li.combatant .token-name > .name {
       display: none;
@@ -537,12 +547,60 @@ body.crlngn-ui.crlngn-combat-tracker {
       position: absolute;
       top:0;
       left:0;
-      background-color: rgba(0, 0, 0, 0.4);
+      background-color: rgba(0, 0, 0, 0.25);
       z-index: -1;
+    }
+    li.combatant.active > .token-initiative:before{
+      background-color: rgba(0, 0, 0, 0);
+    }
+    li.combatant:hover > .token-initiative:before{
+      background-color: transparent;
     }
     li.combatant > .token-initiative button:hover{
       filter: brightness(10);
       border-color: transparent;
+    }
+
+    li.combatant > .token-initiative button[data-action="rollInitiative"] {
+      transition: transform 0.3s ease;
+    }
+    li.combatant > .token-initiative button[data-action="rollInitiative"]:hover {
+      animation: crlngn-spin 0.6s ease-in-out;
+    }
+
+    li.combatant > .token-initiative .crlngn-advance-turn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 6%;
+      padding: 0;
+      margin: 0;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      cursor: pointer;
+      pointer-events: all;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      outline: 0;
+      filter: none;
+    }
+    li.combatant > .token-initiative .crlngn-advance-turn:active {
+      outline: 0;
+    }
+    li.combatant > .token-initiative .crlngn-advance-turn i {
+      font-size: calc(var(--font-size-24) * var(--carousel-scale));
+      text-shadow: 0 2px 4px rgba(0.7);
+    }
+    li.combatant > .token-initiative:hover .crlngn-advance-turn {
+      opacity: 1;
+      filter: none;
     }
 
     &.vertical {
@@ -575,7 +633,7 @@ body.crlngn-ui.crlngn-combat-tracker {
     &.docked-top {
       z-index: calc(var(--z-index-app) + 1) !important;
       left: 50% !important;
-      top: calc(var(--scene-nav-offset) + (var(--combatant-height) * .12) - 3px) !important;
+      top: var(--scene-nav-offset) !important;
       transform: translate(-50%) !important;
     }
 
@@ -642,7 +700,7 @@ body.crlngn-ui.crlngn-combat-tracker {
 
     /* Clone elements shown at carousel edges for visual balance */
     .combat-tracker.crlngn-infinite-carousel > li.combatant.crlngn-clone {
-      opacity: 0.35;
+      /*opacity: 0.35;*/
       pointer-events: none;
     }
 

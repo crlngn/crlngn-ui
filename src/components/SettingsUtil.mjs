@@ -187,17 +187,17 @@ export class SettingsUtil {
       hint: game.i18n.localize("CRLNGN_UI.settings.combatPrev.hint"),
       editable: [
         {
-          key: "ArrowLeft",
+          key: "Comma",
           modifiers: [foundry.helpers.interaction.KeyboardManager.MODIFIER_KEYS.SHIFT]
         }
       ],
-      onDown: () => {  },
-      onUp: () => {
+      onDown: () => {
         if (!game.combat) return;
         const isOwner = game.combat.combatant?.isOwner;
         if (!isOwner) return;
         game.combat.previousTurn();
       },
+      repeat: false,
       restricted: false,
     });
 
@@ -206,17 +206,17 @@ export class SettingsUtil {
       hint: game.i18n.localize("CRLNGN_UI.settings.combatNext.hint"),
       editable: [
         {
-          key: "ArrowRight",
+          key: "Period",
           modifiers: [foundry.helpers.interaction.KeyboardManager.MODIFIER_KEYS.SHIFT]
         }
       ],
-      onDown: () => {  },
-      onUp: () => {
+      onDown: () => {
         if (!game.combat) return;
         const isOwner = game.combat.combatant?.isOwner;
         if (!isOwner) return;
         game.combat.nextTurn();
       },
+      repeat: false,
       restricted: false,
     });
 
@@ -665,6 +665,9 @@ export class SettingsUtil {
       case SETTINGS.carouselHideDefeated.tag:
         CombatTrackerManager.carouselHideDefeated = value;
         ui.combat?.popout?.render(); break;
+      case SETTINGS.showCombatRoundButtons.tag:
+        CombatTrackerManager.showCombatRoundButtons = value;
+        CombatTrackerManager.updateRoundButtonsVisibility(); break;
       default:
         // do nothing
     }

@@ -61,80 +61,7 @@
   </div>
   <p class="hint">{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.hint"}}</p>
 
-  <p>&nbsp;</p>
-  <hr/>
-
-  <fieldset>
-    <legend>{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.fields.combatFieldset"}}</legend>
-
-    <div class="form-group">
-      <label for="enableCombatTrackerCarousel">{{fields.enableCombatTrackerCarousel.label}}</label>
-      <input type="checkbox" name="enableCombatTrackerCarousel" {{#if enableCombatTrackerCarousel}}checked{{/if}} {{#if fields.enableCombatTrackerCarousel.isLocked}}disabled{{/if}} />
-      <p class="hint">{{fields.enableCombatTrackerCarousel.hint}}</p>
-    </div>
-
-    <div class="form-group">
-      <label for="combatTrackerTakeFullWidth">{{fields.combatTrackerTakeFullWidth.label}}</label>
-      <input type="checkbox" name="combatTrackerTakeFullWidth" {{#if combatTrackerTakeFullWidth}}checked{{/if}} {{#if fields.combatTrackerTakeFullWidth.isLocked}}disabled{{/if}} />
-      <p class="hint">{{fields.combatTrackerTakeFullWidth.hint}}</p>
-    </div>
-
-    <div class="form-group">
-      <label for="combatCarouselScale">{{fields.combatCarouselScale.label}}</label>
-      <div class="form-fields">
-        <input type="range" name="combatCarouselScale" min="0.7" max="1.5" step="0.1" value="{{combatCarouselScale}}" {{#if fields.combatCarouselScale.isLocked}}disabled{{/if}} />
-        <input type="number" name="combatCarouselScale_value" class="range-value-input" min="0.7" max="1.5" step="0.1" value="{{combatCarouselScale}}" {{#if fields.combatCarouselScale.isLocked}}disabled{{/if}} />
-      </div>
-      <p class="hint">{{fields.combatCarouselScale.hint}}</p>
-    </div>
-
-    <div class="form-group">
-      <label for="carouselImageSource">{{fields.carouselImageSource.label}}</label>
-      <select name="carouselImageSource" {{#if fields.carouselImageSource.isLocked}}disabled{{/if}}>
-        <option value="token" {{#if (eq carouselImageSource "token")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselImageSource.options.token"}}</option>
-        <option value="actor" {{#if (eq carouselImageSource "actor")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselImageSource.options.actor"}}</option>
-      </select>
-      <p class="hint">{{fields.carouselImageSource.hint}}</p>
-    </div>
-
-    <div class="form-group">
-      <label for="combatTrackerLayout">{{fields.combatTrackerLayout.label}}</label>
-      <select name="combatTrackerLayout" {{#if fields.combatTrackerLayout.isLocked}}disabled{{/if}}>
-        <option value="carousel" {{#if (eq combatTrackerLayout "carousel")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.fields.combatTrackerLayout.options.carousel"}}</option>
-        <option value="simple" {{#if (eq combatTrackerLayout "simple")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.fields.combatTrackerLayout.options.simple"}}</option>
-      </select>
-      <p class="hint">{{fields.combatTrackerLayout.hint}}</p>
-    </div>
-
-    <div class="form-group">
-      <label for="carouselHideDefeated">{{fields.carouselHideDefeated.label}}</label>
-      <input type="checkbox" name="carouselHideDefeated" {{#if carouselHideDefeated}}checked{{/if}} {{#if fields.carouselHideDefeated.isLocked}}disabled{{/if}} />
-      <p class="hint">{{fields.carouselHideDefeated.hint}}</p>
-    </div>
-
-    <div class="form-group">
-      <label for="carouselShowAllHP">{{fields.carouselShowAllHP.label}}</label>
-      <select name="carouselShowAllHP" {{#if fields.carouselShowAllHP.isLocked}}disabled{{/if}}>
-        <option value="gmOnly" {{#if (eq carouselShowAllHP "gmOnly")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowAllHP.options.gmOnly"}}</option>
-        <option value="all" {{#if (eq carouselShowAllHP "all")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowAllHP.options.all"}}</option>
-        <option value="disabled" {{#if (eq carouselShowAllHP "disabled")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowAllHP.options.disabled"}}</option>
-      </select>
-      <p class="hint">{{fields.carouselShowAllHP.hint}}</p>
-    </div>
-
-    <div class="form-group">
-      <label for="carouselTrackedResource">{{fields.carouselTrackedResource.label}}</label>
-      <select name="carouselTrackedResource" {{#if fields.carouselTrackedResource.isLocked}}disabled{{/if}}>
-        <option value="">— None —</option>
-        {{#each trackedResourceChoices}}
-        <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
-        {{/each}}
-      </select>
-      <p class="hint">{{fields.carouselTrackedResource.hint}}</p>
-    </div>
-
-  </fieldset>
-
+<hr />
   <div class="form-group">
     <label for="controlsAutoHide">{{fields.controlsAutoHide.label}}</label>
     <input type="checkbox" name="controlsAutoHide" {{#if controlsAutoHide}}checked{{/if}} {{#if fields.controlsAutoHide.isLocked}}disabled{{/if}} />
@@ -158,28 +85,5 @@
     <input type="checkbox" name="preventMacroBarReposition" {{#if preventMacroBarReposition}}checked{{/if}} {{#if fields.preventMacroBarReposition.isLocked}}disabled{{/if}} />
     <p class="hint">{{fields.preventMacroBarReposition.hint}}</p>
   </div>
-
-  {{!-- <h4>
-    <i class="fas fa-user"></i> {{localize "CRLNGN_UI.ui.worldSettingsLabel"}} 
-    <span class="toggle-hint">{{localize 'CRLNGN_UI.ui.toggleHints'}}</span>
-  </h4>
-  <hr/>
-
-  <div class="form-group hide-tabs">
-    <header class="table-header flexrow">
-      <label>{{localize "CRLNGN_UI.settings.sidebarTabs.tabsColumn"}}</label>
-      <label>{{localize "CRLNGN_UI.settings.sidebarTabs.gmHideColumn"}}</label>
-      <label>{{localize "CRLNGN_UI.settings.sidebarTabs.playerHideColumn"}}</label>
-    </header>
-    <ul>
-      {{#each sidebarTabs}}
-      <li>
-        <label>{{localize this.localizedName}}</label>
-        <input type="checkbox" name="{{this.name}}-gm" {{#if this.hideForGM}} checked{{/if}} />
-        <input type="checkbox" name="{{this.name}}-player" {{#if this.hideForPlayer}} checked{{/if}} />
-      </li>
-      {{/each}}
-    </ul>
-  </div> --}}
 
 </section>

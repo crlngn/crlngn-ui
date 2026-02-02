@@ -59,6 +59,7 @@ export class CombatCarousel {
   static #getConfig = () => ({
     STEP: CombatCarousel.#STEP,
     TRACK: CombatCarousel.#TRACK,
+    trackerWidth: CombatCarousel.#trackerWidth,
     getCurrentScale: CombatCarousel.#getCurrentScale,
     updateTransforms: () => CarouselTransforms.updateTransforms(CombatCarousel.#state, CombatCarousel.#getConfig()),
     skipNextCenter: CombatCarousel.#skipNextCenter,
@@ -100,7 +101,7 @@ export class CombatCarousel {
     const tracker = document.querySelector('#combat-popout .combat-tracker');
     if (!tracker) return;
 
-    const combatants = tracker.querySelectorAll(':scope > li.combatant');
+    const combatants = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
     combatants.forEach(combatant => {
       const id = combatant.dataset.combatantId;
       const img = combatant.querySelector('.token-image');
@@ -116,7 +117,7 @@ export class CombatCarousel {
   static #restoreImages = (tracker) => {
     if (CombatCarousel.#imageCache.size === 0) return;
 
-    const combatants = tracker.querySelectorAll(':scope > li.combatant');
+    const combatants = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
     combatants.forEach(combatant => {
       const id = combatant.dataset.combatantId;
       const cachedImg = CombatCarousel.#imageCache.get(id);
@@ -190,7 +191,7 @@ export class CombatCarousel {
    */
   static #refreshCombatants = (tracker) => {
     const state = CombatCarousel.#state;
-    const combatants = Array.from(tracker.querySelectorAll(':scope > li.combatant'));
+    const combatants = Array.from(tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)'));
     combatants.forEach(c => c.setAttribute('draggable', 'false'));
     const newIds = combatants.map(c => c.dataset.combatantId);
     const addedIds = newIds.filter(id => !CombatCarousel.#previousCombatantIds.includes(id));
@@ -203,11 +204,7 @@ export class CombatCarousel {
 
       CombatCarousel.#recalculateState(tracker);
       CombatCarousel.#calculateTrackConstants();
-
-      if (CombatCarousel.#trackerWidth > 0) {
-        tracker.style.width = `${CombatCarousel.#trackerWidth}px`;
-        tracker.style.minWidth = `${CombatCarousel.#trackerWidth}px`;
-      }
+      CombatCarousel.adjustTrackerWidth(tracker);
 
       if (CarouselTransforms.shouldUseInfiniteWrap(state)) {
         tracker.classList.add('crlngn-infinite-carousel');
@@ -222,11 +219,7 @@ export class CombatCarousel {
 
       CombatCarousel.#recalculateState(tracker);
       CombatCarousel.#calculateTrackConstants();
-
-      if (CombatCarousel.#trackerWidth > 0) {
-        tracker.style.width = `${CombatCarousel.#trackerWidth}px`;
-        tracker.style.minWidth = `${CombatCarousel.#trackerWidth}px`;
-      }
+      CombatCarousel.adjustTrackerWidth(tracker);
 
       if (CarouselTransforms.shouldUseInfiniteWrap(state)) {
         tracker.classList.add('crlngn-infinite-carousel');
@@ -244,7 +237,7 @@ export class CombatCarousel {
    * Animate newly added combatants with a two-phase effect
    */
   static #animateNewCombatants = (tracker, addedIds, oldIds, oldStep, oldTrackerWidth) => {
-    const existingItems = tracker.querySelectorAll(':scope > li.combatant');
+    const existingItems = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
     const newTransforms = new Map();
 
     tracker.style.overflow = 'visible';
@@ -263,8 +256,6 @@ export class CombatCarousel {
     const cardWidth = 5.5 * baseFontSize * scale;
     const oldContainerCenter = oldTrackerWidth / 2;
     const oldTrack = oldIds.length * oldStep;
-    const isOldEvenCount = oldIds.length % 2 === 0;
-    const oldEvenOffset = isOldEvenCount ? (oldStep / 2) : 0;
 
     const oldScreenXMap = new Map();
     existingItems.forEach(el => {
@@ -277,10 +268,10 @@ export class CombatCarousel {
         let pos = itemX - state.scrollX;
         if (oldIds.length >= 2) {
           const halfTrack = oldTrack / 2;
-          if (pos < -halfTrack - oldEvenOffset) pos += oldTrack;
-          if (pos > halfTrack - oldEvenOffset) pos -= oldTrack;
+          if (pos < -halfTrack) pos += oldTrack;
+          if (pos > halfTrack) pos -= oldTrack;
         }
-        const screenX = oldContainerCenter + pos - (cardWidth / 2) + oldEvenOffset;
+        const screenX = oldContainerCenter + pos - (cardWidth / 2);
         oldScreenXMap.set(id, screenX);
         el.style.transform = `translateX(${screenX}px)`;
       }
@@ -830,7 +821,7 @@ export class CombatCarousel {
    */
   static #recalculateState = (tracker) => {
     const state = CombatCarousel.#state;
-    const combatants = Array.from(tracker.querySelectorAll(':scope > li.combatant'));
+    const combatants = Array.from(tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)'));
 
     state.allCombatantIds = combatants.map(c => c.dataset.combatantId);
 
@@ -877,7 +868,7 @@ export class CombatCarousel {
   static #buildDOM = (tracker) => {
     const state = CombatCarousel.#state;
 
-    const allCombatantElements = Array.from(tracker.querySelectorAll(':scope > li.combatant'));
+    const allCombatantElements = Array.from(tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)'));
     const allCombatants = state.allCombatantIds
       .map(id => allCombatantElements.find(el => el.dataset.combatantId === id))
       .filter(Boolean);
@@ -900,6 +891,7 @@ export class CombatCarousel {
     const cardWidth = 5.5 * baseFontSize * scale;
     const gap = 0.5 * baseFontSize * scale;
     const trackerWidth = (state.visibleCount * cardWidth) + ((state.visibleCount - 1) * gap);
+
     tracker.style.width = `${trackerWidth}px`;
     tracker.style.minWidth = `${trackerWidth}px`;
     CombatCarousel.#trackerWidth = trackerWidth;

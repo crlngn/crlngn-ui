@@ -187,15 +187,7 @@ export function getSettings() {
         "collapseMacroBar",
         "preventMacroBarReposition",
         "controlsAutoHide",
-        "hoverableSettingsHints",
-        "enableCombatTrackerCarousel",
-        "combatCarouselScale",
-        "combatTrackerTakeFullWidth",
-        "carouselImageSource",
-        "combatTrackerLayout",
-        "carouselShowAllHP",
-        "carouselTrackedResource",
-        "carouselHideDefeated"
+        "hoverableSettingsHints"
       ],
       default: {
         // Fade out
@@ -226,15 +218,7 @@ export function getSettings() {
         collapseMacroBar: false,
         preventMacroBarReposition: true,
         controlsAutoHide: false,
-        hoverableSettingsHints: true,
-        enableCombatTrackerCarousel: true,
-        combatCarouselScale: 1,
-        combatTrackerTakeFullWidth: false,
-        carouselImageSource: "actor",
-        combatTrackerLayout: "carousel",
-        carouselShowAllHP: "gmOnly",
-        carouselTrackedResource: "",
-        carouselHideDefeated: false
+        hoverableSettingsHints: true
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -486,8 +470,60 @@ export function getSettings() {
         disableActiveSceneSeparation: false
       },
       scope: SETTING_SCOPE.client,
-      config: false, 
-      requiresReload: false 
+      config: false,
+      requiresReload: false
+    },
+
+    combatTrackerMenu: {
+      isMenu: true,
+      showOnRoot: false,
+      tag: "v2-combat-tracker-menu",
+      label: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.hint"),
+      propType: Object,
+      fields: [
+        "carouselShowAllHP",
+        "carouselTrackedResource",
+        "showCombatRoundButtons"
+      ],
+      default: {
+        carouselShowAllHP: "gmOnly",
+        carouselTrackedResource: "",
+        showCombatRoundButtons: false
+      },
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+
+    player_combatTrackerMenu: {
+      isMenu: true,
+      showOnRoot: false,
+      tag: "v2-player-combat-tracker-menu",
+      label: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.hint"),
+      propType: Object,
+      fields: [
+        "enableCombatTrackerCarousel",
+        "combatCarouselScale",
+        "combatTrackerTakeFullWidth",
+        "carouselImageSource",
+        "combatTrackerLayout",
+        "carouselHideDefeated",
+        "carouselRequirePlayerOwner"
+      ],
+      default: {
+        enableCombatTrackerCarousel: true,
+        combatCarouselScale: 1,
+        combatTrackerTakeFullWidth: false,
+        carouselImageSource: "actor",
+        combatTrackerLayout: "carousel",
+        carouselHideDefeated: false,
+        carouselRequirePlayerOwner: false
+      },
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
     },
 
     /* SYSTEM-SPECIFIC MENUS */
@@ -1773,6 +1809,16 @@ export function getSettings() {
       config: false,
       requiresReload: false
     },
+    carouselRequirePlayerOwner: {
+      tag: "v2-carousel-require-player-owner",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselRequirePlayerOwner.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselRequirePlayerOwner.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
     carouselShowAllHP: {
       tag: "v2-carousel-show-all-hp",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselShowAllHP.label"),
@@ -1794,6 +1840,16 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselTrackedResource.hint"),
       propType: String,
       default: "",
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+    showCombatRoundButtons: {
+      tag: "v2-show-combat-round-buttons",
+      label: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.fields.showCombatRoundButtons.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.fields.showCombatRoundButtons.hint"),
+      propType: Boolean,
+      default: false,
       scope: SETTING_SCOPE.world,
       config: false,
       requiresReload: false

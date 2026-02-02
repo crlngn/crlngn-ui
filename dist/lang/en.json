@@ -115,6 +115,7 @@
           "scenes": "Scene Navigation",
           "players": "Players List",
           "camera": "Camera Dock",
+          "combat": "Combat Tracker",
           "system": "System & Modules"
         },
         "reset": "Reset",
@@ -222,6 +223,10 @@
           "carouselHideDefeated": {
             "label": "Hide Defeated Combatants",
             "hint": "When enabled, defeated combatants are removed from the carousel so remaining positions are recalculated."
+          },
+          "carouselRequirePlayerOwner": {
+            "label": "Require Player Character",
+            "hint": "When enabled, the carousel only opens automatically when a player character is added to combat. When disabled, it opens for any combatant."
           },
           "combatFieldset": "Combat Tracker"
         },
@@ -479,6 +484,68 @@
           },
           "lockDockPosition": {
             "tooltip": "Lock Position"
+          }
+        },
+        "reset": "Reset",
+        "save": "Save"
+      },
+      "combatTrackerMenu": {
+        "label": "Combat Tracker",
+        "title": "Configure Combat Tracker",
+        "hint": "Configure the combat tracker carousel appearance and behavior.",
+        "fields": {
+          "enableCombatTrackerCarousel": {
+            "label": "Use Draggable Combat Carousel",
+            "hint": "When enabled, the combat tracker will automatically pop out when combat has combatants and close when combat ends. Also enables custom styling for the popped out tracker."
+          },
+          "combatCarouselScale": {
+            "label": "Docked Carousel Scale",
+            "hint": "Scale of the combat carousel when docked to the top of the screen. Range: 0.7 (70%) to 1.5 (150%)."
+          },
+          "combatTrackerTakeFullWidth": {
+            "label": "Carousel Responds to Sidebar",
+            "hint": "When enabled, the carousel takes full available width if necessary when the sidebar is collapsed, and adjusts back when the sidebar is expanded."
+          },
+          "carouselImageSource": {
+            "label": "Carousel Image Source",
+            "hint": "Choose whether to display token images or actor/character portraits in the combat carousel.",
+            "options": {
+              "token": "Token Image",
+              "actor": "Actor Portrait"
+            }
+          },
+          "combatTrackerLayout": {
+            "label": "Combat Tracker Layout",
+            "hint": "Choose how the combat tracker behaves. Carousel mode centers on the active combatant and wraps around. Simple list mode is left-aligned and scrolls to show the active combatant when needed.",
+            "options": {
+              "carousel": "Carousel (centered, wraps around)",
+              "simple": "Simple list (no carousel)"
+            }
+          },
+          "carouselHideDefeated": {
+            "label": "Hide Defeated Combatants",
+            "hint": "When enabled, defeated combatants are removed from the carousel so remaining positions are recalculated."
+          },
+          "carouselRequirePlayerOwner": {
+            "label": "Require Player Character",
+            "hint": "When enabled, the carousel only opens automatically when a player character is added to combat. When disabled, it opens for any combatant."
+          },
+          "carouselShowAllHP": {
+            "label": "Resource Bar Visibility",
+            "hint": "Controls who can see resource/HP bars on combatants. Requires a Tracked Resource to be configured. This is a world setting (GM).",
+            "options": {
+              "gmOnly": "GM only (players see owned)",
+              "all": "Everyone sees all",
+              "disabled": "Disabled"
+            }
+          },
+          "carouselTrackedResource": {
+            "label": "Tracked Resource",
+            "hint": "The resource attribute to display on combatant cards (e.g. HP). This is a world setting (GM)."
+          },
+          "showCombatRoundButtons": {
+            "label": "Show Round Navigation Buttons",
+            "hint": "When enabled, Previous Round and Next Round buttons are visible in the combat controls. This is a world setting (GM)."
           }
         },
         "reset": "Reset",

@@ -18,6 +18,8 @@ export class CombatTrackerManager {
   static combatTrackerLayout = "carousel";
   static carouselHideDefeated = false;
   static carouselShowAllHP = "gmOnly";
+  static carouselRequirePlayerOwner = false;
+  static showCombatRoundButtons = false;
 
   static #navCollapseCallback = null;
   static #navExpandCallback = null;
@@ -50,6 +52,7 @@ export class CombatTrackerManager {
     CombatTrackerManager.#getNavCollapsedState = getCollapsedState;
     CombatTrackerManager.#getSceneNavEnabled = getSceneNavEnabled;
 
+    Hooks.on(HOOKS_CORE.CREATE_COMBAT, (combat) => CombatTrackerManager.onCombatCreated(combat));
     Hooks.on(HOOKS_CORE.COMBAT_START, (combat) => CombatTrackerManager.onCombatStart(combat));
     Hooks.on(HOOKS_CORE.DELETE_COMBAT, (combat) => CombatTrackerManager.onCombatEnd(combat));
     Hooks.on(HOOKS_CORE.UPDATE_COMBAT, (combat, updateData) => CombatTrackerManager.onCombatUpdate(combat, updateData));
@@ -86,6 +89,8 @@ export class CombatTrackerManager {
     CombatTrackerManager.combatTrackerLayout = SettingsUtil.get(SETTINGS.combatTrackerLayout.tag) ?? "carousel";
     CombatTrackerManager.carouselHideDefeated = SettingsUtil.get(SETTINGS.carouselHideDefeated.tag) ?? false;
     CombatTrackerManager.carouselShowAllHP = SettingsUtil.get(SETTINGS.carouselShowAllHP.tag) ?? "gmOnly";
+    CombatTrackerManager.carouselRequirePlayerOwner = SettingsUtil.get(SETTINGS.carouselRequirePlayerOwner.tag) ?? false;
+    CombatTrackerManager.showCombatRoundButtons = SettingsUtil.get(SETTINGS.showCombatRoundButtons.tag) ?? false;
 
     CombatTrackerManager.#applyBodyClasses();
   }
@@ -174,13 +179,29 @@ export class CombatTrackerManager {
   /**
    * Check if there's a combat with any combatants
    * Used on initial load to handle existing combats
+   * @param {number} retryCount - Number of retries attempted (internal use)
    */
-  static checkForActiveCombat = () => {
+  static checkForActiveCombat = (retryCount = 0) => {
+    const MAX_RETRIES = 5;
+    const RETRY_DELAY = 300;
+
     LogUtil.log("checkForActiveCombat - called", [
-      "enableCombatTrackerCarousel:", CombatTrackerManager.enableCombatTrackerCarousel
+      "enableCombatTrackerCarousel:", CombatTrackerManager.enableCombatTrackerCarousel,
+      "retryCount:", retryCount,
+      "game.combats:", !!game.combats,
+      "combats.size:", game.combats?.size
     ]);
 
     if (!CombatTrackerManager.enableCombatTrackerCarousel) return;
+
+    // Check if game.combats is ready
+    if (!game.combats || game.combats.size === 0) {
+      if (retryCount < MAX_RETRIES) {
+        LogUtil.log("checkForActiveCombat - game.combats not ready, retrying...");
+        setTimeout(() => CombatTrackerManager.checkForActiveCombat(retryCount + 1), RETRY_DELAY);
+      }
+      return;
+    }
 
     const combatWithCombatants = CombatTrackerManager.getCombatWithCombatants();
 
@@ -201,20 +222,65 @@ export class CombatTrackerManager {
           CombatTrackerManager.#collapseNav();
         }
       }
+    } else if (retryCount < MAX_RETRIES) {
+      // Retry if there are any combats at all - combatants may not be hydrated yet
+      const hasAnyCombats = game.combats && game.combats.size > 0;
+      LogUtil.log("checkForActiveCombat - no player combatants found, checking for retry", [
+        "hasAnyCombats:", hasAnyCombats,
+        "combats.size:", game.combats?.size
+      ]);
+      if (hasAnyCombats) {
+        LogUtil.log("checkForActiveCombat - combats exist, retrying in case documents are still hydrating...");
+        setTimeout(() => CombatTrackerManager.checkForActiveCombat(retryCount + 1), RETRY_DELAY);
+      }
     }
   }
 
   /**
-   * Get any combat that has player-owned combatants
-   * Only returns a combat if it includes at least one player character
+   * Get any combat that has combatants
+   * Optionally requires player-owned combatants based on settings
+   * @param {boolean} checkPlayerOwned - If false, skips player ownership check entirely
    * @returns {Combat|null} The combat or null
    */
-  static getCombatWithCombatants = () => {
+  static getCombatWithCombatants = (checkPlayerOwned = true) => {
     const combats = game.combats?.contents || [];
+    const requirePlayerOwner = CombatTrackerManager.carouselRequirePlayerOwner;
+
+    LogUtil.log("getCombatWithCombatants", [
+      "checkPlayerOwned:", checkPlayerOwned,
+      "requirePlayerOwner setting:", requirePlayerOwner,
+      "combats.length:", combats.length
+    ]);
 
     for (const combat of combats) {
+      LogUtil.log("getCombatWithCombatants - checking combat", [
+        "id:", combat.id,
+        "combatants.size:", combat.combatants?.size,
+        "active:", combat.active,
+        "started:", combat.started
+      ]);
+
       if (combat.combatants?.size > 0) {
-        const hasPlayerCombatant = combat.combatants.some(c => c.actor?.hasPlayerOwner);
+        // If not checking player ownership OR setting doesn't require it, return any combat with combatants
+        if (!checkPlayerOwned || !requirePlayerOwner) {
+          return combat;
+        }
+
+        // Log details about each combatant for debugging
+        combat.combatants.forEach(c => {
+          const actor = c.actor ?? game.actors?.get(c.actorId);
+          LogUtil.log("getCombatWithCombatants - combatant", [
+            "name:", c.name,
+            "actorId:", c.actorId,
+            "actor:", !!actor,
+            "hasPlayerOwner:", actor?.hasPlayerOwner
+          ]);
+        });
+
+        const hasPlayerCombatant = combat.combatants.some(c => {
+          const actor = c.actor ?? game.actors?.get(c.actorId);
+          return actor?.hasPlayerOwner;
+        });
         if (hasPlayerCombatant) {
           return combat;
         }
@@ -222,6 +288,46 @@ export class CombatTrackerManager {
     }
 
     return null;
+  }
+
+  /**
+   * Handle combat created - pop out combat tracker if combatants exist
+   * This handles the case when a combat is created with combatants already added
+   * @param {Combat} combat - The combat that was created
+   */
+  static onCombatCreated = (combat) => {
+    if (!CombatTrackerManager.enableCombatTrackerCarousel) return;
+
+    // Use setTimeout to allow combatants to be fully initialized
+    setTimeout(() => {
+      if (combat.combatants?.size > 0) {
+        // Check if we should pop out based on the carouselRequirePlayerOwner setting
+        let shouldPopOut = !CombatTrackerManager.carouselRequirePlayerOwner;
+        if (!shouldPopOut) {
+          shouldPopOut = combat.combatants.some(c => c.actor?.hasPlayerOwner);
+        }
+
+        if (shouldPopOut) {
+          LogUtil.log("onCombatCreated - combat with combatants", [
+            "combat:", combat.id,
+            "combatants:", combat.combatants?.size,
+            "requirePlayerOwner:", CombatTrackerManager.carouselRequirePlayerOwner
+          ]);
+
+          CombatTrackerManager.popOutCombatTracker();
+
+          if (CombatTrackerManager.collapseNavDuringCombat && CombatTrackerManager.#isSceneNavEnabled()) {
+            if (CombatTrackerManager.#navStateBeforeCombat === null && !CombatTrackerManager.#isNavCollapsed()) {
+              CombatTrackerManager.#navStateBeforeCombat = true;
+            }
+
+            if (!CombatTrackerManager.#isNavCollapsed()) {
+              CombatTrackerManager.#collapseNav();
+            }
+          }
+        }
+      }
+    }, 100);
   }
 
   /**
@@ -245,6 +351,15 @@ export class CombatTrackerManager {
         }
 
         CombatTrackerManager.#collapseNav();
+      }
+
+      if (updateData.turn !== undefined || updateData.round !== undefined) {
+        setTimeout(() => {
+          const tracker = document.querySelector('#combat-popout .combat-tracker');
+          if (tracker) {
+            CombatTrackerManager.#addAdvanceTurnButton(tracker);
+          }
+        }, 50);
       }
     }
   }
@@ -524,7 +639,7 @@ export class CombatTrackerManager {
         CombatCarousel.ensureResourceBars(tracker);
       }
 
-      const combatants = tracker?.querySelectorAll(':scope > li.combatant');
+      const combatants = tracker?.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
       const hasCombatants = combatants && combatants.length > 0;
 
       CombatTrackerManager.#updateNoCombatantsMessage(combatPopout, !hasCombatants);
@@ -534,6 +649,7 @@ export class CombatTrackerManager {
         CombatTrackerManager.#updateCombatantImages(tracker);
         CombatTrackerManager.#applyTokenScaleCorrection(tracker);
         CombatTrackerManager.#copyEffectsTooltips(tracker);
+        CombatTrackerManager.#addAdvanceTurnButton(tracker);
         CombatCarousel.init(combatPopout);
 
         if (tracker && CombatCarousel.state.allCombatantIds.length > 0) {
@@ -544,8 +660,11 @@ export class CombatTrackerManager {
       if (game.system.id !== 'daggerheart') {
         CombatTrackerManager.#updateInitiativeButtons(combatPopout);
         CombatTrackerManager.#updateEndTurnButton(combatPopout);
+        CombatTrackerManager.#updateRoundButtons(combatPopout);
+        CombatTrackerManager.#updateTurnButtons(combatPopout);
       }
       CombatTrackerManager.#updateNavBorderRadius(combatPopout);
+      CombatTrackerManager.#updateNavControlsVisibility(combatPopout);
     });
   }
 
@@ -560,7 +679,7 @@ export class CombatTrackerManager {
     const combat = game.combat;
     if (!combat) return;
 
-    const combatantElements = tracker.querySelectorAll(':scope > li.combatant');
+    const combatantElements = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
     combatantElements.forEach(element => {
       const combatantId = element.dataset.combatantId;
       const combatant = combat.combatants.get(combatantId);
@@ -587,7 +706,7 @@ export class CombatTrackerManager {
     const combat = game.combat;
     if (!combat) return;
 
-    const combatantElements = tracker.querySelectorAll(':scope > li.combatant');
+    const combatantElements = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
     combatantElements.forEach(element => {
       const combatantId = element.dataset.combatantId;
       const combatant = combat.combatants.get(combatantId);
@@ -608,7 +727,7 @@ export class CombatTrackerManager {
    * @param {HTMLElement} tracker - The combat tracker element
    */
   static #copyEffectsTooltips = (tracker) => {
-    const combatantElements = tracker.querySelectorAll(':scope > li.combatant');
+    const combatantElements = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
     combatantElements.forEach(element => {
       const tokenEffects = element.querySelector('.token-effects');
       if (!tokenEffects) return;
@@ -619,6 +738,44 @@ export class CombatTrackerManager {
         element.classList.add('effects-tooltip');
       }
     });
+  }
+
+  /**
+   * Add advance turn button to active combatant's initiative element
+   * @param {HTMLElement} tracker - The combat tracker element
+   */
+  static #addAdvanceTurnButton = (tracker) => {
+    tracker.querySelectorAll('.crlngn-advance-turn').forEach(btn => btn.remove());
+
+    const combat = game.combat;
+    if (!combat?.started) return;
+
+    const currentCombatant = combat.combatant;
+    if (!currentCombatant) return;
+
+    const canAdvance = currentCombatant.isOwner || game.user?.isGM;
+    if (!canAdvance) return;
+
+    const activeCombatant = tracker.querySelector(':scope > li.combatant.active:not(.crlngn-clone)');
+    if (!activeCombatant) return;
+
+    const initiativeEl = activeCombatant.querySelector('.token-initiative');
+    if (!initiativeEl) return;
+
+    if (initiativeEl.querySelector('[data-action="rollInitiative"]')) return;
+
+    const advanceBtn = document.createElement('button');
+    advanceBtn.type = 'button';
+    advanceBtn.className = 'crlngn-advance-turn';
+    advanceBtn.innerHTML = '<i class="fa-solid fa-angles-right"></i>';
+    advanceBtn.setAttribute('data-tooltip', game.i18n.localize('COMBAT.TurnEnd'));
+    advanceBtn.setAttribute('data-tooltip-direction', 'LEFT');
+    advanceBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      game.combat?.nextTurn();
+    });
+
+    initiativeEl.appendChild(advanceBtn);
   }
 
   /**
@@ -1187,6 +1344,52 @@ export class CombatTrackerManager {
   }
 
   /**
+   * Hide or show previousRound/nextRound buttons based on showCombatRoundButtons setting
+   * @param {HTMLElement} combatPopout - The combat popout element
+   */
+  static #updateRoundButtons = (combatPopout) => {
+    const navControls = combatPopout?.querySelector('nav.combat-controls');
+    if (!navControls) return;
+
+    const prevRoundBtn = navControls.querySelector('button[data-action="previousRound"]');
+    const nextRoundBtn = navControls.querySelector('button[data-action="nextRound"]');
+
+    const display = CombatTrackerManager.showCombatRoundButtons ? '' : 'none';
+    if (prevRoundBtn) prevRoundBtn.style.display = display;
+    if (nextRoundBtn) nextRoundBtn.style.display = display;
+  }
+
+  /**
+   * Hide previousTurn/nextTurn/endTurn buttons for non-GM players
+   * Players use our custom end turn button instead
+   * @param {HTMLElement} combatPopout - The combat popout element
+   */
+  static #updateTurnButtons = (combatPopout) => {
+    const navControls = combatPopout?.querySelector('nav.combat-controls');
+    if (!navControls) return;
+
+    const prevTurnBtn = navControls.querySelector('button[data-action="previousTurn"]');
+    const nextTurnBtn = navControls.querySelector('button[data-action="nextTurn"]');
+    const endTurnBtn = navControls.querySelector('button[data-action="endTurn"]:not(.crlngn-end-turn-group button)');
+
+    const display = game.user?.isGM ? '' : 'none';
+    if (prevTurnBtn) prevTurnBtn.style.display = display;
+    if (nextTurnBtn) nextTurnBtn.style.display = display;
+    if (endTurnBtn) endTurnBtn.style.display = display;
+  }
+
+  /**
+   * Public method to update round button visibility based on current settings
+   * Called when showCombatRoundButtons setting changes
+   */
+  static updateRoundButtonsVisibility = () => {
+    const combatPopout = document.querySelector('#combat-popout');
+    if (combatPopout) {
+      CombatTrackerManager.#updateRoundButtons(combatPopout);
+    }
+  }
+
+  /**
    * Toggle fully rounded corners on nav.combat-controls when it is wider
    * than the combatant list, otherwise use flush top corners
    * @param {HTMLElement} combatPopout - The combat popout element
@@ -1202,5 +1405,36 @@ export class CombatTrackerManager {
     navControls.style.width = '';
 
     navControls.classList.toggle('crlngn-nav-rounded', navMinWidth >= trackerWidth);
+  }
+
+  /**
+   * Hide nav.combat-controls if it has no visible content
+   * For non-GM players, hide entirely unless it's their turn
+   * @param {HTMLElement} combatPopout - The combat popout element
+   */
+  static #updateNavControlsVisibility = (combatPopout) => {
+    const navControls = combatPopout?.querySelector('nav.combat-controls');
+    if (!navControls) return;
+
+    navControls.style.display = '';
+
+    if (!game.user?.isGM) {
+      const combat = game.combat;
+      const currentCombatant = combat?.combatant;
+      const isPlayersTurn = combat?.started && currentCombatant?.isOwner;
+      if (!isPlayersTurn) {
+        navControls.style.display = 'none';
+        return;
+      }
+    }
+
+    const hasVisibleContent = Array.from(navControls.querySelectorAll('button, .crlngn-round-counter')).some(el => {
+      const style = getComputedStyle(el);
+      if (style.display === 'none') return false;
+      const rect = el.getBoundingClientRect();
+      return rect.height > 0;
+    });
+
+    navControls.style.display = hasVisibleContent ? '' : 'none';
   }
 }

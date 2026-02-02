@@ -99,6 +99,7 @@ export const HOOKS_CORE = {
   RENDER_JOURNAL_SHEET: "renderJournalSheet",
 
   /* Combat */
+  CREATE_COMBAT: "createCombat",
   COMBAT_START: "combatStart",
   COMBAT_TURN: "combatTurn",
   COMBAT_TURN_CHANGE: "combatTurnChange",
