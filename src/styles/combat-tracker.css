@@ -74,7 +74,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       align-items: center;
       background: var(--background);
       border: 0;
-      border-radius: 24px;
+      border-radius: 2rem;
       display: flex;
       flex-direction: row;
       font-size: var(--font-size-12);
@@ -83,7 +83,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       left: 50%;
       max-width: none;
       opacity: 0;
-      padding: 4px 16px;
+      padding: 0 16px;
       pointer-events: none;
       position: absolute;
       top: calc(100% + var(--combatant-height)*0.2);
@@ -133,10 +133,20 @@ body.crlngn-ui.crlngn-combat-tracker {
 
     /* Hide original start/end combat buttons - we use our toggle in window-header */
     /* Hide End Turn button (combat-control-lg) - we show it in floating bar */
-    button.combat-control[data-action="startCombat"],
+    /* button.combat-control[data-action="startCombat"],
     button.combat-control[data-action="endCombat"],
     nav.combat-controls button.combat-control-lg {
       display: none;
+    }*/
+
+    button.combat-control[data-action="startCombat"],
+    button.combat-control[data-action="endCombat"] {
+      margin: 0 0 0 0.5rem;
+    }
+
+    button.combat-control[data-action="startCombat"] i,
+    button.combat-control[data-action="endCombat"] i {
+      font-size: calc(0.9rem * var(--carousel-scale));
     }
 
     /* Hide default window header elements except close button and our toggle */
@@ -204,7 +214,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       display: flex;
       flex-direction: row;
       overflow: visible;
-      clip-path: inset(-20% 0); 
+      clip-path: inset(-20% calc(var(--combatant-width) * -0.06));
       gap: calc(0.5rem * var(--carousel-scale, 1));
       z-index: 1;
     }
@@ -652,7 +662,7 @@ body.crlngn-ui.crlngn-combat-tracker {
     &.docked-bottom nav.combat-controls {
       top: auto;
       bottom: calc(100% + calc(var(--combatant-height) * 0.2));
-      border-radius: 20px;
+      border-radius: 2rem;
       padding: 2px 12px 2px 12px;
     }
     &.docked-bottom nav.combat-controls:before{
@@ -670,6 +680,13 @@ body.crlngn-ui.crlngn-combat-tracker {
       min-height: var(--combatant-height);
       align-items: flex-start;
       overflow: visible;
+      cursor: grab;
+      touch-action: pan-y;
+      user-select: none;
+    }
+
+    .combat-tracker:not(.crlngn-infinite-carousel):active {
+      cursor: grabbing;
     }
 
     /* Infinite carousel styles */
@@ -741,6 +758,11 @@ body.crlngn-ui.crlngn-combat-tracker {
       border-right: 5px solid transparent;
       
       border-bottom: 5px solid var(--color-warm-2);
+    }
+
+    button.inline-control {
+      --button-size: 1.25rem;
+      outline: none;
     }
     
 

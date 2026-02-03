@@ -737,7 +737,8 @@
       "noTrackedResource": "Combat Encounter is set to show resource bar for all charcters, but no tracked resource in Core Foundry is configured in Combat Tracker settings.",
       "configureResourceTitle": "Configure Resource Bar",
       "configureResourceMessage": "The carousel is set to show resource/HP bars for all combatants, but no tracked resource is configured. Select a resource to track below:",
-      "trackedResource": "Tracked Resource"
+      "trackedResource": "Tracked Resource",
+      "endCombatShort": ""
     },
     "dnd5e": {
       "chatCard": {

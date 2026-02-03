@@ -626,7 +626,9 @@ export class CombatTrackerManager {
             roundBadge.style.display = isStarted && round > 0 ? '' : 'none';
             navControls.appendChild(roundBadge);
           }
-          CombatTrackerManager.#injectInitiativeButtons(navControls);
+          CombatTrackerManager.#injectInitiativeButtons(combatPopout, navControls);
+          CombatTrackerManager.#convertStartCombatButton(navControls);
+          CombatTrackerManager.#convertEndCombatButton(navControls);
           CombatTrackerManager.#injectEndTurnButton(navControls);
         }
       }
@@ -1211,14 +1213,21 @@ export class CombatTrackerManager {
   }
 
   /**
-   * Inject initiative roll buttons and separator into nav.combat-controls
-   * Only creates elements if they don't already exist (GM only)
+   * Move initiative buttons from combat tracker header into nav.combat-controls
+   * Relocates existing system buttons instead of creating new ones (GM only)
+   * @param {HTMLElement} combatPopout - The combat popout element
    * @param {HTMLElement} navControls - The nav.combat-controls element
    */
-  static #injectInitiativeButtons = (navControls) => {
-    if (!navControls) return;
+  static #injectInitiativeButtons = (combatPopout, navControls) => {
+    if (!navControls || !combatPopout) return;
     if (!game.user?.isGM) return;
     if (navControls.querySelector('.crlngn-initiative-group')) return;
+
+    const headerButtons = combatPopout.querySelector('.combat-tracker-header .control-buttons.left');
+    if (!headerButtons) return;
+
+    const buttons = headerButtons.querySelectorAll('button');
+    if (buttons.length === 0) return;
 
     const group = document.createElement('div');
     group.className = 'crlngn-initiative-group';
@@ -1226,37 +1235,64 @@ export class CombatTrackerManager {
 
     const tooltipDir = CombatTrackerManager.#dockState.isDocked === 'bottom' ? 'DOWN' : 'UP';
 
-    const rollAllBtn = document.createElement('button');
-    rollAllBtn.type = 'button';
-    rollAllBtn.className = 'inline-control combat-control icon fa-solid fa-users';
-    rollAllBtn.setAttribute('data-action', 'rollAll');
-    rollAllBtn.setAttribute('data-tooltip', 'COMBAT.RollAll');
-    rollAllBtn.setAttribute('data-tooltip-direction', tooltipDir);
-    rollAllBtn.setAttribute('aria-label', game.i18n.localize('COMBAT.RollAll'));
-    rollAllBtn.addEventListener('click', () => game.combat?.rollAll());
-
-    const rollNpcBtn = document.createElement('button');
-    rollNpcBtn.type = 'button';
-    rollNpcBtn.className = 'inline-control combat-control icon fa-solid fa-users-cog';
-    rollNpcBtn.setAttribute('data-action', 'rollNPC');
-    rollNpcBtn.setAttribute('data-tooltip', 'COMBAT.RollNPC');
-    rollNpcBtn.setAttribute('data-tooltip-direction', tooltipDir);
-    rollNpcBtn.setAttribute('aria-label', game.i18n.localize('COMBAT.RollNPC'));
-    rollNpcBtn.addEventListener('click', () => game.combat?.rollNPC());
+    buttons.forEach(btn => {
+      btn.setAttribute('data-tooltip-direction', tooltipDir);
+      group.appendChild(btn);
+    });
 
     const separator = document.createElement('span');
     separator.className = 'crlngn-nav-separator';
-
-    group.appendChild(rollAllBtn);
-    group.appendChild(rollNpcBtn);
     group.appendChild(separator);
 
     navControls.insertBefore(group, navControls.firstChild);
   }
 
   /**
+   * Convert the large startCombat button to an icon-only button matching nav controls style
+   * @param {HTMLElement} navControls - The nav.combat-controls element
+   */
+  static #convertStartCombatButton = (navControls) => {
+    if (!navControls) return;
+
+    const startBtn = navControls.querySelector('button[data-action="startCombat"]');
+    if (!startBtn || startBtn.dataset.crlngnConverted) return;
+
+    // startBtn.classList.remove('combat-control-lg');
+    startBtn.classList.add('combat-control', 'icon');
+
+    const icon = startBtn.querySelector('i');
+    const iconClasses = icon ? icon.className : 'fa-solid fa-play';
+    startBtn.textContent = '';
+
+    const newIcon = document.createElement('i');
+    newIcon.className = iconClasses;
+    startBtn.appendChild(newIcon);
+
+    startBtn.dataset.crlngnConverted = 'true';
+  }
+
+  /**
+   * Convert the endCombat button: shorten label to "End" and move it to the end of nav controls
+   * @param {HTMLElement} navControls - The nav.combat-controls element
+   */
+  static #convertEndCombatButton = (navControls) => {
+    if (!navControls) return;
+
+    const endBtn = navControls.querySelector('button[data-action="endCombat"]');
+    if (!endBtn || endBtn.dataset.crlngnConverted) return;
+
+    const labelSpan = endBtn.querySelector('span');
+    if (labelSpan) {
+      labelSpan.textContent = game.i18n.localize('CRLNGN_UI.combat.endCombatShort');
+    }
+
+    navControls.appendChild(endBtn);
+    endBtn.dataset.crlngnConverted = 'true';
+  }
+
+  /**
    * Update initiative button visibility within nav.combat-controls
-   * Shows when combatants exist but haven't all rolled initiative (GM only)
+   * Shows when combat has combatants and is not yet started (GM only)
    * @param {HTMLElement} combatPopout - The combat popout element
    */
   static #updateInitiativeButtons = (combatPopout) => {
@@ -1277,8 +1313,7 @@ export class CombatTrackerManager {
       return;
     }
 
-    const hasUnrolledInitiative = combat.combatants.some(c => c.initiative === null || c.initiative === undefined);
-    group.style.display = hasUnrolledInitiative ? 'contents' : 'none';
+    group.style.display = combat.started ? 'none' : 'contents';
   }
 
   /**

@@ -277,9 +277,6 @@ export class SheetsUtil {
    * @param {ActorSheet} actorSheet - The actor sheet application
    */
   static #addChatOverlays(html, actorSheet){
-    // Skip if overlays already added to this sheet
-    if(html._crlngnChatOverlaysAdded) return;
-
     // Select the img.item-image elements, excluding effects (which don't have displayCard)
     const itemImages = html.querySelectorAll(".items-section .item:not(.effect) .item-row img.item-image");
 
@@ -321,9 +318,6 @@ export class SheetsUtil {
 
       wrapper.appendChild(overlay);
     });
-
-    // Mark sheet as processed
-    html._crlngnChatOverlaysAdded = true;
   }
 
   /**
@@ -332,10 +326,7 @@ export class SheetsUtil {
    * @param {HTMLElement} html - The sheet HTML element
    */
   static #convertItemTooltips(html){
-    // Skip if already processed
-    if(html._crlngnItemTooltipsConverted) return;
-
-    // Find all item-name elements that have item-tooltip class
+    // Find all item-name elements that have item-tooltip class (already-converted items won't match since the class is removed)
     const itemNames = html.querySelectorAll(".items-section .item .item-row .item-name.item-tooltip");
 
     itemNames.forEach(itemName => {
@@ -364,9 +355,6 @@ export class SheetsUtil {
       // Append scroll button to the end of item-name so it's always last
       itemName.appendChild(scrollBtn);
     });
-
-    // Mark sheet as processed
-    html._crlngnItemTooltipsConverted = true;
   }
 
   /**

@@ -124,7 +124,7 @@ export const CarouselTransforms = {
         element.style.position = 'absolute';
         element.classList.add('crlngn-positioned');
       } else {
-        element.style.transform = '';
+        element.style.transform = state.scrollX ? `translateX(${-state.scrollX}px)` : '';
         element.style.left = '';
         element.style.position = '';
         element.classList.remove('crlngn-positioned');

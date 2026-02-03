@@ -239,6 +239,8 @@ export class CombatCarousel {
   static #animateNewCombatants = (tracker, addedIds, oldIds, oldStep, oldTrackerWidth) => {
     const existingItems = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
     const newTransforms = new Map();
+    const state = CombatCarousel.#state;
+    const useInfiniteWrap = CarouselTransforms.shouldUseInfiniteWrap(state);
 
     tracker.style.overflow = 'visible';
 
@@ -250,76 +252,88 @@ export class CombatCarousel {
       element.classList.add('crlngn-slide-down');
     });
 
-    const state = CombatCarousel.#state;
-    const scale = CombatCarousel.#getCurrentScale();
-    const baseFontSize = 16;
-    const cardWidth = 5.5 * baseFontSize * scale;
-    const oldContainerCenter = oldTrackerWidth / 2;
-    const oldTrack = oldIds.length * oldStep;
+    if (useInfiniteWrap) {
+      const scale = CombatCarousel.#getCurrentScale();
+      const baseFontSize = 16;
+      const cardWidth = 5.5 * baseFontSize * scale;
+      const oldContainerCenter = oldTrackerWidth / 2;
+      const oldTrack = oldIds.length * oldStep;
 
-    const oldScreenXMap = new Map();
-    existingItems.forEach(el => {
-      const id = el.dataset.combatantId;
-      if (addedIds.includes(id)) return;
-      newTransforms.set(id, el.style.transform);
-      const oldIndex = oldIds.indexOf(id);
-      if (oldIndex !== -1) {
-        const itemX = oldIndex * oldStep;
-        let pos = itemX - state.scrollX;
-        if (oldIds.length >= 2) {
-          const halfTrack = oldTrack / 2;
-          if (pos < -halfTrack) pos += oldTrack;
-          if (pos > halfTrack) pos -= oldTrack;
-        }
-        const screenX = oldContainerCenter + pos - (cardWidth / 2);
-        oldScreenXMap.set(id, screenX);
-        el.style.transform = `translateX(${screenX}px)`;
-      }
-    });
-
-    requestAnimationFrame(() => {
+      const oldScreenXMap = new Map();
       existingItems.forEach(el => {
         const id = el.dataset.combatantId;
         if (addedIds.includes(id)) return;
-        const newTransform = newTransforms.get(id);
-        if (!newTransform) return;
-        const newXMatch = newTransform.match(/translateX\(([^)]+)px\)/);
-        const newX = newXMatch ? parseFloat(newXMatch[1]) : 0;
-        const oldX = oldScreenXMap.get(id) ?? newX;
-
-        if (newX < oldX) {
-          el.style.opacity = '0';
-          el.style.transform = newTransform;
-          setTimeout(() => { el.style.transition = 'opacity 0.2s ease-out'; el.style.opacity = ''; }, 50);
-        } else {
-          el.style.transition = 'transform 0.25s ease-out';
-          el.style.transform = newTransform;
+        newTransforms.set(id, el.style.transform);
+        const oldIndex = oldIds.indexOf(id);
+        if (oldIndex !== -1) {
+          const itemX = oldIndex * oldStep;
+          let pos = itemX - state.scrollX;
+          if (oldIds.length >= 2) {
+            const halfTrack = oldTrack / 2;
+            if (pos < -halfTrack) pos += oldTrack;
+            if (pos > halfTrack) pos -= oldTrack;
+          }
+          const screenX = oldContainerCenter + pos - (cardWidth / 2);
+          oldScreenXMap.set(id, screenX);
+          el.style.transform = `translateX(${screenX}px)`;
         }
       });
 
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         existingItems.forEach(el => {
-          if (!addedIds.includes(el.dataset.combatantId)) {
-            el.style.transition = '';
-            el.style.opacity = '';
+          const id = el.dataset.combatantId;
+          if (addedIds.includes(id)) return;
+          const newTransform = newTransforms.get(id);
+          if (!newTransform) return;
+          const newXMatch = newTransform.match(/translateX\(([^)]+)px\)/);
+          const newX = newXMatch ? parseFloat(newXMatch[1]) : 0;
+          const oldX = oldScreenXMap.get(id) ?? newX;
+
+          if (newX < oldX) {
+            el.style.opacity = '0';
+            el.style.transform = newTransform;
+            setTimeout(() => { el.style.transition = 'opacity 0.2s ease-out'; el.style.opacity = ''; }, 50);
+          } else {
+            el.style.transition = 'transform 0.25s ease-out';
+            el.style.transform = newTransform;
           }
         });
 
-        addedIds.forEach(id => {
-          const element = tracker.querySelector(`li.combatant[data-combatant-id="${id}"]`);
-          if (!element) return;
-          element.offsetHeight;
-          element.style.transition = 'top 0.3s ease-out, opacity 0.3s ease-out';
-          element.style.opacity = '';
-          element.style.top = '0';
-          element.addEventListener('transitionend', (e) => {
-            if (e.propertyName !== 'top') return;
-            element.classList.remove('crlngn-slide-down');
-            element.style.transition = '';
-            tracker.style.overflow = '';
+        setTimeout(() => {
+          existingItems.forEach(el => {
+            if (!addedIds.includes(el.dataset.combatantId)) {
+              el.style.transition = '';
+              el.style.opacity = '';
+            }
           });
-        });
-      }, 250);
+
+          CombatCarousel.#slideDownNewCombatants(tracker, addedIds);
+        }, 250);
+      });
+    } else {
+      requestAnimationFrame(() => {
+        CombatCarousel.#slideDownNewCombatants(tracker, addedIds);
+      });
+    }
+  }
+
+  /**
+   * Slide down newly added combatant elements into view
+   */
+  static #slideDownNewCombatants = (tracker, addedIds) => {
+    addedIds.forEach(id => {
+      const element = tracker.querySelector(`li.combatant[data-combatant-id="${id}"]`);
+      if (!element) return;
+      element.offsetHeight;
+      element.style.transition = 'top 0.3s ease-out, opacity 0.3s ease-out';
+      element.style.opacity = '';
+      element.style.top = '0';
+      element.addEventListener('transitionend', (e) => {
+        if (e.propertyName !== 'top') return;
+        element.classList.remove('crlngn-slide-down');
+        element.style.transition = '';
+        tracker.style.overflow = '';
+      });
     });
   }
 
@@ -504,77 +518,27 @@ export class CombatCarousel {
   }
 
   /**
-   * Add combat toggle button to the window header
+   * Move the encounter context menu button into the window header
    */
   static addCombatToggleButton = (combatPopout, windowHeader) => {
-    if (!windowHeader) return;
+    if (!windowHeader || !combatPopout) return;
     if (!game.user?.isGM) return;
     if (windowHeader.querySelector('.crlngn-combat-toggle-container')) return;
 
-    const combat = game.combat;
-    const isStarted = combat?.started;
+    const contextBtn = combatPopout.querySelector('.combat-tracker-header .encounter-context-menu');
+    if (!contextBtn) return;
 
     const toggleContainer = document.createElement('div');
     toggleContainer.className = 'crlngn-combat-toggle-container';
 
-    const toggleBtn = document.createElement('button');
-    toggleBtn.type = 'button';
-    toggleBtn.className = `crlngn-combat-toggle ${isStarted ? 'combat-active' : ''}`;
-    toggleBtn.dataset.tooltip = isStarted
-      ? game.i18n.localize('COMBAT.End')
-      : game.i18n.localize('COMBAT.Begin');
-    toggleBtn.innerHTML = `<i class="fas ${isStarted ? 'fa-circle-stop' : 'fa-play'}"></i>`;
-    toggleContainer.appendChild(toggleBtn);
-
-    toggleBtn.addEventListener('click', async (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      const combat = game.combat;
-      if (!combat) return;
-
-      if (combat.started) {
-        await combat.endCombat();
-      } else {
-        await combat.startCombat();
-      }
-
-      CombatCarousel.updateCombatToggleButton(combatPopout);
-    });
+    contextBtn.setAttribute('data-tooltip-direction', 'LEFT');
+    toggleContainer.appendChild(contextBtn);
 
     windowHeader.appendChild(toggleContainer);
-    CombatCarousel.#addRoundCounter(combatPopout);
   }
 
   /**
-   * Add round counter badge to nav.combat-controls
-   */
-  static #addRoundCounter = (combatPopout) => {
-    if (!combatPopout) return;
-
-    const navControls = combatPopout.querySelector('nav.combat-controls');
-    if (!navControls) return;
-
-    navControls.querySelectorAll('button').forEach(btn => {
-      btn.setAttribute('data-tooltip-direction', 'UP');
-    });
-
-    if (navControls.querySelector('.crlngn-round-counter')) return;
-
-    const combat = game.combat;
-    const isStarted = combat?.started;
-    const round = combat?.round || 0;
-
-    const roundBadge = document.createElement('span');
-    roundBadge.className = 'crlngn-round-counter';
-    roundBadge.textContent = round;
-    roundBadge.style.display = isStarted && round > 0 ? '' : 'none';
-
-    navControls.appendChild(roundBadge);
-  }
-
-  /**
-   * Update the combat toggle button state
+   * Update the round counter badge state
    */
   static updateCombatToggleButton = (combatPopout) => {
     if (!combatPopout) {
@@ -582,18 +546,9 @@ export class CombatCarousel {
     }
     if (!combatPopout) return;
 
-    const toggleBtn = combatPopout.querySelector('.crlngn-combat-toggle');
-    if (!toggleBtn) return;
-
     const combat = game.combat;
     const isStarted = combat?.started;
     const round = combat?.round || 0;
-
-    toggleBtn.className = `crlngn-combat-toggle ${isStarted ? 'combat-active' : ''}`;
-    toggleBtn.dataset.tooltip = isStarted
-      ? game.i18n.localize('COMBAT.End')
-      : game.i18n.localize('COMBAT.Begin');
-    toggleBtn.innerHTML = `<i class="fas ${isStarted ? 'fa-circle-stop' : 'fa-play'}"></i>`;
 
     const roundBadge = combatPopout.querySelector('.crlngn-round-counter');
     if (roundBadge) {
