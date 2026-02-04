@@ -816,6 +816,10 @@ export class CombatTrackerManager {
     const combatWithCombatants = CombatTrackerManager.getCombatWithCombatants();
     if (!combatWithCombatants) return;
 
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
+      || window.matchMedia('(max-width: 1024px) and (orientation: portrait)').matches;
+    if (isMobile && !combatWithCombatants.started) return;
+
     if (CombatTrackerManager.#combatTrackerPoppedOut) {
       const existingPopout = document.querySelector('#combat-popout');
       if (existingPopout) {

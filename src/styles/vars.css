@@ -418,8 +418,8 @@
     .app.theme-dark,
     &.theme-dark,
     #interface.theme-dark,
-    #interface.theme-dark .theme-light,
-    #interface.theme-dark .app.themed.theme-light
+    #interface.theme-dark .theme-light:not(.chat-log),
+    #interface.theme-dark .app.theme-light
     &.theme-dark .sidebar-popout:not(.theme-dark),
     &.theme-dark #mastercrafted-recipeApp,
     .application:not(.monks-enhanced-journal).theme-dark,
