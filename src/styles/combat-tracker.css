@@ -546,9 +546,19 @@ body.crlngn-ui.crlngn-combat-tracker {
       width: 100%;
       height: 100%;
       padding: 0;
-      border: none;
       transition: none;
       background-size: 50% 50%;
+      background-color: transparent;
+      border: 0;
+      outline: 0;
+    }
+    li.combatant > .token-initiative button:hover,
+    li.combatant > .token-initiative button:active,
+    li.combatant > .token-initiative button:focus,
+    li.combatant > .token-initiative button:focus-visible {
+      border: 0;
+      outline: 0;
+      box-shadow: none;
     }
     li.combatant > .token-initiative:before{
       content: "";
@@ -567,14 +577,18 @@ body.crlngn-ui.crlngn-combat-tracker {
       background-color: transparent;
     }
     li.combatant > .token-initiative button:hover{
-      filter: brightness(10);
+      --initiative-icon-hover: var(--initiative-icon) !important;
       border-color: transparent;
     }
 
     li.combatant > .token-initiative button[data-action="rollInitiative"] {
+      border: 0;
+      outline: 0;
       transition: transform 0.3s ease;
     }
     li.combatant > .token-initiative button[data-action="rollInitiative"]:hover {
+      border: 0;
+      outline: 0;
       animation: crlngn-spin 0.6s ease-in-out;
     }
 
@@ -583,12 +597,12 @@ body.crlngn-ui.crlngn-combat-tracker {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 100%;
-      height: 6%;
+      width: 2.5em;
+      height: 2.5em;
       padding: 0;
       margin: 0;
       border: none;
-      border-radius: 0;
+      border-radius: 50%;
       background: transparent;
       box-shadow: none;
       cursor: pointer;
@@ -596,7 +610,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       display: flex;
       align-items: center;
       justify-content: center;
-      opacity: 0;
+      opacity: 0.75;
       transition: opacity 0.15s ease, transform 0.15s ease;
       outline: 0;
       filter: none;
@@ -655,6 +669,8 @@ body.crlngn-ui.crlngn-combat-tracker {
       transform: none !important;
       position: relative !important;
       width: auto !important;
+      min-width: min-content;
+      justify-content: center;
       pointer-events: all;
     }
 

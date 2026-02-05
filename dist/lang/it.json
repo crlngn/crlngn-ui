@@ -178,6 +178,10 @@
             "label": "Scala Carosello Ancorato",
             "hint": "Scala del carosello di combattimento quando ancorato in alto allo schermo. Intervallo: 0.7 (70%) a 1.5 (150%)."
           },
+          "dockedCarouselOffset": {
+            "label": "Offset Carosello Ancorato",
+            "hint": "Offset in pixel quando il carosello è ancorato. Applicato come margine superiore quando ancorato in alto, o margine inferiore quando ancorato in basso."
+          },
           "combatTrackerTakeFullWidth": {
             "label": "Espandi Carosello quando Barra Laterale Compressa",
             "hint": "Quando abilitato, il carosello occupa tutta la larghezza disponibile quando la barra laterale è compressa, e si adatta quando la barra laterale è espansa."

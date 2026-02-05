@@ -84,6 +84,7 @@ export class CombatTrackerManager {
     CombatTrackerManager.collapseNavDuringCombat = SettingsUtil.get(SETTINGS.collapseNavDuringCombat.tag) ?? false;
     CombatTrackerManager.enableCombatTrackerCarousel = SettingsUtil.get(SETTINGS.enableCombatTrackerCarousel.tag) ?? false;
     CombatTrackerManager.combatCarouselScale = SettingsUtil.get(SETTINGS.combatCarouselScale.tag) ?? 1;
+    CombatTrackerManager.dockedCarouselOffset = SettingsUtil.get(SETTINGS.dockedCarouselOffset.tag) ?? 0;
     CombatTrackerManager.combatTrackerTakeFullWidth = SettingsUtil.get(SETTINGS.combatTrackerTakeFullWidth.tag) ?? false;
     CombatTrackerManager.carouselImageSource = SettingsUtil.get(SETTINGS.carouselImageSource.tag) ?? "token";
     CombatTrackerManager.combatTrackerLayout = SettingsUtil.get(SETTINGS.combatTrackerLayout.tag) ?? "carousel";
@@ -804,6 +805,25 @@ export class CombatTrackerManager {
   }
 
   /**
+   * Re-apply the docked offset margin based on current dock state
+   */
+  static applyDockedOffset = () => {
+    const combatPopout = document.querySelector('#combat-popout');
+    if (!combatPopout) return;
+
+    const dockPosition = CombatTrackerManager.#dockState.isDocked;
+    if (dockPosition === 'top') {
+      const offset = CombatTrackerManager.dockedCarouselOffset ?? 0;
+      combatPopout.style.marginTop = offset ? `${offset}px` : '';
+      combatPopout.style.marginBottom = '';
+    } else if (dockPosition === 'bottom') {
+      const offset = CombatTrackerManager.dockedCarouselOffset ?? 0;
+      combatPopout.style.marginBottom = offset ? `${offset}px` : '';
+      combatPopout.style.marginTop = '';
+    }
+  }
+
+  /**
    * Pop out the combat tracker when combat has combatants
    * @param {number} retryCount - Number of retries attempted (internal use)
    */
@@ -818,7 +838,7 @@ export class CombatTrackerManager {
 
     const isMobile = window.matchMedia('(max-width: 768px)').matches
       || window.matchMedia('(max-width: 1024px) and (orientation: portrait)').matches;
-    if (isMobile && !combatWithCombatants.started) return;
+    if (isMobile && !(combatWithCombatants.round >= 0)) return;
 
     if (CombatTrackerManager.#combatTrackerPoppedOut) {
       const existingPopout = document.querySelector('#combat-popout');
@@ -1117,6 +1137,9 @@ export class CombatTrackerManager {
     combatPopout.style.zIndex = 'calc(var(--z-index-app) - 1)';
     combatPopout.style.left = '50%';
     combatPopout.style.top = 'var(--crlngn-top-offset)';
+    const offset = CombatTrackerManager.dockedCarouselOffset ?? 0;
+    combatPopout.style.marginTop = offset ? `${offset}px` : '';
+    combatPopout.style.marginBottom = '';
 
     const interfaceEl = document.getElementById('interface');
     if (interfaceEl && combatPopout.parentElement !== interfaceEl) {
@@ -1133,6 +1156,9 @@ export class CombatTrackerManager {
     combatPopout.style.zIndex = 'calc(var(--z-index-app) - 1)';
     combatPopout.style.left = 'auto';
     combatPopout.style.top = 'auto';
+    const offset = CombatTrackerManager.dockedCarouselOffset ?? 0;
+    combatPopout.style.marginBottom = offset ? `${offset}px` : '';
+    combatPopout.style.marginTop = '';
 
     const uiBottom = document.querySelector('#ui-bottom');
     if (uiBottom && combatPopout.parentElement !== uiBottom) {
@@ -1178,6 +1204,8 @@ export class CombatTrackerManager {
     combatPopout.style.transform = '';
     combatPopout.style.zIndex = '';
     combatPopout.style.bottom = '';
+    combatPopout.style.marginTop = '';
+    combatPopout.style.marginBottom = '';
 
     if (combatPopout.parentElement?.id === 'interface' || combatPopout.parentElement?.id === 'ui-bottom') {
       document.body.appendChild(combatPopout);
@@ -1399,8 +1427,8 @@ export class CombatTrackerManager {
   }
 
   /**
-   * Hide previousTurn/nextTurn/endTurn buttons for non-GM players
-   * Players use our custom end turn button instead
+   * Hide Foundry's default large nextTurn button for all users (replaced by custom controls)
+   * Show inline arrow turn buttons only for GMs
    * @param {HTMLElement} combatPopout - The combat popout element
    */
   static #updateTurnButtons = (combatPopout) => {
@@ -1408,13 +1436,15 @@ export class CombatTrackerManager {
     if (!navControls) return;
 
     const prevTurnBtn = navControls.querySelector('button[data-action="previousTurn"]');
-    const nextTurnBtn = navControls.querySelector('button[data-action="nextTurn"]');
+    const nextTurnBtnLg = navControls.querySelector('button[data-action="nextTurn"].combat-control-lg');
+    const nextTurnBtn = navControls.querySelector('button[data-action="nextTurn"]:not(.combat-control-lg)');
     const endTurnBtn = navControls.querySelector('button[data-action="endTurn"]:not(.crlngn-end-turn-group button)');
 
     const display = game.user?.isGM ? '' : 'none';
     if (prevTurnBtn) prevTurnBtn.style.display = display;
     if (nextTurnBtn) nextTurnBtn.style.display = display;
-    if (endTurnBtn) endTurnBtn.style.display = display;
+    if (nextTurnBtnLg) nextTurnBtnLg.style.display = 'none';
+    if (endTurnBtn) endTurnBtn.style.display = 'none';
   }
 
   /**

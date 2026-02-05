@@ -506,6 +506,7 @@ export function getSettings() {
       fields: [
         "enableCombatTrackerCarousel",
         "combatCarouselScale",
+        "dockedCarouselOffset",
         "combatTrackerTakeFullWidth",
         "carouselImageSource",
         "combatTrackerLayout",
@@ -515,6 +516,7 @@ export function getSettings() {
       default: {
         enableCombatTrackerCarousel: true,
         combatCarouselScale: 1,
+        dockedCarouselOffset: 0,
         combatTrackerTakeFullWidth: false,
         carouselImageSource: "actor",
         combatTrackerLayout: "carousel",
@@ -1775,6 +1777,17 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.combatCarouselScale.hint"),
       propType: Number,
       default: 1,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    dockedCarouselOffset: {
+      tag: "v2-docked-carousel-offset",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.dockedCarouselOffset.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.dockedCarouselOffset.hint"),
+      propType: Number,
+      inputType: SETTING_INPUT.number,
+      default: 0,
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false

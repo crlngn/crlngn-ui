@@ -18,6 +18,9 @@ export const CarouselInteraction = {
   boundPointerUp: null,
   currentTrackerElement: null,
   snapTimeoutId: null,
+  lastClickTime: 0,
+  lastClickCombatantId: null,
+  DBLCLICK_THRESHOLD: 400,
 
   /**
    * Get the index of the combatant currently closest to center
@@ -302,6 +305,7 @@ export const CarouselInteraction = {
 
     tracker.addEventListener('pointerdown', (e) => CarouselInteraction.onPointerDown(e, state, config));
     tracker.addEventListener('click', CarouselInteraction.onClickCapture, true);
+
     CarouselInteraction.currentTrackerElement = tracker;
   },
 
@@ -323,6 +327,7 @@ export const CarouselInteraction = {
 
     tracker.addEventListener('pointerdown', (e) => CarouselInteraction.onPointerDown(e, state, config));
     tracker.addEventListener('click', CarouselInteraction.onClickCapture, true);
+
     CarouselInteraction.currentTrackerElement = tracker;
 
     LogUtil.log("CarouselInteraction - Re-attached drag listeners to new tracker element");
@@ -335,6 +340,7 @@ export const CarouselInteraction = {
   removeDragListeners(tracker) {
     tracker.removeEventListener('pointerdown', CarouselInteraction.onPointerDown);
     tracker.removeEventListener('click', CarouselInteraction.onClickCapture, true);
+
     document.removeEventListener('pointermove', CarouselInteraction.boundPointerMove);
     document.removeEventListener('pointerup', CarouselInteraction.boundPointerUp);
   },
@@ -350,6 +356,7 @@ export const CarouselInteraction = {
       e.preventDefault();
     }
   },
+
 
   /**
    * Handle pointer down for drag start
@@ -436,11 +443,24 @@ export const CarouselInteraction = {
       const combatantEl = target?.closest('li.combatant[data-combatant-id]');
       if (combatantEl) {
         const combatantId = combatantEl.dataset.combatantId;
-        const combatant = game.combat?.combatants.get(combatantId);
-        const token = combatant?.token?.object;
-        if (token?.visible) {
-          if (!token.controlled) token.control({releaseOthers: true});
-          canvas.animatePan(token.center);
+        const now = Date.now();
+        const isDblClick = (now - CarouselInteraction.lastClickTime < CarouselInteraction.DBLCLICK_THRESHOLD)
+          && (CarouselInteraction.lastClickCombatantId === combatantId);
+
+        CarouselInteraction.lastClickTime = now;
+        CarouselInteraction.lastClickCombatantId = combatantId;
+
+        if (isDblClick) {
+          const combatant = game.combat?.combatants.get(combatantId);
+          combatant?.actor?.sheet?.render(true);
+          CarouselInteraction.lastClickTime = 0;
+        } else {
+          const combatant = game.combat?.combatants.get(combatantId);
+          const token = combatant?.token?.object;
+          if (token?.visible) {
+            if (!token.controlled) token.control({releaseOthers: true});
+            canvas.animatePan(token.center);
+          }
         }
       }
       return;

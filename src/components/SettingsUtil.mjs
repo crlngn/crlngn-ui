@@ -652,6 +652,9 @@ export class SettingsUtil {
       case SETTINGS.combatCarouselScale.tag:
         CombatTrackerManager.combatCarouselScale = value;
         CombatTrackerManager.applyScale(); break;
+      case SETTINGS.dockedCarouselOffset.tag:
+        CombatTrackerManager.dockedCarouselOffset = value;
+        CombatTrackerManager.applyDockedOffset(); break;
       case SETTINGS.combatTrackerTakeFullWidth.tag:
         CombatTrackerManager.combatTrackerTakeFullWidth = value;
         document.body.classList.toggle('crlngn-carousel-full-width', value);
