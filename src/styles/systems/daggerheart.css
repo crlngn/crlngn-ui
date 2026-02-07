@@ -759,8 +759,8 @@ body.crlngn-ui.system-daggerheart {
     width: 30px;
     height: 30px;
     aspect-ratio: 1;
-    color: var(--color-text-primary);
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.75);
+    color: var(--color-light-1);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
     background: transparent;
   }
   &.crlngn-combat-tracker #combat-popout .spotlight-control:hover {
@@ -877,8 +877,8 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets {
   .dh-style input[type=text],
   .dh-style input[type=number],
   .dh-style textarea {
-    border: 1px solid light-dark(var(--color-light-1), var(--color-dark-1));
-    background: var(--input-background-color);
+    background: light-dark(var(--control-bg-color), var(--color-cool-4));
+    border: 1px solid light-dark(rgba(255, 255, 255, 0.45), var(--color-dark-1));
     color: light-dark(var(--color-dark-1), var(--color-light-1));
   }
 
@@ -941,11 +941,11 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets {
   .dh-style a:hover,
   .dh-style a.active {
     color: light-dark(var(--color-warm-3), var(--color-warm-2));
-    text-shadow: 0 0 4px var(--color-secondary);
+    text-shadow: 0 0 4px var(--color-warm-2);
   }
 
   .theme-light .application.daggerheart.dh-style.dialog .tab.details .traits-inner-container .trait-container div {
-    text-shadow: 0 0 4px var(--color-secondary);
+    text-shadow: 0 0 4px var(--color-warm-2);
   }
 
   /* Dividers - GOLDEN COLOR */
@@ -1266,7 +1266,7 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets {
 
   .application.sheet.dh-style .character-sidebar-sheet .info-section .status-section .status-bar.armor-slots .slot-value .slot-bar {
     border: 1px solid light-dark(var(--dark-blue), var(--color-warm-2));
-    background: var(--dark-blue);
+    background: light-dark(transparent, var(--dark-blue));
     color: light-dark(var(--dark-blue), var(--color-warm-2));
   }
 
@@ -1500,7 +1500,7 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets {
 
   .status-bar .progress-bar {
     border: 1px solid light-dark(var(--dark-blue), var(--color-warm-2));
-    background: var(--dark-blue);
+    background: light-dark(var(--color-warm-2),var(--dark-blue));
   }
 
   /* Window header buttons */

@@ -176,7 +176,7 @@
     --dnd5e-color-table-row-odd: var(--color-light-bg-15);
     --dnd5e-color-table-row-even: transparent;
     --default-color: var(--color-light-1);
-    --input-background-color: rgba(255, 255, 255, 0.2);
+    --input-background-color: rgba(255, 255, 255, 0.3);
     --input-border-color: var(--color-secondary);
     --range-thumb-background-color: var(--color-warm-2);
 
@@ -317,9 +317,14 @@
       /*pf2e*/
       --color-pf-alternate: rgba(82, 107, 120, 0.44);
 
+      .journal-entry.theme-light .journal-sidebar input {
+        --color-text-primary: var(--color-light-1);
+      }
+
       input {
         --input-text-color: var(--color-text-primary);
       }
+
     }
 
     &.theme-dark .theme-light .chat-bubble {

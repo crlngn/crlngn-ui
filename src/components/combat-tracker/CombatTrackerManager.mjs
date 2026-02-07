@@ -246,28 +246,32 @@ export class CombatTrackerManager {
   static getCombatWithCombatants = (checkPlayerOwned = true) => {
     const combats = game.combats?.contents || [];
     const requirePlayerOwner = CombatTrackerManager.carouselRequirePlayerOwner;
+    const currentSceneId = canvas.scene?.id ?? game.scenes?.current?.id;
 
     LogUtil.log("getCombatWithCombatants", [
       "checkPlayerOwned:", checkPlayerOwned,
       "requirePlayerOwner setting:", requirePlayerOwner,
-      "combats.length:", combats.length
+      "combats.length:", combats.length,
+      "currentSceneId:", currentSceneId
     ]);
 
     for (const combat of combats) {
+      // Skip combats from other scenes
+      if (currentSceneId && combat.scene?.id && combat.scene.id !== currentSceneId) continue;
+
       LogUtil.log("getCombatWithCombatants - checking combat", [
         "id:", combat.id,
         "combatants.size:", combat.combatants?.size,
         "active:", combat.active,
-        "started:", combat.started
+        "started:", combat.started,
+        "scene:", combat.scene?.id
       ]);
 
       if (combat.combatants?.size > 0) {
-        // If not checking player ownership OR setting doesn't require it, return any combat with combatants
         if (!checkPlayerOwned || !requirePlayerOwner) {
           return combat;
         }
 
-        // Log details about each combatant for debugging
         combat.combatants.forEach(c => {
           const actor = c.actor ?? game.actors?.get(c.actorId);
           LogUtil.log("getCombatWithCombatants - combatant", [
@@ -298,6 +302,9 @@ export class CombatTrackerManager {
    */
   static onCombatCreated = (combat) => {
     if (!CombatTrackerManager.enableCombatTrackerCarousel) return;
+
+    const currentSceneId = canvas.scene?.id ?? game.scenes?.current?.id;
+    if (currentSceneId && combat.scene?.id && combat.scene.id !== currentSceneId) return;
 
     // Use setTimeout to allow combatants to be fully initialized
     setTimeout(() => {
@@ -337,6 +344,9 @@ export class CombatTrackerManager {
    * @param {object} updateData - The update data
    */
   static onCombatUpdate = (combat, updateData) => {
+    const currentSceneId = canvas.scene?.id ?? game.scenes?.current?.id;
+    if (currentSceneId && combat.scene?.id && combat.scene.id !== currentSceneId) return;
+
     if (combat.combatants?.size > 0) {
       LogUtil.log("onCombatUpdate - combat with combatants", [
         "combat:", combat.id,
