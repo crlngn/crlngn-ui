@@ -1267,7 +1267,15 @@ body.crlngn-ui {
   }
   .application .window-content {
     overflow: auto;
-    height: auto;
+    max-height: -webkit-fit-content;
+    max-height: fit-content;
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    .application .window-content {
+      overflow: visible;
+      min-height: auto;
+    }
   }
 
 

@@ -2,6 +2,7 @@ import { LogUtil } from "../LogUtil.mjs";
 import { LibWrapperUtil } from "../LibWrapperUtil.mjs";
 import { CarouselTransforms } from "./CarouselTransforms.mjs";
 import { CarouselInteraction } from "./CarouselInteraction.mjs";
+import { CombatTrackerManager } from "./CombatTrackerManager.mjs";
 
 /**
  * Handles libWrapper integration for intercepting Combat turn navigation
@@ -182,8 +183,9 @@ export const CarouselCombatWrappers = {
 
     const currentTurn = combat.turn ?? -1;
     let nextTurn = currentTurn + 1;
+    const shouldSkipDefeated = combat.settings.skipDefeated || CombatTrackerManager.carouselHideDefeated;
 
-    if (combat.settings.skipDefeated) {
+    if (shouldSkipDefeated) {
       nextTurn = null;
       for (let i = currentTurn + 1; i < combat.turns.length; i++) {
         if (!combat.turns[i].isDefeated) {
@@ -244,7 +246,16 @@ export const CarouselCombatWrappers = {
       return wrapped.call(this, ...args);
     }
 
-    const previousTurn = (combat.turn ?? combat.turns.length) - 1;
+    let previousTurn = (combat.turn ?? combat.turns.length) - 1;
+    const shouldSkipDefeated = combat.settings.skipDefeated || CombatTrackerManager.carouselHideDefeated;
+
+    if (shouldSkipDefeated) {
+      while (previousTurn >= 0 && combat.turns[previousTurn]?.isDefeated) {
+        previousTurn--;
+      }
+      if (previousTurn < 0) return wrapped.call(this, ...args);
+    }
+
     const prevCombatant = combat.turns[previousTurn];
     const prevIndex = state.allCombatantIds.indexOf(prevCombatant.id);
 
@@ -285,7 +296,7 @@ export const CarouselCombatWrappers = {
     }
 
     let turn = (combat.turn === null) || (combat.turns.length === 0) ? null : 0;
-    if (combat.settings.skipDefeated && (turn !== null)) {
+    if ((combat.settings.skipDefeated || CombatTrackerManager.carouselHideDefeated) && (turn !== null)) {
       turn = combat.turns.findIndex(t => !t.isDefeated);
       if (turn === -1) turn = 0;
     }
@@ -335,9 +346,16 @@ export const CarouselCombatWrappers = {
       return wrapped.call(this, ...args);
     }
 
-    const turn = (combat.round === 1) || (combat.turn === null) || (combat.turns.length === 0)
+    let turn = (combat.round === 1) || (combat.turn === null) || (combat.turns.length === 0)
       ? null
       : combat.turns.length - 1;
+
+    if ((combat.settings.skipDefeated || CombatTrackerManager.carouselHideDefeated) && turn !== null) {
+      while (turn >= 0 && combat.turns[turn]?.isDefeated) {
+        turn--;
+      }
+      if (turn < 0) turn = null;
+    }
 
     if (turn !== null && combat.turns[turn]) {
       const targetCombatant = combat.turns[turn];

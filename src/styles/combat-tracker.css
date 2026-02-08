@@ -620,7 +620,7 @@ body.crlngn-ui.crlngn-combat-tracker {
     }
     li.combatant > .token-initiative .crlngn-advance-turn i {
       font-size: calc(var(--font-size-24) * var(--carousel-scale));
-      text-shadow: 0 2px 4px rgba(0.7);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
     }
     li.combatant > .token-initiative:hover .crlngn-advance-turn {
       opacity: 1;

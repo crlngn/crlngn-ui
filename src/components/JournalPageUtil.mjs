@@ -24,6 +24,14 @@ const OWNERSHIP_DISPLAY = {
   [OWNERSHIP_LEVELS.OWNER]: { icon: "fa-feather-pointed", cssClass: "owner", label: "Owner" }
 };
 
+/** Cycle order for clicking the ownership icon */
+const OWNERSHIP_CYCLE = [
+  OWNERSHIP_LEVELS.NONE,
+  OWNERSHIP_LEVELS.LIMITED,
+  OWNERSHIP_LEVELS.OBSERVER,
+  OWNERSHIP_LEVELS.OWNER
+];
+
 /**
  * Utility class for displaying journal page ownership indicators to GMs
  */
@@ -66,6 +74,51 @@ export class JournalPageUtil {
   }
 
   /**
+   * Updates an ownership indicator span with the correct icon, class, and tooltip
+   * @param {HTMLElement} span - The indicator span element
+   * @param {OwnershipInfo} display - The display info for the ownership level
+   * @param {string} baseClass - Base CSS class(es) for the span
+   */
+  static #updateIndicator(span, display, baseClass) {
+    span.className = `${baseClass} ${display.cssClass}`;
+    span.dataset.tooltip = display.label;
+    span.innerHTML = `<i class="fa-solid ${display.icon}"></i>`;
+  }
+
+  /**
+   * Handles click on an ownership indicator to cycle to the next permission level
+   * @param {MouseEvent} event - The click event
+   * @param {object} page - The JournalEntryPage document
+   * @param {HTMLElement} span - The indicator span element
+   * @param {string} baseClass - Base CSS class(es) for the span
+   */
+  static async #onClickOwnership(event, page, span, baseClass) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const currentLevel = page.ownership?.default ?? OWNERSHIP_LEVELS.INHERIT;
+    const effectiveLevel = (currentLevel === OWNERSHIP_LEVELS.INHERIT)
+      ? (page.parent?.ownership?.default ?? OWNERSHIP_LEVELS.NONE)
+      : currentLevel;
+
+    const currentIndex = OWNERSHIP_CYCLE.indexOf(effectiveLevel);
+    const nextIndex = (currentIndex + 1) % OWNERSHIP_CYCLE.length;
+    const nextLevel = OWNERSHIP_CYCLE[nextIndex];
+
+    const display = OWNERSHIP_DISPLAY[nextLevel] || OWNERSHIP_DISPLAY[OWNERSHIP_LEVELS.NONE];
+    JournalPageUtil.#updateIndicator(span, display, baseClass);
+
+    try {
+      await page.update({ "ownership.default": nextLevel });
+      LogUtil.log("JournalPageUtil - Updated page ownership", [page.name, "→", display.label]);
+    } catch (err) {
+      LogUtil.log("JournalPageUtil - Failed to update ownership", [err]);
+      const revertDisplay = OWNERSHIP_DISPLAY[effectiveLevel] || OWNERSHIP_DISPLAY[OWNERSHIP_LEVELS.NONE];
+      JournalPageUtil.#updateIndicator(span, revertDisplay, baseClass);
+    }
+  }
+
+  /**
    * Injects ownership indicator spans into all page entries in the journal TOC sidebar
    * @param {object} app - The journal sheet application
    * @param {HTMLElement} element - The rendered element
@@ -90,24 +143,31 @@ export class JournalPageUtil {
 
       const existingFoundry = heading.querySelector('.page-ownership');
       if (existingFoundry) {
-        existingFoundry.className = `page-ownership crlngn-page-ownership ${display.cssClass}`;
-        existingFoundry.dataset.tooltip = display.label;
-        existingFoundry.innerHTML = `<i class="fa-solid ${display.icon}"></i>`;
+        const baseClass = "page-ownership crlngn-page-ownership";
+        JournalPageUtil.#updateIndicator(existingFoundry, display, baseClass);
+        if (!existingFoundry.dataset.crlngnClickBound) {
+          existingFoundry.addEventListener('click', (e) => JournalPageUtil.#onClickOwnership(e, page, existingFoundry, baseClass));
+          existingFoundry.dataset.crlngnClickBound = "true";
+        }
         return;
       }
 
       const existing = heading.querySelector('.crlngn-page-ownership');
       if (existing) {
-        existing.className = `crlngn-page-ownership ${display.cssClass}`;
-        existing.dataset.tooltip = display.label;
-        existing.innerHTML = `<i class="fa-solid ${display.icon}"></i>`;
+        const baseClass = "crlngn-page-ownership";
+        JournalPageUtil.#updateIndicator(existing, display, baseClass);
+        if (!existing.dataset.crlngnClickBound) {
+          existing.addEventListener('click', (e) => JournalPageUtil.#onClickOwnership(e, page, existing, baseClass));
+          existing.dataset.crlngnClickBound = "true";
+        }
         return;
       }
 
       const span = document.createElement('span');
-      span.className = `crlngn-page-ownership ${display.cssClass}`;
-      span.dataset.tooltip = display.label;
-      span.innerHTML = `<i class="fa-solid ${display.icon}"></i>`;
+      const baseClass = "crlngn-page-ownership";
+      JournalPageUtil.#updateIndicator(span, display, baseClass);
+      span.addEventListener('click', (e) => JournalPageUtil.#onClickOwnership(e, page, span, baseClass));
+      span.dataset.crlngnClickBound = "true";
       heading.appendChild(span);
     });
 
