@@ -366,9 +366,15 @@ export class CombatTrackerManager {
 
       if (updateData.turn !== undefined || updateData.round !== undefined) {
         setTimeout(() => {
-          const tracker = document.querySelector('#combat-popout .combat-tracker');
+          const combatPopout = document.querySelector('#combat-popout');
+          const tracker = combatPopout?.querySelector('.combat-tracker');
           if (tracker) {
             CombatTrackerManager.#addAdvanceTurnButton(tracker);
+          }
+          if (combatPopout && game.system.id !== 'daggerheart') {
+            CombatTrackerManager.#updateEndTurnButton(combatPopout);
+            CombatTrackerManager.#updateTurnButtons(combatPopout);
+            CombatTrackerManager.#updateNavControlsVisibility(combatPopout);
           }
         }, 50);
       }

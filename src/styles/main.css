@@ -1265,18 +1265,14 @@ body.crlngn-ui {
       font-weight: 400;
     }
   }
-  .application .window-content {
-    overflow: auto;
-    max-height: -webkit-fit-content;
-    max-height: fit-content;
-  }
 
+  /*
   @media (hover: none) and (pointer: coarse) {
     .application .window-content {
       overflow: visible;
       min-height: auto;
     }
-  }
+  }*/
 
 
   &.crlngn-app-dialogs.theme-dark .app.window-app.dialog, 
