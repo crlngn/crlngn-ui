@@ -77,9 +77,9 @@ export class ChatLogControls {
     const toggleButton = rollModeBox.querySelector("button[data-action=toggleChat]");
     toggleButton.addEventListener("click", ChatLogControls.onToggleChatBox);
     
-    // Apply saved state from flag if it exists
-    const chatBoxHidden = game.user.getFlag(MODULE_ID, "chatBoxHidden");
-    if (chatBoxHidden !== undefined) {
+    // Apply saved state from flag, default to hidden
+    const chatBoxHidden = game.user.getFlag(MODULE_ID, "chatBoxHidden") ?? true;
+    {
       LogUtil.log("Applying saved chat box state", [chatBoxHidden]);
       const chatBox = document.querySelector("#chat-notifications");
       const SETTINGS = getSettings();

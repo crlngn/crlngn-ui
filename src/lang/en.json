@@ -10,7 +10,7 @@
       "reloadRequiredLabel": "A reload is required. Reload now?",
       "macroBarTooltipKeepOpen": "Keep open",
       "macroBarTooltipAutoHide": "Hide",
-      "enforcementTooltip": "Click to cycle lock state. Right-click (or Alt+Click) to toggle GM gate mode",
+      "enforcementTooltip": "Click to cycle lock state. Right-click (or Alt+Click) to toggle GM mode",
       "reset": "Reset",
       "save": "Save",
       "reloadButton": "Reload",
@@ -190,6 +190,15 @@
           "dockedCarouselOffset": {
             "label": "Docked Carousel Offset",
             "hint": "Offset in pixels when the carousel is docked. Applies as margin-top when docked to the top, or margin-bottom when docked to the bottom."
+          },
+          "carouselDockOnLoad": {
+            "label": "Dock Carousel on Load",
+            "hint": "Controls where the carousel docks when Foundry loads.",
+            "options": {
+              "preserve": "Preserve last setting",
+              "top": "Always dock on top",
+              "bottom": "Always dock on bottom"
+            }
           },
           "combatTrackerTakeFullWidth": {
             "label": "Carousel Responds to Sidebar",
@@ -509,6 +518,15 @@
           "dockedCarouselOffset": {
             "label": "Docked Carousel Offset",
             "hint": "Offset in pixels when the carousel is docked. Applies as margin-top when docked to the top, or margin-bottom when docked to the bottom."
+          },
+          "carouselDockOnLoad": {
+            "label": "Dock Carousel on Load",
+            "hint": "Controls where the carousel docks when Foundry loads.",
+            "options": {
+              "preserve": "Preserve last setting",
+              "top": "Always dock on top",
+              "bottom": "Always dock on bottom"
+            }
           },
           "combatTrackerTakeFullWidth": {
             "label": "Carousel Responds to Sidebar",

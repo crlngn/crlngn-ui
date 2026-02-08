@@ -642,7 +642,9 @@ export class SettingsUtil {
       case SETTINGS.useGlassEffect.tag:
         SettingsUtil.applyGlassEffect(value); break;
       case SETTINGS.glassTranslucence.tag:
-        SettingsUtil.applyTranslucence(value); break;
+        if(SettingsUtil.get(SETTINGS.useGlassEffect.tag)){
+          SettingsUtil.applyTranslucence(value);
+        } break;
       case SETTINGS.hideLoadingSceneName.tag:
         SettingsUtil.applyHideLoadingSceneName(value); break;
       case SETTINGS.enableCombatTrackerCarousel.tag:
@@ -713,25 +715,42 @@ export class SettingsUtil {
   }
 
   /**
+   * Checks whether backdrop-filter blur is supported based on Foundry's performance mode.
+   * Checks both the core setting value and body classes as fallback.
+   * @returns {boolean}
+   */
+  static isBlurSupported(){
+    try {
+      const perfMode = game.settings.get("core", "performanceMode");
+      if (perfMode === 0) return false;
+      const experimental = game.settings.get("core", "experimental");
+      if (experimental?.noBlur) return false;
+    } catch(e) {
+      // Fallback to body classes if settings not yet available
+    }
+    const body = document.body;
+    return !body.classList.contains("performance-low") && !body.classList.contains("noblur");
+  }
+
+  /**
    * Applies or removes glass effect (backdrop-filter) from windows
    * @param {boolean} value - Whether to enable glass effect
    */
   static applyGlassEffect(value){
     const body = document.querySelector("body");
     const SETTINGS = getSettings();
+    const blurSupported = SettingsUtil.isBlurSupported();
 
-    if(value){
+    if(value && blurSupported){
       body.classList.add("crlngn-glass-effect");
-      // Reapply the glassTranslucence value when enabling
       const glassTranslucence = SettingsUtil.get(SETTINGS.glassTranslucence.tag);
       SettingsUtil.applyTranslucence(glassTranslucence);
     } else {
       body.classList.remove("crlngn-glass-effect");
-      // Set to full opacity and no blur when disabling to ensure no performance impact
       GeneralUtil.addCSSVars("--background-blur", "0px");
       GeneralUtil.addCSSVars("--background-opacity", "0.98");
     }
-    LogUtil.log("applyGlassEffect", [value]);
+    LogUtil.log("applyGlassEffect", [value, { blurSupported }]);
   }
 
   /**
@@ -741,9 +760,12 @@ export class SettingsUtil {
    *   - 1 = translucent (opacity: 0.75, blur: 20px)
    */
   static applyTranslucence(value){
-    // Inverse relationship:
-    // - opacity decreases as translucence increases (1 -> 0.75)
-    // - blur increases as translucence increases (4px -> 20px)
+    if(!SettingsUtil.isBlurSupported()){
+      GeneralUtil.addCSSVars("--background-opacity", "0.98");
+      GeneralUtil.addCSSVars("--background-blur", "0px");
+      return;
+    }
+
     const opacity = 1 - (value * 0.3); // Range: 1 to 0.7
     const blurPx = 10 + (value * 20); // Range: 4px to 20px
 
@@ -1342,8 +1364,18 @@ export class SettingsUtil {
   static setEnforcementState(settingTag, state) {
     const SETTINGS = getSettings();
     const enforcement = SettingsUtil.get(SETTINGS.settingEnforcement.tag) || {};
+    const previousState = enforcement[settingTag] || 'unlocked';
     enforcement[settingTag] = state;
     SettingsUtil.set(SETTINGS.settingEnforcement.tag, enforcement);
+
+    if (previousState === 'soft' && state !== 'soft') {
+      const appliedSoftDefaults = SettingsUtil.get(SETTINGS.appliedSoftDefaults.tag) || {};
+      if (settingTag in appliedSoftDefaults) {
+        delete appliedSoftDefaults[settingTag];
+        SettingsUtil.set(SETTINGS.appliedSoftDefaults.tag, appliedSoftDefaults);
+      }
+    }
+
     LogUtil.log(`Set enforcement state for ${settingTag}:`, [state]);
   }
 
@@ -1424,6 +1456,8 @@ export class SettingsUtil {
     LogUtil.log("Checking individual enforcement states for settings", [defaultSettings]);
 
     let settingsApplied = false;
+    const appliedSoftDefaults = SettingsUtil.get(SETTINGS.appliedSoftDefaults.tag) || {};
+    let softDefaultsChanged = false;
 
     // Apply each stored setting based on its individual enforcement state
     for (const [settingTag, value] of Object.entries(defaultSettings)) {
@@ -1441,14 +1475,20 @@ export class SettingsUtil {
           const currentValue = SettingsUtil.get(settingTag);
           const enforcementState = SettingsUtil.getEnforcementState(settingTag);
 
-          // For 'soft' enforcement, only apply on first load (don't override player changes)
           if (enforcementState === 'soft') {
-            // Soft enforcement: apply default only if never set before
-            // We'll skip this for now and let it apply once
-            if (currentValue !== value) {
-              SettingsUtil.set(settingTag, value);
-              LogUtil.log(`Applied soft-enforced GM setting: ${settingTag}`, [value]);
-              settingsApplied = true;
+            const lastApplied = appliedSoftDefaults[settingTag];
+            const gmDefaultChanged = lastApplied === undefined || JSON.stringify(lastApplied) !== JSON.stringify(value);
+
+            if (gmDefaultChanged) {
+              if (currentValue !== value) {
+                SettingsUtil.set(settingTag, value);
+                LogUtil.log(`Applied soft-enforced GM setting: ${settingTag}`, [value]);
+                settingsApplied = true;
+              }
+              appliedSoftDefaults[settingTag] = value;
+              softDefaultsChanged = true;
+            } else {
+              LogUtil.log(`Skipping soft-enforced setting (player override preserved): ${settingTag}`, [currentValue]);
             }
           } else if (enforcementState === 'locked' || enforcementState === 'gate') {
             // Locked/Gate enforcement: always apply
@@ -1462,6 +1502,10 @@ export class SettingsUtil {
       } catch (error) {
         LogUtil.log(`Failed to apply GM setting: ${settingTag}`, [error]);
       }
+    }
+
+    if (softDefaultsChanged) {
+      SettingsUtil.set(SETTINGS.appliedSoftDefaults.tag, appliedSoftDefaults);
     }
 
     return settingsApplied;

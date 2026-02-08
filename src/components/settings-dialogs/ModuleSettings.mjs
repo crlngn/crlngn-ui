@@ -1316,23 +1316,33 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
     // Handle useGlassEffect checkbox to show/hide glassTranslucence slider
     const useGlassEffectCheckbox = themesContent.querySelector('input[name="useGlassEffect"]');
+    const blurSupported = SettingsUtil.isBlurSupported();
+
     if (useGlassEffectCheckbox) {
+      const glassTranslucenceField = themesContent.querySelector('.form-group:has(input[name="glassTranslucence"])');
+      const glassTranslucenceRange = themesContent.querySelector('input[name="glassTranslucence"]');
+      const glassTranslucenceValue = themesContent.querySelector('input[name="glassTranslucence_value"]');
+
       const toggleGlassEffectFields = () => {
-        const isChecked = useGlassEffectCheckbox.checked;
-        const glassTranslucenceField = themesContent.querySelector('.form-group:has(input[name="glassTranslucence"])');
-        const glassTranslucenceRange = themesContent.querySelector('input[name="glassTranslucence"]');
-        const glassTranslucenceValue = themesContent.querySelector('input[name="glassTranslucence_value"]');
+        const canApply = useGlassEffectCheckbox.checked && blurSupported;
 
         if (glassTranslucenceField) {
-          glassTranslucenceField.style.display = isChecked ? 'flex' : 'none';
+          glassTranslucenceField.style.display = useGlassEffectCheckbox.checked ? 'flex' : 'none';
         }
         if (glassTranslucenceRange) {
-          glassTranslucenceRange.disabled = !isChecked;
+          glassTranslucenceRange.disabled = !canApply;
         }
         if (glassTranslucenceValue) {
-          glassTranslucenceValue.disabled = !isChecked;
+          glassTranslucenceValue.disabled = !canApply;
         }
       };
+
+      if (!blurSupported) {
+        const hint = themesContent.querySelector('.form-group:has(input[name="useGlassEffect"]) .hint');
+        if (hint) {
+          hint.textContent += ` (${game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.useGlassEffect.blurDisabled") || "Translucence disabled — Performance Mode is set to Low or blur is off."})`;
+        }
+      }
 
       // Set initial state
       toggleGlassEffectFields();

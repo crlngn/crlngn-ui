@@ -932,7 +932,14 @@ export class CombatTrackerManager {
       game.user?.setFlag(MODULE_ID, 'combatTrackerDocked', 'top');
     }
 
-    const dockPosition = (savedState === undefined) ? 'top' : savedState;
+    const SETTINGS = getSettings();
+    const dockOnLoad = SettingsUtil.get(SETTINGS.carouselDockOnLoad.tag) || 'preserve';
+    let dockPosition;
+    if (dockOnLoad === 'top' || dockOnLoad === 'bottom') {
+      dockPosition = dockOnLoad;
+    } else {
+      dockPosition = (savedState === undefined) ? 'top' : savedState;
+    }
     const hasDockClass = combatPopout.classList.contains('docked-top') || combatPopout.classList.contains('docked-bottom');
 
     LogUtil.log("initDocking - checking saved state", [

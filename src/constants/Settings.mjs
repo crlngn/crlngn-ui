@@ -507,6 +507,7 @@ export function getSettings() {
         "enableCombatTrackerCarousel",
         "combatCarouselScale",
         "dockedCarouselOffset",
+        "carouselDockOnLoad",
         "combatTrackerTakeFullWidth",
         "carouselImageSource",
         "combatTrackerLayout",
@@ -517,6 +518,7 @@ export function getSettings() {
         enableCombatTrackerCarousel: true,
         combatCarouselScale: 1,
         dockedCarouselOffset: 0,
+        carouselDockOnLoad: "preserve",
         combatTrackerTakeFullWidth: false,
         carouselImageSource: "actor",
         combatTrackerLayout: "carousel",
@@ -608,6 +610,17 @@ export function getSettings() {
       propType: Object,
       default: {},
       scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+
+    appliedSoftDefaults: {
+      tag: "v2-applied-soft-defaults",
+      label: "Applied Soft Defaults",
+      hint: "Tracks which GM soft defaults have been applied to this client",
+      propType: Object,
+      default: {},
+      scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false
     },
@@ -1788,6 +1801,16 @@ export function getSettings() {
       propType: Number,
       inputType: SETTING_INPUT.number,
       default: 0,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    carouselDockOnLoad: {
+      tag: "v2-carousel-dock-on-load",
+      label: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.fields.carouselDockOnLoad.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.fields.carouselDockOnLoad.hint"),
+      propType: String,
+      default: "preserve",
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false

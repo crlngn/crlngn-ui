@@ -22,6 +22,7 @@ import { SheetsUtil } from "./SheetsUtil.mjs";
 import { HintTooltipUtil } from "./HintTooltipUtil.mjs";
 import { BottomDockUtil } from "./BottomDockUtil.mjs";
 import { JournalUtil } from "./JournalUtil.mjs";
+import { JournalPageUtil } from "./JournalPageUtil.mjs";
 
 /**
  * Main class handling core module initialization and setup
@@ -145,6 +146,7 @@ export class Main {
       UpdateNewsUtil.init();
       SheetsUtil.init();
       JournalUtil.init();
+      JournalPageUtil.init();
       HintTooltipUtil.init();
       BottomDockUtil.setup();
       SidebarTabs.onReady();

@@ -37,6 +37,16 @@
   </div>
 
   <div class="form-group">
+    <label for="carouselDockOnLoad">{{fields.carouselDockOnLoad.label}}</label>
+    <select name="carouselDockOnLoad" {{#if fields.carouselDockOnLoad.isLocked}}disabled{{/if}}>
+      <option value="preserve" {{#if (eq carouselDockOnLoad "preserve")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.combatTrackerMenu.fields.carouselDockOnLoad.options.preserve"}}</option>
+      <option value="top" {{#if (eq carouselDockOnLoad "top")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.combatTrackerMenu.fields.carouselDockOnLoad.options.top"}}</option>
+      <option value="bottom" {{#if (eq carouselDockOnLoad "bottom")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.combatTrackerMenu.fields.carouselDockOnLoad.options.bottom"}}</option>
+    </select>
+    <p class="hint">{{fields.carouselDockOnLoad.hint}}</p>
+  </div>
+
+  <div class="form-group">
     <label for="carouselImageSource">{{fields.carouselImageSource.label}}</label>
     <select name="carouselImageSource" {{#if fields.carouselImageSource.isLocked}}disabled{{/if}}>
       <option value="token" {{#if (eq carouselImageSource "token")}}selected{{/if}}>{{localize "CRLNGN_UI.settings.combatTrackerMenu.fields.carouselImageSource.options.token"}}</option>

@@ -151,9 +151,9 @@ body.crlngn-ui {
   }
   &.crlngn-journals .crlngn-journal-toggle {
     opacity: 1;
-    color: var(--color-text-primary);
   }
 }
+
 
 /*************/
 /* JOURNALS - only when journal styles enabled */
@@ -257,6 +257,11 @@ body.crlngn-ui{
     color: var(--color-text-primary);
     border: 1px solid transparent;
     margin: 2px 0;
+  }
+
+  .application.image-popout figure img, 
+  .application.image-popout figure video {
+    width: 100%;
   }
 
   .application:not(.actor, .sheet, .monks-enhanced-journal) .standard-form nav.tabs {
@@ -1259,6 +1264,10 @@ body.crlngn-ui {
       font-size: var(--font-size-12) !important;
       font-weight: 400;
     }
+  }
+  .application .window-content {
+    overflow: auto;
+    height: auto;
   }
 
 
