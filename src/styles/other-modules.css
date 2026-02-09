@@ -803,20 +803,16 @@ body.crlngn-ui{
   }
 
 
-
-  #breaktime-app {
-    min-width: 360px;
-  }
-  #breaktime-app .breaktime-player {
-    display: flex;
-    flex-direction: row;
-  }
   &.crlngn-breaktime {
     #players.crlngn-ui:hover{
       .breaktime-button > div {
         display: flex;
         align-items: center;
       }
+    }
+    #breaktime-app .breaktime-player {
+      display: flex;
+      flex-direction: row;
     }
 
     #breaktime-app, #breaktime-app.theme-light {
@@ -878,6 +874,10 @@ body.crlngn-ui{
         }
       }
 
+    }
+    #breaktime-app {
+      min-width: 360px;
+      background: var(--background);
     }
   }
 
