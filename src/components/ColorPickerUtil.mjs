@@ -42,6 +42,7 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     this.scope = options.scope || 'world';
     this.currentColors = options.currentColors || this.#getDefaultColors();
     this.activeSecondaryTheme = 'dark'; // Default to dark theme tab
+    this.collapsedSections = { accent: true, secondary: true };
 
     // Initialize checkbox state from saved setting based on scope
     const SETTINGS = getSettings();
@@ -260,7 +261,9 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
   _onSecondaryTabClick(event) {
     const clickedTab = event.currentTarget;
     const theme = clickedTab.dataset.theme;
-    
+
+    this._toggleSection('secondary', true);
+
     // Update active tab
     this.element.querySelectorAll('.secondary-tab').forEach(tab => {
       tab.classList.remove('active');
@@ -298,6 +301,22 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
   }
 
   /**
+   * Toggle a collapsible section open/closed
+   */
+  _toggleSection(sectionName, forceExpand = false) {
+    if (forceExpand) {
+      this.collapsedSections[sectionName] = false;
+    } else {
+      this.collapsedSections[sectionName] = !this.collapsedSections[sectionName];
+    }
+    const sectionClass = sectionName === 'accent' ? '.accent-section' : '.secondary-section';
+    const section = this.element?.querySelector(sectionClass);
+    if (section) {
+      section.classList.toggle('collapsed', this.collapsedSections[sectionName]);
+    }
+  }
+
+  /**
    * Handle preset theme selection
    */
   _onClickPreset(event) {
@@ -306,6 +325,7 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     const theme = THEMES.find(t => t.className === themeName);
 
     if (theme) {
+      this.selectedPreset = themeName;
       this.currentColors = {
         accent: theme.colorPreview[2],
         secondaryDark: theme.colorPreview[1],
@@ -351,6 +371,11 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     
     this.currentColors.accent = accentRGB;
     this.currentColors.isPreset = false;
+
+    if (this.selectedPreset) {
+      this.selectedPreset = null;
+      this.element.querySelectorAll('.preset-button.selected').forEach(b => b.classList.remove('selected'));
+    }
 
     LogUtil.log("ColorPickerDialog._onColorChange", [this.currentColors]);
 
@@ -400,6 +425,12 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
       }
     });
     
+    // Update accent color thumbnail
+    const thumbnail = content.querySelector('.color-thumbnail');
+    if (thumbnail) {
+      thumbnail.style.backgroundColor = this.currentColors.accent;
+    }
+
     // Update secondary previews with separate dark/light colors
     const secondaryPreviews = content.querySelectorAll('.secondary-preview .preview-item');
     if (secondaryPreviews.length > 0) {
@@ -408,7 +439,7 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
 
       // Apply darkening to preview if it's a preset and checkbox is checked
       if (this.currentColors.isPreset && this.applySecondaryColorToBg) {
-        darkColor = ColorPickerUtil.darkenColor(darkColor, 20);
+        darkColor = ColorPickerUtil.darkenColor(darkColor, 10);
       }
       secondaryPreviews[0].style.backgroundColor = darkColor;
 
@@ -418,6 +449,42 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
         secondaryPreviews[1].style.backgroundColor = lightColor;
       }
     }
+
+    const secThumb = content.querySelector('.secondary-thumbnail');
+    if (secThumb) {
+      const thumbColor = this.activeSecondaryTheme === 'dark'
+        ? (this.currentColors.secondaryDark || this.currentColors.secondary || THEMES[0].colorPreview[1])
+        : (this.currentColors.secondaryLight || 'rgb(223, 227, 231)');
+      secThumb.style.backgroundColor = thumbColor;
+    }
+  }
+
+  /**
+   * Sync secondary sliders to the displayed preview color (e.g. after darkening toggle)
+   * @private
+   */
+  #syncSlidersToPreview() {
+    const content = this.element?.querySelector('.color-picker-content');
+    if (!content) return;
+
+    let color;
+    if (this.activeSecondaryTheme === 'dark') {
+      color = this.currentColors.secondaryDark || this.currentColors.secondary || THEMES[0].colorPreview[1];
+      if (this.currentColors.isPreset && this.applySecondaryColorToBg) {
+        color = ColorPickerUtil.darkenColor(color, 10);
+      }
+    } else {
+      color = this.currentColors.secondaryLight || 'rgb(223, 227, 231)';
+    }
+
+    const hsl = ColorPickerUtil.rgbToHsl(color);
+    const hueSlider = content.querySelector('[name="secondaryHue"]');
+    const satSlider = content.querySelector('[name="secondarySaturation"]');
+    const lightSlider = content.querySelector('[name="secondaryLightness"]');
+    if (hueSlider) { hueSlider.value = hsl.h; hueSlider.nextElementSibling.textContent = hsl.h; }
+    if (satSlider) { satSlider.value = hsl.s; satSlider.nextElementSibling.textContent = hsl.s + '%'; }
+    if (lightSlider) { lightSlider.value = hsl.l; lightSlider.nextElementSibling.textContent = hsl.l + '%'; }
+    this.#updateSliderGradients();
   }
 
   /**
@@ -499,6 +566,9 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     // Preset buttons
     this.element.querySelectorAll('.preset-button').forEach(button => {
       button.addEventListener('click', this._onClickPreset.bind(this));
+      if (this.selectedPreset && button.dataset.theme === this.selectedPreset) {
+        button.classList.add('selected');
+      }
     });
     
     // Secondary theme tabs
@@ -525,18 +595,49 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
       });
     });
 
+    // Re-apply collapsed state from instance (persists across render calls)
+    const accentSection = this.element.querySelector('.accent-section');
+    const secondarySection = this.element.querySelector('.secondary-section');
+    if (accentSection) accentSection.classList.toggle('collapsed', this.collapsedSections.accent);
+    if (secondarySection) secondarySection.classList.toggle('collapsed', this.collapsedSections.secondary);
+
+    // Section header toggle clicks
+    const accentHeader = this.element.querySelector('.accent-section .section-header h4');
+    if (accentHeader) {
+      accentHeader.addEventListener('click', () => this._toggleSection('accent'));
+    }
+    const secondaryHeader = this.element.querySelector('.secondary-section .section-header h4');
+    if (secondaryHeader) {
+      secondaryHeader.addEventListener('click', () => this._toggleSection('secondary'));
+    }
+
+    // Color thumbnail clicks expand their sections
+    const accentThumb = this.element.querySelector('.accent-section .color-thumbnail');
+    if (accentThumb) {
+      accentThumb.addEventListener('click', () => this._toggleSection('accent', true));
+    }
+    const secThumb = this.element.querySelector('.secondary-thumbnail');
+    if (secThumb) {
+      secThumb.addEventListener('click', () => this._toggleSection('secondary', true));
+    }
+
     // Track checkbox state changes
     const bgCheckbox = this.element.querySelector('input[name="applySecondaryColorToBg"]');
     if (bgCheckbox) {
       bgCheckbox.addEventListener('change', (event) => {
         this.applySecondaryColorToBg = event.target.checked;
-        this.#updatePreview(); // Update preview to show darkening effect
+        this.#updatePreview();
+        this.#syncSlidersToPreview();
       });
     }
 
     // Initialize slider gradients and preview
     this.#updateSliderGradients();
     this.#updatePreview();
+
+    if (this.applySecondaryColorToBg && this.currentColors.isPreset) {
+      this.#syncSlidersToPreview();
+    }
   }
 }
 
@@ -848,7 +949,7 @@ export class ColorPickerUtil {
 
     // If this is a preset AND applySecondaryColorToBg is enabled, darken the dark secondary by 20%
     if (colors.isPreset && applySecondaryToBg) {
-      secondaryForDark = this.darkenColor(secondaryForDark, 20);
+      secondaryForDark = this.darkenColor(secondaryForDark, 10);
     }
     
     // Generate secondary variables for both themes
@@ -881,7 +982,7 @@ export class ColorPickerUtil {
       body.crlngn-ui.theme-light .app,
       body.crlngn-ui.theme-light .application:not(.sheet, .theme-dark),
       body.crlngn-ui #interface.theme-light,
-      body.crlngn-ui .application.theme-light:not(.chat-popout),
+      body.crlngn-ui .application.theme-light:not(.chat-popout, .journal-entry),
       body.crlngn-ui #interface.theme-light,
       body.crlngn-ui .sidebar-popout.theme-light,
       body.crlngn-ui .themed.theme-light .ui-control, 
@@ -893,12 +994,12 @@ export class ColorPickerUtil {
       }
     `;
     if (applySecondaryToBg) {
-      cssText += `body.crlngn-ui.crlngn-journals .application.sheet.journal-sheet:not(.dnd5e2-journal),
-        body.crlngn-ui.crlngn-journals .application.sheet.journal-sheet:not(.dnd5e2-journal) * {
-          --color-light-1: light-dark(var(--color-dark-1), var(--color-light-1));
-          --input-text-color: light-dark(var(--color-dark-1), var(--color-light-1));
-        }
-      `;
+      // cssText += `body.crlngn-ui.crlngn-journals .application.sheet.journal-sheet:not(.dnd5e2-journal),
+      //   body.crlngn-ui.crlngn-journals .application.sheet.journal-sheet:not(.dnd5e2-journal) * {
+      //     --color-light-1: light-dark(var(--color-dark-1), var(--color-light-1));
+      //     --input-text-color: light-dark(var(--color-dark-1), var(--color-light-1));
+      //   }
+      // `;
       cssText += `
         body.crlngn-ui {
           --tools-visible-opacity: 0.75;

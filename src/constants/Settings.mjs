@@ -67,7 +67,7 @@ export const THEMES = [
     label: 'Carolingian Teal',
     className: 'crlngn-theme',
     colorPreview: [
-      'rgb(193, 193, 217)',     // Secondary Light (inverted lightness)
+      'rgb(218, 218, 232)',     // Secondary Light (inverted lightness)
       'rgb(62, 62, 88)',      // Secondary Dark
       'rgb(68, 147, 173)',     // Accent
     ]
@@ -76,7 +76,7 @@ export const THEMES = [
     label: "Royal Blood",
     className: 'crlngn-theme-royal-blood',
     colorPreview: [
-      'rgb(215, 206, 224)',     // Secondary Light (inverted lightness)
+      'rgb(232, 229, 236)',     // Secondary Light (inverted lightness)
       'rgb(40, 31, 49)',       // Secondary Dark
       'rgb(159, 35, 49)',      // Accent
     ]
@@ -85,7 +85,7 @@ export const THEMES = [
     label: "Dark Sorcery",
     className: 'crlngn-theme-dark-sorcery',
     colorPreview: [
-      'rgb(206, 222, 224)',     // Secondary Light (inverted lightness)
+      'rgb(234, 240, 241)',     // Secondary Light (inverted lightness)
       'rgb(31, 47, 49)',       // Secondary Dark
       'rgb(126, 88, 182)',     // Accent
     ]
@@ -94,7 +94,7 @@ export const THEMES = [
     label: "Grass and Stone",
     className: 'crlngn-theme-grass-stone',
     colorPreview: [
-      'rgb(207, 208, 208)',     // Secondary Light (inverted lightness)
+      'rgb(230, 235, 235)',     // Secondary Light (inverted lightness)
       'rgb(47, 48, 48)',       // Secondary Dark
       'rgb(121, 163, 62)',     // Accent
     ]
@@ -103,7 +103,7 @@ export const THEMES = [
     label: "Gold and Chocolate",
     className: 'crlngn-theme-gold-chocolate',
     colorPreview: [
-      'rgb(221, 212, 212)',     // Secondary Light (inverted lightness)
+      'rgb(232, 226, 226)',     // Secondary Light (inverted lightness)
       'rgb(34, 25, 25)',       // Secondary Dark
       'rgb(164, 138, 51)',     // Accent
     ]
@@ -112,7 +112,7 @@ export const THEMES = [
     label: "Pumpkin Patch",
     className: 'crlngn-theme-pumpkin-patch',
     colorPreview: [
-      'rgb(215, 206, 224)',     // Secondary Light (inverted lightness)
+      'rgb(231, 227, 235)',     // Secondary Light (inverted lightness)
       'rgb(40, 31, 49)',       // Secondary Dark
       'rgb(220, 120, 43)',     // Accent
     ]
@@ -130,7 +130,7 @@ export const THEMES = [
     label: "Gambit's Blue",
     className: 'crlngn-theme-gambits-blue',
     colorPreview: [
-      'rgb(215, 206, 224)',     // Secondary Light (inverted lightness)
+      'rgb(226, 221, 232)',     // Secondary Light (inverted lightness)
       'rgb(40, 31, 49)',       // Secondary Dark
       'rgb(45, 126, 207)',     // Accent
     ]

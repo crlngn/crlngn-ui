@@ -286,14 +286,16 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
             };
 
             const baseWorldColors = worldCustomColors || {
-              accent: THEMES[0].colorPreview[1],
-              secondary: THEMES[0].colorPreview[0]
+              accent: THEMES[0].colorPreview[2],
+              secondaryDark: THEMES[0].colorPreview[1],
+              secondaryLight: THEMES[0].colorPreview[0]
             };
             partContext.customColors = createColorVariants(baseWorldColors);
 
             const basePlayerColors = playerCustomColors || worldCustomColors || {
-              accent: THEMES[0].colorPreview[1],
-              secondary: THEMES[0].colorPreview[0]
+              accent: THEMES[0].colorPreview[2],
+              secondaryDark: THEMES[0].colorPreview[1],
+              secondaryLight: THEMES[0].colorPreview[0]
             };
             partContext.playerCustomColors = createColorVariants(basePlayerColors);
           }

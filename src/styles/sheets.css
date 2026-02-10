@@ -666,6 +666,12 @@ body.crlngn-ui.crlngn-sheets {
 
 /* journal - only when journal styles enabled */
 
+body.crlngn-ui.crlngn-journals .sheet.journal-entry {
+  color: var(--color-text-primary);
+}
+body.crlngn-ui.crlngn-journals .sheet.journal-entry .journal-sidebar {
+  color: var(--color-light-1);
+}
 body.crlngn-ui.crlngn-journals .sheet.journal-entry.application .journal-sidebar .toc li.page {
   border-top: 1px solid transparent;
   border-bottom: 1px solid light-dark(rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.3));

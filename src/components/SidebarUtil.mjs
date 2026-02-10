@@ -18,6 +18,10 @@ export class SidebarTabs {
   static #arrowUpdateTimeout = null;
 
   static init(){
+    const SETTINGS = getSettings();
+    SidebarTabs.folderStylesEnabled = SettingsUtil.get(SETTINGS.useFolderStyle.tag) ?? true;
+    SidebarTabs.useHorizontalSidebarTabs = SettingsUtil.get(SETTINGS.useHorizontalSidebarTabs.tag) ?? false;
+    SidebarTabs.showChatNotificationsOnTop = SettingsUtil.get(SETTINGS.showChatNotificationsOnTop.tag) ?? false;
     Hooks.on(HOOKS_CORE.RENDER_SIDE_BAR, SidebarTabs.onRender);
   }
 

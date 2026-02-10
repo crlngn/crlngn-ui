@@ -580,55 +580,76 @@
   
       --control-bg-color-90: var(--color-cool-5-90);
     }
+
+    &.theme-light
+    .chat-log.themed.theme-light,
+    #interface.theme-light,
+    #chat-popout.theme-light,
+    .chat-popout.theme-light,
+    &.theme-light .chat-popout.theme-dark,
+    #chat-pins.theme-light,
+    .sidebar-popout.theme-light {
+      --color-secondary: rgba(196, 196, 223, 1);
+      --color-secondary-bright: rgba(244, 244, 255, 1);
+      --color-secondary-bright-50: rgba(244, 244, 255, 0.5);
+      --color-secondary-15: rgba(196, 196, 223, 0.15);
+      --color-secondary-25: rgba(196, 196, 223, 0.25);
+      --color-secondary-50: rgba(196, 196, 223, 0.5);
+      --color-secondary-65: rgba(196, 196, 223, 0.65);
+      --color-secondary-75: rgba(196, 196, 223, 0.75);
+      --color-secondary-90: rgba(196, 196, 223, 0.9);
+      --color-secondary-b: rgba(202, 202, 229, 1);
+      --color-secondary-b-50: rgba(202, 202, 229, 0.5);
+      --color-secondary-b-75: rgba(202, 202, 229, 0.75);
+      --color-secondary-b-90: rgba(202, 202, 229, 0.90);
+      --color-text-secondary: rgba(34, 34, 54, 1);
+      --color-text-primary: var(--color-dark-1);
+      --color-text-inverse: var(--color-light-1);
+      --control-bg-color: rgba(224, 217, 213, 0.98);
+      --color-cool-5-0: rgba(224, 217, 213, 0);
+      --color-cool-5-25: rgba(224, 217, 213, 0.25);
+      --color-cool-5-50: rgba(224, 217, 213, 0.5);
+      --color-cool-5-75: rgba(224, 217, 213, 0.75);
+      --color-cool-5-90: rgba(224, 217, 213, 0.97);
+    }
+    /* journal should not change in light mode */
+    &.theme-light .sheet.journal-entry {
+      --color-cool-5: rgb(11, 10, 19);   
+      --color-cool-5-0: rgba(11, 10, 19, 0);
+      --color-cool-5-25: rgba(11, 10, 19, 0.25);
+      --color-cool-5-50: rgba(11, 10, 19, 0.5);
+      --color-cool-5-75: rgba(11, 10, 19, 0.75);
+      --color-cool-5-90: rgba(11, 10, 19, 0.95);
+    }
+
+    #interface {
+      --control-striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-b-50) 0px, var(--color-secondary-b-50) 1px, var(--color-secondary-b-75) 2px, var(--color-secondary-b-75) 3px);
+      --control-striped-bg-2: repeating-linear-gradient(-45deg, var(--color-secondary-b) 0px, var(--color-secondary-b) 1px, var(--color-secondary-b-75) 2px, var(--color-secondary-b-75) 3px);
+      --striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-50) 0px, var(--color-secondary-50) 1px, var(--color-secondary-25) 2px, var(--color-secondary-25) 3px);
+      --striped-bg-2: repeating-linear-gradient( -45deg, rgba(235, 235, 215, 0.3) 0px, rgba(235, 235, 215, 0.3) 1px, rgba(240,240,240,0.3) 2px, rgba(240,240,240,0.3) 3px);  
+    }
+
+    #interface.theme-dark{
+      --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-50) 0px, var(--color-secondary-50) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
+      --striped-bg-2: repeating-linear-gradient( -45deg, rgba(0,0,0,0.5) 0px, rgba(0,0,0,0.5) 1px, rgba(0, 0, 0, 0.75) 2px, rgba(0, 0, 0, 0.75) 3px);
+    }
+
+    #interface.theme-light {
+      --striped-bg: repeating-linear-gradient(-45deg,var(--color-secondary-50) 0px,var(--color-secondary-50) 1px,var(--color-secondary-25) 2px,var(--color-secondary-25) 3px);
+      --striped-bg-2: repeating-linear-gradient( -45deg, rgba(125, 125, 115, 0.3) 0px, rgba(125, 125, 115, 0.3) 1px, rgba(105,105,95,0.2) 2px, rgba(105,105,95,0.2) 3px);  
+    }
   }
 
-  &.theme-light
-  .chat-log.themed.theme-light,
-  #interface.theme-light,
-  #chat-popout.theme-light,
-  .chat-popout.theme-light,
-  &.theme-light .chat-popout.theme-dark,
-  #chat-pins.theme-light,
-  .sidebar-popout.theme-light {
-    --color-secondary: rgba(196, 196, 223, 1);
-    --color-secondary-bright: rgba(244, 244, 255, 1);
-    --color-secondary-bright-50: rgba(244, 244, 255, 0.5);
-    --color-secondary-15: rgba(196, 196, 223, 0.15);
-    --color-secondary-25: rgba(196, 196, 223, 0.25);
-    --color-secondary-50: rgba(196, 196, 223, 0.5);
-    --color-secondary-65: rgba(196, 196, 223, 0.65);
-    --color-secondary-75: rgba(196, 196, 223, 0.75);
-    --color-secondary-90: rgba(196, 196, 223, 0.9);
-    --color-secondary-b: rgba(202, 202, 229, 1);
-    --color-secondary-b-50: rgba(202, 202, 229, 0.5);
-    --color-secondary-b-75: rgba(202, 202, 229, 0.75);
-    --color-secondary-b-90: rgba(202, 202, 229, 0.90);
-    --color-text-secondary: rgba(34, 34, 54, 1);
-    --color-text-primary: var(--color-dark-1);
-    --color-text-inverse: var(--color-light-1);
-    --control-bg-color: rgba(224, 217, 213, 0.98);
-    --color-cool-5-0: rgba(224, 217, 213, 0);
-    --color-cool-5-25: rgba(224, 217, 213, 0.25);
-    --color-cool-5-50: rgba(224, 217, 213, 0.5);
-    --color-cool-5-75: rgba(224, 217, 213, 0.75);
-    --color-cool-5-90: rgba(224, 217, 213, 0.97);
-  }
-
-  #interface {
-    --control-striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-b-50) 0px, var(--color-secondary-b-50) 1px, var(--color-secondary-b-75) 2px, var(--color-secondary-b-75) 3px);
-    --control-striped-bg-2: repeating-linear-gradient(-45deg, var(--color-secondary-b) 0px, var(--color-secondary-b) 1px, var(--color-secondary-b-75) 2px, var(--color-secondary-b-75) 3px);
-    --striped-bg: repeating-linear-gradient(-45deg, var(--color-secondary-50) 0px, var(--color-secondary-50) 1px, var(--color-secondary-25) 2px, var(--color-secondary-25) 3px);
-    --striped-bg-2: repeating-linear-gradient( -45deg, rgba(235, 235, 215, 0.3) 0px, rgba(235, 235, 215, 0.3) 1px, rgba(240,240,240,0.3) 2px, rgba(240,240,240,0.3) 3px);  
-  }
-
-  #interface.theme-dark{
-    --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-50) 0px, var(--color-secondary-50) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
-    --striped-bg-2: repeating-linear-gradient( -45deg, rgba(0,0,0,0.5) 0px, rgba(0,0,0,0.5) 1px, rgba(0, 0, 0, 0.75) 2px, rgba(0, 0, 0, 0.75) 3px);
-  }
-
-  #interface.theme-light {
-    --striped-bg: repeating-linear-gradient(-45deg,var(--color-secondary-50) 0px,var(--color-secondary-50) 1px,var(--color-secondary-25) 2px,var(--color-secondary-25) 3px);
-    --striped-bg-2: repeating-linear-gradient( -45deg, rgba(125, 125, 115, 0.3) 0px, rgba(125, 125, 115, 0.3) 1px, rgba(105,105,95,0.2) 2px, rgba(105,105,95,0.2) 3px);  
+  body.crlngn-ui.theme-light .sheet.journal-entry,
+  body.crlngn-ui .application.theme-light.sheet.journal-entry {
+    --color-cool-3: rgb(83, 71, 107);
+    --color-cool-4: rgb(54, 48, 59); 
+    --color-cool-5: rgb(11, 10, 19);   
+    --color-cool-5-0: rgba(11, 10, 19, 0);
+    --color-cool-5-25: rgba(11, 10, 19, 0.25);
+    --color-cool-5-50: rgba(11, 10, 19, 0.5);
+    --color-cool-5-75: rgba(11, 10, 19, 0.75);
+    --color-cool-5-90: rgba(11, 10, 19, 0.95);
   }
 
 }
