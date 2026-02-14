@@ -393,9 +393,9 @@ export class SettingsUtil {
    * @param {string} settingName - Name of the setting to update
    * @param {*} newValue - New value to set
    * @param {string} [moduleName=MODULE_ID] - ID of the module the setting belongs to
-   * @returns {boolean} True if setting was updated successfully
+   * @returns {Promise<boolean>} True if setting was updated successfully
    */
-  static set(settingName, newValue, moduleName=MODULE_ID){ 
+  static async set(settingName, newValue, moduleName=MODULE_ID){
     if(!settingName){ return false; }
 
     let selectedSetting = game.settings.storage.get("client")[`${moduleName}.${settingName}`];
@@ -404,12 +404,11 @@ export class SettingsUtil {
     if(!selectedSetting){
       const world = game.settings.storage.get("world");
       selectedSetting = world.getSetting(`${moduleName}.${settingName}`);
-    } 
+    }
     LogUtil.log("Setting",[settingName, selectedSetting, newValue]);
 
     try{
-      game.settings.set(moduleName, settingName, newValue);
-      // selectedSetting.update({value: newValue});
+      await game.settings.set(moduleName, settingName, newValue);
     }catch(e){
       // Only log errors for world-scoped settings or actual permission issues
       // Client-scoped settings might show permission errors that can be safely ignored

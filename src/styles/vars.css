@@ -93,7 +93,7 @@
       --dnd5e-background-card: rgba(244, 239, 237,0.8);
       --dnd5e-color-parchment: rgb(244, 239, 237);
     }
-    --color-bg-button: rgba(244, 239, 237,0.9);
+    --color-bg-button: rgba(237, 242, 244, 0.9);
     --chat-dark-blue: rgba(24, 32, 38, 1);
 
     --color-dark-bg-10: rgba(15, 15, 15, 0.1);
@@ -113,9 +113,9 @@
     --color-light-bg: rgba(233, 233, 226, 1);
     --color-alt-bg: rgba(21, 21, 21, 0.15);
   
-    --control-bg-color: rgba(224, 217, 213, 0.98);
+    --control-bg-color: rgba(226, 232, 233, 0.98);
     --control-bg-color-90: var(--color-cool-5-90);
-    --sidebar-background: rgba(224, 217, 213, 0.95);
+    --sidebar-background: rgba(226, 232, 233, 0.95);
 
     --color-border-highlight-alt: rgba(68, 147, 173, 0.9); 
     --color-border-highlight: rgba(68, 147, 173, 1);
@@ -202,7 +202,7 @@
     &.theme-dark .sheet.theme-light .form-footer button,
     &.theme-light #context-menu,
     &.theme-light .application.dialog {
-      --color-bg-button: rgba(244, 239, 237,0.9);
+      --color-bg-button: rgba(237, 242, 244,0.9);
       --color-secondary: rgb(204, 186, 204);
       --color-secondary-bright: rgba(236, 224, 236, 1);
       --color-secondary-bright-50: rgba(236, 224, 236, 0.5);
@@ -233,8 +233,7 @@
         --filigree-border-color: rgba(158, 138, 138, 0.5);
       }
     }
-    &.theme-light .chat-bubble,
-    &.theme-light .application {
+    &.theme-light .chat-bubble {
       --color-text-primary: var(--color-dark-1);
       --background: var(--control-bg-color, var(--color-cool-5-90));
       background: var(--background);
@@ -385,14 +384,14 @@
     .themed.theme-light,
     &.theme-dark .theme-light .dnd5e,
     &.crlngn-chat .chat-log.themed.theme-light {
-      --color-border: rgba(224, 217, 213, 1);
-      /*--control-bg-color: rgba(224, 217, 213, 0.98);*/
+      --color-border: rgba(226, 232, 233, 1);
+      /*--control-bg-color: rgba(226, 232, 233, 0.98);*/
       --crlngn-button-bg: rgba(250, 250, 250, 0.15);
-      --input-background-alt: rgba(224, 217, 213, 1);
+      --input-background-alt: rgba(226, 232, 233, 1);
       --color-text-primary: var(--color-dark-1);
       --color-text-secondary: var(--color-dark-1);
       --color-text-inverse: var(--color-light-1);
-      --sidebar-background: rgba(224, 217, 213, 0.95);
+      --sidebar-background: rgba(226, 232, 233, 0.95);
       /*--background: var(--control-bg-color);*/
       --filigree-background-color: transparent !important;
       --input-background-color: rgba(255, 255, 255, 0.2);
@@ -415,7 +414,7 @@
       --dnd5e-background-card: rgba(244, 239, 237,0.8);
       --dnd5e-color-parchment: rgb(244, 239, 237);
       --crlngn-button-bg: rgba(250, 250, 250, 0.15);
-      --color-bg-button: rgba(244, 239, 237,0.9);
+      --color-bg-button: rgba(237, 242, 244,0.9);
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --color-hover-bg: inherit;
     }
@@ -606,12 +605,12 @@
       --color-text-secondary: rgba(34, 34, 54, 1);
       --color-text-primary: var(--color-dark-1);
       --color-text-inverse: var(--color-light-1);
-      --control-bg-color: rgba(224, 217, 213, 0.98);
-      --color-cool-5-0: rgba(224, 217, 213, 0);
-      --color-cool-5-25: rgba(224, 217, 213, 0.25);
-      --color-cool-5-50: rgba(224, 217, 213, 0.5);
-      --color-cool-5-75: rgba(224, 217, 213, 0.75);
-      --color-cool-5-90: rgba(224, 217, 213, 0.97);
+      --control-bg-color: rgba(226, 232, 233, 0.98);
+      --color-cool-5-0: rgba(226, 232, 233, 0);
+      --color-cool-5-25: rgba(226, 232, 233, 0.25);
+      --color-cool-5-50: rgba(226, 232, 233, 0.5);
+      --color-cool-5-75: rgba(226, 232, 233, 0.75);
+      --color-cool-5-90: rgba(226, 232, 233, 0.97);
     }
     /* journal should not change in light mode */
     &.theme-light .sheet.journal-entry {

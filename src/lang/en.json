@@ -753,7 +753,7 @@
         "apply": "Save",
         "applySecondaryColorToBg": {
           "label": "Apply Secondary color to Foundry interface backgrounds",
-          "hint": "When enabled, the secondary color will be applied to interface backgrounds like sidebar and controls. This creates a more unified color theme."
+          "hint": "When enabled, the secondary color will be applied to interface backgrounds like sidebar and controls. This allows you to control background of applications in color theme."
         }
       }
     },

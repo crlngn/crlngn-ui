@@ -222,10 +222,8 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
       isPreset: this.currentColors.isPreset || false
     };
     
-    await SettingsUtil.set(settingTag, colors);
-
     let confirmReload = false;
-    // Save applySecondaryColorToBg based on scope (world or player setting)
+    // Save applySecondaryColorToBg FIRST so it's available when the color save triggers theme reapply
     if (data.applySecondaryColorToBg !== undefined) {
       const bgSettingTag = this.scope === 'player'
         ? SETTINGS.playerApplySecondaryColorToBg.tag
@@ -240,7 +238,9 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
         confirmReload = true;
       }
     }
-    
+
+    await SettingsUtil.set(settingTag, colors);
+
     ColorPickerUtil.applyCustomTheme(colors, this.applySecondaryColorToBg);
     
     // Handle reload confirmation if needed
@@ -645,7 +645,7 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
  * Utility class for color manipulation and theme generation
  */
 export class ColorPickerUtil {
-  
+
   /**
    * Convert RGB string to HSL values
    * @param {string} rgb - RGB color string (e.g., "rgb(255, 0, 0)")
@@ -781,21 +781,15 @@ export class ColorPickerUtil {
    * @param {string} baseColor - Base RGB color
    * @param {string} type - 'accent' or 'secondary'
    * @param {string} forTheme - 'light' or 'dark' theme target
+   * @param {boolean} [applySecondaryToBg] - Whether to apply secondary color to backgrounds
    * @returns {Object} CSS variable mappings
    */
-  static generateColorVariations(baseColor, type, forTheme = 'dark') {
+  static generateColorVariations(baseColor, type, forTheme = 'dark', applySecondaryToBg = false) {
     const vars = {};
     const match = baseColor.match(/\d+/g);
     if (!match) return vars;
 
     const [r, g, b] = match.map(n => parseInt(n));
-    const SETTINGS = getSettings();
-    // Determine which setting to use based on whether player has custom colors
-    const playerCustomColors = SettingsUtil.get(SETTINGS.playerCustomThemeColors.tag);
-    const hasPlayerColors = playerCustomColors?.accent && (playerCustomColors?.secondaryDark || playerCustomColors?.secondary);
-    const applySecondaryToBg = hasPlayerColors
-      ? SettingsUtil.get(SETTINGS.playerApplySecondaryColorToBg.tag) === true
-      : SettingsUtil.get(SETTINGS.applySecondaryColorToBg.tag) === true;
 
     // Use the forTheme parameter to determine which theme we're generating for
     const isLightTheme = forTheme === 'light';
@@ -875,9 +869,9 @@ export class ColorPickerUtil {
       vars['--input-border-color'] = baseColor;
 
       if (applySecondaryToBg) {
-        const bgR = r;//isLightTheme ? Math.min(255, r + 150) : r;
-        const bgG = g;//isLightTheme ? Math.min(255, g + 150) : g;
-        const bgB = b;//isLightTheme ? Math.min(255, b + 150) : b;
+        const bgR = r; // isLightTheme ? Math.min(255, r + 150) : r;
+        const bgG = g; // isLightTheme ? Math.min(255, g + 150) : g;
+        const bgB = b; // isLightTheme ? Math.min(255, b + 150) : b;
 
         const bgColor = `rgb(${bgR}, ${bgG}, ${bgB})`;
 
@@ -896,9 +890,9 @@ export class ColorPickerUtil {
       } else {
         // When not applying secondary to background, still use the opacity setting
         // Use the default light/dark theme backgrounds with opacity
-        const defaultBgR = isLightTheme ? 224 : 11;
-        const defaultBgG = isLightTheme ? 217 : 10;
-        const defaultBgB = isLightTheme ? 213 : 19;
+        const defaultBgR = isLightTheme ? 226 : 11;
+        const defaultBgG = isLightTheme ? 232 : 10;
+        const defaultBgB = isLightTheme ? 233 : 19;
         const defaultOpacity = isLightTheme ? 0.98 : 0.95;
 
         vars['--background'] = `rgba(${defaultBgR}, ${defaultBgG}, ${defaultBgB}, var(--background-opacity, ${defaultOpacity}))`;
@@ -953,8 +947,8 @@ export class ColorPickerUtil {
     }
     
     // Generate secondary variables for both themes
-    const secondaryVarsDark = this.generateColorVariations(secondaryForDark, 'secondary', 'dark');
-    const secondaryVarsLight = this.generateColorVariations(secondaryForLight, 'secondary', 'light');
+    const secondaryVarsDark = this.generateColorVariations(secondaryForDark, 'secondary', 'dark', applySecondaryToBg);
+    const secondaryVarsLight = this.generateColorVariations(secondaryForLight, 'secondary', 'light', applySecondaryToBg);
     
     let cssText = 'body.crlngn-ui, body.crlngn-ui.game .app {\n';
     for (const [varName, value] of Object.entries(accentVars)) {
@@ -994,20 +988,20 @@ export class ColorPickerUtil {
       }
     `;
     if (applySecondaryToBg) {
-      // cssText += `body.crlngn-ui.crlngn-journals .application.sheet.journal-sheet:not(.dnd5e2-journal),
-      //   body.crlngn-ui.crlngn-journals .application.sheet.journal-sheet:not(.dnd5e2-journal) * {
-      //     --color-light-1: light-dark(var(--color-dark-1), var(--color-light-1));
-      //     --input-text-color: light-dark(var(--color-dark-1), var(--color-light-1));
-      //   }
-      // `;
       cssText += `
         body.crlngn-ui {
           --tools-visible-opacity: 0.75;
         }
-        body.crlngn-ui.theme-dark input[type=checkbox], 
+        body.crlngn-ui.theme-dark input[type=checkbox],
         body.crlngn-ui.theme-dark input[type=radio]{
           --checkbox-background-color: light-dark(rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0.2));
-        } 
+        }
+        body.crlngn-ui.theme-dark .application.sheet {
+          --background: ${secondaryVarsDark['--background'] || 'inherit'};
+        }
+        body.crlngn-ui.theme-light .application.sheet {
+          --background: ${secondaryVarsLight['--background'] || 'inherit'};
+        }
       `;
     }
     

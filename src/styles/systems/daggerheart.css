@@ -1728,4 +1728,26 @@ body.crlngn-ui.system-daggerheart.crlngn-scene-nav {
     border: none;
     width: calc(var(--control-item-size) * 0.4);
   }
+  #ui-left #ui-left-column-2 .scene-wrapper {
+    width: auto;
+  }
+  #ui-left #ui-left-column-2 .scene-wrapper .scene-environment {
+    align-items: center;
+    border-radius: 0;
+    border-color: transparent;
+    background-color: var(--color-secondary);
+    border: 1px solid var(--control-bg-color);
+    cursor: pointer;
+    display: flex;
+    flex: 0 0 var(--control-item-size);
+    font-size: var(--font-size-14);
+    height: 100%;
+    justify-content: center;
+    width: var(--control-item-size);
+    padding: 5px;
+  }
+  &.theme-light #ui-left #ui-left-column-2 .scene-wrapper .scene-environment img {
+    filter: invert(1);
+    opacity: .75;
+  }
 }
