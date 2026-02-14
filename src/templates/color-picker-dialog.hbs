@@ -23,6 +23,7 @@
     <div class="color-section accent-section collapsed">
       <div class="section-header">
         <h4><i class="fa-solid fa-caret-right toggle-icon"></i>{{localize "CRLNGN_UI.settings.colorPicker.accentColor"}}</h4>
+        <input type="text" class="color-hex-input accent-hex-input" value="{{accentHex}}" maxlength="7" placeholder="#000000" />
         <span class="color-thumbnail" style="background-color: {{currentColors.accent}}"></span>
       </div>
 
@@ -68,6 +69,7 @@
           <button type="button" class="secondary-tab active" data-theme="dark">Dark</button>
           <button type="button" class="secondary-tab" data-theme="light">Light</button>
         </div>
+        <input type="text" class="color-hex-input secondary-hex-input" value="{{secondaryDarkHex}}" maxlength="7" placeholder="#000000" />
         <span class="color-thumbnail secondary-thumbnail" style="background-color: {{secondaryColorDark}}"></span>
       </div>
 

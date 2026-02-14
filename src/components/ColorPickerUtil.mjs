@@ -121,7 +121,10 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     // Add separate dark and light secondary colors for preview
     context.secondaryColorDark = this.currentColors.secondaryDark || this.currentColors.secondary || THEMES[0].colorPreview[0];
     context.secondaryColorLight = this.currentColors.secondaryLight || 'rgb(223, 227, 231)';
-    
+
+    context.accentHex = ColorPickerUtil.rgbToHex(this.currentColors.accent);
+    context.secondaryDarkHex = ColorPickerUtil.rgbToHex(context.secondaryColorDark);
+
     return context;
   }
 
@@ -457,6 +460,18 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
         : (this.currentColors.secondaryLight || 'rgb(223, 227, 231)');
       secThumb.style.backgroundColor = thumbColor;
     }
+
+    const accentHexInput = content.querySelector('.accent-hex-input');
+    if (accentHexInput && document.activeElement !== accentHexInput) {
+      accentHexInput.value = ColorPickerUtil.rgbToHex(this.currentColors.accent);
+    }
+    const secondaryHexInput = content.querySelector('.secondary-hex-input');
+    if (secondaryHexInput && document.activeElement !== secondaryHexInput) {
+      const secColor = this.activeSecondaryTheme === 'dark'
+        ? (this.currentColors.secondaryDark || this.currentColors.secondary || THEMES[0].colorPreview[1])
+        : (this.currentColors.secondaryLight || 'rgb(223, 227, 231)');
+      secondaryHexInput.value = ColorPickerUtil.rgbToHex(secColor);
+    }
   }
 
   /**
@@ -484,6 +499,59 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     if (hueSlider) { hueSlider.value = hsl.h; hueSlider.nextElementSibling.textContent = hsl.h; }
     if (satSlider) { satSlider.value = hsl.s; satSlider.nextElementSibling.textContent = hsl.s + '%'; }
     if (lightSlider) { lightSlider.value = hsl.l; lightSlider.nextElementSibling.textContent = hsl.l + '%'; }
+    this.#updateSliderGradients();
+  }
+
+  #onHexInput(input, section) {
+    const rgb = ColorPickerUtil.hexToRgb(input.value);
+    if (!rgb) {
+      input.classList.add('invalid');
+      const currentColor = section === 'accent'
+        ? this.currentColors.accent
+        : (this.activeSecondaryTheme === 'dark'
+          ? (this.currentColors.secondaryDark || THEMES[0].colorPreview[1])
+          : (this.currentColors.secondaryLight || 'rgb(223, 227, 231)'));
+      input.value = ColorPickerUtil.rgbToHex(currentColor);
+      setTimeout(() => input.classList.remove('invalid'), 800);
+      return;
+    }
+
+    input.classList.remove('invalid');
+    input.value = ColorPickerUtil.rgbToHex(rgb);
+    const content = this.element?.querySelector('.color-picker-content');
+    if (!content) return;
+
+    const hsl = ColorPickerUtil.rgbToHsl(rgb);
+
+    if (section === 'accent') {
+      this.currentColors.accent = rgb;
+      const hueSlider = content.querySelector('[name="accentHue"]');
+      const satSlider = content.querySelector('[name="accentSaturation"]');
+      const lightSlider = content.querySelector('[name="accentLightness"]');
+      if (hueSlider) { hueSlider.value = hsl.h; hueSlider.nextElementSibling.textContent = hsl.h; }
+      if (satSlider) { satSlider.value = hsl.s; satSlider.nextElementSibling.textContent = hsl.s + '%'; }
+      if (lightSlider) { lightSlider.value = hsl.l; lightSlider.nextElementSibling.textContent = hsl.l + '%'; }
+    } else {
+      if (this.activeSecondaryTheme === 'dark') {
+        this.currentColors.secondaryDark = rgb;
+      } else {
+        this.currentColors.secondaryLight = rgb;
+      }
+      const hueSlider = content.querySelector('[name="secondaryHue"]');
+      const satSlider = content.querySelector('[name="secondarySaturation"]');
+      const lightSlider = content.querySelector('[name="secondaryLightness"]');
+      if (hueSlider) { hueSlider.value = hsl.h; hueSlider.nextElementSibling.textContent = hsl.h; }
+      if (satSlider) { satSlider.value = hsl.s; satSlider.nextElementSibling.textContent = hsl.s + '%'; }
+      if (lightSlider) { lightSlider.value = hsl.l; lightSlider.nextElementSibling.textContent = hsl.l + '%'; }
+    }
+
+    this.currentColors.isPreset = false;
+    if (this.selectedPreset) {
+      this.selectedPreset = null;
+      this.element.querySelectorAll('.preset-button.selected').forEach(b => b.classList.remove('selected'));
+    }
+
+    this.#updatePreview();
     this.#updateSliderGradients();
   }
 
@@ -621,6 +689,20 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
       secThumb.addEventListener('click', () => this._toggleSection('secondary', true));
     }
 
+    // Hex color input listeners
+    const accentHexInput = this.element.querySelector('.accent-hex-input');
+    if (accentHexInput) {
+      accentHexInput.addEventListener('change', () => {
+        this.#onHexInput(accentHexInput, 'accent');
+      });
+    }
+    const secondaryHexInput = this.element.querySelector('.secondary-hex-input');
+    if (secondaryHexInput) {
+      secondaryHexInput.addEventListener('change', () => {
+        this.#onHexInput(secondaryHexInput, 'secondary');
+      });
+    }
+
     // Track checkbox state changes
     const bgCheckbox = this.element.querySelector('input[name="applySecondaryColorToBg"]');
     if (bgCheckbox) {
@@ -717,7 +799,23 @@ export class ColorPickerUtil {
     
     return `rgb(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)})`;
   }
-  
+
+  static rgbToHex(rgb) {
+    const match = rgb.match(/\d+/g);
+    if (!match) return '#000000';
+    return '#' + match.slice(0, 3).map(n => parseInt(n).toString(16).padStart(2, '0')).join('');
+  }
+
+  static hexToRgb(hex) {
+    hex = hex.replace(/^#/, '').trim();
+    if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+    if (!/^[0-9a-fA-F]{6}$/.test(hex)) return null;
+    const r = parseInt(hex.slice(0, 2), 16);
+    const g = parseInt(hex.slice(2, 4), 16);
+    const b = parseInt(hex.slice(4, 6), 16);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
   /**
    * Calculate contrast ratio between two colors
    * @param {string} color1 - First RGB color
