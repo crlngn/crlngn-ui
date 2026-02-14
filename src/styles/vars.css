@@ -233,7 +233,8 @@
         --filigree-border-color: rgba(158, 138, 138, 0.5);
       }
     }
-    &.theme-light .chat-bubble {
+    &.theme-light .chat-bubble,
+    &.theme-light .application {
       --color-text-primary: var(--color-dark-1);
       --background: var(--control-bg-color, var(--color-cool-5-90));
       background: var(--background);

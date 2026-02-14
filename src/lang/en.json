@@ -732,8 +732,8 @@
         "hint": "If a player doesn't want to use Carolingian UI, they may disable it. No other feature of the module will work except for dark style in chat cards - which can be separately disabled."
       },
       "dockDHResources":{
-        "label": "Dock Daggerheart Resource Tracker",
-        "hint": "Enable docking functionality for the Daggerheart (fear) tracker. Drag the window near the macro hotbar to dock it at the bottom of the screen."
+        "label": "Dock Daggerheart Fear Tracker",
+        "hint": "Enable docking functionality for the Daggerheart resource (fear) tracker. Drag the window near the macro hotbar to dock it at the bottom of the screen."
       },
       "colorPicker": {
         "hint": "Remember to care for your retinas: for the accent color, use colors with at least a 'medium' contrast rating for better readability.",

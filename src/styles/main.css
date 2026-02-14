@@ -235,6 +235,13 @@ body.crlngn-ui.crlngn-journals.cui-font-jrnl-t {
 *******************/  
 body.crlngn-ui{
   /* fix issue with windows */
+  .window-content section.tab.active {
+    --scroll-margin: 0.75rem;
+    margin-right: calc(-1 * var(--scroll-margin));
+    padding-right: var(--scroll-margin);
+    overflow: hidden auto;
+    scrollbar-gutter: stable;
+  }
   .scene-config .tab.active {
     overflow: auto;
     padding: 0.3em;

@@ -91,6 +91,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       transition: opacity .3s ease-out;
       width: auto;
       min-width: min-content;
+      min-width: 8rem;
       z-index: 0;
     }
     nav.combat-controls:before{

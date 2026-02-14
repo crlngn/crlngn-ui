@@ -766,6 +766,11 @@ body.crlngn-ui.system-daggerheart {
   &.crlngn-combat-tracker #combat-popout .spotlight-control:hover {
     border-color: transparent;
   }
+
+  .daggerheart.dialog section.window-content {
+    max-height: 80vh;
+    overflow: auto;
+  }
 }
 
 /* ========================================

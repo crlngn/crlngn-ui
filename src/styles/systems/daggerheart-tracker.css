@@ -27,6 +27,9 @@
     #resources {
       min-height: 70px !important;
     }
+    #resources:not(:hover):not(.minimized) {
+      background: transparent !important;
+    }
 
     #resources.docked {
       position: relative !important;
