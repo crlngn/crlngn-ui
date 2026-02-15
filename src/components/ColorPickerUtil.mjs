@@ -89,7 +89,7 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     
     // Convert RGB to HSL for the pickers
     context.accentHSL = ColorPickerUtil.rgbToHsl(this.currentColors.accent);
-    context.secondaryDarkHSL = ColorPickerUtil.rgbToHsl(this.currentColors.secondaryDark || this.currentColors.secondary || THEMES[0].colorPreview[0]);
+    context.secondaryDarkHSL = ColorPickerUtil.rgbToHsl(this.currentColors.secondaryDark || this.currentColors.secondary || THEMES[0].colorPreview[1]);
     context.secondaryLightHSL = ColorPickerUtil.rgbToHsl(this.currentColors.secondaryLight || 'rgb(223, 227, 231)');
     
     // Use preset themes directly as they now have the correct order
@@ -119,7 +119,7 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     context.currentColors = this.currentColors;
     
     // Add separate dark and light secondary colors for preview
-    context.secondaryColorDark = this.currentColors.secondaryDark || this.currentColors.secondary || THEMES[0].colorPreview[0];
+    context.secondaryColorDark = this.currentColors.secondaryDark || this.currentColors.secondary || THEMES[0].colorPreview[1];
     context.secondaryColorLight = this.currentColors.secondaryLight || 'rgb(223, 227, 231)';
 
     context.accentHex = ColorPickerUtil.rgbToHex(this.currentColors.accent);
@@ -438,7 +438,7 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     const secondaryPreviews = content.querySelectorAll('.secondary-preview .preview-item');
     if (secondaryPreviews.length > 0) {
       // Dark theme preview (first box)
-      let darkColor = this.currentColors.secondaryDark || this.currentColors.secondary || THEMES[0].colorPreview[0];
+      let darkColor = this.currentColors.secondaryDark || this.currentColors.secondary || THEMES[0].colorPreview[1];
 
       // Apply darkening to preview if it's a preset and checkbox is checked
       if (this.currentColors.isPreset && this.applySecondaryColorToBg) {
@@ -1036,7 +1036,7 @@ export class ColorPickerUtil {
     const accentVars = this.generateColorVariations(colors.accent, 'accent');
     
     // Use the provided dark and light secondary colors
-    let secondaryForDark = colors.secondaryDark || colors.secondary || THEMES[0].colorPreview[0];
+    let secondaryForDark = colors.secondaryDark || colors.secondary || THEMES[0].colorPreview[1];
     const secondaryForLight = colors.secondaryLight || 'rgb(223, 227, 231)';
 
     // If this is a preset AND applySecondaryColorToBg is enabled, darken the dark secondary by 20%
