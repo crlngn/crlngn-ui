@@ -2,20 +2,12 @@
   LEFT CONTROLS BAR
 ----------------- */
 body.crlngn-ui{
-  --tools-visible-opacity: 1;
-  /* --cpr-ui-button-scale: var(--custom-ui-button-scale, 1); */
-  /* --cpr-ui-navigation-scale: var(--custom-ui-navigation-scale, 1); */
-  /* --custom-ui-button-scale: var(--cpr-ui-button-scale); */
-  /* --custom-ui-navigation-scale: var(--cpr-ui-navigation-scale); */
+  --tools-visible-opacity: 0.9;
 
   #interface.crlngn-controls #ui-left {
     --icon-font-size: var(--font-size-14);
     --crlngn-control-size: var(--control-item-size);
     --control-size: var(--crlngn-control-size) !important;
-    /* --cpr-ui-button-scale: var(--custom-ui-button-scale, 1); */
-    /* --cpr-ui-navigation-scale: var(--custom-ui-navigation-scale, 1); */
-    /* --custom-ui-button-scale: var(--cpr-ui-button-scale); */
-    /* --custom-ui-navigation-scale: var(--cpr-ui-navigation-scale); */
   }
   #ui-left{
     padding: 0;
@@ -135,7 +127,7 @@ body.crlngn-ui{
         .ui-control{
           &[aria-pressed=true]{
             border: 1px solid var(--color-highlights);
-            background: var(--color-secondary-b-90);
+            background: var(--color-secondary);
           }
         }
       }
@@ -153,8 +145,8 @@ body.crlngn-ui{
       
           &[aria-pressed=true]{
             cursor: pointer;
-            background: var(--color-secondary-b-90);
-            border: 1px solid var(--color-warm-2);
+            background: var(--color-secondary);
+            border: 1px solid var(--color-highlights-50);
             &:hover{
               border: 1px solid var(--color-secondary-bright);
             }

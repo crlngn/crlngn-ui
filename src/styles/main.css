@@ -26,6 +26,10 @@ body.crlngn-ui  {
   font-weight: 500;
 }
 
+body.crlngn-ui #pause {
+  background: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.5) 60%, transparent 100%);
+}
+
 /* HEADINGS */
 body.crlngn-ui  {
   --color-text-selection-bg: var(--color-highlights-50);
@@ -1222,10 +1226,11 @@ body.crlngn-ui{
     }
   }
 
-  #interface.crlngn-controls #scene-controls .ui-control, 
+  #interface.crlngn-controls #scene-controls .ui-control,
   &.crlngn-tabs #ui-right .tabs .ui-control {
     --crlngn-control-size: var(--control-item-size);
     --control-size: var(--crlngn-control-size) !important;
+    background: var(--background);
     border-radius: 0;
     border: 1px solid transparent;
     font-size: 0.95em;

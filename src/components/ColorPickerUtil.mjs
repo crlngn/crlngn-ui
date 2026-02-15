@@ -1085,6 +1085,16 @@ export class ColorPickerUtil {
         ${Object.entries(secondaryVarsLight).map(([k, v]) => `${k}: ${v};`).join('\n    ')}
       }
     `;
+    if (game.system?.id === 'daggerheart') {
+      cssText += `
+        body.crlngn-ui.system-daggerheart.theme-light .application.sheet {
+          ${Object.entries(secondaryVarsLight).map(([k, v]) => `${k}: ${v};`).join('\n      ')}
+        }
+        body.crlngn-ui.system-daggerheart.theme-dark .application.sheet {
+          ${Object.entries(secondaryVarsDark).map(([k, v]) => `${k}: ${v};`).join('\n      ')}
+        }
+      `;
+    }
     if (applySecondaryToBg) {
       cssText += `
         body.crlngn-ui {

@@ -184,7 +184,7 @@
       --toggle-bg-color: var(--control-striped-bg);
       --toggle-border-color: var(--color-secondary-b);
       --toggle-active-bg-color: var(--control-striped-bg-2);
-      --toggle-active-border-color: var(--color-warm-1);
+      --toggle-active-border-color: var(--color-highlights-75);
     }
     
     &.stream.theme-light, #interface.theme-light, .sidebar-popout.theme-light, #chat-popout.theme-light, #chat-pins.theme-light{
@@ -235,7 +235,7 @@
     }
     &.theme-light .chat-bubble {
       --color-text-primary: var(--color-dark-1);
-      --background: var(--control-bg-color, var(--color-cool-5-90));
+      --background: rgba(226, 232, 233, var(--background-opacity, 0.98));
       background: var(--background);
       color: var(--color-text-primary);
     }
@@ -272,7 +272,7 @@
       --dnd5e-sheet-bg: rgb(37, 40, 48);
       --dnd5e-tabs-bg: transparent;
       --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
-      --background: var(--control-bg-color, var(--color-cool-5-90));
+      --background: rgba(11, 10, 19, var(--background-opacity, 0.95));
       &.crlngn-chat .sidebar-content{
         --dnd5e-color-parchment: rgb(32, 37, 43);
         --dnd5e-background-card: rgb(32, 37, 43); 
@@ -329,7 +329,7 @@
 
     &.theme-dark .theme-light .chat-bubble {
       --color-text-primary: var(--color-light-1);
-      --background: var(--control-bg-color, var(--color-cool-5-90));
+      --background: rgba(226, 232, 233, var(--background-opacity, 0.98));
       background: var(--background);
       color: var(--color-text-primary);
     }
