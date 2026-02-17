@@ -312,7 +312,7 @@
           },
           "glassTranslucence": {
             "label": "Glass Translucence",
-            "hint": "Controls the translucence of windows. 0 = fully opaque with minimal blur, 1 = highly translucent with maximum blur. Opacity and blur adjust inversely for readability."
+            "hint": "Controls the translucence of windows. 0 = fully opaque with minimal blur, 1 = highly translucent with maximum blur. Opacity and blur adjust inversely for readability. Control is disabled on low performance mode."
           },
           "enableJournalStyles": {
             "label": "Apply styles to journal sheets",

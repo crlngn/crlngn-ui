@@ -950,7 +950,7 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets {
   }
 
   .theme-light .application.daggerheart.dh-style.dialog .tab.details .traits-inner-container .trait-container div {
-    text-shadow: 0 0 4px var(--color-warm-2);
+    text-shadow: 0 0 4px light-dark(var(--color-warm-2), var(--color-dark-1));
   }
 
   /* Dividers - GOLDEN COLOR */

@@ -740,14 +740,14 @@ export class SettingsUtil {
     const SETTINGS = getSettings();
     const blurSupported = SettingsUtil.isBlurSupported();
 
-    if(value && blurSupported){
+    if(value){
       body.classList.add("crlngn-glass-effect");
       const glassTranslucence = SettingsUtil.get(SETTINGS.glassTranslucence.tag);
       SettingsUtil.applyTranslucence(glassTranslucence);
     } else {
       body.classList.remove("crlngn-glass-effect");
       GeneralUtil.addCSSVars("--background-blur", "0px");
-      GeneralUtil.addCSSVars("--background-opacity", "0.98");
+      GeneralUtil.addCSSVars("--background-opacity", "1");
     }
     LogUtil.log("applyGlassEffect", [value, { blurSupported }]);
   }
@@ -760,7 +760,7 @@ export class SettingsUtil {
    */
   static applyTranslucence(value){
     if(!SettingsUtil.isBlurSupported()){
-      GeneralUtil.addCSSVars("--background-opacity", "0.98");
+      GeneralUtil.addCSSVars("--background-opacity", "1");
       GeneralUtil.addCSSVars("--background-blur", "0px");
       return;
     }

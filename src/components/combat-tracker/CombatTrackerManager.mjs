@@ -386,6 +386,9 @@ export class CombatTrackerManager {
    * @param {Combat} combat - The combat that started
    */
   static onCombatStart = (combat) => {
+    const currentSceneId = canvas.scene?.id ?? game.scenes?.current?.id;
+    if (currentSceneId && combat.scene?.id && combat.scene.id !== currentSceneId) return;
+
     if (combat.combatants?.size === 0) {
       LogUtil.log("onCombatStart - no combatants, skipping", [combat.id]);
       return;
@@ -447,6 +450,10 @@ export class CombatTrackerManager {
 
     if (!CombatTrackerManager.enableCombatTrackerCarousel) return;
 
+    const combat = combatant.combat ?? combatant.parent;
+    const currentSceneId = canvas.scene?.id ?? game.scenes?.current?.id;
+    if (currentSceneId && combat?.scene?.id && combat.scene.id !== currentSceneId) return;
+
     CombatTrackerManager.popOutCombatTracker();
 
     if (CombatTrackerManager.collapseNavDuringCombat && CombatTrackerManager.#isSceneNavEnabled()) {
@@ -467,11 +474,38 @@ export class CombatTrackerManager {
   static onCanvasReady = () => {
     if (!CombatTrackerManager.enableCombatTrackerCarousel) return;
 
-    const combatPopout = document.querySelector('#combat-popout');
-    if (!combatPopout) return;
-
     const combatWithCombatants = CombatTrackerManager.getCombatWithCombatants();
-    if (!combatWithCombatants) return;
+    const combatPopout = document.querySelector('#combat-popout');
+
+    if (!combatWithCombatants) {
+      if (combatPopout) {
+        LogUtil.log("onCanvasReady - no combat on this scene, closing popout");
+        CombatTrackerManager.closeCombatTrackerPopout();
+
+        if (CombatTrackerManager.collapseNavDuringCombat && CombatTrackerManager.#isSceneNavEnabled()) {
+          if (CombatTrackerManager.#navStateBeforeCombat === true) {
+            CombatTrackerManager.#expandNav();
+          }
+          CombatTrackerManager.#navStateBeforeCombat = null;
+        }
+      }
+      return;
+    }
+
+    if (!combatPopout) {
+      LogUtil.log("onCanvasReady - combat found on this scene, opening popout");
+      CombatTrackerManager.popOutCombatTracker();
+
+      if (CombatTrackerManager.collapseNavDuringCombat && CombatTrackerManager.#isSceneNavEnabled()) {
+        if (CombatTrackerManager.#navStateBeforeCombat === null) {
+          CombatTrackerManager.#navStateBeforeCombat = !CombatTrackerManager.#isNavCollapsed();
+        }
+        if (!CombatTrackerManager.#isNavCollapsed()) {
+          CombatTrackerManager.#collapseNav();
+        }
+      }
+      return;
+    }
 
     LogUtil.log("onCanvasReady - re-rendering combat tracker after scene change");
 
