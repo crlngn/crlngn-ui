@@ -1131,10 +1131,16 @@ export class TopNavigation {
       soundIcon.addEventListener('click', TopNavigation.#onSoundClick);
     }
     
-    // Config icon
+    // Preload icon
     const preloadIcon = previewDiv.querySelector('.preload');
     if (preloadIcon) {
       preloadIcon.addEventListener('click', TopNavigation.#onPreloadClick);
+    }
+
+    // Initial view icon
+    const initialViewIcon = previewDiv.querySelector('.initial-view');
+    if (initialViewIcon) {
+      initialViewIcon.addEventListener('click', TopNavigation.#onInitialViewClick);
     }
 
     // Config icon
@@ -1159,8 +1165,8 @@ export class TopNavigation {
   }
 
   /**
-   * Event for when user opens scene configuration
-   * @param {Event} event 
+   * Event for when user preloads a scene
+   * @param {Event} event
    */
   static #onPreloadClick = (event) => {
     event.stopPropagation();
@@ -1169,6 +1175,28 @@ export class TopNavigation {
     const scene = TopNavigation.getSceneFromElement(target);
     game.scenes.preload(scene.id, true);
     LogUtil.log("Preloaded scene");
+  }
+
+  /**
+   * Event for when user sets the initial view position for a scene
+   * @param {Event} event
+   */
+  static #onInitialViewClick = async (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    if (!canvas.ready) return;
+    const target = event.currentTarget.closest("li.scene");
+    const scene = TopNavigation.getSceneFromElement(target);
+    if (!scene) return;
+
+    TopNavigation.#preventNavRender = true;
+    await scene.update({
+      'initial.x': parseInt(canvas.stage.pivot.x),
+      'initial.y': parseInt(canvas.stage.pivot.y),
+      'initial.scale': canvas.stage.scale.x
+    });
+    ui.notifications.info(game.i18n.localize("CRLNGN_UI.ui.notifications.initialViewSet"));
+    LogUtil.log("Set initial view position");
   }
 
   /**
