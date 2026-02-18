@@ -53,7 +53,7 @@ body.crlngn-ui{
       --button-size: 18px;
     }
 
-    &:hover{
+    &:hover, &:has(:focus-within){
       background-color: var(--color-dark-bg-75);
 
       .resize-handle{
@@ -380,7 +380,8 @@ body.crlngn-ui{
         background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 65%, transparent);
       }
 
-      &:hover .bottom .user-controls{
+      &:hover .bottom .user-controls,
+      &:focus-within .bottom .user-controls{
         display: flex;
       }
     }

@@ -45,6 +45,21 @@ export class CameraDockUtil {
   /** @type {boolean} Whether camera dock position is locked */
   static isPositionLocked = false;
   
+  /**
+   * Makes camera-view elements focusable so :focus-within works on touch
+   */
+  static #makeCameraViewsFocusable() {
+    const views = CameraDockUtil.cameraContainer?.querySelectorAll(".camera-view:not(.popout)") || [];
+    views.forEach(view => {
+      if (!view.hasAttribute("tabindex")) {
+        view.setAttribute("tabindex", "-1");
+        view.addEventListener("touchstart", () => {
+          view.focus({ preventScroll: true });
+        });
+      }
+    });
+  }
+
   static applyFadeOut(useFadeOut){
     CameraDockUtil.useFadeOut = useFadeOut;
     if(CameraDockUtil.cameraContainer){
@@ -123,6 +138,7 @@ export class CameraDockUtil {
 
   static applyCustomStyle(enabled){
     CameraDockUtil.enableFloatingDock = enabled;
+    document.body.classList.toggle("crlngn-floating-dock", !!enabled);
     LogUtil.log("applyCustomStyle", ["enableFloatingDock", enabled, CameraDockUtil.enableFloatingDock, ui.webrtc]);
     ui.webrtc?.render();
   }
@@ -327,6 +343,7 @@ export class CameraDockUtil {
   static init(){
     const SETTINGS = getSettings();
     CameraDockUtil.enableFloatingDock = SettingsUtil.get(SETTINGS.enableFloatingDock.tag);
+    document.body.classList.toggle("crlngn-floating-dock", !!CameraDockUtil.enableFloatingDock);
     CameraDockUtil.dockCamerasToBottom = SettingsUtil.get(SETTINGS.dockCamerasToBottom.tag);
     CameraDockUtil.currSettings = {
       enableFloatingDock: CameraDockUtil.enableFloatingDock,
@@ -484,6 +501,7 @@ export class CameraDockUtil {
     }
     CameraDockUtil.applyFadeOut(CameraDockUtil.useFadeOut);
     CameraDockUtil.addLockButton();
+    CameraDockUtil.#makeCameraViewsFocusable();
   }
 
   static onRenderPlayersList(){
@@ -673,14 +691,16 @@ export class CameraDockUtil {
       const isMinimized = document.querySelector("#av-holder.minimized #camera-views");
       if (!e.touches[0]) return;
 
+      // Don't intercept touches on interactive elements
+      if (e.target.closest("button, input, select, a, .user-controls, .volume-bar")) {
+        return;
+      }
+
       // Don't allow dragging if position is locked
       if (CameraDockUtil.isPositionLocked) return;
 
       const body = document.querySelector("body.crlngn-ui");
 
-      if(e.target.parentNode?.classList.contains('volume-bar')){
-        return;
-      }
       body.addEventListener("touchmove", CameraDockUtil.#onTouchMove);
       body.addEventListener("touchend", CameraDockUtil.#onTouchRelease);
       body.addEventListener("touchcancel", CameraDockUtil.#onTouchRelease);

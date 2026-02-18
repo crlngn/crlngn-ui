@@ -698,6 +698,8 @@ body.crlngn-ui{
     line-height: 1;
     color: inherit;
     overflow: auto;
+    min-height: 2.25rem;
+    
     &::-webkit-scrollbar {
       display: none !important;
     }
