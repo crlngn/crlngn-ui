@@ -9,7 +9,7 @@ body.crlngn-ui{
   &.crlngn-tabs{
     #sidebar-tabs {
       padding: 0;
-      opacity: 0.95;
+      opacity: 0.9;
   
       menu {
         gap: 0;

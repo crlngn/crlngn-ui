@@ -10,7 +10,7 @@ body.crlngn-ui.crlngn-glass-effect .application:not(.dnd5e2.sheet, .tidy5e-sheet
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
-body.crlngn-ui.crlngn-glass-effect .application:not(.dnd5e2.sheet, .tidy5e-sheet, .monks-enhanced-journal, #resources, #daggerheart-hud, #daggerheart-gm-hud),
+body.crlngn-ui.crlngn-glass-effect .application:not(.dnd5e2.sheet, .tidy5e-sheet, .journal-sheet, .monks-enhanced-journal, #resources, #daggerheart-hud, #daggerheart-gm-hud),
 body.crlngn-ui.crlngn-glass-effect .window-app:not(.monks-enhanced-journal) {
   background: var(--background);
   backdrop-filter: blur(var(--background-blur, 4px));
@@ -704,7 +704,7 @@ body.crlngn-ui{
     -ms-overflow-style: none !important;
     scrollbar-width: none !important;
   }
-  
+
   nav.tabs a[data-action=tab] {
     padding: 10px 6px;
     /*margin-right: 5px;*/

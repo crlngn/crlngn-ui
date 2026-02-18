@@ -200,6 +200,7 @@
     .sidebar-popout.theme-light,
     &.theme-light .chat-popout.theme-light,
     &.theme-dark .sheet.theme-light .form-footer button,
+    &.theme-dark .sheet.theme-light .crlngn-tab-scroll-wrapper,
     &.theme-light #context-menu,
     &.theme-light .application.dialog {
       --color-bg-button: rgba(237, 242, 244,0.9);

@@ -1054,10 +1054,11 @@ export class ColorPickerUtil {
     }
     cssText += '}\n';
     
+    // body.crlngn-ui.theme-dark .application:not(.sheet, .theme-light, .monks-enhanced-journal),
     cssText += `
       body.crlngn-ui.theme-dark,
       body.crlngn-ui.theme-dark .app,
-      body.crlngn-ui.theme-dark .application:not(.sheet, .theme-light, .monks-enhanced-journal),
+      body.crlngn-ui.theme-dark .application:not(.theme-light),
       body.crlngn-ui #interface.theme-dark,
       body.crlngn-ui #tooltip.theme-dark,
       body.crlngn-ui .application.theme-dark:not(.chat-popout),
@@ -1072,9 +1073,9 @@ export class ColorPickerUtil {
       
       body.crlngn-ui.theme-light,
       body.crlngn-ui.theme-light .app,
-      body.crlngn-ui.theme-light .application:not(.sheet, .theme-dark),
+      body.crlngn-ui.theme-light .application:not(.theme-dark, .journal-sheet),
       body.crlngn-ui #interface.theme-light,
-      body.crlngn-ui .application.theme-light:not(.chat-popout, .journal-entry),
+      body.crlngn-ui .application.theme-light:not(.chat-popout),
       body.crlngn-ui #interface.theme-light,
       body.crlngn-ui .sidebar-popout.theme-light,
       body.crlngn-ui .themed.theme-light .ui-control, 
