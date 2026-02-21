@@ -980,6 +980,7 @@ body.crlngn-ui.crlngn-chat {
 
     .chat-message .table-draw ul.table-results li > .description {
       flex: 1;
+      min-width: 70%;
     }
 
     .chat-message .table-draw ul.table-results li > img,
