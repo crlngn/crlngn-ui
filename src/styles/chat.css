@@ -24,6 +24,7 @@ body.crlngn-ui.crlngn-chat {
       transition: border .2s ease-in-out; 
       border-width: 1px;
       border-style: solid;
+      border-color: transparent;
     }
     :is(.chat-popout, #chat-log, .chat-log) .chat-message:not(.dnd5e-cm).left-border {
       border-width: 0;

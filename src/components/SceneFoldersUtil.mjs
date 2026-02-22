@@ -241,12 +241,20 @@ export class SceneNavFolders {
 
     LogUtil.log("updateActiveFolders A", [idIndex, id, game.user.getFlag(MODULE_ID, "activeSceneFolders"), SceneNavFolders.#activeSceneFolders]);
 
+    const isVertical = TopNavigation.subFoldersLayout === "vertical";
+    const parentIsContents = target?.parentNode?.classList.contains("contents");
+
     if(remove){
       // When closing a folder, also remove all nested child folder IDs
       // nestedFolderIds is passed from #onNavFolderClick (collected before DOM removal)
       const idsToRemove = [id, ...nestedFolderIds];
       SceneNavFolders.#activeSceneFolders = SceneNavFolders.#activeSceneFolders.filter(fid => !idsToRemove.includes(fid));
       target?.classList.remove('crlngn-folder-active');
+
+      if(isVertical && parentIsContents){
+        const siblingScenes = target.parentNode.querySelectorAll(":scope > li.scene");
+        siblingScenes.forEach(li => li.classList.remove("crlngn-siblings-hidden"));
+      }
     }else if(!SceneNavFolders.#activeSceneFolders.includes(id)){
       const siblings = target.parentNode.querySelectorAll("li.folder");
       siblings.forEach(sibling => {
@@ -257,6 +265,11 @@ export class SceneNavFolders {
       });
       SceneNavFolders.#activeSceneFolders.push(id);
       target.classList.add('crlngn-folder-active');
+
+      if(isVertical && parentIsContents){
+        const siblingScenes = target.parentNode.querySelectorAll(":scope > li.scene");
+        siblingScenes.forEach(li => li.classList.add("crlngn-siblings-hidden"));
+      }
     }
 
     await game.user.setFlag(MODULE_ID, "activeSceneFolders", SceneNavFolders.#activeSceneFolders);

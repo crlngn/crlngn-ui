@@ -647,7 +647,8 @@
             "hint": "Choose how scenes inside subfolders are positioned when the folder is expanded. Only works if folders are enabled.",
             "options": {
               "parent": "Aligned with parent folder",
-              "rowStart": "Aligned to row start"
+              "rowStart": "Aligned to row start",
+              "vertical": "Vertical dropdown"
             }
           },
           "expandScrimToSubfolders": {

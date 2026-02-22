@@ -809,11 +809,12 @@ export class TopNavigation {
 
     if(!TopNavigation.#scenesList || !TopNavigation.#navElem){ return; }
 
-    let newPos = currPos - (itemsPerPage - 1);
+    const step = Math.max(itemsPerPage - 2, 1);
+    let newPos = currPos - step;
     LogUtil.log("onNavLast", ["pos", newPos, TopNavigation.#navElem.scrollWidth]);
-    
+
     newPos = newPos < 0 ? 0 : newPos;
-    TopNavigation.setNavPosition(newPos);
+    TopNavigation.#scrollWithHighlight(newPos, newPos);
   }
 
   /**
@@ -824,7 +825,6 @@ export class TopNavigation {
    */
   static #onNavNext = async (e) => {
     const itemsPerPage = await TopNavigation.getItemsPerPage();
-    // const scenes = TopNavigation.#scenesList?.querySelectorAll("li.nav-item") || [];
     const currPos = TopNavigation.navPos || 0;
     const firstScene = TopNavigation.#navElem?.querySelector("li.nav-item:first-of-type");
     const itemWidth = firstScene?.offsetWidth || 0;
@@ -832,14 +832,49 @@ export class TopNavigation {
 
     if(!itemWidth || !TopNavigation.#navElem){ return; }
 
-    let newPos = currPos + (itemsPerPage - 1);
+    const step = Math.max(itemsPerPage - 2, 1);
+    let newPos = currPos + step;
     let newPosPx = newPos * itemWidth;
     LogUtil.log("onNavNext", ["pos", currPos, newPos, firstScene?.offsetWidth, newPosPx, scrollWidth]);
 
     if(newPosPx >= scrollWidth){
       newPos = Math.floor(scrollWidth/itemWidth);
     }
-    TopNavigation.setNavPosition(newPos);
+    TopNavigation.#scrollWithHighlight(newPos, currPos);
+  }
+
+  /**
+   * Highlights a scene item and scrolls to a new position.
+   * When scrolling forward, highlights the current first item (visible during scroll).
+   * When scrolling backward, highlights the target first item (shown after scroll completes).
+   * @param {number} scrollPos - The target position index to scroll to
+   * @param {number} highlightPos - The index of the scene item to highlight
+   */
+  static #scrollWithHighlight(scrollPos, highlightPos) {
+    if (!TopNavigation.#navElem) return;
+
+    const scenes = TopNavigation.#navElem.querySelectorAll("li.nav-item");
+    const highlightScene = scenes[highlightPos];
+    const isForward = scrollPos > (TopNavigation.navPos || 0);
+
+    scenes.forEach(s => s.classList.remove("scroll-target"));
+
+    if (isForward && highlightScene) {
+      highlightScene.classList.add("scroll-target");
+      highlightScene.addEventListener("animationend", () => {
+        highlightScene.classList.remove("scroll-target");
+      }, { once: true });
+      TopNavigation.setNavPosition(scrollPos);
+    } else {
+      TopNavigation.setNavPosition(scrollPos, true, 800, () => {
+        if (highlightScene) {
+          highlightScene.classList.add("scroll-target");
+          highlightScene.addEventListener("animationend", () => {
+            highlightScene.classList.remove("scroll-target");
+          }, { once: true });
+        }
+      });
+    }
   }
 
   /**
@@ -847,8 +882,9 @@ export class TopNavigation {
    * @param {number} [pos] - The position to scroll to. If undefined, uses stored position
    * @param {boolean} [animate=true] - Whether to animate the scroll
    * @param {number} [duration=400] - Duration of the animation in milliseconds (only used when animate is true)
+   * @param {Function} [onComplete] - Optional callback when scroll animation finishes
    */
-  static setNavPosition(pos=null, animate=true, duration=400) { 
+  static setNavPosition(pos=null, animate=true, duration=800, onComplete=null) {
     try {
       const SETTINGS = getSettings();
       
@@ -877,8 +913,7 @@ export class TopNavigation {
       SettingsUtil.set(SETTINGS.sceneNavPos.tag, position);
       
       if (animate) {
-        // Use custom animation with specified duration from GeneralUtil
-        GeneralUtil.smoothScrollTo(TopNavigation.#navElem, newMargin, "horizontal", duration);
+        GeneralUtil.smoothScrollTo(TopNavigation.#navElem, newMargin, "horizontal", duration, onComplete);
         // TopNavigation.#navElem.scrollTo({
         //   left: newMargin,
         //   behavior: "smooth"
@@ -1335,10 +1370,11 @@ export class TopNavigation {
 
   static applySubFoldersLayout = () => {
     const body = document.querySelector("body");
+    body.classList.remove("crlngn-subnav-start", "crlngn-subnav-vertical");
     if (TopNavigation.subFoldersLayout === "rowStart") {
       body.classList.add("crlngn-subnav-start");
-    } else {
-      body.classList.remove("crlngn-subnav-start");
+    } else if (TopNavigation.subFoldersLayout === "vertical") {
+      body.classList.add("crlngn-subnav-vertical");
     }
   }
 
@@ -1396,7 +1432,8 @@ export class TopNavigation {
       return;
     }
 
-    if (TopNavigation.navShowRootFolders && game.user?.isGM) {
+    if (TopNavigation.navShowRootFolders && game.user?.isGM
+        && TopNavigation.subFoldersLayout !== "vertical") {
       const activeSceneFolders = game.user?.getFlag(MODULE_ID, "activeSceneFolders") || [];
 
       const validFolderIds = activeSceneFolders.filter(folderId => {

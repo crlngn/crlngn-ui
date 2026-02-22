@@ -743,7 +743,8 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.subFoldersLayout.hint"),
       options: {
         parent: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.subFoldersLayout.options.parent"),
-        rowStart: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.subFoldersLayout.options.rowStart")
+        rowStart: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.subFoldersLayout.options.rowStart"),
+        vertical: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.subFoldersLayout.options.vertical")
       },
       propType: String,
       default: "parent",
