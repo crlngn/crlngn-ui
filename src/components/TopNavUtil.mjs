@@ -1091,7 +1091,16 @@ export class TopNavigation {
     TopNavigation.#previewedScene = data.sceneId;
     TopNavigation.#sceneHoverTimeout = setTimeout(() => {
       clearTimeout(TopNavigation.#sceneHoverTimeout);
-      target.querySelector(".scene-preview")?.classList.add('open');
+      const preview = target.querySelector(".scene-preview");
+      if(!preview){ return; }
+      if(TopNavigation.subFoldersLayout === "vertical" && target.closest("menu.contents")){
+        const rect = target.getBoundingClientRect();
+        preview.style.position = "fixed";
+        preview.style.top = `${rect.bottom - 1}px`;
+        preview.style.left = `${rect.left}px`;
+        preview.style.zIndex = "100";
+      }
+      preview.classList.add('open');
     }, 200);
   }
 
@@ -1104,7 +1113,14 @@ export class TopNavigation {
     const target = evt.currentTarget;
     TopNavigation.#previewedScene = '';
 
-    target.querySelector(".scene-preview")?.classList.remove('open');
+    const preview = target.querySelector(".scene-preview");
+    if(preview){
+      preview.classList.remove('open');
+      preview.style.position = "";
+      preview.style.top = "";
+      preview.style.left = "";
+      preview.style.zIndex = "";
+    }
   }
 
   /**

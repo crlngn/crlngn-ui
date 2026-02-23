@@ -1031,11 +1031,25 @@
             height: max-content;
             max-height: calc(max(75vh, 360px) - var(--control-item-size) * 2);
             overflow-y: auto;
-            width: max-content;
-            min-width: var(--scene-nav-item-width);
+            overflow-x: visible;
+            width: calc(100% - 3px);
+            min-width: calc(100% - 3px);
+            box-sizing: border-box;
 
             menu.contents {
               border-left: 3px solid var(--color-highlights-50);
+              width: calc(100% - 3px);
+              box-sizing: border-box;
+              min-width: calc(100% - 3px);
+            }
+
+            .scene, .folder-item {
+              width: 100%;
+              min-width: unset;
+            }
+            .scene, .folder-item, .folder {
+              max-width: 100%;
+              min-width: unset;
             }
           }
         }

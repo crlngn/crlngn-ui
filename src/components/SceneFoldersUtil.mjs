@@ -162,6 +162,13 @@ export class SceneNavFolders {
       if(isActive){
         item.classList.add('crlngn-folder-active');
         SceneNavFolders.injectSubfolders(itemFolder, item);
+
+        const isVertical = TopNavigation.subFoldersLayout === "vertical";
+        const parentIsContents = item.parentNode?.classList.contains("contents");
+        if(isVertical && parentIsContents){
+          const siblingScenes = item.parentNode.querySelectorAll(":scope > li.scene");
+          siblingScenes.forEach(li => li.classList.add("crlngn-siblings-hidden"));
+        }
       }
     });
   }
