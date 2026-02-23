@@ -961,6 +961,8 @@ body.crlngn-ui.crlngn-chat {
       }
     }
 
+    .chat-message .table-draw ul.table-results,
+    .chat-message .table-draw ol.table-results,
     .chat-message .table-draw .table-results {
       margin: 10px 0;
 
@@ -979,12 +981,18 @@ body.crlngn-ui.crlngn-chat {
       }
     }
 
-    .chat-message .table-draw ul.table-results li > .description {
-      flex: 1;
+    .chat-message .table-draw ul.table-results li > .description,
+    .chat-message .table-draw ol.table-results li > .description,
+    .chat-message .table-draw .table-results li > .description {
+      flex: 1 0 70%;
       min-width: 70%;
     }
 
     .chat-message .table-draw ul.table-results li > img,
+    .chat-message .table-draw ol.table-results li > img,
+    .chat-message .table-draw .table-results li > img,
+    .chat-message .table-draw ul.table-results .table-result img.result-image,
+    .chat-message .table-draw ol.table-results .table-result img.result-image,
     .chat-message .table-draw .table-results .table-result img.result-image {
       border: none;
       background-color: rgba(235, 235, 255, 0.3);
@@ -992,7 +1000,9 @@ body.crlngn-ui.crlngn-chat {
       margin-right: 10px;
     }
 
-    .chat-message ol.table-results {
+    .chat-message ul.table-results ,
+    .chat-message ol.table-results,
+    .chat-message .table-results {
       margin: 0;
       padding: 0;
     }

@@ -298,6 +298,10 @@ body.crlngn-ui{
     }
   }
 
+  .standard-form .form-group {
+    margin: 4px 0;
+    align-items: flex-start;
+  }
   .standard-form .form-group > label, 
   .standard-form .form-group > span.label {
     line-height: 1.5;
@@ -311,9 +315,6 @@ body.crlngn-ui{
     min-width: 190px;
   }
 
-  .standard-form .form-group {
-    margin: 6px 0;
-  }
   .standard-form input[type="checkbox"]:checked::before, 
   .standard-form input[type="radio"]:checked::before {
     color: light-dark(#ffffff52, #0000002b);
@@ -559,14 +560,14 @@ body.crlngn-ui{
     #context-menu{
       background: var(--control-bg-color);
       border: 1px solid transparent;
-      color: var(--color-light-1);
+      color: var(--color-text-primary);
       .context-item{
         padding: 5px 10px;
         border: 1px solid transparent;
         &:hover{
           border: 1px solid var(--color-highlights-50);
           background: var(--control-bg-color);
-          color: var(--color-light-1);
+          color: var(--color-text-primary);
         }
       }
     }
@@ -862,6 +863,7 @@ body.crlngn-ui{
       gap: 0.5em;
       align-items: center;
       flex-wrap: wrap;
+      padding-top: 0.5em;
     }
 
     &.range input[type="range"] {
@@ -1208,6 +1210,9 @@ body.crlngn-ui{
       border-width: 2px;
       border-radius: 6px;
       box-shadow: 0px 2px 6px rgba(0,0,0,0.5);
+      background: var(--color-dark-1);
+      position: relative;
+      overflow: hidden;
     }
     .notification.info.progress::before{
       content: "";
@@ -1219,7 +1224,7 @@ body.crlngn-ui{
       height: 100%;
       background-color: var(--color-warm-2);
       border-radius: 6px;
-      z-index: -1;
+      z-index: 0;
     }
   }
 
