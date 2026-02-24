@@ -639,7 +639,8 @@
       "noCombatants": "Nessun combattente nell'incontro",
       "closedNotice": "Quando vuoi ripristinare il carosello, fai clic destro sulla scheda combattimento nella barra laterale",
       "noTrackedResource": "Mostra Barra HP per Tutti è abilitato, ma nessuna Risorsa Tracciata è configurata nelle impostazioni del Tracker di Combattimento.",
-      "endCombatShort": ""
+      "startCombatShort": "Inizio",
+      "endCombatShort": "Fine"
     },
     "dnd5e": {
       "chatCard": {

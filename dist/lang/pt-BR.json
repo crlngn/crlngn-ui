@@ -640,7 +640,8 @@
       "noCombatants": "Nenhum combatente no encontro",
       "closedNotice": "Quando quiser o carrossel de volta, clique com o botão direito na aba de combate na barra lateral",
       "noTrackedResource": "Mostrar Barra de HP para Todos está ativado, mas nenhum Recurso Rastreado está configurado nas configurações do Rastreador de Combate.",
-      "endCombatShort": ""
+      "startCombatShort": "Iniciar",
+      "endCombatShort": "Fim"
     },
     "dnd5e": {
       "chatCard": {

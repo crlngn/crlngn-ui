@@ -765,7 +765,8 @@
       "configureResourceTitle": "Configure Resource Bar",
       "configureResourceMessage": "The carousel is set to show resource/HP bars for all combatants, but no tracked resource is configured. Select a resource to track below:",
       "trackedResource": "Tracked Resource",
-      "endCombatShort": ""
+      "startCombatShort": "Start",
+      "endCombatShort": "End"
     },
     "dnd5e": {
       "chatCard": {

@@ -118,6 +118,17 @@ body.crlngn-ui.crlngn-combat-tracker {
       pointer-events: all;
       transition: opacity 0.1s ease;
     }
+    nav.combat-controls button[data-action="startCombat"],
+    nav.combat-controls button[data-action="endCombat"] {
+      width: auto;
+    }
+    nav.combat-controls button[data-action="startCombat"] > span,
+    nav.combat-controls button[data-action="endCombat"] > span {
+      font-size: calc(.75em * var(--carousel-scale));
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
     nav.combat-controls button:hover {
       opacity: 0.7;
     }

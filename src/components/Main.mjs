@@ -160,7 +160,6 @@ export class Main {
       }
 
       setTimeout(()=>{
-        ui.combat.popout?.close();
         CombatTrackerManager.checkForActiveCombat();
       }, 500);
 

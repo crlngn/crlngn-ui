@@ -628,7 +628,8 @@
       "noCombatants": "战斗中没有参战者",
       "closedNotice": "如需恢复轮播，请右键点击侧边栏的战斗标签",
       "noTrackedResource": "显示所有参战者的生命值条已启用，但战斗追踪器设置中未配置追踪资源。",
-      "endCombatShort": ""
+      "startCombatShort": "开始",
+      "endCombatShort": "结束"
     },
     "dnd5e": {
       "chatCard": {

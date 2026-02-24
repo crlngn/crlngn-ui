@@ -894,8 +894,9 @@ export class CombatTrackerManager {
       const existingPopout = document.querySelector('#combat-popout');
       if (existingPopout) {
         CombatTrackerManager.initDocking();
+        return;
       }
-      return;
+      CombatTrackerManager.#combatTrackerPoppedOut = false;
     }
 
     if (ui.combat?.popout && ui.combat.popout.rendered) {
@@ -1356,6 +1357,10 @@ export class CombatTrackerManager {
     const newIcon = document.createElement('i');
     newIcon.className = iconClasses;
     startBtn.appendChild(newIcon);
+    const label = document.createElement('span');
+    label.className = 'btn-label';
+    label.textContent = game.i18n.localize('CRLNGN_UI.combat.startCombatShort');
+    startBtn.appendChild(label);
 
     startBtn.dataset.crlngnConverted = 'true';
   }
