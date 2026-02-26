@@ -124,7 +124,7 @@ body.crlngn-ui.crlngn-combat-tracker {
     }
     nav.combat-controls button[data-action="startCombat"] > span,
     nav.combat-controls button[data-action="endCombat"] > span {
-      font-size: calc(.75em * var(--carousel-scale));
+      font-size: calc(.85em * var(--carousel-scale));
       font-weight: 600;
       letter-spacing: 0.05em;
       text-transform: uppercase;
@@ -159,6 +159,7 @@ body.crlngn-ui.crlngn-combat-tracker {
     button.combat-control[data-action="startCombat"] i,
     button.combat-control[data-action="endCombat"] i {
       font-size: calc(0.9rem * var(--carousel-scale));
+      display:none;
     }
 
     /* Hide default window header elements except close button and our toggle */
