@@ -1029,9 +1029,9 @@
           > menu.contents {
             flex-direction: column;
             height: max-content;
-            max-height: calc(max(75vh, 360px) - var(--control-item-size) * 2);
+            max-height: calc(max(70vh, 320px) - var(--control-item-size) * 2);
             overflow-y: auto;
-            overflow-x: visible;
+            overflow-x: hidden;
             width: calc(100% - 3px);
             min-width: calc(100% - 3px);
             box-sizing: border-box;

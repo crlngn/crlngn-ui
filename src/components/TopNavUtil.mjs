@@ -1123,11 +1123,28 @@ export class TopNavigation {
     }
   }
 
+  static #onContentsScroll = (evt) => {
+    const container = evt.currentTarget;
+    const openPreview = container.querySelector(".scene-preview.open");
+    if(openPreview){
+      openPreview.classList.remove("open");
+      openPreview.style.position = "";
+      openPreview.style.top = "";
+      openPreview.style.left = "";
+      openPreview.style.zIndex = "";
+    }
+    clearTimeout(TopNavigation.#sceneHoverTimeout);
+    TopNavigation.#previewedScene = '';
+  }
+
   /**
    * Adds click event listeners to scene items in the scene folders UI
    * @param {HTMLElement} html - The HTML element containing the scene folders UI
    */
   static addSceneListeners = (html) => {
+    if(TopNavigation.subFoldersLayout === "vertical" && html?.classList.contains("contents")){
+      html.addEventListener("scroll", TopNavigation.#onContentsScroll);
+    }
     const sceneItems = html.querySelectorAll("li.scene");
     sceneItems.forEach(li => {
       // const isFolder = li.classList.contains("folder");
