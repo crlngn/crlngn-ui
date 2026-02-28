@@ -26,7 +26,7 @@ export class SceneNavFolders {
   static init() {
     if (SceneNavFolders.noFolderView() || !ui.scenes || !game.user.isGM) { return; }
     SceneNavFolders.preloadTemplates();
-    
+
     // Initialize user flags for active scene folders if they don't exist
     if (!game.user.getFlag(MODULE_ID, "activeSceneFolders")) {
       game.user.setFlag(MODULE_ID, "activeSceneFolders", []);
@@ -38,12 +38,53 @@ export class SceneNavFolders {
       ff.remove();
     });
 
-    
     Hooks.on(HOOKS_CORE.RENDER_SCENE_DIRECTORY, (app, html) => {
       SceneNavFolders.#updateSortMode();
-      // ui.nav.render();
     });
-    // SceneNavFolders.#activeSceneFolders = game.user.getFlag(MODULE_ID, "activeSceneFolders") || [];
+
+    SceneNavFolders.#registerFolderContextMenu();
+  }
+
+  /**
+   * Registers context menu items for folders in the Scene Directory sidebar
+   * Adds "Add to Navigation" / "Remove from Navigation" options
+   */
+  static #registerFolderContextMenu() {
+    const SETTINGS = getSettings();
+    Hooks.on(HOOKS_CORE.GET_FOLDER_CONTEXT, (app, menuItems) => {
+      menuItems.push({
+        name: "CRLNGN_UI.ui.sceneNav.addToFavorites",
+        icon: '<i class="fa-solid fa-compass"></i>',
+        condition: header => {
+          const li = header.closest(".directory-item");
+          const folder = fromUuidSync(li?.dataset?.uuid);
+          if (!folder || folder.type !== "Scene") return false;
+          const hidden = SceneNavFolders.getHiddenNavFolders();
+          return hidden.includes(folder.id);
+        },
+        callback: header => {
+          const li = header.closest(".directory-item");
+          const folder = fromUuidSync(li?.dataset?.uuid);
+          if (folder) SceneNavFolders.toggleNavFolder(folder.id, false);
+        }
+      });
+      menuItems.push({
+        name: "CRLNGN_UI.ui.sceneNav.removeFromFavorites",
+        icon: '<i class="fa-solid fa-compass"></i>',
+        condition: header => {
+          const li = header.closest(".directory-item");
+          const folder = fromUuidSync(li?.dataset?.uuid);
+          if (!folder || folder.type !== "Scene") return false;
+          const hidden = SceneNavFolders.getHiddenNavFolders();
+          return !hidden.includes(folder.id);
+        },
+        callback: header => {
+          const li = header.closest(".directory-item");
+          const folder = fromUuidSync(li?.dataset?.uuid);
+          if (folder) SceneNavFolders.toggleNavFolder(folder.id, true);
+        }
+      });
+    });
   }
 
   /**
@@ -153,11 +194,17 @@ export class SceneNavFolders {
 
     if(!folderItems){return;}
     folderItems.forEach( item => {
-      item.querySelector(".folder-item").addEventListener('click', SceneNavFolders.#onNavFolderClick);
+      const folderItemEl = item.querySelector(".folder-item");
+      folderItemEl.addEventListener('click', SceneNavFolders.#onNavFolderClick);
+
+      if (game.user?.isGM) {
+        SceneNavFolders.#addNavFolderContextMenu(item, folderItemEl);
+      }
+
       const id = item.dataset.folderId;
       const itemFolder = allFolders.get(id);
       const isActive = SceneNavFolders.#activeSceneFolders.includes(id);
-      
+
       LogUtil.log("addFolderListeners isActive", [isActive, id, itemFolder.name]);
       if(isActive){
         item.classList.add('crlngn-folder-active');
@@ -174,8 +221,64 @@ export class SceneNavFolders {
   }
 
   /**
+   * Attaches a right-click context menu listener on a folder item in the scene navigation bar
+   * @param {HTMLElement} folderLi - The li.folder element
+   * @param {HTMLElement} folderItemEl - The .folder-item div inside the li
+   */
+  static #addNavFolderContextMenu(folderLi, folderItemEl) {
+    const folderId = folderLi.dataset.folderId;
+    if (!folderId) return;
+    folderItemEl.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      // Close any existing context menu
+      ui.context?.close();
+
+      const label = game.i18n.localize("CRLNGN_UI.ui.sceneNav.removeFromFavorites");
+      const menu = document.createElement("nav");
+      menu.id = "context-menu";
+      menu.className = "context-items";
+      menu.innerHTML = `<ol class="context-items">
+        <li class="context-item">
+          <i class="fa-solid fa-compass"></i> ${label}
+        </li>
+      </ol>`;
+
+      menu.querySelector(".context-item").addEventListener("click", (e) => {
+        e.stopPropagation();
+        menu.remove();
+        SceneNavFolders.toggleNavFolder(folderId, true);
+      });
+
+      // Close on click outside
+      const closeMenu = (e) => {
+        if (!menu.contains(e.target)) {
+          menu.remove();
+          document.removeEventListener("click", closeMenu, true);
+          document.removeEventListener("contextmenu", closeMenu, true);
+        }
+      };
+      document.addEventListener("click", closeMenu, true);
+      document.addEventListener("contextmenu", closeMenu, true);
+
+      // Position near the click
+      document.body.appendChild(menu);
+      const menuRect = menu.getBoundingClientRect();
+      let top = event.clientY;
+      let left = event.clientX;
+      if (top + menuRect.height > window.innerHeight) top = window.innerHeight - menuRect.height;
+      if (left + menuRect.width > window.innerWidth) left = window.innerWidth - menuRect.width;
+      menu.style.position = "fixed";
+      menu.style.top = `${top}px`;
+      menu.style.left = `${left}px`;
+      menu.style.zIndex = "10000";
+    });
+  }
+
+  /**
    * Event for when user expands the folder lookup element
-   * @param {Event} event 
+   * @param {Event} event
    */
   static toggleFolderLookup(event){
     const parent = event.target.parentNode;
@@ -387,6 +490,11 @@ export class SceneNavFolders {
     }
 
     folderList = SceneNavFolders.sortFolderList(folderList); // adjust the sorting
+
+    // Filter out folders hidden from navigation
+    const hiddenFolders = SceneNavFolders.getHiddenNavFolders();
+    folderList = folderList.filter(f => !hiddenFolders.includes(f.id));
+
     templateData = {
       currentFolder: targetFolder,
       folders: folderList,
@@ -584,5 +692,32 @@ export class SceneNavFolders {
       ui.nav.render();
     }, 200);
 
+  }
+
+  /**
+   * Toggles a folder's visibility in the scene navigation bar
+   * @param {string} folderId - The folder ID to toggle
+   * @param {boolean} hide - True to hide the folder, false to show it
+   */
+  static toggleNavFolder(folderId, hide) {
+    const SETTINGS = getSettings();
+    const hidden = SettingsUtil.get(SETTINGS.hiddenNavFolders.tag) || [];
+    if (hide && !hidden.includes(folderId)) {
+      hidden.push(folderId);
+    } else if (!hide) {
+      const idx = hidden.indexOf(folderId);
+      if (idx > -1) hidden.splice(idx, 1);
+    }
+    SettingsUtil.set(SETTINGS.hiddenNavFolders.tag, hidden);
+    setTimeout(() => ui.nav.render(), 100);
+  }
+
+  /**
+   * Returns the list of folder IDs hidden from scene navigation
+   * @returns {string[]}
+   */
+  static getHiddenNavFolders() {
+    const SETTINGS = getSettings();
+    return SettingsUtil.get(SETTINGS.hiddenNavFolders.tag) || [];
   }
 }

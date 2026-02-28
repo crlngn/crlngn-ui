@@ -539,6 +539,7 @@ body.crlngn-ui{
     background: var(--background);
     border: 1px solid transparent;
     color: var(--color-text-primary);
+    max-width: 14rem; 
     .context-item{
       padding: 5px 10px;
       border: 1px solid transparent;

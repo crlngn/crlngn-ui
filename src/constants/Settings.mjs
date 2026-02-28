@@ -880,15 +880,26 @@ export function getSettings() {
       requiresReload: false 
     },  
 
-    sceneNavPos: { 
-      tag: "v2-scene-nav-pos", 
-      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavPos.label"), 
-      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavPos.hint"), 
-      propType: Number, 
-      default: 0, 
-      scope: SETTING_SCOPE.client, 
-      config: false , 
-      requiresReload: false 
+    sceneNavPos: {
+      tag: "v2-scene-nav-pos",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavPos.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavPos.hint"),
+      propType: Number,
+      default: 0,
+      scope: SETTING_SCOPE.client,
+      config: false ,
+      requiresReload: false
+    },
+
+    hiddenNavFolders: {
+      tag: "v2-hidden-nav-folders",
+      label: "",
+      hint: "",
+      propType: Array,
+      default: [],
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
     },
 
     collapseMacroBar: { 

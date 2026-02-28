@@ -31,6 +31,7 @@ export const HOOKS_CORE = {
   RENDER_SCENE_DIRECTORY: "renderSceneDirectory",
 
   /* Folders */
+  GET_FOLDER_CONTEXT: "getFolderContextOptions",
   CREATE_FOLDER: "createFolder",
   UPDATE_FOLDER: "updateFolder",
   DELETE_FOLDER: "deleteFolder",
