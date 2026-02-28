@@ -1838,11 +1838,11 @@ export function getSettings() {
       requiresReload: false
     },
     carouselImageSource: {
-      tag: "v2-carousel-image-source",
+      tag: "v2-carousel-img-source",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselImageSource.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselImageSource.hint"),
       propType: String,
-      default: "token",
+      default: "actor",
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false

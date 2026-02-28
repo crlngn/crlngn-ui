@@ -14,7 +14,7 @@ export class CombatTrackerManager {
   static enableCombatTrackerCarousel = false;
   static combatCarouselScale = 1;
   static combatTrackerTakeFullWidth = false;
-  static carouselImageSource = "token";
+  static carouselImageSource = "actor";
   static combatTrackerLayout = "carousel";
   static carouselHideDefeated = false;
   static carouselShowAllHP = "gmOnly";
@@ -722,28 +722,49 @@ export class CombatTrackerManager {
   }
 
   /**
-   * Update combatant images based on the carouselImageSource setting
-   * When set to "actor", replaces token images with actor portraits
+   * Update combatant images based on the carouselImageSource setting.
+   * Provides bidirectional fallback: actor→token or token→actor if primary fails.
    * @param {HTMLElement} tracker - The combat tracker element
    */
   static #updateCombatantImages = (tracker) => {
-    if (CombatTrackerManager.carouselImageSource !== "actor") return;
-
     const combat = game.combat;
     if (!combat) return;
 
+    const useActorImages = CombatTrackerManager.carouselImageSource === "actor";
     const combatantElements = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
+
     combatantElements.forEach(element => {
       const combatantId = element.dataset.combatantId;
       const combatant = combat.combatants.get(combatantId);
-      if (!combatant?.actor) return;
-
-      const actorImg = combatant.actor.img;
-      if (!actorImg) return;
+      if (!combatant) return;
 
       const tokenImage = element.querySelector('.token-image');
-      if (tokenImage && tokenImage.src !== actorImg) {
-        tokenImage.src = actorImg;
+      if (!tokenImage) return;
+
+      const actorImg = combatant.actor?.img;
+      const tokenImg = tokenImage.getAttribute('src');
+
+      if (useActorImages && actorImg) {
+        if (tokenImage.src !== actorImg) {
+          tokenImage.src = actorImg;
+        }
+        if (tokenImg) {
+          tokenImage.onerror = () => {
+            tokenImage.onerror = null;
+            tokenImage.src = tokenImg;
+          };
+        }
+      } else {
+        if (actorImg) {
+          tokenImage.onerror = () => {
+            tokenImage.onerror = null;
+            tokenImage.src = actorImg;
+          };
+          if (tokenImage.complete && tokenImage.naturalWidth === 0) {
+            tokenImage.onerror = null;
+            tokenImage.src = actorImg;
+          }
+        }
       }
     });
   }

@@ -950,6 +950,14 @@ body.crlngn-ui{
     }
   }
 
+  /* Monk's Common Display: override hiding rules for carousel */
+  &.hide-ui.crlngn-combat-tracker #combat-popout .combat-tracker li.combatant {
+    display: block !important;
+  }
+  &.hide-ui.crlngn-combat-tracker #combat-popout .window-content {
+    overflow: visible !important;
+  }
+
   /* MONK'S TOKEN BAR */
   .monks-tokenbar.chat-card .card-header {
     padding: 3px 0;

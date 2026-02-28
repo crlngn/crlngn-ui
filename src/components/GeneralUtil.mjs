@@ -57,10 +57,18 @@ export class GeneralUtil {
       try {
         if (sheet.ownerNode) {
           const href = sheet.href || '';
+
+          if (href) {
+            try {
+              const sheetUrl = new URL(href, window.location.href);
+              if (sheetUrl.origin !== window.location.origin) continue;
+            } catch { continue; }
+          }
+
           const isFoundryCore = href.includes('css/') || href.includes('styles/');
           const isCrlngnUI = href.includes('modules/crlngn-ui/');
           const isSystem = href.includes('systems/');
-          
+
           if (href && !isFoundryCore && !isCrlngnUI && !isSystem) {
             continue;
           }

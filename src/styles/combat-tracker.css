@@ -227,7 +227,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       display: flex;
       flex-direction: row;
       overflow: visible;
-      clip-path: inset(-20% calc(var(--combatant-width) * -0.06));
+      clip-path: inset(-20% calc(var(--combatant-width) * -0.04));
       gap: calc(0.5rem * var(--carousel-scale, 1));
       z-index: 1;
     }
