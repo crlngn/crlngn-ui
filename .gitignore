@@ -2,6 +2,7 @@ node_modules/
 deps/
 dnd5e/
 foundry/
+logs/
 crlngn-ui.code-workspace
 foundry-config.yaml
 foundry

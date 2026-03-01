@@ -1022,6 +1022,7 @@ export class TopNavigation {
   }
 
   static onActivateScene = (evt) => {
+    if (game.MonksActiveTiles?.waitingInput) return;
     evt.stopPropagation();
     evt.preventDefault();
     const target = evt.currentTarget;
@@ -1041,6 +1042,7 @@ export class TopNavigation {
   }
 
   static onSelectScene = (evt) => {
+    if (game.MonksActiveTiles?.waitingInput) return;
     evt.preventDefault();
     evt.stopPropagation();
     const target = evt.currentTarget;
