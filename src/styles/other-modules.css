@@ -1398,6 +1398,20 @@ body.crlngn-ui{
     }
   }
 
+  .mass-edit-scene-control-macro {
+    pointer-events: initial;
+
+    .macros.active {
+      gap: 0;
+      left: var(--control-item-size);
+      border-radius: 0;
+    }
+    .macros .ui-control {
+      border-radius: 0;
+    }
+
+  } 
+
 }
 
 @layer modules {

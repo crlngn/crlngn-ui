@@ -329,7 +329,7 @@
 
     &.theme-dark .theme-light .chat-bubble {
       --color-text-primary: var(--color-light-1);
-      --background: rgba(226, 232, 233, var(--background-opacity, 0.98));
+      --background: rgba(30,20,24, var(--background-opacity, 0.98));
       background: var(--background);
       color: var(--color-text-primary);
     }
