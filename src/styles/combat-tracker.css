@@ -110,13 +110,15 @@ body.crlngn-ui.crlngn-combat-tracker {
       align-items: center;
       justify-content: center;
       flex: 0 0 auto;
-      font-size: calc(1.25em * var(--carousel-scale));
-      width: calc(2rem * var(--carousel-scale, 1));
+      letter-spacing: 0.03em;
+      font-size: calc(1.35em * var(--carousel-scale));
+      width: calc(2.5rem * var(--carousel-scale, 1));
       height: calc(1.5rem * var(--carousel-scale, 1));
       margin: 0;
       padding: 0.25em;
       pointer-events: all;
       transition: opacity 0.1s ease;
+      min-width: 2rem;
     }
     nav.combat-controls button[data-action="startCombat"],
     nav.combat-controls button[data-action="endCombat"] {

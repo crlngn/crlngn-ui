@@ -35,14 +35,15 @@ export const CarouselInteraction = {
   },
 
   /**
-   * Calculate the shortest scroll path to a target index
+   * Calculate the scroll path to a target index
    * @param {number} targetIndex - The target combatant index
    * @param {object} state - Carousel state object
    * @param {number} STEP - Step size
    * @param {number} TRACK - Total track length
-   * @returns {number} The scroll delta (positive = right, negative = left)
+   * @param {number} [forceDirection=0] - 0=shortest path, 1=force forward, -1=force backward
+   * @returns {number} The scroll delta (positive = right/forward, negative = left/backward)
    */
-  getShortestPath(targetIndex, state, STEP, TRACK) {
+  getShortestPath(targetIndex, state, STEP, TRACK, forceDirection = 0) {
     const totalCount = state.allCombatantIds.length;
     if (totalCount === 0) return 0;
 
@@ -54,6 +55,9 @@ export const CarouselInteraction = {
 
     let backwardDelta = currentNormalized - targetScrollX;
     if (backwardDelta < 0) backwardDelta += TRACK;
+
+    if (forceDirection > 0) return forwardDelta;
+    if (forceDirection < 0) return -backwardDelta;
 
     return forwardDelta <= backwardDelta ? forwardDelta : -backwardDelta;
   },

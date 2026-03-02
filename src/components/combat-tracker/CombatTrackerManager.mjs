@@ -675,7 +675,12 @@ export class CombatTrackerManager {
             roundBadge.className = 'crlngn-round-counter';
             roundBadge.textContent = round;
             roundBadge.style.display = isStarted && round > 0 ? '' : 'none';
-            navControls.appendChild(roundBadge);
+            const nextTurnBtn = navControls.querySelector('button[data-action="nextTurn"]:not(.combat-control-lg)');
+            if (nextTurnBtn) {
+              navControls.insertBefore(roundBadge, nextTurnBtn);
+            } else {
+              navControls.appendChild(roundBadge);
+            }
           }
           CombatTrackerManager.#injectInitiativeButtons(combatPopout, navControls);
           CombatTrackerManager.#convertStartCombatButton(navControls);
@@ -850,6 +855,17 @@ export class CombatTrackerManager {
     });
 
     initiativeEl.appendChild(advanceBtn);
+  }
+
+  /**
+   * Public wrapper to refresh the advance turn button on the active combatant
+   * Called after carousel animation completes to ensure the button is present
+   */
+  static refreshAdvanceTurnButton = () => {
+    const tracker = document.querySelector('#combat-popout .combat-tracker');
+    if (tracker) {
+      CombatTrackerManager.#addAdvanceTurnButton(tracker);
+    }
   }
 
   /**

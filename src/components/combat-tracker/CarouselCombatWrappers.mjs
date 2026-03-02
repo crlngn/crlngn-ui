@@ -6,11 +6,13 @@ import { CombatTrackerManager } from "./CombatTrackerManager.mjs";
 
 /**
  * Handles libWrapper integration for intercepting Combat turn navigation
- * Allows the carousel to animate before the actual turn change occurs
+ * Animates the carousel AFTER the actual turn change to ensure visual state
+ * always matches Foundry's actual combat state
  */
 export const CarouselCombatWrappers = {
   wrappersRegistered: false,
   suppressPopoutRenderUntil: 0,
+  _animatingTurnChange: false,
 
   // These will be set by CombatCarousel during registration
   stateGetter: null,
@@ -160,6 +162,31 @@ export const CarouselCombatWrappers = {
   },
 
   /**
+   * Animate the carousel to the current active combatant after a turn change
+   * @param {object} combat - The Combat instance
+   * @param {object} state - Carousel state object
+   * @param {object} config - Carousel config object
+   * @param {number} forceDirection - 1=forward, -1=backward
+   */
+  async _animateToActiveCombatant(combat, state, config, forceDirection) {
+    const newCombatant = combat.combatant;
+    if (!newCombatant) return;
+
+    const newIndex = state.allCombatantIds.indexOf(newCombatant.id);
+    if (newIndex === -1) return;
+
+    const delta = CarouselInteraction.getShortestPath(
+      newIndex, state, config.STEP, config.TRACK, forceDirection
+    );
+    state.targetScrollX = state.scrollX + delta;
+    CarouselInteraction.startAnimationLoop(state, config);
+    await CarouselInteraction.waitForAnimation(state);
+    CarouselCombatWrappers.updateActiveClass(newCombatant.id);
+    CarouselCombatWrappers.skipNextCenterSetter?.(true);
+    CombatTrackerManager.refreshAdvanceTurnButton();
+  },
+
+  /**
    * Wrapper for Combat.prototype.nextTurn
    */
   async wrapNextTurn(wrapped, ...args) {
@@ -181,39 +208,22 @@ export const CarouselCombatWrappers = {
       return wrapped.call(this, ...args);
     }
 
-    const currentTurn = combat.turn ?? -1;
-    let nextTurn = currentTurn + 1;
-    const shouldSkipDefeated = combat.settings.skipDefeated || CombatTrackerManager.carouselHideDefeated;
+    CarouselCombatWrappers.setSuppressPopoutRender();
+    CarouselCombatWrappers._animatingTurnChange = true;
+    CarouselInteraction.cancelScheduledSnap();
 
-    if (shouldSkipDefeated) {
-      nextTurn = null;
-      for (let i = currentTurn + 1; i < combat.turns.length; i++) {
-        if (!combat.turns[i].isDefeated) {
-          nextTurn = i;
-          break;
-        }
-      }
+    let result;
+    try {
+      result = await wrapped.call(this, ...args);
+    } catch(e) {
+      CarouselCombatWrappers.suppressPopoutRenderUntil = 0;
+      CarouselCombatWrappers._animatingTurnChange = false;
+      throw e;
     }
 
-    if (nextTurn === null || nextTurn >= combat.turns.length) {
-      return wrapped.call(this, ...args);
-    }
-
-    const nextCombatant = combat.turns[nextTurn];
-    const nextIndex = state.allCombatantIds.indexOf(nextCombatant.id);
-
-    if (nextIndex !== -1) {
-      CarouselCombatWrappers.removeActiveClass();
-      const delta = CarouselInteraction.getShortestPath(nextIndex, state, config.STEP, config.TRACK);
-      state.targetScrollX = state.scrollX + delta;
-      CarouselInteraction.startAnimationLoop(state, config);
-      await CarouselInteraction.waitForAnimation(state);
-      CarouselCombatWrappers.updateActiveClass(nextCombatant.id);
-      CarouselCombatWrappers.skipNextCenterSetter?.(true);
-      CarouselCombatWrappers.setSuppressPopoutRender();
-    }
-
-    return wrapped.call(this, ...args);
+    await CarouselCombatWrappers._animateToActiveCombatant(combat, state, config, 1);
+    CarouselCombatWrappers._animatingTurnChange = false;
+    return result;
   },
 
   /**
@@ -238,39 +248,22 @@ export const CarouselCombatWrappers = {
       return wrapped.call(this, ...args);
     }
 
-    if (combat.round === 0) {
-      return wrapped.call(this, ...args);
+    CarouselCombatWrappers.setSuppressPopoutRender();
+    CarouselCombatWrappers._animatingTurnChange = true;
+    CarouselInteraction.cancelScheduledSnap();
+
+    let result;
+    try {
+      result = await wrapped.call(this, ...args);
+    } catch(e) {
+      CarouselCombatWrappers.suppressPopoutRenderUntil = 0;
+      CarouselCombatWrappers._animatingTurnChange = false;
+      throw e;
     }
 
-    if ((combat.turn === 0) || (combat.turns.length === 0)) {
-      return wrapped.call(this, ...args);
-    }
-
-    let previousTurn = (combat.turn ?? combat.turns.length) - 1;
-    const shouldSkipDefeated = combat.settings.skipDefeated || CombatTrackerManager.carouselHideDefeated;
-
-    if (shouldSkipDefeated) {
-      while (previousTurn >= 0 && combat.turns[previousTurn]?.isDefeated) {
-        previousTurn--;
-      }
-      if (previousTurn < 0) return wrapped.call(this, ...args);
-    }
-
-    const prevCombatant = combat.turns[previousTurn];
-    const prevIndex = state.allCombatantIds.indexOf(prevCombatant.id);
-
-    if (prevIndex !== -1) {
-      CarouselCombatWrappers.removeActiveClass();
-      const delta = CarouselInteraction.getShortestPath(prevIndex, state, config.STEP, config.TRACK);
-      state.targetScrollX = state.scrollX + delta;
-      CarouselInteraction.startAnimationLoop(state, config);
-      await CarouselInteraction.waitForAnimation(state);
-      CarouselCombatWrappers.updateActiveClass(prevCombatant.id);
-      CarouselCombatWrappers.skipNextCenterSetter?.(true);
-      CarouselCombatWrappers.setSuppressPopoutRender();
-    }
-
-    return wrapped.call(this, ...args);
+    await CarouselCombatWrappers._animateToActiveCombatant(combat, state, config, -1);
+    CarouselCombatWrappers._animatingTurnChange = false;
+    return result;
   },
 
   /**
@@ -283,6 +276,10 @@ export const CarouselCombatWrappers = {
       return wrapped.call(this, ...args);
     }
 
+    if (CarouselCombatWrappers._animatingTurnChange) {
+      return wrapped.call(this, ...args);
+    }
+
     if (!CarouselCombatWrappers.isCarouselActive() || !combat?.started) {
       return wrapped.call(this, ...args);
     }
@@ -295,29 +292,19 @@ export const CarouselCombatWrappers = {
       return wrapped.call(this, ...args);
     }
 
-    let turn = (combat.turn === null) || (combat.turns.length === 0) ? null : 0;
-    if ((combat.settings.skipDefeated || CombatTrackerManager.carouselHideDefeated) && (turn !== null)) {
-      turn = combat.turns.findIndex(t => !t.isDefeated);
-      if (turn === -1) turn = 0;
+    CarouselCombatWrappers.setSuppressPopoutRender();
+    CarouselInteraction.cancelScheduledSnap();
+
+    let result;
+    try {
+      result = await wrapped.call(this, ...args);
+    } catch(e) {
+      CarouselCombatWrappers.suppressPopoutRenderUntil = 0;
+      throw e;
     }
 
-    if (turn !== null && combat.turns[turn]) {
-      const targetCombatant = combat.turns[turn];
-      const targetIndex = state.allCombatantIds.indexOf(targetCombatant.id);
-
-      if (targetIndex !== -1) {
-        CarouselCombatWrappers.removeActiveClass();
-        const delta = CarouselInteraction.getShortestPath(targetIndex, state, config.STEP, config.TRACK);
-        state.targetScrollX = state.scrollX + delta;
-        CarouselInteraction.startAnimationLoop(state, config);
-        await CarouselInteraction.waitForAnimation(state);
-        CarouselCombatWrappers.updateActiveClass(targetCombatant.id);
-        CarouselCombatWrappers.skipNextCenterSetter?.(true);
-        CarouselCombatWrappers.setSuppressPopoutRender();
-      }
-    }
-
-    return wrapped.call(this, ...args);
+    await CarouselCombatWrappers._animateToActiveCombatant(combat, state, config, 1);
+    return result;
   },
 
   /**
@@ -330,6 +317,10 @@ export const CarouselCombatWrappers = {
       return wrapped.call(this, ...args);
     }
 
+    if (CarouselCombatWrappers._animatingTurnChange) {
+      return wrapped.call(this, ...args);
+    }
+
     if (!CarouselCombatWrappers.isCarouselActive() || !combat?.started) {
       return wrapped.call(this, ...args);
     }
@@ -342,37 +333,18 @@ export const CarouselCombatWrappers = {
       return wrapped.call(this, ...args);
     }
 
-    if (combat.round === 0) {
-      return wrapped.call(this, ...args);
+    CarouselCombatWrappers.setSuppressPopoutRender();
+    CarouselInteraction.cancelScheduledSnap();
+
+    let result;
+    try {
+      result = await wrapped.call(this, ...args);
+    } catch(e) {
+      CarouselCombatWrappers.suppressPopoutRenderUntil = 0;
+      throw e;
     }
 
-    let turn = (combat.round === 1) || (combat.turn === null) || (combat.turns.length === 0)
-      ? null
-      : combat.turns.length - 1;
-
-    if ((combat.settings.skipDefeated || CombatTrackerManager.carouselHideDefeated) && turn !== null) {
-      while (turn >= 0 && combat.turns[turn]?.isDefeated) {
-        turn--;
-      }
-      if (turn < 0) turn = null;
-    }
-
-    if (turn !== null && combat.turns[turn]) {
-      const targetCombatant = combat.turns[turn];
-      const targetIndex = state.allCombatantIds.indexOf(targetCombatant.id);
-
-      if (targetIndex !== -1) {
-        CarouselCombatWrappers.removeActiveClass();
-        const delta = CarouselInteraction.getShortestPath(targetIndex, state, config.STEP, config.TRACK);
-        state.targetScrollX = state.scrollX + delta;
-        CarouselInteraction.startAnimationLoop(state, config);
-        await CarouselInteraction.waitForAnimation(state);
-        CarouselCombatWrappers.updateActiveClass(targetCombatant.id);
-        CarouselCombatWrappers.skipNextCenterSetter?.(true);
-        CarouselCombatWrappers.setSuppressPopoutRender();
-      }
-    }
-
-    return wrapped.call(this, ...args);
+    await CarouselCombatWrappers._animateToActiveCombatant(combat, state, config, -1);
+    return result;
   }
 };
