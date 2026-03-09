@@ -20,6 +20,7 @@ import "./styles/systems/daggerheart-tracker.css";
 import "./styles/systems/pf2e-sheets.css";
 import "./styles/systems/sf2e-sheets.css";
 import "./styles/systems/mosh-unofficial.css";
+import "./styles/systems/blade-runner.css";
 
 import { Main } from "./components/Main.mjs";
 

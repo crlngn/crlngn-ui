@@ -1,0 +1,137 @@
+body.crlngn-ui.system-blade-runner{
+  .app.window-app.dialog .dialog-button, 
+  .app.window-app.blade-runner .dialog-button, 
+  .application.window-app.dialog .dialog-button, 
+  .application.window-app.blade-runner .dialog-button {
+    color: #fff;
+    background-color: color-mix(in srgb, var(--color-blue-darker) 40%, transparent);
+  }
+
+  .app.window-app.dialog .window-content, 
+  .app.window-app.blade-runner .window-content, 
+  .application.window-app.dialog .window-content, 
+  .application.window-app.blade-runner .window-content {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .app.window-app.dialog .window-content .sheet-tab.active, 
+  .app.window-app.blade-runner .window-content .sheet-tab.active, 
+  .application.window-app.dialog .window-content .sheet-tab.active, 
+  .application.window-app.blade-runner .window-content .sheet-tab.active {
+    color: var(--color-green);
+    border-bottom: 2px solid var(--color-green);
+  }
+
+  .application.window-app.blade-runner .dialog-button#roll {
+    background-color: color-mix(in srgb, var(--color-blue-darker) 40%, rgba(255,255,255,0.25));
+  }
+
+  .blade-runner.sheet.character .sheet-body .attribute-name a.stat-roll {
+    color: var(--color-blue-lighter);
+  }
+
+  .blade-runner.sheet.character .sheet-body .stats-tab {
+    gap: 0.5rem;
+  }
+  .blade-runner.roll-application .sheet-footer {
+    margin-top: 1rem;
+    gap: 0.5rem;
+  }
+  .blade-runner .boxed-property {
+    border-radius: 3px;
+    padding: 6px;
+  }
+  .blade-runner .capacity-boxes {
+    display: flex;
+    gap: 2px;
+  }
+
+  .blade-runner.roll-application .dice .die-box {
+    filter: sepia(0.5) hue-rotate(90deg);
+    color: #000;
+    font-size: var(--font-size-18);
+    font-weight: 700;
+  }
+
+  .chat-message, .app.window-app.blade-runner,
+  .app.theme-light {
+    --color-border: rgba(0,0,0, 0.15);
+    --color-black: rgba(20, 25, 30, 0.75);
+    --color-background: rgba(20, 25, 30, 0.75);
+  }
+  .chat-message header .message-sender {
+    color: var(--color-green);
+  }
+  .chat-message .yzur .dice-result {
+    margin: 0.5rem 0;
+    font-size: var(--font-size-18);
+  }
+  .chat-message .yzur .dice-formula, .chat-message .yzur .dice-total {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .chat-message .dice-total {
+    box-shadow: none;
+    font-weight: 600;
+    font-size: var(--font-size-24);
+    color: var(--color-green);
+    border: 0;
+  }
+
+  .chat-message .dice-roll .dice-formula {
+    box-shadow: none;
+    font-weight: 500;
+    font-size: var(--font-size-16);
+    color: var(--color-green);
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 0;
+  }
+
+  input[type="checkbox"]::after,
+  input[type="radio"]::after {
+    display: none;
+  }
+  input[type="checkbox"]:checked::before,
+  input[type="radio"]:checked::before {
+    position: static;
+  }
+
+  @media (max-width: 1023px), (max-height: 767px) {
+    .blade-runner.sheet.actor.character {
+      max-width: 450px;
+      min-width: 450px;
+    }
+    .blade-runner.roll-application .sheet-body {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+    .blade-runner.sheet.character .sheet-body .stats-tab {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+    .blade-runner .boxed-property {
+      padding: 4px 12px;
+    }
+    .blade-runner.sheet.character .combat-tab.container,
+    .blade-runner.sheet.character .bio-tab.container,
+    .blade-runner.sheet.character .nature.container,
+    .blade-runner.sheet.character .inventory-tab .meta-currencies {
+      display: flex;
+      flex-direction: column;
+      grid-template-columns: unset;
+      gap: 4px;
+    }
+
+    .blade-runner .embedded-item {
+      width: 100%;
+    }
+
+    .app.window-app.blade-runner select {
+      background: rgb(42 50 59 / 75%);
+      border: 1px solid var(--color-blue-darker);
+      color: var(--color-blue-lighter);
+      min-height: 2rem;
+      min-width: 3.5rem;
+    }
+  }
+}
