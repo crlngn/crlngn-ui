@@ -1,18 +1,19 @@
 <section
   class="form-content tab {{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}"
 >
+  <p>{{currentSystem}}</p>
+
   {{#if showNoSettings}}
   <div class="form-group">
-    <p class="hint on" style="text-align: center; font-style: italic;">
+    <p class="hint on">
       {{localize "CRLNGN_UI.settings.systemsMenu.noSettingsForSystem"}}
     </p>
   </div>
   {{/if}}
 
-  <p>{{currentSystem}}</p>
-
   {{#if isGM}}
   {{#if (hasWorldSettings fields)}}
+  <p>&nbsp;</p>
   <h4><i class="fas fa-globe"></i> {{localize "CRLNGN_UI.ui.worldSettingsLabel"}}</h4>
   <hr/>
 
