@@ -95,17 +95,17 @@ body.crlngn-ui {
     background-color: light-dark(rgba(0,0,0,0.05), rgba(255,255,255,0.1));
     color: inherit;
   }
-  /*
+  
   input[type="checkbox"]:checked::before {
     font-size: 1em;
     content: "\f00c";
     text-align: center;
     color: var(--color-text-primary);
-  }*/
-  /*
+  }
+
   input[type="checkbox"]:checked::after {
     content: "";
-  }*/
+  }
 
   .sidebar-tab {
     h4.dice-total{
@@ -132,7 +132,6 @@ body.crlngn-ui {
       font-size: var(--font-size-22);
     }
   }
-
 
   #interface .hidden-ui{
     opacity: 0 !important;
@@ -315,10 +314,17 @@ body.crlngn-ui{
     min-width: 190px;
   }
 
-  .standard-form input[type="checkbox"]:checked::before, 
-  .standard-form input[type="radio"]:checked::before {
-    color: light-dark(#ffffff52, #0000002b);
+  .standard-form input[type=checkbox]:checked:before, 
+  .standard-form input[type=radio]:checked:before {
+    color: var(--color-text-primary);
+    background: var(--color-warm-2);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.15rem;
+    height: 1.15rem;
   }
+
 
   .region-config fieldset.region-behavior:not(.inactive){
     background-color: var(--color-highlights-25);

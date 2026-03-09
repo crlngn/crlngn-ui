@@ -1105,7 +1105,7 @@ export class ColorPickerUtil {
         }
         body.crlngn-ui.theme-dark input[type=checkbox],
         body.crlngn-ui.theme-dark input[type=radio]{
-          --checkbox-background-color: light-dark(rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0.2));
+          --checkbox-background-color: light-dark(rgba(0, 0, 0, 0.35), rgba(255, 255, 255, 0.35));
         }
         body.crlngn-ui.theme-dark .application.sheet:not(.sheet-config),
         body.crlngn-ui .application.sheet.theme-dark .controls-dropdown {
