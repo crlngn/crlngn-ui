@@ -7,6 +7,10 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   --checkbox-border-color: var(--color-highlights-50); 
   --visibility-gm-bg: var(--color-highlights-50); 
 
+  button.dialog-button {
+    color: var(--color-text-primary);
+  }
+
   &,
   .app,
   .application.compendium-browser,
@@ -65,6 +69,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
 
     --sidebar-title: var(--color-warm-1); 
   }
+
   .app:not(.journal-sheet),
   .application.compendium-browser,
   .themed.theme-light:not(.chat-log),
@@ -109,39 +114,15 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     color: var(--color-text-primary);
   }
 
-  /*
-  input[type=checkbox] {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 1rem;
-    height: 1rem;
-    min-width: 1rem;
-    min-height: 1rem;
-    background-color: var(--color-bg-input);
-    border: 0;
-    border-radius: 3px;
-    cursor: pointer;
-    position: relative;
+  .roll-modifiers-dialog {
+    font-size: var(--font-size-13);
+    min-width: 400px;
   }
 
-  input[type=checkbox]:checked {
-    background-color: var(--color-warm-2);
+  .roll-modifiers-dialog .roll-mode-panel {
+    flex-wrap: wrap;
   }
-
-  input[type=checkbox]:checked::after {
-    content: "\f00c";
-    font-family: "Font Awesome 6 Pro";
-    font-weight: 900;
-    font-size: 0.65rem;
-    line-height: 1;
-    color: var(--color-text-inverse);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: block;
-  }
-  */
+  
 
   .crb-hover .tooltipster-box {
     background-color: var(--background);
@@ -191,6 +172,11 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     border-image-width: 14px;
     border-style: double;
     pointer-events: none;
+  }
+
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.crafting ol.formula-list li.formula-level-header .item-name h4, 
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.crafting ol.formula-list li.formula-item .item-name h4 {
+    letter-spacing: 0;
   }
 
   &.theme-dark .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active ul.option-toggles:before {

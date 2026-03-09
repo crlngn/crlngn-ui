@@ -815,7 +815,7 @@ body.crlngn-ui.crlngn-sheets.system-sf2e {
 
   .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li .modifier, 
   .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li .dc {
-    margin: 0.5rem;
+    margin: .25rem 0.5rem 0.25rem 0.25rem;
   }
 
   .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li {
