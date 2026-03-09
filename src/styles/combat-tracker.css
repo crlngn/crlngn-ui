@@ -426,7 +426,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       width: 100%;
       z-index: 10;
     }
-    li.combatant .token-name > .name {
+    li.combatant .token-name .name {
       display: none;
     }
 
