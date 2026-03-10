@@ -984,8 +984,9 @@ body.crlngn-ui.crlngn-chat {
     .chat-message .table-draw ul.table-results li > .description,
     .chat-message .table-draw ol.table-results li > .description,
     .chat-message .table-draw .table-results li > .description {
-      flex: 1 0 70%;
-      min-width: 70%;
+      flex: 1 0 calc(100% - 50px);
+      min-width: calc(100% - 50px);
+      margin-top: 0.5rem;
     }
 
     .chat-message .table-draw ul.table-results li > img,

@@ -21,6 +21,7 @@ import "./styles/systems/pf2e-sheets.css";
 import "./styles/systems/sf2e-sheets.css";
 import "./styles/systems/mosh-unofficial.css";
 import "./styles/systems/blade-runner.css";
+import "./styles/systems/swade.css";
 
 import { Main } from "./components/Main.mjs";
 

@@ -323,6 +323,7 @@ body.crlngn-ui{
     align-items: center;
     width: 1.15rem;
     height: 1.15rem;
+    position: relative;
   }
 
 
