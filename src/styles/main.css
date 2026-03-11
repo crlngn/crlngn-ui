@@ -95,13 +95,13 @@ body.crlngn-ui {
     background-color: light-dark(rgba(0,0,0,0.05), rgba(255,255,255,0.1));
     color: inherit;
   }
-  
+  /*
   input[type="checkbox"]:checked::before {
     font-size: 1em;
     content: "\f00c";
     text-align: center;
     color: var(--color-text-primary);
-  }
+  }*/
 
   input[type="checkbox"]:checked::after {
     content: "";
@@ -315,7 +315,9 @@ body.crlngn-ui{
   }
 
   .standard-form input[type=checkbox]:checked:before, 
-  .standard-form input[type=radio]:checked:before {
+  .standard-form input[type=radio]:checked:before,
+  input[type=checkbox]:checked:before, 
+  input[type=radio]:checked:before {
     color: var(--color-text-primary);
     background: var(--color-warm-2);
     display: inline-flex;
