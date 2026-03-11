@@ -131,6 +131,10 @@ body.crlngn-ui {
     &:after{
       font-size: var(--font-size-22);
     }
+    min-width: 1.1rem;
+    min-height: 1.1rem;
+    border: 0;
+    margin: 0 2px;
   }
 
   #interface .hidden-ui{
@@ -314,8 +318,9 @@ body.crlngn-ui{
     min-width: 190px;
   }
 
+  /*
   .standard-form input[type=checkbox]:checked:before, 
-  .standard-form input[type=radio]:checked:before,
+  .standard-form input[type=radio]:checked:before,*/
   input[type=checkbox]:checked:before, 
   input[type=radio]:checked:before {
     color: var(--color-text-primary);
@@ -323,9 +328,9 @@ body.crlngn-ui{
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    width: 1.15rem;
-    height: 1.15rem;
-    position: relative;
+    width: 1.1rem;
+    height: 1.1rem;
+    position: absolute;
   }
 
 

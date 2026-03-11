@@ -1116,7 +1116,15 @@ body.crlngn-ui{
 
     input[type="checkbox"] {
       background: transparent;
+      border: 0;
     }
+    #AA-autorec-settings .animation input[type=checkbox] {
+      border: 0;
+    }
+    input[type="checkbox"]::before, input[type="radio"]::before {
+      color: var(--color-text-primary);
+    }
+
     main {
       margin-top: 1rem;
     }
