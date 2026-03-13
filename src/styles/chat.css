@@ -1012,6 +1012,14 @@ body.crlngn-ui.crlngn-chat {
       opacity: 0.2;
     }
 
+    .dice-tooltip .dice-rolls .roll {
+      text-shadow:
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px  1px 0 #000,
+        1px  1px 0 #000;
+    }
+
     /* Dice tooltip - dark mode specific filters */
     .dice-tooltip .dice-rolls .roll.discarded,
     .dice-tooltip .dice-rolls .roll.rerolled {

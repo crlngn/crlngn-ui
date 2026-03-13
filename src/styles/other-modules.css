@@ -1119,9 +1119,13 @@ body.crlngn-ui{
       border: 0;
     }
     #AA-autorec-settings .animation input[type=checkbox] {
+      background: var(--color-cool-4);
+      /*border: 0;*/
       border: 0;
     }
-    input[type="checkbox"]::before, input[type="radio"]::before {
+
+    input[type="checkbox"]::before, input[type="radio"]::before,
+    input[type="checkbox"]::after, input[type="radio"]::after {
       color: var(--color-text-primary);
     }
 

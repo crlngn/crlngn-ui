@@ -29,6 +29,7 @@
   body.crlngn-ui {
     --card-color-bg: var(--control-bg-color);
     --input-height: 2.25rem;
+    --color-select-option-bg: var(--background);
   }
 
   /* UI Body Font - only when enabled */

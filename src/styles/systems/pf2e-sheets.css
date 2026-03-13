@@ -7,6 +7,10 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   --checkbox-border-color: var(--color-highlights-50); 
   --visibility-gm-bg: var(--color-highlights-50); 
 
+  .pf2e.item.sheet form .tab.active.rules .rules textarea {
+    color: var(--color-text-primary);
+  }
+
   button.dialog-button {
     color: var(--color-text-primary);
   }
@@ -123,11 +127,9 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     flex-wrap: wrap;
   }
   
-
   .crb-hover .tooltipster-box {
     background-color: var(--background);
   }
-
 
   .application.compendium-browser .headercontainer {
     border-color: var(--color-secondary);
