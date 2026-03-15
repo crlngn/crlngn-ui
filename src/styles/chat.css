@@ -1012,12 +1012,14 @@ body.crlngn-ui.crlngn-chat {
       opacity: 0.2;
     }
 
-    .dice-tooltip .dice-rolls .roll {
+    /* Dice tooltip - text outline for min/max rolls */
+    .dice-tooltip .dice-rolls .roll.die.min,
+    .dice-tooltip .dice-rolls .roll.die.max {
       text-shadow:
-        -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px  1px 0 #000,
-        1px  1px 0 #000;
+        -1px -1px 0 rgba(0,0,0,0.8),
+        1px -1px 0 rgba(0,0,0,0.8),
+        -1px 1px 0 rgba(0,0,0,0.8),
+        1px 1px 0 rgba(0,0,0,0.8);
     }
 
     /* Dice tooltip - dark mode specific filters */
@@ -1108,9 +1110,11 @@ body.crlngn-ui.crlngn-chat {
       }
     }
 
-    .chat-message ol.dice-rolls,
-    .chat-message .die {
+    .chat-message ol.dice-rolls {
       color: inherit;
+    }
+    .chat-message .die {
+      color: var(--color-text-inverse);
     }
 
     /* GM visibility tags (both themes) */

@@ -483,8 +483,8 @@
       --color-text-trait: var(--color-light-2);
       --color-pf-text-adjusted-higher: rgb(50, 146, 107);
       --color-pf-text-adjusted-lower: rgb(141, 53, 48);
-      --color-text-physical: var(--color-light-2);
-      --color-border-physical: var(--color-light-2);
+      --color-text-physical: var(--color-text-primary);
+      --color-border-physical: var(--color-text-primary);
       --visibility-gm-bg: rgba(232, 232, 239,0.15);
       --visibility-owner-bg: rgba(221, 235, 225, 0.15);
       --content-link-background: rgba(221, 221, 221, 0.15);

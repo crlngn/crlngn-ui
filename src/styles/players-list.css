@@ -193,7 +193,8 @@ body.crlngn-ui {
       #performance-stats{
         padding: 6px 0 10px 0;
         display: flex;
-        #latency, #fps {
+
+        #latency, #fps, #memory-stat {
           display: none;
         }
 
@@ -209,7 +210,7 @@ body.crlngn-ui {
         width: 100%;
         flex-wrap: nowrap;
 
-        #latency, #fps {
+        #latency, #fps, #memory-stat {
           display: flex;
           flex: 0 0 auto;
         }

@@ -1424,6 +1424,19 @@ body.crlngn-ui{
 
   } 
 
+  /* Party Overview */
+  div.party-overview-window .table-row {
+    color: var(--color-text-primary);
+  }
+
+  div.party-overview-window .table-row:nth-child(2n) {
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom: 0;
+  }
+  div.party-overview-window .table-row:nth-child(n) {
+    border-bottom: 0;
+  }
+
 }
 
 @layer modules {
