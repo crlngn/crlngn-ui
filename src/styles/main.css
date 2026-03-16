@@ -127,7 +127,7 @@ body.crlngn-ui {
 
 
   input[type=checkbox], input[type=radio] {
-    /*--checkbox-checkmark-color: transparent;*/
+    --checkbox-checkmark-color: var(--color-text-primary);
     &:after{
       font-size: var(--font-size-22);
     }

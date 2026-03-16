@@ -1118,16 +1118,12 @@ body.crlngn-ui{
       background: transparent;
       border: 0;
     }
-    #AA-autorec-settings .animation input[type=checkbox] {
-      background: var(--color-cool-4);
-      /*border: 0;*/
-      border: 0;
-    }
 
+    /*
     input[type="checkbox"]::before, input[type="radio"]::before,
     input[type="checkbox"]::after, input[type="radio"]::after {
       color: var(--color-text-primary);
-    }
+    }*/
 
     main {
       margin-top: 1rem;
@@ -1183,6 +1179,26 @@ body.crlngn-ui{
       }
     }
 
+  }
+
+  &.crlngn-autoanimations.theme-dark #AA-autorec-settings input {
+    color: var(--input-text-color);
+  }
+  &.crlngn-autoanimations.theme-dark #AA-autorec-settings input:after {
+    background-color: var(--checkbox-background-color);
+  }
+  
+  &.crlngn-autoanimations.theme-dark #AA-autorec-settings .animation table input:before {
+    transform: scale(1) translate(-50%, -50%);
+    margin-top: 50%;
+    margin-left: 50%;
+  }
+  &.crlngn-autoanimations.theme-dark #AA-autorec-settings .animation table.c input[type=checkbox], 
+  &.crlngn-autoanimations.theme-dark #AA-item-settings .animation table.c input[type=checkbox], 
+  &.crlngn-autoanimations.theme-dark #AA-ae-settings .animation table.c input[type=checkbox], 
+  &.crlngn-autoanimations.theme-dark #OptionsInformation .animation table.c input[type=checkbox], 
+  &.crlngn-autoanimations.theme-dark #Autorec-Menu-Manager .animation table.c input[type=checkbox] {
+    background-color: var(--color-cool-4);
   }
 
   .damage-log-nav.tabs {

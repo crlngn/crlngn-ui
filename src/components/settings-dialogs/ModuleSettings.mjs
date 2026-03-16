@@ -1288,11 +1288,12 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         option.classList.add('highlighted');
       });
       
-      option.addEventListener('click', (e) => {
+      option.addEventListener('mousedown', (e) => {
+        e.preventDefault();
         const input = option.closest('.dropdown-wrapper').querySelector('input');
         // Get the value and handle potential quote escaping
         let value = option.dataset.value;
-        
+
         // If the value contains spaces but doesn't have quotes, add them
         if (value.includes(' ') && !value.startsWith('"')) {
           value = `"${value}"`;
@@ -1301,13 +1302,11 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         else if (value.startsWith('&quot;')) {
           value = value.replace(/&quot;/g, '"');
         }
-        
+
         input.value = value;
         const dropdown = option.closest('.dropdown-options');
         dropdown.classList.remove('active');
         LogUtil.log("handleCustomFontFields", [value, input, dropdown]);
-        // Return focus to input after selection
-        // input.focus();
       });
     });
   }
@@ -1415,24 +1414,25 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         option.classList.add('highlighted');
       });
 
-      option.addEventListener('click', function(e) {
+      option.addEventListener('mousedown', function(e) {
+        e.preventDefault();
         LogUtil.log('theme option', [option, option.querySelector('.theme-name')]);
         const input = option.closest('.dropdown-wrapper')?.querySelector('input');
         let value = option.querySelector('.theme-name')?.innerHTML.toString();
-        
+
         // Update the input value
         input.value = value;
-        
+
         // Update the selectedTheme if this is the theme input
         if (input.name === 'colorTheme' || input.name === 'playerColorTheme') {
           const selectedTheme = THEMES.find(theme => {
             return theme.label === value;
           });
-          
+
           // Update any UI elements that depend on selectedTheme
           ModuleSettings.#updateThemePreview(selectedTheme);
         }
-        
+
         const dropdown = option.closest('.dropdown-options');
         dropdown.classList.remove('active');
       });
