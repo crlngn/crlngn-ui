@@ -109,29 +109,30 @@ body.crlngn-ui.system-blade-runner{
       grid-template-columns: 1fr;
       gap: 0.5rem;
     }
-    .blade-runner .boxed-property {
-      padding: 4px 12px;
-    }
-    .blade-runner.sheet.character .combat-tab.container,
-    .blade-runner.sheet.character .bio-tab.container,
-    .blade-runner.sheet.character .nature.container,
-    .blade-runner.sheet.character .inventory-tab .meta-currencies {
-      display: flex;
-      flex-direction: column;
-      grid-template-columns: unset;
-      gap: 4px;
-    }
-
-    .blade-runner .embedded-item {
-      width: 100%;
-    }
-
-    .app.window-app.blade-runner select {
-      background: rgb(42 50 59 / 75%);
-      border: 1px solid var(--color-blue-darker);
-      color: var(--color-blue-lighter);
-      min-height: 2rem;
-      min-width: 3.5rem;
-    }
   }
+  .blade-runner .boxed-property {
+    padding: 4px 12px;
+  }
+  .blade-runner.sheet.character .combat-tab.container,
+  .blade-runner.sheet.character .bio-tab.container,
+  .blade-runner.sheet.character .nature.container,
+  .blade-runner.sheet.character .inventory-tab .meta-currencies {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: unset;
+    gap: 4px;
+  }
+
+  .blade-runner .embedded-item {
+    width: 100%;
+  }
+
+  .app.window-app.blade-runner select {
+    background: rgb(42 50 59 / 75%);
+    border: 1px solid var(--color-blue-darker);
+    color: var(--color-blue-lighter);
+    min-height: 2rem;
+    min-width: 3.5rem;
+  }
+
 }
