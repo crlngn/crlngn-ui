@@ -704,6 +704,7 @@ export class CombatTrackerManager {
 
       if (hasCombatants) {
         CombatTrackerManager.#pendingTurnChange = null;
+        CombatCarousel.restoreImages(tracker);
         CombatTrackerManager.#updateCombatantImages(tracker);
         CombatTrackerManager.#applyTokenScaleCorrection(tracker);
         CombatTrackerManager.#copyEffectsTooltips(tracker);
@@ -747,7 +748,10 @@ export class CombatTrackerManager {
       if (!tokenImage) return;
 
       const actorImg = combatant.actor?.img;
-      const tokenImg = tokenImage.getAttribute('src');
+      const tokenImg = tokenImage.dataset.originalSrc || tokenImage.getAttribute('src');
+      if (!tokenImage.dataset.originalSrc) {
+        tokenImage.dataset.originalSrc = tokenImg;
+      }
 
       if (useActorImages && actorImg) {
         if (tokenImage.src !== actorImg) {

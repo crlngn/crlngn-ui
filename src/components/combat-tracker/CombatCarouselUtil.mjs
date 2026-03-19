@@ -75,7 +75,6 @@ export class CombatCarousel {
     if (!tracker) return;
 
     CombatCarousel.#disableSortable(combatPopout);
-    CombatCarousel.#restoreImages(tracker);
 
     if (CombatCarousel.#initialized) {
       CombatCarousel.#refreshCombatants(tracker);
@@ -114,7 +113,7 @@ export class CombatCarousel {
   /**
    * Restore cached images to prevent loading blink after re-render.
    */
-  static #restoreImages = (tracker) => {
+  static restoreImages = (tracker) => {
     if (CombatCarousel.#imageCache.size === 0) return;
 
     const combatants = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
@@ -123,7 +122,7 @@ export class CombatCarousel {
       const cachedImg = CombatCarousel.#imageCache.get(id);
       if (cachedImg) {
         const newImg = combatant.querySelector('.token-image');
-        if (newImg && cachedImg.src === newImg.src) {
+        if (newImg) {
           newImg.replaceWith(cachedImg.cloneNode(true));
         }
       }
@@ -424,7 +423,7 @@ export class CombatCarousel {
 
     const combatantElements = tracker.querySelectorAll(':scope > li.combatant');
     combatantElements.forEach(element => {
-      if (!element.querySelector('.token-resource')) {
+      if (!element.querySelector(':scope > .token-resource')) {
         const resourceEl = document.createElement('div');
         resourceEl.className = 'token-resource';
         const resourceInner = document.createElement('span');
@@ -698,7 +697,7 @@ export class CombatCarousel {
    * Update the resource bar display for a combatant
    */
   static #updateResourceBarElement = (element, combatant, skipTransition = false) => {
-    const resourceEl = element.querySelector('.token-resource');
+    const resourceEl = element.querySelector(':scope > .token-resource');
     if (!resourceEl) return;
 
     if (!CombatCarousel.#canSeeResourceBar(combatant)) {

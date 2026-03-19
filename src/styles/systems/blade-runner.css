@@ -122,7 +122,32 @@ body.crlngn-ui.system-blade-runner{
     grid-template-columns: unset;
     gap: 4px;
   }
+  .blade-runner.sheet.character .sheet-header .actor-name input {
+    color: var(--color-blue-lighter);
+    text-align: left;
+    font-size: var(--font-size-18);
+    background: transparent;
+    padding-left: 10px;
+  }
+  .blade-runner.sheet.character .editor:not(.prosemirror) .editor-content {
+    padding: 5px 10px;
+  }
+  .blade-runner.sheet.character .sheet-tabs {
+    margin-top: 15px;
+    font-size: var(--font-size-13);
+    font-family: var(--crlngn-font-titles);
+    letter-spacing: 0.025em;
+  }
+  .blade-runner.sheet.character .sheet-tabs a.sheet-tab {
+    font-family: var(--crlngn-font-titles);
+  }
+  .blade-runner.sheet.character a.btn.item-control {
+    font-size: var(--font-size-20);
+  }
 
+  .blade-runner .embedded-items {
+    width: 100%;
+  }
   .blade-runner .embedded-item {
     width: 100%;
   }
@@ -133,6 +158,54 @@ body.crlngn-ui.system-blade-runner{
     color: var(--color-blue-lighter);
     min-height: 2rem;
     min-width: 3.5rem;
+  }
+
+  .blade-runner .boxed-property:not(.years-on-the-force) {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 3px;
+  }
+
+  .blade-runner .boxed-property:not(.years-on-the-force) > h3,
+  .blade-runner .boxed-property > h4,
+  .blade-runner .boxed-property > .row,
+  .blade-runner .boxed-property > .bio-editor {
+    min-width: 100%;
+  }
+
+  .crlngn-capacity-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 0.8rem;
+    padding: 0;
+    border: 0;
+    border-radius: 3px;
+    background: rgb(42 50 59 / 75%) !important;
+    color: var(--color-blue-lighter, #a1adb5) !important;
+    cursor: pointer;
+    font-size: var(--font-size-11, 11px);
+    flex-shrink: 0;
+    margin: 0 !important;
+  }
+
+  .crlngn-capacity-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff !important;
+  }
+
+  #combat-popout li.combatant .token-name .token-resource {
+    display: none;
+  }
+  .combat-sidebar li.combatant .token-initiative {
+    border-right-width: 0;
+  }
+
+  & #combat-popout li.combatant > .token-initiative button[data-action="rollInitiative"],
+  & #combat-popout li.combatant > .token-initiative button[data-action="rollInitiative"]:hover {
+    animation: none;
   }
 
 }

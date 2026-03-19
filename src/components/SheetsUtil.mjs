@@ -25,6 +25,12 @@ export class SheetsUtil {
     Hooks.on(HOOKS_PF2E.RENDER_NPC_SHEET_PF2E, SheetsUtil.#onRenderPF2eNpcSheet);
     Hooks.on(HOOKS_CORE.UPDATE_SETTING, SheetsUtil.#onUpdateSettingPF2e);
 
+    // Blade Runner hooks
+    if(game.system.id === "blade-runner"){
+      Hooks.on(HOOKS_CORE.RENDER_ACTOR_SHEET, SheetsUtil.#onRenderBladeRunnerSheet);
+      return;
+    }
+
     // DnD5e and Daggerheart hooks
     if(game.system.id !== "dnd5e" && game.system.id !== "daggerheart"){ return; }
 
@@ -396,6 +402,54 @@ export class SheetsUtil {
    * Adds right-click minimize functionality to the actor image
    * @param {HTMLElement} html - The sheet HTML element
    */
+  static #onRenderBladeRunnerSheet(actorSheet, html, data){
+    if(game.system.id !== "blade-runner") return;
+    const element = html instanceof HTMLElement ? html : html[0] || html;
+    SheetsUtil.#addCapacityButtons(element, actorSheet);
+    SheetsUtil.applyThemeToSheets(SheetsUtil.themeStylesEnabled);
+  }
+
+  static #addCapacityButtons(html, actorSheet){
+    const capacityBoxes = html.querySelectorAll("a.capacity-boxes");
+
+    capacityBoxes.forEach(boxes => {
+      if(boxes.parentElement.querySelector(".crlngn-capacity-btn")) return;
+
+      const field = boxes.dataset.field;
+      const min = parseInt(boxes.dataset.min) || 0;
+      const max = parseInt(boxes.dataset.max) || 0;
+
+      const minusBtn = document.createElement("button");
+      minusBtn.type = "button";
+      minusBtn.className = "crlngn-capacity-btn crlngn-capacity-minus";
+      minusBtn.innerHTML = '<i class="fas fa-minus"></i>';
+      minusBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const actor = actorSheet.actor || actorSheet.document;
+        if(!actor || !field) return;
+        const current = foundry.utils.getProperty(actor, field) ?? 0;
+        if(current > min) actor.update({[field]: current - 1});
+      });
+
+      const plusBtn = document.createElement("button");
+      plusBtn.type = "button";
+      plusBtn.className = "crlngn-capacity-btn crlngn-capacity-plus";
+      plusBtn.innerHTML = '<i class="fas fa-plus"></i>';
+      plusBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const actor = actorSheet.actor || actorSheet.document;
+        if(!actor || !field) return;
+        const current = foundry.utils.getProperty(actor, field) ?? 0;
+        if(current < max) actor.update({[field]: current + 1});
+      });
+
+      boxes.parentElement.insertBefore(minusBtn, boxes);
+      boxes.after(plusBtn);
+    });
+  }
+
   static adjustPF2eNpcSheet(html){
     LogUtil.log("adjustPF2eNpcSheet", []);
     if(!SheetsUtil.themeStylesEnabled) return;
