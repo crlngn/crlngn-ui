@@ -113,6 +113,10 @@ body.crlngn-ui.system-blade-runner{
   .blade-runner .boxed-property {
     padding: 4px 12px;
   }
+  .blade-runner.sheet.character {
+    min-height: 750px;
+    max-height: 95dvh;
+  }
   .blade-runner.sheet.character .combat-tab.container,
   .blade-runner.sheet.character .bio-tab.container,
   .blade-runner.sheet.character .nature.container,

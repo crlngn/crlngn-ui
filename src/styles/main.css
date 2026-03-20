@@ -93,7 +93,7 @@ body.crlngn-ui {
   .content-link, .inline-roll {
     border-color: light-dark(rgba(255,255,255,0.3), rgba(255,255,255,0.05));
     background-color: light-dark(rgba(0,0,0,0.05), rgba(255,255,255,0.1));
-    color: inherit;
+    color: initial;
   }
   /*
   input[type="checkbox"]:checked::before {
@@ -424,7 +424,8 @@ body.crlngn-ui{
     display: block;
     background: transparent;
   }
-  .code-editor-wrapper textarea{
+  .code-editor-wrapper textarea,
+  .app textarea{
     --color-text-selection-bg: var(--color-highlights-50);
     font-family: monospace;
     white-space: pre;
@@ -435,6 +436,7 @@ body.crlngn-ui{
     margin: 1px;
     box-shadow: none;
     background: var(--color-input-bg);
+    color: vr(--color-text-primary);
   }
   .sidebar-tab search {
     input, select, textarea {
