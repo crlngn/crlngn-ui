@@ -100,14 +100,25 @@ export class CombatCarousel {
     const tracker = document.querySelector('#combat-popout .combat-tracker');
     if (!tracker) return;
 
+    const currentIds = new Set();
     const combatants = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
     combatants.forEach(combatant => {
       const id = combatant.dataset.combatantId;
       const img = combatant.querySelector('.token-image');
-      if (id && img && img.complete) {
-        CombatCarousel.#imageCache.set(id, img.cloneNode(true));
+      if (!id || !img) return;
+      currentIds.add(id);
+      if (img.complete && img.naturalWidth > 0) {
+        CombatCarousel.#imageCache.set(id, img);
+      } else if (!CombatCarousel.#imageCache.has(id)) {
+        img.addEventListener('load', () => {
+          CombatCarousel.#imageCache.set(id, img);
+        }, { once: true });
       }
     });
+
+    for (const id of CombatCarousel.#imageCache.keys()) {
+      if (!currentIds.has(id)) CombatCarousel.#imageCache.delete(id);
+    }
   }
 
   /**
@@ -123,7 +134,7 @@ export class CombatCarousel {
       if (cachedImg) {
         const newImg = combatant.querySelector('.token-image');
         if (newImg) {
-          newImg.replaceWith(cachedImg.cloneNode(true));
+          newImg.replaceWith(cachedImg);
         }
       }
     });

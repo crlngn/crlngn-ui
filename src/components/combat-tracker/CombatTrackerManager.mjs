@@ -61,10 +61,10 @@ export class CombatTrackerManager {
     Hooks.on(HOOKS_CORE.COMBAT_TURN, (combat, updateData, options) => CombatTrackerManager.onCombatTurnPre(combat, updateData, options));
     Hooks.on(HOOKS_CORE.COMBAT_ROUND, (combat, updateData, options) => CombatTrackerManager.onCombatRoundPre(combat, updateData, options));
     Hooks.on(HOOKS_CORE.PRE_RENDER_COMBAT_TRACKER, () => {
+      CombatCarousel.cacheImages();
       if (!CombatTrackerManager.#shouldAllowRender()) {
         return false;
       }
-      CombatCarousel.cacheImages();
     });
     Hooks.on(HOOKS_CORE.RENDER_COMBAT_TRACKER, (app, html, data) => CombatTrackerManager.onRenderCombatTracker(app, html, data));
     Hooks.on(HOOKS_CORE.UPDATE_ACTOR, (actor, updateData, options, userId) => CombatTrackerManager.onActorUpdate(actor, updateData));
@@ -646,6 +646,11 @@ export class CombatTrackerManager {
       });
     }
 
+    const tracker = combatPopout.querySelector('.combat-tracker');
+    if (tracker) {
+      CombatCarousel.restoreImages(tracker);
+    }
+
     requestAnimationFrame(() => {
       const combatPopout = document.querySelector('#combat-popout');
       if (!combatPopout) return;
@@ -704,7 +709,6 @@ export class CombatTrackerManager {
 
       if (hasCombatants) {
         CombatTrackerManager.#pendingTurnChange = null;
-        CombatCarousel.restoreImages(tracker);
         CombatTrackerManager.#updateCombatantImages(tracker);
         CombatTrackerManager.#applyTokenScaleCorrection(tracker);
         CombatTrackerManager.#copyEffectsTooltips(tracker);
@@ -714,6 +718,8 @@ export class CombatTrackerManager {
         if (tracker && CombatCarousel.state.allCombatantIds.length > 0) {
           CombatCarousel.adjustTrackerWidth(tracker);
         }
+
+        CombatCarousel.cacheImages();
       }
 
       if (game.system.id !== 'daggerheart') {
