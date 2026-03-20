@@ -835,6 +835,7 @@ body.crlngn-ui.crlngn-combat-tracker {
     /* Mobile and portrait tablet responsive adjustments */
     @media (max-width: 768px), (max-width: 1024px) and (orientation: portrait) {
       --carousel-scale: 0.7;
+      --header-width: calc(20px * var(--carousel-scale));
       background: var(--background) !important;
 
       .window-content {
@@ -848,9 +849,13 @@ body.crlngn-ui.crlngn-combat-tracker {
         left: auto;
         bottom: auto;
         flex-direction: column;
-        width: calc(20px * var(--carousel-scale));
-        max-width: calc(20px * var(--carousel-scale));
+        width: var(--header-width);
+        max-width: var(--header-width);
         height: 100%;
+      }
+
+      &.docked-top {
+        transform: translate(calc(-50% - var(--header-width) / 2)) !important;
       }
     }
 

@@ -81,6 +81,8 @@ export class ModuleCompatUtil {
   static #addModuleClassesAttempts = 0;
   static #addModuleClassesInterval = null;
 
+  static #moduleClassesApplied = false;
+
   static addModuleClasses = () => {
     const SETTINGS = getSettings();
     let moduleList = SettingsUtil.get(SETTINGS.otherModulesList.tag) || [];
@@ -108,44 +110,49 @@ export class ModuleCompatUtil {
       }
     }
 
-    // First, remove all possible module classes
-    Object.values(SETTINGS.otherModulesList.options).forEach(opt => {
-      const moduleId = opt.replace(/['''"]/g, "").trim();
-      document.querySelector('body').classList.remove('crlngn-' + moduleId);
-    });
+    // Remove all module classes only on first call (fresh apply or settings change)
+    if (!ModuleCompatUtil.#moduleClassesApplied) {
+      Object.values(SETTINGS.otherModulesList.options).forEach(opt => {
+        const moduleId = opt.replace(/['''"]/g, "").trim();
+        document.body.classList.remove('crlngn-' + moduleId);
+      });
+    }
 
     // Then add classes for enabled modules that are installed
+    let allResolved = true;
     moduleList.forEach(item => {
       if (item.enabled && item.id) {
         const cleanId = item.id.trim();
+        const className = 'crlngn-' + cleanId;
 
-        // Check if module is installed (exists in game.modules)
+        if (document.body.classList.contains(className)) return;
+
         const moduleData = game.modules.get(cleanId);
         const isModuleInstalled = !!moduleData;
 
-        LogUtil.log(`Checking module: ${cleanId}`, [
-          'enabled in settings:', item.enabled,
-          'moduleData:', moduleData,
-          'installed:', isModuleInstalled
-        ]);
-
         if (isModuleInstalled) {
-          document.querySelector('body').classList.add('crlngn-' + cleanId);
-          LogUtil.log(`Added class for installed module: crlngn-${cleanId}`);
+          document.body.classList.add(className);
+          LogUtil.log(`Added class for installed module: ${className}`);
         } else {
-          LogUtil.log(`Skipping class for missing module: ${cleanId}`);
+          allResolved = false;
         }
       }
     });
 
+    ModuleCompatUtil.#moduleClassesApplied = true;
+
+    if (allResolved && ModuleCompatUtil.#addModuleClassesInterval) {
+      clearInterval(ModuleCompatUtil.#addModuleClassesInterval);
+      ModuleCompatUtil.#addModuleClassesInterval = null;
+    }
+
     // Emit hook so other components know module classes are ready
     Hooks.callAll(HOOKS_CRLNGN.MODULE_CLASSES_READY);
-    LogUtil.log("Emitted hook:", [HOOKS_CRLNGN.MODULE_CLASSES_READY]);
   }
 
   /**
    * Starts a retry interval to ensure module classes are added
-   * Will retry every second for up to 10 attempts
+   * Will retry every 5 seconds for up to 3 attempts
    * @static
    */
   static startModuleClassesRetry = () => {
@@ -158,17 +165,15 @@ export class ModuleCompatUtil {
 
     ModuleCompatUtil.#addModuleClassesInterval = setInterval(() => {
       ModuleCompatUtil.#addModuleClassesAttempts++;
-      LogUtil.log(`addModuleClasses retry attempt ${ModuleCompatUtil.#addModuleClassesAttempts}`);
 
       ModuleCompatUtil.addModuleClasses();
 
-      // Stop after 10 attempts
-      if (ModuleCompatUtil.#addModuleClassesAttempts >= 10) {
+      if (ModuleCompatUtil.#addModuleClassesAttempts >= 1) {
         clearInterval(ModuleCompatUtil.#addModuleClassesInterval);
         ModuleCompatUtil.#addModuleClassesInterval = null;
-        LogUtil.log("addModuleClasses retry complete after 10 attempts");
+        LogUtil.log("addModuleClasses retry complete");
       }
-    }, 1000);
+    }, 5000);
   }
 
   /**
