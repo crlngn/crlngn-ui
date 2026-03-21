@@ -1184,11 +1184,12 @@ body.crlngn-ui{
   &.crlngn-autoanimations.theme-dark #AA-autorec-settings input {
     color: var(--input-text-color);
   }
+  /*
   &.crlngn-autoanimations.theme-dark #AA-autorec-settings input:after {
     background-color: var(--checkbox-background-color);
-  }
+  }*/
   
-  &.crlngn-autoanimations.theme-dark #AA-autorec-settings .animation table input:before {
+  &.crlngn-autoanimations.theme-dark #AA-autorec-settings .animation table input[type=checkbox]:checked:before {
     transform: scale(1) translate(-50%, -50%);
     margin-top: 50%;
     margin-left: 50%;

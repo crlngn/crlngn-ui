@@ -90,18 +90,11 @@ body.crlngn-ui {
     border-color: var(--color-highlights);
   }
 
-  .content-link, .inline-roll {
+  a.content-link, a.inline-roll {
     border-color: light-dark(rgba(255,255,255,0.3), rgba(255,255,255,0.05));
     background-color: light-dark(rgba(0,0,0,0.05), rgba(255,255,255,0.1));
     color: initial;
   }
-  /*
-  input[type="checkbox"]:checked::before {
-    font-size: 1em;
-    content: "\f00c";
-    text-align: center;
-    color: var(--color-text-primary);
-  }*/
 
   input[type="checkbox"]:checked::after {
     content: "";
@@ -145,6 +138,22 @@ body.crlngn-ui {
     }
   }
 
+}
+
+body.crlngn-ui:not(.crlngn-journals) .application.journal-sheet {
+  a.button, button{
+    background: unset;
+    background-color: unset;
+    border-color: unset;
+    color: unset;
+  }
+
+  a.content-link, a.inline-roll {
+    background: unset;
+    background-color: unset;
+    border-color: unset;
+    color: unset;
+  }
 }
 
 /*************/
@@ -265,7 +274,7 @@ body.crlngn-ui{
     line-height: 1.5;
   }
 
-  .app:not(.default.sheet) form button {
+  .app:not(.default.sheet, .pokerole) form button {
     background-color: var(--crlngn-button-bg);
     color: var(--color-text-primary);
     border: 1px solid transparent;
@@ -424,8 +433,7 @@ body.crlngn-ui{
     display: block;
     background: transparent;
   }
-  .code-editor-wrapper textarea,
-  .app textarea{
+  .code-editor-wrapper textarea {
     --color-text-selection-bg: var(--color-highlights-50);
     font-family: monospace;
     white-space: pre;
@@ -436,7 +444,10 @@ body.crlngn-ui{
     margin: 1px;
     box-shadow: none;
     background: var(--color-input-bg);
-    color: vr(--color-text-primary);
+    color: var(--color-text-primary);
+  }
+  .app textarea {
+    color: var(--color-text-primary);
   }
   .sidebar-tab search {
     input, select, textarea {
