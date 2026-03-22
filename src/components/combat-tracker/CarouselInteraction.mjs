@@ -170,17 +170,26 @@ export const CarouselInteraction = {
     state.lastTime = currentTime;
 
     if (state.targetScrollX !== null) {
-      const diff = state.targetScrollX - state.scrollX;
-      if (Math.abs(diff) < 0.5) {
+      if (state.animStartTime === null) {
+        state.animStartTime = currentTime;
+      }
+      const elapsed = currentTime - state.animStartTime;
+      const progress = Math.min(elapsed / CarouselInteraction.ANIMATION_DURATION, 1);
+      const t = 1 - Math.pow(1 - progress, 3);
+
+      if (progress >= 1) {
         if (useInfiniteWrap) {
           state.scrollX = CarouselTransforms.mod(state.targetScrollX, TRACK);
         } else {
           state.scrollX = Math.max(0, Math.min(state.targetScrollX, maxScrollX));
         }
         state.targetScrollX = null;
+        state.animStartTime = null;
+        state.animStartScrollX = null;
         state.velocity = 0;
       } else {
-        state.scrollX += diff * 0.15;
+        const start = state.animStartScrollX ?? state.scrollX;
+        state.scrollX = start + (state.targetScrollX - start) * t;
       }
     } else {
       if (!state.isDragging && Math.abs(state.velocity) > 0.1) {
@@ -275,7 +284,13 @@ export const CarouselInteraction = {
    * @param {object} state - Carousel state object
    * @param {object} config - Configuration with callbacks
    */
+  ANIMATION_DURATION: 300,
+
   startAnimationLoop(state, config) {
+    if (state.targetScrollX !== null) {
+      state.animStartScrollX = state.scrollX;
+      state.animStartTime = null;
+    }
     if (!state.isAnimating) {
       state.isAnimating = true;
       state.lastTime = 0;
@@ -384,6 +399,8 @@ export const CarouselInteraction = {
     state.lastDelta = 0;
     state.velocity = 0;
     state.targetScrollX = null;
+    state.animStartTime = null;
+    state.animStartScrollX = null;
 
     CarouselInteraction.stopAnimationLoop(state);
     CarouselInteraction.cancelScheduledSnap();

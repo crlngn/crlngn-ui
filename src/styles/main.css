@@ -17,8 +17,6 @@ body.crlngn-ui.crlngn-glass-effect .window-app:not(.monks-enhanced-journal) {
   -webkit-backdrop-filter: blur(var(--background-blur, 4px));
 }
 
-
-
 body.crlngn-ui  {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -93,7 +91,7 @@ body.crlngn-ui {
   a.content-link, a.inline-roll {
     border-color: light-dark(rgba(255,255,255,0.3), rgba(255,255,255,0.05));
     background-color: light-dark(rgba(0,0,0,0.05), rgba(255,255,255,0.1));
-    color: initial;
+    color: unset;
   }
 
   input[type="checkbox"]:checked::after {
