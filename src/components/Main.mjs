@@ -107,9 +107,12 @@ export class Main {
         return;
       }
 
+      const SETTINGS = getSettings();
+      const uiDisabled = SettingsUtil.get(SETTINGS.disableUI.tag);
+      if(uiDisabled) return;
+
       // Check if we're in stream mode
       const isStreamMode = document.body.classList.contains('stream');
-      const SETTINGS = getSettings();
 
       var isDebugOn = SettingsUtil.get(SETTINGS.debugMode.tag);
       if(isDebugOn){CONFIG.debug.hooks = true};

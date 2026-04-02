@@ -380,7 +380,7 @@ body.crlngn-ui{
       order: 0;
 
       button.ui-control.collapse{
-        --control-size: 20px !important;
+        --control-size: 26px !important;
       }
     }
 
@@ -394,11 +394,12 @@ body.crlngn-ui{
 
     #sidebar-tabs > menu {
       flex-direction: row;
+      flex-wrap: wrap;
       max-width: 100%;
       overflow: hidden;
       background: transparent;
       padding: 8px 0 0 0;
-      justify-content: space-between;
+      justify-content: flex-start;
     }
 
     .sidebar-tab {
@@ -407,13 +408,17 @@ body.crlngn-ui{
 
     &.crlngn-tabs #ui-right .tabs .ui-control,
     #ui-right .tabs .ui-control {
-      --control-size: 20px !important;
-      font-size: 0.8rem !important;
+      --control-size: 26px !important;
+      font-size: 0.9rem !important;
       border-radius: 4px;
-      flex: 1 1 22px;
+      flex: 1 1 26px;
 
       &[aria-pressed=true]{
         background: var(--color-warm-2);
+      }
+
+      &[aria-pressed=false]:hover {
+        color: var(--color-warm-2);
       }
     }
 

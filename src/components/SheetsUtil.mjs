@@ -27,7 +27,13 @@ export class SheetsUtil {
 
     // Blade Runner hooks
     if(game.system.id === "blade-runner"){
-      Hooks.on(HOOKS_CORE.RENDER_ACTOR_SHEET, SheetsUtil.#onRenderBladeRunnerSheet);
+      const brTweaksEnabled = SettingsUtil.get(SETTINGS.applyBladeRunnerTweaks.tag);
+      if(brTweaksEnabled){
+        document.body.classList.add("crlngn-br-ui");
+        Hooks.on(HOOKS_CORE.RENDER_ACTOR_SHEET, SheetsUtil.#onRenderBladeRunnerSheet);
+      } else {
+        document.body.classList.remove("crlngn-br-ui");
+      }
       return;
     }
 
@@ -209,6 +215,16 @@ export class SheetsUtil {
       const parent = nav.parentElement;
       if(parent.querySelector(".crlngn-tab-scroll-btn")) return;
 
+      // Remove tabs-left/tabs-right so dnd5e _updatePosition doesn't
+      // use the now-horizontal nav's offsetWidth as side overhang
+      if(nav.classList.contains("tabs-right")){
+        nav.classList.remove("tabs-right");
+        nav.dataset.crlngnOrigTabSide = "tabs-right";
+      } else if(nav.classList.contains("tabs-left")){
+        nav.classList.remove("tabs-left");
+        nav.dataset.crlngnOrigTabSide = "tabs-left";
+      }
+
       const wrapper = document.createElement("div");
       wrapper.className = "crlngn-tab-scroll-wrapper";
 
@@ -270,6 +286,11 @@ export class SheetsUtil {
 
       const nav = wrapper.querySelector("nav.tabs");
       if(nav && wrapper.parentElement){
+        // Restore original tabs-left/tabs-right class
+        if(nav.dataset.crlngnOrigTabSide){
+          nav.classList.add(nav.dataset.crlngnOrigTabSide);
+          delete nav.dataset.crlngnOrigTabSide;
+        }
         wrapper.parentElement.insertBefore(nav, wrapper);
         wrapper.remove();
       }
@@ -406,7 +427,24 @@ export class SheetsUtil {
     if(game.system.id !== "blade-runner") return;
     const element = html instanceof HTMLElement ? html : html[0] || html;
     SheetsUtil.#addCapacityButtons(element, actorSheet);
+    SheetsUtil.#addHeaderButtonTooltips(element);
     SheetsUtil.applyThemeToSheets(SheetsUtil.themeStylesEnabled);
+  }
+
+  /**
+   * Adds data-tooltip to header buttons using their text content,
+   * so text hidden by CSS overflow can still appear as a Foundry tooltip.
+   * @param {HTMLElement} html - The sheet HTML element
+   */
+  static #addHeaderButtonTooltips(html){
+    const header = html.closest(".window-app")?.querySelector(".window-header");
+    if(!header) return;
+    const buttons = header.querySelectorAll("a.header-button");
+    buttons.forEach(btn => {
+      if(btn.dataset.tooltip) return;
+      const text = btn.textContent?.trim();
+      if(text) btn.setAttribute("data-tooltip", text);
+    });
   }
 
   static #addCapacityButtons(html, actorSheet){

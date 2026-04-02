@@ -1,7 +1,17 @@
-body.crlngn-ui.system-blade-runner{
-  .app.window-app.dialog .dialog-button, 
-  .app.window-app.blade-runner .dialog-button, 
-  .application.window-app.dialog .dialog-button, 
+body.crlngn-ui.crlngn-br-ui.system-blade-runner{
+  .app.window-app.blade-runner .window-header a.header-button,
+  .application.window-app.blade-runner .window-header a.header-button,
+  .window-app.blade-runner .window-header .popout-module-button {
+    color: var(--color-blue);
+    &, &:hover {
+      max-width: 24px;
+      transition: none;
+    }
+  }
+
+  .app.window-app.dialog .dialog-button,
+  .app.window-app.blade-runner:not(.choice-dialog) .dialog-button,
+  .application.window-app.dialog .dialog-button,
   .application.window-app.blade-runner .dialog-button {
     color: #fff;
     background-color: color-mix(in srgb, var(--color-blue-darker) 40%, transparent);
@@ -96,7 +106,8 @@ body.crlngn-ui.system-blade-runner{
     position: static;
   }
 
-  @media (max-width: 1023px), (max-height: 767px) {
+  @media (pointer: coarse) and (max-width: 1023px),
+         (pointer: coarse) and (max-height: 767px) {
     .blade-runner.sheet.actor.character {
       max-width: 450px;
       min-width: 450px;
@@ -164,18 +175,48 @@ body.crlngn-ui.system-blade-runner{
     min-width: 3.5rem;
   }
 
-  .blade-runner .boxed-property:not(.years-on-the-force) {
+  .blade-runner .boxed-property:not(.years-on-the-force, .modifiers) {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     gap: 3px;
   }
 
-  .blade-runner .boxed-property:not(.years-on-the-force) > h3,
-  .blade-runner .boxed-property > h4,
-  .blade-runner .boxed-property > .row,
-  .blade-runner .boxed-property > .bio-editor {
+  .blade-runner .boxed-property:not(.years-on-the-force, .modifiers) > h3,
+  .blade-runner .boxed-property:not(.years-on-the-force, .modifiers) > h4,
+  .blade-runner .boxed-property:not(.years-on-the-force, .modifiers) > .row,
+  .blade-runner .boxed-property:not(.years-on-the-force, .modifiers) > .bio-editor {
     min-width: 100%;
+  }
+  .blade-runner .boxed-property:not(.years-on-the-force, .modifiers) > h3 {
+    font-size: 0.85rem;
+    max-height: 1.25rem;
+    overflow-y: visible;
+  }
+
+  .blade-runner.roll-application .roll-options input#unlimitedPush {
+    margin-left: auto;
+  }
+
+  .blade-runner.roll-application .modifiers {
+    grid-template-columns: 1fr 125px 1fr;
+    &> h3 {
+      font-size: 0.85rem;
+    }
+    &> h4 {
+      font-size: 0.7rem;
+    }
+  }
+
+  .window-app.blade-runner.choice-dialog .dialog-button i.fa-play {
+    display: none;
+  }
+  .window-app.blade-runner.choice-dialog .dialog-button u {
+    font-size: 1rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin-bottom: 0.25rem;
+    display: inline-block;
   }
 
   .crlngn-capacity-btn {

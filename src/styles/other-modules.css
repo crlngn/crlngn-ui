@@ -1454,6 +1454,19 @@ body.crlngn-ui{
     border-bottom: 0;
   }
 
+
+  /* popout */
+  .popout-module-button {
+    font-size: 0;
+    min-height: 2rem;
+    display: flex;
+    align-items: center;
+  }
+  .popout-module-button > i {
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+  }
+
 }
 
 @layer modules {
@@ -1504,6 +1517,7 @@ body.crlngn-ui.cui-font-ui {
       filter: invert(1);
     }
   }
+
 }
 
 /* Font styles - UI titles font */

@@ -540,6 +540,7 @@ export function getSettings() {
       propType: Object,
       fields: [
         "applyThemeToSheets",
+        "applyBladeRunnerTweaks",
         "adjustOtherModules",
         "otherModulesList"
       ],
@@ -1783,6 +1784,18 @@ export function getSettings() {
       config: false,
       requiresReload: false,
       system: ["dnd5e"]
+    },
+
+    applyBladeRunnerTweaks: {
+      tag: "v2-apply-blade-runner-tweaks",
+      label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.applyBladeRunnerTweaks.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.applyBladeRunnerTweaks.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: true,
+      system: ["blade-runner"]
     },
 
     /* Combat Tracker */

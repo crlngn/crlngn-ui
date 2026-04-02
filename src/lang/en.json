@@ -682,6 +682,10 @@
           "enableIconsOnSheets": {
             "label": "Enable chat and tooltip icons on sheets",
             "hint": "Show 'Display in Chat' overlay on item images and scroll icons for item tooltips on character sheets"
+          },
+          "applyBladeRunnerTweaks": {
+            "label": "Apply UI tweaks to Blade Runner system",
+            "hint": "Enable to apply UI adjustments and style tweaks to Blade Runner sheets and windows"
           }
         },
         "reset": "Reset",
