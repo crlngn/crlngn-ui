@@ -1467,6 +1467,110 @@ body.crlngn-ui{
     margin-right: 0.5rem;
   }
 
+  /* Simultaneous Cards - card chooser magnify button */
+  &.crlngn-simultaneous-cards .simultaneous-cards.card-chooser {
+    .dialog-content {
+      overflow: auto;
+    }
+    .cards-list {
+      gap: 1rem;
+      padding: 1rem;
+    }
+    li.card {
+      position: relative;
+      border: 1px solid transparent;
+      height: auto;
+      max-height: unset;
+      min-height: 215px;
+
+      .crlngn-card-magnify {
+        position: absolute;
+        bottom: 4px;
+        right: 4px;
+        width: 24px;
+        height: 24px;
+        padding: 0;
+        border: none;
+        border-radius: 4px;
+        background: rgba(0, 0, 0, 0.6);
+        color: #fff;
+        font-size: 12px;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.15s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.85);
+
+          i {
+            color: var(--color-warm-2);
+          }
+        }
+      }
+
+      &:hover {
+        border: 1px solid var(--color-warm-2);
+      }
+
+      &:hover .crlngn-card-magnify {
+        opacity: 1;
+      }
+    }
+
+    .cards-container p {
+      margin: 0.5rem auto;
+      text-align: center;
+    }
+
+    img:hover {
+      transform: none !important;
+    }
+    
+    .dialog-buttons {
+      justify-self: flex-end;
+      max-height: max-content;
+    }
+  }
+
+  &.crlngn-simultaneous-cards .simultaneous-cards.sheet {
+    .card.nocard {
+      background-color: var(--color-input-bg);
+    }
+
+    .participants {
+      max-height: calc(100% - 7rem);
+      overflow: auto;
+      margin: auto;
+    }
+
+    .participant-avatar {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+      overflow: hidden;
+      object-fit: cover;
+      object-position: top;
+    }
+  }
+  &.crlngn-simultaneous-cards .simultaneous-cards.sheet .messages {
+    color: #fff;
+    background-color: var(--color-input-bg);
+    width: calc(100% - 2rem);
+    height: auto;
+    max-height: max-content;
+    padding: 8px;
+    max-width: 480px;
+    margin: 1rem auto;
+    text-align: center;
+  }
+  &.crlngn-simultaneous-cards .simultaneous-cards.participants-config .row-wrapper:hover > * {
+    background-color: var(--color-secondary-50);
+  }
+
 }
 
 @layer modules {

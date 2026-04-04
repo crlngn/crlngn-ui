@@ -288,6 +288,7 @@ body.crlngn-ui{
     gap: 0.5em;
     line-height: 1.5;
     padding: 0.65em 0;
+    width: 100%;
   }
   .application:not(.actor, .sheet, .monks-enhanced-journal) .standard-form nav.tabs:not(.vertical){
     overflow-x: auto;

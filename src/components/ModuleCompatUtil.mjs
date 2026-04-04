@@ -53,6 +53,29 @@ export class ModuleCompatUtil {
       ModuleCompatUtil.#ytPlayerIntervalCount++;
     }, 200);
 
+    // Simultaneous Cards - add magnifier button to card chooser
+    const isSimCardsOn = GeneralUtil.isModuleOn('simultaneous-cards');
+    if(isSimCardsOn){
+      Hooks.on("renderDialog", (app, html) => {
+        if(!app.options?.classes?.includes('card-chooser')) return;
+        if(!document.body.classList.contains('crlngn-simultaneous-cards')) return;
+        html[0]?.querySelectorAll?.('li.card')?.forEach(li => {
+          const img = li.querySelector('img');
+          if(!img?.src) return;
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'crlngn-card-magnify';
+          btn.innerHTML = '<i class="fas fa-search-plus"></i>';
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            new ImagePopout(img.src, { title: img.alt || '' }).render(true);
+          });
+          li.appendChild(btn);
+        });
+      });
+    }
+
     // check Chat Pins module
     const isChatPinsOn = GeneralUtil.isModuleOn('dfreds-chat-pins');
     if(isChatPinsOn){

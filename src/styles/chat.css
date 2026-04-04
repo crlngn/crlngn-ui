@@ -1240,6 +1240,10 @@ body.crlngn-ui.crlngn-chat {
       border-right: 1px solid rgba(0, 0, 0, 0.5);
       padding: 0 4px;
     }
+
+    .chat-message.message .pf2e-hud-rk .rk {
+      background: repeating-linear-gradient(var(--color-secondary) 0 var(--row-height), transparent var(--row-height) calc(var(--row-height) * 2));
+    }
   }
 
   /***********
