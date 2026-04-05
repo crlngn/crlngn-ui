@@ -145,7 +145,9 @@ body.crlngn-ui{
   }
 
   #ui-right #roll-privacy,
-  #chat-popout #roll-privacy {
+  #ui-right #message-modes,
+  #chat-popout #roll-privacy,
+  #chat-popout #message-modes {
     .ui-control{
       border-color: transparent;
       &[aria-pressed=true]{
@@ -306,7 +308,7 @@ body.crlngn-ui{
     visibility: visible;
   }
   
-  #chat-notifications.input-hidden{
+  #chat-notifications.input-hidden {
     #chat-message {
       display: none;
       visibility: hidden;

@@ -39,7 +39,7 @@ export class CombatTrackerManager {
   };
   static #pendingTurnChange = null;
   static #programmaticClose = false;
-  static #lastRenderTime = 0;
+  static #lastProcessedTime = 0;
   static #renderThrottleMs = 150;
   static #pendingRenderTimeout = null;
 
@@ -62,9 +62,6 @@ export class CombatTrackerManager {
     Hooks.on(HOOKS_CORE.COMBAT_ROUND, (combat, updateData, options) => CombatTrackerManager.onCombatRoundPre(combat, updateData, options));
     Hooks.on(HOOKS_CORE.PRE_RENDER_COMBAT_TRACKER, () => {
       CombatCarousel.cacheImages();
-      if (!CombatTrackerManager.#shouldAllowRender()) {
-        return false;
-      }
     });
     Hooks.on(HOOKS_CORE.RENDER_COMBAT_TRACKER, (app, html, data) => CombatTrackerManager.onRenderCombatTracker(app, html, data));
     Hooks.on(HOOKS_CORE.UPDATE_ACTOR, (actor, updateData, options, userId) => CombatTrackerManager.onActorUpdate(actor, updateData));
@@ -127,13 +124,13 @@ export class CombatTrackerManager {
    * Throttle rapid combat tracker renders to prevent flicker during batch operations.
    * Returns true if render should proceed, false to suppress.
    */
-  static #shouldAllowRender = () => {
+  static #shouldProcessRender = () => {
     if (!CombatTrackerManager.enableCombatTrackerCarousel) return true;
 
     const now = Date.now();
-    const timeSinceLastRender = now - CombatTrackerManager.#lastRenderTime;
+    const timeSinceLastProcess = now - CombatTrackerManager.#lastProcessedTime;
 
-    if (timeSinceLastRender < CombatTrackerManager.#renderThrottleMs) {
+    if (timeSinceLastProcess < CombatTrackerManager.#renderThrottleMs) {
       if (CombatTrackerManager.#pendingRenderTimeout) {
         clearTimeout(CombatTrackerManager.#pendingRenderTimeout);
       }
@@ -145,7 +142,7 @@ export class CombatTrackerManager {
       return false;
     }
 
-    CombatTrackerManager.#lastRenderTime = now;
+    CombatTrackerManager.#lastProcessedTime = now;
     return true;
   }
 
@@ -633,6 +630,8 @@ export class CombatTrackerManager {
 
     const combatPopout = document.querySelector('#combat-popout');
     if (!combatPopout) return;
+
+    if (!CombatTrackerManager.#shouldProcessRender()) return;
 
     CombatTrackerManager.initDocking();
 

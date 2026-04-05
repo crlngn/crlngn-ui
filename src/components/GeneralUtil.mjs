@@ -450,7 +450,7 @@ export class GeneralUtil {
       rejectClose: false
     };
     
-    mergeObject(dialogConfig, options);
+    foundry.utils.mergeObject(dialogConfig, options);
     return foundry.applications.api.DialogV2.confirm(dialogConfig);
   }
 

@@ -105,7 +105,9 @@ export class SceneNavFolders {
       return;
     }
 
-    const activeScenesMenu = navHtml.querySelector("#scene-navigation-active");
+    const activeScenesMenu = navHtml.querySelector("#scene-navigation-viewed")
+      || navHtml.querySelector("#scene-navigation-active");
+    const inactiveList = navHtml.querySelector("#scene-navigation-inactive");
     const firstActiveItem = activeScenesMenu?.querySelector("li.scene");
     const folderToggleTooltip = `CRLNGN_UI.ui.sceneNav.${TopNavigation.navShowRootFolders ? "hideSceneFoldersTooltip" : "showSceneFoldersTooltip"}`;
 
@@ -121,12 +123,16 @@ export class SceneNavFolders {
       // placeNavButtons is called by renderFolderList after folders are rendered
       // and again after 500ms timeout in onRender to ensure proper overflow detection
     });
-    activeScenesMenu?.append(folderToggle);
+    if (inactiveList) {
+      inactiveList.parentElement.insertBefore(folderToggle, inactiveList);
+    } else {
+      activeScenesMenu?.append(folderToggle);
+    }
 
     if(TopNavigation.navShowRootFolders){
-      activeScenesMenu?.classList.add('with-folders');
+      folderToggle.classList.add('with-folders');
     }else{
-      activeScenesMenu?.classList.remove('with-folders');
+      folderToggle.classList.remove('with-folders');
     }
   }
 

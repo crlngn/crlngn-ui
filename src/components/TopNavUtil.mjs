@@ -248,7 +248,7 @@ export class TopNavigation {
     }
     TopNavigation.resetLocalVars();
 
-    if(TopNavigation.sceneNavEnabled && TopNavigation.navShowRootFolders && game.user.isGM){
+    if(TopNavigation.sceneNavEnabled && TopNavigation.useSceneFolders && TopNavigation.navShowRootFolders && game.user.isGM){
       SceneNavFolders.init();
       SceneNavFolders.renderFolderList();
     }
@@ -454,14 +454,16 @@ export class TopNavigation {
     if (!TopNavigation.disableActiveSceneSeparation) return;
 
     const activeList = navHtml.querySelector("#scene-navigation-active");
+    const viewedList = navHtml.querySelector("#scene-navigation-viewed");
     const inactiveList = navHtml.querySelector("#scene-navigation-inactive");
 
     if (!activeList || !inactiveList) return;
 
     // Get all scene items from both lists
     const activeScenes = Array.from(activeList.querySelectorAll("li.scene"));
+    const viewedScenes = viewedList ? Array.from(viewedList.querySelectorAll("li.scene")) : [];
     const inactiveScenes = Array.from(inactiveList.querySelectorAll("li.scene"));
-    const allSceneElements = [...activeScenes, ...inactiveScenes];
+    const allSceneElements = [...activeScenes, ...viewedScenes, ...inactiveScenes];
 
     // Sort by navOrder from the scene document
     allSceneElements.sort((a, b) => {
@@ -538,7 +540,12 @@ export class TopNavigation {
    * @returns {void}
    */
   static handleFolderList(nav, navHtml, navData){
-    if(!TopNavigation.useSceneFolders || !game.user?.isGM){ return; }
+    if(!TopNavigation.useSceneFolders || !game.user?.isGM){
+      const sceneNav = document.querySelector("#scene-navigation");
+      sceneNav?.querySelectorAll("li.folder").forEach(el => el.remove());
+      sceneNav?.querySelector("#crlngn-folder-toggle")?.remove();
+      return;
+    }
     SceneNavFolders.addFolderButtons(nav, navHtml, navData);
   }
 
@@ -566,7 +573,9 @@ export class TopNavigation {
       }
     );
 
-    navHtml.querySelector("#scene-navigation-active")?.insertAdjacentHTML("afterbegin", extraButtonsTemplate);
+    const activeMenu = navHtml.querySelector("#scene-navigation-viewed")
+      || navHtml.querySelector("#scene-navigation-active");
+    activeMenu?.insertAdjacentHTML("afterbegin", extraButtonsTemplate);
     const backButton = navHtml.querySelector("#crlngn-back-button");
     if(backButton){
       backButton.addEventListener("click", TopNavigation.#onBackButton);

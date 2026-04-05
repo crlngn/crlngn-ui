@@ -440,7 +440,7 @@ export function getSettings() {
         useScenePreview: true,
         useSceneBackButton: true,
         hideInactiveOnFolderToggle: true,
-        subFoldersLayout: "parent",
+        subFoldersLayout: "vertical",
         expandScrimToSubfolders: false
       },
       scope: SETTING_SCOPE.world,
@@ -740,7 +740,7 @@ export function getSettings() {
     },
 
     subFoldersLayout: {
-      tag: "v2-sub-folders-layout",
+      tag: "v2-sub-folders-layout-v14",
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.subFoldersLayout.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.subFoldersLayout.hint"),
       options: {
@@ -749,7 +749,7 @@ export function getSettings() {
         vertical: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.subFoldersLayout.options.vertical")
       },
       propType: String,
-      default: "parent",
+      default: "vertical",
       scope: SETTING_SCOPE.world,
       config: false,
       requiresReload: false

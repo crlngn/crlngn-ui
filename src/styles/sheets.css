@@ -276,6 +276,7 @@ body.crlngn-ui.crlngn-sheets {
 
         &:hover, &.active{
           box-shadow: none;
+          filter: brightness(3);
           opacity: 1;
           color: var(--color-light-1);
           font-weight: 600;
@@ -293,6 +294,13 @@ body.crlngn-ui.crlngn-sheets {
         line-height: 1.1;
         margin: 0;
         font-size: var(--font-size-12);
+      }
+      > a.item dnd5e-icon {
+        --icon-fill: var(--color-light-2);
+      }
+      > a.item:hover dnd5e-icon,
+      > a.item.active dnd5e-icon {
+        --icon-fill: var(--color-light-1);
       }
       > a.item::after {
         content: attr(aria-label);
@@ -359,7 +367,12 @@ body.crlngn-ui.crlngn-sheets {
   } 
 
   .dnd5e2.compendium-browser.vertical-tabs .window-content:has(.crlngn-tab-scroll-wrapper) {
-    grid-template-rows: auto 1fr !important;
+    grid-template-areas: "tabs tabs" "sidebar results" "sidebar footer" !important;
+    grid-template-rows: auto 1fr 2.75rem !important;
+  }
+
+  .dnd5e2.compendium-browser.vertical-tabs .window-content .crlngn-tab-scroll-wrapper {
+    grid-area: tabs;
   }
 
   .dnd5e2 .crlngn-tab-scroll-wrapper{

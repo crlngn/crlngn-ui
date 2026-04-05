@@ -34,7 +34,8 @@ export class ChatLogControls {
 
   static onRender(component, html, data){
     const root = html && (typeof html === HTMLElement) ? html : document;
-    const existingToggle = root.querySelector("#roll-privacy button[data-action='toggleChat']");
+    const existingToggle = root.querySelector("#roll-privacy button[data-action='toggleChat']")
+      || root.querySelector("#message-modes button[data-action='toggleChat']");
     if(!existingToggle){ ChatLogControls.addChatToggle(root); }
     ChatLogControls.handleFadeOut(component, root, data);
     ChatLogControls.handleHide(component, root, data);
@@ -70,9 +71,11 @@ export class ChatLogControls {
       `modules/${MODULE_ID}/templates/chat-toggle-button.hbs`, 
       {}
     );
-    const rollModeBox = document.querySelector("#ui-right #roll-privacy");
+    const rollModeBox = document.querySelector("#ui-right #roll-privacy")
+      || document.querySelector("#ui-right #message-modes");
+    if (!rollModeBox) return;
     rollModeBox.insertAdjacentHTML('afterbegin', buttonTemplate);
-    
+
     // Get the toggle button
     const toggleButton = rollModeBox.querySelector("button[data-action=toggleChat]");
     toggleButton.addEventListener("click", ChatLogControls.onToggleChatBox);
@@ -92,7 +95,6 @@ export class ChatLogControls {
         if(preventMacroBarReposition) {
           document.body.classList.add("chat-input-hidden");
         }
-        GeneralUtil.addCSSVars("--chat-input-height", "0px");
       } else {
         toggleButton.classList.add("fa-comment-slash");
         toggleButton.classList.remove("fa-comment");
@@ -100,7 +102,6 @@ export class ChatLogControls {
         if(preventMacroBarReposition) {
           document.body.classList.remove("chat-input-hidden");
         }
-        GeneralUtil.addCSSVars("--chat-input-height", "100px");
       }
     }
   }
@@ -119,7 +120,6 @@ export class ChatLogControls {
       if(preventMacroBarReposition) {
         document.body.classList.add("chat-input-hidden");
       }
-      GeneralUtil.addCSSVars("--chat-input-height", "0px");
       hidden = true;
     }else{
       toggleButton.classList.add("fa-comment-slash");
@@ -128,7 +128,6 @@ export class ChatLogControls {
       if(preventMacroBarReposition) {
         document.body.classList.remove("chat-input-hidden");
       }
-      GeneralUtil.addCSSVars("--chat-input-height", "100px");
       hidden = false;
     }
 
