@@ -408,6 +408,8 @@ export class TopNavigation {
       }
     }
 
+    TopNavigation.handleLevelsToggle(navHtml);
+
     if(TopNavigation.sceneNavEnabled){
       const column2 = document.querySelector("#ui-left-column-2");
       const existingToggle = document.querySelector("#crlngn-scene-navigation-expand");
@@ -443,6 +445,51 @@ export class TopNavigation {
         });
       }
     }
+  }
+
+  /**
+   * Adds a levels toggle icon to the viewed scene if it has multiple levels.
+   * Toggles visibility of the #scene-navigation-levels menu.
+   * @param {HTMLElement} navHtml - The navigation HTML element
+   */
+  static handleLevelsToggle(navHtml) {
+    const levelsMenu = navHtml.querySelector("#scene-navigation-levels");
+    if (!levelsMenu) return;
+
+    const viewedMenu = navHtml.querySelector("#scene-navigation-viewed");
+    const viewedScene = viewedMenu?.querySelector("li.scene");
+    if (!viewedMenu || !viewedScene) return;
+
+    viewedScene.appendChild(levelsMenu);
+
+    const levelsOpen = game.user?.getFlag(MODULE_ID, "sceneLevelsOpen") ?? false;
+
+    const existingToggle = viewedScene.querySelector(".crlngn-levels-toggle");
+    if (existingToggle) existingToggle.remove();
+
+    const toggleBtn = document.createElement("a");
+    toggleBtn.classList.add("crlngn-levels-toggle");
+    toggleBtn.innerHTML = "<i class='fa-solid fa-layer-group'></i>";
+    const sceneName = viewedScene.querySelector(".scene-name");
+    sceneName?.prepend(toggleBtn);
+
+    if (levelsOpen) {
+      levelsMenu.classList.add("open");
+    } else {
+      levelsMenu.classList.remove("open");
+    }
+
+    toggleBtn.addEventListener("click", async (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const isOpen = levelsMenu.classList.toggle("open");
+      if (isOpen) {
+        const preview = viewedScene.querySelector(".scene-preview");
+        preview?.classList.remove("open");
+        clearTimeout(TopNavigation.#sceneHoverTimeout);
+      }
+      await game.user?.setFlag(MODULE_ID, "sceneLevelsOpen", isOpen);
+    });
   }
 
   /**
@@ -1096,6 +1143,7 @@ export class TopNavigation {
     // evt.stopPropagation();
     evt.preventDefault();
     if(TopNavigation.isCollapsed){ return; }
+    if(evt.currentTarget.querySelector("#scene-navigation-levels.open")){ return; }
 
     const target = evt.currentTarget;
     const data = target.dataset;

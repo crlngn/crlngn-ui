@@ -8,6 +8,13 @@ body.crlngn-ui{
     --icon-font-size: var(--font-size-14);
     --crlngn-control-size: var(--control-item-size);
     --control-size: var(--crlngn-control-size) !important;
+
+    #scene-navigation .scene-levels {
+      overflow-y: auto;
+      scrollbar-gutter: stable;
+      scroll-snap-type: y mandatory;
+      height: calc(min(var(--max-levels, 3), 3) * (var(--control-size)));
+    }
   }
   #ui-left{
     padding: 0;
