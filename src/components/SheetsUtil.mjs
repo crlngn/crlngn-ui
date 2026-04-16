@@ -212,11 +212,8 @@ export class SheetsUtil {
     const tabContainers = document.querySelectorAll(".dnd5e2.vertical-tabs nav.tabs");
 
     tabContainers.forEach(nav => {
-      const parent = nav.parentElement;
-      if(parent.querySelector(".crlngn-tab-scroll-btn")) return;
-
-      // Remove tabs-left/tabs-right so dnd5e _updatePosition doesn't
-      // use the now-horizontal nav's offsetWidth as side overhang
+      // Always strip tabs-left/tabs-right — dnd5e reapplies these
+      // from static PARTS classes on every re-render (e.g. mode-slider toggle)
       if(nav.classList.contains("tabs-right")){
         nav.classList.remove("tabs-right");
         nav.dataset.crlngnOrigTabSide = "tabs-right";
@@ -224,6 +221,9 @@ export class SheetsUtil {
         nav.classList.remove("tabs-left");
         nav.dataset.crlngnOrigTabSide = "tabs-left";
       }
+
+      const parent = nav.parentElement;
+      if(parent.querySelector(".crlngn-tab-scroll-btn")) return;
 
       const wrapper = document.createElement("div");
       wrapper.className = "crlngn-tab-scroll-wrapper";
