@@ -110,8 +110,17 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     color: var(--color-text-primary);
   }
 
-  table.pf2e th, table.pf2-table th {
+  table.pf2e th, table.pf2-table th, table.pf2e td, 
+  table.pf2e tr:nth-child(odd), 
+  table.pf2-table tr:nth-child(odd)
+  table.pf2-table td {
     background-color: var(--color-alt-bg);
+    color: var(--color-text-primary);
+  }
+
+  table.pf2e tr:nth-child(even), 
+  table.pf2-table tr:nth-child(even){
+    background-color: var(--color-bg);
     color: var(--color-text-primary);
   }
   table.pf2e, table.pf2-table {
