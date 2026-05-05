@@ -115,6 +115,7 @@
           "scenes": "Navigazione Scena",
           "players": "Lista Giocatori",
           "camera": "Dock Camera",
+          "combat": "Combat Tracker",
           "system": "Sistema & Moduli"
         },
         "reset": "Ripristina",
@@ -127,6 +128,14 @@
       "toggleSidebar": {
         "label": "Espandi/Comprimi Barra Laterale",
         "hint": "Espande o comprime la barra laterale destra"
+      },
+      "combatPrev": {
+        "label": "Combattimento: Turno Precedente",
+        "hint": "Vai al turno precedente in combattimento. Funziona solo se possiedi il combattente attuale."
+      },
+      "combatNext": {
+        "label": "Combattimento: Turno Successivo",
+        "hint": "Passa al turno successivo in combattimento. Funziona solo se controlli il combattente attuale."
       },
       "sidebarTabs": {
         "ChatLog": "Messaggi del Chat",
@@ -182,6 +191,15 @@
             "label": "Offset Carosello Ancorato",
             "hint": "Offset in pixel quando il carosello è ancorato. Applicato come margine superiore quando ancorato in alto, o margine inferiore quando ancorato in basso."
           },
+          "carouselDockOnLoad": {
+            "label": "Posizionamento Carosello all'avvio",
+            "hint": "Controlla dove viene posizionato il carosello quando Foundry si avvia.",
+            "options": {
+              "preserve": "Mantieni ultima impostazione",
+              "top": "Posiziona sempre in alto",
+              "bottom": "Posiziona sempre in basso"
+            }
+          },
           "combatTrackerTakeFullWidth": {
             "label": "Espandi Carosello quando Barra Laterale Compressa",
             "hint": "Quando abilitato, il carosello occupa tutta la larghezza disponibile quando la barra laterale è compressa, e si adatta quando la barra laterale è espansa."
@@ -191,22 +209,43 @@
             "hint": "Scegli se visualizzare le immagini dei token o i ritratti degli attori/personaggi nel carosello di combattimento.",
             "options": {
               "token": "Immagine Token",
-              "actor": "Ritratto Attore"
+              "actor": "Ritratto Personaggio"
+            }
+          },
+          "combatTrackerLayout": {
+            "label": "Layout dell'iniziativa",
+            "hint": "Scegli il comportamento dell'iniziativa. La modalità carosello centra il combattente attivo e scorre in ciclo. La modalità lista semplice è allineata a sinistra e scorre per mostrare il combattente attivo quando necessario.",
+            "options": {
+              "carousel": "Carosello (centrato, scorre in ciclo)",
+              "simple": "Lista semplice (senza carosello)"
             }
           },
           "carouselShowAllHP": {
-            "label": "Mostra Barra HP per Tutti i Combattenti",
-            "hint": "Quando abilitato, il carosello mostra le barre HP per tutti i combattenti, anche quelli per cui il giocatore non ha il permesso Osservatore. Questa è un'impostazione mondiale (solo GM)."
+            "label": "Visibilità delle barre risorse",
+            "hint": "Controlla chi può vedere le barre delle risorse/PF dei combattenti. Richiede la configurazione di una risorsa tracciata. Questa è un'impostazione globale del mondo (GM).",
+            "options": {
+              "gmOnly": "Solo GM (i giocatori vedono i propri)",
+              "all": "Tutti vedono tutto",
+              "disabled": "Disattivato"
+            }
+          },
+          "carouselTrackedResource": {
+            "label": "Risorsa tracciata",
+            "hint": "L'attributo della risorsa da mostrare sulle schede dei combattenti (es. PV). Questa è un'impostazione globale del mondo (GM)."
           },
           "carouselHideDefeated": {
-            "label": "Nascondi Combattenti Sconfitti",
-            "hint": "Quando abilitato, i combattenti sconfitti vengono rimossi dal carosello e le posizioni rimanenti vengono ricalcolate."
+            "label": "Nascondi combattenti sconfitti",
+            "hint": "Se attivato, i combattenti sconfitti vengono rimossi dal carosello e le posizioni rimanenti vengono ricalcolate."
           },
-          "combatFieldset": "Tracker di Combattimento"
+          "carouselRequirePlayerOwner": {
+            "label": "Richiedi personaggio giocatore",
+            "hint": "Se attivato, il carosello si apre automaticamente solo quando un personaggio giocatore entra in combattimento. Se disattivato, si apre per qualsiasi combattente."
+          },
+          "combatFieldset": "Iniziativa"
         },
         "reset": "Ripristina",
         "save": "Salva"
-      },
+      },  
       "customFontsMenu": {
         "label": "Font Personalizzati",
         "title": "Configura Font",
@@ -274,6 +313,10 @@
           "glassTranslucence": {
             "label": "Trasparenza del vetro",
             "hint": "Controlla la trasparenza delle finestre. 0 = completamente opaco con sfocatura minima, 1 = altamente trasparente con sfocatura massima. Opacità e sfocatura si regolano inversamente per migliorare la leggibilità."
+          },
+          "enableJournalStyles": {
+            "label": "Applica stili ai fogli Diario",
+            "hint": "Abilita questa opzione per applicare lo stile dell'UI Carolingian alle pagine delle voci del giornale. Disabilita questa opzione se i moduli di terze parti presentano conflitti di stile."
           },
           "customizeColors": "Personalizza Colori",
           "customizeHint": "Fai clic per aprire il selettore colori e creare colori del tema personalizzati",
@@ -356,6 +399,10 @@
           "showChatNotificationsOnTop": {
             "label": "Mostra Notifiche Chat dall'Alto",
             "hint": "Quando abilitato, le notifiche dei messaggi chat appaiono dall'alto dell'area di input della chat invece che dal basso."
+          },
+          "useFolderStyle": {
+            "label": "Colori discreti per cartelle nella barra laterale",
+            "hint": "Attiva colori più discreti per le cartelle della directory nella barra laterale, mostrando il colore selezionato solo sui bordi, per un aspetto più pulito."
           },
           "hiddenSidebarTabs": {
             "label": "Visibilità e Ordine delle Schede",
@@ -455,6 +502,81 @@
         "reset": "Ripristina",
         "save": "Salva"
       },
+      "combatTrackerMenu": {
+        "label": "Combat Tracker",
+        "title": "Configura Combat Tracker",
+        "hint": "Configura l'aspetto e il comportamento del carosello del combat tracker.",
+        "fields": {
+          "enableCombatTrackerCarousel": {
+            "label": "Usa il carosello di combattimento trascinabile",
+            "hint": "Quando attivato, il tracker di combattimento si apre automaticamente quando sono presenti combattenti e si chiude quando il combattimento termina. Abilita anche uno stile personalizzato per il tracker in modalità pop-out."
+          },
+          "combatCarouselScale": {
+            "label": "Scala del carosello agganciato",
+            "hint": "Scala del carosello di combattimento quando è agganciato alla parte superiore dello schermo. Intervallo: 0.7 (70%) a 1.5 (150%)."
+          },
+          "dockedCarouselOffset": {
+            "label": "Offset del carosello agganciato",
+            "hint": "Offset in pixel quando il carosello è agganciato. Viene applicato come margin-top se agganciato in alto, o margin-bottom se agganciato in basso."
+          },
+          "carouselDockOnLoad": {
+            "label": "Aggancio del carosello all'avvio",
+            "hint": "Controlla dove viene agganciato il carosello quando Foundry si avvia.",
+            "options": {
+              "preserve": "Mantieni l'ultima impostazione",
+              "top": "Aggancia sempre in alto",
+              "bottom": "Aggancia sempre in basso"
+            }
+          },
+          "combatTrackerTakeFullWidth": {
+            "label": "Il carosello si adatta alla sidebar",
+            "hint": "Quando attivato, il carosello occupa tutta la larghezza disponibile se necessario quando la sidebar è chiusa, e si riadatta quando la sidebar viene riaperta."
+          },
+          "carouselImageSource": {
+            "label": "Sorgente immagini del carosello",
+            "hint": "Scegli se mostrare le immagini dei token oppure i ritratti di attori/personaggi nel carosello di combattimento.",
+            "options": {
+              "token": "Immagine Token",
+              "actor": "Ritratto Personaggio"
+            }
+          },
+          "combatTrackerLayout": {
+            "label": "Layout del tracker di combattimento",
+            "hint": "Scegli il comportamento del tracker di combattimento. La modalità carosello centra il combattente attivo e scorre in ciclo. La modalità lista semplice è allineata a sinistra e scorre per mostrare il combattente attivo quando necessario.",
+            "options": {
+              "carousel": "Carosello (centrato, scorre in ciclo)",
+              "simple": "Lista semplice (senza carosello)"
+            }
+          },
+          "carouselHideDefeated": {
+            "label": "Nascondi combattenti sconfitti",
+            "hint": "Se attivato, i combattenti sconfitti vengono rimossi dal carosello e le posizioni rimanenti vengono ricalcolate."
+          },
+          "carouselRequirePlayerOwner": {
+            "label": "Richiedi personaggio giocatore",
+            "hint": "Se attivato, il carosello si apre automaticamente solo quando un personaggio giocatore entra in combattimento. Se disattivato, si apre per qualsiasi combattente."
+          },
+          "carouselShowAllHP": {
+            "label": "Visibilità barra risorse",
+            "hint": "Controlla chi può vedere le barre delle risorse/PV dei combattenti. Richiede una risorsa tracciata configurata. Questa è un'impostazione globale del mondo (GM).",
+            "options": {
+              "gmOnly": "Solo GM (i giocatori vedono i propri)",
+              "all": "Tutti vedono tutto",
+              "disabled": "Disattivato"
+            }
+          },
+          "carouselTrackedResource": {
+            "label": "Risorsa tracciata",
+            "hint": "L'attributo della risorsa da mostrare sulle schede dei combattenti (es. PV). Questa è un'impostazione globale del mondo (GM)."
+          },
+          "showCombatRoundButtons": {
+            "label": "Mostra pulsanti di navigazione dei round",
+            "hint": "Se attivato, i pulsanti Round precedente e Round successivo sono visibili nei controlli del combattimento. Questa è un'impostazione globale del mondo (GM)."
+            }
+          },
+          "reset": "Ripristina",
+          "save": "Salva"
+      },
       "sceneNavMenu": {
         "label": "Navigazione Scena",
         "title": "Configura Navigazione",
@@ -492,6 +614,10 @@
             "label": "Avvia compresso",
             "hint": "Abilita questa opzione per comprimere la navigazione scena durante il caricamento di Foundry, indipendentemente dallo stato precedentemente salvato."
           },
+          "collapseNavDuringCombat": {
+            "label": "Riduci durante combattimento",
+            "hint": "Comprimi automaticamente la navigazione delle scene quando inizia il combattimento. La navigazione verrà ripristinata al suo stato precedente quando il combattimento termina."
+          },
           "sceneClickToView": {
             "label": "Abilita Click e Doppio Click",
             "hint": "Quando abilitato, cliccare sulla scena nella vista scena apre quella scena. Cliccare due volte l'attiva."
@@ -521,7 +647,8 @@
             "hint": "Scegli come posizionare le scene all'interno delle sottocartelle quando la cartella è espansa.",
             "options": {
               "parent": "Allineato con la cartella padre",
-              "rowStart": "Allineato all'inizio della riga"
+              "rowStart": "Allineato all'inizio della riga",
+              "vertical": "Menu a tendina verticale"
             }
           },
           "expandScrimToSubfolders": {
@@ -555,6 +682,10 @@
           "enableIconsOnSheets": {
             "label": "Abilita icone chat e tooltip sulle schede",
             "hint": "Mostra sovrapposizione 'Visualizza in Chat' sulle immagini degli oggetti e icone pergamena per i tooltip sulle schede dei personaggi"
+          },
+          "applyBladeRunnerTweaks": {
+            "label": "Applica modifiche all'UI del sistema Blade Runner",
+            "hint": "Abilita per applicare regolazioni dell'UI e modifiche di stile alle pagine e alle finestre di Blade Runner"
           }
         },
         "reset": "Ripristina",
@@ -597,10 +728,6 @@
         "label": "Nascondi la barra delle macro",
         "hint": "Abilita per avere la barra delle macro inizialmente compressa per impostazione predefinita e mostrarla al passaggio del mouse."
       },
-      "useFolderStyle": {
-        "label": "Usa colori assegnati",
-        "hint": "Abilita per avere colori assegnati sulle cartelle del pannello laterale, mostrando solo il colore selezionato sui bordi."
-      },
       "debugMode": {
         "label": "Modalità Debug",
         "hint": "Abilita o disabilita i messaggi di debug sulla console del browser."
@@ -638,7 +765,10 @@
     "combat": {
       "noCombatants": "Nessun combattente nell'incontro",
       "closedNotice": "Quando vuoi ripristinare il carosello, fai clic destro sulla scheda combattimento nella barra laterale",
-      "noTrackedResource": "Mostra Barra HP per Tutti è abilitato, ma nessuna Risorsa Tracciata è configurata nelle impostazioni del Tracker di Combattimento.",
+      "noTrackedResource": "Mostra Barra PF per Tutti è abilitato, ma nessuna Risorsa Tracciata è configurata nelle impostazioni del Tracker di Combattimento.",
+      "configureResourceTitle": "Configura Barra Risorse",
+      "configureResourceMessage": "Il carosello è impostato per mostrare le barre delle risorse/PF per tutti i combattenti, ma non è configurata alcuna risorsa da tracciare. Seleziona una risorsa da tracciare qui sotto:",
+      "trackedResource": "Risorsa Tracciata",
       "startCombatShort": "Inizio",
       "endCombatShort": "Fine"
     },
@@ -653,7 +783,7 @@
           "consume": "Consuma",
           "refund": "Rimborsa",
           "macro": "Macro",
-          "savedc": "Salvezza CD",
+          "savedc": "CD Salvezza",
           "save": "Salvezza"
         }
       }
