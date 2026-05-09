@@ -1,6 +1,6 @@
 {
-  "CRLNGN_UI": { 
-    "ui": { 
+  "CRLNGN_UI": {
+    "ui": {
       "generalSettingsLabel": "通用设置",
       "clientSettingsLabel": "玩家设置 (客户端)",
       "worldSettingsLabel": "世界设置 (游戏主持人)",
@@ -115,7 +115,8 @@
           "scenes": "场景",
           "players": "玩家列表",
           "camera": "摄像机停靠栏",
-          "system": "系统和模块"
+          "system": "系统和模块",
+          "combat": "战斗追踪器"
         },
         "reset": "重置",
         "save": "保存"
@@ -196,13 +197,43 @@
           },
           "carouselShowAllHP": {
             "label": "显示所有参战者的生命值条",
-            "hint": "启用后，轮播将显示所有参战者的生命值条，即使玩家没有观察者权限。这是一个世界设置（仅限GM）。"
+            "hint": "启用后，轮播将显示所有参战者的生命值条，即使玩家没有观察者权限。这是一个世界设置（仅限GM）。",
+            "options": {
+              "gmOnly": "仅 GM（玩家仅看见自己拥有的）",
+              "all": "所有人都能看到",
+              "disabled": "已禁用"
+            }
           },
           "carouselHideDefeated": {
             "label": "隐藏已击败的参战者",
             "hint": "启用后，已击败的参战者将从轮播中移除，剩余位置将重新计算。"
           },
-          "combatFieldset": "战斗追踪器"
+          "combatFieldset": "战斗追踪器",
+          "carouselDockOnLoad": {
+            "label": "启动时停靠轮播条",
+            "hint": "控制 Foundry 加载时轮播条的停靠位置。",
+            "options": {
+              "preserve": "保留上次设置",
+              "top": "始终停靠在顶部",
+              "bottom": "始终停靠在底部"
+            }
+          },
+          "combatTrackerLayout": {
+            "label": "战斗追踪器布局",
+            "hint": "选择战斗追踪器的行为方式。轮播模式以当前战斗者为中心并循环显示。简单列表模式靠左对齐，必要时滚动以显示当前战斗者。",
+            "options": {
+              "carousel": "轮播（居中、循环）",
+              "simple": "简单列表（无轮播）"
+            }
+          },
+          "carouselTrackedResource": {
+            "label": "追踪资源",
+            "hint": "在战斗者卡片上显示的资源属性（例如 HP）。此为世界设置（GM）。"
+          },
+          "carouselRequirePlayerOwner": {
+            "label": "需要玩家角色",
+            "hint": "启用后，仅当玩家角色加入战斗时，轮播条才会自动打开。禁用后，对任何战斗者都会打开。"
+          }
         },
         "reset": "重置",
         "save": "保存"
@@ -286,8 +317,8 @@
             "hint": "一些模块从未实现暗色主题。此选项尝试使用 .app.theme-light 类将暗色主题应用于其他模块的窗口。如果某些模块变得部分难以辨认，请取消选中此选项。"
           },
           "otherModulesList": {
-              "label": "在其他模块中应用样式",
-              "hint": "在其他模块上启用我的样式调整。点击列表顶部的复选框可全选/取消全选。"
+            "label": "在其他模块中应用样式",
+            "hint": "在其他模块上启用我的样式调整。点击列表顶部的复选框可全选/取消全选。"
           },
           "forcedDarkTheme": {
             "label": "强制元素使用深色主题",
@@ -296,10 +327,14 @@
           "customStyles": {
             "label": "自定义CSS",
             "hint": "这些样式将在您下次加载 Foundry 时被载入。您可以通过粘贴 '@import' 链接来包含 'Google Fonts'，字体将在自定义字体设置中列出。"
-          }, 
+          },
           "enforceDarkMode": {
             "label": "强制暗色模式",
             "hint": "在玩家客户端上将Foundry UI主题设置为暗色。如果你使用任何模块如'强制客户端设置'，你可能需要关闭此选项。"
+          },
+          "enableJournalStyles": {
+            "label": "对日志条目应用样式",
+            "hint": "启用后，将 Carolingian UI 样式应用于日志条目卡片。如果第三方日志模块有样式冲突，请禁用。"
           }
         },
         "dockDHResources": {
@@ -387,6 +422,10 @@
             "hint": "控制哪些侧边栏标签对GM和玩家可见。隐藏的标签将不会出现在侧边栏中。",
             "hideForGM": "对GM隐藏",
             "hideForPlayer": "对玩家隐藏"
+          },
+          "useFolderStyle": {
+            "label": "侧边栏文件夹使用低调颜色",
+            "hint": "为侧边栏目录文件夹启用更低调的颜色，仅在边框上显示所选颜色，以获得更美观的外观。"
           }
         },
         "reset": "重置",
@@ -404,6 +443,15 @@
           "playerListAvatars": {
             "label": "显示头像",
             "hint": "显示玩家头像。它会查找角色图像，或者如果没有分配角色则查找用户图像。"
+          },
+          "playerListAvatarSize": {
+            "label": "头像尺寸",
+            "hint": "玩家列表中头像的尺寸。",
+            "options": {
+              "small": "小",
+              "medium": "中",
+              "large": "大"
+            }
           }
         },
         "reset": "重置",
@@ -430,19 +478,19 @@
           "enableFloatingDock": {
             "label": "启用浮动摄像头停靠栏",
             "hint": "<b>[需要重新加载]</b> 允许视频播放器组被拖动并放置在屏幕上的任何位置"
-          }, 
+          },
           "dockPosX": {
             "label": "水平位置",
             "hint": "设置为浮动时摄像头停靠栏的位置。从屏幕左下角开始，单位为像素"
-          }, 
+          },
           "dockPosY": {
             "label": "垂直位置",
             "hint": "设置为浮动时摄像头停靠栏的位置。从屏幕左下角开始，单位为像素"
-          }, 
+          },
           "dockWidth": {
             "label": "摄像头组宽度",
             "hint": "设置为浮动时非最小化摄像头停靠栏的尺寸，单位为像素"
-          }, 
+          },
           "dockHeight": {
             "label": "摄像头组高度",
             "hint": "设置为浮动时非最小化摄像头停靠栏的尺寸，单位为像素"
@@ -463,6 +511,9 @@
           "defaultVideoWidth": {
             "label": "默认视频宽度",
             "hint": "停靠栏中每个摄像头的宽度，单位为像素。最小宽度为140像素，以便为摄像头控制图标留出空间。"
+          },
+          "lockDockPosition": {
+            "tooltip": "锁定位置"
           }
         },
         "reset": "重置",
@@ -484,7 +535,7 @@
           "sceneNavEnabled": {
             "label": "启用水平场景导航",
             "hint": "[需要重新加载] 如果您与非兼容模块存在布局问题，可以尝试禁用我对场景导航的自定义样式。"
-          }, 
+          },
           "showNavOnHover": {
             "label": "悬停时显示导航",
             "hint": "如果场景导航已折叠，您可以通过将鼠标悬停在屏幕顶部来显示它。"
@@ -534,7 +585,8 @@
             "hint": "选择展开文件夹时子文件夹中的场景如何定位。",
             "options": {
               "parent": "与父文件夹对齐",
-              "rowStart": "对齐到行首"
+              "rowStart": "对齐到行首",
+              "vertical": "垂直下拉菜单"
             }
           },
           "expandScrimToSubfolders": {
@@ -544,6 +596,10 @@
           "sceneItemWidth": {
             "label": "导航项目宽度",
             "hint": "留空以使用默认宽度，或定义一个新数值。最小为100px"
+          },
+          "collapseNavDuringCombat": {
+            "label": "战斗时收起",
+            "hint": "战斗开始时自动收起场景导航。战斗结束后导航将恢复到先前状态。"
           }
         },
         "reset": "重置",
@@ -568,6 +624,10 @@
           "enableIconsOnSheets": {
             "label": "启用角色表上的聊天和提示图标",
             "hint": "在物品图片上显示'在聊天中显示'覆盖层，并在角色表上显示卷轴图标用于物品提示"
+          },
+          "applyBladeRunnerTweaks": {
+            "label": "对 Blade Runner 系统应用 UI 调整",
+            "hint": "启用后，对 Blade Runner 角色卡和窗口应用 UI 调整和样式微调"
           }
         },
         "reset": "重置",
@@ -619,9 +679,117 @@
         "label": "调试模式",
         "hint": "启用或禁用浏览器控制台上的调试消息。"
       },
-      "disableUI":{
+      "disableUI": {
         "label": "在此客户端禁用界面",
         "hint": "如果玩家不想使用卡罗琳界面，可以禁用它。除了聊天卡片中的深色样式（可以单独禁用）外，模组的其他功能将不会生效。"
+      },
+      "combatPrev": {
+        "label": "战斗：上一回合",
+        "hint": "返回战斗中的上一个回合。仅当你拥有当前战斗者时有效。"
+      },
+      "combatNext": {
+        "label": "战斗：下一回合",
+        "hint": "推进到战斗中的下一个回合。仅当你拥有当前战斗者时有效。"
+      },
+      "combatTrackerMenu": {
+        "label": "战斗追踪器",
+        "title": "配置战斗追踪器",
+        "hint": "配置战斗追踪器轮播条的外观和行为。",
+        "fields": {
+          "enableCombatTrackerCarousel": {
+            "label": "使用可拖动战斗轮播条",
+            "hint": "启用后，当存在战斗者时，战斗追踪器会自动弹出，战斗结束时关闭。同时为弹出的追踪器启用自定义样式。"
+          },
+          "combatCarouselScale": {
+            "label": "停靠轮播条缩放",
+            "hint": "战斗轮播条停靠在屏幕顶部时的缩放比例。范围：0.7 (70%) 到 1.5 (150%)。"
+          },
+          "dockedCarouselOffset": {
+            "label": "停靠轮播条偏移",
+            "hint": "轮播条停靠时的像素偏移。停靠在顶部时作为 margin-top 应用，停靠在底部时作为 margin-bottom 应用。"
+          },
+          "carouselDockOnLoad": {
+            "label": "启动时停靠轮播条",
+            "hint": "控制 Foundry 加载时轮播条的停靠位置。",
+            "options": {
+              "preserve": "保留上次设置",
+              "top": "始终停靠在顶部",
+              "bottom": "始终停靠在底部"
+            }
+          },
+          "combatTrackerTakeFullWidth": {
+            "label": "轮播条响应侧边栏",
+            "hint": "启用后，当侧边栏折叠时轮播条根据需要占据所有可用宽度，侧边栏展开时则相应调整。"
+          },
+          "carouselImageSource": {
+            "label": "轮播条图像来源",
+            "hint": "选择在战斗轮播条中显示标记图像还是角色/演员肖像。",
+            "options": {
+              "token": "标记图像",
+              "actor": "角色肖像"
+            }
+          },
+          "combatTrackerLayout": {
+            "label": "战斗追踪器布局",
+            "hint": "选择战斗追踪器的行为方式。轮播模式以当前战斗者为中心并循环显示。简单列表模式靠左对齐，必要时滚动以显示当前战斗者。",
+            "options": {
+              "carousel": "轮播（居中、循环）",
+              "simple": "简单列表（无轮播）"
+            }
+          },
+          "carouselHideDefeated": {
+            "label": "隐藏已被击败的战斗者",
+            "hint": "启用后，已被击败的战斗者将从轮播条中移除，剩余位置将被重新计算。"
+          },
+          "carouselRequirePlayerOwner": {
+            "label": "需要玩家角色",
+            "hint": "启用后，仅当玩家角色加入战斗时，轮播条才会自动打开。禁用后，对任何战斗者都会打开。"
+          },
+          "carouselShowAllHP": {
+            "label": "资源条可见性",
+            "hint": "控制谁可以看到战斗者上的资源/生命值条。需要配置追踪资源。此为世界设置（GM）。",
+            "options": {
+              "gmOnly": "仅 GM（玩家仅看见自己拥有的）",
+              "all": "所有人都能看到",
+              "disabled": "已禁用"
+            }
+          },
+          "carouselTrackedResource": {
+            "label": "追踪资源",
+            "hint": "在战斗者卡片上显示的资源属性（例如 HP）。此为世界设置（GM）。"
+          },
+          "showCombatRoundButtons": {
+            "label": "显示回合导航按钮",
+            "hint": "启用后，上一回合和下一回合按钮将显示在战斗控件中。此为世界设置（GM）。"
+          }
+        },
+        "reset": "重置",
+        "save": "保存"
+      },
+      "dockDHResources": {
+        "label": "停靠 Daggerheart 恐惧追踪器",
+        "hint": "为 Daggerheart 资源（恐惧）追踪器启用停靠功能。将窗口拖到宏栏附近，将其停靠在屏幕底部。"
+      },
+      "colorPicker": {
+        "hint": "请爱护您的视网膜：强调色请使用对比度至少为“中等”的颜色，以获得更好的可读性。",
+        "title": "自定义主题颜色",
+        "presets": "预设主题",
+        "accentColor": "强调色",
+        "secondaryColor": "次要颜色",
+        "hue": "色相",
+        "saturation": "饱和度",
+        "lightness": "亮度",
+        "accentOnBackground": "背景上的强调色",
+        "textOnAccent": "强调色上的文字",
+        "secondaryPreview": "次要颜色预览",
+        "contrastGood": "对比度：良好",
+        "contrastMedium": "对比度：中等",
+        "contrastPoor": "对比度：差",
+        "apply": "保存",
+        "applySecondaryColorToBg": {
+          "label": "将次要颜色应用于 Foundry 界面背景",
+          "hint": "启用后，次要颜色将应用于侧边栏和控件等界面背景。这允许您控制颜色主题中应用程序的背景。"
+        }
       }
     },
     "combat": {
@@ -629,7 +797,10 @@
       "closedNotice": "如需恢复轮播，请右键点击侧边栏的战斗标签",
       "noTrackedResource": "显示所有参战者的生命值条已启用，但战斗追踪器设置中未配置追踪资源。",
       "startCombatShort": "开始",
-      "endCombatShort": "结束"
+      "endCombatShort": "结束",
+      "configureResourceTitle": "配置资源条",
+      "configureResourceMessage": "战斗轮播条已设为为所有战斗者显示资源/生命值条，但尚未配置追踪资源。请在下方选择要追踪的资源：",
+      "trackedResource": "追踪资源"
     },
     "dnd5e": {
       "chatCard": {
