@@ -1,6 +1,6 @@
 {
-  "CRLNGN_UI": { 
-    "ui": { 
+  "CRLNGN_UI": {
+    "ui": {
       "generalSettingsLabel": "Configurações Gerais",
       "clientSettingsLabel": "Configurações do Jogador (Cliente)",
       "worldSettingsLabel": "Configurações do Mundo (GM)",
@@ -115,7 +115,8 @@
           "scenes": "Navegação de Cenas",
           "players": "Lista de Jogadores",
           "camera": "Câmeras",
-          "system": "Sistema & Módulos"
+          "system": "Sistema & Módulos",
+          "combat": "Rastreador de Combate"
         },
         "reset": "Redefinir",
         "save": "Salvar"
@@ -196,13 +197,43 @@
           },
           "carouselShowAllHP": {
             "label": "Mostrar Barra de HP para Todos os Combatentes",
-            "hint": "Quando ativado, o carrossel mostra barras de HP para todos os combatentes, mesmo aqueles para os quais o jogador não tem permissão de Observador. Esta é uma configuração de mundo (apenas GM)."
+            "hint": "Quando ativado, o carrossel mostra barras de HP para todos os combatentes, mesmo aqueles para os quais o jogador não tem permissão de Observador. Esta é uma configuração de mundo (apenas GM).",
+            "options": {
+              "gmOnly": "Apenas GM (jogadores veem os próprios)",
+              "all": "Todos veem tudo",
+              "disabled": "Desativado"
+            }
           },
           "carouselHideDefeated": {
             "label": "Ocultar Combatentes Derrotados",
             "hint": "Quando ativado, combatentes derrotados são removidos do carrossel e as posições restantes são recalculadas."
           },
-          "combatFieldset": "Rastreador de Combate"
+          "combatFieldset": "Rastreador de Combate",
+          "carouselDockOnLoad": {
+            "label": "Encaixe do Carrossel ao Iniciar",
+            "hint": "Controla onde o carrossel é encaixado quando o Foundry é carregado.",
+            "options": {
+              "preserve": "Manter última configuração",
+              "top": "Sempre encaixar no topo",
+              "bottom": "Sempre encaixar embaixo"
+            }
+          },
+          "combatTrackerLayout": {
+            "label": "Layout do Rastreador de Combate",
+            "hint": "Escolha como o rastreador de combate se comporta. O modo carrossel centraliza no combatente ativo e dá voltas. O modo lista simples fica alinhado à esquerda e rola para mostrar o combatente ativo quando necessário.",
+            "options": {
+              "carousel": "Carrossel (centralizado, dá voltas)",
+              "simple": "Lista simples (sem carrossel)"
+            }
+          },
+          "carouselTrackedResource": {
+            "label": "Recurso Rastreado",
+            "hint": "O atributo do recurso a exibir nos cartões dos combatentes (ex.: HP). Esta é uma configuração de mundo (GM)."
+          },
+          "carouselRequirePlayerOwner": {
+            "label": "Exigir Personagem de Jogador",
+            "hint": "Quando ativado, o carrossel abre automaticamente apenas quando um personagem de jogador é adicionado ao combate. Quando desativado, abre para qualquer combatente."
+          }
         },
         "reset": "Redefinir",
         "save": "Salvar"
@@ -296,10 +327,14 @@
           "customStyles": {
             "label": "Estilos CSS",
             "hint": "Estilos digitados aqui serão aplicados na próxima vez que você carregar o Foundry. Você pode incluir fontes do Google Fonts colando o link @import, e a fonte será listada nas configurações de Fontes Personalizadas."
-          }, 
+          },
           "enforceDarkMode": {
             "label": "Forçar Modo Escuro",
             "hint": "<b>Não habilite se usar Force Client Settings ou módulos semelhantes.</b> Define o tema da interface do Foundry para o jogador como Escuro caso o tema atual seja 'Padrão do Navegador'. Se o jogador selecionar modo claro, sua opção será respeitada"
+          },
+          "enableJournalStyles": {
+            "label": "Aplicar estilos às fichas de Diário",
+            "hint": "Ative para aplicar o estilo Carolingian UI às fichas de diário. Desative se módulos de diário de terceiros tiverem conflitos de estilo."
           }
         },
         "dockDHResources": {
@@ -387,6 +422,10 @@
             "hint": "Controle quais abas da barra lateral são visíveis para mestres e jogadores. Abas ocultas não aparecerão na barra lateral.",
             "hideForGM": "Ocultar para Mestre",
             "hideForPlayer": "Ocultar para Jogador"
+          },
+          "useFolderStyle": {
+            "label": "Cores discretas para pastas na barra lateral",
+            "hint": "Ativa cores mais discretas nas pastas do diretório da barra lateral, exibindo a cor selecionada apenas nas bordas, para um visual mais agradável."
           }
         },
         "reset": "Redefinir",
@@ -439,19 +478,19 @@
           "enableFloatingDock": {
             "label": "Ativar dock flutuante",
             "hint": "<b>[Requer recarregamento]</b> Permite que o grupo de vídeo seja arrastado e colocado em qualquer lugar da tela"
-          }, 
+          },
           "dockPosX": {
             "label": "Posição horizontal",
             "hint": "Posição do dock da câmera quando configurado para flutuar. A partir do canto inferior esquerdo da tela, em pixels"
-          }, 
+          },
           "dockPosY": {
             "label": "Posição vertical",
             "hint": "Posição do dock da câmera quando configurado para flutuar. A partir do canto inferior esquerdo da tela, em pixels"
-          }, 
+          },
           "dockWidth": {
             "label": "Largura do grupo de câmeras",
             "hint": "Dimensões do dock da câmera quando configurado para flutuar, se não minimizado. Em pixels"
-          }, 
+          },
           "dockHeight": {
             "label": "Altura do grupo de câmeras",
             "hint": "Dimensões do dock da câmera quando configurado para flutuar, se não minimizado. Em pixels"
@@ -496,7 +535,7 @@
           "sceneNavEnabled": {
             "label": "Ativar navegação de cenas",
             "hint": "Se você estiver enfrentando problemas de layout com um módulo incompatível, pode desativar meus estilos personalizados para Navegação de Cenas."
-          }, 
+          },
           "showNavOnHover": {
             "label": "Alternar visibilidades",
             "hint": "Se a navegação de cenas estiver recolhida, você pode exibi-la passando o mouse sobre a parte superior da tela."
@@ -546,7 +585,8 @@
             "hint": "Escolha como as cenas dentro de subpastas são posicionadas quando a pasta é expandida.",
             "options": {
               "parent": "Alinhado com a pasta pai",
-              "rowStart": "Alinhado no início da linha"
+              "rowStart": "Alinhado no início da linha",
+              "vertical": "Menu suspenso vertical"
             }
           },
           "expandScrimToSubfolders": {
@@ -556,10 +596,14 @@
           "sceneItemWidth": {
             "label": "Largura do item de navegação",
             "hint": "Deixe vazio para usar a largura padrão, ou defina um novo número. O mínimo é 100px"
+          },
+          "collapseNavDuringCombat": {
+            "label": "Recolher durante combate",
+            "hint": "Recolhe automaticamente a navegação de cenas quando o combate começa. A navegação será restaurada ao seu estado anterior quando o combate terminar."
           }
         },
-        "reset": "Redefinir", 
-        "save": "Salvar" 
+        "reset": "Redefinir",
+        "save": "Salvar"
       },
       "systemsMenu": {
         "label": "Sistema",
@@ -580,6 +624,10 @@
           "enableIconsOnSheets": {
             "label": "Habilitar ícones de chat e tooltip nas fichas",
             "hint": "Mostrar sobreposição 'Exibir no Chat' nas imagens de itens e ícones de pergaminho para tooltips nas fichas de personagem"
+          },
+          "applyBladeRunnerTweaks": {
+            "label": "Aplicar ajustes de UI ao sistema Blade Runner",
+            "hint": "Ative para aplicar ajustes de UI e mudanças de estilo às fichas e janelas do Blade Runner"
           }
         },
         "reset": "Redefinir",
@@ -631,9 +679,117 @@
         "label": "Modo de Depuração",
         "hint": "Ative ou desative mensagens de depuração no console do navegador. Utilize apenas para debug."
       },
-      "disableUI":{
+      "disableUI": {
         "label": "Desativar Interface neste Cliente",
         "hint": "Se um jogador não quiser usar a interface de Carolingian UI, pode desativá-la. Nenhuma outra funcionalidade do módulo funcionará, exceto o estilo escuro nos cartões de chat - que pode ser desativado separadamente."
+      },
+      "combatPrev": {
+        "label": "Combate: Turno Anterior",
+        "hint": "Volta para o turno anterior em combate. Funciona apenas quando você é dono do combatente atual."
+      },
+      "combatNext": {
+        "label": "Combate: Próximo Turno",
+        "hint": "Avança para o próximo turno em combate. Funciona apenas quando você é dono do combatente atual."
+      },
+      "combatTrackerMenu": {
+        "label": "Rastreador de Combate",
+        "title": "Configurar Rastreador de Combate",
+        "hint": "Configura a aparência e o comportamento do carrossel do rastreador de combate.",
+        "fields": {
+          "enableCombatTrackerCarousel": {
+            "label": "Usar Carrossel de Combate Arrastável",
+            "hint": "Quando ativado, o rastreador de combate abre automaticamente quando há combatentes e fecha quando o combate termina. Também ativa estilo personalizado para o rastreador destacado."
+          },
+          "combatCarouselScale": {
+            "label": "Escala do Carrossel Encaixado",
+            "hint": "Escala do carrossel de combate quando encaixado no topo da tela. Intervalo: 0.7 (70%) a 1.5 (150%)."
+          },
+          "dockedCarouselOffset": {
+            "label": "Deslocamento do Carrossel Encaixado",
+            "hint": "Deslocamento em pixels quando o carrossel está encaixado. Aplica-se como margin-top quando encaixado no topo, ou margin-bottom quando encaixado na parte inferior."
+          },
+          "carouselDockOnLoad": {
+            "label": "Encaixe do Carrossel ao Iniciar",
+            "hint": "Controla onde o carrossel é encaixado quando o Foundry é carregado.",
+            "options": {
+              "preserve": "Manter última configuração",
+              "top": "Sempre encaixar no topo",
+              "bottom": "Sempre encaixar embaixo"
+            }
+          },
+          "combatTrackerTakeFullWidth": {
+            "label": "Carrossel Adapta-se à Barra Lateral",
+            "hint": "Quando ativado, o carrossel ocupa toda a largura disponível, se necessário, quando a barra lateral está recolhida, e se ajusta de volta quando a barra lateral é expandida."
+          },
+          "carouselImageSource": {
+            "label": "Origem das Imagens do Carrossel",
+            "hint": "Escolha entre exibir imagens de tokens ou retratos de atores/personagens no carrossel de combate.",
+            "options": {
+              "token": "Imagem do Token",
+              "actor": "Retrato do Personagem"
+            }
+          },
+          "combatTrackerLayout": {
+            "label": "Layout do Rastreador de Combate",
+            "hint": "Escolha como o rastreador de combate se comporta. O modo carrossel centraliza no combatente ativo e dá voltas. O modo lista simples fica alinhado à esquerda e rola para mostrar o combatente ativo quando necessário.",
+            "options": {
+              "carousel": "Carrossel (centralizado, dá voltas)",
+              "simple": "Lista simples (sem carrossel)"
+            }
+          },
+          "carouselHideDefeated": {
+            "label": "Ocultar Combatentes Derrotados",
+            "hint": "Quando ativado, combatentes derrotados são removidos do carrossel e as posições restantes são recalculadas."
+          },
+          "carouselRequirePlayerOwner": {
+            "label": "Exigir Personagem de Jogador",
+            "hint": "Quando ativado, o carrossel abre automaticamente apenas quando um personagem de jogador é adicionado ao combate. Quando desativado, abre para qualquer combatente."
+          },
+          "carouselShowAllHP": {
+            "label": "Visibilidade da Barra de Recurso",
+            "hint": "Controla quem pode ver as barras de recurso/HP nos combatentes. Requer um Recurso Rastreado configurado. Esta é uma configuração de mundo (GM).",
+            "options": {
+              "gmOnly": "Apenas GM (jogadores veem os próprios)",
+              "all": "Todos veem tudo",
+              "disabled": "Desativado"
+            }
+          },
+          "carouselTrackedResource": {
+            "label": "Recurso Rastreado",
+            "hint": "O atributo do recurso a exibir nos cartões dos combatentes (ex.: HP). Esta é uma configuração de mundo (GM)."
+          },
+          "showCombatRoundButtons": {
+            "label": "Mostrar Botões de Navegação de Rodada",
+            "hint": "Quando ativado, os botões Rodada Anterior e Próxima Rodada ficam visíveis nos controles de combate. Esta é uma configuração de mundo (GM)."
+          }
+        },
+        "reset": "Restaurar",
+        "save": "Salvar"
+      },
+      "dockDHResources": {
+        "label": "Encaixar Rastreador de Medo do Daggerheart",
+        "hint": "Ativa a funcionalidade de encaixe para o rastreador de recurso (medo) do Daggerheart. Arraste a janela próxima à barra de macros para encaixá-la na parte inferior da tela."
+      },
+      "colorPicker": {
+        "hint": "Lembre-se de cuidar das suas retinas: para a cor de destaque, use cores com classificação de contraste pelo menos 'média' para melhor legibilidade.",
+        "title": "Cores de Tema Personalizadas",
+        "presets": "Temas Predefinidos",
+        "accentColor": "Cor de Destaque",
+        "secondaryColor": "Cor Secundária",
+        "hue": "Matiz",
+        "saturation": "Saturação",
+        "lightness": "Luminosidade",
+        "accentOnBackground": "Destaque sobre Fundo",
+        "textOnAccent": "Texto sobre Destaque",
+        "secondaryPreview": "Pré-visualização da Cor Secundária",
+        "contrastGood": "Contraste: Bom",
+        "contrastMedium": "Contraste: Médio",
+        "contrastPoor": "Contraste: Ruim",
+        "apply": "Salvar",
+        "applySecondaryColorToBg": {
+          "label": "Aplicar a cor Secundária aos fundos da interface do Foundry",
+          "hint": "Quando ativado, a cor secundária será aplicada aos fundos da interface, como barra lateral e controles. Isso permite controlar o fundo das aplicações no tema de cores."
+        }
       }
     },
     "combat": {
@@ -641,7 +797,10 @@
       "closedNotice": "Quando quiser o carrossel de volta, clique com o botão direito na aba de combate na barra lateral",
       "noTrackedResource": "Mostrar Barra de HP para Todos está ativado, mas nenhum Recurso Rastreado está configurado nas configurações do Rastreador de Combate.",
       "startCombatShort": "Iniciar",
-      "endCombatShort": "Fim"
+      "endCombatShort": "Fim",
+      "configureResourceTitle": "Configurar Barra de Recurso",
+      "configureResourceMessage": "O carrossel está configurado para mostrar barras de recurso/HP para todos os combatentes, mas nenhum recurso rastreado está configurado. Selecione um recurso para rastrear abaixo:",
+      "trackedResource": "Recurso Rastreado"
     },
     "dnd5e": {
       "chatCard": {
