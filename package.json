@@ -13,6 +13,9 @@
     "bump": "npm version patch --no-git-tag-version && git add package.json ./src/module.json README.md && npm run build",
     "bump:minor": "npm version minor --no-git-tag-version && git add package.json ./src/module.json README.md && npm run build",
     "bump:major": "npm version major --no-git-tag-version && git add package.json ./src/module.json README.md && npm run build",
+    "release": "./tools/release.sh patch",
+    "release:minor": "./tools/release.sh minor",
+    "release:major": "./tools/release.sh major",
     "tsc": "tsc"
   },
   "devDependencies": {
