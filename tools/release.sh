@@ -97,9 +97,15 @@ git commit -m "$(printf '%s\n\n%s\n' "$TAG" "$NOTES")"
 git tag -a "$TAG" -m "$TAG"
 git push origin "$BRANCH" "$TAG"
 
+LATEST_FLAG="false"
+if [ "$BRANCH" = "v3" ]; then
+  LATEST_FLAG="true"
+fi
+
 gh release create "$TAG" \
   --title "$TAG" \
   --notes "$NOTES" \
-  --target "$BRANCH"
+  --target "$BRANCH" \
+  --latest="$LATEST_FLAG"
 
 echo "Done: $TAG released on $BRANCH."
