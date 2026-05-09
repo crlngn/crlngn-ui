@@ -210,7 +210,7 @@ ${i}
       body.crlngn-ui.theme-dark .application:not(.theme-light),
       body.crlngn-ui #interface.theme-dark,
       body.crlngn-ui #tooltip.theme-dark,
-      body.crlngn-ui .application.theme-dark:not(.chat-popout),
+      body.crlngn-ui .application.theme-dark:not(.theme-dark, .chat-popout, .journal-sheet),
       body.crlngn-ui .sidebar-popout.theme-dark,
       body.crlngn-ui .themed.theme-dark .ui-control, 
       body.crlngn-ui .themed.theme-dark .placeable-hud, 
@@ -226,7 +226,7 @@ ${i}
       body.crlngn-ui.crlngn-sheets.theme-light .app.pf2e.sheet,
       body.crlngn-ui.theme-light .application:not(.theme-dark, .journal-sheet),
       body.crlngn-ui #interface.theme-light,
-      body.crlngn-ui .application.theme-light:not(.chat-popout),
+      body.crlngn-ui .application.theme-light:not(.theme-dark, .chat-popout, .journal-sheet),
       body.crlngn-ui #interface.theme-light,
       body.crlngn-ui .sidebar-popout.theme-light,
       body.crlngn-ui .themed.theme-light .ui-control, 
@@ -254,11 +254,11 @@ ${i}
         body.crlngn-ui.theme-dark input[type=radio]{
           --checkbox-background-color: light-dark(rgba(0, 0, 0, 0.35), rgba(255, 255, 255, 0.35));
         }
-        body.crlngn-ui.theme-dark .application.sheet:not(.sheet-config),
+        body.crlngn-ui.theme-dark .application.sheet:not(.sheet-config, .theme-light),
         body.crlngn-ui .application.sheet.theme-dark .controls-dropdown {
           --background: ${d["--background"]||"inherit"};
         }
-        body.crlngn-ui.theme-light .application.sheet:not(.sheet-config),
+        body.crlngn-ui.theme-light .application.sheet:not(.sheet-config, .theme-dark),
         body.crlngn-ui .application.sheet.theme-light .controls-dropdown {
           --background: ${g["--background"]||"inherit"};
         }

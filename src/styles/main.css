@@ -178,7 +178,7 @@ body.crlngn-ui.crlngn-journals {
       border: 2px solid #000;
     }
     .journal-sidebar {
-      background: transparent;
+      /*background: transparent;*/
       color: var(--color-text-primary);
     }
     .action-buttons button{
