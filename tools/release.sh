@@ -1,11 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BUMP_TYPE="${1:-patch}"
-case "$BUMP_TYPE" in
-  patch|minor|major) ;;
-  *) echo "Usage: $0 [patch|minor|major]"; exit 1 ;;
-esac
+BUMP_TYPE="patch"
+NOTES_ARG=""
+SKIP_BUMP=0
+while [ $# -gt 0 ]; do
+  case "$1" in
+    patch|minor|major) BUMP_TYPE="$1"; shift ;;
+    -m|--msg|--message)
+      if [ $# -lt 2 ]; then echo "Error: $1 requires a value"; exit 1; fi
+      NOTES_ARG="$2"; shift 2 ;;
+    --msg=*|--message=*) NOTES_ARG="${1#*=}"; shift ;;
+    --no-bump|--skip-bump) SKIP_BUMP=1; shift ;;
+    -h|--help)
+      echo "Usage: $0 [patch|minor|major] [--msg \"release notes\"] [--no-bump]"
+      exit 0 ;;
+    *) echo "Unknown argument: $1"; echo "Usage: $0 [patch|minor|major] [--msg \"release notes\"] [--no-bump]"; exit 1 ;;
+  esac
+done
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 case "$BRANCH" in
@@ -23,7 +35,7 @@ if ! gh auth status >/dev/null 2>&1; then
   exit 1
 fi
 
-if ! git diff-index --quiet HEAD --; then
+if [ "$SKIP_BUMP" -eq 0 ] && ! git diff-index --quiet HEAD --; then
   echo "Error: working tree has uncommitted changes. Commit or stash first."
   git status --short
   exit 1
@@ -39,11 +51,15 @@ if [ "$LOCAL" != "$REMOTE" ] && [ "$REMOTE" != "$BASE" ]; then
   exit 1
 fi
 
-echo "Bumping $BUMP_TYPE version on $BRANCH..."
-if [ "$BUMP_TYPE" = "patch" ]; then
-  npm run bump
+if [ "$SKIP_BUMP" -eq 1 ]; then
+  echo "Skipping version bump (--no-bump). Using current package.json version."
 else
-  npm run "bump:$BUMP_TYPE"
+  echo "Bumping $BUMP_TYPE version on $BRANCH..."
+  if [ "$BUMP_TYPE" = "patch" ]; then
+    npm run bump
+  else
+    npm run "bump:$BUMP_TYPE"
+  fi
 fi
 
 VERSION=$(node -p "require('./package.json').version")
@@ -59,23 +75,27 @@ if git ls-remote --tags origin "$TAG" | grep -q "$TAG"; then
   exit 1
 fi
 
-NOTES_FILE=$(mktemp -t crlngn-release-XXXXXX)
-trap 'rm -f "$NOTES_FILE"' EXIT
-cat > "$NOTES_FILE" <<EOF
+if [ -n "$NOTES_ARG" ]; then
+  NOTES="$NOTES_ARG"
+else
+  NOTES_FILE=$(mktemp -t crlngn-release-XXXXXX)
+  trap 'rm -f "$NOTES_FILE"' EXIT
+  cat > "$NOTES_FILE" <<EOF
 
 
 # Release notes for $TAG ($BRANCH)
 # Lines starting with # will be stripped. Save and close to continue, or save empty to abort.
 EOF
 
-"${EDITOR:-nano}" "$NOTES_FILE"
+  "${EDITOR:-nano}" "$NOTES_FILE"
 
-NOTES=$(python3 -c "
+  NOTES=$(python3 -c "
 import sys
 text = open('$NOTES_FILE').read()
 lines = [l for l in text.splitlines() if not l.startswith('#')]
 print('\n'.join(lines).strip())
 ")
+fi
 
 if [ -z "$NOTES" ]; then
   echo "Aborted: empty release notes."
@@ -93,7 +113,11 @@ case "$CONFIRM" in
 esac
 
 git add -u
-git commit -m "$(printf '%s\n\n%s\n' "$TAG" "$NOTES")"
+if git diff --cached --quiet; then
+  echo "No staged changes — tagging current HEAD."
+else
+  git commit -m "$(printf '%s\n\n%s\n' "$TAG" "$NOTES")"
+fi
 git tag -a "$TAG" -m "$TAG"
 git push origin "$BRANCH" "$TAG"
 
