@@ -229,7 +229,7 @@ body.crlngn-ui.crlngn-sheets {
       --tab-full-width: auto;
       --tab-inactive-width: auto;
       flex-direction: row;
-      gap: 1.5rem;
+      gap: 1.35rem;
       left: 0;
       margin: 0 2.6rem;
       padding: 0.15em 0;
