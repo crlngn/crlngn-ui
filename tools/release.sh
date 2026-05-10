@@ -68,7 +68,7 @@ cat > "$NOTES_FILE" <<EOF
 # Lines starting with # will be stripped. Save and close to continue, or save empty to abort.
 EOF
 
-"${EDITOR:-vi}" "$NOTES_FILE"
+"${EDITOR:-nano}" "$NOTES_FILE"
 
 NOTES=$(python3 -c "
 import sys
