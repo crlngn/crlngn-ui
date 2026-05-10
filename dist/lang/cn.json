@@ -789,6 +789,24 @@
         "applySecondaryColorToBg": {
           "label": "将次要颜色应用于 Foundry 界面背景",
           "hint": "启用后，次要颜色将应用于侧边栏和控件等界面背景。这允许您控制颜色主题中应用程序的背景。"
+        },
+        "actorOverrides": {
+          "title": "按职业 / 种族强调色 (DnD5e)",
+          "hint": "根据角色的最高等级职业或种族，为单个角色卡设置强调色。将某行的颜色留空将使用主题强调色。",
+          "modeClass": "按职业",
+          "modeRace": "按种族",
+          "addRowClass": "添加职业颜色",
+          "addRowRace": "添加种族颜色",
+          "removeRow": "移除",
+          "pickColor": "选择颜色",
+          "clearColor": "使用主题颜色",
+          "namePlaceholderClass": "职业名称",
+          "namePlaceholderRace": "种族名称",
+          "perActorMenuLabel": "更改颜色主题",
+          "perActorDialogTitle": "颜色主题 — {name}",
+          "perActorHint": "为该角色单独设置强调色。覆盖职业 / 种族规则和全局主题。使用下方按钮清除覆盖并恢复默认。",
+          "perActorColorLabel": "强调色",
+          "perActorResetTooltip": "重置为默认"
         }
       }
     },

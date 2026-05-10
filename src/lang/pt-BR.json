@@ -789,6 +789,24 @@
         "applySecondaryColorToBg": {
           "label": "Aplicar a cor Secundária aos fundos da interface do Foundry",
           "hint": "Quando ativado, a cor secundária será aplicada aos fundos da interface, como barra lateral e controles. Isso permite controlar o fundo das aplicações no tema de cores."
+        },
+        "actorOverrides": {
+          "title": "Cor por Classe / por Raça (DnD5e)",
+          "hint": "Sobrescreve a cor de destaque em fichas individuais com base na classe de maior nível OU na raça do personagem. Deixe a cor de uma linha vazia para usar a cor de destaque do tema.",
+          "modeClass": "Por Classe",
+          "modeRace": "Por Raça",
+          "addRowClass": "Adicionar cor de classe",
+          "addRowRace": "Adicionar cor de raça",
+          "removeRow": "Remover",
+          "pickColor": "Escolher cor",
+          "clearColor": "Usar cor do tema",
+          "namePlaceholderClass": "Nome da classe",
+          "namePlaceholderRace": "Nome da raça",
+          "perActorMenuLabel": "Alterar Tema de Cor",
+          "perActorDialogTitle": "Tema de Cor — {name}",
+          "perActorHint": "Define uma cor de destaque apenas para este personagem. Sobrescreve as regras de classe/raça e o tema global. Use o botão abaixo para limpar a sobrescrição e voltar a usá-las.",
+          "perActorColorLabel": "Cor de Destaque",
+          "perActorResetTooltip": "Restaurar padrão"
         }
       }
     },

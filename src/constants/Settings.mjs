@@ -1151,6 +1151,24 @@ export function getSettings() {
       requiresReload: false
     },
 
+    actorAccentOverrides: {
+      tag: "v2-actor-accent-overrides",
+      propType: Object,
+      default: { mode: "class", class: [], race: [] },
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+
+    playerActorAccentOverrides: {
+      tag: "v2-player-actor-accent-overrides",
+      propType: Object,
+      default: { mode: "class", class: [], race: [] },
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+
     useGlassEffect: {
       tag: "v2-use-glass-effect",
       label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.useGlassEffect.label"),

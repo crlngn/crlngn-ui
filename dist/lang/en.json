@@ -759,6 +759,24 @@
         "applySecondaryColorToBg": {
           "label": "Apply Secondary color to Foundry interface backgrounds",
           "hint": "When enabled, the secondary color will be applied to interface backgrounds like sidebar and controls. This allows you to control background of applications in color theme."
+        },
+        "actorOverrides": {
+          "title": "Per-Class / Per-Race Accent (DnD5e)",
+          "hint": "Override the accent color on individual character sheets based on the character's highest-level class OR their race. Leave a row's color empty to fall back to the theme accent.",
+          "modeClass": "By Class",
+          "modeRace": "By Race",
+          "addRowClass": "Add class color",
+          "addRowRace": "Add race color",
+          "removeRow": "Remove",
+          "pickColor": "Pick a color",
+          "clearColor": "Use theme color",
+          "namePlaceholderClass": "Class name",
+          "namePlaceholderRace": "Race name",
+          "perActorMenuLabel": "Change Color Theme",
+          "perActorDialogTitle": "Color Theme — {name}",
+          "perActorHint": "Set an accent color just for this character. Overrides class/race rules and the global theme. Use the button below to clear the override and fall back to those.",
+          "perActorColorLabel": "Accent Color",
+          "perActorResetTooltip": "Reset to default"
         }
       }
     },

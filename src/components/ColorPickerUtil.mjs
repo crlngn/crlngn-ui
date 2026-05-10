@@ -42,7 +42,10 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     this.scope = options.scope || 'world';
     this.currentColors = options.currentColors || this.#getDefaultColors();
     this.activeSecondaryTheme = 'dark'; // Default to dark theme tab
-    this.collapsedSections = { accent: true, secondary: true };
+    this.collapsedSections = { accent: true, secondary: true, actorOverrides: true };
+    this._editedOverrides = null;
+    this.overrideMode = "class";
+    this._overrideSuggestionCache = {};
 
     // Initialize checkbox state from saved setting based on scope
     const SETTINGS = getSettings();
@@ -124,6 +127,34 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
 
     context.accentHex = ColorPickerUtil.rgbToHex(this.currentColors.accent);
     context.secondaryDarkHex = ColorPickerUtil.rgbToHex(context.secondaryColorDark);
+
+    context.isDnd5e = game.system?.id === "dnd5e"
+      && foundry.utils.isNewerVersion(game.system.version, "5.2.999");
+    if (context.isDnd5e) {
+      const SETTINGS = getSettings();
+      if (!this._editedOverrides) {
+        const tag = this.scope === "player"
+          ? SETTINGS.playerActorAccentOverrides.tag
+          : SETTINGS.actorAccentOverrides.tag;
+        const stored = SettingsUtil.get(tag) ?? { mode: "class", class: [], race: [] };
+        const cloned = foundry.utils.deepClone(stored);
+        cloned.class = Array.isArray(cloned.class) ? cloned.class : [];
+        cloned.race = Array.isArray(cloned.race) ? cloned.race : [];
+        this._editedOverrides = cloned;
+        this.overrideMode = stored.mode === "race" ? "race" : "class";
+      }
+      context.overrideMode = this.overrideMode;
+      context.overrideNamePlaceholder = this.#getOverrideNamePlaceholder();
+      context.overrideAddLabel = this.#getOverrideAddLabel();
+      context.overrideRows = this._editedOverrides[this.overrideMode].map(r => ({
+        name: r.name ?? "",
+        hex: r.color ? ColorPickerUtil.rgbToHex(r.color) : ""
+      }));
+      if (!this._overrideSuggestionCache[this.overrideMode]) {
+        this._overrideSuggestionCache[this.overrideMode] = await ColorPickerUtil.collectActorNames(this.overrideMode);
+      }
+      context.overrideSuggestions = this._overrideSuggestionCache[this.overrideMode];
+    }
 
     return context;
   }
@@ -245,7 +276,21 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     await SettingsUtil.set(settingTag, colors);
 
     ColorPickerUtil.applyCustomTheme(colors, this.applySecondaryColorToBg);
-    
+
+    if (this._editedOverrides) {
+      this.#syncOverrideRowsFromDom();
+      const overrideTag = this.scope === 'player'
+        ? SETTINGS.playerActorAccentOverrides.tag
+        : SETTINGS.actorAccentOverrides.tag;
+      const payload = {
+        mode: this.overrideMode,
+        class: (this._editedOverrides.class ?? []).filter(r => r.name?.trim()),
+        race: (this._editedOverrides.race ?? []).filter(r => r.name?.trim())
+      };
+      await SettingsUtil.set(overrideTag, payload);
+      ColorPickerUtil.refreshAllActorAccentOverrides();
+    }
+
     // Handle reload confirmation if needed
     if (confirmReload) {
       GeneralUtil.confirmReload();
@@ -312,7 +357,13 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     } else {
       this.collapsedSections[sectionName] = !this.collapsedSections[sectionName];
     }
-    const sectionClass = sectionName === 'accent' ? '.accent-section' : '.secondary-section';
+    const sectionClassMap = {
+      accent: '.accent-section',
+      secondary: '.secondary-section',
+      actorOverrides: '.actor-overrides-section'
+    };
+    const sectionClass = sectionClassMap[sectionName];
+    if (!sectionClass) return;
     const section = this.element?.querySelector(sectionClass);
     if (section) {
       section.classList.toggle('collapsed', this.collapsedSections[sectionName]);
@@ -625,6 +676,167 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     slider.style.backgroundRepeat = 'no-repeat';
   }
 
+  /**
+   * Localized placeholder for the name input, varies by active override mode.
+   * @private
+   */
+  #getOverrideNamePlaceholder() {
+    const key = this.overrideMode === "race"
+      ? "CRLNGN_UI.settings.colorPicker.actorOverrides.namePlaceholderRace"
+      : "CRLNGN_UI.settings.colorPicker.actorOverrides.namePlaceholderClass";
+    return game.i18n.localize(key);
+  }
+
+  /**
+   * Localized label for the Add row button, varies by active override mode.
+   * @private
+   */
+  #getOverrideAddLabel() {
+    const key = this.overrideMode === "race"
+      ? "CRLNGN_UI.settings.colorPicker.actorOverrides.addRowRace"
+      : "CRLNGN_UI.settings.colorPicker.actorOverrides.addRowClass";
+    return game.i18n.localize(key);
+  }
+
+  /**
+   * Read every override row's name + hex from the DOM into this._editedOverrides[mode].
+   * @private
+   */
+  #syncOverrideRowsFromDom() {
+    if (!this._editedOverrides) return;
+    const rows = this.element?.querySelectorAll('.crlngn-override-row');
+    if (!rows) return;
+    const list = [];
+    rows.forEach(rowEl => {
+      const nameInput = rowEl.querySelector('.crlngn-override-name');
+      const swatch = rowEl.querySelector('.crlngn-override-swatch');
+      const colorInput = rowEl.querySelector('.crlngn-override-color');
+      const name = nameInput?.value?.trim() ?? "";
+      const hasColor = swatch && !swatch.classList.contains('crlngn-no-color');
+      const rgb = hasColor && colorInput?.value
+        ? ColorPickerUtil.hexToRgb(colorInput.value)
+        : null;
+      list.push({ name, color: rgb });
+    });
+    this._editedOverrides[this.overrideMode] = list;
+  }
+
+  /**
+   * Re-render only the override rows + datalist from this._editedOverrides[mode].
+   * Avoids a full this.render() so other unsaved color edits in the dialog survive.
+   * @private
+   */
+  async #repaintOverrideRows() {
+    if (!this._editedOverrides) return;
+    const container = this.element?.querySelector('.crlngn-override-rows');
+    if (!container) return;
+    const rows = this._editedOverrides[this.overrideMode] ?? [];
+    const namePlaceholder = this.#getOverrideNamePlaceholder();
+    const pickTooltip = game.i18n.localize("CRLNGN_UI.settings.colorPicker.actorOverrides.pickColor");
+    const clearTooltip = game.i18n.localize("CRLNGN_UI.settings.colorPicker.actorOverrides.clearColor");
+    const removeTooltip = game.i18n.localize("CRLNGN_UI.settings.colorPicker.actorOverrides.removeRow");
+
+    container.innerHTML = rows.map((r, i) => {
+      const hex = r.color ? ColorPickerUtil.rgbToHex(r.color) : "";
+      const swatchStyle = hex ? `background-color: ${hex}` : "";
+      const noColorCls = hex ? "" : " crlngn-no-color";
+      const safeName = (r.name ?? "").replace(/"/g, "&quot;");
+      const colorValue = hex || "#000000";
+      return `
+        <div class="crlngn-override-row" data-index="${i}">
+          <input type="text" class="crlngn-override-name" list="crlngn-override-suggestions" value="${safeName}" placeholder="${namePlaceholder}"/>
+          <label class="crlngn-override-swatch${noColorCls}" data-tooltip="${pickTooltip}" style="${swatchStyle}">
+            <input type="color" class="crlngn-override-color" value="${colorValue}"/>
+          </label>
+          <button type="button" class="crlngn-override-clear" data-tooltip="${clearTooltip}"><i class="fa-solid fa-rotate-left"></i></button>
+          <button type="button" class="crlngn-override-remove" data-tooltip="${removeTooltip}"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      `;
+    }).join("");
+
+    if (!this._overrideSuggestionCache[this.overrideMode]) {
+      this._overrideSuggestionCache[this.overrideMode] = await ColorPickerUtil.collectActorNames(this.overrideMode);
+    }
+    const datalist = this.element?.querySelector('#crlngn-override-suggestions');
+    if (datalist) {
+      datalist.innerHTML = this._overrideSuggestionCache[this.overrideMode]
+        .map(n => `<option value="${n.replace(/"/g, "&quot;")}"></option>`)
+        .join("");
+    }
+    this.#bindOverrideRowEvents();
+  }
+
+  /**
+   * Wire click/input handlers for the dynamic override rows.
+   * @private
+   */
+  #bindOverrideRowEvents() {
+    const container = this.element?.querySelector('.crlngn-override-rows');
+    if (!container) return;
+
+    container.querySelectorAll('.crlngn-override-name').forEach(input => {
+      input.addEventListener('input', () => {
+        const idx = parseInt(input.closest('.crlngn-override-row')?.dataset.index ?? "-1", 10);
+        if (idx < 0) return;
+        const list = this._editedOverrides[this.overrideMode];
+        if (!list[idx]) list[idx] = { name: "", color: null };
+        list[idx].name = input.value;
+      });
+    });
+
+    container.querySelectorAll('.crlngn-override-color').forEach(input => {
+      input.addEventListener('input', () => {
+        const rowEl = input.closest('.crlngn-override-row');
+        const idx = parseInt(rowEl?.dataset.index ?? "-1", 10);
+        if (idx < 0) return;
+        const list = this._editedOverrides[this.overrideMode];
+        if (!list[idx]) list[idx] = { name: "", color: null };
+        const rgb = ColorPickerUtil.hexToRgb(input.value);
+        if (!rgb) return;
+        list[idx].color = rgb;
+        this.#updateOverrideSwatch(rowEl, rgb);
+      });
+    });
+
+    container.querySelectorAll('.crlngn-override-clear').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const rowEl = btn.closest('.crlngn-override-row');
+        const idx = parseInt(rowEl?.dataset.index ?? "-1", 10);
+        if (idx < 0) return;
+        const list = this._editedOverrides[this.overrideMode];
+        if (!list[idx]) return;
+        list[idx].color = null;
+        this.#updateOverrideSwatch(rowEl, null);
+      });
+    });
+
+    container.querySelectorAll('.crlngn-override-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.#syncOverrideRowsFromDom();
+        const idx = parseInt(btn.closest('.crlngn-override-row')?.dataset.index ?? "-1", 10);
+        if (idx < 0) return;
+        this._editedOverrides[this.overrideMode].splice(idx, 1);
+        this.#repaintOverrideRows();
+      });
+    });
+  }
+
+  /**
+   * Update a single row's swatch element to reflect the current color (or "no color").
+   * @private
+   */
+  #updateOverrideSwatch(rowEl, rgb) {
+    const swatch = rowEl?.querySelector('.crlngn-override-swatch');
+    if (!swatch) return;
+    if (rgb) {
+      swatch.style.backgroundColor = rgb;
+      swatch.classList.remove('crlngn-no-color');
+    } else {
+      swatch.style.backgroundColor = "";
+      swatch.classList.add('crlngn-no-color');
+    }
+  }
+
   /** @inheritDoc */
   _onRender(context, options) {
     super._onRender(context, options);
@@ -719,6 +931,52 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
 
     if (this.applySecondaryColorToBg && this.currentColors.isPreset) {
       this.#syncSlidersToPreview();
+    }
+
+    const overrideSection = this.element.querySelector('.actor-overrides-section');
+    if (overrideSection) {
+      overrideSection.classList.toggle('collapsed', this.collapsedSections.actorOverrides);
+
+      const header = overrideSection.querySelector('.section-header h4');
+      if (header) header.addEventListener('click', () => this._toggleSection('actorOverrides'));
+
+      const switchEl = overrideSection.querySelector('.crlngn-mode-switch');
+      const setMode = (newMode) => {
+        if (newMode !== "class" && newMode !== "race") return;
+        if (newMode === this.overrideMode) return;
+        this.#syncOverrideRowsFromDom();
+        this.overrideMode = newMode;
+        if (switchEl) switchEl.dataset.mode = newMode;
+        overrideSection.querySelectorAll('.crlngn-mode-label').forEach(label => {
+          label.classList.toggle('active', label.dataset.mode === newMode);
+        });
+        const toggleEl = overrideSection.querySelector('.crlngn-mode-toggle');
+        if (toggleEl) toggleEl.setAttribute('aria-checked', newMode === "race" ? "true" : "false");
+        const addLabelEl = overrideSection.querySelector('.crlngn-override-add-label');
+        if (addLabelEl) addLabelEl.textContent = this.#getOverrideAddLabel();
+        this.#repaintOverrideRows();
+      };
+
+      overrideSection.querySelectorAll('.crlngn-mode-label').forEach(label => {
+        label.addEventListener('click', () => setMode(label.dataset.mode));
+      });
+      const toggleEl = overrideSection.querySelector('.crlngn-mode-toggle');
+      if (toggleEl) {
+        toggleEl.addEventListener('click', () => {
+          setMode(this.overrideMode === "race" ? "class" : "race");
+        });
+      }
+
+      const addBtn = overrideSection.querySelector('.crlngn-override-add');
+      if (addBtn) {
+        addBtn.addEventListener('click', () => {
+          this.#syncOverrideRowsFromDom();
+          this._editedOverrides[this.overrideMode].push({ name: "", color: null });
+          this.#repaintOverrideRows();
+        });
+      }
+
+      this.#bindOverrideRowEvents();
     }
   }
 }
@@ -897,11 +1155,18 @@ export class ColorPickerUtil {
       vars['--color-warm-2'] = baseColor;
       vars['--color-highlights'] = baseColor;
       
-      // Lighter variant for warm-1
-      vars['--color-warm-1'] = `rgb(${Math.min(255, r + 30)}, ${Math.min(255, g + 30)}, ${Math.min(255, b + 30)})`;
-      
-      // Darker variant for warm-3
-      vars['--color-warm-3'] = `rgb(${Math.max(0, r - 30)}, ${Math.max(0, g - 30)}, ${Math.max(0, b - 30)})`;
+      // Lighter / darker variants preserve hue, shift saturation + lightness
+      const accentHsl = this.rgbToHsl(baseColor);
+      vars['--color-warm-1'] = this.hslToRgb(
+        accentHsl.h,
+        Math.min(100, accentHsl.s + 12),
+        Math.min(100, accentHsl.l + 12)
+      );
+      vars['--color-warm-3'] = this.hslToRgb(
+        accentHsl.h,
+        Math.max(0, accentHsl.s - 20),
+        Math.max(0, accentHsl.l - 22)
+      );
       
       // Opacity variations
       vars['--color-highlights-15'] = `rgba(${r}, ${g}, ${b}, 0.15)`;
@@ -1126,6 +1391,271 @@ export class ColorPickerUtil {
     LogUtil.log("Applied custom theme", [ colors, cssText ]);
   }
   
+  /**
+   * CSS custom property names that the 'accent' branch of generateColorVariations sets.
+   * Used by per-actor accent overrides to apply or clear the override on a sheet's root.
+   */
+  static ACCENT_VAR_KEYS = [
+    '--color-warm-1', '--color-warm-2', '--color-warm-3',
+    '--color-highlights',
+    '--color-highlights-15', '--color-highlights-25',
+    '--color-highlights-50', '--color-highlights-75', '--color-highlights-90',
+    '--color-border-highlight', '--color-border-highlight-alt',
+    '--color-shadow-highlight', '--color-shadow-primary',
+    '--color-border-light-primary', '--color-border-light-highlight',
+    '--color-underline-header', '--color-underline-active',
+    '--color-text-hyperlink',
+    '--color-scrollbar', '--color-scrollbar-border',
+    '--control-active-border-color',
+    '--color-text-accent'
+  ];
+
+  /**
+   * Highest-level class name on a DnD5e actor; null if no class items.
+   * @param {Actor} actor
+   * @returns {string|null}
+   */
+  static getActorClassNames(actor) {
+    const classes = actor?.items?.filter(i => i.type === "class") ?? [];
+    if (!classes.length) return [];
+    const sorted = [...classes].sort((a, b) => (b.system?.levels ?? 0) - (a.system?.levels ?? 0));
+    return sorted.map(c => c.name).filter(Boolean);
+  }
+
+  /**
+   * Collect class or race names from world actors and world-scoped Item compendiums.
+   * Used as autocomplete suggestions in the per-actor override dialog.
+   * @param {"class"|"race"} mode
+   * @returns {Promise<string[]>}
+   */
+  static async collectActorNames(mode) {
+    const docType = mode === "race" ? "race" : "class";
+    const names = new Set();
+
+    for (const actor of game.actors ?? []) {
+      for (const item of actor.items ?? []) {
+        if (item.type === docType) names.add(item.name);
+      }
+      if (mode === "race") {
+        const r = actor.system?.details?.race;
+        if (typeof r === "string" && r.trim()) names.add(r.trim());
+        else if (r?.name) names.add(r.name);
+      }
+    }
+
+    for (const pack of game.packs ?? []) {
+      if (pack.metadata?.type !== "Item") continue;
+      if (pack.metadata?.packageType !== "world") continue;
+      try {
+        const idx = await pack.getIndex({ fields: ["type"] });
+        for (const e of idx) if (e.type === docType) names.add(e.name);
+      } catch (err) {
+        LogUtil.log("collectActorNames: pack failed", [pack.collection, err]);
+      }
+    }
+
+    return [...names].sort((a, b) => a.localeCompare(b));
+  }
+
+  /**
+   * Resolve the per-actor accent override row that applies to a given actor, or null.
+   * @param {Actor} actor
+   * @returns {{name:string,color:string}|null}
+   */
+  static resolveActorAccentRow(actor, { ignoreFlag = false } = {}) {
+    if (!actor) return null;
+    if (game.system?.id !== "dnd5e") return null;
+    if (!foundry.utils.isNewerVersion(game.system.version, "5.2.999")) return null;
+
+    if (!ignoreFlag) {
+      const flagColor = actor.getFlag?.(MODULE_ID, "accentColor");
+      if (flagColor) return { name: "__actor_flag__", color: flagColor };
+    }
+
+    const SETTINGS = getSettings();
+    const player = SettingsUtil.get(SETTINGS.playerActorAccentOverrides.tag);
+    const world = SettingsUtil.get(SETTINGS.actorAccentOverrides.tag);
+    const hasPlayer = player && ((player.class?.length ?? 0) || (player.race?.length ?? 0));
+    const cfg = hasPlayer ? player : world;
+    if (!cfg || !cfg.mode) return null;
+
+    const rows = cfg[cfg.mode] ?? [];
+
+    if (cfg.mode === "race") {
+      const r = actor.system?.details?.race;
+      const target = r?.name ?? (typeof r === "string" ? r : null);
+      if (!target) return null;
+      const row = rows.find(r => r.name?.toLowerCase() === target.toLowerCase());
+      return row?.color ? row : null;
+    }
+
+    const classNames = this.getActorClassNames(actor);
+    for (const name of classNames) {
+      const row = rows.find(r => r.name?.toLowerCase() === name.toLowerCase());
+      if (row?.color) return row;
+    }
+    return null;
+  }
+
+  /**
+   * Apply (or clear) a per-actor accent override on the given sheet's root element.
+   * Sets only the accent-family CSS custom properties so descendant sheet rules cascade.
+   * @param {ApplicationV2} sheet
+   * @param {HTMLElement} root
+   */
+  static applyActorAccentOverride(sheet, root) {
+    if (!root) return;
+    const row = this.resolveActorAccentRow(sheet?.actor);
+    if (!row) {
+      this.clearActorAccentOverride(root);
+      return;
+    }
+    const vars = this.generateColorVariations(row.color, "accent");
+    for (const k of this.ACCENT_VAR_KEYS) {
+      const v = vars[k];
+      if (v !== undefined) root.style.setProperty(k, v);
+    }
+    root.classList.add("crlngn-actor-accent-override");
+    root.dataset.crlngnAccent = row.color;
+  }
+
+  /**
+   * Clear any inline accent override previously set on a sheet root.
+   * @param {HTMLElement} root
+   */
+  static clearActorAccentOverride(root) {
+    if (!root) return;
+    if (!root.classList.contains("crlngn-actor-accent-override")) return;
+    for (const k of this.ACCENT_VAR_KEYS) root.style.removeProperty(k);
+    root.classList.remove("crlngn-actor-accent-override");
+    delete root.dataset.crlngnAccent;
+  }
+
+  /**
+   * Open a small dialog letting the user pick a per-actor accent color
+   * stored as a flag on the actor itself. Overrides class/race rows and theme.
+   * @param {Actor} actor
+   */
+  static async openActorAccentDialog(actor) {
+    if (!actor) return;
+
+    const computeFallbackHex = () => {
+      const fb = this.resolveActorAccentRow(actor, { ignoreFlag: true });
+      if (fb?.color) return this.rgbToHex(fb.color);
+      const themeRaw = getComputedStyle(document.documentElement).getPropertyValue('--color-warm-2').trim();
+      if (!themeRaw) return "#79a33e";
+      if (themeRaw.startsWith('#')) return themeRaw;
+      const hex = this.rgbToHex(themeRaw);
+      return hex || "#79a33e";
+    };
+
+    const flagColor = actor.getFlag?.(MODULE_ID, "accentColor") ?? null;
+    const currentHex = flagColor ? this.rgbToHex(flagColor) : computeFallbackHex();
+
+    const hint = game.i18n.localize("CRLNGN_UI.settings.colorPicker.actorOverrides.perActorHint");
+    const colorLabel = game.i18n.localize("CRLNGN_UI.settings.colorPicker.actorOverrides.perActorColorLabel");
+    const resetTooltip = game.i18n.localize("CRLNGN_UI.settings.colorPicker.actorOverrides.perActorResetTooltip");
+    const saveLabel = game.i18n.localize("CRLNGN_UI.settings.colorPicker.apply");
+    const cancelLabel = game.i18n.localize("Cancel");
+    const title = game.i18n.format(
+      "CRLNGN_UI.settings.colorPicker.actorOverrides.perActorDialogTitle",
+      { name: actor.name }
+    );
+
+    const content = `
+      <div class="crlngn-actor-accent-dialog">
+        <p class="hint">${hint}</p>
+        <div class="form-group crlngn-actor-accent-row">
+          <label>${colorLabel}</label>
+          <input type="color" name="color" value="${currentHex}"/>
+          <button type="button" class="crlngn-actor-accent-reset" data-tooltip="${resetTooltip}"><i class="fa-solid fa-rotate-left"></i></button>
+        </div>
+      </div>
+    `;
+
+    const DialogV2 = foundry.applications?.api?.DialogV2;
+    if (!DialogV2) return;
+
+    let pendingClear = false;
+    let result;
+    try {
+      result = await DialogV2.wait({
+        window: { title, icon: "fa-solid fa-palette" },
+        classes: ["crlngn-actor-accent"],
+        position: { width: 420 },
+        content,
+        render: (event, dialog) => {
+          const root = dialog?.element instanceof HTMLElement
+            ? dialog.element
+            : (dialog instanceof HTMLElement ? dialog : null);
+          const colorInput = root?.querySelector('input[name="color"]');
+          const resetBtn = root?.querySelector('.crlngn-actor-accent-reset');
+
+          if (colorInput) {
+            colorInput.addEventListener('input', () => {
+              pendingClear = false;
+              root?.querySelector('.crlngn-actor-accent-row')?.classList.remove('crlngn-pending-clear');
+            });
+          }
+          if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+              pendingClear = true;
+              if (colorInput) colorInput.value = computeFallbackHex();
+              root?.querySelector('.crlngn-actor-accent-row')?.classList.add('crlngn-pending-clear');
+            });
+          }
+        },
+        buttons: [
+          {
+            action: "save",
+            label: saveLabel,
+            icon: "fa-solid fa-check",
+            default: true,
+            callback: (event, button, dialog) => {
+              if (pendingClear) return "__clear__";
+              const root = dialog instanceof HTMLElement ? dialog : dialog?.element;
+              const input = root?.querySelector('input[name="color"]');
+              return input?.value || "__cancel__";
+            }
+          },
+          {
+            action: "cancel",
+            label: cancelLabel,
+            icon: "fa-solid fa-xmark",
+            callback: () => "__cancel__"
+          }
+        ],
+        rejectClose: false
+      });
+    } catch (err) {
+      LogUtil.log("openActorAccentDialog: dialog rejected", [err]);
+      return;
+    }
+
+    if (!result || result === "__cancel__") return;
+
+    if (result === "__clear__") {
+      await actor.unsetFlag(MODULE_ID, "accentColor");
+      return;
+    }
+
+    if (typeof result !== "string") return;
+    const rgb = this.hexToRgb(result);
+    if (rgb) await actor.setFlag(MODULE_ID, "accentColor", rgb);
+  }
+
+  /**
+   * Re-apply per-actor accent overrides on all currently open actor sheets.
+   * Called after the dialog saves or when the setting updates remotely.
+   */
+  static refreshAllActorAccentOverrides() {
+    for (const app of Object.values(ui.windows ?? {})) {
+      if (!app?.actor || !app.element) continue;
+      const root = app.element instanceof HTMLElement ? app.element : app.element[0];
+      if (root) this.applyActorAccentOverride(app, root);
+    }
+  }
+
   /**
    * Migrate from old colorTheme setting to new custom colors
    * @param {string} oldThemeName - The old theme class name

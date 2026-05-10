@@ -632,6 +632,24 @@
           "applySecondaryColorToBg": {
             "label": "Applica colore secondario agli sfondi dell'interfaccia Foundry",
             "hint": "Quando abilitato, il colore secondario sarà applicato agli sfondi dell'interfaccia come barra laterale e controlli. Questo crea un tema colore più unificato."
+          },
+          "actorOverrides": {
+            "title": "Accento Per Classe / Per Razza (DnD5e)",
+            "hint": "Sovrascrivi il colore di accento sulle singole schede personaggio in base alla classe di livello più alto O alla razza. Lascia il colore di una riga vuoto per ricadere sull'accento del tema.",
+            "modeClass": "Per Classe",
+            "modeRace": "Per Razza",
+            "addRowClass": "Aggiungi colore classe",
+            "addRowRace": "Aggiungi colore razza",
+            "removeRow": "Rimuovi",
+            "pickColor": "Scegli un colore",
+            "clearColor": "Usa colore del tema",
+            "namePlaceholderClass": "Nome classe",
+            "namePlaceholderRace": "Nome razza",
+            "perActorMenuLabel": "Cambia Tema Colore",
+            "perActorDialogTitle": "Tema Colore — {name}",
+            "perActorHint": "Imposta un colore di accento solo per questo personaggio. Sovrascrive le regole di classe/razza e il tema globale. Usa il pulsante qui sotto per rimuovere la sovrascrittura e tornare a quelle.",
+            "perActorColorLabel": "Colore di Accento",
+            "perActorResetTooltip": "Ripristina predefinito"
           }
        }
     },
