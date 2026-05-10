@@ -19,6 +19,15 @@
 
     <p>&nbsp;</p>
 
+    <!-- Background Color Option (client setting, shown in both world and player color pickers) -->
+    <div class="form-group">
+      <label>
+        <input type="checkbox" name="applySecondaryColorToBg" {{#if applySecondaryColorToBg}}checked{{/if}} />
+        {{localize "CRLNGN_UI.settings.colorPicker.applySecondaryColorToBg.label"}}
+      </label>
+      <p class="hint">{{localize "CRLNGN_UI.settings.colorPicker.applySecondaryColorToBg.hint"}}</p>
+    </div>
+
     <!-- Accent Color Picker -->
     <div class="color-section accent-section collapsed">
       <div class="section-header">
@@ -105,13 +114,38 @@
       </div>
     </div>
 
-    <!-- Background Color Option (client setting, shown in both world and player color pickers) -->
-    <div class="form-group">
-      <label>
-        <input type="checkbox" name="applySecondaryColorToBg" {{#if applySecondaryColorToBg}}checked{{/if}} />
-        {{localize "CRLNGN_UI.settings.colorPicker.applySecondaryColorToBg.label"}}
-      </label>
-      <p class="hint">{{localize "CRLNGN_UI.settings.colorPicker.applySecondaryColorToBg.hint"}}</p>
+    {{#if isDnd5e}}
+    <div class="color-section actor-overrides-section collapsed">
+      <div class="section-header">
+        <h4><i class="fa-solid fa-caret-right toggle-icon"></i>{{localize "CRLNGN_UI.settings.colorPicker.actorOverrides.title"}}</h4>
+      </div>
+      <div class="collapsible-content">
+        <p class="hint">{{localize "CRLNGN_UI.settings.colorPicker.actorOverrides.hint"}}</p>
+        <div class="crlngn-mode-switch" data-mode="{{overrideMode}}">
+          <span class="crlngn-mode-label {{#if (eq overrideMode "class")}}active{{/if}}" data-mode="class">{{localize "CRLNGN_UI.settings.colorPicker.actorOverrides.modeClass"}}</span>
+          <button type="button" class="crlngn-mode-toggle" role="switch" aria-checked="{{#if (eq overrideMode "race")}}true{{else}}false{{/if}}">
+            <span class="crlngn-mode-thumb"></span>
+          </button>
+          <span class="crlngn-mode-label {{#if (eq overrideMode "race")}}active{{/if}}" data-mode="race">{{localize "CRLNGN_UI.settings.colorPicker.actorOverrides.modeRace"}}</span>
+        </div>
+        <datalist id="crlngn-override-suggestions">
+          {{#each overrideSuggestions}}<option value="{{this}}"></option>{{/each}}
+        </datalist>
+        <div class="crlngn-override-rows">
+          {{#each overrideRows}}
+            <div class="crlngn-override-row" data-index="{{@index}}">
+              <input type="text" class="crlngn-override-name" list="crlngn-override-suggestions" value="{{this.name}}" placeholder="{{../overrideNamePlaceholder}}"/>
+              <label class="crlngn-override-swatch {{#unless this.hex}}crlngn-no-color{{/unless}}" data-tooltip="{{localize 'CRLNGN_UI.settings.colorPicker.actorOverrides.pickColor'}}" style="{{#if this.hex}}background-color: {{this.hex}}{{/if}}">
+                <input type="color" class="crlngn-override-color" value="{{#if this.hex}}{{this.hex}}{{else}}#000000{{/if}}"/>
+              </label>
+              <button type="button" class="crlngn-override-clear" data-tooltip="{{localize 'CRLNGN_UI.settings.colorPicker.actorOverrides.clearColor'}}"><i class="fa-solid fa-rotate-left"></i></button>
+              <button type="button" class="crlngn-override-remove" data-tooltip="{{localize 'CRLNGN_UI.settings.colorPicker.actorOverrides.removeRow'}}"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+          {{/each}}
+        </div>
+        <button type="button" class="crlngn-override-add"><i class="fa-solid fa-plus"></i> <span class="crlngn-override-add-label">{{overrideAddLabel}}</span></button>
+      </div>
     </div>
+    {{/if}}
 
 </div>

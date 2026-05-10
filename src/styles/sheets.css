@@ -59,7 +59,7 @@ body.crlngn-ui.crlngn-sheets {
   }
   &:is(.dnd5e-theme-dark, .theme-dark) .dnd5e2.sheet.actor.character:not(.theme-light) .window-content::before,
   .dnd5e2.sheet.actor.character.theme-dark .window-content::before {
-    filter: grayscale(1) contrast(1.2) brightness(1);
+    filter: grayscale(1) contrast(1.5) brightness(1.35);
     z-index: -2;
     pointer-events: none;
     border-radius: 5px 5px 0 0;

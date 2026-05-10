@@ -1,8 +1,9 @@
 import { MODULE_ID } from "../constants/General.mjs";
 import { HOOKS_CORE, HOOKS_DND5E, HOOKS_PF2E } from "../constants/Hooks.mjs";
 import { getSettings } from "../constants/Settings.mjs";
-import { LogUtil } from "./LogUtil.mjs"; 
+import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
+import { ColorPickerUtil } from "./ColorPickerUtil.mjs";
 
 /**
  * DnD5e style sheets initialization and setup
@@ -45,7 +46,42 @@ export class SheetsUtil {
     Hooks.on(HOOKS_CORE.RENDER_COMPENDIUM_BROWSER, SheetsUtil.#onRenderCompendiumBrowser);
     Hooks.on(HOOKS_CORE.RENDER_ADVANCEMENT_MANAGER, SheetsUtil.#onRenderAdvancementManager);
     Hooks.on(HOOKS_CORE.UPDATE_SETTING, SheetsUtil.#onUpdateSetting);
+    Hooks.on("updateActor", SheetsUtil.#onUpdateActor);
+    Hooks.on("getHeaderControlsApplicationV2", SheetsUtil.#onGetHeaderControls);
   }
+
+  static #onGetHeaderControls(app, controls){
+    if(game.system.id !== "dnd5e") return;
+    if(!app?.actor) return;
+    if(!app.actor.isOwner) return;
+    if(controls.some(c => c?.action === "crlngnActorAccent")) return;
+
+    if(!app.options.actions) app.options.actions = {};
+    app.options.actions.crlngnActorAccent = function(){
+      ColorPickerUtil.openActorAccentDialog(this.actor);
+    };
+
+    controls.push({
+      icon: "fa-solid fa-palette",
+      label: "CRLNGN_UI.settings.colorPicker.actorOverrides.perActorMenuLabel",
+      action: "crlngnActorAccent",
+      visible: true
+    });
+  }
+
+  static #onUpdateActor(actor, changes){
+    if(game.system.id !== "dnd5e") return;
+    const flagPath = `flags.${MODULE_ID}`;
+    const changed = foundry.utils.hasProperty(changes, `${flagPath}.accentColor`)
+      || foundry.utils.hasProperty(changes, `${flagPath}.-=accentColor`);
+    if(!changed) return;
+    for(const app of Object.values(ui.windows ?? {})){
+      if(app?.actor?.id !== actor.id) continue;
+      const root = app.element instanceof HTMLElement ? app.element : app.element?.[0];
+      if(root) ColorPickerUtil.applyActorAccentOverride(app, root);
+    }
+  }
+
 
   static #onRenderPF2eSheet(actorSheet, html, data){
     if(game.system.id !== "pf2e" && game.system.id !== "sf2e"){ return; }
@@ -78,6 +114,7 @@ export class SheetsUtil {
 
     SheetsUtil.applyThemeToSheets(SheetsUtil.themeStylesEnabled);
     if(game.system.id==="dnd5e"){
+      ColorPickerUtil.applyActorAccentOverride(actorSheet, html);
       SheetsUtil.applyHorizontalSheetTabs(SheetsUtil.horizontalSheetTabsEnabled);
 
       if(SheetsUtil.horizontalSheetTabsEnabled){
@@ -142,6 +179,14 @@ export class SheetsUtil {
   }
 
   static #onUpdateSetting(setting, value, options, userId){
+    const SETTINGS = getSettings();
+    if(setting.key === `${MODULE_ID}.${SETTINGS.actorAccentOverrides.tag}`
+       || setting.key === `${MODULE_ID}.${SETTINGS.playerActorAccentOverrides.tag}`){
+      LogUtil.log("actorAccentOverrides changed", [setting.key]);
+      ColorPickerUtil.refreshAllActorAccentOverrides();
+      return;
+    }
+
     // When Foundry's core uiConfig setting changes, reapply theme to any open advancement managers
     if(setting.key === 'core.uiConfig'){
       LogUtil.log(HOOKS_CORE.UPDATE_SETTING, ["core.uiConfig changed", value]);
