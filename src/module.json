@@ -10,7 +10,7 @@
   "readme": "https://github.com/crlngn/crlngn-ui/main/README.md",
   "license": "https://mit-license.org/",
   "compatibility": {
-    "minimum": "14.355",
+    "minimum": "14.359",
     "verified": "14"
   },
   "authors": [
