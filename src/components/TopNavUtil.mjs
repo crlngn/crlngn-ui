@@ -148,6 +148,18 @@ export class TopNavigation {
 
     TopNavigation.#initCombatTrackerManager();
 
+    Hooks.on(HOOKS_CORE.GET_SCENE_DIRECTORY_ENTRY_CONTEXT, (html, entryOptions) => {
+      entryOptions.unshift({
+        name: "CRLNGN_UI.ui.sceneNav.editScene",
+        icon: '<i class="fa-solid fa-pen-to-square"></i>',
+        condition: () => game.user.isGM,
+        callback: li => {
+          const scene = game.scenes.get(li?.dataset?.entryId);
+          scene?.sheet.render(true);
+        }
+      });
+    });
+
     Hooks.on(HOOKS_CORE.RENDER_SCENE_DIRECTORY, (directory) => {
       LogUtil.log(HOOKS_CORE.RENDER_SCENE_DIRECTORY,[directory]);
       const sceneNav = document.querySelector('#scenes .directory-list');
