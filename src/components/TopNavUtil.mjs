@@ -148,7 +148,7 @@ export class TopNavigation {
 
     TopNavigation.#initCombatTrackerManager();
 
-    Hooks.on(HOOKS_CORE.GET_SCENE_DIRECTORY_ENTRY_CONTEXT, (html, entryOptions) => {
+    Hooks.on(HOOKS_CORE.GET_SCENE_CONTEXT, (app, entryOptions) => {
       entryOptions.unshift({
         name: "CRLNGN_UI.ui.sceneNav.editScene",
         icon: '<i class="fa-solid fa-pen-to-square"></i>',
@@ -235,10 +235,10 @@ export class TopNavigation {
   }
 
   static onRender = (nav, navHtml, navData) => {
-    // Defer entirely to Swipe VTT when its mobile mode is active — it re-parents
-    // the scene navigation into its own floating panel, so crlngn-ui must not
-    // restyle, reposition or rewrite it.
-    if(document.body.classList.contains("swipe-vtt")){ return; }
+    // Defer to Swipe VTT only in phone mode — there it re-parents the scene
+    // navigation into its own floating panel, so crlngn-ui must not restyle,
+    // reposition or rewrite it. In tablet mode the nav stays in place.
+    if(document.body.classList.contains("swipe-vtt-phone")){ return; }
     const SETTINGS = getSettings();
     const scenePage = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
     if(TopNavigation.preventNavRender){ return; }

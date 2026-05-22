@@ -45,7 +45,8 @@
         "playlistSoundOn": "Suono playlist attivo",
         "playlistSoundOff": "Suono playlist spento",
         "preloadScene": "Carica scena per i giocatori",
-        "sceneConfig": "Configurazione scena"
+        "sceneConfig": "Configurazione scena",
+        "editScene": "Modifica"
       },
       "updates": {
         "label": "Ultimo ID Aggiornamento",
