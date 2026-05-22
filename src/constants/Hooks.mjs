@@ -27,7 +27,7 @@ export const HOOKS_CORE = {
 
   /* Document Directory */
   RENDER_DOCUMENT_DIRECTORY: "renderDocumentDirectory",
-  GET_SCENE_DIRECTORY_ENTRY_CONTEXT: "getSceneDirectoryEntryContext",
+  GET_SCENE_CONTEXT: "getSceneContextOptions",
   RENDER_SCENE_DIRECTORY: "renderSceneDirectory",
 
   /* Folders */

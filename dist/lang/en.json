@@ -45,7 +45,8 @@
         "playlistSoundOn": "Playlist sound is on",
         "playlistSoundOff": "Playlist sound is off",
         "preloadScene": "Preload scene for players",
-        "sceneConfig": "Scene Configuration"
+        "sceneConfig": "Scene Configuration",
+        "editScene": "Edit"
       },
       "journalToggle": {
         "enable": "Enable Carolingian Journal Styles",
