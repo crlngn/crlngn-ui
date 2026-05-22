@@ -223,6 +223,10 @@ export class TopNavigation {
   }
 
   static onRender = (nav, navHtml, navData) => {
+    // Defer entirely to Swipe VTT when its mobile mode is active — it re-parents
+    // the scene navigation into its own floating panel, so crlngn-ui must not
+    // restyle, reposition or rewrite it.
+    if(document.body.classList.contains("swipe-vtt")){ return; }
     const SETTINGS = getSettings();
     const scenePage = SettingsUtil.get(SETTINGS.sceneNavPos.tag);
     if(TopNavigation.preventNavRender){ return; }

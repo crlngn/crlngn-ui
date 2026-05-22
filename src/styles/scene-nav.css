@@ -69,8 +69,11 @@
 }
 
 @layer modules {
-  body.crlngn-ui {
-    
+  /* :not(.swipe-vtt) — when Swipe VTT mobile mode is active it owns the scene
+     navigation (re-parents it into a floating panel); skip all crlngn-ui scene
+     nav styling so the two modules don't fight. */
+  body.crlngn-ui:not(.swipe-vtt) {
+
     #ui-left-column-2 {
       padding-top: 16px;
       margin-left: 16px !important;
