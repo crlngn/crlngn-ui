@@ -45,8 +45,7 @@
         "playlistSoundOn": "Som da playlist ativo",
         "playlistSoundOff": "Som da playlist desativado",
         "preloadScene": "Preload scene",
-        "sceneConfig": "Scene Configuration",
-        "editScene": "Editar"
+        "sceneConfig": "Scene Configuration"
       },
       "updates": {
         "label": "Último ID de Atualização",

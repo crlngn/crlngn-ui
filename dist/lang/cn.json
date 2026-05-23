@@ -45,8 +45,7 @@
         "playlistSoundOn": "播放列表声音打开",
         "playlistSoundOff": "播放列表声音关闭",
         "preloadScene": "预加载场景",
-        "sceneConfig": "场景配置",
-        "editScene": "编辑"
+        "sceneConfig": "场景配置"
       },
       "updates": {
         "label": "最新更新ID",

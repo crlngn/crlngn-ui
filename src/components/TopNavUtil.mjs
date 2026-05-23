@@ -149,8 +149,10 @@ export class TopNavigation {
     TopNavigation.#initCombatTrackerManager();
 
     Hooks.on(HOOKS_CORE.GET_SCENE_CONTEXT, (app, entryOptions) => {
+      const SceneDirectory = foundry.applications?.sidebar?.tabs?.SceneDirectory;
+      if(!SceneDirectory || !(app instanceof SceneDirectory)){ return; }
       entryOptions.unshift({
-        name: "CRLNGN_UI.ui.sceneNav.editScene",
+        name: "SIDEBAR.Edit",
         icon: '<i class="fa-solid fa-pen-to-square"></i>',
         condition: () => game.user.isGM,
         callback: li => {
