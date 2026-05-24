@@ -509,6 +509,9 @@ export class SettingsUtil {
       case SETTINGS.useSceneFolders.tag:
         TopNavigation.useSceneFolders = value;
         ui.nav?.render(); break;
+      case SETTINGS.navFoldersForPlayers.tag:
+        TopNavigation.navFoldersForPlayers = value;
+        ui.nav?.render(); break;
       case SETTINGS.navShowRootFolders.tag:
         TopNavigation.navShowRootFolders = value;
         ui.nav?.render(); break;

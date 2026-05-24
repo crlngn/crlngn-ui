@@ -54,7 +54,13 @@
     <div class="form-group">
       <label for="useSceneFolders">{{fields.useSceneFolders.label}}</label>
       <input type="checkbox" name="useSceneFolders" {{#if useSceneFolders}}checked{{/if}} {{#if fields.useSceneFolders.isLocked}}disabled{{/if}} />
-      <p class="hint">{{{fields.useSceneFolders.hint}}}</p> 
+      <p class="hint">{{{fields.useSceneFolders.hint}}}</p>
+    </div>
+
+    <div class="form-group">
+      <label for="navFoldersForPlayers">{{fields.navFoldersForPlayers.label}}</label>
+      <input type="checkbox" name="navFoldersForPlayers" {{#if navFoldersForPlayers}}checked{{/if}} {{#if fields.navFoldersForPlayers.isLocked}}disabled{{/if}} />
+      <p class="hint">{{{fields.navFoldersForPlayers.hint}}}</p>
     </div>
 
     <div class="form-group">

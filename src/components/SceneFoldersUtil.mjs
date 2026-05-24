@@ -497,6 +497,13 @@ export class SceneNavFolders {
     const hiddenFolders = SceneNavFolders.getHiddenNavFolders();
     folderList = folderList.filter(f => !hiddenFolders.includes(f.id));
 
+    // Hide folders that contain no scenes the player can see (anywhere in the
+    // subtree). Without this, folder names leak through even when every scene
+    // inside is GM-only.
+    if (!isGM) {
+      folderList = folderList.filter(f => SceneNavFolders.folderHasVisibleContent(f));
+    }
+
     templateData = {
       currentFolder: targetFolder,
       folders: folderList,
@@ -506,6 +513,25 @@ export class SceneNavFolders {
     LogUtil.log("buildFolderData", [folderList, templateData]);
 
     return templateData;
+  }
+
+  /**
+   * Recursively checks whether a folder (or any of its descendants) contains
+   * at least one scene the current user can see (OBSERVER permission or higher).
+   * Used to suppress folder names that would otherwise leak even when the
+   * scenes inside are all GM-only.
+   * @param {Folder} folder
+   * @returns {boolean}
+   */
+  static folderHasVisibleContent(folder) {
+    if (!folder) return false;
+    const contents = folder.contents || [];
+    if (contents.some(sc => sc.permission >= 2)) return true;
+    const children = folder.children || [];
+    return children.some(child => {
+      const childFolder = child?.folder || child;
+      return SceneNavFolders.folderHasVisibleContent(childFolder);
+    });
   }
 
   /**
@@ -616,10 +642,13 @@ export class SceneNavFolders {
       return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
     });
     
-    let filteredFolders = []; 
+    let filteredFolders = [];
     if(TopNavigation.useSceneFolders){
+      const isGM = game.user?.isGM;
       filteredFolders = game.scenes?.folders.filter(f => {
-        return f.name.toLowerCase().includes(searchValue.toLowerCase());
+        if(!f.name.toLowerCase().includes(searchValue.toLowerCase())) return false;
+        if(isGM) return true;
+        return SceneNavFolders.folderHasVisibleContent(f);
       }) || [];
 
       filteredFolders.sort((a, b) => {

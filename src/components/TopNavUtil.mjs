@@ -266,7 +266,8 @@ export class TopNavigation {
     }
     TopNavigation.resetLocalVars();
 
-    if(TopNavigation.sceneNavEnabled && TopNavigation.navShowRootFolders && game.user.isGM){
+    const foldersAllowed = game.user.isGM || TopNavigation.navFoldersForPlayers;
+    if(TopNavigation.sceneNavEnabled && TopNavigation.navShowRootFolders && foldersAllowed){
       SceneNavFolders.init();
       SceneNavFolders.renderFolderList();
     }
@@ -283,8 +284,7 @@ export class TopNavigation {
       }, 100);
     }
 
-    // Hide inactive scenes if folders are open (GM only)
-    if(game.user?.isGM){
+    if(foldersAllowed){
       const folderToggleOn = SettingsUtil.get(SETTINGS.navShowRootFolders.tag);
       const hideInactiveOnToggle = SettingsUtil.get(SETTINGS.hideInactiveOnFolderToggle.tag);
       const inactiveToggledScenes = navHtml.querySelectorAll("#scene-navigation-inactive .scene");
@@ -556,7 +556,8 @@ export class TopNavigation {
    * @returns {void}
    */
   static handleFolderList(nav, navHtml, navData){
-    if(!TopNavigation.useSceneFolders || !game.user?.isGM){ return; }
+    const foldersAllowed = game.user?.isGM || TopNavigation.navFoldersForPlayers;
+    if(!TopNavigation.useSceneFolders || !foldersAllowed){ return; }
     SceneNavFolders.addFolderButtons(nav, navHtml, navData);
   }
 
@@ -1485,7 +1486,8 @@ export class TopNavigation {
       return;
     }
 
-    if (TopNavigation.navShowRootFolders && game.user?.isGM
+    const foldersAllowed = game.user?.isGM || TopNavigation.navFoldersForPlayers;
+    if (TopNavigation.navShowRootFolders && foldersAllowed
         && TopNavigation.subFoldersLayout !== "vertical") {
       const activeSceneFolders = game.user?.getFlag(MODULE_ID, "activeSceneFolders") || [];
 

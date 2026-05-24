@@ -28,8 +28,16 @@ export default function vitePluginVersion() {
         // Update manifest and download URLs to point to the specific version
         const versionTag = `v${version}`;
         const baseUrl = 'https://github.com/crlngn/crlngn-ui/releases';
-        
-        moduleJson.manifest = `${baseUrl}/latest/download/module.json`;
+        const majorVersion = version.split('.')[0];
+
+        // v2 lives on a maintenance branch — pin its manifest to the v2 branch
+        // tip so v2 users don't get auto-offered the v3 release flagged "Latest"
+        // on GitHub. v3 (and any future major) keeps the standard "latest" URL.
+        if (majorVersion === '2') {
+          moduleJson.manifest = 'https://raw.githubusercontent.com/crlngn/crlngn-ui/v2/dist/module.json';
+        } else {
+          moduleJson.manifest = `${baseUrl}/latest/download/module.json`;
+        }
         moduleJson.download = `${baseUrl}/download/${versionTag}/module.zip`;
         
         writeFileSync(moduleJsonPath, JSON.stringify(moduleJson, null, 2) + '\n');
