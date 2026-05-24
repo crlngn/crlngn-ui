@@ -653,6 +653,8 @@ export class SettingsUtil {
         CombatTrackerManager.enableCombatTrackerCarousel = value;
         CombatTrackerManager.applyBodyClass();
         ui.combat?.popout?.render(); break;
+      case SETTINGS.autoPopoutOnCombatStart.tag:
+        CombatTrackerManager.autoPopoutOnCombatStart = value; break;
       case SETTINGS.combatCarouselScale.tag:
         CombatTrackerManager.combatCarouselScale = value;
         CombatTrackerManager.applyScale(); break;

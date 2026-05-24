@@ -18,7 +18,7 @@
 
 body.crlngn-ui.crlngn-combat-tracker {
 
-  #combat-popout{
+  #combat-popout {
     --carousel-scale: 1;
     --combatant-base-width: 5.5rem;
     --combatant-base-height: 7rem;
@@ -193,7 +193,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       z-index: 10;
       background: var(--background) !important;
       margin-left: calc(20px * var(--carousel-scale));
-      padding: 0.15rem;
+      padding: 0.15rem 0.75rem;
       border-radius: 6px;
       max-width: calc(100dvw - (2 * var(--sidebar-width)) - (var(--control-item-size)*4));
       .crlngn-no-combatants {
@@ -714,6 +714,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       cursor: grab;
       touch-action: pan-y;
       user-select: none;
+      padding: 0;
     }
 
     .combat-tracker:not(.crlngn-infinite-carousel):active {

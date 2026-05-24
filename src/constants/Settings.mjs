@@ -507,6 +507,7 @@ export function getSettings() {
       propType: Object,
       fields: [
         "enableCombatTrackerCarousel",
+        "autoPopoutOnCombatStart",
         "combatCarouselScale",
         "dockedCarouselOffset",
         "carouselDockOnLoad",
@@ -518,6 +519,7 @@ export function getSettings() {
       ],
       default: {
         enableCombatTrackerCarousel: true,
+        autoPopoutOnCombatStart: true,
         combatCarouselScale: 1,
         dockedCarouselOffset: 0,
         carouselDockOnLoad: "preserve",
@@ -1826,6 +1828,16 @@ export function getSettings() {
       tag: "v2-enable-combat-tracker-carousel",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.enableCombatTrackerCarousel.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.enableCombatTrackerCarousel.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    autoPopoutOnCombatStart: {
+      tag: "v2-auto-popout-on-combat-start",
+      label: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.fields.autoPopoutOnCombatStart.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.fields.autoPopoutOnCombatStart.hint"),
       propType: Boolean,
       default: true,
       scope: SETTING_SCOPE.client,

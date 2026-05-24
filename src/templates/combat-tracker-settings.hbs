@@ -14,6 +14,12 @@
   </div>
 
   <div class="form-group">
+    <label for="autoPopoutOnCombatStart">{{fields.autoPopoutOnCombatStart.label}}</label>
+    <input type="checkbox" name="autoPopoutOnCombatStart" {{#if autoPopoutOnCombatStart}}checked{{/if}} {{#if fields.autoPopoutOnCombatStart.isLocked}}disabled{{/if}} />
+    <p class="hint">{{fields.autoPopoutOnCombatStart.hint}}</p>
+  </div>
+
+  <div class="form-group">
     <label for="combatTrackerTakeFullWidth">{{fields.combatTrackerTakeFullWidth.label}}</label>
     <input type="checkbox" name="combatTrackerTakeFullWidth" {{#if combatTrackerTakeFullWidth}}checked{{/if}} {{#if fields.combatTrackerTakeFullWidth.isLocked}}disabled{{/if}} />
     <p class="hint">{{fields.combatTrackerTakeFullWidth.hint}}</p>

@@ -700,6 +700,10 @@
             "label": "Usar Carrossel de Combate Arrastável",
             "hint": "Quando ativado, o rastreador de combate abre automaticamente quando há combatentes e fecha quando o combate termina. Também ativa estilo personalizado para o rastreador destacado."
           },
+          "autoPopoutOnCombatStart": {
+            "label": "Abrir Rastreador Automaticamente",
+            "hint": "Quando ativado, o rastreador de combate abre automaticamente ao iniciar um combate ou ao adicionar combatentes. Desative se preferir abri-lo manualmente."
+          },
           "combatCarouselScale": {
             "label": "Escala do Carrossel Encaixado",
             "hint": "Escala do carrossel de combate quando encaixado no topo da tela. Intervalo: 0.7 (70%) a 1.5 (150%)."
