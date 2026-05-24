@@ -430,7 +430,8 @@ export function getSettings() {
         "useScenePreview",
         "hideInactiveOnFolderToggle",
         "subFoldersLayout",
-        "expandScrimToSubfolders"
+        "expandScrimToSubfolders",
+        "autoCloseSubmenuOnSceneChange"
       ],
       default: {
         hideLoadingSceneName: true,
@@ -443,7 +444,8 @@ export function getSettings() {
         useSceneBackButton: true,
         hideInactiveOnFolderToggle: true,
         subFoldersLayout: "parent",
-        expandScrimToSubfolders: false
+        expandScrimToSubfolders: false,
+        autoCloseSubmenuOnSceneChange: false
       },
       scope: SETTING_SCOPE.world,
       config: false, 
@@ -507,6 +509,7 @@ export function getSettings() {
       propType: Object,
       fields: [
         "enableCombatTrackerCarousel",
+        "autoPopoutOnCombatStart",
         "combatCarouselScale",
         "dockedCarouselOffset",
         "carouselDockOnLoad",
@@ -518,6 +521,7 @@ export function getSettings() {
       ],
       default: {
         enableCombatTrackerCarousel: true,
+        autoPopoutOnCombatStart: true,
         combatCarouselScale: 1,
         dockedCarouselOffset: 0,
         carouselDockOnLoad: "preserve",
@@ -761,6 +765,17 @@ export function getSettings() {
       tag: "v2-expand-scrim-to-subfolders",
       label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.expandScrimToSubfolders.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.expandScrimToSubfolders.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+
+    autoCloseSubmenuOnSceneChange: {
+      tag: "v2-auto-close-submenu-on-scene-change",
+      label: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.autoCloseSubmenuOnSceneChange.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.autoCloseSubmenuOnSceneChange.hint"),
       propType: Boolean,
       default: false,
       scope: SETTING_SCOPE.world,
@@ -1826,6 +1841,16 @@ export function getSettings() {
       tag: "v2-enable-combat-tracker-carousel",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.enableCombatTrackerCarousel.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.enableCombatTrackerCarousel.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    autoPopoutOnCombatStart: {
+      tag: "v2-auto-popout-on-combat-start",
+      label: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.fields.autoPopoutOnCombatStart.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.fields.autoPopoutOnCombatStart.hint"),
       propType: Boolean,
       default: true,
       scope: SETTING_SCOPE.client,

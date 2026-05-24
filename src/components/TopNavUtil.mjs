@@ -54,6 +54,7 @@ export class TopNavigation {
   static disableActiveSceneSeparation;
   static subFoldersLayout;
   static expandScrimToSubfolders;
+  static autoCloseSubmenuOnSceneChange;
   static isCollapsed;
   static navPos;
 
@@ -144,6 +145,9 @@ export class TopNavigation {
         TopNavigation.#visitedScenes.push(sceneId);
       }
       TopNavigation.handleSceneFadeOut();
+      if(TopNavigation.autoCloseSubmenuOnSceneChange){
+        SceneNavFolders.closeAllOpenSubmenus();
+      }
     });
 
     TopNavigation.#initCombatTrackerManager();
@@ -1552,6 +1556,7 @@ export class TopNavigation {
     TopNavigation.disableActiveSceneSeparation = SettingsUtil.get(SETTINGS.disableActiveSceneSeparation.tag);
     TopNavigation.subFoldersLayout = SettingsUtil.get(SETTINGS.subFoldersLayout.tag);
     TopNavigation.expandScrimToSubfolders = SettingsUtil.get(SETTINGS.expandScrimToSubfolders.tag);
+    TopNavigation.autoCloseSubmenuOnSceneChange = SettingsUtil.get(SETTINGS.autoCloseSubmenuOnSceneChange.tag);
     TopNavigation.isCollapsed = TopNavigation.navStartCollapsed;
 
     CombatTrackerManager.loadSettings();

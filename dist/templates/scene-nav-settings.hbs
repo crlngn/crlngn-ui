@@ -87,6 +87,12 @@
       <p class="hint">{{{fields.expandScrimToSubfolders.hint}}}</p>
     </div>
 
+    <div class="form-group">
+      <label for="autoCloseSubmenuOnSceneChange">{{fields.autoCloseSubmenuOnSceneChange.label}}</label>
+      <input type="checkbox" name="autoCloseSubmenuOnSceneChange" {{#if autoCloseSubmenuOnSceneChange}}checked{{/if}} {{#if fields.autoCloseSubmenuOnSceneChange.isLocked}}disabled{{/if}} />
+      <p class="hint">{{{fields.autoCloseSubmenuOnSceneChange.hint}}}</p>
+    </div>
+
   </fieldset>
 
   <div class="form-group">

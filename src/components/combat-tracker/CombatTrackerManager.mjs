@@ -12,6 +12,7 @@ import { getSettings } from "../../constants/Settings.mjs";
 export class CombatTrackerManager {
   static collapseNavDuringCombat = false;
   static enableCombatTrackerCarousel = false;
+  static autoPopoutOnCombatStart = true;
   static combatCarouselScale = 1;
   static combatTrackerTakeFullWidth = false;
   static carouselImageSource = "actor";
@@ -83,6 +84,7 @@ export class CombatTrackerManager {
 
     CombatTrackerManager.collapseNavDuringCombat = SettingsUtil.get(SETTINGS.collapseNavDuringCombat.tag) ?? false;
     CombatTrackerManager.enableCombatTrackerCarousel = SettingsUtil.get(SETTINGS.enableCombatTrackerCarousel.tag) ?? false;
+    CombatTrackerManager.autoPopoutOnCombatStart = SettingsUtil.get(SETTINGS.autoPopoutOnCombatStart.tag) ?? true;
     CombatTrackerManager.combatCarouselScale = SettingsUtil.get(SETTINGS.combatCarouselScale.tag) ?? 1;
     CombatTrackerManager.dockedCarouselOffset = SettingsUtil.get(SETTINGS.dockedCarouselOffset.tag) ?? 0;
     CombatTrackerManager.combatTrackerTakeFullWidth = SettingsUtil.get(SETTINGS.combatTrackerTakeFullWidth.tag) ?? false;
@@ -929,6 +931,7 @@ export class CombatTrackerManager {
     const RETRY_DELAY = 200;
 
     if (!CombatTrackerManager.enableCombatTrackerCarousel) return;
+    if (!CombatTrackerManager.autoPopoutOnCombatStart) return;
 
     const combatWithCombatants = CombatTrackerManager.getCombatWithCombatants();
     if (!combatWithCombatants) return;

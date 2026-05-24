@@ -511,6 +511,10 @@
             "label": "Use Draggable Combat Carousel",
             "hint": "When enabled, the combat tracker will automatically pop out when combat has combatants and close when combat ends. Also enables custom styling for the popped out tracker."
           },
+          "autoPopoutOnCombatStart": {
+            "label": "Auto Pop Out Combat Tracker",
+            "hint": "When enabled, the combat tracker pops out automatically when a combat is started or combatants are added. Turn off if you'd rather open it manually."
+          },
           "combatCarouselScale": {
             "label": "Docked Carousel Scale",
             "hint": "Scale of the combat carousel when docked to the top of the screen. Range: 0.7 (70%) to 1.5 (150%)."
@@ -654,6 +658,10 @@
           "expandScrimToSubfolders": {
             "label": "Expand background behind subfolders",
             "hint": "When enabled, the navigation background expands to cover subfolder rows when folders are open."
+          },
+          "autoCloseSubmenuOnSceneChange": {
+            "label": "Auto-close submenu on scene change",
+            "hint": "When enabled, any open folder submenu closes after a scene is selected or activated. When disabled, folders stay open until manually closed."
           },
           "sceneItemWidth": {
             "label": "Width of navigation item",

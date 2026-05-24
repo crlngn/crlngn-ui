@@ -516,6 +516,34 @@ export class SceneNavFolders {
   }
 
   /**
+   * Close every open folder submenu in the scene navigation bar. Clears the
+   * per-user activeSceneFolders flag so the folders stay closed across renders.
+   * No-op when there are no open submenus.
+   * @returns {Promise<void>}
+   */
+  static closeAllOpenSubmenus = async () => {
+    const sceneNav = document.querySelector("#scene-navigation");
+    if (!sceneNav) return;
+    const activeFolders = sceneNav.querySelectorAll('.crlngn-folder-active');
+    if (activeFolders.length === 0) return;
+
+    activeFolders.forEach(folder => {
+      folder.classList.remove('crlngn-folder-active');
+      folder.querySelector(':scope > .contents')?.remove();
+      folder.parentNode?.querySelectorAll(':scope > li.scene.crlngn-siblings-hidden')
+        .forEach(li => li.classList.remove('crlngn-siblings-hidden'));
+    });
+
+    SceneNavFolders.#activeSceneFolders = [];
+    await game.user.setFlag(MODULE_ID, "activeSceneFolders", []);
+
+    setTimeout(() => {
+      TopNavigation.applySceneNavOffset();
+      TopNavigation.placeNavButtons();
+    }, 30);
+  }
+
+  /**
    * Recursively checks whether a folder (or any of its descendants) contains
    * at least one scene the current user can see (OBSERVER permission or higher).
    * Used to suppress folder names that would otherwise leak even when the

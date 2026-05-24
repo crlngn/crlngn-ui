@@ -559,6 +559,8 @@ export class SettingsUtil {
       case SETTINGS.expandScrimToSubfolders.tag:
         TopNavigation.expandScrimToSubfolders = value;
         TopNavigation.applyExpandScrimToSubfolders(); break;
+      case SETTINGS.autoCloseSubmenuOnSceneChange.tag:
+        TopNavigation.autoCloseSubmenuOnSceneChange = value; break;
       case SETTINGS.sceneNavCollapsed.tag:
         TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag); break;
       case SETTINGS.colorTheme.tag:
@@ -653,6 +655,8 @@ export class SettingsUtil {
         CombatTrackerManager.enableCombatTrackerCarousel = value;
         CombatTrackerManager.applyBodyClass();
         ui.combat?.popout?.render(); break;
+      case SETTINGS.autoPopoutOnCombatStart.tag:
+        CombatTrackerManager.autoPopoutOnCombatStart = value; break;
       case SETTINGS.combatCarouselScale.tag:
         CombatTrackerManager.combatCarouselScale = value;
         CombatTrackerManager.applyScale(); break;

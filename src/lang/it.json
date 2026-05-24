@@ -528,6 +528,10 @@
             "label": "Espandi sfondo dietro le sottocartelle",
             "hint": "Quando abilitato, lo sfondo della navigazione si espande per coprire le righe delle sottocartelle quando le cartelle sono aperte."
           },
+          "autoCloseSubmenuOnSceneChange": {
+            "label": "Chiudi sottomenu al cambio scena",
+            "hint": "Quando abilitato, qualsiasi sottomenu di cartella aperto si chiude dopo aver selezionato o attivato una scena. Quando disabilitato, le cartelle restano aperte finché non vengono chiuse manualmente."
+          },
           "sceneItemWidth": {
             "label": "Larghezza dell'elemento di navigazione",
             "hint": "Lascia vuoto per utilizzare la larghezza predefinita, o definisci un nuovo numero. Il minimo è 100px"
