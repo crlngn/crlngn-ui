@@ -593,6 +593,10 @@
             "label": "Expandir fundo atrás das subpastas",
             "hint": "Quando ativado, o fundo da navegação se expande para cobrir as linhas de subpastas quando as pastas estão abertas."
           },
+          "autoCloseSubmenuOnSceneChange": {
+            "label": "Fechar submenu ao trocar de cena",
+            "hint": "Quando ativado, qualquer submenu de pasta aberto fecha após uma cena ser selecionada ou ativada. Quando desativado, as pastas permanecem abertas até serem fechadas manualmente."
+          },
           "sceneItemWidth": {
             "label": "Largura do item de navegação",
             "hint": "Deixe vazio para usar a largura padrão, ou defina um novo número. O mínimo é 100px"

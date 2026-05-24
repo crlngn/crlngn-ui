@@ -559,6 +559,8 @@ export class SettingsUtil {
       case SETTINGS.expandScrimToSubfolders.tag:
         TopNavigation.expandScrimToSubfolders = value;
         TopNavigation.applyExpandScrimToSubfolders(); break;
+      case SETTINGS.autoCloseSubmenuOnSceneChange.tag:
+        TopNavigation.autoCloseSubmenuOnSceneChange = value; break;
       case SETTINGS.sceneNavCollapsed.tag:
         TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag); break;
       case SETTINGS.colorTheme.tag:

@@ -289,6 +289,13 @@
             &:hover {
               opacity: 1;
             }
+
+            i.fa-layer-group {
+              padding: 3px;
+              background: var(--color-text-primary);
+              border-radius: 3px;
+              color: var(--color-secondary);
+            }
           }
 
           .scene-name {

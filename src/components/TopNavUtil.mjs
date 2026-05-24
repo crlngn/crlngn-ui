@@ -54,6 +54,7 @@ export class TopNavigation {
   static disableActiveSceneSeparation;
   static subFoldersLayout;
   static expandScrimToSubfolders;
+  static autoCloseSubmenuOnSceneChange;
   static isCollapsed;
   static navPos;
 
@@ -144,6 +145,9 @@ export class TopNavigation {
         TopNavigation.#visitedScenes.push(sceneId);
       }
       TopNavigation.handleSceneFadeOut();
+      if(TopNavigation.autoCloseSubmenuOnSceneChange){
+        SceneNavFolders.closeAllOpenSubmenus();
+      }
     });
 
     TopNavigation.#initCombatTrackerManager();
@@ -487,6 +491,7 @@ export class TopNavigation {
 
     const toggleBtn = document.createElement("a");
     toggleBtn.classList.add("crlngn-levels-toggle");
+    toggleBtn.setAttribute("data-tooltip", "Toggle levels");
     toggleBtn.innerHTML = "<i class='fa-solid fa-layer-group'></i>";
     const sceneName = viewedScene.querySelector(".scene-name");
     sceneName?.prepend(toggleBtn);
@@ -497,9 +502,7 @@ export class TopNavigation {
       levelsMenu.classList.remove("open");
     }
 
-    toggleBtn.addEventListener("click", async (event) => {
-      event.preventDefault();
-      event.stopPropagation();
+    const toggleLevels = async () => {
       const isOpen = levelsMenu.classList.toggle("open");
       if (isOpen) {
         const preview = viewedScene.querySelector(".scene-preview");
@@ -507,7 +510,24 @@ export class TopNavigation {
         clearTimeout(TopNavigation.#sceneHoverTimeout);
       }
       await game.user?.setFlag(MODULE_ID, "sceneLevelsOpen", isOpen);
+    };
+
+    toggleBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      toggleLevels();
     });
+
+    // When the custom scene layout is active, left-clicking the active scene
+    // (which otherwise has no left-click action) toggles the levels menu.
+    if (TopNavigation.sceneClickToView && sceneName) {
+      sceneName.addEventListener("click", (event) => {
+        if (event.target.closest(".crlngn-levels-toggle")) return; // handled above
+        event.preventDefault();
+        event.stopPropagation();
+        toggleLevels();
+      });
+    }
   }
 
   /**
@@ -1609,6 +1629,7 @@ export class TopNavigation {
     TopNavigation.disableActiveSceneSeparation = SettingsUtil.get(SETTINGS.disableActiveSceneSeparation.tag);
     TopNavigation.subFoldersLayout = SettingsUtil.get(SETTINGS.subFoldersLayout.tag);
     TopNavigation.expandScrimToSubfolders = SettingsUtil.get(SETTINGS.expandScrimToSubfolders.tag);
+    TopNavigation.autoCloseSubmenuOnSceneChange = SettingsUtil.get(SETTINGS.autoCloseSubmenuOnSceneChange.tag);
     TopNavigation.isCollapsed = TopNavigation.navStartCollapsed;
 
     CombatTrackerManager.loadSettings();

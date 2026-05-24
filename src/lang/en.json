@@ -659,6 +659,10 @@
             "label": "Expand background behind subfolders",
             "hint": "When enabled, the navigation background expands to cover subfolder rows when folders are open."
           },
+          "autoCloseSubmenuOnSceneChange": {
+            "label": "Auto-close submenu on scene change",
+            "hint": "When enabled, any open folder submenu closes after a scene is selected or activated. When disabled, folders stay open until manually closed."
+          },
           "sceneItemWidth": {
             "label": "Width of navigation item",
             "hint": "Leave empty to use default width, or define a new number. Minimum is 100px"
