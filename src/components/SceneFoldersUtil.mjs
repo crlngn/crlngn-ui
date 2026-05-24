@@ -24,7 +24,7 @@ export class SceneNavFolders {
    * @static
    */
   static init() {
-    if (SceneNavFolders.noFolderView() || !ui.scenes || !game.user.isGM) { return; }
+    if (SceneNavFolders.noFolderView() || !ui.scenes) { return; }
     SceneNavFolders.preloadTemplates();
 
     // Initialize user flags for active scene folders if they don't exist
@@ -42,7 +42,9 @@ export class SceneNavFolders {
       SceneNavFolders.#updateSortMode();
     });
 
-    SceneNavFolders.#registerFolderContextMenu();
+    if (game.user.isGM) {
+      SceneNavFolders.#registerFolderContextMenu();
+    }
   }
 
   /**
