@@ -1199,3 +1199,13 @@
     }
   }
 }
+
+/* Player override: replace crown (GM marker) with user icon for the
+   "currently viewing" indicator. Applies to both the main scene tabs
+   and scenes inside folder contents. */
+body.crlngn-ui:not(.crlngn-is-gm) #scene-navigation .scene.view.crlngn:after {
+  content: '\f007';
+}
+body.crlngn-ui:not(.crlngn-is-gm) #scene-navigation .scene.active.view.crlngn:after {
+  content: '\f007   \f140';
+}

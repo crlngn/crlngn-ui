@@ -422,6 +422,7 @@ export function getSettings() {
       fields: [
         "hideLoadingSceneName",
         "useSceneFolders",
+        "navFoldersForPlayers",
         "useSceneLookup",
         "sceneClickToView",
         "useSceneIcons",
@@ -434,6 +435,7 @@ export function getSettings() {
       default: {
         hideLoadingSceneName: true,
         useSceneFolders: true,
+        navFoldersForPlayers: false,
         sceneClickToView: true,
         useSceneIcons: true,
         useSceneLookup: true,

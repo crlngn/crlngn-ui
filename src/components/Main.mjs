@@ -107,6 +107,8 @@ export class Main {
         return;
       }
 
+      document.body.classList.toggle("crlngn-is-gm", !!game.user?.isGM);
+
       const SETTINGS = getSettings();
       const uiDisabled = SettingsUtil.get(SETTINGS.disableUI.tag);
       if(uiDisabled) return;
