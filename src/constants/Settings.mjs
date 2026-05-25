@@ -488,12 +488,14 @@ export function getSettings() {
       fields: [
         "carouselShowAllHP",
         "carouselTrackedResource",
-        "showCombatRoundButtons"
+        "showCombatRoundButtons",
+        "autoRollNPCsOnCombatStart"
       ],
       default: {
         carouselShowAllHP: "gmOnly",
         carouselTrackedResource: "",
-        showCombatRoundButtons: false
+        showCombatRoundButtons: false,
+        autoRollNPCsOnCombatStart: false
       },
       scope: SETTING_SCOPE.world,
       config: false,
@@ -1957,6 +1959,16 @@ export function getSettings() {
       tag: "v2-show-combat-round-buttons",
       label: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.fields.showCombatRoundButtons.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.fields.showCombatRoundButtons.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+    autoRollNPCsOnCombatStart: {
+      tag: "v2-auto-roll-npcs-on-combat-start",
+      label: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.fields.autoRollNPCsOnCombatStart.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.fields.autoRollNPCsOnCombatStart.hint"),
       propType: Boolean,
       default: false,
       scope: SETTING_SCOPE.world,

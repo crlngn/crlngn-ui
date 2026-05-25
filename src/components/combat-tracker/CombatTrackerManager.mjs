@@ -2,6 +2,7 @@ import { LogUtil } from "../LogUtil.mjs";
 import { MODULE_ID } from "../../constants/General.mjs";
 import { HOOKS_CORE } from "../../constants/Hooks.mjs";
 import { CombatCarousel } from "./CombatCarouselUtil.mjs";
+import { CarouselCombatWrappers } from "./CarouselCombatWrappers.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
 import { getSettings } from "../../constants/Settings.mjs";
 
@@ -21,6 +22,7 @@ export class CombatTrackerManager {
   static carouselShowAllHP = "gmOnly";
   static carouselRequirePlayerOwner = false;
   static showCombatRoundButtons = false;
+  static autoRollNPCsOnCombatStart = false;
 
   static #navCollapseCallback = null;
   static #navExpandCallback = null;
@@ -43,6 +45,8 @@ export class CombatTrackerManager {
   static #lastRenderTime = 0;
   static #renderThrottleMs = 150;
   static #pendingRenderTimeout = null;
+  static #initiativeDebounceTimeout = null;
+  static #initiativeDebounceMs = 1000;
 
   /**
    * Initialize combat tracker manager and register hooks
@@ -59,6 +63,7 @@ export class CombatTrackerManager {
     Hooks.on(HOOKS_CORE.UPDATE_COMBAT, (combat, updateData) => CombatTrackerManager.onCombatUpdate(combat, updateData));
     Hooks.on(HOOKS_CORE.CREATE_COMBATANT, (combatant) => CombatTrackerManager.onCombatantCreated(combatant));
     Hooks.on(HOOKS_CORE.DELETE_COMBATANT, (combatant) => CombatTrackerManager.onCombatantDeleted(combatant));
+    Hooks.on(HOOKS_CORE.UPDATE_COMBATANT, (combatant, changes) => CombatTrackerManager.onCombatantUpdated(combatant, changes));
     Hooks.on(HOOKS_CORE.COMBAT_TURN, (combat, updateData, options) => CombatTrackerManager.onCombatTurnPre(combat, updateData, options));
     Hooks.on(HOOKS_CORE.COMBAT_ROUND, (combat, updateData, options) => CombatTrackerManager.onCombatRoundPre(combat, updateData, options));
     Hooks.on(HOOKS_CORE.PRE_RENDER_COMBAT_TRACKER, () => {
@@ -94,6 +99,7 @@ export class CombatTrackerManager {
     CombatTrackerManager.carouselShowAllHP = SettingsUtil.get(SETTINGS.carouselShowAllHP.tag) ?? "gmOnly";
     CombatTrackerManager.carouselRequirePlayerOwner = SettingsUtil.get(SETTINGS.carouselRequirePlayerOwner.tag) ?? false;
     CombatTrackerManager.showCombatRoundButtons = SettingsUtil.get(SETTINGS.showCombatRoundButtons.tag) ?? false;
+    CombatTrackerManager.autoRollNPCsOnCombatStart = SettingsUtil.get(SETTINGS.autoRollNPCsOnCombatStart.tag) ?? false;
 
     CombatTrackerManager.#applyBodyClasses();
   }
@@ -404,6 +410,10 @@ export class CombatTrackerManager {
     CombatTrackerManager.popOutCombatTracker();
     setTimeout(() => CombatCarousel.updateCombatToggleButton(), 150);
 
+    if (CombatTrackerManager.autoRollNPCsOnCombatStart && game.user?.isGM) {
+      combat.rollNPC();
+    }
+
     if (CombatTrackerManager.collapseNavDuringCombat && CombatTrackerManager.#isSceneNavEnabled()) {
       if (CombatTrackerManager.#navStateBeforeCombat === null) {
         CombatTrackerManager.#navStateBeforeCombat = !CombatTrackerManager.#isNavCollapsed();
@@ -559,6 +569,31 @@ export class CombatTrackerManager {
         }
       }
     }, 100);
+  }
+
+  /**
+   * Coalesce popout re-renders triggered by initiative updates. Every initiative
+   * change suppresses popout renders for #initiativeDebounceMs and (re)arms a
+   * single trailing render that fires once the burst settles, so the list
+   * reorders just once regardless of how many combatants were updated.
+   * @param {Combatant} combatant
+   * @param {object} changes
+   */
+  static onCombatantUpdated = (combatant, changes) => {
+    if (changes?.initiative === undefined) return;
+    if (!CombatTrackerManager.enableCombatTrackerCarousel) return;
+
+    const debounceMs = CombatTrackerManager.#initiativeDebounceMs;
+    CarouselCombatWrappers.suppressPopoutRenderUntil = Date.now() + debounceMs + 100;
+
+    if (CombatTrackerManager.#initiativeDebounceTimeout) {
+      clearTimeout(CombatTrackerManager.#initiativeDebounceTimeout);
+    }
+    CombatTrackerManager.#initiativeDebounceTimeout = setTimeout(() => {
+      CombatTrackerManager.#initiativeDebounceTimeout = null;
+      CarouselCombatWrappers.suppressPopoutRenderUntil = 0;
+      ui.combat?.popout?.render();
+    }, debounceMs);
   }
 
   /**
@@ -1457,7 +1492,11 @@ export class CombatTrackerManager {
       return;
     }
 
-    group.style.display = combat.started ? 'none' : 'contents';
+    // Hide once combat has started AND every NPC has rolled — but keep the
+    // group visible mid-combat if there are still NPCs without initiative
+    // (e.g. reinforcements added after Begin Combat).
+    const hasUnrolledNPCs = combat.combatants.some(c => c.isNPC && c.initiative === null);
+    group.style.display = (combat.started && !hasUnrolledNPCs) ? 'none' : 'contents';
   }
 
   /**

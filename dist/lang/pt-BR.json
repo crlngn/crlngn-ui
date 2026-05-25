@@ -769,6 +769,10 @@
           "showCombatRoundButtons": {
             "label": "Mostrar Botões de Navegação de Rodada",
             "hint": "Quando ativado, os botões Rodada Anterior e Próxima Rodada ficam visíveis nos controles de combate. Esta é uma configuração de mundo (GM)."
+          },
+          "autoRollNPCsOnCombatStart": {
+            "label": "Rolar iniciativa de NPCs ao iniciar combate",
+            "hint": "Quando ativado, a iniciativa dos NPCs é rolada automaticamente assim que o combate começa, pulando o diálogo de rolagem. Esta é uma configuração de mundo (GM)."
           }
         },
         "reset": "Restaurar",

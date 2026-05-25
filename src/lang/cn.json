@@ -769,6 +769,10 @@
           "showCombatRoundButtons": {
             "label": "显示回合导航按钮",
             "hint": "启用后，上一回合和下一回合按钮将显示在战斗控件中。此为世界设置（GM）。"
+          },
+          "autoRollNPCsOnCombatStart": {
+            "label": "开始战斗时自动为NPC掷骰",
+            "hint": "启用后，战斗开始时会自动为NPC掷先攻，跳过掷骰对话框。此为世界设置（GM）。"
           }
         },
         "reset": "重置",
