@@ -511,6 +511,10 @@
             "label": "Usa il carosello di combattimento trascinabile",
             "hint": "Quando attivato, il tracker di combattimento si apre automaticamente quando sono presenti combattenti e si chiude quando il combattimento termina. Abilita anche uno stile personalizzato per il tracker in modalità pop-out."
           },
+          "autoPopoutOnCombatStart": {
+            "label": "Tracker Combattimento a comparsa automatica",
+            "hint": "Quando abilitato, il tracker di combattimento compare automaticamente quando viene avviato un combattimento o vengono aggiunti combattenti. Spegni se preferisci aprirlo manualmente."
+          },
           "combatCarouselScale": {
             "label": "Scala del carosello agganciato",
             "hint": "Scala del carosello di combattimento quando è agganciato alla parte superiore dello schermo. Intervallo: 0.7 (70%) a 1.5 (150%)."
@@ -572,10 +576,14 @@
           "showCombatRoundButtons": {
             "label": "Mostra pulsanti di navigazione dei round",
             "hint": "Se attivato, i pulsanti Round precedente e Round successivo sono visibili nei controlli del combattimento. Questa è un'impostazione globale del mondo (GM)."
-            }
           },
-          "reset": "Ripristina",
-          "save": "Salva"
+          "autoRollNPCsOnCombatStart": {
+            "label": "Tiro automatico per PNG quando si avvia il combattimento",
+            "hint": "Quando abilitata, l'iniziativa PNG viene lanciata automaticamente non appena inizia il combattimento, saltando la finestra di dialogo. Questa è un’impostazione del Mondo (GM)."
+          }
+        },
+        "reset": "Ripristina",
+        "save": "Salva"
       },
       "sceneNavMenu": {
         "label": "Navigazione Scena",
