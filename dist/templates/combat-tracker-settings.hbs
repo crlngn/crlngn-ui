@@ -115,6 +115,12 @@
     <input type="checkbox" name="showCombatRoundButtons" {{#if showCombatRoundButtons}}checked{{/if}} {{#if fields.showCombatRoundButtons.isLocked}}disabled{{/if}} />
     <p class="hint">{{fields.showCombatRoundButtons.hint}}</p>
   </div>
+
+  <div class="form-group">
+    <label for="autoRollNPCsOnCombatStart">{{fields.autoRollNPCsOnCombatStart.label}}</label>
+    <input type="checkbox" name="autoRollNPCsOnCombatStart" {{#if autoRollNPCsOnCombatStart}}checked{{/if}} {{#if fields.autoRollNPCsOnCombatStart.isLocked}}disabled{{/if}} />
+    <p class="hint">{{fields.autoRollNPCsOnCombatStart.hint}}</p>
+  </div>
   {{/if}}
 
 </section>

@@ -679,6 +679,8 @@ export class SettingsUtil {
       case SETTINGS.showCombatRoundButtons.tag:
         CombatTrackerManager.showCombatRoundButtons = value;
         CombatTrackerManager.updateRoundButtonsVisibility(); break;
+      case SETTINGS.autoRollNPCsOnCombatStart.tag:
+        CombatTrackerManager.autoRollNPCsOnCombatStart = value; break;
       default:
         // do nothing
     }

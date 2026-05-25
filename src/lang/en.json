@@ -576,6 +576,10 @@
           "showCombatRoundButtons": {
             "label": "Show Round Navigation Buttons",
             "hint": "When enabled, Previous Round and Next Round buttons are visible in the combat controls. This is a world setting (GM)."
+          },
+          "autoRollNPCsOnCombatStart": {
+            "label": "Auto-roll for NPCs when starting combat",
+            "hint": "When enabled, NPC initiative is rolled automatically as soon as combat starts, skipping the roll dialog. This is a world setting (GM)."
           }
         },
         "reset": "Reset",
