@@ -127,13 +127,20 @@ export class TopNavigation {
     Hooks.on(HOOKS_CORE.CREATE_SCENE, () => {
       ui.nav?.render();
     });
-    Hooks.on(HOOKS_CORE.UPDATE_SCENE, () => {
-      if(TopNavigation.#preventNavRender){ 
+    Hooks.on(HOOKS_CORE.UPDATE_SCENE, (scene, change) => {
+      if(TopNavigation.#preventNavRender){
         TopNavigation.#preventNavRender = false;
-        return; 
+        return;
       }
       LogUtil.log(HOOKS_CORE.UPDATE_SCENE, [TopNavigation.#preventNavRender]);
       // ui.nav?.render();
+
+      // CANVAS_INIT only fires when the viewed scene changes, so activating
+      // a scene without switching view leaves the submenu open. Catch active
+      // state changes here as well.
+      if(TopNavigation.autoCloseSubmenuOnSceneChange && change?.active !== undefined){
+        SceneNavFolders.closeAllOpenSubmenus();
+      }
     });
     Hooks.on(HOOKS_CORE.DELETE_SCENE, () => {
       ui.nav?.render();
@@ -1128,6 +1135,10 @@ export class TopNavigation {
     scene.activate();
     scene.sheet.render = TopNavigation.#originalRenderMethod;
 
+    if (TopNavigation.autoCloseSubmenuOnSceneChange) {
+      SceneNavFolders.closeAllOpenSubmenus();
+    }
+
     // Clear the single-click timer if it exists
     if (TopNavigation.#sceneClickTimer) {
       clearTimeout(TopNavigation.#sceneClickTimer);
@@ -1167,6 +1178,14 @@ export class TopNavigation {
       clearTimeout(TopNavigation.#sceneClickTimer);
       if (scene.sheet) scene.sheet.render = TopNavigation.#originalRenderMethod;
       TopNavigation.#sceneClickTimer = null;
+    }
+
+    // Close any open submenu immediately so the persisted activeSceneFolders
+    // flag is cleared well before scene.view() triggers a nav re-render.
+    // Relying on CANVAS_INIT alone races with that re-render — fast on the
+    // already-active scene, the render reads the stale flag and re-opens.
+    if (TopNavigation.autoCloseSubmenuOnSceneChange) {
+      SceneNavFolders.closeAllOpenSubmenus();
     }
 
     // Set a new timer for the click action

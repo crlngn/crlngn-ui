@@ -46,6 +46,7 @@ body.crlngn-ui {
         margin: 0 3px 0 0;
         min-width: calc(var(--control-item-size) - 10px);
         text-align: center;
+        flex: 0 0 auto;
       }
     }
     > button { 
