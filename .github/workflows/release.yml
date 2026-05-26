@@ -21,8 +21,10 @@ jobs:
         run: |
           REPO_NAME=$(basename $GITHUB_REPOSITORY)
           VERSION="${GITHUB_REF#refs/tags/v}"
+          MAJOR_VERSION="${VERSION%%.*}"
           echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "MAJOR_VERSION=$MAJOR_VERSION" >> $GITHUB_ENV
 
       # Version updates are handled by the npm run bump script before release
 
@@ -64,7 +66,7 @@ jobs:
               "id": "'"$REPO_NAME"'",
               "release": {
                 "version": "'"$VERSION"'",
-                "manifest": "https://github.com/${{ github.repository }}/releases/latest/download/module.json",
+                "manifest": "https://raw.githubusercontent.com/${{ github.repository }}/v'"$MAJOR_VERSION"'/dist/module.json",
                 "notes": "https://github.com/${{ github.repository }}/releases/tag/v'"$VERSION"'",
                 "compatibility": {
                   "minimum": "${{env.MIN_VERSION}}",
