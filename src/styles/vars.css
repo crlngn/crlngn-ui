@@ -255,6 +255,8 @@
     &.theme-dark,
     &.theme-dark .application:not(.monks-enhanced-journal).theme-dark
     #interface.theme-dark,
+    &.theme-dark .app.theme-light,
+    #interface.theme-dark,
     .sidebar-popout.theme-dark,
     &.theme-dark .chat-popout.theme-light
     &.theme-dark .chat-popout.theme-light,
@@ -263,8 +265,10 @@
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --input-background-alt: var(--color-dark-bg-50);
       --color-text-secondary: var(--color-light-1);
+      --color-text-emphatic: var(--color-light-1);
       --color-text-primary: var(--color-light-1);
       --color-text-inverse: var(--color-dark-1);
+      --color-text-dark-secondary: var(--color-light-1);
 
       --crlngn-button-bg: rgba(15, 15, 15, 0.15);
       --color-bg-button: rgba(32, 37, 43, 1);
@@ -274,6 +278,7 @@
       --dnd5e-tabs-bg: transparent;
       --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
       --background: rgba(11, 10, 19, var(--background-opacity, 0.95));
+      
       &.crlngn-chat .sidebar-content{
         --dnd5e-color-parchment: rgb(32, 37, 43);
         --dnd5e-background-card: rgb(32, 37, 43); 
@@ -383,6 +388,7 @@
     .application:not(.monks-enhanced-journal).theme-light,
     &.theme-dark #tooltip.application:not(.monks-enhanced-journal).theme-light,
     .themed.theme-light,
+    &.theme-dark .theme-light .dnd5e,
     &.theme-dark .theme-light .dnd5e,
     &.crlngn-chat .chat-log.themed.theme-light {
       --color-border: rgba(226, 232, 233, 1);
