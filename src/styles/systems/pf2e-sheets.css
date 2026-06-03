@@ -19,7 +19,8 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .app,
   .application.compendium-browser,
   .themed.theme-light:not(.chat-log),
-  .themed.theme-dark {
+  .themed.theme-dark,
+  &.theme-dark #prosemirror-dropdown.theme-light {
     --color-pf-primary: var(--color-text-hyperlink);
     --color-border-divider: var(--color-highlights-25);
     --tag-color: var(--color-text-primary);
@@ -28,6 +29,14 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     --color-pf-secondary: var(--color-warm-2);
     --color-pf-tertiary: var(--color-text-primary);
     --color-pf-tertiary-light: var(--color-highlights-75);
+    /*--color-text-secondary: var(--color-light-1);
+    --color-text-emphatic: var(--color-light-1);
+    --color-text-primary: var(--color-light-1);
+    --color-text-inverse: var(--color-dark-1);
+    --color-text-dark-secondary: var(--color-light-1);
+    --color-text-dark-emphatic: var(--color-light-1);
+    --color-text-dark-primary: var(--color-light-1);*/
+
     --sidebar-label: var(--color-warm-2);
     --sidebar-title: var(--color-text-primary);
     --visibility-gm-bg: var(--color-highlights-50); 
@@ -244,7 +253,8 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .actor.sheet.npc,
   .actor.sheet.character,
   .actor.sheet.loot,
-  .actor.sheet.party {
+  .actor.sheet.party,
+  .actor.sheet.army {
     min-width: 800px;
     background: var(--background);
   }
@@ -262,8 +272,9 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .actor.sheet section.window-content,
   .actor.sheet .crb-style,
   .actor.sheet.familiar form,
-  .actor.sheet section.window-content .crb-style,
-  .actor.party.sheet form {
+  .actor.sheet.party form,
+  .actor.sheet.army form,
+  .actor.sheet section.window-content .crb-style {
     padding: 0;
     background: transparent;/*var(--control-bg-color);*/
     color: var(--color-text-primary);
@@ -274,8 +285,12 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     background: var(--background);
   }
 
-  .sheet.party form > header {
+  .sheet.party form > header,
+  .sheet.army form > header {
     background: var(--color-highlights-25);
+  }
+  .sheet.army form > header .details .level-label {
+    color: var(--color-text-primary);
   }
   .sheet.party [data-tab=overview] .member > .data header .blurb {
     color: var(--color-text-primary);
@@ -298,11 +313,14 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     border: 1px solid var(--color-bg-alt);
   }
 
-  .actor.npc.sheet form .sidebar .image-container img {
+  .actor.npc.sheet form .sidebar .image-container img,
+  .actor.army.sheet form .sidebar .image-container img {
     border-radius: 0;
   }
   .actor.npc.sheet form .sidebar .image-container img.actor-image.minimized,
-  .actor.npc.sheet form .sidebar .image-container img.profile-img.minimized {
+  .actor.npc.sheet form .sidebar .image-container img.profile-img.minimized,
+  .actor.army.sheet form .sidebar .image-container img.actor-image.minimized,
+  .actor.army.sheet form .sidebar .image-container img.profile-img.minimized {
     width: 100%;
     height: 100%;
     max-width: 100px;
@@ -535,9 +553,13 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     display: none;
   }
   .actor.sheet section.window-content .item-image.framed,
-  .actor.sheet section.window-content .sheet-body .sheet-content .item-image.framed {
+  .actor.sheet section.window-content .sheet-body .sheet-content .item-image.framed,
+  .actor.sheet.army .army-sheet-header .frame {
     box-shadow: none;
     border: 1px solid var(--color-bg-alt);
+  }
+  .actor.sheet.army .army-sheet-header .frame img {
+    box-shadow: none;
   }
 
   .actor.sheet section.window-content aside .sidebar header h2 {
@@ -684,7 +706,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
   .actor.sheet section.window-content header.char-header{
     padding: 0.75rem;
-    background-image: linear-gradient(to top, transparent, var(--color-highlights-25));
+    background-image: linear-gradient(to top,var(--color-highlights-15),var(--color-highlights-75));
   }
   .actor.sheet section.window-content header.char-header input,
   .actor.sheet section.window-content aside input {
@@ -885,7 +907,8 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     margin-top: 1rem;
   }
   .actor.sheet section.window-content form.crb-style .sheet-body .sheet-content ol.spell-list > li .item-summary,
-  .actor.npc.sheet form ol.spell-list > li .item-summary {
+  .actor.npc.sheet form ol.spell-list > li .item-summary,
+  .actor.army.sheet form ol.spell-list > li .item-summary {
     background: transparent;
     color: var(--color-text-primary);
   }
@@ -943,97 +966,120 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
 
   /* NPC */
-  .actor.sheet.npc {
+  .actor.sheet.npc,
+  .actor.sheet.army {
     min-height: 750px;
   }
   .actor.sheet.character {
     min-height: 850px;
   }
 
-  .actor.npc.sheet form {
+  .actor.npc.sheet form,
+  .actor.army.sheet form {
     --faded-border-color: var(--color-highlights-15);
     --color-pf-inventory-header-bg: var(--color-highlights-15);
   }
-  .actor.npc.sheet form .npc-body {
+  .actor.npc.sheet form .npc-body,
+  .actor.army.sheet form .npc-body {
     padding: 0;
     background: transparent;
   }
-  .actor.npc.sheet form .trait {
+  .actor.npc.sheet form .trait,
+  .actor.army.sheet form .trait {
     border: 1px solid transparent;
   }
-  .actor.npc.sheet .tags.paizo-style {
+  .actor.npc.sheet .tags.paizo-style,
+  .actor.army.sheet .tags.paizo-style {
     padding: 0;
   }
-  .actor.npc.sheet .tabs > [data-tab] {
+  .actor.npc.sheet .tabs > [data-tab],
+  .actor.army.sheet .tabs > [data-tab] {
     color: var(--color-text-primary);
     text-shadow: none;
     opacity: 0.7;
   }
-  .actor.npc.sheet .tabs>.active[data-tab] {
+  .actor.npc.sheet .tabs>.active[data-tab],
+  .actor.army.sheet .tabs>.active[data-tab] {
     color: var(--color-text-primary);
     opacity: 1;
     text-shadow: 0 0 4px var(--color-shadow-primary);
     font-weight: 600;
   }
-  .pf2e.actor.npc.sheet form{
+  .pf2e.actor.npc.sheet form,
+  .pf2e.actor.army.sheet form {
     padding: 0;
   }
-  .actor.npc.sheet .sidebar{
+  .actor.npc.sheet .sidebar,
+  .actor.army.sheet .sidebar {
     flex: 0 0 200px;
     width: 200px;
   }
-  .actor.npc.sheet form .sheet-body .section-container .section-header {
+  .actor.npc.sheet form .sheet-body .section-container .section-header,
+  .actor.army.sheet form .sheet-body .section-container .section-header {
     line-height: unset;
   }
-  .actor.npc.sheet form .sheet-body .actions-list li.action {
+  .actor.npc.sheet form .sheet-body .actions-list li.action,
+  .actor.army.sheet form .sheet-body .actions-list li.action {
     margin: 0.25rem 0;
   }
-  .actor.npc.sheet form .top-sections .attribute-modifiers .list {
+  .actor.npc.sheet form .top-sections .attribute-modifiers .list,
+  .actor.army.sheet form .top-sections .attribute-modifiers .list {
     padding-left: 0;
   }
 
-  .actor.npc.sheet form .sheet-body .entries-list .spellcasting-entry {
+  .actor.npc.sheet form .sheet-body .entries-list .spellcasting-entry,
+  .actor.army.sheet form .sheet-body .entries-list .spellcasting-entry {
     border: 0;
   }
-  .actor.npc.sheet form ol.spell-list > li.header-row {
+  .actor.npc.sheet form ol.spell-list > li.header-row,
+  .actor.army.sheet form ol.spell-list > li.header-row {
     border: 0;
     background: transparent;
   }
-  .actor.npc.sheet form ol.spell-list {
+  .actor.npc.sheet form ol.spell-list,
+  .actor.army.sheet form ol.spell-list {
     border-bottom: 0;
   }
 
-  .sheet.npc .window-content .npc-body header{
+  .sheet.npc .window-content .npc-body header,
+  .sheet.army .window-content .npc-body header {
     background-image: linear-gradient(to top, transparent, var(--color-highlights-50));
     padding: 1rem 1.5rem;
   }
-  .sheet.npc .window-content .npc-body .sheet-body > * {
+  .sheet.npc .window-content .npc-body .sheet-body > *,
+  .sheet.army .window-content .army-body .sheet-body > * {
     padding: 0.5rem 1.5rem 2rem 1.5rem;
   }
 
-  .actor.npc.sheet section.window-content .inventory .total-bulk {
+  .actor.npc.sheet section.window-content .inventory .total-bulk,
+  .actor.army.sheet section.window-content .inventory .total-bulk {
     margin: 1rem 0 0.25rem 0;
     padding-left: 0;
   }
-  .actor.npc.sheet section.window-content .inventory .inventory-list > header {
+  .actor.npc.sheet section.window-content .inventory .inventory-list > header,
+  .actor.army.sheet section.window-content .inventory .inventory-list > header {
     margin: 0;
     padding-left: 0;
   }
 
-  .actor.npc.sheet form a.roll:not(.inline-roll) {
+  .actor.npc.sheet form a.roll:not(.inline-roll),
+  .actor.army.sheet form a.roll:not(.inline-roll) {
     font-weight: 500;
     font-size: var(--font-size-12);
   }
   
   .actor.npc.sheet form .sheet-body .actions-list li.action .button-group .subsection.attack button,
-  .actor.npc.sheet form .sheet-body .actions-list li.action .button-group .subsection.damage button {
+  .actor.npc.sheet form .sheet-body .actions-list li.action .button-group .subsection.damage button,
+  .actor.army.sheet form .sheet-body .actions-list li.action .button-group .subsection.attack button,
+  .actor.army.sheet form .sheet-body .actions-list li.action .button-group .subsection.damage button {
     padding: 0.75rem 0.5rem;
     box-shadow: none;
     font-weight: 500;
     font-size: var(--font-size-12);
   }
 
-  .actor.npc.sheet form .sheet-body .actions-list li.action .button-group .subsection.damage button {
+  .actor.npc.sheet form .sheet-body .actions-list li.action .button-group .subsection.damage button,
+  .actor.army.sheet form .sheet-body .actions-list li.action .button-group .subsection.damage button {
     background-color: var(--color-bg-trait);
   }
   .actor.sheet form input[type=text],
@@ -1056,47 +1102,57 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     border: 1px solid var(--color-highlights-75);
   }
 
-  .actor.npc.sheet .sidebar .subsection {
+  .actor.npc.sheet .sidebar .subsection,
+  .actor.army.sheet .sidebar .subsection {
     background: var(--color-highlights-15);
     border-radius: 6px;
     margin: 0 .5rem;
     padding: 0.25rem .5rem .5rem .5rem;
   }
 
-  .actor.npc.sheet form > .npc-body > header .name {
+  .actor.npc.sheet form > .npc-body > header .name,
+  .actor.army.sheet form > .army-body > header .name {
     display: flex;
     align-items: center;
     font-family: var(--crlngn-font-titles);
     font-size: var(--font-size-20);
   }
-  .actor.npc.sheet form .section-container {
+  .actor.npc.sheet form .section-container,
+  .actor.army.sheet form .section-container {
     margin: 0 0 1rem 0;
     color: var(--color-text-primary);
   }
-  .actor.npc.sheet form .sheet-body .section-container .section-header {
+  .actor.npc.sheet form .sheet-body .section-container .section-header,
+  .actor.army.sheet form .sheet-body .section-container .section-header {
     background: transparent;
     padding: 0 0 0.5rem 0;
     border: 0;
     border-bottom: 1px solid var(--color-highlights-50);
   }
-  .actor.npc.sheet form .sheet-body .section-container .section-body {
+  .actor.npc.sheet form .sheet-body .section-container .section-body,
+  .actor.army.sheet form .sheet-body .section-container .section-body {
     border: 0;
     padding: 0.5rem 0;
   }
 
-  .actor.npc.sheet form .notes.active .notes-section > .notes-text {
+  .actor.npc.sheet form .notes.active .notes-section > .notes-text,
+  .actor.army.sheet form .notes.active .notes-section > .notes-text {
     color: var(--color-text-primary);
     line-height: 1.65;
     opacity: 0.7;
   }
-  .actor.npc.sheet form .sheet-body .tab {
+  .actor.npc.sheet form .sheet-body .tab,
+  .actor.army.sheet form .sheet-body .tab {
     margin-top: 0;
   }
   .actor.npc.sheet form .sidebar .subsection .hit-points input.current,
-  .actor.npc.sheet form .sidebar .subsection .hit-points .max {
+  .actor.npc.sheet form .sidebar .subsection .hit-points .max,
+  .actor.army.sheet form .sidebar .subsection .hit-points input.current,
+  .actor.army.sheet form .sidebar .subsection .hit-points .max {
     width: 2.8rem;
   }
-  .actor.npc.sheet form .sidebar .subsection.saves ul {
+  .actor.npc.sheet form .sidebar .subsection.saves ul,
+  .actor.army.sheet form .sidebar .subsection.saves ul {
     line-height: 1;
   }
   .sheet.party form > header .details .name {
@@ -1169,6 +1225,12 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .actor.sheet.vehicle .crb-style .sheet-body .sheet-content > .tab.active.details .vehicle-details .frame .actor-image {
     box-shadow: none;
   }
+  .actor.sheet.vehicle .window-content aside {
+    padding: 10px;
+  }
+  .actor.sheet.vehicle .window-content .sheet-body {
+    margin: 0 10px;
+  }
   .sheet.party header.content-header button {
     background-color: var(--tertiary);
     border: 1px solid var(--sub);
@@ -1201,7 +1263,8 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
 
   .actor.sheet section.window-content header .char-name input,
-  .actor.npc.sheet form > .npc-body > header .name .name-value {
+  .actor.npc.sheet form > .npc-body > header .name .name-value,
+  .actor.army.sheet form > .army-body > header .name .name-value {
     padding: 0.85em 0;
     color: var(--color-text-primary);
     background: transparent;
@@ -1212,10 +1275,12 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     box-shadow: none;
     min-height: 3rem;
   }
-  .actor.npc.sheet form > .npc-body > header .name .name-value {
+  .actor.npc.sheet form > .npc-body > header .name .name-value,
+  .actor.army.sheet form > .army-body > header .name .name-value {
     margin: 0.5rem 0;
   }
-  .actor.npc.sheet form .sidebar .subsection header label {
+  .actor.npc.sheet form .sidebar .subsection header label,
+  .actor.army.sheet form .sidebar .subsection header label {
     text-transform: uppercase;
     padding-left: 0;
     margin-top: 0.5rem;
@@ -1294,7 +1359,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .sheet.familiar .actions-list li.action {
     flex-flow: row nowrap;
   }
-  .sheet.familiar .actions-list li.action h4 {
+  .sheet.familiar .actions-list li.action h4{
     flex: 1 1 100%;
   }
   .sheet.familiar .actions-list li.action .controls {
@@ -1335,7 +1400,7 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   }
   
   .sheet.familiar header .header-content .details-section .defenses-section .defenses-list .save,
-  .sheet.familiar header .header-content .details-section .defenses-section .defenses-list .ac{
+  .sheet.familiar header .header-content .details-section .defenses-section .defenses-list .ac {
     flex: 1 1 auto;
     justify-content: center;
     min-width: 25px;
@@ -1544,7 +1609,8 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     }
 
     .actor.sheet section.window-content aside,
-    .actor.npc.sheet form .sidebar {
+    .actor.npc.sheet form .sidebar,
+    .actor.army.sheet form .sidebar {
       font: 500 var(--font-size-12) var(--crlngn-font-family);
     }
 
@@ -1558,7 +1624,8 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     .actor.sheet section.window-content .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list li {
       font-family: var(--crlngn-font-family);
     }
-    .actor.npc.sheet form .notes.active .notes-section > .notes-text {
+    .actor.npc.sheet form .notes.active .notes-section > .notes-text,
+    .actor.army.sheet form .notes.active .notes-section > .notes-text {
       font-family: var(--crlngn-font-family);
     }
 
@@ -1582,7 +1649,8 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     --serif: var(--crlngn-font-titles);
     --serif-condensed: var(--crlngn-font-titles);
 
-    .sheet.familiar header .header-content .charname {
+    .sheet.familiar header .header-content .charname,
+    .sheet.army header .header-content .charname {
       gap: 0.5rem;
     }
 
@@ -1607,7 +1675,8 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     }
 
     .actor.sheet section.window-content header .char-name input,
-    .actor.npc.sheet form > .npc-body > header .name .name-value {
+    .actor.npc.sheet form > .npc-body > header .name .name-value,
+    .actor.army.sheet form > .army-body > header .name .name-value {
       font-family: var(--crlngn-font-titles);
       letter-spacing: 0.03rem;
       font-weight: 500;
@@ -1630,14 +1699,17 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     .sheet.party form > header .details .name,
     .sheet.party [data-tab=overview] .member > .data header .name,
     .actor.sheet.party nav.sub-nav,
-    .sheet.familiar header .header-content .charname input {
+    .sheet.familiar header .header-content .charname input,
+    .sheet.army header .header-content .charname input {
       font-family: var(--crlngn-font-titles);
       font-weight: 500;
       font-variant: none;
     }
 
     .item.sheet form > header .details input,
-    .item.sheet form > header .details .level {
+    .item.sheet form > header .details .level ,
+    .army.sheet form > header .details input,
+    .army.sheet form > header .details .level {
       font: 600 var(--font-size-28) var(--crlngn-font-titles);
     }
   }
