@@ -26,6 +26,16 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "MAJOR_VERSION=$MAJOR_VERSION" >> $GITHUB_ENV
 
+      - name: Validate release branch matches tag major version
+        run: |
+          TARGET_BRANCH="${{ github.event.release.target_commitish }}"
+          EXPECTED_BRANCH="v$MAJOR_VERSION"
+          if [ "$TARGET_BRANCH" != "$EXPECTED_BRANCH" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME requires branch $EXPECTED_BRANCH, but release was created from $TARGET_BRANCH. Skipping publish."
+            exit 1
+          fi
+          echo "Validation passed: $GITHUB_REF_NAME on $TARGET_BRANCH"
+
       # Version updates are handled by the npm run bump script before release
 
       - name: Get Compatibility Versions
