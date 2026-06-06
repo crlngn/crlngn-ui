@@ -39,9 +39,10 @@ export const DARK_MODE_RULES = `
   --dnd5e-border-dotted: 1px dotted var(--color-cool-4) !important;
   --dnd5e-color-gold: rgba(159, 146, 117, 0.6) !important;
   --input-background-color: var(--color-cool-4) !important;
-  --chat-dark-blue: rgba(24, 32, 38, 1) !important;
   --input-background-alt: var(--color-dark-bg-50) !important;
   --color-text-secondary: var(--color-light-1) !important;
+  --color-text-dark-secondary: var(--color-light-1); !important;
+  --color-text-emphatic: var(--color-light-1); !important;
   --color-text-primary: var(--color-light-1) !important;
   --color-text-inverse: var(--color-dark-1) !important;
   --button-text-color: var(--color-light-1) !important;
