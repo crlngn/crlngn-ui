@@ -2,6 +2,7 @@ import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 import { SettingsOtherModules } from "./SettingsOtherModules.mjs";
+import { SettingsThemes } from "./SettingsThemes.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
 import { CombatTrackerManager } from "./combat-tracker/CombatTrackerManager.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
@@ -161,7 +162,7 @@ export class Main {
       BottomDockUtil.setup();
       SidebarTabs.onReady();
 
-      SettingsUtil.resetFoundryThemeSettings();
+      SettingsThemes.resetFoundryThemeSettings();
 
       // Scene nav specific ready actions
       TopNavigation.handleSceneFadeOut();

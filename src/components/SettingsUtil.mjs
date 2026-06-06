@@ -14,6 +14,7 @@ import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
 import { PlayersList } from "./PlayersListUtil.mjs";
 import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
 import { SettingsOtherModules } from "./SettingsOtherModules.mjs";
+import { SettingsThemes } from "./SettingsThemes.mjs";
 import { SheetsUtil } from "./SheetsUtil.mjs";
 import { JournalUtil } from "./JournalUtil.mjs";
 import { SidebarTabs } from "./SidebarUtil.mjs";
@@ -27,8 +28,6 @@ import { ColorPickerUtil } from "./ColorPickerUtil.mjs";
 export class SettingsUtil {
   static #uiHidden = false;
   static firstLoad = true;
-  static foundryUiConfig = null;
-  static coreColorScheme = null;
 
   /** Settings tags that control UI element visibility (fade, enable, hide) */
   static #uiVisibilitySettings = [
@@ -245,17 +244,17 @@ export class SettingsUtil {
     const isStreamMode = document.body.classList.contains('stream');
 
     // Apply custom theme and CSS
-    SettingsUtil.applyThemeSettings();
-    SettingsUtil.applyCustomCSS();
-    SettingsUtil.applyModuleAdjustments();
+    SettingsThemes.applyThemeSettings();
+    SettingsThemes.applyCustomCSS();
+    SettingsThemes.applyModuleAdjustments();
 
-    SettingsUtil.foundryUiConfig = game.settings.get('core','uiConfig') || null;
+    SettingsThemes.foundryUiConfig = game.settings.get('core','uiConfig') || null;
 
     // Initialize color scheme detection for stream mode
-    SettingsUtil.updateColorScheme();
+    SettingsThemes.updateColorScheme();
 
     // Apply chat styles regardless of stream mode
-    SettingsUtil.applyDebugSettings();
+    SettingsThemes.applyDebugSettings();
     SettingsUtil.applyChatStyles();
     SettingsUtil.applyBorderColors();
 
@@ -266,8 +265,8 @@ export class SettingsUtil {
       // Listen for core UI config changes to update stream mode theme
       Hooks.on(HOOKS_CORE.UPDATE_SETTING, (setting, value) => {
         if (setting.key === 'core.uiConfig') {
-          SettingsUtil.foundryUiConfig = value;
-          SettingsUtil.updateColorScheme();
+          SettingsThemes.foundryUiConfig = value;
+          SettingsThemes.updateColorScheme();
         }
       });
       return;
@@ -289,8 +288,8 @@ export class SettingsUtil {
     // Listen for core UI config changes to update stream mode theme
     Hooks.on(HOOKS_CORE.UPDATE_SETTING, (setting, value) => {
       if (setting.key === 'core.uiConfig') {
-        SettingsUtil.foundryUiConfig = value;
-        SettingsUtil.updateColorScheme();
+        SettingsThemes.foundryUiConfig = value;
+        SettingsThemes.updateColorScheme();
       }
     });
 
@@ -328,9 +327,9 @@ export class SettingsUtil {
       SettingsUtil.apply(SETTINGS[fieldName].tag);
     });
 
-    SettingsUtil.applyForcedDarkTheme();
+    SettingsThemes.applyForcedDarkTheme();
     SidebarTabs.applySideBarWidth();
-    SettingsUtil.applyDarkThemeToModules();
+    SettingsThemes.applyDarkThemeToModules();
     TopNavigation.applyHide();
 
     // Apply background settings
@@ -504,9 +503,9 @@ export class SettingsUtil {
         ChatUtil.enableChatStyles = value;
         SettingsUtil.applyChatStyles(); break;
       // case SETTINGS.enforceDarkMode.tag:
-      //   SettingsUtil.resetFoundryThemeSettings(); break;
+      //   SettingsThemes.resetFoundryThemeSettings(); break;
       case SETTINGS.debugMode.tag:
-        SettingsUtil.applyDebugSettings(); break;
+        SettingsThemes.applyDebugSettings(); break;
       case SETTINGS.useSceneFolders.tag:
         TopNavigation.useSceneFolders = value;
         ui.nav?.render(); break;
@@ -565,21 +564,21 @@ export class SettingsUtil {
       case SETTINGS.sceneNavCollapsed.tag:
         TopNavigation.isCollapsed = SettingsUtil.get(SETTINGS.sceneNavCollapsed.tag); break;
       case SETTINGS.colorTheme.tag:
-        SettingsUtil.applyThemeSettings(); break;
+        SettingsThemes.applyThemeSettings(); break;
       case SETTINGS.playerColorTheme.tag:
-        SettingsUtil.applyThemeSettings(); break;
+        SettingsThemes.applyThemeSettings(); break;
       case SETTINGS.customThemeColors.tag:
-        SettingsUtil.applyThemeSettings(); break;
+        SettingsThemes.applyThemeSettings(); break;
       case SETTINGS.playerCustomThemeColors.tag:
-        SettingsUtil.applyThemeSettings(); break;
+        SettingsThemes.applyThemeSettings(); break;
       case SETTINGS.customStyles.tag:
-        SettingsUtil.applyCustomCSS(value); break;
+        SettingsThemes.applyCustomCSS(value); break;
       case SETTINGS.forcedDarkTheme.tag:
-        SettingsUtil.applyForcedDarkTheme(value); break;
+        SettingsThemes.applyForcedDarkTheme(value); break;
       case SETTINGS.adjustOtherModules.tag:
-        SettingsUtil.applyModuleAdjustments(value); break;
+        SettingsThemes.applyModuleAdjustments(value); break;
       case SETTINGS.applyDarkThemeToModules.tag:
-        SettingsUtil.applyDarkThemeToModules(value); break;
+        SettingsThemes.applyDarkThemeToModules(value); break;
       case SETTINGS.otherModulesList.tag:
         SettingsOtherModules.apply(value); break;
       // Interface enable options
@@ -973,153 +972,6 @@ export class SettingsUtil {
   }
 
   /**
-   * Resets Foundry's theme settings to defaults
-   * Used when enforcing dark mode or other theme changes
-   */
-  static resetFoundryThemeSettings(){
-    // const SETTINGS = getSettings();
-    // const isMonksSettingsOn = GeneralUtil.isModuleOn('monks-player-settings');
-    // const isForceSettingsOn = GeneralUtil.isModuleOn('force-client-settings');
-    // const forceDarkModeOn = SettingsUtil.get(SETTINGS.enforceDarkMode.tag);
-    // if(isForceSettingsOn){
-    //   if(game.user?.isGM) {
-    //     ui.notifications.warn(game.i18n.localize("CRLNGN_UI.ui.notifications.forceClientSettingsConflict"), {permanent: true});
-    //     SettingsUtil.set(SETTINGS.enforceDarkMode.tag, false);
-    //   }
-    //   return;
-    // }
-
-    // LogUtil.log("resetFoundryThemeSettings", [game.settings]);
-    // const foundryUiConfig = game.settings.get('core','uiConfig') || null;
-
-    // // applications or interface
-    // LogUtil.log("resetFoundryThemeSettings", [foundryUiConfig, game.settings])
-    
-    // if(forceDarkModeOn){
-    //   const enforcedThemes = {
-    //     ...foundryUiConfig,
-    //     colorScheme: {
-    //       application: foundryUiConfig.colorScheme.applications===''? 'dark' : foundryUiConfig.colorScheme.applications,
-    //       interface: foundryUiConfig.colorScheme.interface===''? 'dark' : foundryUiConfig.colorScheme.interface
-    //     }
-    //   }
-    //   game.settings.set('core','uiConfig', enforcedThemes);
-    // }
-  }
-
-  /**
-   * Applies debug mode settings
-   * @param {boolean} [value] - Whether to enable debug mode
-   */
-  static applyDebugSettings(value){
-    const SETTINGS = getSettings();
-    LogUtil.debugOn = value || SettingsUtil.get(SETTINGS.debugMode.tag);
-  }
-
-  /**
-   * Applies the selected theme to the UI
-   * @param {string} [value] - Theme name to apply, if not provided uses stored setting
-   */
-  static applyThemeSettings = async (value) => {
-    const SETTINGS = getSettings();
-    const body = document.querySelector("body");
-    
-    // First check for player custom colors (takes priority)
-    let customColors = SettingsUtil.get(SETTINGS.playerCustomThemeColors.tag);
-    let migratedFrom = 'player';
-    
-    // If no player custom colors, check world custom colors
-    if (!customColors) {
-      customColors = SettingsUtil.get(SETTINGS.customThemeColors.tag);
-      migratedFrom = 'world';
-    }
-    
-    // Apply custom colors if they exist (check for new or old structure)
-    if (customColors?.accent && (customColors?.secondaryDark || customColors?.secondary)) {
-      ColorPickerUtil.applyCustomTheme(customColors);
-      LogUtil.log("Applied custom theme colors", [ customColors, migratedFrom ]);
-    } else {
-      const themeName = value || SettingsUtil.get(SETTINGS.playerColorTheme.tag) || SettingsUtil.get(SETTINGS.colorTheme.tag) || "";
-
-      THEMES.forEach((theme)=>{
-        if(theme.className){
-          body.classList.remove(theme.className);
-        }
-      });
-
-      if(themeName){
-        body.classList.add(themeName);
-      }
-
-      // Apply default theme colors to ensure CSS variables are set
-      const defaultColors = {
-        accent: THEMES[0].colorPreview[2],
-        secondaryDark: THEMES[0].colorPreview[1],
-        secondaryLight: THEMES[0].colorPreview[0] || 'rgb(223, 227, 231)',
-        isPreset: false
-      };
-      ColorPickerUtil.applyCustomTheme(defaultColors);
-      LogUtil.log("Applied default theme colors", [defaultColors]);
-    }
-  }
-
-  /**
-   * Applies custom CSS styles to the UI
-   * @param {string} [value] - CSS content to apply, if not provided uses stored setting
-   */
-  static applyCustomCSS = (value) => {
-    const SETTINGS = getSettings();
-    const cssContent = value || SettingsUtil.get(SETTINGS.customStyles.tag) || "";
-
-    GeneralUtil.addCustomCSS(cssContent);
-  }
-
-  /**
-   * Applies dark mode to defined CSS selectors
-   * @param {string} [value] - CSS selectors / rules to apply dark theme to. If not provided uses stored setting
-   */
-  static applyForcedDarkTheme = (value) => {
-    const isDarkMode = SettingsUtil.foundryUiConfig?.colorScheme?.applications==='dark' || SettingsUtil.foundryUiConfig?.colorScheme?.interface==='dark';
-    if(!isDarkMode) {return;}
-
-    const SETTINGS = getSettings();
-    const cssSelectorStr = value || SettingsUtil.get(SETTINGS.forcedDarkTheme.tag) || "";
-    if (!cssSelectorStr.trim()) return;
-    
-    // Process the CSS rules using the utility method
-    const finalStyle = GeneralUtil.processCSSRules(DARK_MODE_RULES, cssSelectorStr);
-    
-    LogUtil.log("applyForcedDarkTheme", [finalStyle.substring(0, 100) + "..."]);
-    
-    // Apply the CSS
-    GeneralUtil.addCustomCSS(finalStyle, 'crlngn-forced-dark-mode');
-  }
-
-  /**
-   * Applies style adjustments to other modules
-   * @param {boolean} [value] - Whether to enforce styles, if not provided uses stored setting
-   */
-  static applyModuleAdjustments = (value) => {
-    const SETTINGS = getSettings();
-    const enforceStyles = value || SettingsUtil.get(SETTINGS.adjustOtherModules.tag) || false;
-    
-    if(enforceStyles){
-      ModuleCompatUtil.addModuleClasses();
-    }
-  }
-
-  static applyDarkThemeToModules = (value) => {
-    const SETTINGS = getSettings();
-    const enforceDarkTheme = value || SettingsUtil.get(SETTINGS.applyDarkThemeToModules.tag) || false;
-    const foundryUiConfig = game.settings.get('core','uiConfig') || null;
-    
-    if(enforceDarkTheme && foundryUiConfig?.colorScheme?.applications==='dark'){
-      SettingsUtil.applyForcedDarkTheme('.app.theme-light:not(.sheet.dnd5e2, .journal-sheet, #hurry-up, .sheet)');
-      document.querySelector('body').classList.add('crlngn-forced-dark-theme');
-    }
-  }
-
-  /**
    * Toggles visibility of the main UI interface
    * Affects all elements inside the #interface block, camera views, and taskbar
    */
@@ -1479,56 +1331,6 @@ export class SettingsUtil {
       if (enforcementState === 'soft' || enforcementState === 'locked') {
         SettingsUtil.saveDefaultSettings();
       }
-    }
-  }
-
-  /**
-   * Updates color scheme detection and applies themed class for stream mode
-   * Detects current Foundry interface theme and applies appropriate classes
-   */
-  static updateColorScheme() {
-    const foundryUiConfig = game.settings.get('core','uiConfig');
-    let interfaceTheme = foundryUiConfig?.colorScheme?.interface;
-
-    // If Browser Default, detect browser preference
-    if (!interfaceTheme) {
-      if (matchMedia("(prefers-color-scheme: dark)").matches) {
-        interfaceTheme = "dark";
-      } else if (matchMedia("(prefers-color-scheme: light)").matches) {
-        interfaceTheme = "light";
-      }
-    }
-
-    SettingsUtil.coreColorScheme = interfaceTheme;
-    LogUtil.log('SettingsUtil.updateColorScheme', [foundryUiConfig, SettingsUtil.coreColorScheme]);
-
-    // Apply themed class for stream mode
-    SettingsUtil.applyStreamModeTheme(interfaceTheme);
-  }
-
-  /**
-   * Applies themed.theme-{colorScheme} class to body in stream mode
-   * @param {string} interfaceTheme - The detected interface theme (light/dark)
-   */
-  static applyStreamModeTheme(interfaceTheme='dark') {
-    const body = document.querySelector("body");
-    const isStreamMode = body?.classList.contains("stream");
-    LogUtil.log('Applied stream mode theme', [interfaceTheme, isStreamMode]);
-
-    if (isStreamMode && interfaceTheme) {
-      // Remove existing themed classes from body
-      body.classList.remove("themed", "theme-light", "theme-dark");
-
-      // Add themed and theme-specific classes to body
-      body.classList.add("themed", `theme-${interfaceTheme}`);
-
-      // Also apply theme classes to chat-log in stream mode
-      const chatLog = document.querySelector(".chat-log");
-      if (chatLog) {
-        chatLog.classList.remove("theme-light", "theme-dark");
-        chatLog.classList.add(`theme-${interfaceTheme}`);
-      }
-
     }
   }
 
