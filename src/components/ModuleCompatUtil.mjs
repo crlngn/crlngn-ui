@@ -133,32 +133,29 @@ export class ModuleCompatUtil {
       }
     }
 
-    // Remove all module classes only on first call (fresh apply or settings change)
-    if (!ModuleCompatUtil.#moduleClassesApplied) {
-      Object.values(SETTINGS.otherModulesList.options).forEach(opt => {
-        const moduleId = opt.replace(/['''"]/g, "").trim();
-        document.body.classList.remove('crlngn-' + moduleId);
-      });
-    }
-
-    // Then add classes for enabled modules that are installed
+    // Sync each entry to the current setting on every call so toggling a
+    // module off live-removes its body class instead of waiting for reload.
     let allResolved = true;
     moduleList.forEach(item => {
-      if (item.enabled && item.id) {
-        const cleanId = item.id.trim();
-        const className = 'crlngn-' + cleanId;
+      if (!item.id) return;
+      const cleanId = item.id.trim();
+      const className = 'crlngn-' + cleanId;
 
-        if (document.body.classList.contains(className)) return;
+      if (!item.enabled) {
+        document.body.classList.remove(className);
+        return;
+      }
 
-        const moduleData = game.modules.get(cleanId);
-        const isModuleInstalled = !!moduleData;
+      if (document.body.classList.contains(className)) return;
 
-        if (isModuleInstalled) {
-          document.body.classList.add(className);
-          LogUtil.log(`Added class for installed module: ${className}`);
-        } else {
-          allResolved = false;
-        }
+      const moduleData = game.modules.get(cleanId);
+      const isModuleInstalled = !!moduleData;
+
+      if (isModuleInstalled) {
+        document.body.classList.add(className);
+        LogUtil.log(`Added class for installed module: ${className}`);
+      } else {
+        allResolved = false;
       }
     });
 
