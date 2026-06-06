@@ -1179,6 +1179,10 @@ body.crlngn-ui {
         background: var( --color-highlights-15);
         color: inherit;
       }
+      &[aria-pressed=true] {
+        background: var( --color-highlights-15);
+        color: inherit;
+      }
     }
   }
 
