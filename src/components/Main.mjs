@@ -1,6 +1,7 @@
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
+import { SettingsOtherModules } from "./SettingsOtherModules.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
 import { CombatTrackerManager } from "./combat-tracker/CombatTrackerManager.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
@@ -149,7 +150,7 @@ export class Main {
       // TopNavigation.checkSceneNavCompat();
 
       // Migrate otherModulesList setting to new array format if needed
-      SettingsUtil.migrateOtherModulesList();
+      SettingsOtherModules.migrate();
 
       ModuleCompatUtil.init();
       UpdateNewsUtil.init();

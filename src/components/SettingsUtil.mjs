@@ -13,6 +13,7 @@ import { MacroHotbar } from "./MacroHotbarUtil.mjs";
 import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
 import { PlayersList } from "./PlayersListUtil.mjs";
 import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
+import { SettingsOtherModules } from "./SettingsOtherModules.mjs";
 import { SheetsUtil } from "./SheetsUtil.mjs";
 import { JournalUtil } from "./JournalUtil.mjs";
 import { SidebarTabs } from "./SidebarUtil.mjs";
@@ -580,7 +581,7 @@ export class SettingsUtil {
       case SETTINGS.applyDarkThemeToModules.tag:
         SettingsUtil.applyDarkThemeToModules(value); break;
       case SETTINGS.otherModulesList.tag:
-        SettingsUtil.applyOtherModulesList(value); break;
+        SettingsOtherModules.apply(value); break;
       // Interface enable options
       case SETTINGS.enablePlayerList.tag:
         PlayersList.applyCustomStyle(value); break;
@@ -1116,149 +1117,6 @@ export class SettingsUtil {
       SettingsUtil.applyForcedDarkTheme('.app.theme-light:not(.sheet.dnd5e2, .journal-sheet, #hurry-up, .sheet)');
       document.querySelector('body').classList.add('crlngn-forced-dark-theme');
     }
-  }
-
-  /**
-   * Migrates otherModulesList from old string format to new array format
-   * Also merges user's saved preferences with current module options (auto-enables new modules)
-   * @returns {Array} The migrated/merged array of module objects
-   */
-  static migrateOtherModulesList = () => {
-    const SETTINGS = getSettings();
-    const savedValue = game.settings.get(MODULE_ID, SETTINGS.otherModulesList.tag);
-
-    // Check if already in new format (array)
-    if (Array.isArray(savedValue)) {
-      // Already migrated - check for new modules and merge
-      const mergedArray = SettingsUtil.mergeModuleListDefaults(savedValue);
-      // Only save if something changed
-      if (JSON.stringify(mergedArray) !== JSON.stringify(savedValue)) {
-        SettingsUtil.set(SETTINGS.otherModulesList.tag, mergedArray);
-      }
-      return mergedArray;
-    }
-
-    // Old format (string) - migrate
-    if (typeof savedValue === 'string' && savedValue.length > 0) {
-      LogUtil.log('Migrating otherModulesList from string to array format', [savedValue]);
-      const migratedArray = SettingsUtil.parseOldModuleListFormat(savedValue);
-      const mergedArray = SettingsUtil.mergeModuleListDefaults(migratedArray);
-      SettingsUtil.set(SETTINGS.otherModulesList.tag, mergedArray);
-      LogUtil.log('Migration complete', [mergedArray]);
-      return mergedArray;
-    }
-
-    // No saved value or corrupt - use defaults
-    LogUtil.log('No saved otherModulesList found, using defaults');
-    return SETTINGS.otherModulesList.default;
-  }
-
-  /**
-   * Parses old comma-separated string format into new array format
-   * @param {string} stringValue - Old format: "'module-a','module-b','module-c'"
-   * @returns {Array} Array of objects: [{ id: 'module-a', enabled: true }, ...]
-   */
-  static parseOldModuleListFormat = (stringValue) => {
-    const SETTINGS = getSettings();
-    const moduleArray = [];
-
-    // Split and clean the old string format
-    const enabledModules = stringValue
-      .split(',')
-      .map(item => item.replace(/['''"]/g, "").trim())
-      .filter(id => id.length > 0);
-
-    LogUtil.log('Parsed enabled modules from old format', [enabledModules]);
-
-    // Convert to new format: include ALL modules from options, mark enabled/disabled
-    Object.values(SETTINGS.otherModulesList.options).forEach(moduleId => {
-      // Clean the module ID (options might have inconsistent quotes)
-      const cleanId = moduleId.replace(/['''"]/g, "").trim();
-
-      moduleArray.push({
-        id: cleanId,
-        enabled: enabledModules.includes(cleanId)
-      });
-    });
-
-    return moduleArray;
-  }
-
-  /**
-   * Merges user's saved module preferences with current module options
-   * New modules (not in user's array) are auto-enabled
-   * Existing modules preserve user's enabled/disabled choice
-   * @param {Array} userArray - User's saved array of module objects
-   * @returns {Array} Merged array with all current modules
-   */
-  static mergeModuleListDefaults = (userArray) => {
-    const SETTINGS = getSettings();
-    const mergedArray = [];
-
-    // Get all current module IDs from options (source of truth)
-    const allModuleIds = Object.values(SETTINGS.otherModulesList.options)
-      .map(id => id.replace(/['''"]/g, "").trim());
-
-    // Create lookup map of user's preferences
-    const userPrefs = new Map(
-      userArray.map(item => [item.id, item.enabled])
-    );
-
-    // Build merged array: preserve user prefs, default new modules to enabled
-    allModuleIds.forEach(moduleId => {
-      mergedArray.push({
-        id: moduleId,
-        enabled: userPrefs.has(moduleId) ? userPrefs.get(moduleId) : true
-        // If userPrefs has this module (even if false), use that value
-        // If userPrefs doesn't have it, it's a new module -> default to true
-      });
-    });
-
-    return mergedArray;
-  }
-
-  /**
-   * Applies the list of other modules to adjust styles for
-   * @param {Array} [value] - Array of module objects, if not provided uses stored setting
-   */
-  static applyOtherModulesList = (value) => {
-    const SETTINGS = getSettings();
-    let currSetting = value || SettingsUtil.get(SETTINGS.otherModulesList.tag);
-    LogUtil.log("applyOtherModulesList - before merge", [currSetting]);
-
-    // Ensure the list has all expected modules by merging with defaults
-    if (Array.isArray(currSetting)) {
-      const defaultList = SETTINGS.otherModulesList.default;
-      const mergedList = [];
-      const currentIds = new Set(currSetting.map(m => m.id));
-
-      // Start with all default modules
-      defaultList.forEach(defaultModule => {
-        // Check if user has a preference for this module
-        const userModule = currSetting.find(m => m.id === defaultModule.id);
-        if (userModule) {
-          // Preserve user's choice
-          mergedList.push(userModule);
-        } else {
-          // Add missing module with default enabled state
-          mergedList.push({ ...defaultModule });
-        }
-      });
-
-      // Check if any modules are missing from current setting
-      const defaultIds = new Set(defaultList.map(m => m.id));
-      const hasMissingModules = [...defaultIds].some(id => !currentIds.has(id));
-
-      // If there are missing modules, update the setting
-      if (hasMissingModules || mergedList.length !== currSetting.length) {
-        LogUtil.log("applyOtherModulesList - merged missing modules", [currSetting.length, 'to', mergedList.length, 'missing:', [...defaultIds].filter(id => !currentIds.has(id))]);
-        SettingsUtil.set(SETTINGS.otherModulesList.tag, mergedList);
-        currSetting = mergedList;
-      }
-    }
-
-    LogUtil.log("applyOtherModulesList - after merge", [currSetting]);
-    ModuleCompatUtil.addModuleClasses();
   }
 
   /**
