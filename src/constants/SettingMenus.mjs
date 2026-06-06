@@ -360,13 +360,16 @@ export async function applyBulkLockState(state) {
   const SETTINGS = getSettings();
   let appliedCount = 0;
 
-  // Apply state to all client-scoped settings (excluding menus and special settings)
+  // Apply state to all client-scoped settings (excluding menus and special settings).
+  // v2-applied-soft-defaults is an internal client tracker — enforcing it causes
+  // saveDefaultSettings/enforceGMSettings to nest the tracker inside itself on
+  // every round-trip, ballooning settings JSON without bound.
   for (const [key, setting] of Object.entries(SETTINGS)) {
     if (setting.tag &&
         setting.scope === SETTING_SCOPE.client &&
         !setting.isMenu &&
         setting.config === false &&
-        !['v2-bulk-lock-action', 'disable-ui', 'v2-debug-mode'].includes(setting.tag)) {
+        !['v2-bulk-lock-action', 'disable-ui', 'v2-debug-mode', 'v2-applied-soft-defaults'].includes(setting.tag)) {
       SettingsUtil.setEnforcementState(setting.tag, state);
       appliedCount++;
     }

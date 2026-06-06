@@ -135,6 +135,10 @@ export class Main {
       CustomHandlebarsHelpers.init();
       TopNavigation.checkSideBar(ui.sidebar?.expanded || false);
 
+      // Scrub any recursive appliedSoftDefaults contamination before enforcing,
+      // so corrupt data from the pre-fix bulk-lock bug doesn't propagate further.
+      SettingsUtil.cleanupAppliedSoftDefaults();
+
       // Enforce GM settings and refresh components if needed
       const settingsChanged = SettingsUtil.enforceGMSettings();
       if (settingsChanged) {

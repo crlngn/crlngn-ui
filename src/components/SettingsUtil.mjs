@@ -1448,6 +1448,44 @@ export class SettingsUtil {
   }
 
   /**
+   * Cleans up corruption from an earlier bug where the appliedSoftDefaults
+   * client tracker got swept into the bulk-lock enforcement action, causing
+   * saveDefaultSettings/enforceGMSettings to nest the tracker inside itself
+   * on every round-trip (issue: 48MB settings exports observed).
+   * Idempotent — safe to run on every load.
+   */
+  static cleanupAppliedSoftDefaults() {
+    const SETTINGS = getSettings();
+    const trackerTag = SETTINGS.appliedSoftDefaults.tag;
+
+    // Client-side: if the local tracker contains itself as a key, the value
+    // is an arbitrarily deep self-nested dict. Reset to a clean object.
+    const tracker = SettingsUtil.get(trackerTag);
+    if (tracker && typeof tracker === 'object' && trackerTag in tracker) {
+      SettingsUtil.set(trackerTag, {});
+      LogUtil.log("Reset recursive appliedSoftDefaults tracker");
+    }
+
+    // GM-only: scrub the world-scope contamination so the corruption can't
+    // re-propagate to clients on the next enforceGMSettings pass.
+    if (game.user?.isGM) {
+      const enforcement = SettingsUtil.get(SETTINGS.settingEnforcement.tag);
+      if (enforcement && trackerTag in enforcement) {
+        delete enforcement[trackerTag];
+        SettingsUtil.set(SETTINGS.settingEnforcement.tag, enforcement);
+        LogUtil.log("Removed appliedSoftDefaults from enforcement map");
+      }
+
+      const defaultSettings = SettingsUtil.get(SETTINGS.defaultSettings.tag);
+      if (defaultSettings && trackerTag in defaultSettings) {
+        delete defaultSettings[trackerTag];
+        SettingsUtil.set(SETTINGS.defaultSettings.tag, defaultSettings);
+        LogUtil.log("Removed appliedSoftDefaults from GM defaults snapshot");
+      }
+    }
+  }
+
+  /**
    * Enforces GM settings to players based on individual enforcement states
    * Called during module initialization for non-GM users
    */
@@ -1467,9 +1505,13 @@ export class SettingsUtil {
     const appliedSoftDefaults = SettingsUtil.get(SETTINGS.appliedSoftDefaults.tag) || {};
     let softDefaultsChanged = false;
 
-    // Apply each stored setting based on its individual enforcement state
+    // Apply each stored setting based on its individual enforcement state.
+    // Never re-apply the appliedSoftDefaults tracker — if it leaked into a
+    // pre-fix GM snapshot, applying it would re-nest the client tracker
+    // inside itself.
     for (const [settingTag, value] of Object.entries(defaultSettings)) {
       if (settingTag === '_version') continue;
+      if (settingTag === SETTINGS.appliedSoftDefaults.tag) continue;
 
       try {
         // Check if this setting should be enforced for the current user
@@ -1538,9 +1580,12 @@ export class SettingsUtil {
       _version: Date.now() // Add timestamp to track updates
     };
 
-    // Collect only client-scoped settings that are enforced (not unlocked)
+    // Collect only client-scoped settings that are enforced (not unlocked).
+    // appliedSoftDefaults is an internal client tracker; including it here
+    // nests its current value inside the GM snapshot and causes unbounded
+    // recursion on subsequent enforceGMSettings round-trips.
     for (const [key, setting] of Object.entries(SETTINGS)) {
-      if (setting.tag && setting.scope === 'client' && !setting.isMenu) {
+      if (setting.tag && setting.scope === 'client' && !setting.isMenu && setting.tag !== SETTINGS.appliedSoftDefaults.tag) {
         const enforcementState = SettingsUtil.getEnforcementState(setting.tag);
 
         if (enforcementState === 'unlocked') {
