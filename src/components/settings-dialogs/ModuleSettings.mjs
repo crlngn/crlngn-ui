@@ -1,6 +1,7 @@
 import { getSettings, THEMES, SETTING_SCOPE } from "../../constants/Settings.mjs";
 import { getSettingMenus } from "../../constants/SettingMenus.mjs";
 import { LogUtil } from "../LogUtil.mjs";
+import { SettingsEnforcement } from "../SettingsEnforcement.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
 import { GeneralUtil } from "../GeneralUtil.mjs";
 import { LeftControls } from "../LeftControlsUtil.mjs";
@@ -446,7 +447,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
         // Add enforcement state for client-scoped settings with config: false
         if (fieldData.scope === 'client' && fieldData.config === false) {
-          const state = SettingsUtil.getEnforcementState(fieldData.tag);
+          const state = SettingsEnforcement.getEnforcementState(fieldData.tag);
           fieldData.enforcementState = state;
           // For players, mark if setting is locked (locked or gate mode)
           if (!game.user.isGM) {
@@ -467,7 +468,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
         // Add enforcement state for client-scoped settings with config: false
         if (fieldData.scope === 'client' && fieldData.config === false) {
-          const state = SettingsUtil.getEnforcementState(fieldData.tag);
+          const state = SettingsEnforcement.getEnforcementState(fieldData.tag);
           fieldData.enforcementState = state;
           // For players, mark if setting is locked (locked or gate mode)
           if (!game.user.isGM) {
@@ -562,7 +563,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         if (!settingTagsStr) return;
 
         const settingTags = settingTagsStr.split(',');
-        const freshState = SettingsUtil.getEnforcementState(settingTags[0]) || 'unlocked';
+        const freshState = SettingsEnforcement.getEnforcementState(settingTags[0]) || 'unlocked';
 
         // Update the icon to reflect current state
         ModuleSettings.updateEnforcementIcon(icon, freshState);
@@ -789,7 +790,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
             fieldNames.push(name);
             settingTags.push(SETTINGS[name].tag);
             // Use the most restrictive enforcement state from all settings in the row
-            const state = SettingsUtil.getEnforcementState(SETTINGS[name].tag) || 'unlocked';
+            const state = SettingsEnforcement.getEnforcementState(SETTINGS[name].tag) || 'unlocked';
             if (state === 'gate' || (state === 'locked' && enforcementState !== 'gate')) {
               enforcementState = state;
             } else if (state === 'soft' && enforcementState === 'unlocked') {
@@ -823,7 +824,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
         fieldNames = [fieldName];
         settingTags = [setting.tag];
-        enforcementState = SettingsUtil.getEnforcementState(setting.tag) || 'unlocked';
+        enforcementState = SettingsEnforcement.getEnforcementState(setting.tag) || 'unlocked';
         LogUtil.log(`Processing ${fieldName}`, [{ tag: setting.tag, enforcementState }]);
       }
 
@@ -899,7 +900,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     LogUtil.log(`handleEnforcementIconClick: ${settingTagsStr}`, [{ isAltClick, forceAltClick, altKey: event.altKey, tagCount: settingTags.length }]);
 
     // Get current state from the first setting to determine what to cycle to
-    const currentState = SettingsUtil.getEnforcementState(settingTags[0]);
+    const currentState = SettingsEnforcement.getEnforcementState(settingTags[0]);
     LogUtil.log(`Current state for ${settingTags[0]}:`, [currentState]);
 
     // Calculate new state once (don't cycle each setting independently)
@@ -956,7 +957,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         }
       }
 
-      SettingsUtil.setEnforcementState(tag, newState);
+      SettingsEnforcement.setEnforcementState(tag, newState);
     });
 
     // Update icon class based on new state
@@ -964,7 +965,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
     // Save defaults if the setting is now enforced
     if (newState !== 'unlocked') {
-      SettingsUtil.saveDefaultSettings();
+      SettingsEnforcement.saveDefaultSettings();
     }
   }
 
@@ -1174,7 +1175,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
           if (!settingTagsStr) return;
 
           const settingTags = settingTagsStr.split(',');
-          const freshState = SettingsUtil.getEnforcementState(settingTags[0]) || 'unlocked';
+          const freshState = SettingsEnforcement.getEnforcementState(settingTags[0]) || 'unlocked';
 
           // Always update the icon to reflect current state
           ModuleSettings.updateEnforcementIcon(icon, freshState);

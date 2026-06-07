@@ -13,6 +13,7 @@ import { MacroHotbar } from "./MacroHotbarUtil.mjs";
 import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
 import { PlayersList } from "./PlayersListUtil.mjs";
 import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
+import { SettingsEnforcement } from "./SettingsEnforcement.mjs";
 import { SettingsOtherModules } from "./SettingsOtherModules.mjs";
 import { SettingsThemes } from "./SettingsThemes.mjs";
 import { SheetsUtil } from "./SheetsUtil.mjs";
@@ -84,7 +85,7 @@ export class SettingsUtil {
             // Check if this setting is enforced and user is not GM
             // Only block changes for 'locked' or 'gate' modes, NOT 'soft' mode
             // Soft mode only applies defaults on first load, then allows player changes
-            const enforcementState = SettingsUtil.getEnforcementState(setting.tag);
+            const enforcementState = SettingsEnforcement.getEnforcementState(setting.tag);
             const shouldBlock = !game.user.isGM &&
                                 setting.scope === 'client' &&
                                 (enforcementState === 'locked' || enforcementState === 'gate');
@@ -105,7 +106,7 @@ export class SettingsUtil {
             // If GM changes a locked/soft setting, update the enforced default
             // (but NOT in gate mode - gate mode allows GM to have different value)
             if (game.user.isGM && setting.scope === 'client') {
-              const state = SettingsUtil.getEnforcementState(setting.tag);
+              const state = SettingsEnforcement.getEnforcementState(setting.tag);
               if (state === 'soft' || state === 'locked') {
                 const defaultSettings = SettingsUtil.get(SETTINGS.defaultSettings.tag) || {};
                 defaultSettings[setting.tag] = value;
@@ -115,7 +116,7 @@ export class SettingsUtil {
 
             SettingsUtil.apply(setting.tag, value);
             if (setting.tag !== 'v2-default-settings' && setting.tag !== 'v2-setting-enforcement') {
-              SettingsUtil.onSettingChange(setting.tag);
+              SettingsEnforcement.onSettingChange(setting.tag);
             }
 
             // Call custom onChange handler if defined in the setting
@@ -1005,332 +1006,6 @@ export class SettingsUtil {
       ui.sidebar.collapse();
     }else{
       ui.sidebar.expand();
-    }
-  }
-
-  /**
-   * Checks if any Carolingian UI settings are being forced by both Force Client Settings
-   * module AND Carolingian UI's enforcement system, with requiresReload: true.
-   * Only these settings are likely to cause actual problems.
-   * @returns {boolean} True if there's a real conflict
-   */
-  static hasForceClientSettingsConflict = () => {
-    const isActive = GeneralUtil.isModuleOn('force-client-settings');
-    LogUtil.log('FCS Check - Module active:', [isActive]);
-
-    if(!isActive) return false;
-
-    try {
-      const SETTINGS = getSettings();
-      const allSettings = game.settings.settings;
-      const conflictingSettings = [];
-
-      // Get Carolingian UI's enforcement states
-      const enforcement = SettingsUtil.get(SETTINGS.settingEnforcement.tag) || {};
-
-      allSettings.forEach((setting, key) => {
-        // FCS uses underscore prefix: force-client-settings._crlngn-ui.xxx
-        if(key.startsWith('force-client-settings._crlngn-ui.') ||
-           key.startsWith(`force-client-settings._${MODULE_ID}.`)) {
-          // Extract the setting tag from FCS key
-          // e.g., 'force-client-settings._crlngn-ui.v2-scene-controls-fade-out' -> 'v2-scene-controls-fade-out'
-          const settingTag = key.replace('force-client-settings._crlngn-ui.', '')
-                                .replace(`force-client-settings._${MODULE_ID}.`, '');
-
-          // Check if this setting is also enforced by Carolingian UI (not unlocked)
-          const cuiEnforcementState = enforcement[settingTag];
-          const isEnforcedByCUI = cuiEnforcementState && cuiEnforcementState !== 'unlocked';
-
-          // Check if this setting has requiresReload: true
-          const cuiSetting = Object.values(SETTINGS).find(s => s.tag === settingTag);
-          const hasReloadRequired = cuiSetting?.requiresReload === true;
-
-          // Only count as conflict if BOTH enforced by CUI AND requires reload
-          if(isEnforcedByCUI && hasReloadRequired) {
-            conflictingSettings.push({ key, settingTag, cuiEnforcementState });
-          }
-        }
-      });
-
-      LogUtil.log('Found conflicting settings (enforced by both + requiresReload):', [conflictingSettings]);
-
-      return conflictingSettings.length > 0;
-    } catch(e) {
-      LogUtil.log('Error checking FCS conflict', [e]);
-      return false;
-    }
-  }
-
-  /**
-   * Get the enforcement state for a specific setting
-   * @param {string} settingTag - The setting tag to check
-   * @returns {string} The enforcement state: 'unlocked', 'soft', 'locked', or 'gate'
-   */
-  static getEnforcementState(settingTag) {
-    const SETTINGS = getSettings();
-    const enforcement = SettingsUtil.get(SETTINGS.settingEnforcement.tag) || {};
-    const state = enforcement[settingTag] || 'unlocked';
-    LogUtil.log(`getEnforcementState for ${settingTag}:`, [state, enforcement]);
-    return state;
-  }
-
-  /**
-   * Set the enforcement state for a specific setting
-   * @param {string} settingTag - The setting tag
-   * @param {string} state - The enforcement state: 'unlocked', 'soft', 'locked', or 'gate'
-   */
-  static setEnforcementState(settingTag, state) {
-    const SETTINGS = getSettings();
-    const enforcement = SettingsUtil.get(SETTINGS.settingEnforcement.tag) || {};
-    const previousState = enforcement[settingTag] || 'unlocked';
-    enforcement[settingTag] = state;
-    SettingsUtil.set(SETTINGS.settingEnforcement.tag, enforcement);
-
-    if (previousState === 'soft' && state !== 'soft') {
-      const appliedSoftDefaults = SettingsUtil.get(SETTINGS.appliedSoftDefaults.tag) || {};
-      if (settingTag in appliedSoftDefaults) {
-        delete appliedSoftDefaults[settingTag];
-        SettingsUtil.set(SETTINGS.appliedSoftDefaults.tag, appliedSoftDefaults);
-      }
-    }
-
-    LogUtil.log(`Set enforcement state for ${settingTag}:`, [state]);
-  }
-
-  /**
-   * Cycle through enforcement states (normal click) or toggle gate mode (alt-click)
-   * @param {string} settingTag - The setting tag
-   * @param {boolean} isAltClick - Whether alt key was pressed
-   * @returns {string} The new enforcement state
-   */
-  static cycleEnforcementState(settingTag, isAltClick = false) {
-    const SETTINGS = getSettings();
-    const currentState = SettingsUtil.getEnforcementState(settingTag);
-
-    if (isAltClick) {
-      // Alt-click: toggle gate mode
-      const newState = currentState === 'gate' ? 'locked' : 'gate';
-
-      // When entering gate mode, save the current value as the enforced default FIRST
-      // This captures what players should see before GM changes their own value
-      if (newState === 'gate' && currentState !== 'gate') {
-        const defaultSettings = SettingsUtil.get(SETTINGS.defaultSettings.tag) || {};
-        const currentValue = SettingsUtil.get(settingTag);
-        if (currentValue !== undefined) {
-          defaultSettings[settingTag] = currentValue;
-          SettingsUtil.set(SETTINGS.defaultSettings.tag, defaultSettings);
-          LogUtil.log(`Saved default for gate mode: ${settingTag}`, [currentValue]);
-        }
-      }
-
-      SettingsUtil.setEnforcementState(settingTag, newState);
-      return newState;
-    } else {
-      // Normal click: cycle through unlocked → soft → locked → unlocked
-      const cycle = {
-        'unlocked': 'soft',
-        'soft': 'locked',
-        'locked': 'unlocked',
-        'gate': 'soft' // If in gate mode, normal click goes to soft
-      };
-      const newState = cycle[currentState];
-      SettingsUtil.setEnforcementState(settingTag, newState);
-      return newState;
-    }
-  }
-
-  /**
-   * Check if a setting should be enforced for the current user
-   * @param {string} settingTag - The setting tag to check
-   * @returns {boolean} True if the setting should be enforced
-   */
-  static shouldEnforceSetting(settingTag) {
-    const state = SettingsUtil.getEnforcementState(settingTag);
-
-    // Unlocked = never enforce
-    if (state === 'unlocked') return false;
-
-    // Gate = enforce for players but not GM
-    if (state === 'gate' && game.user?.isGM) return false;
-
-    // Soft, locked, or gate (for players) = enforce
-    return true;
-  }
-
-  /**
-   * Cleans up corruption from an earlier bug where the appliedSoftDefaults
-   * client tracker got swept into the bulk-lock enforcement action, causing
-   * saveDefaultSettings/enforceGMSettings to nest the tracker inside itself
-   * on every round-trip (issue: 48MB settings exports observed).
-   * Idempotent — safe to run on every load.
-   */
-  static cleanupAppliedSoftDefaults() {
-    const SETTINGS = getSettings();
-    const trackerTag = SETTINGS.appliedSoftDefaults.tag;
-
-    // Client-side: if the local tracker contains itself as a key, the value
-    // is an arbitrarily deep self-nested dict. Reset to a clean object.
-    const tracker = SettingsUtil.get(trackerTag);
-    if (tracker && typeof tracker === 'object' && trackerTag in tracker) {
-      SettingsUtil.set(trackerTag, {});
-      LogUtil.log("Reset recursive appliedSoftDefaults tracker");
-    }
-
-    // GM-only: scrub the world-scope contamination so the corruption can't
-    // re-propagate to clients on the next enforceGMSettings pass.
-    if (game.user?.isGM) {
-      const enforcement = SettingsUtil.get(SETTINGS.settingEnforcement.tag);
-      if (enforcement && trackerTag in enforcement) {
-        delete enforcement[trackerTag];
-        SettingsUtil.set(SETTINGS.settingEnforcement.tag, enforcement);
-        LogUtil.log("Removed appliedSoftDefaults from enforcement map");
-      }
-
-      const defaultSettings = SettingsUtil.get(SETTINGS.defaultSettings.tag);
-      if (defaultSettings && trackerTag in defaultSettings) {
-        delete defaultSettings[trackerTag];
-        SettingsUtil.set(SETTINGS.defaultSettings.tag, defaultSettings);
-        LogUtil.log("Removed appliedSoftDefaults from GM defaults snapshot");
-      }
-    }
-  }
-
-  /**
-   * Enforces GM settings to players based on individual enforcement states
-   * Called during module initialization for non-GM users
-   */
-  static enforceGMSettings() {
-    const SETTINGS = getSettings();
-
-    // Get stored default settings
-    const defaultSettings = SettingsUtil.get(SETTINGS.defaultSettings.tag);
-    if (!defaultSettings || Object.keys(defaultSettings).length <= 1) { // <= 1 because of _version
-      LogUtil.log("No default GM settings found to enforce");
-      return;
-    }
-
-    LogUtil.log("Checking individual enforcement states for settings", [defaultSettings]);
-
-    let settingsApplied = false;
-    const appliedSoftDefaults = SettingsUtil.get(SETTINGS.appliedSoftDefaults.tag) || {};
-    let softDefaultsChanged = false;
-
-    // Apply each stored setting based on its individual enforcement state.
-    // Never re-apply the appliedSoftDefaults tracker — if it leaked into a
-    // pre-fix GM snapshot, applying it would re-nest the client tracker
-    // inside itself.
-    for (const [settingTag, value] of Object.entries(defaultSettings)) {
-      if (settingTag === '_version') continue;
-      if (settingTag === SETTINGS.appliedSoftDefaults.tag) continue;
-
-      try {
-        // Check if this setting should be enforced for the current user
-        if (!SettingsUtil.shouldEnforceSetting(settingTag)) {
-          continue;
-        }
-
-        // Only apply client-scoped settings
-        const setting = Object.values(SETTINGS).find(s => s.tag === settingTag);
-        if (setting && setting.scope === 'client') {
-          const currentValue = SettingsUtil.get(settingTag);
-          const enforcementState = SettingsUtil.getEnforcementState(settingTag);
-
-          if (enforcementState === 'soft') {
-            const lastApplied = appliedSoftDefaults[settingTag];
-            const gmDefaultChanged = lastApplied === undefined || JSON.stringify(lastApplied) !== JSON.stringify(value);
-
-            if (gmDefaultChanged) {
-              if (currentValue !== value) {
-                SettingsUtil.set(settingTag, value);
-                LogUtil.log(`Applied soft-enforced GM setting: ${settingTag}`, [value]);
-                settingsApplied = true;
-              }
-              appliedSoftDefaults[settingTag] = value;
-              softDefaultsChanged = true;
-            } else {
-              LogUtil.log(`Skipping soft-enforced setting (player override preserved): ${settingTag}`, [currentValue]);
-            }
-          } else if (enforcementState === 'locked' || enforcementState === 'gate') {
-            // Locked/Gate enforcement: always apply
-            if (currentValue !== value) {
-              SettingsUtil.set(settingTag, value);
-              LogUtil.log(`Applied ${enforcementState}-enforced GM setting: ${settingTag}`, [value]);
-              settingsApplied = true;
-            }
-          }
-        }
-      } catch (error) {
-        LogUtil.log(`Failed to apply GM setting: ${settingTag}`, [error]);
-      }
-    }
-
-    if (softDefaultsChanged) {
-      SettingsUtil.set(SETTINGS.appliedSoftDefaults.tag, appliedSoftDefaults);
-    }
-
-    return settingsApplied;
-  }
-
-  /**
-   * Saves current GM settings as defaults for enforcement
-   * Only saves settings that have an enforcement state (not unlocked)
-   */
-  static saveDefaultSettings() {
-    const SETTINGS = getSettings();
-
-    // Only GM can save default settings
-    if (!game.user?.isGM) {
-      return;
-    }
-
-    // Start with existing defaults to preserve gate mode values
-    const existingDefaults = SettingsUtil.get(SETTINGS.defaultSettings.tag) || {};
-    const defaultSettings = {
-      ...existingDefaults,
-      _version: Date.now() // Add timestamp to track updates
-    };
-
-    // Collect only client-scoped settings that are enforced (not unlocked).
-    // appliedSoftDefaults is an internal client tracker; including it here
-    // nests its current value inside the GM snapshot and causes unbounded
-    // recursion on subsequent enforceGMSettings round-trips.
-    for (const [key, setting] of Object.entries(SETTINGS)) {
-      if (setting.tag && setting.scope === 'client' && !setting.isMenu && setting.tag !== SETTINGS.appliedSoftDefaults.tag) {
-        const enforcementState = SettingsUtil.getEnforcementState(setting.tag);
-
-        if (enforcementState === 'unlocked') {
-          // Remove unlocked settings from defaults
-          delete defaultSettings[setting.tag];
-        } else if (enforcementState === 'soft' || enforcementState === 'locked') {
-          // Soft/Locked: save current GM value as the enforced default
-          const value = SettingsUtil.get(setting.tag);
-          if (value !== undefined) {
-            defaultSettings[setting.tag] = value;
-          }
-        }
-        // Gate mode: don't update - preserve whatever was saved when entering gate mode
-      }
-    }
-
-    // Save the collected settings
-    SettingsUtil.set(SETTINGS.defaultSettings.tag, defaultSettings);
-    LogUtil.log("Saved enforced GM settings", [defaultSettings]);
-  }
-
-  /**
-   * Hook for when settings change to update default settings
-   * Only saves if the changed setting is enforced (but not gate mode)
-   */
-  static onSettingChange(settingTag) {
-    const SETTINGS = getSettings();
-
-    // If GM and setting is enforced (but not gate), save settings immediately
-    // Gate mode allows GM to have different value than enforced default
-    if (game.user?.isGM) {
-      const enforcementState = SettingsUtil.getEnforcementState(settingTag);
-      if (enforcementState === 'soft' || enforcementState === 'locked') {
-        SettingsUtil.saveDefaultSettings();
-      }
     }
   }
 

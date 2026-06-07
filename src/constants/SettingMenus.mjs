@@ -1,6 +1,7 @@
 import { ModuleSettings } from '../components/settings-dialogs/ModuleSettings.mjs';
 import { MODULE_ID } from './General.mjs';
 import { getSettings, SETTING_SCOPE } from './Settings.mjs';
+import { SettingsEnforcement } from '../components/SettingsEnforcement.mjs';
 import { SettingsUtil } from '../components/SettingsUtil.mjs';
 // import * as lang from '../lang/en.json' assert { type: "json" };
 
@@ -370,14 +371,14 @@ export async function applyBulkLockState(state) {
         !setting.isMenu &&
         setting.config === false &&
         !['v2-bulk-lock-action', 'disable-ui', 'v2-debug-mode', 'v2-applied-soft-defaults'].includes(setting.tag)) {
-      SettingsUtil.setEnforcementState(setting.tag, state);
+      SettingsEnforcement.setEnforcementState(setting.tag, state);
       appliedCount++;
     }
   }
 
   // Save default settings if state is not unlocked
   if (state !== 'unlocked') {
-    SettingsUtil.saveDefaultSettings();
+    SettingsEnforcement.saveDefaultSettings();
   }
 
   // Show success notification
