@@ -1,6 +1,7 @@
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
+import { SettingsEnforcement } from "./SettingsEnforcement.mjs";
 import { SettingsOtherModules } from "./SettingsOtherModules.mjs";
 import { SettingsThemes } from "./SettingsThemes.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
@@ -139,10 +140,10 @@ export class Main {
 
       // Scrub any recursive appliedSoftDefaults contamination before enforcing,
       // so corrupt data from the pre-fix bulk-lock bug doesn't propagate further.
-      SettingsUtil.cleanupAppliedSoftDefaults();
+      SettingsEnforcement.cleanupAppliedSoftDefaults();
 
       // Enforce GM settings and refresh components if needed
-      const settingsChanged = SettingsUtil.enforceGMSettings();
+      const settingsChanged = SettingsEnforcement.enforceGMSettings();
       if (settingsChanged) {
         TopNavigation.refreshSettings();
       }
@@ -179,7 +180,7 @@ export class Main {
 
       // Check for Force Client Settings conflict and warn user
       // Only warns if settings are enforced by BOTH modules AND have requiresReload: true
-      if (SettingsUtil.hasForceClientSettingsConflict()) {
+      if (SettingsEnforcement.hasForceClientSettingsConflict()) {
         ui.notifications.warn(
           game.i18n.localize('CRLNGN_UI.ui.notifications.enforceGMSettingsConflict')
         );
