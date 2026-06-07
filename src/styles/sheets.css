@@ -375,6 +375,31 @@ body.crlngn-ui.crlngn-sheets {
     grid-area: tabs;
   }
 
+  /* Vehicle sheet: dnd5e lays out .window-content as a 2/3-column grid (sidebar [stations] body).
+     The tabs are native horizontal tabs, so with sheet tabs on they take a grid cell and grid
+     auto-placement pushes .sheet-body into the narrow sidebar column. Pin explicit areas so the
+     tabs span the top and the body stays in the main column. */
+  &.crlngn-sheet-tabs {
+    .dnd5e2.sheet.actor.vehicle .window-content {
+      grid-template-rows: auto 1fr;
+      grid-template-areas:
+        "tabs tabs"
+        "sidebar body";
+    }
+    .dnd5e2.sheet.actor.vehicle.has-stations .window-content {
+      grid-template-areas:
+        "tabs tabs tabs"
+        "sidebar stations body";
+    }
+    .dnd5e2.sheet.actor.vehicle .window-content > .sheet-sidebar { grid-area: sidebar; }
+    .dnd5e2.sheet.actor.vehicle .window-content > .sheet-stations { grid-area: stations; }
+    /* The tab bar may be the nav directly, the dnd5e part wrapper, or crlngn's
+       scroll wrapper depending on render path — match whichever holds nav.tabs. */
+    .dnd5e2.sheet.actor.vehicle .window-content > nav.tabs,
+    .dnd5e2.sheet.actor.vehicle .window-content > *:has(nav.tabs) { grid-area: tabs; }
+    .dnd5e2.sheet.actor.vehicle .window-content > .sheet-body { grid-area: body; }
+  }
+
   .dnd5e2 .crlngn-tab-scroll-wrapper{
     display: none;
   }
