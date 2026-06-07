@@ -13,6 +13,7 @@ import { MacroHotbar } from "./MacroHotbarUtil.mjs";
 import { ModuleCompatUtil } from "./ModuleCompatUtil.mjs";
 import { PlayersList } from "./PlayersListUtil.mjs";
 import { SceneNavFolders } from "./SceneFoldersUtil.mjs";
+import { SettingsAppliers } from "./SettingsAppliers.mjs";
 import { SettingsEnforcement } from "./SettingsEnforcement.mjs";
 import { SettingsOtherModules } from "./SettingsOtherModules.mjs";
 import { SettingsThemes } from "./SettingsThemes.mjs";
@@ -256,8 +257,8 @@ export class SettingsUtil {
 
     // Apply chat styles regardless of stream mode
     SettingsThemes.applyDebugSettings();
-    SettingsUtil.applyChatStyles();
-    SettingsUtil.applyBorderColors();
+    SettingsAppliers.applyChatStyles();
+    SettingsAppliers.applyBorderColors();
 
     // Exit early if in stream mode - skip UI component settings
     if (isStreamMode) {
@@ -276,7 +277,7 @@ export class SettingsUtil {
     // Non-stream mode UI initialization
     TopNavigation.applyTopNavHeight();
 
-    Hooks.on(HOOKS_CORE.RENDER_SCENE_CONTROLS, SettingsUtil.applyLeftControlsSettings);
+    Hooks.on(HOOKS_CORE.RENDER_SCENE_CONTROLS, SettingsAppliers.applyLeftControlsSettings);
     Hooks.on(HOOKS_CORE.RENDER_PLAYERS_LIST, PlayersList.applyPlayersListSettings);
     Hooks.on(HOOKS_CORE.RENDER_HOTBAR, () => {
       MacroHotbar.applyCustomStyle();
@@ -315,12 +316,12 @@ export class SettingsUtil {
 
     const fontFields = SETTINGS.customFontsMenu.fields;
     fontFields.forEach(fieldName => {
-      SettingsUtil.applyCustomFonts(SETTINGS[fieldName].tag);
+      SettingsAppliers.applyCustomFonts(SETTINGS[fieldName].tag);
     });
 
     const controlFields = SETTINGS.leftControlsMenu.fields;
     controlFields.forEach(fieldName => {
-      SettingsUtil.applyLeftControlsSettings(SETTINGS[fieldName].tag);
+      SettingsAppliers.applyLeftControlsSettings(SETTINGS[fieldName].tag);
     });
 
     const interfaceFields = SETTINGS.interfaceOptionsMenu.fields;
@@ -336,9 +337,9 @@ export class SettingsUtil {
     // Apply background settings
     const useGlassEffect = SettingsUtil.get(SETTINGS.useGlassEffect.tag);
     const glassTranslucence = SettingsUtil.get(SETTINGS.glassTranslucence.tag);
-    SettingsUtil.applyGlassEffect(useGlassEffect);
+    SettingsAppliers.applyGlassEffect(useGlassEffect);
     if(useGlassEffect){
-      SettingsUtil.applyTranslucence(glassTranslucence);
+      SettingsAppliers.applyTranslucence(glassTranslucence);
     }
 
     // Apply sidebar settings
@@ -464,24 +465,24 @@ export class SettingsUtil {
       case SETTINGS.enableFontTitles.tag:
       case SETTINGS.enableFontJournal.tag:
       case SETTINGS.enableFontJournalTitles.tag:
-        SettingsUtil.applyCustomFonts(settingTag, value);
+        SettingsAppliers.applyCustomFonts(settingTag, value);
         break;
       case SETTINGS.controlsAutoHide.tag:
-        SettingsUtil.applyLeftControlsSettings(settingTag, value);
+        SettingsAppliers.applyLeftControlsSettings(settingTag, value);
         break;
       case SETTINGS.dockHeight.tag:
         CameraDockUtil.currSettings.dockHeight = value;
-        SettingsUtil.applyCameraHeight(value); 
+        SettingsAppliers.applyCameraHeight(value); 
         break;
       case SETTINGS.dockWidth.tag:
         CameraDockUtil.currSettings.dockWidth = value;
-        SettingsUtil.applyCameraWidth(value); break;
+        SettingsAppliers.applyCameraWidth(value); break;
       case SETTINGS.dockPosX.tag:
         CameraDockUtil.currSettings.dockPosX = value;
-        SettingsUtil.applyCameraPosX(value); break;
+        SettingsAppliers.applyCameraPosX(value); break;
       case SETTINGS.dockPosY.tag:
         CameraDockUtil.currSettings.dockPosY = value;
-        SettingsUtil.applyCameraPosY(value); break;
+        SettingsAppliers.applyCameraPosY(value); break;
       case SETTINGS.defaultVideoWidth.tag:
         CameraDockUtil.currSettings.defaultVideoWidth = value;
         CameraDockUtil.applyVideoWidth(value); break;
@@ -490,10 +491,10 @@ export class SettingsUtil {
         CameraDockUtil.applyDockResize(value); break;
       case SETTINGS.chatBorderColor.tag:
         ChatUtil.chatBorderColor = value;
-        SettingsUtil.applyBorderColors(); break;
+        SettingsAppliers.applyBorderColors(); break;
       case SETTINGS.chatBorderPosition.tag:
         ChatUtil.chatBorderPosition = value;
-        SettingsUtil.applyBorderColors(); break;
+        SettingsAppliers.applyBorderColors(); break;
       case SETTINGS.sideBarWidth.tag:
         TopNavigation.sideBarWidth = value;
         SidebarTabs.applySideBarWidth();
@@ -502,7 +503,7 @@ export class SettingsUtil {
         ChatUtil.useLeftChatBorder = value;
       case SETTINGS.enableChatStyles.tag:
         ChatUtil.enableChatStyles = value;
-        SettingsUtil.applyChatStyles(); break;
+        SettingsAppliers.applyChatStyles(); break;
       // case SETTINGS.enforceDarkMode.tag:
       //   SettingsThemes.resetFoundryThemeSettings(); break;
       case SETTINGS.debugMode.tag:
@@ -553,7 +554,7 @@ export class SettingsUtil {
         TopNavigation.disableActiveSceneSeparation = value;
         ui.nav?.render(); break;
       case SETTINGS.hideLoadingSceneName.tag:
-        SettingsUtil.applyHideLoadingSceneName(value); break;
+        SettingsAppliers.applyHideLoadingSceneName(value); break;
       case SETTINGS.subFoldersLayout.tag:
         TopNavigation.subFoldersLayout = value;
         TopNavigation.applySubFoldersLayout(); break;
@@ -645,13 +646,13 @@ export class SettingsUtil {
       case SETTINGS.useHorizontalSheetTabs.tag:
         SheetsUtil.applyHorizontalSheetTabs(value); break;
       case SETTINGS.useGlassEffect.tag:
-        SettingsUtil.applyGlassEffect(value); break;
+        SettingsAppliers.applyGlassEffect(value); break;
       case SETTINGS.glassTranslucence.tag:
         if(SettingsUtil.get(SETTINGS.useGlassEffect.tag)){
-          SettingsUtil.applyTranslucence(value);
+          SettingsAppliers.applyTranslucence(value);
         } break;
       case SETTINGS.hideLoadingSceneName.tag:
-        SettingsUtil.applyHideLoadingSceneName(value); break;
+        SettingsAppliers.applyHideLoadingSceneName(value); break;
       case SETTINGS.enableCombatTrackerCarousel.tag:
         CombatTrackerManager.enableCombatTrackerCarousel = value;
         CombatTrackerManager.applyBodyClass();
@@ -693,284 +694,6 @@ export class SettingsUtil {
 
   }
 
-  /**
-   * Applies border color settings to chat messages
-   * Can be based on player color or roll type
-   */
-  static applyBorderColors(){
-    const SETTINGS = getSettings();
-    const borderColorSettings = SettingsUtil.get(SETTINGS.chatBorderColor.tag);
-    const body = document.querySelector("body");
-
-    if(borderColorSettings===BORDER_COLOR_TYPES.playerColor.name){ 
-     body.classList.add("player-chat-borders");
-     body.classList.remove("roll-chat-borders"); 
-    }else if(borderColorSettings===BORDER_COLOR_TYPES.rollType.name){
-     body.classList.add("roll-chat-borders"); 
-     body.classList.remove("player-chat-borders");
-    }else{
-     body.classList.remove("player-chat-borders");
-     body.classList.remove("roll-chat-borders"); 
-    }
-  }
-
-  static applyHideLoadingSceneName(value){
-    const body = document.querySelector("body");
-    if(value){
-      body.classList.add("hide-scene-name");
-    }else{
-      body.classList.remove("hide-scene-name");
-    }
-  }
-
-  /**
-   * Checks whether backdrop-filter blur is supported based on Foundry's performance mode.
-   * Checks both the core setting value and body classes as fallback.
-   * @returns {boolean}
-   */
-  static isBlurSupported(){
-    try {
-      const perfMode = game.settings.get("core", "performanceMode");
-      if (perfMode === 0) return false;
-      const experimental = game.settings.get("core", "experimental");
-      if (experimental?.noBlur) return false;
-    } catch(e) {
-      // Fallback to body classes if settings not yet available
-    }
-    const body = document.body;
-    return !body.classList.contains("performance-low") && !body.classList.contains("noblur");
-  }
-
-  /**
-   * Applies or removes glass effect (backdrop-filter) from windows
-   * @param {boolean} value - Whether to enable glass effect
-   */
-  static applyGlassEffect(value){
-    const body = document.querySelector("body");
-    const SETTINGS = getSettings();
-    const blurSupported = SettingsUtil.isBlurSupported();
-
-    if(value){
-      body.classList.add("crlngn-glass-effect");
-      const glassTranslucence = SettingsUtil.get(SETTINGS.glassTranslucence.tag);
-      SettingsUtil.applyTranslucence(glassTranslucence);
-    } else {
-      body.classList.remove("crlngn-glass-effect");
-      GeneralUtil.addCSSVars("--background-blur", "0px");
-      GeneralUtil.addCSSVars("--background-opacity", "1");
-    }
-    LogUtil.log("applyGlassEffect", [value, { blurSupported }]);
-  }
-
-  /**
-   * Applies translucence effect to windows (controls both opacity and blur)
-   * @param {number} value - Translucence value from 0 to 1
-   *   - 0 = fully opaque (opacity: 1, blur: 4px)
-   *   - 1 = translucent (opacity: 0.75, blur: 20px)
-   */
-  static applyTranslucence(value){
-    if(!SettingsUtil.isBlurSupported()){
-      GeneralUtil.addCSSVars("--background-opacity", "1");
-      GeneralUtil.addCSSVars("--background-blur", "0px");
-      return;
-    }
-
-    const opacity = 1 - (value * 0.3); // Range: 1 to 0.7
-    const blurPx = 10 + (value * 20); // Range: 4px to 20px
-
-    GeneralUtil.addCSSVars("--background-opacity", opacity.toFixed(2));
-    GeneralUtil.addCSSVars("--background-blur", `${blurPx.toFixed(1)}px`);
-    LogUtil.log("applyTranslucence", [value, { opacity, blur: `${blurPx}px` }]);
-  }
-
-  /**
-   * Applies chat message styling settings
-   */
-  static applyChatStyles(){
-    const SETTINGS = getSettings();
-    const chatMsgSettings = SettingsUtil.get(SETTINGS.enableChatStyles.tag);
-    const body = document.querySelector("body");
-    const isDaggerheart = game.system?.id === 'daggerheart';
-
-    LogUtil.log("applyChatStyles", [chatMsgSettings, SETTINGS]);
-
-    if(chatMsgSettings){
-      // Daggerheart has its own chat styles, so use separate class
-      if(isDaggerheart){
-        body.classList.add("crlngn-chat-dh");
-        body.classList.remove("crlngn-chat");
-      } else {
-        body.classList.add("crlngn-chat");
-        body.classList.remove("crlngn-chat-dh");
-      }
-    }else{
-      body.classList.remove("crlngn-chat");
-      body.classList.remove("crlngn-chat-dh");
-    }
-  }
-
-
-  /**
-   * Applies settings to left controls bar
-   * @param {string} tag - Setting tag to apply
-   * @param {*} value - Value to apply for the setting
-   */
-  static applyLeftControlsSettings(tag, value){
-    const SETTINGS = getSettings();
-    const navEnabled = SettingsUtil.get(SETTINGS.sceneNavEnabled.tag);
-    const controls = document.querySelector("#ui-left");
-    const body = document.querySelector('body.crlngn-ui');
-    const bodyStyleElem = document.querySelector('#crlngn-ui-vars');
-
-    LogUtil.log("applyLeftControlsSettings", [tag]);
-
-    // Exit early if controls don't exist (e.g., in stream mode)
-    if (!controls) {
-      LogUtil.log("applyLeftControlsSettings - no controls found (stream mode?)");
-      return;
-    }
-
-    switch(tag){
-      case SETTINGS.controlsAutoHide.tag:
-        if(SettingsUtil.get(SETTINGS.controlsAutoHide.tag)){
-          controls.classList.add("auto-hide");
-        }else{
-          controls.classList.remove("auto-hide"); 
-        }
-        break;
-      default:
-        //
-    }
-  }
-
-  /**
-   * Applies size settings for control icons
-   * Updates the size of icons in the left controls panel
-   */
-  static applyControlIconSize(){
-    const SETTINGS = getSettings();
-    const iconSize = SettingsUtil.get(SETTINGS.controlsIconSize.tag);
-    const body = document.querySelector("body");
-    const size = ICON_SIZES[iconSize] ? ICON_SIZES[iconSize].size : ICON_SIZES.regular.size;
-
-    function getIconFontSize(currIconSize){
-      switch(currIconSize){
-        case ICON_SIZES.large.name:
-          return `var(--font-size-18);`;
-        case ICON_SIZES.regular.name:
-          return `var(--font-size-16);`;
-        default:
-          return `var(--font-size-14);`;
-      }
-    }
-    LogUtil.log("applyControlIconSize", [size]);
-    GeneralUtil.addCSSVars('--icon-font-size', getIconFontSize(iconSize));
-    GeneralUtil.addCSSVars('--control-item-size', size);
-    SettingsUtil.applyLeftControlsSettings();
-  }
-
-  /**
-   * Applies scene navigation position settings
-   * @param {number} [value] - Position value to apply, if not provided uses stored setting
-   */
-  static applySceneNavPos(value){
-    const SETTINGS = getSettings();
-    TopNavigation.navPos = value || SettingsUtil.get(SETTINGS.sceneNavPos.tag);
-  }
-
-  /**
-   * Applies horizontal position of camera dock
-   * @param {number} [pos] - X position to apply
-   */
-  static applyCameraPosX(pos){
-    const SETTINGS = getSettings();
-    const cameraSettings = SettingsUtil.get(SETTINGS.dockPosX.tag);
-    const xPos = pos || cameraSettings; 
-    CameraDockUtil.resetPositionAndSize({ x: xPos });
-  }
-
-  /**
-   * Applies vertical position of camera dock
-   * @param {number} [pos] - Y position to apply
-   */
-  static applyCameraPosY(pos){
-    const SETTINGS = getSettings();
-    const cameraSettings = SettingsUtil.get(SETTINGS.dockPosY.tag);
-    const yPos = pos || cameraSettings;
-    CameraDockUtil.resetPositionAndSize({ y: yPos });
-  }
-
-  /**
-   * Applies width of camera dock
-   * @param {number} [value] - Width value to apply
-   */
-  static applyCameraWidth(value){
-    const SETTINGS = getSettings();
-    const cameraSettings = SettingsUtil.get(SETTINGS.dockWidth.tag);
-    const width = value || cameraSettings;
-    CameraDockUtil.resetPositionAndSize({ w: width });
-  }
-
-  /**
-   * Applies height of camera dock
-   * @param {number} [value] - Height value to apply
-   */
-  static applyCameraHeight(value){
-    const SETTINGS = getSettings();
-    const cameraSettings = SettingsUtil.get(SETTINGS.dockHeight.tag);
-    const height = value || cameraSettings;
-    CameraDockUtil.resetPositionAndSize({ h: height });
-  }
-
-  /**
-   * Applies custom font settings
-   * @param {string} tag - Font setting tag to apply
-   * @param {string} [value] - Font value to apply
-   */
-  static applyCustomFonts(tag, value){
-    const SETTINGS = getSettings();
-    const fields = SETTINGS.customFontsMenu.fields;
-    const customFonts = {};
-
-    LogUtil.log("applyCustomFonts", [tag, value]);
-    fields.forEach(fieldName => {
-      customFonts[fieldName] = SettingsUtil.get(SETTINGS[fieldName].tag);
-    });
-
-    const body = document.querySelector("body.crlngn-ui");
-    if (!body) return;
-
-    // Handle font enable toggles - add/remove body classes
-    switch(tag){
-      case SETTINGS.enableFontUI.tag:
-        body.classList.toggle('cui-font-ui', value ?? customFonts.enableFontUI ?? true);
-        break;
-      case SETTINGS.enableFontTitles.tag:
-        body.classList.toggle('cui-font-t', value ?? customFonts.enableFontTitles ?? true);
-        break;
-      case SETTINGS.enableFontJournal.tag:
-        body.classList.toggle('cui-font-jrnl', value ?? customFonts.enableFontJournal ?? true);
-        break;
-      case SETTINGS.enableFontJournalTitles.tag:
-        body.classList.toggle('cui-font-jrnl-t', value ?? customFonts.enableFontJournalTitles ?? true);
-        break;
-      // Handle font family values
-      case SETTINGS.uiFontBody.tag:
-        GeneralUtil.addCSSVars('--crlngn-font-family', value || customFonts.uiFontBody || '');
-        break;
-      case SETTINGS.uiFontTitles.tag:
-        GeneralUtil.addCSSVars('--crlngn-font-titles', value || customFonts.uiFontTitles || '');
-        break;
-      case SETTINGS.journalFontBody.tag:
-        GeneralUtil.addCSSVars('--crlngn-font-journal-body', value || customFonts.journalFontBody  || '');
-        break;
-      case SETTINGS.journalFontTitles.tag:
-        GeneralUtil.addCSSVars('--crlngn-font-journal-title', value || customFonts.journalFontTitles || '');
-        break;
-      default:
-        //
-    }
-  }
 
   /**
    * Toggles visibility of the main UI interface

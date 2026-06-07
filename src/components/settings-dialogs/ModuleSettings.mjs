@@ -1,6 +1,7 @@
 import { getSettings, THEMES, SETTING_SCOPE } from "../../constants/Settings.mjs";
 import { getSettingMenus } from "../../constants/SettingMenus.mjs";
 import { LogUtil } from "../LogUtil.mjs";
+import { SettingsAppliers } from "../SettingsAppliers.mjs";
 import { SettingsEnforcement } from "../SettingsEnforcement.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
 import { GeneralUtil } from "../GeneralUtil.mjs";
@@ -1318,7 +1319,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
     // Handle useGlassEffect checkbox to show/hide glassTranslucence slider
     const useGlassEffectCheckbox = themesContent.querySelector('input[name="useGlassEffect"]');
-    const blurSupported = SettingsUtil.isBlurSupported();
+    const blurSupported = SettingsAppliers.isBlurSupported();
 
     if (useGlassEffectCheckbox) {
       const glassTranslucenceField = themesContent.querySelector('.form-group:has(input[name="glassTranslucence"])');
