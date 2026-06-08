@@ -310,7 +310,7 @@
           "customizeHint": "点击打开颜色选择器并创建自定义主题颜色",
           "adjustOtherModules": {
             "label": "在其他模块中应用样式",
-            "hint": "在其他模块上启用我的样式调整和自定义字体，例如CRUX或Combat Carousel。如果您需要支持特定模块，请在Github issues上提出请求"
+            "hint": "在其他模块上启用我的样式调整和自定义字体，例如Combat Carousel。如果您需要支持特定模块，请在Github issues上提出请求"
           },
           "applyDarkThemeToModules": {
             "label": "应用暗色主题到模块窗口",
