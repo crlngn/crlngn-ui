@@ -607,95 +607,6 @@ body.crlngn-ui{
   .dice-tray-container .dice-tray-button:hover {
     color: var(--color-text-hyperlink) !important;
   }
-  
-
-  /* CRUX */
-
-  &.crux-taskbar-compat #crux, #crux{
-    --ft-height: var(--crlngn-margin-bottom);
-  }
-  &.crux-taskbar-compat #crux, #crux {
-    min-height: calc(100vh - var(--ft-height)) !important;
-  }
-
-  &.crlngn-crux {
-    /*
-    &.crux-taskbar-compat .crux__container, &.crlngn-crux.crux-taskbar-compat .crux__empty-tray {
-      height: calc(100vh - var(--ft-bottom)) !important;
-    }
-    #crux {
-      height: calc(100vh - var(--ft-bottom)) !important;
-    }*/
-    &.crux-taskbar-compat #crux, #crux {
-      .crux__container {
-        border-right: 1px solid rgba(0,0,0,0.75);
-        background-color: rgba(0,0,0,0.8);
-
-        h1{
-          line-height: 1.15;
-        }
-      }
-
-      .crux__top-section{
-        padding: 0;
-      }
-      h2.crux__section-header{
-        border: 0 !important;
-        border-radius: 0 !important;
-        padding-top: 2px !important;
-        padding-bottom: 2px !important;
-
-        &:after {
-          content: "Width: " var(--crux-width) " | Ratio: " var(--crux-width-ratio) " | Multiplier: " var(--header-multiplier);
-          display: inline-block;
-        }
-      }
-
-      .crux__group-header {
-        h3, h2 {
-          border-bottom: 1px solid rgba(255,255,255,0.15) !important;
-          padding-bottom: 0.25em;
-
-        }
-      }
-
-      .crux__item {
-        padding: 0 4px !important;
-      }
-      .crux__item .item-name h4 {
-        font-weight: 500 !important;
-      }
-      .crux__item .item-name h3,
-      .crux__group-header h3 {
-        font-weight: 500 !important;
-      }
-
-      .crux__utility-button,
-      .crux__action-button,
-      .crux__end-turn-button {
-        padding: 4px !important;
-        border: none !important;
-      }
-
-      .crux__utility-button,
-      .crux__action-button,
-      .crux__action-button img {
-        border: none !important;
-      }
-
-      .crux__actor .group-dots .dot {
-        width: 8px !important;
-        height: 8px !important;
-        margin-left: 2px !important;
-      }
-
-      .crux__item .flag {
-        margin-left: 2px !important;
-        filter: saturate(0.7) !important;
-        transform: scale(0.9) !important;
-      }
-    }
-  }
 
   /* Taskbar */
   #taskbar #hotbar {
@@ -1590,24 +1501,6 @@ body.crlngn-ui.cui-font-ui {
   #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper {
     font-family: var(--crlngn-font-family);
   }
-  &.crux-taskbar-compat #crux .crux__item .item-name h4,
-  #crux .crux__item .item-name h4 {
-    font-family: var(--crlngn-font-family) !important;
-  }
-  &.crux-taskbar-compat #crux .crux__item .item-name h3,
-  &.crux-taskbar-compat #crux .crux__group-header h3,
-  #crux .crux__item .item-name h3,
-  #crux .crux__group-header h3 {
-    font-family: var(--crlngn-font-family) !important;
-  }
-  &.crux-taskbar-compat #crux .crux__utility-button,
-  &.crux-taskbar-compat #crux .crux__action-button,
-  &.crux-taskbar-compat #crux .crux__end-turn-button,
-  #crux .crux__utility-button,
-  #crux .crux__action-button,
-  #crux .crux__end-turn-button {
-    font-family: var(--crlngn-font-family) !important;
-  }
   #scene-control-toggle .item {
     font-family: var(--crlngn-font-family);
   }
@@ -1631,24 +1524,6 @@ body.crlngn-ui.cui-font-t {
   }
   #tooltip.combat-dock-tooltip .combat-dock-tooltip-wrapper h2 {
     font-family: var(--crlngn-font-titles);
-  }
-  &.crux-taskbar-compat #crux .crux__container h1,
-  #crux .crux__container h1 {
-    font-family: var(--crlngn-font-titles) !important;
-  }
-  &.crux-taskbar-compat #crux h2.crux__section-header,
-  #crux h2.crux__section-header {
-    font-family: var(--crlngn-font-titles) !important;
-  }
-  &.crux-taskbar-compat #crux .crux__skill-header,
-  #crux .crux__skill-header {
-    font-family: var(--crlngn-font-titles) !important;
-  }
-  &.crux-taskbar-compat #crux .crux__group-header h3,
-  &.crux-taskbar-compat #crux .crux__group-header h2,
-  #crux .crux__group-header h3,
-  #crux .crux__group-header h2 {
-    font-family: var(--crlngn-font-titles) !important;
   }
   .monks-tokenbar .sheet .items-list .items-header h3 {
     font-family: var(--crlngn-font-titles);

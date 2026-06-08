@@ -12,7 +12,6 @@
     --nav-btn-width: calc(var(--control-item-size) * 2);
     --interface-width: calc(100dvw / var(--ui-scale));
     --controls-width: calc(var(--control-item-size, 0px) * 0);
-    --crlngn-crux-width: 0px;
     --default-color: var(--color-dark-1);
 
     /* Extra buttons width - base is 0, incremented by body classes */
@@ -28,13 +27,6 @@
     /* Horizontal sidebar tabs don't need width subtraction */
     &.crlngn-horiz-sidebar-tabs {
       --crlngn-sidebar-tabs-width: 0px;
-    }
-
-    #interface {
-
-      &.crux-active {
-        --crlngn-crux-width: var(--crux-width);
-      }
     }
 
     /* Increment extra buttons count based on active features */
