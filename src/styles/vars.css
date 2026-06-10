@@ -255,7 +255,7 @@
     &.theme-dark,
     &.theme-dark .application:not(.monks-enhanced-journal).theme-dark
     #interface.theme-dark,
-    &.theme-dark .app.theme-light,
+    #interface.theme-dark .app.theme-light,
     #interface.theme-dark,
     .sidebar-popout.theme-dark,
     &.theme-dark .chat-popout.theme-light
