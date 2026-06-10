@@ -207,6 +207,7 @@ export class Main {
     GeneralUtil.addCSSVars('--crlngn-i18n-macro', game.i18n.localize(`${locBtnPath}.macro`));
     GeneralUtil.addCSSVars('--crlngn-i18n-save-dc', game.i18n.localize(`${locBtnPath}.savedc`));
     GeneralUtil.addCSSVars('--crlngn-i18n-save', game.i18n.localize(`${locBtnPath}.save`));
+    GeneralUtil.addCSSVars('--crlngn-i18n-dc', game.i18n.has("DND5E.AbbreviationDC") ? game.i18n.localize("DND5E.AbbreviationDC") : "DC");
   }
 
   /**

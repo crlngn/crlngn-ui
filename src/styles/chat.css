@@ -480,8 +480,7 @@ body.crlngn-ui.crlngn-chat {
     &[data-action=placeTemplate],
     &[data-action=consumeResource],
     &[data-action=refundResource],
-    &[data-action=executeMacro],
-    &[data-action=rollSave] {
+    &[data-action=executeMacro] {
       span{
         font-size: 0;
         align-self: center;
@@ -503,11 +502,6 @@ body.crlngn-ui.crlngn-chat {
         display: flex;
       }
     }
-    span.hidden-dc:after, span.visible-dc:after {
-      content: "";
-      display: flex;
-    }
-
     span:not(.hidden-dc, .visible-dc) {
       display: flex;
       align-items: center;
@@ -570,24 +564,24 @@ body.crlngn-ui.crlngn-chat {
     content: var(--crlngn-i18n-macro);
   }
   
-  .chat-card .card-buttons button[data-action=rollSave] span.visible-dc:after {
-    content: attr(data-ability) " " var(--crlngn-i18n-save-dc) " " attr(data-dc);
-    text-transform: uppercase;
-    display: inherit;
-    font-size: var(--font-size-12);
+  /* Compact save button label rebuilt from the button's own data attributes,
+     so dnd5e content re-renders cannot wipe it. DC is only shown when the
+     system flags the card with data-display-challenge (li or .chat-card). */
+  &.system-dnd5e .chat-card .card-buttons > button[data-action=rollSave] {
+    span.visible-dc,
+    span.hidden-dc {
+      display: none;
+    }
+
+    &:after {
+      content: attr(data-ability) " " var(--crlngn-i18n-save);
+      text-transform: uppercase;
+      font-size: var(--font-size-12);
+    }
   }
-  
-  .chat-card .card-buttons button[data-action=rollSave] span.visible-dc:after {
-    content: attr(data-ability) " " var(--crlngn-i18n-save-dc) " " attr(data-dc);
-    text-transform: uppercase;
-    display: flex;
-    font-size: var(--font-size-12);
-  }
-  .chat-card .card-buttons button[data-action=rollSave] span.hidden-dc:after {
-    content: attr(data-ability,'') " " var(--crlngn-i18n-save,'');
-    text-transform: uppercase;
-    display: flex;
-    font-size: var(--font-size-12);
+
+  &.system-dnd5e [data-display-challenge] .card-buttons > button[data-action=rollSave]:after {
+    content: var(--crlngn-i18n-dc) " " attr(data-dc) " " attr(data-ability) " " var(--crlngn-i18n-save);
   }
   
   /* effects / targets list */
