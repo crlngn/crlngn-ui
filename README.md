@@ -1,4 +1,7 @@
-**IMPORTANT: If you are using Foundry v12 install Carolingian UI v1.18.x. If you are using Foundry v13 you should install Carolingian UI v2.x**
+**IMPORTANT:**
+- Foundry v14 - install v3.x
+- Foundry v13 - install v2.x
+- Foundry v12 - install v1.x
 
 **Patreon members** receive priority support and may vote or suggest new features and modules on my Discord channel.
 
