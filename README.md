@@ -51,8 +51,6 @@ https://github.com/user-attachments/assets/0c72bc15-e266-48e0-9181-053b5273b36f
 - **Chat Border Colors** - Select if you want the borders to show player color, roll type (5e), or none;
 - **Custom CSS Field** to load your own style modifications to your world
 
-<img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-ui-folder-tree.gif?raw=true" width="300px" height="auto" />
-
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/slider-controls.webp?raw=true" width="300px" height="auto" />
 
 <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/players-list-1.webp?raw=true" width="300px" height="auto" />
