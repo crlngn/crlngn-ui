@@ -2,8 +2,7 @@
   "compilerOptions": {
     "module": "ES2022",
     "target": "ES2022",
-    "moduleResolution": "classic",
-    "ignoreDeprecations": "6.0",
+    "moduleResolution": "bundler",
     "checkJs": false,
     "types": ["@league-of-foundry-developers/foundry-vtt-types"]
   },

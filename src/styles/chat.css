@@ -217,11 +217,13 @@ body.crlngn-ui.crlngn-chat {
     margin-top: 1.25em;
   }
   .chat-message.whisper{
-    background-color: var(--cui-chat-card-bg) !important;
+    background-color: var(--cui-chat-card-bg-whisper) !important;
+    /*background-color: var(--cui-chat-card-bg) !important;*/
     background-image: var(--striped-bg) !important;
   }
   .chat-message.blind{
-    background-color: var(--cui-chat-card-bg) !important;
+    background-color: var(--cui-chat-card-bg-blind) !important;
+    /*background-color: var(--cui-chat-card-bg) !important;*/
     background-image: var(--striped-bg-2) !important;
   }
   .chat-message.whisper span.message-metadata,
@@ -298,16 +300,17 @@ body.crlngn-ui.crlngn-chat {
   :is(.chat-popout, #chat-log, .chat-log) .crlngn .message-header .subtitle {
     text-transform: uppercase;
     font-weight: 600;
-    font-style: italic;
+    font-style: normal;
     letter-spacing: 0.02em;
     margin-top:3px;
+    opacity: 0.75;
+    color: var(--color-text-secondary);
     /*font-size: var(--font-size-12);*/
   }
   
   :is(.chat-popout, #chat-log, .chat-log) .message:not(.ddbgl) .message-header .flavor-text {
-    /*text-transform: uppercase;*/
     letter-spacing: 0.02em;
-    /*font-size: var(--font-size-12);*/
+    font-style: normal;
     line-height: 1.4;
     margin: 0.5em 0;
   }
@@ -770,6 +773,21 @@ body.crlngn-ui.crlngn-chat {
       color: var(--cui-chat-dice-color);
     }
 
+    /* whisper */
+    .chat-message.whisper .message-content .dice-result .dice-formula,
+    .chat-message.whisper.ddb-game-log-message .dice-result .dice-formula,
+    .chat-message.whisper .message-content .dice-result .dice-total,
+    .chat-message.whisper.ddb-game-log-message .dice-result .dice-total {
+      background: var(--cui-chat-dice-bg-whisper);
+    }
+    /* blind */
+    .chat-message.whisper.blind .message-content .dice-result .dice-formula,
+    .chat-message.whisper.blind.ddb-game-log-message .dice-result .dice-formula,
+    .chat-message.whisper.blind .message-content .dice-result .dice-total,
+    .chat-message.whisper.blind.ddb-game-log-message .dice-result .dice-total {
+      background: var(--cui-chat-dice-bg-blind);
+    }
+
     .dice-result .dice-total::before {
       border-left: 1px solid var(--color-border-dark-1);
     }
@@ -928,6 +946,11 @@ body.crlngn-ui.crlngn-chat {
       border: 1px solid var(--cui-chat-button-border);
       color: var(--cui-chat-button-text);
     }
+    .blind:is(.card-tray, .effects-tray) button:not(.unbutton),
+    .chat-card.blind button:not(.unbutton),
+    .chat-message.blind .message-content button:not(.unbutton) {
+      background: var(--cui-chat-button-bg-blind);
+    }
 
     :is(.card-tray, .effects-tray) button:hover {
       box-shadow: none;
@@ -1004,6 +1027,12 @@ body.crlngn-ui.crlngn-chat {
 
     .chat-message:before {
       opacity: 0.2;
+    }
+    .chat-message.whisper:before {
+      border: 2px dashed #fff;
+    }
+    .chat-message.whisper.blind:before {
+      border: 2px dashed var(--color-warm-2);
     }
 
     /* Dice tooltip - text outline for min/max rolls */

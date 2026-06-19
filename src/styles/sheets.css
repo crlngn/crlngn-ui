@@ -529,6 +529,7 @@ body.crlngn-ui.crlngn-sheets {
     cursor: pointer;
     transition: opacity 0.15s ease-out;
     font-size: 0.85em;
+    padding: 0.5rem 0.15rem;
   }
   .dnd5e2.sheet.actor .items-section .item .item-row .item-name .crlngn-tooltip-btn:hover {
     opacity: 1;
