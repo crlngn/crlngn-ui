@@ -531,7 +531,6 @@ body.crlngn-ui{
     border: 1px solid var(--color-highlights);
   }
 
-
   ol#notifications {
     .notification.warning {
       background: var(--color-level-warning-bg);
@@ -578,7 +577,7 @@ body.crlngn-ui{
     color: var(--color-text-primary);
     max-width: 14rem; 
     .context-item{
-      padding: 5px 10px;
+      padding: 3px 6px;
       border: 1px solid transparent;
       &:hover{
         border: 1px solid var(--color-highlights-50);
@@ -600,7 +599,7 @@ body.crlngn-ui{
       border: 1px solid transparent;
       color: var(--color-text-primary);
       .context-item{
-        padding: 5px 10px;
+        padding: 3px 6px;
         border: 1px solid transparent;
         &:hover{
           border: 1px solid var(--color-highlights-50);

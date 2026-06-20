@@ -202,7 +202,8 @@
     &.theme-light .chat-popout.theme-light,
     &.theme-dark .sheet.theme-light .form-footer button,
     &.theme-dark .sheet.theme-light .crlngn-tab-scroll-wrapper,
-    &.theme-light #context-menu,
+    &.theme-light #context-menu:not(.theme-dark),
+    #context-menu.theme-light,
     &.theme-light .application.dialog {
       --color-bg-button: rgba(237, 242, 244,0.9);
       --color-secondary: rgb(204, 186, 204);
@@ -260,7 +261,8 @@
     .sidebar-popout.theme-dark,
     &.theme-dark .chat-popout.theme-light
     &.theme-dark .chat-popout.theme-light,
-    &.theme-dark #context-menu,
+    &.theme-dark #context-menu:not(.theme-light),
+    #context-menu.theme-dark,
     &.theme-dark .application.dialog {
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --input-background-alt: var(--color-dark-bg-50);
@@ -438,11 +440,12 @@
     &.theme-light #tooltip.application:not(.monks-enhanced-journal).theme-dark,
     .themed.theme-dark,
     &.crlngn-chat .chat-log.themed.theme-dark,
+    &.crlngn-chat #interface.theme-dark .chat-log,
     &.crlngn-chat #interface.theme-dark .chat-log button,
-    &.crlngn-chat.theme-dark .chat-log,
     &.crlngn-chat #chat-popout.theme-dark,
-    &.crlngn-chat.theme-dark .chat-log.theme-light,
-    &.crlngn-chat.theme-dark .chat-log button {
+    &.crlngn-chat .chat-popout.theme-dark,
+    &.crlngn-chat.theme-dark .chat-popout.theme-light,
+    &.crlngn-chat.theme-dark .chat-popout.theme-light .chat-log button {
       --color-border: rgba(15, 15, 15, 0.15);
       --input-background-alt: var(--color-dark-bg-50);
       --color-text-primary: var(--color-light-1);

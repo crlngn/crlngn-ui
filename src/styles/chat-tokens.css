@@ -66,9 +66,12 @@ body.crlngn-ui.crlngn-chat {
     #chat-pins.theme-dark,
     .chat-log.themed.theme-dark
   ),
-  /* Mixed theme scenarios */
-  &.theme-dark :is(.chat-popout.theme-light, .chat-log.theme-light),
-  &.theme-dark .themed.theme-light .dnd5e2.chat-message {
+  /* Mixed theme: a chat popout defaults to theme-light, so force it dark when the
+     applications (body) theme is dark. The docked chat-log is intentionally excluded
+     here - it lives inside #interface/#chat and must follow the interface (sidebar)
+     theme, which dnd5e already themes correctly via .themed.theme-light. */
+  &.theme-dark .chat-popout.theme-light,
+  &.theme-dark .chat-popout.theme-light .dnd5e2.chat-message {
     /* Card backgrounds */
     --cui-chat-card-bg: color-mix(in srgb, var(--background) 95%, #ffffff 5%);
     --cui-chat-card-bg-blind: color-mix(in srgb, var(--background) 70%, var(--color-warm-2) 20%);
