@@ -452,7 +452,7 @@ export class SceneNavFolders {
     folderScenes = folderScenes.filter(sc => sc.permission >= 2); // only show scenes with appropriate permission
 
     SceneNavFolders.#currSceneSortMode = game.scenes.sortingMode;
-
+    
     // Build user viewing data for scenes
     const userScenes = game.users.reduce((obj, u) => {
       if (!u.active) return obj;
@@ -498,6 +498,8 @@ export class SceneNavFolders {
     }
 
     folderList = SceneNavFolders.sortFolderList(folderList); // adjust the sorting
+    // adjust sorting of scenes in folder based on folder's sorting mode
+    SceneNavFolders.sortScenesInFolder(folderScenes, targetFolder);
 
     // Filter out folders hidden from navigation
     const hiddenFolders = SceneNavFolders.getHiddenNavFolders();
@@ -509,7 +511,7 @@ export class SceneNavFolders {
     if (!isGM) {
       folderList = folderList.filter(f => SceneNavFolders.folderHasVisibleContent(f));
     }
-
+    
     templateData = {
       currentFolder: targetFolder,
       folders: folderList,
@@ -605,17 +607,30 @@ export class SceneNavFolders {
       }
     });
 
-    if(SceneNavFolders.#currSceneSortMode === "a"){ // alphabetical sort order
-      folderList.sort((a, b) => {
+    return SceneNavFolders.#internalSort(folderList, SceneNavFolders.#currSceneSortMode);
+    
+  }
+
+  static sortScenesInFolder(folderScenes, targetFolder){
+    const sort = targetFolder?.sorting || SceneNavFolders.#currSceneSortMode;    
+    return SceneNavFolders.#internalSort(folderScenes, sort);
+  }
+
+  /**
+   * @private
+   */
+  static #internalSort(collection, sortMode) {
+    if(sortMode === "a"){ // alphabetical sort order
+      collection.sort((a, b) => {
         return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
       });
     }else{ // manual sort order
-      folderList.sort((a, b) => a.sort - b.sort);
+      collection.sort((a, b) => a.sort - b.sort);
     }
     
-    return folderList;
+    return collection;
   }
-
+  
   /**
    * @private
    * Updates the current scene sorting mode by checking game.scenes.sortingMode
