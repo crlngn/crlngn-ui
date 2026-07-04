@@ -33,64 +33,13 @@ import { JournalPageUtil } from "./JournalPageUtil.mjs";
  */
 export class Main {
   static isIncompatible = false;
+  static #initialized = false;
   /**
    * Initialize the module and set up core hooks
    * @static
    */
   static init(){
-    Hooks.once(HOOKS_CORE.INIT, () => { 
-      document.querySelector("body").classList.add(MODULE_ID); 
-      document.querySelector("#ui-middle")?.classList.add(MODULE_ID);
-
-      // Add notification if Foundry version is incompatible
-      const foundryVersion = game.data.version;
-      const minVersion = "13.339";
-      if(foundryVersion < minVersion){
-        Main.isIncompatible = true;
-        return;
-      }
-
-      LogUtil.log("Initiating module...", [game.system.title]); 
-      window.crlngnUI = window.crlngnUI || {};
-
-      SettingsUtil.registerSettings();
-      const SETTINGS = getSettings();
-      const uiDisabled = SettingsUtil.get(SETTINGS.disableUI.tag);
-      LogUtil.log(HOOKS_CORE.INIT,[uiDisabled]);
-
-      if(uiDisabled){
-        document.querySelector("body").classList.remove(MODULE_ID); 
-        document.querySelector("#ui-middle")?.classList.remove(MODULE_ID);
-
-        return;
-      }
-
-      // Check if we're in stream mode
-      const isStreamMode = document.body.classList.contains('stream');
-
-      // Always initialize these essential utilities
-      ChatUtil.init();
-      LogUtil.init?.();
-      CameraDockUtil.init();
-      BottomDockUtil.init();
-
-      // Only initialize UI components if not in stream mode
-      if(isStreamMode){
-        LogUtil.log("Stream mode detected - skipping UI component initialization");
-        return;
-      }
-
-      // Initialize remaining UI components for non-stream mode
-      ChatLogControls.init();
-      PlayersList.init();
-      TopNavigation.init();
-      LeftControls.init();
-      SidebarTabs.init();
-      MacroHotbar.init();
-      // TokenWheel.init();
-
-      Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage); 
-    });
+    Hooks.once(HOOKS_CORE.INIT, () => Main.onInit());
 
     // Scene loading state hooks - add/remove class for CSS targeting
     Hooks.on(HOOKS_CORE.CANVAS_INIT, () => {
@@ -187,6 +136,69 @@ export class Main {
       }
 
     });
+  }
+
+  /**
+   * Core init work for the module. Runs via the init hook when the bundle loads
+   * standalone, or is called directly by the generation loader when the bundle is
+   * imported after the init hook has already fired. Guarded against double execution.
+   * @static
+   */
+  static onInit(){
+    if(Main.#initialized) return;
+    Main.#initialized = true;
+
+    document.querySelector("body").classList.add(MODULE_ID);
+    document.querySelector("#ui-middle")?.classList.add(MODULE_ID);
+
+    // Add notification if Foundry version is incompatible
+    const foundryVersion = game.data.version;
+    const minVersion = "13.339";
+    if(foundryVersion < minVersion){
+      Main.isIncompatible = true;
+      return;
+    }
+
+    LogUtil.log("Initiating module...", [game.system.title]);
+    window.crlngnUI = window.crlngnUI || {};
+
+    SettingsUtil.registerSettings();
+    const SETTINGS = getSettings();
+    const uiDisabled = SettingsUtil.get(SETTINGS.disableUI.tag);
+    LogUtil.log(HOOKS_CORE.INIT,[uiDisabled]);
+
+    if(uiDisabled){
+      document.querySelector("body").classList.remove(MODULE_ID);
+      document.querySelector("#ui-middle")?.classList.remove(MODULE_ID);
+
+      return;
+    }
+
+    // Check if we're in stream mode
+    const isStreamMode = document.body.classList.contains('stream');
+
+    // Always initialize these essential utilities
+    ChatUtil.init();
+    LogUtil.init?.();
+    CameraDockUtil.init();
+    BottomDockUtil.init();
+
+    // Only initialize UI components if not in stream mode
+    if(isStreamMode){
+      LogUtil.log("Stream mode detected - skipping UI component initialization");
+      return;
+    }
+
+    // Initialize remaining UI components for non-stream mode
+    ChatLogControls.init();
+    PlayersList.init();
+    TopNavigation.init();
+    LeftControls.init();
+    SidebarTabs.init();
+    MacroHotbar.init();
+    // TokenWheel.init();
+
+    Hooks.on(HOOKS_CORE.RENDER_CHAT_MESSAGE, Main.#onRenderChatMessage);
   }
 
   // Custom labels for DnD5e buttons, added via CSS

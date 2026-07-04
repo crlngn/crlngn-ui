@@ -26,9 +26,10 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       input: "src/module.mjs",
+      preserveEntrySignatures: "exports-only",
       output: {
         dir: "dist/",
-        entryFileNames:"scripts/crlngn-ui.js",
+        entryFileNames:"scripts/v14/crlngn-ui.js",
         assetFileNames: (assetInfo) => {
           const isImgType = /\.(gif|jpe?g|png|svg)$/.test(assetInfo.name);
           const isStyleType = /\.css$/.test(assetInfo.name);
@@ -38,10 +39,10 @@ export default defineConfig({
             // return '[name][extname]';
           }
           if (isStyleType) {
-            return 'styles/crlngn-ui.css';   
+            return 'styles/crlngn-ui-v14.css';
           }
           if (assetInfo.originalFileNames?.includes("src/module.mjs")) {
-            return "scripts/crlngn-ui.js";
+            return "scripts/v14/crlngn-ui.js";
           }
 
           return 'assets/[name][extname]';
@@ -55,6 +56,7 @@ export default defineConfig({
   copy({
     targets: [
       { src: "src/module.json", dest: "dist" },
+      { src: "src/loader/crlngn-ui-loader.js", dest: "dist/scripts", rename: "crlngn-ui.js" },
       { src: "src/templates", dest: "dist" },
       { src: "src/lang", dest: "dist" },
       { src: "src/assets", dest: "dist" }

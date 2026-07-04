@@ -15,10 +15,18 @@ const WARN_FALLBACK = false;
 
 
 // SHIM CODE:
+let shimInitialized = false;
 
-// Check if libWrapper is already loaded
-Hooks.once('init', () => {
-	// If libWrapper is loaded, use it
+/**
+ * Set up libWrapper, using the real library when present or the fallback shim otherwise.
+ * Runs on the core init hook when this bundle loads standalone; the generation loader
+ * calls it directly instead, since the init hook has already fired by then.
+ * Safe to call more than once.
+ */
+export function initLibWrapperShim() {
+	if(shimInitialized) return;
+	shimInitialized = true;
+
 	if(globalThis.libWrapper) {
 		libWrapper = globalThis.libWrapper;
 		return;
@@ -85,4 +93,6 @@ Hooks.once('init', () => {
 
 	// Make libWrapper global
 	globalThis.libWrapper = libWrapper;
-});
+}
+
+Hooks.once('init', initLibWrapperShim);

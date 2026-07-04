@@ -1,4 +1,4 @@
-import './lib/libwrapper-shim.js';
+import { initLibWrapperShim } from './lib/libwrapper-shim.js';
 
 import "./styles/vars.css";
 import "./styles/main.css";
@@ -27,3 +27,14 @@ import "./styles/systems/ose.css";
 import { Main } from "./components/Main.mjs";
 
 Main.init();
+
+/**
+ * Entry point used by the generation loader (scripts/crlngn-ui.js), which imports
+ * this bundle during the core init hook — too late for the init hook registrations
+ * made above, so the init work is invoked directly. Later hooks (ready, canvas,
+ * render) are registered normally by Main.init() when this bundle is imported.
+ */
+export function initialize(){
+  initLibWrapperShim();
+  Main.onInit();
+}

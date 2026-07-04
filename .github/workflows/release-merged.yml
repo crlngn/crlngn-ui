@@ -1,50 +1,77 @@
-name: Release to FoundryVTT
+name: Release Merged Package (v13 + v14)
+
+# Builds the merged-versions branch (v14 bundle + generation loader) together with
+# the v13 bundle from the legacy branch, merges both into a single dist, and
+# publishes one release that installs on Foundry v13 and v14+ alike.
 
 on:
   release:
     types: [published]
 
 permissions:
-  contents: write  # Grants permission to upload assets to the release
+  contents: write
+
+env:
+  V13_BRANCH: v2
 
 jobs:
   release:
-    if: github.event.release.target_commitish != 'merged-versions'
+    if: github.event.release.target_commitish == 'merged-versions'
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout merged-versions
+        uses: actions/checkout@v3
+
+      - name: Checkout v13 source branch
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }} # Allows pushing changes back to repo
+          ref: v2
+          path: v13-src
 
-      - name: Extract Repository Name and Version
-        run: |
-          REPO_NAME=$(basename $GITHUB_REPOSITORY)
-          VERSION="${GITHUB_REF#refs/tags/v}"
-          MAJOR_VERSION="${VERSION%%.*}"
-          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "MAJOR_VERSION=$MAJOR_VERSION" >> $GITHUB_ENV
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-      - name: Validate release branch matches tag major version
+      - name: Build v14 bundle and loader
         run: |
-          TARGET_BRANCH="${{ github.event.release.target_commitish }}"
-          EXPECTED_BRANCH="v$MAJOR_VERSION"
-          if [ "$TARGET_BRANCH" != "$EXPECTED_BRANCH" ]; then
-            echo "::error::Tag $GITHUB_REF_NAME requires branch $EXPECTED_BRANCH, but release was created from $TARGET_BRANCH. Skipping publish."
+          npm ci --ignore-scripts
+          npm run build
+
+      - name: Build v13 bundle
+        working-directory: v13-src
+        run: |
+          npm ci --ignore-scripts
+          WATCH_MODE=true CRLNGN_BUILD_TARGET=v13 npx vite build
+
+      - name: Verify shared files match between branches
+        run: |
+          if ! diff -rq dist/templates v13-src/dist/templates; then
+            echo "::error::Templates differ between merged-versions and $V13_BRANCH. Shared dist/templates would break one build - namespace them per generation before releasing."
             exit 1
           fi
-          echo "Validation passed: $GITHUB_REF_NAME on $TARGET_BRANCH"
+          if ! diff -rq dist/assets v13-src/dist/assets; then
+            echo "::error::Assets differ between merged-versions and $V13_BRANCH. Shared dist/assets would break one build - namespace them per generation before releasing."
+            exit 1
+          fi
 
-      # Version updates are handled by the npm run bump script before release
-
-      - name: Get Compatibility Versions
-        id: get_compatibility
+      - name: Merge v13 build into package
         run: |
-          MIN_VERSION=$(jq -r .compatibility.minimum src/module.json)
-          VERIFIED_VERSION=$(jq -r .compatibility.verified src/module.json)
-          MAX_VERSION=$(jq -r .compatibility.maximum src/module.json)
+          mkdir -p dist/scripts/v13
+          cp -R v13-src/dist/scripts/v13/. dist/scripts/v13/
+          cp v13-src/dist/styles/crlngn-ui-v13.css* dist/styles/
+          node tools/merge-lang.mjs dist/lang v13-src/dist/lang
+
+      - name: Extract Version and Compatibility
+        run: |
+          REPO_NAME=$(basename $GITHUB_REPOSITORY)
+          VERSION=$(jq -r .version dist/module.json)
+          MIN_VERSION=$(jq -r .compatibility.minimum dist/module.json)
+          VERIFIED_VERSION=$(jq -r .compatibility.verified dist/module.json)
+          MAX_VERSION=$(jq -r .compatibility.maximum dist/module.json)
+          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "MIN_VERSION=$MIN_VERSION" >> $GITHUB_ENV
           echo "VERIFIED_VERSION=$VERIFIED_VERSION" >> $GITHUB_ENV
           echo "MAX_VERSION=$MAX_VERSION" >> $GITHUB_ENV
@@ -53,7 +80,7 @@ jobs:
         run: |
           mv dist "$REPO_NAME"
           zip -r module.zip "$REPO_NAME"
-          mv "$REPO_NAME" dist  # Rename back to prevent issues later
+          mv "$REPO_NAME" dist
 
       - name: Upload Release Assets
         uses: softprops/action-gh-release@v1
@@ -65,11 +92,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish Latest Release to FoundryVTT
+      - name: Publish Release to FoundryVTT
         env:
           FOUNDRY_PACKAGE_API_KEY: ${{ secrets.FOUNDRY_PACKAGE_API_KEY }}
         run: |
-          echo "Publishing latest release ($VERSION) to FoundryVTT..."
+          echo "Publishing merged release ($VERSION) to FoundryVTT..."
           API_RESPONSE=$(curl -s -X POST "https://foundryvtt.com/_api/packages/release_version/" \
             -H "Content-Type: application/json" \
             -H "Authorization: $FOUNDRY_PACKAGE_API_KEY" \
@@ -77,7 +104,7 @@ jobs:
               "id": "'"$REPO_NAME"'",
               "release": {
                 "version": "'"$VERSION"'",
-                "manifest": "https://raw.githubusercontent.com/${{ github.repository }}/v'"$MAJOR_VERSION"'/dist/module.json",
+                "manifest": "https://raw.githubusercontent.com/${{ github.repository }}/merged-versions/dist/module.json",
                 "notes": "https://github.com/${{ github.repository }}/releases/tag/v'"$VERSION"'",
                 "compatibility": {
                   "minimum": "${{env.MIN_VERSION}}",
@@ -86,16 +113,15 @@ jobs:
                 }
               }
             }')
-          echo "Latest Release API Response: $API_RESPONSE"
+          echo "Release API Response: $API_RESPONSE"
 
-  # Job for Discord notification
   notify_discord:
     runs-on: ubuntu-latest
-    needs: release  # This ensures Discord notification runs after the release job completes
+    needs: release
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-        
+
       - name: Get Release Info
         id: get_release
         uses: actions/github-script@v6
@@ -119,11 +145,11 @@ jobs:
         with:
           args: |
             **New Release for Carolingian UI**
-            
+
             **Repository:** ${{ github.repository }}
             **Version:** ${{ github.ref_name }}
-            
+
             ${{ fromJson(steps.get_release.outputs.result).body }}
-            
+
             **Release:** https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}
             **Manifest URL:** https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/module.json

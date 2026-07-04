@@ -21,8 +21,8 @@ done
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 case "$BRANCH" in
-  v2|v3) ;;
-  *) echo "Error: must be on v2 or v3 (currently on $BRANCH)"; exit 1 ;;
+  v2|v3|merged-versions) ;;
+  *) echo "Error: must be on v2, v3 or merged-versions (currently on $BRANCH)"; exit 1 ;;
 esac
 
 if ! command -v gh >/dev/null 2>&1; then
@@ -122,7 +122,7 @@ git tag -a "$TAG" -m "$TAG"
 git push origin "$BRANCH" "$TAG"
 
 LATEST_FLAG="false"
-if [ "$BRANCH" = "v3" ]; then
+if [ "$BRANCH" = "v3" ] || [ "$BRANCH" = "merged-versions" ]; then
   LATEST_FLAG="true"
 fi
 

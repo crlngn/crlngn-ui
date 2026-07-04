@@ -27,10 +27,9 @@ export default function vitePluginVersion() {
         
         // Update manifest and download URLs to point to the specific version
         const versionTag = `v${version}`;
-        const majorVersion = version.split('.')[0];
         const baseUrl = 'https://github.com/crlngn/crlngn-ui/releases';
 
-        moduleJson.manifest = `https://raw.githubusercontent.com/crlngn/crlngn-ui/v${majorVersion}/dist/module.json`;
+        moduleJson.manifest = 'https://raw.githubusercontent.com/crlngn/crlngn-ui/merged-versions/dist/module.json';
         moduleJson.download = `${baseUrl}/download/${versionTag}/module.zip`;
         
         writeFileSync(moduleJsonPath, JSON.stringify(moduleJson, null, 2) + '\n');

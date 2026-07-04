@@ -1,0 +1,44 @@
+name: Migrate Legacy Branch Manifests
+
+# Manually triggered, one-time migration switch: copies the current merged-versions
+# dist/module.json onto the v2 and v3 branches. Existing installs check those branch
+# manifest URLs for updates, so after this runs every v13 and v14 user is offered
+# the merged package (compatibility.minimum is 13) and lands on the single release
+# line. Run this only after the first merged release is published and verified.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-manifests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        branch: [v2, v3]
+
+    steps:
+      - name: Checkout merged-versions
+        uses: actions/checkout@v3
+        with:
+          ref: merged-versions
+
+      - name: Checkout legacy branch
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ matrix.branch }}
+          path: legacy
+
+      - name: Copy merged manifest to legacy branch
+        run: |
+          VERSION=$(jq -r .version dist/module.json)
+          cp dist/module.json legacy/dist/module.json
+          cd legacy
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add dist/module.json
+          git diff --cached --quiet && echo "Manifest already up to date" && exit 0
+          git commit -m "Point ${{ matrix.branch }} manifest at merged release $VERSION"
+          git push origin ${{ matrix.branch }}

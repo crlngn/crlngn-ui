@@ -16,3 +16,6 @@ foundry
 !.gitignore
 !.gitattributes
 !.github
+# v13 build artifacts merged locally for testing; CI assembles them into the release zip
+dist/scripts/v13/
+dist/styles/crlngn-ui-v13.css*
