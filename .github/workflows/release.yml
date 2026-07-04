@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   release:
-    if: github.event.release.target_commitish != 'merged-versions'
+    if: github.event.release.target_commitish == 'v2' || github.event.release.target_commitish == 'v3'
     runs-on: ubuntu-latest
 
     steps:

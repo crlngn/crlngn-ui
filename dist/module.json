@@ -4,7 +4,7 @@
   "version": "4.0.0",
   "description": "Style changes and tweaks to improve look and feel of Foundry UI",
   "url": "https://github.com/crlngn/crlngn-ui",
-  "manifest": "https://raw.githubusercontent.com/crlngn/crlngn-ui/merged-versions/dist/module.json",
+  "manifest": "https://raw.githubusercontent.com/crlngn/crlngn-ui/main/dist/module.json",
   "download": "https://github.com/crlngn/crlngn-ui/releases/download/v4.0.0/module.zip",
   "bugs": "https://github.com/crlngn/crlngn-ui/issues",
   "readme": "https://github.com/crlngn/crlngn-ui/main/README.md",

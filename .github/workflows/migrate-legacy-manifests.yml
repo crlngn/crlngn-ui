@@ -1,6 +1,6 @@
 name: Migrate Legacy Branch Manifests
 
-# Manually triggered, one-time migration switch: copies the current merged-versions
+# Manually triggered, one-time migration switch: copies the current main
 # dist/module.json onto the v2 and v3 branches. Existing installs check those branch
 # manifest URLs for updates, so after this runs every v13 and v14 user is offered
 # the merged package (compatibility.minimum is 13) and lands on the single release
@@ -20,10 +20,10 @@ jobs:
         branch: [v2, v3]
 
     steps:
-      - name: Checkout merged-versions
+      - name: Checkout main
         uses: actions/checkout@v3
         with:
-          ref: merged-versions
+          ref: main
 
       - name: Checkout legacy branch
         uses: actions/checkout@v3

@@ -1,6 +1,6 @@
 name: Release Merged Package (v13 + v14)
 
-# Builds the merged-versions branch (v14 bundle + generation loader) together with
+# Builds the main branch (v14 bundle + generation loader) together with
 # the v13 bundle from the legacy branch, merges both into a single dist, and
 # publishes one release that installs on Foundry v13 and v14+ alike.
 
@@ -16,11 +16,11 @@ env:
 
 jobs:
   release:
-    if: github.event.release.target_commitish == 'merged-versions'
+    if: github.event.release.target_commitish == 'main'
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout merged-versions
+      - name: Checkout main
         uses: actions/checkout@v3
 
       - name: Checkout v13 source branch
@@ -48,11 +48,11 @@ jobs:
       - name: Verify shared files match between branches
         run: |
           if ! diff -rq dist/templates v13-src/dist/templates; then
-            echo "::error::Templates differ between merged-versions and $V13_BRANCH. Shared dist/templates would break one build - namespace them per generation before releasing."
+            echo "::error::Templates differ between main and $V13_BRANCH. Shared dist/templates would break one build - namespace them per generation before releasing."
             exit 1
           fi
           if ! diff -rq dist/assets v13-src/dist/assets; then
-            echo "::error::Assets differ between merged-versions and $V13_BRANCH. Shared dist/assets would break one build - namespace them per generation before releasing."
+            echo "::error::Assets differ between main and $V13_BRANCH. Shared dist/assets would break one build - namespace them per generation before releasing."
             exit 1
           fi
 
@@ -104,7 +104,7 @@ jobs:
               "id": "'"$REPO_NAME"'",
               "release": {
                 "version": "'"$VERSION"'",
-                "manifest": "https://raw.githubusercontent.com/${{ github.repository }}/merged-versions/dist/module.json",
+                "manifest": "https://raw.githubusercontent.com/${{ github.repository }}/main/dist/module.json",
                 "notes": "https://github.com/${{ github.repository }}/releases/tag/v'"$VERSION"'",
                 "compatibility": {
                   "minimum": "${{env.MIN_VERSION}}",
