@@ -338,7 +338,32 @@
           }
         },
         "reset": "Redefinir",
-        "save": "Salvar"
+        "save": "Salvar",
+        "dockDHResources": {
+          "label": "Acoplar Rastreador de Recursos Daggerheart",
+          "hint": "Ativa a funcionalidade de acoplamento para o rastreador (medo) do Daggerheart. Arraste a janela perto da barra de macros para acoplá-la na parte inferior da tela."
+        },
+        "colorPicker": {
+          "hint": "Lembre-se de cuidar das suas retinas: para a cor de destaque, use cores com pelo menos uma classificação de contraste 'média' para melhor legibilidade.",
+          "title": "Cores de Tema Personalizadas",
+          "presets": "Temas Predefinidos",
+          "accentColor": "Cor de Destaque",
+          "secondaryColor": "Cor Secundária",
+          "hue": "Matiz",
+          "saturation": "Saturação",
+          "lightness": "Luminosidade",
+          "accentOnBackground": "Destaque no Fundo",
+          "textOnAccent": "Texto no Destaque",
+          "secondaryPreview": "Visualização da Cor Secundária",
+          "contrastGood": "Contraste: Bom",
+          "contrastMedium": "Contraste: Médio",
+          "contrastPoor": "Contraste: Ruim",
+          "apply": "Salvar",
+          "applySecondaryColorToBg": {
+            "label": "Aplicar cor secundária aos fundos da interface do Foundry",
+            "hint": "Quando habilitado, a cor secundária será aplicada aos fundos da interface como barra lateral e controles. Isso cria um tema de cores mais unificado."
+          }
+        }
       },
       "sidebarMenu": {
         "label": "Opções de Mensagens de Chat",
@@ -614,7 +639,8 @@
       },
       "enforceGMSettings": {
         "label": "Aplicar Configurações do GM aos Jogadores",
-        "hint": "Quando ativado, todos os jogadores usarão as configurações de interface do GM ao se conectarem. Isso garante uma experiência consistente para todos os jogadores."
+        "hint": "Quando ativado, todos os jogadores usarão as configurações de interface do GM ao se conectarem. Isso garante uma experiência consistente para todos os jogadores.",
+        "conflictWarning": "Carolingian UI: 'Aplicar Configurações do GM aos Jogadores' está desativado porque o módulo Force Client Settings está ativo. Use um ou outro, não ambos."
       },
       "defaultSettings": {
         "label": "Configurações Padrão do GM",
@@ -790,6 +816,10 @@
           "perActorColorLabel": "Cor de Destaque",
           "perActorResetTooltip": "Restaurar padrão"
         }
+      },
+      "useFolderStyle": {
+        "label": "Usar cores discretas nos diretórios",
+        "hint": "Ative para usar cores mais discretas nos diretórios do painel lateral, com a cor selecionada apenas nas bordas."
       }
     },
     "combat": {

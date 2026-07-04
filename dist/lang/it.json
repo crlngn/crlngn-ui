@@ -1,6 +1,6 @@
 {
-  "CRLNGN_UI": { 
-    "ui": { 
+  "CRLNGN_UI": {
+    "ui": {
       "generalSettingsLabel": "Impostazioni generali",
       "clientSettingsLabel": "Impostazioni del Giocatore (Client)",
       "worldSettingsLabel": "Impostazioni del Mondo (GM)",
@@ -245,7 +245,7 @@
         },
         "reset": "Ripristina",
         "save": "Salva"
-      },  
+      },
       "customFontsMenu": {
         "label": "Font Personalizzati",
         "title": "Configura Font",
@@ -339,7 +339,7 @@
           "customStyles": {
             "label": "CSS Personalizzato",
             "hint": "Questi stili saranno caricati al prossimo avvio di Foundry. Puoi includere Google Fonts incollando il link @import, e il font sarà elencato nelle impostazioni dei Font Personalizzati. Digita o id o classe degli elementi, separati da virgola. Esempio: #element-id, .element-class"
-          }, 
+          },
           "enforceDarkMode": {
             "label": "Forza Modalità Scura",
             "hint": "<b>Non abilitare questo se si utilizza Force Client Settings o moduli simili.</b> Imposta il tema dell'interfaccia Foundry sul client del giocatore su Scuro se il giocatore l'ha impostato su 'Predefinito Browser'. Se l'hanno specificamente impostato su 'Chiaro', la loro scelta sarà comunque rispettata."
@@ -347,7 +347,7 @@
         },
         "reset": "Ripristina",
         "save": "Salva"
-      },        
+      },
       "sidebarMenu": {
         "label": "Opzioni Messaggi Chat",
         "title": "Configura Chat",
@@ -461,19 +461,19 @@
           "enableFloatingDock": {
             "label": "Abilita Gruppo Camera fluttuante",
             "hint": "<b>[Richiede ricaricamento]</b> Permette al gruppo del lettore video di essere trascinato e posizionato ovunque sullo schermo"
-          }, 
+          },
           "dockPosX": {
             "label": "Posizione orizzontale Gruppo Camera",
             "hint": "Posizione del Gruppo Camera quando impostato per fluttuare. Dal basso a sinistra dello schermo, in pixel"
-          }, 
+          },
           "dockPosY": {
             "label": "Posizione verticale Gruppo Camera",
             "hint": "Posizione del Gruppo Camera quando impostato per fluttuare. Dal basso a sinistra dello schermo, in pixel"
-          }, 
+          },
           "dockWidth": {
             "label": "Larghezza del Gruppo Camera",
             "hint": "Dimensioni del Gruppo Camera non minimizzato quando impostato per fluttuare, in pixel"
-          }, 
+          },
           "dockHeight": {
             "label": "Altezza del Gruppo Camera",
             "hint": "Dimensioni del Gruppo Camera non minimizzato quando impostato per fluttuare, in pixel"
@@ -601,7 +601,7 @@
           "sceneNavEnabled": {
             "label": "Abilita Navigazione Scena Orizzontale",
             "hint": "[Richiede ricaricamento] Se stai avendo problemi di layout con un modulo non compatibile, puoi provare a disabilitare i miei stili personalizzati per la Navigazione Scena."
-          }, 
+          },
           "showNavOnHover": {
             "label": "Mostra navigazione scena al passaggio del mouse",
             "hint": "Se la navigazione scena è compressa, puoi mostrarla passando il mouse sulla parte superiore dello schermo."
@@ -744,53 +744,57 @@
         "label": "Modalità Debug",
         "hint": "Abilita o disabilita i messaggi di debug sulla console del browser."
       },
-      "disableUI":{
+      "disableUI": {
         "label": "Disabilita UI in questo client",
         "hint": "Se un giocatore non vuole utilizzare l'interfaccia Carolingian, può disabilitarla. Nessun'altra funzionalità del modulo funzionerà eccetto lo stile scuro nei messaggi chat che può essere disabilitato separatamente."
       },
       "dockDHResources": {
-          "label": "Dock Tracker Risorse Daggerheart",
-          "hint": "Abilita la funzionalità di docking per il tracker (paura) di Daggerheart. Trascina la finestra vicino alla barra macro per agganciarla in fondo allo schermo."
+        "label": "Dock Tracker Risorse Daggerheart",
+        "hint": "Abilita la funzionalità di docking per il tracker (paura) di Daggerheart. Trascina la finestra vicino alla barra macro per agganciarla in fondo allo schermo."
       },
       "colorPicker": {
-          "hint": "Ricorda di prenderti cura delle tue retine: per il colore di accento, usa colori con almeno un rating di contrasto 'medio' per una migliore leggibilità.",
-          "title": "Colori Tema Personalizzati",
-          "presets": "Temi Preimpostati",
-          "accentColor": "Colore di Accento",
-          "secondaryColor": "Colore Secondario",
-          "hue": "Tonalità",
-          "saturation": "Saturazione",
-          "lightness": "Luminosità",
-          "accentOnBackground": "Accento su Sfondo",
-          "textOnAccent": "Testo su Accento",
-          "secondaryPreview": "Anteprima Colore Secondario",
-          "contrastGood": "Contrasto: Buono",
-          "contrastMedium": "Contrasto: Medio",
-          "contrastPoor": "Contrasto: Scarso",
-          "apply": "Salva",
-          "applySecondaryColorToBg": {
-            "label": "Applica colore secondario agli sfondi dell'interfaccia Foundry",
-            "hint": "Quando abilitato, il colore secondario sarà applicato agli sfondi dell'interfaccia come barra laterale e controlli. Questo crea un tema colore più unificato."
-          },
-          "actorOverrides": {
-            "title": "Tono Per-Classe / Per-Razza (DnD5e)",
-            "hint": "Sovrascrivi il tono di colore sulle singole schede personaggio in base alla classe di livello più alto del personaggio OPPURE alla sua razza. Lascia vuota la riga del colore per utilizzare il tono di colore del tema.",
-            "modeClass": "Per Classe",
-            "modeRace": "Per Razza",
-            "addRowClass": "Aggiungi colore classe",
-            "addRowRace": "Aggiungi colore razza",
-            "removeRow": "Rimuovi",
-            "pickColor": "Scegli un colore",
-            "clearColor": "Usa colore del tema",
-            "namePlaceholderClass": "Nome Classe",
-            "namePlaceholderRace": "Nome Razza",
-            "perActorMenuLabel": "Cambia Tema Colore",
-            "perActorDialogTitle": "Tema Colore — {name}",
-            "perActorHint": "Imposta un tono di colore specifico per questo personaggio. Questa impostazione sovrascrive le regole di classe/razza ed il tema globale. Usa il pulsante qui sotto per annullare l'impostazione e ripristinare quelle predefinite.",
-            "perActorColorLabel": "Tono Colore",
-            "perActorResetTooltip": "Reimposta a predefinito"
-          }
-       }
+        "hint": "Ricorda di prenderti cura delle tue retine: per il colore di accento, usa colori con almeno un rating di contrasto 'medio' per una migliore leggibilità.",
+        "title": "Colori Tema Personalizzati",
+        "presets": "Temi Preimpostati",
+        "accentColor": "Colore di Accento",
+        "secondaryColor": "Colore Secondario",
+        "hue": "Tonalità",
+        "saturation": "Saturazione",
+        "lightness": "Luminosità",
+        "accentOnBackground": "Accento su Sfondo",
+        "textOnAccent": "Testo su Accento",
+        "secondaryPreview": "Anteprima Colore Secondario",
+        "contrastGood": "Contrasto: Buono",
+        "contrastMedium": "Contrasto: Medio",
+        "contrastPoor": "Contrasto: Scarso",
+        "apply": "Salva",
+        "applySecondaryColorToBg": {
+          "label": "Applica colore secondario agli sfondi dell'interfaccia Foundry",
+          "hint": "Quando abilitato, il colore secondario sarà applicato agli sfondi dell'interfaccia come barra laterale e controlli. Questo crea un tema colore più unificato."
+        },
+        "actorOverrides": {
+          "title": "Tono Per-Classe / Per-Razza (DnD5e)",
+          "hint": "Sovrascrivi il tono di colore sulle singole schede personaggio in base alla classe di livello più alto del personaggio OPPURE alla sua razza. Lascia vuota la riga del colore per utilizzare il tono di colore del tema.",
+          "modeClass": "Per Classe",
+          "modeRace": "Per Razza",
+          "addRowClass": "Aggiungi colore classe",
+          "addRowRace": "Aggiungi colore razza",
+          "removeRow": "Rimuovi",
+          "pickColor": "Scegli un colore",
+          "clearColor": "Usa colore del tema",
+          "namePlaceholderClass": "Nome Classe",
+          "namePlaceholderRace": "Nome Razza",
+          "perActorMenuLabel": "Cambia Tema Colore",
+          "perActorDialogTitle": "Tema Colore — {name}",
+          "perActorHint": "Imposta un tono di colore specifico per questo personaggio. Questa impostazione sovrascrive le regole di classe/razza ed il tema globale. Usa il pulsante qui sotto per annullare l'impostazione e ripristinare quelle predefinite.",
+          "perActorColorLabel": "Tono Colore",
+          "perActorResetTooltip": "Reimposta a predefinito"
+        }
+      },
+      "useFolderStyle": {
+        "label": "Usa colori assegnati",
+        "hint": "Abilita per avere colori assegnati sulle cartelle del pannello laterale, mostrando solo il colore selezionato sui bordi."
+      }
     },
     "combat": {
       "noCombatants": "Nessun combattente nell'incontro",

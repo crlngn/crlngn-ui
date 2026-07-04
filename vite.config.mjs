@@ -4,10 +4,31 @@ import copy from "rollup-plugin-copy";
 import { defineConfig } from "vite";
 import path from "path";
 import vitePluginVersion from './vite-plugin-version.js';
+import { execSync } from 'child_process';
 
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync, cpSync } from 'fs';
 const packageJson = JSON.parse(readFileSync('./package.json', 'utf-8'));
 const version = packageJson.version;
+
+/**
+ * Copies the locally cached v13 build (created by tools/build-v13.mjs) back into
+ * dist after each build, since vite empties dist and would otherwise strip the
+ * v13 files needed to test the merged package on Foundry v13. Also union-merges
+ * the v13 lang keys. No-op when the cache is absent (CI assembles its own).
+ */
+function restoreV13Build() {
+  return {
+    name: 'restore-v13-build',
+    closeBundle() {
+      const cache = path.resolve(__dirname, '.v13-build');
+      if (!existsSync(cache)) return;
+      cpSync(path.join(cache, 'scripts/v13'), path.resolve(__dirname, 'dist/scripts/v13'), { recursive: true });
+      cpSync(path.join(cache, 'styles/crlngn-ui-v13.css'), path.resolve(__dirname, 'dist/styles/crlngn-ui-v13.css'));
+      execSync(`node tools/merge-lang.mjs dist/lang "${path.join(cache, 'lang')}"`, { cwd: __dirname, stdio: 'inherit' });
+      console.log('Restored cached v13 build into dist/');
+    }
+  };
+}
 
 export default defineConfig({
   define: {
@@ -53,6 +74,7 @@ export default defineConfig({
   },
  plugins: [
   vitePluginVersion(),
+  restoreV13Build(),
   copy({
     targets: [
       { src: "src/module.json", dest: "dist" },

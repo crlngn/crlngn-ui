@@ -1,6 +1,6 @@
 {
-  "CRLNGN_UI": { 
-    "ui": { 
+  "CRLNGN_UI": {
+    "ui": {
       "generalSettingsLabel": "General Settings",
       "clientSettingsLabel": "Player Settings (Client)",
       "worldSettingsLabel": "World Settings (GM)",
@@ -339,7 +339,7 @@
           "customStyles": {
             "label": "Custom CSS",
             "hint": "These styles will be loaded the next time you load Foundry. You may include Google Fonts by pasting the @import link, and the font will be listed in the Custom Fonts settings."
-          }, 
+          },
           "enforceDarkMode": {
             "label": "Enforce Dark Mode to Players",
             "hint": "Do not enable this if using Force Client Settings or similar modules. This sets Foundry's UI theme on player's client to Dark if they have it set to 'Browser Default'. If they specifically set it to 'Light', their choice will be respected."
@@ -461,19 +461,19 @@
           "enableFloatingDock": {
             "label": "Enable floating camera group",
             "hint": "<b>[Requires reload]</b> Allows video player group to be dragged and placed anywhere on screen"
-          }, 
+          },
           "dockPosX": {
             "label": "Horizontal position of camera group",
             "hint": "Position of camera group when set to float. From bottom left of screen, in pixels"
-          }, 
+          },
           "dockPosY": {
             "label": "Vertical position of camera group",
             "hint": "Position of camera group when set to float. From bottom left of screen, in pixels"
-          }, 
+          },
           "dockWidth": {
             "label": "Width of camera group",
             "hint": "Dimensions of the non-minimized camera group when set to float, in pixels"
-          }, 
+          },
           "dockHeight": {
             "label": "Height of camera group",
             "hint": "Dimensions of the non-minimized camera dock when set to float, in pixels"
@@ -601,7 +601,7 @@
           "sceneNavEnabled": {
             "label": "Enable custom scene navigation",
             "hint": "[Requires reload] If you are having layout issues with a non-compatible module, you can try to disable my custom styles for Scene Navigation."
-          }, 
+          },
           "showNavOnHover": {
             "label": "Toggle scene navigation on hover",
             "hint": "If the scene navigation is collapsed, you can show it by hovering the mouse over the top of the screen."
@@ -744,11 +744,11 @@
         "label": "Debug Mode",
         "hint": "Enable or disable debug messages on browser console. This should be turned off unless the module developer asks you to turn it on for verification."
       },
-      "disableUI":{
+      "disableUI": {
         "label": "Disable UI in this client",
         "hint": "If a player doesn't want to use Carolingian UI, they may disable it. No other feature of the module will work except for dark style in chat cards - which can be separately disabled."
       },
-      "dockDHResources":{
+      "dockDHResources": {
         "label": "Dock Daggerheart Fear Tracker",
         "hint": "Enable docking functionality for the Daggerheart resource (fear) tracker. Drag the window near the macro hotbar to dock it at the bottom of the screen."
       },
