@@ -929,3 +929,9 @@ body.crlngn-ui.crlngn-combat-tracker.crlngn-carousel-full-width:not(.crlngn-side
 }
 
 
+
+/* Improve readability of defeated combatant names in the sidebar tracker,
+   which core renders in --color-warm-3 (too dark against this background) */
+body.crlngn-ui .combat-sidebar .combat-tracker .combatant.defeated .name {
+  color: var(--color-warm-2);
+}
