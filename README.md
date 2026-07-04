@@ -1,6 +1,5 @@
 **IMPORTANT:**
-- Foundry v14 - install v3.x
-- Foundry v13 - install v2.x
+- Foundry v13 or v14  - install v4.x
 - Foundry v12 - install v1.x
 
 **Patreon members** receive priority support and may vote or suggest new features and modules on my Discord channel.
@@ -27,13 +26,14 @@ https://github.com/user-attachments/assets/0c72bc15-e266-48e0-9181-053b5273b36f
   <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-2.webp?raw=true" width="49%" height="auto" />
 </div>
 
-### EXTRA FEATURES ON V13:
+### EXTRA FEATURES ON V13/V14:
 - **Fade out:** ability to disable fade out behavior of interface elements individually
 - **Custom Styles:** ability to disable/enable Carolingian UI styles on interface elements individually and still take advantage of other features like scene navigation, color themes, custom fonts, etc.
 - **Reworked Scene Navigation** with a toggle for Folder Navigation and separated active/viewed scenes
 - **Scene Preview Shortcuts:** which allow user to view and toggle global illumination, token vision, scene sound and open config
 - **Toggle floating chat log:** button to hide/show the chat input box if you don't use it often
 - **Players List:** Avatar miniatures
+- **Combat Carousel:** horizontal combat tracker built from the regular Foundry popout
 - Most of the options present in v12 (below) are also available
 
 ### FEATURES ON V12:
