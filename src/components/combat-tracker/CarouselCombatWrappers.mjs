@@ -100,6 +100,60 @@ export const CarouselCombatWrappers = {
   },
 
   /**
+   * Whether combatants hidden by the "hide defeated" carousel setting must be
+   * skipped during turn navigation
+   * @param {object} combat - The Combat instance
+   * @returns {boolean}
+   */
+  shouldSkipHiddenDefeated(combat) {
+    return CombatTrackerManager.carouselHideDefeated &&
+           CarouselCombatWrappers.isCarouselActive() &&
+           !!combat?.started;
+  },
+
+  /**
+   * Call a wrapped forward navigation method with core skipDefeated forced on,
+   * so combatants hidden by the carousel are passed over in a single combat
+   * update (core nextTurn/nextRound read this.settings.skipDefeated). The
+   * instance-level settings shadow is removed afterwards.
+   * @param {object} combat - The Combat instance
+   * @param {Function} wrapped - The wrapped method from libWrapper
+   * @param {Array} args - Original call arguments
+   */
+  async callSkippingHiddenDefeated(combat, wrapped, args) {
+    if (!CarouselCombatWrappers.shouldSkipHiddenDefeated(combat)) {
+      return wrapped.call(combat, ...args);
+    }
+    Object.defineProperty(combat, 'settings', {
+      value: { ...combat.settings, skipDefeated: true },
+      configurable: true
+    });
+    try {
+      return await wrapped.call(combat, ...args);
+    } finally {
+      delete combat.settings;
+    }
+  },
+
+  /**
+   * Call a wrapped backward navigation method, then keep rewinding while the
+   * turn landed on a combatant the carousel hides (core previousTurn and
+   * previousRound never skip defeated). Guarded against combats where every
+   * combatant is defeated; core stops the recursion at round 0.
+   * @param {object} combat - The Combat instance
+   * @param {Function} wrapped - The wrapped method from libWrapper
+   * @param {Array} args - Original call arguments
+   */
+  async callRewindingPastDefeated(combat, wrapped, args) {
+    const result = await wrapped.call(combat, ...args);
+    const mustRewind = CarouselCombatWrappers.shouldSkipHiddenDefeated(combat) &&
+                       combat.combatant?.isDefeated &&
+                       combat.turns.some(t => !t.isDefeated);
+    if (mustRewind) return combat.previousTurn();
+    return result;
+  },
+
+  /**
    * Register libWrapper wrappers for Combat prototype methods
    */
   registerCombatWrappers() {
@@ -202,10 +256,10 @@ export const CarouselCombatWrappers = {
 
     const state = CarouselCombatWrappers.stateGetter?.();
     const config = CarouselCombatWrappers.configGetter?.();
-    if (!state || !config) return wrapped.call(this, ...args);
+    if (!state || !config) return CarouselCombatWrappers.callSkippingHiddenDefeated(combat, wrapped, args);
 
     if (state.allCombatantIds.length === 0 || !CarouselTransforms.shouldUseInfiniteWrap(state)) {
-      return wrapped.call(this, ...args);
+      return CarouselCombatWrappers.callSkippingHiddenDefeated(combat, wrapped, args);
     }
 
     CarouselCombatWrappers.setSuppressPopoutRender();
@@ -214,7 +268,7 @@ export const CarouselCombatWrappers = {
 
     let result;
     try {
-      result = await wrapped.call(this, ...args);
+      result = await CarouselCombatWrappers.callSkippingHiddenDefeated(combat, wrapped, args);
     } catch(e) {
       CarouselCombatWrappers.suppressPopoutRenderUntil = 0;
       CarouselCombatWrappers._animatingTurnChange = false;
@@ -242,10 +296,10 @@ export const CarouselCombatWrappers = {
 
     const state = CarouselCombatWrappers.stateGetter?.();
     const config = CarouselCombatWrappers.configGetter?.();
-    if (!state || !config) return wrapped.call(this, ...args);
+    if (!state || !config) return CarouselCombatWrappers.callRewindingPastDefeated(combat, wrapped, args);
 
     if (state.allCombatantIds.length === 0 || !CarouselTransforms.shouldUseInfiniteWrap(state)) {
-      return wrapped.call(this, ...args);
+      return CarouselCombatWrappers.callRewindingPastDefeated(combat, wrapped, args);
     }
 
     CarouselCombatWrappers.setSuppressPopoutRender();
@@ -254,7 +308,7 @@ export const CarouselCombatWrappers = {
 
     let result;
     try {
-      result = await wrapped.call(this, ...args);
+      result = await CarouselCombatWrappers.callRewindingPastDefeated(combat, wrapped, args);
     } catch(e) {
       CarouselCombatWrappers.suppressPopoutRenderUntil = 0;
       CarouselCombatWrappers._animatingTurnChange = false;
@@ -286,10 +340,10 @@ export const CarouselCombatWrappers = {
 
     const state = CarouselCombatWrappers.stateGetter?.();
     const config = CarouselCombatWrappers.configGetter?.();
-    if (!state || !config) return wrapped.call(this, ...args);
+    if (!state || !config) return CarouselCombatWrappers.callSkippingHiddenDefeated(combat, wrapped, args);
 
     if (state.allCombatantIds.length === 0 || !CarouselTransforms.shouldUseInfiniteWrap(state)) {
-      return wrapped.call(this, ...args);
+      return CarouselCombatWrappers.callSkippingHiddenDefeated(combat, wrapped, args);
     }
 
     CarouselCombatWrappers.setSuppressPopoutRender();
@@ -297,7 +351,7 @@ export const CarouselCombatWrappers = {
 
     let result;
     try {
-      result = await wrapped.call(this, ...args);
+      result = await CarouselCombatWrappers.callSkippingHiddenDefeated(combat, wrapped, args);
     } catch(e) {
       CarouselCombatWrappers.suppressPopoutRenderUntil = 0;
       throw e;
@@ -327,10 +381,10 @@ export const CarouselCombatWrappers = {
 
     const state = CarouselCombatWrappers.stateGetter?.();
     const config = CarouselCombatWrappers.configGetter?.();
-    if (!state || !config) return wrapped.call(this, ...args);
+    if (!state || !config) return CarouselCombatWrappers.callRewindingPastDefeated(combat, wrapped, args);
 
     if (state.allCombatantIds.length === 0 || !CarouselTransforms.shouldUseInfiniteWrap(state)) {
-      return wrapped.call(this, ...args);
+      return CarouselCombatWrappers.callRewindingPastDefeated(combat, wrapped, args);
     }
 
     CarouselCombatWrappers.setSuppressPopoutRender();
@@ -338,7 +392,7 @@ export const CarouselCombatWrappers = {
 
     let result;
     try {
-      result = await wrapped.call(this, ...args);
+      result = await CarouselCombatWrappers.callRewindingPastDefeated(combat, wrapped, args);
     } catch(e) {
       CarouselCombatWrappers.suppressPopoutRenderUntil = 0;
       throw e;
