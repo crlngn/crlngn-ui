@@ -204,6 +204,7 @@
     &.theme-dark .sheet.theme-light .crlngn-tab-scroll-wrapper,
     &.theme-light #context-menu:not(.theme-dark),
     #context-menu.theme-light,
+    #interface.theme-light #context-menu,
     &.theme-light .application.dialog {
       --color-bg-button: rgba(237, 242, 244,0.9);
       --color-secondary: rgb(204, 186, 204);
@@ -263,6 +264,14 @@
     &.theme-dark .chat-popout.theme-light,
     &.theme-dark #context-menu:not(.theme-light),
     #context-menu.theme-dark,
+    /* Menus copy the theme class of their nearest .themed ancestor, which for
+       dnd5e chat cards is theme-light even when the surrounding UI renders dark.
+       Force the menu to follow the theme of the interface region instead. */
+    #interface.theme-dark #context-menu,
+    &.theme-dark .chat-popout #context-menu,
+    .chat-popout.theme-dark #context-menu,
+    #chat-popout.theme-dark #context-menu,
+    .sidebar-popout.theme-dark #context-menu,
     &.theme-dark .application.dialog {
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --input-background-alt: var(--color-dark-bg-50);
