@@ -726,7 +726,7 @@ body.crlngn-ui.crlngn-chat {
 
     .chat-message .message-content,
     .chat-message .message-content > * {
-      color: var(--color-text-primary);
+      color: var(--cui-chat-text-primary);
     }
 
     .chat-message p.supplement > strong {
@@ -754,7 +754,7 @@ body.crlngn-ui.crlngn-chat {
     .chat-message a.roll-link,
     .chat-message:not(.monks-tokenbar) a {
       background-color: var(--cui-chat-link-bg);
-      color: var(--color-text-primary);
+      color: var(--cui-chat-link-color);
       opacity: 0.8;
     }
 
