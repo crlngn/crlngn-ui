@@ -3,6 +3,7 @@
     "module": "ES2022",
     "target": "ES2022",
     "moduleResolution": "bundler",
+    "ignoreDeprecations": "6.0",
     "checkJs": false,
     "types": ["@league-of-foundry-developers/foundry-vtt-types"]
   },
