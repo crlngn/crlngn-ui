@@ -116,6 +116,14 @@ body.crlngn-ui{
     --mej-font-family: var(--crlngn-font-journal-title);
   }
 
+  /* Monk's Enhanced Journal - MEJ defaults --mej-background to Foundry's parchment
+     texture on :root, which is light and fights the themed journal background.
+     Skipped when the user picked one of MEJ's own background images, since MEJ only
+     sets the background-image attribute when that setting is not "none". */
+  &.crlngn-monks-enhanced-journal .monks-enhanced-journal:not([background-image]) {
+    --mej-background: transparent;
+  }
+
   /* Monk's Enhanced Journal - Dark theme for application window */
   &.crlngn-monks-enhanced-journal .monks-enhanced-journal.themed.theme-dark {
     /* Invert MEJ variables for dark mode */

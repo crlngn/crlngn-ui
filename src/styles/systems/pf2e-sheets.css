@@ -812,6 +812,21 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     border: 1px solid var(--control-bg-color);
   }
 
+  /* toggle button on action entries - pf2e defaults to --color-alt-bg / --color-border-dark,
+     which sit outside the theme palette, and dims the base state to 0.7 opacity */
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.actions button.activate {
+    background: var(--color-highlights-25);
+    color: var(--color-text-primary);
+    border: 1px solid var(--control-bg-color);
+    opacity: 1;
+
+    &.active,
+    &:hover {
+      background-color: var(--toggle-active-bg-color);
+      color: var(--color-text-primary);
+    }
+  }
+
   .actor.sheet section.window-content form.crb-style nav.sub-nav,
   .actor.sheet.party nav.sub-nav {
     background: var(--color-bg-alt);

@@ -117,6 +117,15 @@ body.crlngn-ui.crlngn-chat {
     --checkbox-border-color: var(--color-warm-2);
   }
 
+  /* dnd5e sets `.chat-popout { background: none }`, so on Foundry v14 a popped-out
+     message renders transparent over the canvas - the docked chat log hides this
+     because messages sit on the sidebar surface. Restore the themed window background
+     (--background follows the body/applications theme). */
+  .chat-popout {
+    background: var(--background);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.45);
+  }
+
   .chat-message{
     color: var(--cui-chat-text-primary);
   }

@@ -398,6 +398,23 @@ export class TopNavigation {
   }
 
   /**
+   * Retrieves the label element of a scene item, tolerating markup differences
+   * across Foundry versions. Foundry v14.367 dropped the `scene-name` class from
+   * the scene navigation label, so the class is restored when missing to keep
+   * styles and event handling consistent across all supported versions.
+   * @param {HTMLElement} sceneElem - The scene item element
+   * @returns {HTMLElement|null} The scene name element, or null when not found
+   */
+  static getSceneNameElem = (sceneElem) => {
+    if(!sceneElem) return null;
+    const nameElem = sceneElem.querySelector(":scope > .scene-name")
+      || sceneElem.querySelector(":scope > span.ellipsis");
+    if(!nameElem) return null;
+    nameElem.classList.add("scene-name");
+    return nameElem;
+  }
+
+  /**
    * Add scene preview to nav, if the setting is enabled
    */
   static handleSceneList = async (nav, navHtml, navData) =>{
@@ -409,6 +426,7 @@ export class TopNavigation {
 
     for(const li of allSceneLi){
       const id = li.dataset.sceneId;
+      TopNavigation.getSceneNameElem(li);
 
       // add scene preview
       if(TopNavigation.useScenePreview && game.user?.isGM){
@@ -479,17 +497,23 @@ export class TopNavigation {
   /**
    * Adds a levels toggle icon to the viewed scene if it has multiple levels.
    * Toggles visibility of the #scene-navigation-levels menu.
+   * Core renders #scene-navigation-levels as a sibling of #scene-navigation-viewed,
+   * and every level entry carries the viewed scene's id, so the menu is anchored by
+   * that id rather than by position - handleActiveSceneSeparation may already have
+   * relocated the viewed scene into the inactive list by the time this runs.
    * @param {HTMLElement} navHtml - The navigation HTML element
    */
   static handleLevelsToggle(navHtml) {
     const levelsMenu = navHtml.querySelector("#scene-navigation-levels");
     if (!levelsMenu) return;
 
-    const viewedMenu = navHtml.querySelector("#scene-navigation-viewed");
-    const viewedScene = viewedMenu?.querySelector("li.scene");
-    if (!viewedMenu || !viewedScene) return;
+    const levelSceneId = levelsMenu.querySelector(".scene-level")?.dataset.sceneId;
+    const viewedScene = levelsMenu.closest("li.scene")
+      || (levelSceneId ? navHtml.querySelector(`li.scene[data-scene-id="${levelSceneId}"]`) : null)
+      || navHtml.querySelector("#scene-navigation-viewed li.scene");
+    if (!viewedScene) return;
 
-    viewedScene.appendChild(levelsMenu);
+    if (levelsMenu.parentElement !== viewedScene) viewedScene.appendChild(levelsMenu);
 
     const levelsOpen = game.user?.getFlag(MODULE_ID, "sceneLevelsOpen") ?? false;
 
@@ -500,7 +524,7 @@ export class TopNavigation {
     toggleBtn.classList.add("crlngn-levels-toggle");
     toggleBtn.setAttribute("data-tooltip", "Toggle levels");
     toggleBtn.innerHTML = "<i class='fa-solid fa-layer-group'></i>";
-    const sceneName = viewedScene.querySelector(".scene-name");
+    const sceneName = TopNavigation.getSceneNameElem(viewedScene);
     sceneName?.prepend(toggleBtn);
 
     if (levelsOpen) {
@@ -1128,8 +1152,8 @@ export class TopNavigation {
     evt.stopPropagation();
     evt.preventDefault();
     const target = evt.currentTarget;
-    const isInner = target.classList.contains("scene-name");
-    const data = isInner ? target.parentNode.dataset : target.dataset;
+    const sceneElem = target.closest("[data-scene-id], [data-entry-id]") || target;
+    const data = sceneElem.dataset;
     const scene = game.scenes.get(data.entryId || data.sceneId);
     LogUtil.log("onActivateScene",[data, scene]);
     scene.activate();
@@ -1152,13 +1176,13 @@ export class TopNavigation {
     evt.preventDefault();
     evt.stopPropagation();
     const target = evt.currentTarget;
-    const isInner = target.classList.contains("scene-name");
-    const data = isInner ? target.parentNode.dataset : target.dataset;
+    const sceneElem = target.closest("[data-scene-id], [data-entry-id]") || target;
+    const data = sceneElem.dataset;
     const scene = game.scenes.get(data.entryId || data.sceneId);
     // const isSearchResult = target.parentElement?.classList.contains('search-results');
 
     TopNavigation.#previewedScene = '';
-    LogUtil.log("onSelectScene",[scene, target, isInner]);
+    LogUtil.log("onSelectScene",[scene, target, sceneElem]);
 
     if (!scene) return;
 
@@ -1266,8 +1290,9 @@ export class TopNavigation {
     sceneItems.forEach(li => {
       // const isFolder = li.classList.contains("folder");
       // LogUtil.log("addSceneListeners", [li]);
-      li.querySelector(".scene-name").addEventListener("click", TopNavigation.onSelectScene);
-      li.querySelector(".scene-name").addEventListener("dblclick", TopNavigation.onActivateScene);
+      const nameElem = TopNavigation.getSceneNameElem(li) || li;
+      nameElem.addEventListener("click", TopNavigation.onSelectScene);
+      nameElem.addEventListener("dblclick", TopNavigation.onActivateScene);
 
       li.removeEventListener("mouseenter", TopNavigation.onScenePreviewOn);
       li.removeEventListener("mouseleave", TopNavigation.onScenePreviewOff);

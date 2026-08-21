@@ -258,7 +258,6 @@
     #interface.theme-dark .app.theme-light,
     #interface.theme-dark,
     .sidebar-popout.theme-dark,
-    &.theme-dark .chat-popout.theme-light
     &.theme-dark .chat-popout.theme-light,
     /* Context menus are popovers attached to document.body, carrying a theme
        class copied from the target's nearest .themed ancestor (theme-light for
@@ -416,15 +415,19 @@
       
     }
 
-    &.theme-dark.crlngn-chat .sidebar-content{
-      --dnd5e-background-card: rgb(32, 37, 43); 
+    /* The docked chat log lives inside #interface and must follow the INTERFACE theme,
+       not the applications (body) theme. Keying these on body.theme-* broke mixed core
+       setups (e.g. Applications: Dark + Interface: Light), painting dark cards into the
+       light sidebar with unreadable dark text. Scope to #interface so it matches its region. */
+    &.crlngn-chat #interface.theme-dark .sidebar-content{
+      --dnd5e-background-card: rgb(32, 37, 43);
       --dnd5e-color-parchment: rgb(32, 37, 43);
       --crlngn-button-bg: rgba(15, 15, 15, 0.15);
       --color-bg-button: rgba(32, 37, 43, 1);
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --color-hover-bg: inherit;
     }
-    &.theme-light.crlngn-chat .sidebar-content{
+    &.crlngn-chat #interface.theme-light .sidebar-content{
       --dnd5e-background-card: rgba(244, 239, 237,0.8);
       --dnd5e-color-parchment: rgb(244, 239, 237);
       --crlngn-button-bg: rgba(250, 250, 250, 0.15);

@@ -229,9 +229,19 @@
             margin: 0;
             z-index: 0;
 
+            /* Foundry v14 dropped its own .scene::after status-icon rules in favour of a
+               rendered span.icons, so the positioning these glyphs used to inherit from
+               core has to be declared here. Matches the v13 core placement. */
             &:after {
               font-weight: 600;
               font-family: var(--font-awesome);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: absolute;
+              top: 0;
+              right: 6px;
+              height: 100%;
             }
 
             &.view.crlngn:after {
@@ -531,7 +541,7 @@
 
           #scene-navigation-levels {
             position: absolute;
-            top: var(--control-item-size);
+            top: calc(var(--control-item-size) - 1px);
             right: 0;
             z-index: 0;
             background-color: var(--control-bg-color);
@@ -957,11 +967,17 @@
                 position: relative;
 
                 &:after {
-                  font-family: var(--font-awesome, "Font Awesome 6 Pro", "Font Awesome 6 Free");
+                  font-family: var(--font-awesome, "Font Awesome 7 Pro", "Font Awesome 6 Pro", "Font Awesome 6 Free");
                   font-weight: 900;
                   font-size: var(--font-size-10);
-                  margin-right: 4px;
                   opacity: 0.6;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  position: absolute;
+                  top: 0;
+                  right: 6px;
+                  height: 100%;
                 }
 
                 /* fa-crown - GM currently viewing */
