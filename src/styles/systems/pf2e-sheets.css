@@ -479,6 +479,18 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
   .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.actions ol.actions-list li.strike .ammo .loaded {
     border: 1px solid transparent;
   }
+  /* ammo name button - core's --button-background-color stays light inside the pf2e
+     sheet, so themed light text landed on a light chip. Drop the button surface and
+     let the text sit on the themed .loaded row instead. */
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.actions ol.actions-list li.strike .ammo .loaded button.inline-control {
+    background: transparent;
+    color: var(--color-text-primary);
+
+    &:hover {
+      background: var(--color-highlights-25);
+      color: var(--color-text-primary);
+    }
+  }
   .actor.sheet section.window-content form.crb-style nav.sheet-navigation .panel-title {
     color: var(--color-text-primary);
     padding-left: 1.5em;
