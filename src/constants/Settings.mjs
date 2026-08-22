@@ -676,7 +676,7 @@ export function getSettings() {
       scope: SETTING_SCOPE.client,
       config: false,
       default: true,
-      requiresReload: true,
+      requiresReload: false,
       system: ['daggerheart']
     },
 

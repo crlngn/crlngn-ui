@@ -64,6 +64,15 @@
         "enabledNotification": "Il Carosello di Combattimento è stato abilitato. Puoi modificarlo nelle impostazioni del modulo.",
         "disabledNotification": "Il Carosello di Combattimento è stato disabilitato. Puoi abilitarlo più tardi nelle impostazioni del modulo.",
         "moduleWarning": "Attenzione: Il modulo Combat Carousel è attualmente attivo. Considera di disabilitarlo per evitare conflitti."
+      },
+      "dhFearDock": {
+        "title": "Posizione del Tracciatore della Paura di Daggerheart",
+        "message": "Il sistema Daggerheart ora permette di posizionare il tracciatore della paura in fondo allo schermo. Puoi continuare a usare l'aggancio di Carolingian UI, ma questo imposterà la posizione del tracciatore del sistema su \"Libera\". Confermi?",
+        "yes": "Sì, usa Carolingian UI.",
+        "no": "No, mantieni l'impostazione del sistema.",
+        "enabledNotification": "La posizione del Tracciatore della Paura di Daggerheart è stata impostata su \"Libera\". Trascina il tracciatore vicino alla barra delle macro per agganciarlo.",
+        "disabledNotification": "L'aggancio del Tracciatore della Paura è stato disattivato. Puoi riattivarlo più tardi nelle impostazioni del modulo.",
+        "releasedNotification": "Daggerheart sta ora posizionando il Tracciatore della Paura, quindi l'aggancio di Carolingian UI è stato rilasciato."
       }
     },
     "settings": {

@@ -1,57 +1,161 @@
 /* ========================================================================
    DAGGERHEART RESOURCES DOCKING STYLES
-   Docking functionality for Daggerheart's #resources window
+   Docking functionality for Daggerheart's #resources window (fear tracker)
    Only applied when the dockDHResources setting is enabled
    Disabled on mobile screen sizes (< 768px)
+
+   Daggerheart 1.x renders #resources as a framed ApplicationV2 window
+   (.window-header / .window-content), matched here by #resources.application.
+   Daggerheart 2.x renders it frameless with the classes
+   .daggerheart.dh-style.fear-tracker and places it itself, matched here by
+   #resources.fear-tracker. Docking only ever engages while Daggerheart's own
+   fear position setting is "free".
    ======================================================================== */
+
+/* ------------------------------------------------------------------------
+   Recenter Daggerheart 2.x's native top/bottom positions
+   The system derives --offset from core's sidebar and hotbar metrics, which
+   Carolingian UI shifts. --crlngn-dh-fear-offset corrects for the left
+   controls column and can be overridden per world if needed.
+   ------------------------------------------------------------------------ */
+body.crlngn-ui.system-daggerheart {
+  --crlngn-dh-fear-offset: calc(var(--ui-controls-margin-left, 0px) / -2);
+
+  #resources.fear-tracker.topCenter,
+  #resources.fear-tracker.bottomCenter {
+    transform: translateX(calc(var(--offset, 0px) + var(--crlngn-dh-fear-offset, 0px)));
+  }
+}
 
 /* Only apply docking styles when setting is enabled and not on mobile */
 @media (min-width: 768px) {
   body.system-daggerheart.crlngn-dh-dock {
 
+    /* -- Daggerheart 1.x, framed window -- */
     #resources.application .window-header {
       max-height: 1.5rem;
     }
     #resources.application .window-content {
       backdrop-filter: none;
     }
-    #resources .window-content #resource-fear .resource-bar {
+    #resources.application .window-content #resource-fear .resource-bar {
       min-width: 250px;
     }
 
-    #resources .window-content #resource-fear i {
+    #resources.application .window-content #resource-fear i {
       border-radius: 4px;
       width: 2.4rem;
     }
 
-    #resources {
+    #resources.application {
       min-height: 70px !important;
     }
-    #resources:not(:hover):not(.minimized) {
+    #resources.application:not(:hover):not(.minimized) {
       background: transparent !important;
     }
 
-    #resources.docked {
-      position: relative !important;
-      z-index: 1000 !important;
-      width: auto !important;
+    #resources.application.docked {
       height: 70px !important;
-      left: auto !important;
-      top: auto !important;
-      bottom: 10px !important;
-      pointer-events: all !important;
     }
 
     /* Hide resize handle when docked */
-    #resources.docked .window-resize-handle {
+    #resources.application.docked .window-resize-handle {
       display: none !important;
     }
+
+    /* Adjust resources content when docked for better visibility */
+    #resources.application.docked .window-content {
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    /* Ensure window header remains draggable when docked */
+    #resources.application.docked .window-header {
+      cursor: move;
+    }
+
+    /* -- Daggerheart 2.x, frameless element -- */
+    #resources.fear-tracker.docked {
+      position: relative !important;
+      z-index: 1000 !important;
+      width: auto !important;
+      height: auto !important;
+      left: auto !important;
+      top: auto !important;
+      right: auto !important;
+      bottom: 10px !important;
+      margin: 0 auto !important;
+      transform: none !important;
+      pointer-events: all !important;
+    }
+
+    /* The system's own drag/resize affordances follow docking rules */
+    #resources.fear-tracker.docked .fear-header {
+      cursor: move;
+    }
+    #resources.fear-tracker.docked .fear-header .drag-handle {
+      cursor: grab;
+    }
+    #resources.fear-tracker.docked .resize-handle {
+      display: none !important;
+    }
+
+    /* Tracker stays transparent until hovered, as it did before Daggerheart 2.x */
+    /* The parchment lives on #resources::before, so only its opacity is touched - */
+    /* redeclaring the background shorthand risks losing --background entirely */
+    #resources.fear-tracker:not(:hover) {
+      background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    #resources.fear-tracker:not(:hover)::before {
+      opacity: 0 !important;
+    }
+
+    /* Hovering paints an opaque base under the parchment so the tracker reads dark */
+    #resources.fear-tracker:hover {
+      background-color: var(--crlngn-dh-tracker-bg, #0f1115);
+      border-radius: 8px;
+    }
+    #resources.fear-tracker:hover::before {
+      opacity: 1 !important;
+    }
+
+    /* Drop the frame Daggerheart draws around the tracker, keeping the snap outline */
+    #resources.fear-tracker:not(.near-snap) {
+      border-color: transparent !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Keep the header's space reserved at all times */
+    /* Every fear token click re-renders the part, which otherwise replays the */
+    /* reveal transition and shunts the tokens up and down */
+    #resources.fear-tracker #resource-fear .fear-header {
+      height: 18.75px !important;
+      visibility: visible !important;
+      transition: opacity var(--ui-fade-duration, 0.3s) ease !important;
+    }
+
+    /* Keep the tracker compact so it reads as part of the bottom bar */
+    #resources.fear-tracker.docked #resource-fear .resource-bar {
+      min-width: 250px;
+    }
+    #resources.fear-tracker.docked #resource-fear .fear-tokens {
+      gap: 0.25rem;
+    }
+    #resources.fear-tracker.docked #resource-fear .controls {
+      margin-top: 0.25rem;
+    }
+
+    /* -- Shared docking affordances -- */
 
     /* Snap indicator - visual feedback when dragging near dock zone */
     #resources.near-snap {
       outline: 5px solid var(--color-warm-2, #ff6b35);
       outline-offset: -5px;
       animation: outline-pulse 0.75s infinite linear;
+      border-radius: 8px;
     }
 
     /* Pulse animation for snap indicator */
@@ -71,22 +175,18 @@
       transition: all 0.3s ease-in-out !important;
     }
 
+    /* Floating freely, the system's resize handle owns the width, so the */
+    /* system's own 540px cap has to come off or it cannot be dragged wider */
+    #resources.fear-tracker:not(.docked) {
+      max-width: unset;
+    }
+
     /* Ensure docked resources window has proper spacing */
+    /* Wide enough to keep a full row of fear tokens on one line */
     #ui-bottom #resources.docked {
       margin-left: auto;
       margin-right: auto;
-      max-width: 90%;
-    }
-
-    /* Adjust resources content when docked for better visibility */
-    #resources.docked .window-content {
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-
-    /* Ensure window header remains draggable when docked */
-    #resources.docked .window-header {
-      cursor: move;
+      max-width: min(640px, 94%);
     }
   }
 }

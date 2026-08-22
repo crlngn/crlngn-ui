@@ -13,10 +13,16 @@ class DockedWindow {
   static SNAP_DISTANCE = 50;
   static DRAG_HANDLE_SELECTOR = '.window-header';
 
-  constructor(app, element, windowId) {
+  constructor(app, element, windowId, options = {}) {
     this.app = app;
     this.element = element;
     this.windowId = windowId;
+
+    this.options = {
+      dragTriggerSelector: options.dragTriggerSelector || null,
+      captureDrag: options.captureDrag || false,
+      dockedHeight: options.dockedHeight || '100px'
+    };
 
     this.dragState = {
       isDragging: false,
@@ -42,16 +48,19 @@ class DockedWindow {
    * Initialize docking behavior for this window instance
    */
   initialize() {
-    // Try to find window header, otherwise use the element itself as drag handle
-    let dragHandle = this.element.querySelector(DockedWindow.DRAG_HANDLE_SELECTOR);
-    if (!dragHandle) {
-      LogUtil.log(`BottomDockUtil | No window header found for ${this.windowId}, using element as drag handle`);
-      dragHandle = this.element;
+    // Frameless windows delegate from the root element, so the handle survives content re-renders
+    let dragHandle = this.element;
+    if (!this.options.dragTriggerSelector) {
+      dragHandle = this.element.querySelector(DockedWindow.DRAG_HANDLE_SELECTOR);
+      if (!dragHandle) {
+        LogUtil.log(`BottomDockUtil | No window header found for ${this.windowId}, using element as drag handle`);
+        dragHandle = this.element;
+      }
     }
 
     // Load saved state and apply if docked
     const savedState = BottomDockUtil.loadState(this.windowId);
-    if (savedState?.docked) {
+    if (savedState?.docked && !this.isDockedInPlace()) {
       LogUtil.log(`BottomDockUtil | Restoring docked state for ${this.windowId}`);
       // Wait for next paint to ensure DOM layout is ready
       requestAnimationFrame(() => {
@@ -61,12 +70,22 @@ class DockedWindow {
 
     // Create bound handler we can remove later
     this.boundHandlers.dragStart = this.handleDragStart.bind(this);
-    dragHandle.addEventListener('mousedown', this.boundHandlers.dragStart);
+    dragHandle.addEventListener('mousedown', this.boundHandlers.dragStart, this.options.captureDrag);
 
     // Store drag handle reference for cleanup
     this.dragHandle = dragHandle;
 
     LogUtil.log(`BottomDockUtil | Docking initialized for ${this.windowId}`, [savedState]);
+  }
+
+  /**
+   * Check whether the element is currently docked AND still parented to #ui-bottom
+   * The window's application may re-parent it on a forced render, which leaves the class behind
+   * @returns {boolean} True if the element is docked and in place
+   */
+  isDockedInPlace() {
+    return this.element.classList.contains('docked')
+      && this.element.parentElement === document.querySelector('#ui-bottom');
   }
 
   /**
@@ -106,6 +125,11 @@ class DockedWindow {
       return true;
     }
 
+    // Frameless windows use anchors with data-action instead of buttons
+    if (target.closest('[data-action]')) {
+      return true;
+    }
+
     return false;
   }
 
@@ -115,6 +139,11 @@ class DockedWindow {
   handleDragStart(event) {
     LogUtil.log("handleDragStart",[event.button, this.shouldSkipDrag(event.target), event.target]);
     if (event.button !== 0) return; // Only left mouse button
+
+    // Delegated handles only start a drag from within their own trigger area
+    if (this.options.dragTriggerSelector && !event.target.closest(this.options.dragTriggerSelector)) {
+      return;
+    }
 
     // Skip drag if clicking on interactive elements
     if (this.shouldSkipDrag(event.target)) {
@@ -231,6 +260,8 @@ class DockedWindow {
       // For camera dock, also save to CameraDockUtil settings
       if (this.windowId === 'camera-dock') {
         CameraDockUtil.saveCameraPosition(rect.left, rect.top);
+      } else if (this.options.dragTriggerSelector) {
+        this.app?.setPosition?.({ left: rect.left, top: rect.top });
       }
     }
 
@@ -290,7 +321,7 @@ class DockedWindow {
     this.element.style.position = 'relative';
     this.element.style.zIndex = '1000';
     this.element.style.width = 'auto';
-    this.element.style.height = '100px';
+    this.element.style.height = this.options.dockedHeight;
     this.element.style.left = 'auto';
     this.element.style.top = 'auto';
     this.element.style.bottom = '10px';
@@ -381,6 +412,23 @@ class DockedWindow {
   }
 
   /**
+   * Strip every style this instance applied while docked, without saving state or re-parenting
+   * Used when handing control of the window back to its owning application
+   */
+  clearDockStyles() {
+    this.element.classList.remove('docked', 'snapping', 'near-snap');
+
+    const dockedProps = ['position', 'zIndex', 'width', 'height', 'left', 'top', 'right', 'bottom', 'pointerEvents'];
+    dockedProps.forEach(prop => { this.element.style[prop] = ''; });
+
+    if (this.app?.options?.window) {
+      this.app.options.window.resizable = true;
+    }
+
+    LogUtil.log(`BottomDockUtil | Cleared dock styles for ${this.windowId}`);
+  }
+
+  /**
    * Save docking state to user flag
    * @param {boolean} docked - Is window docked
    * @param {object} position - Custom position {x, y}
@@ -401,7 +449,7 @@ class DockedWindow {
    */
   destroy() {
     if (this.dragHandle && this.boundHandlers.dragStart) {
-      this.dragHandle.removeEventListener('mousedown', this.boundHandlers.dragStart);
+      this.dragHandle.removeEventListener('mousedown', this.boundHandlers.dragStart, this.options.captureDrag);
     }
 
     if (this.boundHandlers.dragMove) {
@@ -428,6 +476,25 @@ export class BottomDockUtil {
 
   // Map of window ID -> restoration callback function
   static restorationCallbacks = new Map();
+
+  // Window ID used for Daggerheart's fear tracker (#resources)
+  static DH_WINDOW_ID = 'dh-resources';
+
+  // Daggerheart fear tracker position that leaves placement up to us (DH 2.x+)
+  static DH_FEAR_POSITION_FREE = 'free';
+
+  // Docking options for Daggerheart's frameless fear tracker (DH 2.x+)
+  static DH_DOCK_OPTIONS = {
+    dragTriggerSelector: '.fear-header',
+    captureDrag: true,
+    dockedHeight: 'auto'
+  };
+
+  // Width of the fear position prompt, in pixels
+  static DH_DIALOG_WIDTH = 500;
+
+  // Guards the position prompt so it can't stack up across re-renders
+  static _fearPositionPrompt = null;
 
   /**
    * Initialize the BottomDockUtil
@@ -458,23 +525,197 @@ export class BottomDockUtil {
     if (game.system.id === 'daggerheart') {
       LogUtil.log("BottomDockUtil | Daggerheart detected - setting up resources docking");
 
-      // Apply body class based on setting
       const SETTINGS = getSettings();
       const enabled = SettingsUtil.get(SETTINGS.dockDHResources?.tag);
       BottomDockUtil.applyDockingClass(enabled);
 
-      // Watch for setting changes
-      Hooks.on('updateSetting', (setting) => {
-        if (setting.key === SETTINGS.dockDHResources?.tag) {
-          BottomDockUtil.applyDockingClass(setting.value);
-        }
-      });
-
+      Hooks.on(HOOKS_CORE.CLIENT_SETTING_CHANGED, BottomDockUtil._onClientSettingChanged.bind(this));
       Hooks.on('renderFearTracker', this._onRenderFearTracker.bind(this));
+
+      if (enabled) BottomDockUtil.ensureFreeFearPosition();
     }
 
     // Future: Add more window types here
     // if (game.system.id === 'othersystem') { ... }
+  }
+
+  /**
+   * Whether the installed Daggerheart version exposes its own fear tracker position setting
+   * DH 2.x replaced the framed #resources window with a frameless element it re-parents itself
+   * @static
+   * @returns {boolean} True when running Daggerheart 2.x or later
+   */
+  static get dhSupportsFearPosition() {
+    return !!CONFIG.DH?.GENERAL?.fearPosition;
+  }
+
+  /**
+   * Key of Daggerheart's client-scoped appearance setting
+   * @static
+   * @returns {string} The setting key
+   */
+  static get dhAppearanceKey() {
+    return CONFIG.DH?.SETTINGS?.gameSettings?.appearance ?? 'Appearance';
+  }
+
+  /**
+   * Read Daggerheart's configured fear tracker position
+   * @static
+   * @returns {string|null} The position value, or null on older Daggerheart versions
+   */
+  static getFearPosition() {
+    if (!BottomDockUtil.dhSupportsFearPosition) return null;
+
+    try {
+      return game.settings.get(game.system.id, BottomDockUtil.dhAppearanceKey)?.fearPosition ?? null;
+    } catch (err) {
+      LogUtil.warn("BottomDockUtil | Could not read Daggerheart appearance settings", [err]);
+      return null;
+    }
+  }
+
+  /**
+   * Switch Daggerheart's fear tracker position to "free" so docking can control placement
+   * Merges into the existing appearance data so no other appearance preference is lost
+   * @static
+   * @returns {Promise<boolean>} True when the setting was updated
+   */
+  static async setFearPositionFree() {
+    try {
+      const appearance = game.settings.get(game.system.id, BottomDockUtil.dhAppearanceKey);
+      const data = appearance?.toObject ? appearance.toObject() : foundry.utils.deepClone(appearance ?? {});
+      data.fearPosition = BottomDockUtil.DH_FEAR_POSITION_FREE;
+
+      await game.settings.set(game.system.id, BottomDockUtil.dhAppearanceKey, data);
+      LogUtil.log("BottomDockUtil | Daggerheart fear position set to free");
+      return true;
+    } catch (err) {
+      LogUtil.warn("BottomDockUtil | Could not update Daggerheart fear position", [err]);
+      return false;
+    }
+  }
+
+  /**
+   * Make sure Daggerheart's fear tracker is in "free" position before docking takes over
+   * Warns the user first, and turns docking back off if they would rather keep the system position
+   * @static
+   * @returns {Promise<boolean>} True when docking may proceed
+   */
+  static async ensureFreeFearPosition() {
+    if (!BottomDockUtil.dhSupportsFearPosition) return true;
+    if (BottomDockUtil.getFearPosition() === BottomDockUtil.DH_FEAR_POSITION_FREE) return true;
+    if (BottomDockUtil._fearPositionPrompt) return BottomDockUtil._fearPositionPrompt;
+
+    BottomDockUtil._fearPositionPrompt = BottomDockUtil._promptForFreeFearPosition()
+      .finally(() => { BottomDockUtil._fearPositionPrompt = null; });
+
+    return BottomDockUtil._fearPositionPrompt;
+  }
+
+  /**
+   * Ask the user whether Carolingian UI may take over the fear tracker placement
+   * @private
+   * @static
+   * @returns {Promise<boolean>} True when the user accepted and the position was changed
+   */
+  static async _promptForFreeFearPosition() {
+    const i18nPath = 'CRLNGN_UI.ui.dhFearDock';
+    const SETTINGS = getSettings();
+
+    const result = await foundry.applications.api.DialogV2.confirm({
+      window: { title: game.i18n.localize(`${i18nPath}.title`) },
+      position: { width: BottomDockUtil.DH_DIALOG_WIDTH },
+      content: `<p>${game.i18n.localize(`${i18nPath}.message`)}</p>`,
+      yes: {
+        label: game.i18n.localize(`${i18nPath}.yes`),
+        icon: "",
+        default: true,
+        callback: () => true
+      },
+      no: {
+        label: game.i18n.localize(`${i18nPath}.no`),
+        icon: "",
+        callback: () => false
+      },
+      rejectClose: false
+    });
+
+    if (result === true) {
+      const updated = await BottomDockUtil.setFearPositionFree();
+      if (updated) ui.notifications.info(game.i18n.localize(`${i18nPath}.enabledNotification`));
+      return updated;
+    }
+
+    await SettingsUtil.set(SETTINGS.dockDHResources.tag, false);
+    ui.notifications.info(game.i18n.localize(`${i18nPath}.disabledNotification`));
+    return false;
+  }
+
+  /**
+   * React to client setting changes for both our docking toggle and Daggerheart's appearance
+   * Client-scoped settings fire clientSettingChanged rather than updateSetting
+   * @private
+   * @static
+   * @param {string} key - Namespaced setting key
+   * @param {*} value - The new setting value
+   */
+  static _onClientSettingChanged(key, value) {
+    const SETTINGS = getSettings();
+
+    if (key === `${MODULE_ID}.${SETTINGS.dockDHResources?.tag}`) {
+      BottomDockUtil.onDockSettingChanged(value);
+      return;
+    }
+
+    if (key === `${game.system.id}.${BottomDockUtil.dhAppearanceKey}`) {
+      BottomDockUtil._onFearPositionChanged(value?.fearPosition);
+    }
+  }
+
+  /**
+   * Handle the Carolingian UI docking setting being toggled
+   * @static
+   * @param {boolean} enabled - The new setting value
+   */
+  static async onDockSettingChanged(enabled) {
+    BottomDockUtil.applyDockingClass(enabled);
+
+    if (!enabled) {
+      BottomDockUtil.releaseDHResources();
+      return;
+    }
+
+    await BottomDockUtil.ensureFreeFearPosition();
+  }
+
+  /**
+   * Handle Daggerheart's own fear position being changed away from "free"
+   * Docking steps aside rather than fighting the system for placement
+   * @private
+   * @static
+   * @param {string} position - The new fear position
+   */
+  static _onFearPositionChanged(position) {
+    if (!BottomDockUtil.dhSupportsFearPosition) return;
+    if (position === BottomDockUtil.DH_FEAR_POSITION_FREE) return;
+    if (!BottomDockUtil.instances.has(BottomDockUtil.DH_WINDOW_ID)) return;
+
+    LogUtil.log("BottomDockUtil | Daggerheart took over fear tracker placement", [position]);
+    BottomDockUtil.releaseDHResources();
+    ui.notifications.info(game.i18n.localize('CRLNGN_UI.ui.dhFearDock.releasedNotification'));
+  }
+
+  /**
+   * Hand the fear tracker back to Daggerheart, keeping the saved dock preference intact
+   * @static
+   */
+  static releaseDHResources() {
+    const instance = BottomDockUtil.instances.get(BottomDockUtil.DH_WINDOW_ID);
+    if (!instance) return;
+
+    instance.clearDockStyles();
+    BottomDockUtil.cleanup(BottomDockUtil.DH_WINDOW_ID);
+    ui.resources?.render({ force: true });
   }
 
   /**
@@ -495,22 +736,31 @@ export class BottomDockUtil {
    * @private
    * @static
    * @param {Application} app - The FearTracker application instance
-   * @param {jQuery} html - The rendered HTML
-   * @param {object} data - Render data
+   * @param {HTMLElement|jQuery} html - The rendered element, or jQuery wrapper on older versions
+   * @param {object} data - Render context
    */
   static _onRenderFearTracker(app, html, data) {
     const SETTINGS = getSettings();
     const enabled = SettingsUtil.get(SETTINGS.dockDHResources?.tag);
+    const element = html?.[0] ?? html;
 
-    if (!enabled) {
+    if (!enabled || !element) {
       LogUtil.log("BottomDockUtil | Daggerheart resources docking disabled in settings");
       return;
     }
 
-    const element = html[0] || html;
-    LogUtil.log("BottomDockUtil | Enhancing Fear Tracker with docking", [app, element]);
+    const fearPosition = BottomDockUtil.getFearPosition();
+    if (BottomDockUtil.dhSupportsFearPosition && fearPosition !== BottomDockUtil.DH_FEAR_POSITION_FREE) {
+      LogUtil.log("BottomDockUtil | Daggerheart controls the fear tracker position", [fearPosition]);
+      BottomDockUtil.cleanup(BottomDockUtil.DH_WINDOW_ID);
+      return;
+    }
 
-    this.initialize(app, element, 'dh-resources');
+    const isFrameless = !element.querySelector('.window-content');
+    const options = isFrameless ? BottomDockUtil.DH_DOCK_OPTIONS : {};
+    LogUtil.log("BottomDockUtil | Enhancing Fear Tracker with docking", [app, element, isFrameless]);
+
+    this.initialize(app, element, BottomDockUtil.DH_WINDOW_ID, options);
   }
 
   /**
@@ -519,8 +769,9 @@ export class BottomDockUtil {
    * @param {Application} app - The application instance
    * @param {HTMLElement} element - The window DOM element
    * @param {string} windowId - Unique identifier for this window type
+   * @param {object} [options] - Per-window docking options passed to DockedWindow
    */
-  static initialize(app, element, windowId) {
+  static initialize(app, element, windowId, options = {}) {
     // Clean up old instance if exists
     if (this.instances.has(windowId)) {
       LogUtil.log(`BottomDockUtil | Cleaning up existing instance for ${windowId}`);
@@ -528,7 +779,7 @@ export class BottomDockUtil {
     }
 
     // Create new DockedWindow instance
-    const instance = new DockedWindow(app, element, windowId);
+    const instance = new DockedWindow(app, element, windowId, options);
     this.instances.set(windowId, instance);
 
     LogUtil.log(`BottomDockUtil | Created instance for ${windowId}`, [instance]);

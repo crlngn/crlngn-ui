@@ -64,6 +64,15 @@
         "enabledNotification": "Combat Carousel has been enabled. You can change this in module settings.",
         "disabledNotification": "Combat Carousel has been disabled. You can enable it later in module settings.",
         "moduleWarning": "Warning: The Combat Carousel module is currently active. Consider disabling it to avoid conflicts."
+      },
+      "dhFearDock": {
+        "title": "Daggerheart Fear Tracker position",
+        "message": "Daggerheart system now allows setting position of fear tracker at the bottom of screen. You can continue to use Carolingian UI docking instead, but this will set the system's tracker setting to \"Free\". Confirm?",
+        "yes": "Yes, use Carolingian UI.",
+        "no": "No, keep system setting.",
+        "enabledNotification": "Daggerheart's Fear Tracker position was set to \"Free\". Drag the tracker near the macro hotbar to dock it.",
+        "disabledNotification": "Fear Tracker docking has been disabled. You can enable it later in module settings.",
+        "releasedNotification": "Daggerheart is now positioning the Fear Tracker, so Carolingian UI docking has been released."
       }
     },
     "settings": {

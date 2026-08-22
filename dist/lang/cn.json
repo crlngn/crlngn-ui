@@ -64,6 +64,15 @@
         "enabledNotification": "战斗轮播已启用。您可以在模块设置中更改此选项。",
         "disabledNotification": "战斗轮播已禁用。您可以稍后在模块设置中启用它。",
         "moduleWarning": "警告：Combat Carousel 模块当前处于活动状态。请考虑禁用它以避免冲突。"
+      },
+      "dhFearDock": {
+        "title": "Daggerheart 恐惧追踪器位置",
+        "message": "Daggerheart 系统现在支持将恐惧追踪器放置在屏幕底部。你仍可以继续使用 Carolingian UI 的停靠功能，但这会将系统的追踪器设置改为“自由”。确认吗？",
+        "yes": "是，使用 Carolingian UI。",
+        "no": "否，保留系统设置。",
+        "enabledNotification": "Daggerheart 的恐惧追踪器位置已设为“自由”。将追踪器拖到宏快捷栏附近即可停靠。",
+        "disabledNotification": "恐惧追踪器停靠已禁用。你可以稍后在模块设置中启用。",
+        "releasedNotification": "Daggerheart 现在负责定位恐惧追踪器，因此 Carolingian UI 的停靠已释放。"
       }
     },
     "settings": {

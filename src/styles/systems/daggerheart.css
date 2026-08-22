@@ -943,8 +943,10 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets {
   }
 
   /* Hover and active states - GOLDEN COLOR */
-  .dh-style a:hover,
-  .dh-style a.active {
+  /* Slot labels are anchors that already use the accent as their background, */
+  /* so tinting their text with it leaves them unreadable on hover */
+  .dh-style a:not(.slot-label):hover,
+  .dh-style a:not(.slot-label).active {
     color: light-dark(var(--color-warm-3), var(--color-warm-2));
     text-shadow: 0 0 4px var(--color-warm-2);
   }
@@ -1284,6 +1286,12 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets {
     background: light-dark(var(--dark-blue), var(--color-warm-2));
   }
 
+  .application.sheet.dh-style .character-sidebar-sheet .info-section .status-section .status-bar.armor-slots .slot-value .slot-label:hover .label,
+  .application.sheet.dh-style .character-sidebar-sheet .info-section .status-section .status-bar.armor-slots .slot-value .slot-label:hover .value,
+  .application.sheet.dh-style .character-sidebar-sheet .info-section .status-section .status-bar.armor-slots .slot-value .slot-label:hover i {
+    color: light-dark(var(--beige), var(--dark-blue)) !important;
+  }
+
   .application.sheet.dh-style .character-sidebar-sheet .info-section .status-section .status-bar.armor-slots .status-value {
     color: light-dark(var(--dark-blue), var(--beige));
     border: 1px solid light-dark(var(--dark-blue), var(--color-highlights-50));
@@ -1402,7 +1410,7 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets {
     color: light-dark(var(--dark-blue-40), var(--color-highlights-50));
   }
 
-  .application.sheet.daggerheart.actor.dh-style.party .tab.resources .actors-list .actor-resources .resources .slot-section .slot-bar .slot {
+  .application.sheet.daggerheart.actor.dh-style.party .tab.resources .actors-list .actor-resources .resources .slot-section .slot-bar .slot:not(:has(i)) {
     border: 1px solid light-dark(var(--dark-blue), var(--color-warm-2));
     background: light-dark(var(--dark-blue-10), var(--color-highlights-15));
   }
@@ -1489,7 +1497,7 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets {
     color: light-dark(var(--dark-blue), var(--color-warm-2));
   }
 
-  .status-bar .slot-value .slot-bar .slot {
+  .status-bar .slot-value .slot-bar .slot:not(:has(i)) {
     border: 1px solid light-dark(var(--dark-blue), var(--color-warm-2));
     background: light-dark(var(--dark-blue-10), var(--color-highlights-15));
   }

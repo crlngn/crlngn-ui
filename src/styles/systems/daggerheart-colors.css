@@ -216,7 +216,12 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets .application.sheet.daggerheart.a
 }
 
 body.crlngn-ui.system-daggerheart.crlngn-sheets .application.sheet.daggerheart.actor.dh-style.character .character-header-sheet .character-traits .trait .trait-name {
-  color: light-dark(var(--dark-blue), var(--color-warm-2));
+  color: var(--color-text-primary);
+  border: 0;
+}
+
+body.crlngn-ui.system-daggerheart.crlngn-sheets .application.sheet.daggerheart.actor.dh-style.character .character-header-sheet .character-traits .trait .trait-value-area svg {
+  opacity: 0;
 }
 
 body.crlngn-ui.system-daggerheart.crlngn-sheets .application.sheet.daggerheart.actor.dh-style.character .tab.inventory .search-section .search-bar input {
@@ -298,6 +303,12 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets .application.sheet.dh-style .cha
 body.crlngn-ui.system-daggerheart.crlngn-sheets .application.sheet.dh-style .character-sidebar-sheet .info-section .status-section .status-bar.armor-slots .slot-value .slot-label {
   color: light-dark(#efe6d8, var(--dark-blue));
   background: light-dark(var(--dark-blue), var(--color-warm-2));
+}
+
+body.crlngn-ui.system-daggerheart.crlngn-sheets .application.sheet.dh-style .character-sidebar-sheet .info-section .status-section .status-bar.armor-slots .slot-value .slot-label:hover .label,
+body.crlngn-ui.system-daggerheart.crlngn-sheets .application.sheet.dh-style .character-sidebar-sheet .info-section .status-section .status-bar.armor-slots .slot-value .slot-label:hover .value,
+body.crlngn-ui.system-daggerheart.crlngn-sheets .application.sheet.dh-style .character-sidebar-sheet .info-section .status-section .status-bar.armor-slots .slot-value .slot-label:hover i {
+  color: light-dark(#efe6d8, var(--dark-blue)) !important;
 }
 
 body.crlngn-ui.system-daggerheart.crlngn-sheets .application.sheet.dh-style .character-sidebar-sheet .info-section .status-section .status-bar.armor-slots .status-value {
@@ -436,7 +447,7 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets .application.sheet.daggerheart.a
   color: light-dark(var(--dark-blue)40, var(--color-highlights-50));
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-sheets .application.sheet.daggerheart.actor.dh-style.party .tab.resources .actors-list .actor-resources .resources .slot-section .slot-bar .slot {
+body.crlngn-ui.system-daggerheart.crlngn-sheets .application.sheet.daggerheart.actor.dh-style.party .tab.resources .actors-list .actor-resources .resources .slot-section .slot-bar .slot:not(:has(i)) {
   border: 1px solid light-dark(var(--dark-blue), var(--color-warm-2));
   background: light-dark(var(--dark-blue)10, var(--color-highlights-15));
 }
@@ -964,7 +975,6 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets .application.sheet.dh-style fiel
 
 body.crlngn-ui.system-daggerheart.crlngn-sheets .application.sheet.dh-style fieldset.glassy {
   background-color: light-dark(var(--dark-blue)10, var(--color-highlights-15));
-  border-color: transparent;
 }
 
 body.crlngn-ui.system-daggerheart.crlngn-sheets .application.sheet.dh-style fieldset.glassy legend {
@@ -1073,7 +1083,7 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets .status-bar .slot-value .slot-ba
   color: light-dark(var(--dark-blue), var(--color-warm-2));
 }
 
-body.crlngn-ui.system-daggerheart.crlngn-sheets .status-bar .slot-value .slot-bar .slot {
+body.crlngn-ui.system-daggerheart.crlngn-sheets .status-bar .slot-value .slot-bar .slot:not(:has(i)) {
   border: 1px solid light-dark(var(--dark-blue), var(--color-warm-2));
   background: light-dark(var(--dark-blue)10, var(--color-highlights-15));
 }

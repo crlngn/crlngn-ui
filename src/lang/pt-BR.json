@@ -64,6 +64,15 @@
         "enabledNotification": "O Carrossel de Combate foi ativado. Você pode alterar isso nas configurações do módulo.",
         "disabledNotification": "O Carrossel de Combate foi desativado. Você pode ativá-lo mais tarde nas configurações do módulo.",
         "moduleWarning": "Aviso: O módulo Combat Carousel está atualmente ativo. Considere desativá-lo para evitar conflitos."
+      },
+      "dhFearDock": {
+        "title": "Posição do Rastreador de Medo do Daggerheart",
+        "message": "O sistema Daggerheart agora permite definir a posição do rastreador de medo na parte inferior da tela. Você pode continuar usando o acoplamento do Carolingian UI, mas isso definirá a configuração do rastreador do sistema como \"Livre\". Confirmar?",
+        "yes": "Sim, usar Carolingian UI.",
+        "no": "Não, manter configuração do sistema.",
+        "enabledNotification": "A posição do Rastreador de Medo do Daggerheart foi definida como \"Livre\". Arraste o rastreador para perto da barra de macros para acoplá-lo.",
+        "disabledNotification": "O acoplamento do Rastreador de Medo foi desativado. Você pode ativá-lo mais tarde nas configurações do módulo.",
+        "releasedNotification": "O Daggerheart está posicionando o Rastreador de Medo, portanto o acoplamento do Carolingian UI foi liberado."
       }
     },
     "settings": {
