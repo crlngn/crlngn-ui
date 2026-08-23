@@ -1,0 +1,15 @@
+<section
+  class="form-content tab {{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}"
+>
+  <p class="hint on">{{playerHint}}</p>
+  <div class="form-group">
+    <select id="crlngn-css-target" name="playerTarget" class="crlngn-css-target" aria-label="{{targetLabel}}">
+      {{#each targets}}
+      <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.name}}{{#if this.hasStyles}} •{{/if}}</option>
+      {{/each}}
+    </select>
+  </div>
+  <div class="code-editor-wrapper">
+    <code-mirror name="playerStyles" class="crlngn-code-editor" language="plain" indent="2"></code-mirror>
+  </div>
+</section>

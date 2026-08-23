@@ -80,6 +80,9 @@
     </div>
   </div>
 
+  {{!-- Only rendered when the menu still supplies this field; on Foundry v14 --}}
+  {{!-- custom CSS lives in its own dialog and the field is absent --}}
+  {{#if fields.customStyles}}
   <div class="form-group">
     <label for="customStyles">{{fields.customStyles.label}}</label>
     <div class="code-editor-wrapper">
@@ -89,5 +92,6 @@
     </div>
     <p class="hint">{{fields.customStyles.hint}}</p>
   </div>
+  {{/if}}
   {{/if}}
 </section>
