@@ -11,6 +11,7 @@ foundry
 # Ignore all markdown files except those preceded by !
 *.md
 !README.md
+!CHANGELOG.md
 
 .*/
 !.gitignore
