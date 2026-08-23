@@ -77,13 +77,52 @@ export class SettingsThemes {
   }
 
   /**
-   * Applies custom CSS styles to the UI
+   * Applies world custom CSS styles to the UI
+   * Replaces rather than appends, so clearing the setting clears the styles
    * @param {string} [value] - CSS content to apply, if not provided uses stored setting
    */
   static applyCustomCSS = (value) => {
     const SETTINGS = getSettings();
     const cssContent = value || SettingsUtil.get(SETTINGS.customStyles.tag) || "";
-    GeneralUtil.addCustomCSS(cssContent);
+    SettingsThemes.replaceCustomCSS(cssContent, 'crlngn-ui-custom-css');
+  }
+
+  /**
+   * Applies the custom CSS the GM wrote for individual users
+   * Every user receives the styles written for them; the shared "all" bucket
+   * reaches players only, never Game Masters
+   * @param {Record<string, string>} [value] - Map of target id to CSS, if not provided uses stored setting
+   */
+  static applyPlayerCustomCSS = (value) => {
+    if (!game.user) {
+      LogUtil.log("applyPlayerCustomCSS | game.user is not ready yet");
+      return;
+    }
+
+    const SETTINGS = getSettings();
+    const stored = value || SettingsUtil.get(SETTINGS.playerCustomStyles.tag) || {};
+    const styles = foundry.utils.getType(stored) === "Object" ? stored : {};
+    const parts = game.user.isGM ? [] : [styles.all];
+    parts.push(styles[game.user.id]);
+
+    const cssContent = parts.filter(css => css?.trim()).join('\n\n');
+
+    LogUtil.log("applyPlayerCustomCSS", [game.user.id, cssContent.length]);
+    SettingsThemes.replaceCustomCSS(cssContent, 'crlngn-ui-player-custom-css');
+  }
+
+  /**
+   * Writes CSS into a dedicated style element, removing the element when there is nothing to apply
+   * @param {string} cssContent - The CSS to write
+   * @param {string} id - Id of the style element
+   */
+  static replaceCustomCSS = (cssContent, id) => {
+    if (!cssContent?.trim()) {
+      document.querySelector('#' + id)?.remove();
+      return;
+    }
+
+    GeneralUtil.addCustomCSS(cssContent, id, false);
   }
 
   /**

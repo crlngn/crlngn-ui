@@ -130,6 +130,31 @@
         "reset": "重置",
         "save": "保存"
       },
+      "customCssMenu": {
+        "label": "自定义CSS",
+        "title": "自定义CSS",
+        "buttonLabel": "编辑自定义CSS",
+        "hint": "为整个世界或单个玩家编写自定义 CSS。",
+        "save": "保存样式",
+        "tabs": {
+          "world": "世界",
+          "users": "用户"
+        },
+        "fields": {
+          "worldStyles": {
+            "label": "世界CSS",
+            "hint": "应用于此世界中的所有人，包括你自己。您可以通过粘贴 '@import' 链接来包含 'Google Fonts'，字体将在自定义字体设置中列出。"
+          },
+          "playerStyles": {
+            "label": "玩家CSS",
+            "hint": "在世界CSS之上叠加应用。选择“所有玩家”可应用于全体玩家（绝不包含游戏主持人），或选择单个用户（包括游戏主持人）仅对其生效。"
+          },
+          "target": {
+            "label": "应用于",
+            "allPlayers": "所有玩家"
+          }
+        }
+      },
       "hideInterface": {
         "label": "切换隐藏/显示界面",
         "hint": "隐藏或显示界面。这将影响 #interface 块中的所有元素"

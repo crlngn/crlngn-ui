@@ -225,7 +225,10 @@ export class ModuleCompatUtil {
       GeneralUtil.addCSSVars('--crlngn-taskbar-height', '10px');
     }
 
-    GeneralUtil.addCustomCSS(`body.crlngn-ui #ui-right {height: calc((100% - var(--crlngn-margin-bottom)) / var(--ui-scale));}`);
+    GeneralUtil.addCustomCSS(
+      `body.crlngn-ui #ui-right {height: calc((100% - var(--crlngn-margin-bottom)) / var(--ui-scale));}`,
+      'crlngn-ui-module-compat'
+    );
 
     const ftMoveStyle = document.querySelector("#ft-move-players-macro");
     if(ftMoveStyle){ftMoveStyle.innerHTML = '';}

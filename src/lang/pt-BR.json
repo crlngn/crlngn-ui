@@ -130,6 +130,31 @@
         "reset": "Redefinir",
         "save": "Salvar"
       },
+      "customCssMenu": {
+        "label": "Estilos CSS",
+        "title": "Estilos CSS",
+        "buttonLabel": "Editar Estilos CSS",
+        "hint": "Escreva CSS personalizado para todo o mundo, ou para jogadores individuais.",
+        "save": "Salvar Estilos",
+        "tabs": {
+          "world": "Mundo",
+          "users": "Usuários"
+        },
+        "fields": {
+          "worldStyles": {
+            "label": "CSS do Mundo",
+            "hint": "Aplicado a todos neste mundo, incluindo você. Você pode incluir fontes do Google Fonts colando o link @import, e a fonte será listada nas configurações de Fontes Personalizadas."
+          },
+          "playerStyles": {
+            "label": "CSS do Jogador",
+            "hint": "Aplicado sobre o CSS do Mundo. Escolha Todos os Jogadores para atingir todos os jogadores - Mestres nunca são incluídos - ou um único usuário, inclusive um Mestre, para atingir apenas ele."
+          },
+          "target": {
+            "label": "Aplicar a",
+            "allPlayers": "Todos os Jogadores"
+          }
+        }
+      },
       "hideInterface": {
         "label": "Ocultar/Mostrar Interface",
         "hint": "Oculta ou mostra a interface. Isso afetará todos os elementos dentro do bloco html #interface"

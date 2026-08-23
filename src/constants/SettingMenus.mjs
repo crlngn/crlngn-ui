@@ -1,4 +1,5 @@
 import { ModuleSettings } from '../components/settings-dialogs/ModuleSettings.mjs';
+import { CustomCssSettings } from '../components/settings-dialogs/CustomCssSettings.mjs';
 import { MODULE_ID } from './General.mjs';
 import { getSettings, SETTING_SCOPE } from './Settings.mjs';
 import { SettingsEnforcement } from '../components/SettingsEnforcement.mjs';
@@ -296,6 +297,16 @@ export function getSettingMenus() {
       icon: "fas fa-sliders-h",  
       propType: ModuleSettings,
       restricted: false
+    },
+    customCssMenu: {
+      tab: '',
+      tag: game.i18n.localize("CRLNGN_UI.settings.customCssMenu.label"),
+      name: game.i18n.localize("CRLNGN_UI.settings.customCssMenu.title"),
+      label: game.i18n.localize("CRLNGN_UI.settings.customCssMenu.buttonLabel"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.customCssMenu.hint"),
+      icon: "fas fa-file-code",
+      propType: CustomCssSettings,
+      restricted: true
     },
     supportPatreon: {
       tab: '',

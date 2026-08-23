@@ -113,6 +113,7 @@ export class Main {
       SidebarTabs.onReady();
 
       SettingsThemes.resetFoundryThemeSettings();
+      SettingsThemes.applyPlayerCustomCSS();
 
       // Scene nav specific ready actions
       TopNavigation.handleSceneFadeOut();

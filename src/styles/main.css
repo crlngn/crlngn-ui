@@ -456,6 +456,29 @@ body.crlngn-ui{
   .app textarea {
     color: var(--color-text-primary);
   }
+
+  /* CUSTOM CSS DIALOG */
+  /* Sized to its content so the window wraps snugly around the editor */
+  .crlngn-custom-css {
+    .form-content.tab {
+      display: none;
+    }
+    .form-content.tab.active {
+      display: block;
+    }
+    .crlngn-code-editor {
+      --color-text-selection-bg: var(--color-highlights-50);
+      display: block;
+      height: 320px;
+      border: 1px solid rgba(0, 0, 0, 0.5);
+      background: var(--color-input-bg);
+      color: var(--color-text-primary);
+      overflow: auto;
+    }
+    .crlngn-css-target {
+      max-width: 260px;
+    }
+  }
   .sidebar-tab search {
     input, select, textarea {
       background: var(--color-light-bg-25);

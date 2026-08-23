@@ -311,7 +311,7 @@ export class GeneralUtil {
       return;
     }
     
-    let customStyle = document.querySelector('#' + id);
+    let customStyle = document.querySelector('style#' + id);
     
     if (!customStyle) {
       customStyle = document.createElement('style');

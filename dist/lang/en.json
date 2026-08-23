@@ -130,6 +130,31 @@
         "reset": "Reset",
         "save": "Save"
       },
+      "customCssMenu": {
+        "label": "Custom CSS",
+        "title": "Custom CSS",
+        "buttonLabel": "Edit Custom CSS",
+        "hint": "Write custom CSS for the whole world, or for individual players.",
+        "save": "Save Styles",
+        "tabs": {
+          "world": "World",
+          "users": "Users"
+        },
+        "fields": {
+          "worldStyles": {
+            "label": "World CSS",
+            "hint": "Applied to everyone in this world, including you. You may include Google Fonts by pasting the @import link, and the font will be listed in the Custom Fonts settings."
+          },
+          "playerStyles": {
+            "label": "Player CSS",
+            "hint": "Applied on top of the World CSS. Pick All Players to reach every player - Game Masters are never included - or a single user, including a Game Master, to target just them."
+          },
+          "target": {
+            "label": "Apply to",
+            "allPlayers": "All Players"
+          }
+        }
+      },
       "hideInterface": {
         "label": "Toggle Hide/Show Interface",
         "hint": "Hides or shows the UI. This will affect all elements inside the `#interface` html block"

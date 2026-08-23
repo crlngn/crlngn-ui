@@ -268,14 +268,12 @@ export function getSettings() {
       fields: [
         "colorTheme",
         "applyDarkThemeToModules",
-        "forcedDarkTheme",
-        "customStyles"
+        "forcedDarkTheme"
       ],
       default: {
         colorTheme: "crlngn-theme",
         applyDarkThemeToModules: false,
-        forcedDarkTheme: "",
-        customStyles: ""
+        forcedDarkTheme: ""
       },
       scope: SETTING_SCOPE.world,
       config: false,
@@ -1279,13 +1277,24 @@ export function getSettings() {
 
     customStyles:{
       tag: "v2-custom-styles",
-      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.customStyles.label"),
-      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.customStyles.hint"),
+      label: game.i18n.localize("CRLNGN_UI.settings.customCssMenu.fields.worldStyles.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.customCssMenu.fields.worldStyles.hint"),
       propType: String,
       default: "",
       scope: SETTING_SCOPE.world,
       config: false, 
-      requiresReload: true 
+      requiresReload: false 
+    },
+
+    playerCustomStyles:{
+      tag: "v2-player-custom-styles",
+      label: game.i18n.localize("CRLNGN_UI.settings.customCssMenu.fields.playerStyles.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.customCssMenu.fields.playerStyles.hint"),
+      propType: Object,
+      default: {},
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
     },
 
     forcedDarkTheme: {

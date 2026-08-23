@@ -575,6 +575,8 @@ export class SettingsUtil {
         SettingsThemes.applyThemeSettings(); break;
       case SETTINGS.customStyles.tag:
         SettingsThemes.applyCustomCSS(value); break;
+      case SETTINGS.playerCustomStyles.tag:
+        SettingsThemes.applyPlayerCustomCSS(value); break;
       case SETTINGS.forcedDarkTheme.tag:
         SettingsThemes.applyForcedDarkTheme(value); break;
       case SETTINGS.adjustOtherModules.tag:
