@@ -4,6 +4,15 @@ import { SettingsUtil } from './SettingsUtil.mjs';
 
 export class UpdateNewsUtil {
   /**
+   * Whether the update news chat message is posted on load. The news payload shipped
+   * with the current release is out of date, so posting stays off until it is
+   * refreshed - set back to true to restore it. Everything else in this class is
+   * left intact.
+   * @type {boolean}
+   */
+  static newsEnabled = false;
+
+  /**
    * Get the URL for the update news JSON file
    * @returns {string} The URL to the module-updates.json file
    */
@@ -22,6 +31,10 @@ export class UpdateNewsUtil {
    */
   static init() {
     if (!game.user?.isGM) return;
+    if (!UpdateNewsUtil.newsEnabled) {
+      LogUtil.log('UpdateNewsUtil.init | update news posting is disabled');
+      return;
+    }
     // this.cleanSetting();
     this.checkForUpdates();
   }
