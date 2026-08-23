@@ -3,7 +3,17 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
-## 4.1.0 — unreleased
+## 4.1.1 — 2026-08-22
+
+- Fixed the release package shipping without its manifest and module archive.
+  The merged release serves both Foundry generations from a single
+  `dist/templates`, so the build requires the v13 and v14 branches to produce
+  identical template folders, and moving custom CSS into its own dialog changed
+  a shared template. The custom CSS field now renders behind a conditional so
+  one file serves both generations. 4.1.0 was published without installable
+  assets and is superseded by this release.
+
+## 4.1.0 — 2026-08-22
 
 ### Added
 
