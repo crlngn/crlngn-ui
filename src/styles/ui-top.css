@@ -10,7 +10,7 @@ body.crlngn-ui {
 
   &.nav-collapsed {
     --ui-top-padding: calc(72px + var(--top-nav-height,0px));
-    --current-sidebar-width: var(--right-control-item-size);
+    --current-sidebar-width: var(--control-item-size);
   }
 
   #interface{
