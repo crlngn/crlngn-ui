@@ -506,6 +506,14 @@ export class CameraDockUtil {
 
   static onRenderPlayersList(){
     LogUtil.log("onRenderPlayersList");
+    // The players list re-render replaces its content, destroying the
+    // minimized dock (and its restore button) transplanted into it
+    const rtcSettings = game.settings.get("core", "rtcClientSettings");
+    if (rtcSettings?.hideDock !== true) return;
+    const container = CameraDockUtil.cameraContainer;
+    if (container && !container.isConnected) {
+      document.querySelector('#interface #players #players-active')?.prepend(container);
+    }
   }
   
   /**
@@ -864,8 +872,12 @@ export class CameraDockUtil {
 
     if (isMinimized) {
       if (CameraDockUtil.cameraContainer.parentNode !== playersContainer) {
-        // Store the original parent to restore later
-        CameraDockUtil.originalParent = CameraDockUtil.cameraContainer.parentNode;
+        // Store the original parent to restore later — but never overwrite a
+        // valid one with a detached node (parentNode may be a stale
+        // #players-active from before a players list re-render)
+        if (!CameraDockUtil.originalParent?.isConnected) {
+          CameraDockUtil.originalParent = CameraDockUtil.cameraContainer.parentNode;
+        }
         // Move to players container
         playersContainer.prepend(CameraDockUtil.cameraContainer);
         
@@ -877,8 +889,12 @@ export class CameraDockUtil {
       }
     } else {
       if (!CameraDockUtil.originalParent) return;
-      // Restore to original position when not minimized
-      CameraDockUtil.originalParent.prepend(CameraDockUtil.cameraContainer);
+      // Restore to original position when not minimized; if the original
+      // parent is gone (interface rebuilt), fall back to the body
+      const restoreTarget = CameraDockUtil.originalParent.isConnected
+        ? CameraDockUtil.originalParent
+        : document.querySelector("body.crlngn-ui") || document.body;
+      restoreTarget.prepend(CameraDockUtil.cameraContainer);
 
       CameraDockUtil.makeDraggable();
       CameraDockUtil.makeResizeable();
