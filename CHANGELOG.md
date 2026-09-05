@@ -3,6 +3,36 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## 4.1.2 — 2026-09-05
+
+### Added
+
+- **Calendaria** joins the Modules & Systems compatibility list, enabled by
+  default. While the Carolingian combat carousel is enabled, the Calendaria
+  HUD sits beneath the carousel and comes back to the front as soon as it is
+  hovered, so the two no longer fight over the top of the screen. Untick
+  Calendaria in the list to keep its original stacking.
+
+### Changed
+
+- D&D 5e actor sheets and the compendium browser in vertical-tabs mode use a
+  tighter gap between the horizontal tabs (1rem, down from 1.5rem).
+- Context menu items get a little more padding so entries are easier to hit.
+
+### Fixed
+
+- **Item Piles.** Merchant, vault and trade windows are now themed through the
+  Modules & Systems compatibility styles, scoped to the dark applications
+  colour scheme, so each player can switch it off from the list. Even/odd item
+  rows, price lists, sublists, trade quantity fields and the plain buttons that
+  core's AppV1 rule painted cream all follow the dark theme, and the forced
+  dark theme reaches the Item Piles sheet windows it used to skip.
+- The minimized camera dock disappeared whenever the players list re-rendered,
+  taking its restore button with it. It is re-attached on every render.
+- `--current-sidebar-width` pointed at a variable that no longer exists, so
+  anything reading it resolved to nothing. On Foundry v14 this overrode Flash
+  Token Bar's own value and its docked menu lost its sidebar offset.
+
 ## 4.1.1 — 2026-08-22
 
 - Fixed the release package shipping without its manifest and module archive.

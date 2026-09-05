@@ -485,6 +485,17 @@ body.crlngn-ui{
     }
   }
 
+  /* Calendaria: keep the HUD under the crlngn combat carousel until hovered */
+  &.crlngn-calendaria.crlngn-combat-tracker {
+    .calendaria-hud {
+      z-index: 0;
+
+      &:hover {
+        z-index: 100;
+      }
+    }
+  }
+
   /* Combat Carousel */
   &.crlngn-combat-tracker-dock {
     &.navigation-collapsed{
