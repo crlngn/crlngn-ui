@@ -334,6 +334,68 @@ body.crlngn-ui{
     }
   }
 
+  /* Item Piles - app windows (merchant, vault, trade...). Item Piles hardcodes
+     theme-light on its windows; body.theme-dark is stamped by core from the
+     applications color scheme, and the module-compat class lets each player
+     switch this off from the Modules & Systems list */
+  &.crlngn-item-piles.theme-dark .item-piles-app {
+    color-scheme: dark;
+
+    /* core vars the theme-light shell would otherwise keep light */
+    --background: var(--color-dark-bg-95, rgb(32, 37, 43));
+    --color-text-primary: var(--color-light-2);
+    --color-text-secondary: var(--color-light-3);
+    --color-text-emphatic: var(--color-light-1);
+    --color-text-subtle: var(--color-light-5);
+    --color-text-dark-primary: var(--color-light-2);
+    --color-text-dark-secondary: var(--color-light-3);
+    --color-hover-bg: var(--color-cool-5-50, rgba(60, 70, 80, 0.5));
+    --input-background-color: var(--color-cool-4);
+    --input-text-color: var(--color-light-1);
+    --input-placeholder-color: var(--color-light-5);
+    --button-text-color: var(--color-light-1);
+    --content-link-background: var(--color-cool-5-90);
+    --content-link-border-color: var(--color-light-6);
+    --content-link-icon-color: var(--color-light-4);
+    --content-link-text-color: var(--color-light-2);
+    --table-header-bg-color: var(--color-cool-4);
+    --table-row-color-even: rgba(255, 255, 255, 0.1);
+
+    /* Item Piles' own palette (defined on :root) */
+    --item-piles-even-color: rgba(255, 255, 255, 0.07);
+    --item-piles-odd-color: transparent;
+    --item-piles-border-light-primary: var(--color-cool-4, #4b5563);
+    --item-piles-border-dark-primary: var(--color-dark-1, #111);
+    --item-piles-minor-inactive: var(--color-cool-4);
+    --item-piles-text-light-highlight: var(--color-light-1);
+
+    .window-content {
+      background: var(--background);
+      color: var(--color-text-primary);
+    }
+
+    .item-piles-item-sublist {
+      background-color: rgba(255, 255, 255, 0.06);
+    }
+
+    .item-piles-trading-sheet .item-piles-quantity-text {
+      background-color: rgba(255, 255, 255, 0.08);
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+      }
+    }
+
+    .price-list {
+      background-color: var(--color-cool-5-50, rgba(60, 70, 80, 0.5));
+      .price-group.selected {
+        background-color: var(--color-cool-4);
+      }
+      .price-group:hover {
+        background-color: var(--color-highlights-50, rgba(100, 120, 150, 0.5));
+      }
+    }
+  }
+
   /* Rest & Recovery 5e / Item Piles */
   &.crlngn-rest-recovery,
   &.crlngn-item-piles {
