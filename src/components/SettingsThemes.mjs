@@ -166,9 +166,7 @@ export class SettingsThemes {
     const foundryUiConfig = game.settings.get('core', 'uiConfig') || null;
 
     if (enforceDarkTheme && foundryUiConfig?.colorScheme?.applications === 'dark') {
-      // Item Piles tags its merchant/vault windows with .sheet, so they must
-      // survive the generic .sheet exclusion meant for system actor/item sheets
-      SettingsThemes.applyForcedDarkTheme('.app.theme-light:not(.sheet.dnd5e2, .journal-sheet, #hurry-up, .sheet:not(.item-piles-app))');
+      SettingsThemes.applyForcedDarkTheme('.app.theme-light:not(.sheet.dnd5e2, .journal-sheet, #hurry-up, .sheet)');
       document.querySelector('body').classList.add('crlngn-forced-dark-theme');
     }
   }
