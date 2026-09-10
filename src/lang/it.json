@@ -203,6 +203,10 @@
             "label": "Nascondi Combattenti Sconfitti",
             "hint": "Quando abilitato, i combattenti sconfitti vengono rimossi dal carosello e le posizioni rimanenti vengono ricalcolate."
           },
+          "carouselGroupCombatants": {
+            "label": "Raggruppa Combattenti (D&D 5e)",
+            "hint": "Quando abilitato, i combattenti che il tracker di D&D 5e raggruppa (stesso attore, disposizione e iniziativa) vengono compressi in una singola carta con un badge che indica la dimensione del gruppo. Clicca sul badge per espandere il gruppo verso destra o per comprimerlo di nuovo. Il gruppo con il turno corrente mostra sempre il combattente attivo."
+          },
           "combatFieldset": "Tracker di Combattimento"
         },
         "reset": "Ripristina",
@@ -667,7 +671,9 @@
       "closedNotice": "Quando vuoi ripristinare il carosello, fai clic destro sulla scheda combattimento nella barra laterale",
       "noTrackedResource": "Mostra Barra HP per Tutti è abilitato, ma nessuna Risorsa Tracciata è configurata nelle impostazioni del Tracker di Combattimento.",
       "startCombatShort": "Inizio",
-      "endCombatShort": "Fine"
+      "endCombatShort": "Fine",
+      "groupExpand": "Mostra tutti",
+      "groupCollapse": "Nascondi tutti"
     },
     "dnd5e": {
       "chatCard": {

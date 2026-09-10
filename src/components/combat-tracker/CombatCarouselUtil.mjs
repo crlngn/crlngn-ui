@@ -101,7 +101,7 @@ export class CombatCarousel {
     if (!tracker) return;
 
     const currentIds = new Set();
-    const combatants = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
+    const combatants = tracker.querySelectorAll('li.combatant[data-combatant-id]:not(.crlngn-clone)');
     combatants.forEach(combatant => {
       const id = combatant.dataset.combatantId;
       const img = combatant.querySelector('.token-image');
@@ -123,11 +123,13 @@ export class CombatCarousel {
 
   /**
    * Restore cached images to prevent loading blink after re-render.
+   * Runs before groups are flattened, so it also reaches cards still nested
+   * inside system group rows and cards parked in the hidden group holder.
    */
   static restoreImages = (tracker) => {
     if (CombatCarousel.#imageCache.size === 0) return;
 
-    const combatants = tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
+    const combatants = tracker.querySelectorAll('li.combatant[data-combatant-id]:not(.crlngn-clone)');
     combatants.forEach(combatant => {
       const id = combatant.dataset.combatantId;
       const cachedImg = CombatCarousel.#imageCache.get(id);
@@ -162,7 +164,9 @@ export class CombatCarousel {
       getState: () => CombatCarousel.#state,
       getConfig: CombatCarousel.#getConfig,
       isInitialized: () => CombatCarousel.#initialized,
-      setSkipNextCenter: (val) => { CombatCarousel.#skipNextCenter = val; }
+      setSkipNextCenter: (val) => { CombatCarousel.#skipNextCenter = val; },
+      syncGroupRepresentative: CombatCarousel.syncGroupRepresentative,
+      refreshGroupBadges: CombatCarousel.refreshGroupBadges
     });
     CarouselCombatWrappers.registerCombatWrappers();
   }
@@ -365,11 +369,23 @@ export class CombatCarousel {
   }
 
   /**
-   * Reset initialization state to force full re-initialization on next render
+   * Reset initialization state to force full re-initialization on next render.
+   * Also clears scroll and animation state so the next build starts clean,
+   * which matters when the layout mode changes under an open popout
    */
   static resetInitialization = () => {
+    const state = CombatCarousel.#state;
+    CarouselInteraction.cancelScheduledSnap();
+    CarouselInteraction.stopAnimationLoop(state);
+    state.scrollX = 0;
+    state.targetScrollX = null;
+    state.velocity = 0;
+    state.isAnimating = false;
+    state.isDragging = false;
+
     CombatCarousel.#initialized = false;
     CombatCarousel.#trackerWidth = 0;
+    CombatCarousel.#skipNextCenter = false;
     CombatCarousel.#previousCombatantIds = [];
   }
 
@@ -416,6 +432,230 @@ export class CombatCarousel {
         "nested lists:", nestedLists.length
       ]);
     }
+  }
+
+  /**
+   * Collapse combatant groups into a single representative card when the grouping
+   * setting is on. Membership comes from the data-group-key set by flattenCombatantGroups
+   * and expanded state is shared with the system tracker through combat.expandedGroups,
+   * so only systems that provide it (dnd5e) get grouping. Must run after any
+   * defeated cards have been removed so counts reflect what the carousel shows.
+   * Collapsed siblings are parked in a hidden holder instead of removed, with
+   * their lazy images switched to eager so they load while hidden and
+   * expanding the group does not blink
+   * @param {HTMLElement} tracker - The combat tracker list element
+   * @param {boolean} enabled - Whether the grouping setting is on
+   */
+  static applyCombatantGroups = (tracker, enabled) => {
+    if (!tracker) return;
+
+    tracker.querySelector(':scope > .crlngn-group-hidden')?.remove();
+
+    const cards = Array.from(tracker.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)'));
+    cards.forEach(li => {
+      li.classList.remove('crlngn-group-collapsed', 'crlngn-group-member');
+      li.querySelector('.crlngn-group-toggle')?.remove();
+    });
+
+    if (!enabled) return;
+
+    const expandedGroups = CombatCarousel.#getExpandedGroups();
+    if (!expandedGroups) return;
+
+    const groups = new Map();
+    cards.forEach(li => {
+      const key = li.dataset.groupKey;
+      if (!key) return;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(li);
+    });
+
+    groups.forEach((members, key) => {
+      if (members.length < 2) return;
+
+      members.forEach((li, i) => {
+        li.dataset.crlngnGroupIndex = `${i + 1}`;
+        li.dataset.crlngnGroupSize = `${members.length}`;
+      });
+      const activeIndex = members.findIndex(li => li.classList.contains('active'));
+      const label = CombatCarousel.#groupLabel(members);
+
+      if (expandedGroups.has(key)) {
+        members.forEach(li => li.classList.add('crlngn-group-member'));
+        CombatCarousel.#addGroupToggle(members[0], key, label, true);
+        return;
+      }
+
+      const representative = activeIndex === -1 ? members[0] : members[activeIndex];
+      const holder = CombatCarousel.#getGroupHolder(tracker);
+      members.forEach(li => {
+        if (li === representative) return;
+        const img = li.querySelector('img.token-image');
+        if (img && img.loading === 'lazy') img.loading = 'eager';
+        holder.appendChild(li);
+      });
+      representative.classList.add('crlngn-group-collapsed');
+      CombatCarousel.#addGroupToggle(representative, key, label, false);
+    });
+
+    LogUtil.log("applyCombatantGroups", ["groups:", groups.size]);
+  }
+
+  /**
+   * Badge text for a group: "current/size" while one member has the turn, otherwise the size
+   * @param {HTMLElement[]} members - All cards of the group, visible or parked
+   * @returns {string}
+   */
+  static #groupLabel = (members) => {
+    const size = members.length;
+    const active = members.find(li => li.classList.contains('active'));
+    if (!active) return `${size}`;
+    return `${active.dataset.crlngnGroupIndex ?? members.indexOf(active) + 1}/${size}`;
+  }
+
+  /**
+   * Recompute badge labels from the current DOM without a re-render,
+   * used after the turn wrappers move the active class themselves
+   */
+  static refreshGroupBadges = () => {
+    const tracker = document.querySelector('#combat-popout .combat-tracker');
+    if (!tracker) return;
+
+    tracker.querySelectorAll(':scope > li.combatant > .crlngn-group-toggle').forEach(badge => {
+      const key = badge.parentElement?.dataset.groupKey;
+      if (!key) return;
+      const members = Array.from(tracker.querySelectorAll(`li.combatant[data-group-key="${key}"]:not(.crlngn-clone)`));
+      const count = badge.querySelector('.crlngn-group-count');
+      if (count) count.textContent = CombatCarousel.#groupLabel(members);
+    });
+  }
+
+  /**
+   * When the turn moves to a combatant parked inside a collapsed group, swap it into
+   * the place of the group's visible representative so index lookups and the turn
+   * animation keep working while popout renders are suppressed
+   * @param {string} combatantId - The combatant that now has the turn
+   * @returns {boolean} Whether a swap happened
+   */
+  static syncGroupRepresentative = (combatantId) => {
+    const tracker = document.querySelector('#combat-popout .combat-tracker');
+    const holder = tracker?.querySelector(':scope > .crlngn-group-hidden');
+    if (!holder) return false;
+
+    const member = holder.querySelector(`li.combatant[data-combatant-id="${combatantId}"]`);
+    if (!member) return false;
+
+    const key = member.dataset.groupKey;
+    const representative = tracker.querySelector(`:scope > li.combatant.crlngn-group-collapsed[data-group-key="${key}"]`);
+    if (!representative) return false;
+
+    representative.before(member);
+    holder.appendChild(representative);
+
+    member.classList.add('crlngn-group-collapsed');
+    member.classList.toggle('crlngn-positioned', representative.classList.contains('crlngn-positioned'));
+    member.style.transform = representative.style.transform;
+    member.style.left = representative.style.left;
+    member.style.position = representative.style.position;
+    member.style.display = '';
+    member.style.opacity = '';
+    member.setAttribute('draggable', 'false');
+
+    representative.classList.remove('crlngn-group-collapsed', 'active');
+    representative.querySelector('.crlngn-advance-turn')?.remove();
+    const badge = representative.querySelector(':scope > .crlngn-group-toggle');
+    if (badge) member.appendChild(badge);
+
+    if (representative.querySelector(':scope > .token-resource') && !member.querySelector(':scope > .token-resource')) {
+      const resourceEl = document.createElement('div');
+      resourceEl.className = 'token-resource';
+      resourceEl.appendChild(Object.assign(document.createElement('span'), { className: 'resource' }));
+      member.appendChild(resourceEl);
+    }
+    const combatant = game.combat?.combatants.get(combatantId);
+    if (combatant) CombatCarousel.#updateResourceBarElement(member, combatant, true);
+
+    const oldId = representative.dataset.combatantId;
+    const state = CombatCarousel.#state;
+    const index = state.allCombatantIds.indexOf(oldId);
+    if (index !== -1) state.allCombatantIds[index] = combatantId;
+    const prevIndex = CombatCarousel.#previousCombatantIds.indexOf(oldId);
+    if (prevIndex !== -1) CombatCarousel.#previousCombatantIds[prevIndex] = combatantId;
+
+    LogUtil.log("syncGroupRepresentative", ["group:", key, "from:", oldId, "to:", combatantId]);
+    return true;
+  }
+
+  /**
+   * Hidden container inside the tracker that keeps collapsed group members in the DOM
+   * @param {HTMLElement} tracker - The combat tracker list element
+   * @returns {HTMLElement}
+   */
+  static #getGroupHolder = (tracker) => {
+    let holder = tracker.querySelector(':scope > .crlngn-group-hidden');
+    if (!holder) {
+      holder = document.createElement('div');
+      holder.className = 'crlngn-group-hidden';
+      holder.hidden = true;
+      tracker.appendChild(holder);
+    }
+    return holder;
+  }
+
+  /**
+   * Expanded-group state shared with the system combat tracker, if the system tracks it
+   * @returns {Set<string>|null}
+   */
+  static #getExpandedGroups = () => {
+    const combat = ui.combat?.viewed ?? game.combat;
+    const expandedGroups = combat?.expandedGroups;
+    return expandedGroups instanceof Set ? expandedGroups : null;
+  }
+
+  /**
+   * Add the group badge button to a card. Clicking it toggles the group's expanded state
+   * @param {HTMLElement} li - The card that carries the badge
+   * @param {string} key - The group key
+   * @param {string} label - Badge text: the group size, or "current/size" while the group has the turn
+   * @param {boolean} expanded - Whether the group is currently expanded
+   */
+  static #addGroupToggle = (li, key, label, expanded) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `crlngn-group-toggle${expanded ? ' expanded' : ''}`;
+    button.innerHTML = `<i class="fa-solid fa-user-group"></i><span class="crlngn-group-count">${label}</span>`;
+    const tooltipKey = expanded ? 'CRLNGN_UI.combat.groupCollapse' : 'CRLNGN_UI.combat.groupExpand';
+    button.setAttribute('data-tooltip', game.i18n.localize(tooltipKey));
+    button.setAttribute('data-tooltip-direction', 'LEFT');
+    button.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      CombatCarousel.toggleCombatantGroup(key);
+    });
+    li.appendChild(button);
+  }
+
+  /**
+   * Toggle a combatant group between collapsed and expanded, then re-render the
+   * tracker. Rendering the sidebar tab also renders its popout, so the carousel
+   * and the sidebar list stay in sync. The re-render is told not to re-center on
+   * the active combatant, so the view stays where the user was looking
+   * @param {string} key - The group key
+   */
+  static toggleCombatantGroup = (key) => {
+    const expandedGroups = CombatCarousel.#getExpandedGroups();
+    if (!expandedGroups) return;
+
+    if (expandedGroups.has(key)) {
+      expandedGroups.delete(key);
+    } else {
+      expandedGroups.add(key);
+    }
+
+    if (CombatCarousel.#initialized) {
+      CombatCarousel.#skipNextCenter = true;
+    }
+    ui.combat?.render();
   }
 
   /**

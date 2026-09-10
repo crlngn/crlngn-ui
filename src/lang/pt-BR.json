@@ -209,6 +209,10 @@
             "label": "Ocultar Combatentes Derrotados",
             "hint": "Quando ativado, combatentes derrotados são removidos do carrossel e as posições restantes são recalculadas."
           },
+          "carouselGroupCombatants": {
+            "label": "Agrupar Combatentes (D&D 5e)",
+            "hint": "Quando ativado, combatentes que o rastreador do D&D 5e agrupa (mesmo ator, disposição e iniciativa) são recolhidos em um único cartão com um marcador indicando o tamanho do grupo. Clique no marcador para expandir o grupo para a direita ou recolhê-lo novamente. O grupo com o turno atual sempre mostra o combatente ativo."
+          },
           "combatFieldset": "Rastreador de Combate",
           "carouselDockOnLoad": {
             "label": "Encaixe do Carrossel ao Iniciar",
@@ -754,6 +758,10 @@
             "label": "Ocultar Combatentes Derrotados",
             "hint": "Quando ativado, combatentes derrotados são removidos do carrossel e as posições restantes são recalculadas."
           },
+          "carouselGroupCombatants": {
+            "label": "Agrupar Combatentes (D&D 5e)",
+            "hint": "Quando ativado, combatentes que o rastreador do D&D 5e agrupa (mesmo ator, disposição e iniciativa) são recolhidos em um único cartão com um marcador indicando o tamanho do grupo. Clique no marcador para expandir o grupo para a direita ou recolhê-lo novamente. O grupo com o turno atual sempre mostra o combatente ativo."
+          },
           "carouselRequirePlayerOwner": {
             "label": "Exigir Personagem de Jogador",
             "hint": "Quando ativado, o carrossel abre automaticamente apenas quando um personagem de jogador é adicionado ao combate. Quando desativado, abre para qualquer combatente."
@@ -833,6 +841,8 @@
       "noTrackedResource": "Mostrar Barra de HP para Todos está ativado, mas nenhum Recurso Rastreado está configurado nas configurações do Rastreador de Combate.",
       "startCombatShort": "Iniciar",
       "endCombatShort": "Fim",
+      "groupExpand": "Mostrar todos",
+      "groupCollapse": "Ocultar todos",
       "configureResourceTitle": "Configurar Barra de Recurso",
       "configureResourceMessage": "O carrossel está configurado para mostrar barras de recurso/HP para todos os combatentes, mas nenhum recurso rastreado está configurado. Selecione um recurso para rastrear abaixo:",
       "trackedResource": "Recurso Rastreado"

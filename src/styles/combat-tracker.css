@@ -642,6 +642,61 @@ body.crlngn-ui.crlngn-combat-tracker {
       filter: none;
     }
 
+    /* Combatant group badge (D&D 5e grouping) */
+    li.combatant > .crlngn-group-toggle {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      width: auto;
+      min-width: calc(1.2rem * var(--carousel-scale, 1));
+      min-height: unset;
+      height: calc(1.2rem * var(--carousel-scale, 1));
+      padding: 0 6px 0 9px;
+      margin: 0;
+      border: 0;
+      border-radius: 2px 2px 2px 18px;
+      background: var(--color-highlights-75);
+      color: var(--color-light-1);
+      font-size: calc(0.7rem * var(--carousel-scale, 1));
+      font-weight: 700;
+      line-height: 1;
+      box-shadow: none;
+      outline: 0;
+      cursor: pointer;
+      pointer-events: all;
+      opacity: 0.9;
+      transition: opacity 0.15s ease, background-color 0.15s ease;
+    }
+    li.combatant > .crlngn-group-toggle:hover,
+    li.combatant > .crlngn-group-toggle:focus-visible {
+      opacity: 1;
+      background: var(--color-highlights);
+      box-shadow: none;
+      outline: 0;
+    }
+    li.combatant > .crlngn-group-toggle.expanded {
+      background: var(--color-cool-4);
+      opacity: 0.75;
+    }
+    li.combatant > .crlngn-group-toggle.expanded:hover {
+      opacity: 1;
+    }
+    li.combatant > .crlngn-group-toggle i {
+      font-size: 0.9em;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    }
+    li.combatant.crlngn-group-member {
+      border-bottom: 2px solid var(--color-highlights-75);
+    }
+    .combat-tracker > .crlngn-group-hidden {
+      display: none !important;
+    }
+
     &.vertical {
       .combat-tracker {
         display: flex;

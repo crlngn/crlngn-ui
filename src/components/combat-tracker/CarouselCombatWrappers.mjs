@@ -19,6 +19,8 @@ export const CarouselCombatWrappers = {
   configGetter: null,
   initializedGetter: null,
   skipNextCenterSetter: null,
+  syncGroupRepresentative: null,
+  refreshGroupBadges: null,
 
   /**
    * Initialize the wrappers with required getters from main class
@@ -29,6 +31,8 @@ export const CarouselCombatWrappers = {
     CarouselCombatWrappers.configGetter = options.getConfig;
     CarouselCombatWrappers.initializedGetter = options.isInitialized;
     CarouselCombatWrappers.skipNextCenterSetter = options.setSkipNextCenter;
+    CarouselCombatWrappers.syncGroupRepresentative = options.syncGroupRepresentative;
+    CarouselCombatWrappers.refreshGroupBadges = options.refreshGroupBadges;
   },
 
   /**
@@ -226,6 +230,8 @@ export const CarouselCombatWrappers = {
     const newCombatant = combat.combatant;
     if (!newCombatant) return;
 
+    CarouselCombatWrappers.syncGroupRepresentative?.(newCombatant.id);
+
     const newIndex = state.allCombatantIds.indexOf(newCombatant.id);
     if (newIndex === -1) return;
 
@@ -236,6 +242,7 @@ export const CarouselCombatWrappers = {
     CarouselInteraction.startAnimationLoop(state, config);
     await CarouselInteraction.waitForAnimation(state);
     CarouselCombatWrappers.updateActiveClass(newCombatant.id);
+    CarouselCombatWrappers.refreshGroupBadges?.();
     CarouselCombatWrappers.skipNextCenterSetter?.(true);
     CombatTrackerManager.refreshAdvanceTurnButton();
   },
