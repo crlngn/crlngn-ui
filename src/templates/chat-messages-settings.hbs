@@ -62,6 +62,12 @@
   </div>
 
   <div class="form-group">
+    <label for="horizontalTabsSingleRow">{{fields.horizontalTabsSingleRow.label}}</label>
+    <input type="checkbox" name="horizontalTabsSingleRow" {{#if horizontalTabsSingleRow}}checked{{/if}} {{#if fields.horizontalTabsSingleRow.isLocked}}disabled{{/if}} />
+    <p class="hint">{{fields.horizontalTabsSingleRow.hint}}</p>
+  </div>
+
+  <div class="form-group">
     <label for="showChatNotificationsOnTop">{{fields.showChatNotificationsOnTop.label}}</label>
     <input type="checkbox" name="showChatNotificationsOnTop" {{#if showChatNotificationsOnTop}}checked{{/if}} {{#if fields.showChatNotificationsOnTop.isLocked}}disabled{{/if}} />
     <p class="hint">{{fields.showChatNotificationsOnTop.hint}}</p>

@@ -52,6 +52,7 @@
         "hint": "跟踪最后显示的更新通知"
       },
       "toggleChatBox": "切换聊天框",
+      "moreSidebarTabs": "更多标签",
       "journalToggle": {
         "enable": "启用卡洛林日志样式",
         "disable": "禁用卡洛林日志样式"
@@ -412,6 +413,10 @@
           "useHorizontalSidebarTabs": {
             "label": "使用水平侧边栏标签",
             "hint": "启用后，将侧边栏标签更改为水平方向，位于侧边栏顶部，而不是垂直放置在侧面。（v12样式）"
+          },
+          "horizontalTabsSingleRow": {
+            "label": "水平标签保持单行显示",
+            "hint": "启用水平侧边栏标签时，将标签图标保持在一行内。放不下的标签会收纳到该行两侧的“…”按钮中。禁用后标签将换行显示为多行。"
           },
           "showChatNotificationsOnTop": {
             "label": "从顶部显示聊天通知",

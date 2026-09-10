@@ -13,16 +13,24 @@ export class SidebarTabs {
   static openChatLogOnLoad = false;
   static closeSidebarWhenIdle = false;
   static useHorizontalSidebarTabs = false;
+  static useHorizontalTabsSingleRow = true;
   static showChatNotificationsOnTop = false;
   static #idleTimeout = null;
-  static #arrowUpdateTimeout = null;
+  static #overflowUpdateTimeout = null;
+  static #tabsAtEnd = false;
+  static #followActiveTab = true;
+  static #menuResizeObserver = null;
+  static #observedMenu = null;
 
   static init(){
     const SETTINGS = getSettings();
     SidebarTabs.folderStylesEnabled = SettingsUtil.get(SETTINGS.useFolderStyle.tag) ?? true;
     SidebarTabs.useHorizontalSidebarTabs = SettingsUtil.get(SETTINGS.useHorizontalSidebarTabs.tag) ?? false;
+    SidebarTabs.useHorizontalTabsSingleRow = SettingsUtil.get(SETTINGS.horizontalTabsSingleRow.tag) ?? true;
     SidebarTabs.showChatNotificationsOnTop = SettingsUtil.get(SETTINGS.showChatNotificationsOnTop.tag) ?? false;
     Hooks.on(HOOKS_CORE.RENDER_SIDE_BAR, SidebarTabs.onRender);
+    Hooks.on(HOOKS_CORE.CHANGE_SIDEBAR_TAB, SidebarTabs.onChangeTab);
+    Hooks.on(HOOKS_CORE.COLLAPSE_SIDE_BAR, SidebarTabs.onCollapseSidebar);
   }
 
   static applyFadeOut(useFadeOut){
@@ -110,9 +118,8 @@ export class SidebarTabs {
     const currWidth = SettingsUtil.get(SETTINGS.sideBarWidth.tag) || 300;
     GeneralUtil.addCSSVars("--sidebar-width", `${currWidth}px`);
 
-    // Update horizontal tabs arrows after width changes
     if(SidebarTabs.useHorizontalSidebarTabs){
-      SidebarTabs.debouncedUpdateArrows();
+      SidebarTabs.debouncedUpdateOverflow();
     }
   }
 
@@ -209,14 +216,46 @@ export class SidebarTabs {
 
     if(enabled){
       body?.classList.add("crlngn-horiz-sidebar-tabs");
-      // Wait for sidebar width to be applied, then check for overflow
-      SidebarTabs.debouncedUpdateArrows();
+      SidebarTabs.debouncedUpdateOverflow();
     } else {
       body?.classList.remove("crlngn-horiz-sidebar-tabs");
-      SidebarTabs.removeHorizontalTabsArrows();
+      SidebarTabs.removeOverflowControls();
     }
+    SidebarTabs.updateTabsTooltipDirection();
 
     LogUtil.log("applyHorizontalSidebarTabs", [SidebarTabs.useHorizontalSidebarTabs]);
+  }
+
+  /**
+   * Points sidebar tab tooltips downward while the tabs are laid out horizontally,
+   * and restores Foundry's default left direction otherwise
+   */
+  static updateTabsTooltipDirection = () => {
+    const nav = document.querySelector("#sidebar-tabs");
+    if(!nav) return;
+    const horizontal = SidebarTabs.useHorizontalSidebarTabs
+      && document.body.classList.contains("crlngn-sidebar-expanded");
+    nav.dataset.tooltipDirection = horizontal ? "DOWN" : "LEFT";
+  }
+
+  /**
+   * Toggles single-row mode for horizontal sidebar tabs.
+   * When enabled, tabs that do not fit in one row are paged behind overflow buttons
+   * @param {boolean} enabled
+   */
+  static applyHorizontalTabsSingleRow = (enabled) => {
+    SidebarTabs.useHorizontalTabsSingleRow = enabled !== false;
+    const body = document.querySelector("body.crlngn-ui");
+
+    if(SidebarTabs.useHorizontalTabsSingleRow){
+      body?.classList.add("crlngn-sidebar-tabs-single-row");
+      SidebarTabs.debouncedUpdateOverflow();
+    } else {
+      body?.classList.remove("crlngn-sidebar-tabs-single-row");
+      SidebarTabs.removeOverflowControls();
+    }
+
+    LogUtil.log("applyHorizontalTabsSingleRow", [SidebarTabs.useHorizontalTabsSingleRow]);
   }
 
   static applyShowChatNotificationsOnTop = (enabled) => {
@@ -232,84 +271,183 @@ export class SidebarTabs {
     LogUtil.log("applyShowChatNotificationsOnTop", [SidebarTabs.showChatNotificationsOnTop]);
   }
 
-  static debouncedUpdateArrows = () => {
-    // Clear existing timeout
-    if(SidebarTabs.#arrowUpdateTimeout){
-      clearTimeout(SidebarTabs.#arrowUpdateTimeout);
+  /**
+   * Re-evaluates tab paging when a sidebar tab becomes active,
+   * so the active tab is always on the visible page
+   */
+  static onChangeTab = () => {
+    SidebarTabs.#followActiveTab = true;
+    SidebarTabs.debouncedUpdateOverflow();
+  }
+
+  /**
+   * Re-evaluates tab paging after the sidebar expands or collapses
+   */
+  static onCollapseSidebar = () => {
+    setTimeout(SidebarTabs.updateTabsTooltipDirection, 0);
+    SidebarTabs.debouncedUpdateOverflow();
+  }
+
+  static debouncedUpdateOverflow = () => {
+    if(SidebarTabs.#overflowUpdateTimeout){
+      clearTimeout(SidebarTabs.#overflowUpdateTimeout);
     }
 
-    // Set new timeout
-    SidebarTabs.#arrowUpdateTimeout = setTimeout(() => {
-      SidebarTabs.updateHorizontalTabsArrows();
-      SidebarTabs.#arrowUpdateTimeout = null;
+    SidebarTabs.#overflowUpdateTimeout = setTimeout(() => {
+      SidebarTabs.updateHorizontalTabsOverflow();
+      SidebarTabs.#overflowUpdateTimeout = null;
     }, 100);
   }
 
-  static updateHorizontalTabsArrows = () => {
-    if(!SidebarTabs.useHorizontalSidebarTabs) return;
-
-    const sidebarTabs = document.querySelector("#sidebar-tabs");
-    const menu = sidebarTabs?.querySelector("menu");
-
-    if(!sidebarTabs || !menu) return;
-
-    // Check if content overflows
-    const menuScrollWidth = menu.scrollWidth;
-    const menuClientWidth = menu.clientWidth;
-    const hasOverflow = menuScrollWidth > menuClientWidth;
-
-    LogUtil.log("updateHorizontalTabsArrows", [{
-      scrollWidth: menuScrollWidth,
-      clientWidth: menuClientWidth,
-      hasOverflow
-    }]);
-
-    if(hasOverflow){
-      SidebarTabs.addHorizontalTabsArrows();
-    } else {
-      SidebarTabs.removeHorizontalTabsArrows();
-    }
+  /**
+   * Whether single-row paging of horizontal tabs is currently in effect
+   * @returns {boolean}
+   */
+  static isSingleRowActive = () => {
+    return SidebarTabs.useHorizontalSidebarTabs
+      && SidebarTabs.useHorizontalTabsSingleRow
+      && document.body.classList.contains("crlngn-sidebar-expanded");
   }
 
-  static addHorizontalTabsArrows = () => {
-    const sidebarTabs = document.querySelector("#sidebar-tabs");
-    if(!sidebarTabs) return;
+  /**
+   * Returns the tab items that take part in paging (excludes collapse button, overflow buttons and hidden tabs)
+   * @param {HTMLElement} menu
+   * @returns {HTMLElement[]}
+   */
+  static getPageableTabItems = (menu) => {
+    return Array.from(menu.querySelectorAll(":scope > li")).filter(li =>
+      !li.classList.contains("crlngn-tab-overflow")
+      && !li.classList.contains("crlngn-hidden-tab")
+      && !li.querySelector("button.collapse, [data-action='toggleState']")
+    );
+  }
 
-    // Check if arrows already exist
-    if(sidebarTabs.querySelector(".crlngn-tab-arrow")) return;
-
-    const menu = sidebarTabs.querySelector("menu");
+  /**
+   * Keeps horizontal tabs in a single row. When they do not all fit, the row shows either
+   * the first tabs that fit (with an overflow button on the right) or the last tabs that fit
+   * (with an overflow button on the left) - like scrolling, but with only the two end positions
+   */
+  static updateHorizontalTabsOverflow = () => {
+    const menu = document.querySelector("#sidebar-tabs > menu");
     if(!menu) return;
 
-    // Create left arrow
-    const leftArrow = document.createElement("button");
-    leftArrow.className = "crlngn-tab-arrow crlngn-tab-arrow-left";
-    leftArrow.innerHTML = '<i class="fas fa-caret-left"></i>';
-    leftArrow.type = "button";
-    leftArrow.addEventListener("click", () => {
-      menu.scrollBy({ left: -100, behavior: "smooth" });
+    if(!SidebarTabs.isSingleRowActive()){
+      SidebarTabs.removeOverflowControls(menu);
+      return;
+    }
+
+    SidebarTabs.observeMenu(menu);
+
+    const items = SidebarTabs.getPageableTabItems(menu);
+    const style = getComputedStyle(menu);
+    const slotWidth = parseFloat(style.getPropertyValue("--crlngn-htab-min")) || 26;
+    const innerWidth = menu.clientWidth - (parseFloat(style.paddingLeft) || 0) - (parseFloat(style.paddingRight) || 0);
+    const capacity = Math.max(3, Math.floor(innerWidth / slotWidth));
+    const total = items.length;
+
+    if(total <= capacity - 1){
+      items.forEach(li => li.classList.remove("crlngn-tab-paged-out"));
+      SidebarTabs.removeOverflowControls(menu);
+      return;
+    }
+
+    const visibleCount = capacity - 2;
+    const activeIndex = items.findIndex(li => li.querySelector("[aria-pressed='true']"));
+    if(SidebarTabs.#followActiveTab && activeIndex >= 0){
+      if(activeIndex >= visibleCount){ SidebarTabs.#tabsAtEnd = true; }
+      else if(activeIndex < total - visibleCount){ SidebarTabs.#tabsAtEnd = false; }
+    }
+    SidebarTabs.#followActiveTab = false;
+
+    const atEnd = SidebarTabs.#tabsAtEnd;
+    const start = atEnd ? total - visibleCount : 0;
+    const end = start + visibleCount;
+    let hiddenPip = false;
+
+    items.forEach((li, i) => {
+      const visible = i >= start && i < end;
+      li.classList.toggle("crlngn-tab-paged-out", !visible);
+      if(!visible && li.querySelector(".notification-pip.active")){
+        hiddenPip = true;
+      }
     });
 
-    // Create right arrow
-    const rightArrow = document.createElement("button");
-    rightArrow.className = "crlngn-tab-arrow crlngn-tab-arrow-right";
-    rightArrow.innerHTML = '<i class="fas fa-caret-right"></i>';
-    rightArrow.type = "button";
-    rightArrow.addEventListener("click", () => {
-      menu.scrollBy({ left: 100, behavior: "smooth" });
-    });
+    SidebarTabs.setOverflowControl(menu, "left", atEnd, hiddenPip);
+    SidebarTabs.setOverflowControl(menu, "right", !atEnd, hiddenPip);
 
-    // Insert arrows
-    sidebarTabs.insertBefore(leftArrow, menu);
-    menu.parentNode.insertBefore(rightArrow, menu.nextSibling);
-
-    LogUtil.log("addHorizontalTabsArrows", "Arrows added");
+    LogUtil.log("updateHorizontalTabsOverflow", [{ capacity, total, visibleCount, atEnd }]);
   }
 
-  static removeHorizontalTabsArrows = () => {
-    const arrows = document.querySelectorAll(".crlngn-tab-arrow");
-    arrows.forEach(arrow => arrow.remove());
-    LogUtil.log("removeHorizontalTabsArrows", "Arrows removed");
+  /**
+   * Creates, updates or removes the overflow button on one side of the tab row
+   * @param {HTMLElement} menu
+   * @param {"left"|"right"} side
+   * @param {boolean} show
+   * @param {boolean} hasPip - whether any hidden tab has an active notification pip
+   */
+  static setOverflowControl = (menu, side, show, hasPip) => {
+    let li = menu.querySelector(`li.crlngn-tab-overflow-${side}`);
+
+    if(!show){
+      li?.remove();
+      return;
+    }
+
+    if(!li){
+      li = document.createElement("li");
+      li.className = `crlngn-tab-overflow crlngn-tab-overflow-${side}`;
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "ui-control plain icon fa-solid fa-ellipsis";
+      button.setAttribute("aria-label", game.i18n.localize("CRLNGN_UI.ui.moreSidebarTabs"));
+      button.dataset.tooltip = "";
+      button.addEventListener("click", () => SidebarTabs.setTabsAtEnd(side === "right"));
+
+      const pip = document.createElement("div");
+      pip.className = "notification-pip";
+
+      li.append(button, pip);
+      menu.append(li);
+    }
+
+    li.querySelector(".notification-pip")?.classList.toggle("active", hasPip);
+  }
+
+  /**
+   * Scrolls the single-row tabs all the way to the end or back to the start
+   * @param {boolean} atEnd
+   */
+  static setTabsAtEnd = (atEnd) => {
+    SidebarTabs.#tabsAtEnd = atEnd;
+    SidebarTabs.#followActiveTab = false;
+    SidebarTabs.updateHorizontalTabsOverflow();
+  }
+
+  /**
+   * Removes overflow buttons and restores all tabs to visible
+   * @param {HTMLElement} [menu]
+   */
+  static removeOverflowControls = (menu) => {
+    menu = menu || document.querySelector("#sidebar-tabs > menu");
+    if(!menu) return;
+    menu.querySelectorAll("li.crlngn-tab-overflow").forEach(li => li.remove());
+    menu.querySelectorAll("li.crlngn-tab-paged-out").forEach(li => li.classList.remove("crlngn-tab-paged-out"));
+    SidebarTabs.#tabsAtEnd = false;
+  }
+
+  /**
+   * Watches the tab menu for size changes (sidebar width, UI scale) and re-pages the tabs
+   * @param {HTMLElement} menu
+   */
+  static observeMenu = (menu) => {
+    if(SidebarTabs.#observedMenu === menu) return;
+    if(typeof ResizeObserver === "undefined") return;
+
+    SidebarTabs.#menuResizeObserver?.disconnect();
+    SidebarTabs.#menuResizeObserver = new ResizeObserver(() => SidebarTabs.debouncedUpdateOverflow());
+    SidebarTabs.#menuResizeObserver.observe(menu);
+    SidebarTabs.#observedMenu = menu;
   }
 
   /**
@@ -385,6 +523,7 @@ export class SidebarTabs {
     });
 
     LogUtil.log("applyHiddenTabs", [hiddenTabs, "isGM:", isGM]);
+    SidebarTabs.debouncedUpdateOverflow();
   }
 
 }

@@ -346,6 +346,9 @@ export class SettingsUtil {
     const useHorizontalSidebarTabs = SettingsUtil.get(SETTINGS.useHorizontalSidebarTabs.tag);
     SidebarTabs.applyHorizontalSidebarTabs(useHorizontalSidebarTabs);
 
+    const horizontalTabsSingleRow = SettingsUtil.get(SETTINGS.horizontalTabsSingleRow.tag) ?? true;
+    SidebarTabs.applyHorizontalTabsSingleRow(horizontalTabsSingleRow);
+
     const showChatNotificationsOnTop = SettingsUtil.get(SETTINGS.showChatNotificationsOnTop.tag);
     SidebarTabs.applyShowChatNotificationsOnTop(showChatNotificationsOnTop);
   }
@@ -635,6 +638,8 @@ export class SettingsUtil {
         SidebarTabs.applyCloseSidebarWhenIdle(value); break;
       case SETTINGS.useHorizontalSidebarTabs.tag:
         SidebarTabs.applyHorizontalSidebarTabs(value); break;
+      case SETTINGS.horizontalTabsSingleRow.tag:
+        SidebarTabs.applyHorizontalTabsSingleRow(value); break;
       case SETTINGS.showChatNotificationsOnTop.tag:
         SidebarTabs.applyShowChatNotificationsOnTop(value); break;
       case SETTINGS.hiddenSidebarTabs.tag:

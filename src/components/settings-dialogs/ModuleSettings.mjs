@@ -545,6 +545,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     ModuleSettings.handleCustomFontFields();
     ModuleSettings.handleThemeAndStyleFields();
     ModuleSettings.handleSheetFields();
+    ModuleSettings.handleSidebarFields();
 
     // Inject enforcement icons dynamically BEFORE HintTooltipUtil processes labels
     ModuleSettings.injectEnforcementIcons();
@@ -1529,6 +1530,25 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       // Add listener for changes
       applyThemeCheckbox.addEventListener('change', toggleHorizontalTabsField);
     }
+  }
+
+  /**
+   * Shows the single-row option only while horizontal sidebar tabs are enabled
+   */
+  static handleSidebarFields(){
+    const sidebarContent = ModuleSettings.#element.querySelector(`.form-content:has(input[name="useHorizontalSidebarTabs"])`);
+    if(!sidebarContent){ return; }
+
+    const horizontalCheckbox = sidebarContent.querySelector('input[name="useHorizontalSidebarTabs"]');
+    const singleRowField = sidebarContent.querySelector('.form-group:has(input[name="horizontalTabsSingleRow"])');
+    if(!horizontalCheckbox || !singleRowField){ return; }
+
+    const toggleSingleRowField = () => {
+      singleRowField.style.display = horizontalCheckbox.checked ? '' : 'none';
+    };
+
+    toggleSingleRowField();
+    horizontalCheckbox.addEventListener('change', toggleSingleRowField);
   }
 
   /**

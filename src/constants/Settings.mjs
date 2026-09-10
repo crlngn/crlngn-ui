@@ -321,6 +321,7 @@ export function getSettings() {
         "openChatLogOnLoad",
         "closeSidebarWhenIdle",
         "useHorizontalSidebarTabs",
+        "horizontalTabsSingleRow",
         "showChatNotificationsOnTop",
         "useFolderStyle",
         "hiddenSidebarTabs"
@@ -334,6 +335,7 @@ export function getSettings() {
         openChatLogOnLoad: false,
         closeSidebarWhenIdle: false,
         useHorizontalSidebarTabs: false,
+        horizontalTabsSingleRow: true,
         showChatNotificationsOnTop: false,
         useFolderStyle: true
       },
@@ -1390,6 +1392,16 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sidebarMenu.fields.useHorizontalSidebarTabs.hint"),
       propType: Boolean,
       default: false,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    horizontalTabsSingleRow: {
+      tag: "v2-horizontal-tabs-single-row",
+      label: game.i18n.localize("CRLNGN_UI.settings.sidebarMenu.fields.horizontalTabsSingleRow.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.sidebarMenu.fields.horizontalTabsSingleRow.hint"),
+      propType: Boolean,
+      default: true,
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false

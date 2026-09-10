@@ -45,6 +45,7 @@ export const HOOKS_CORE = {
   COLLAPSE_SIDE_BAR: "collapseSidebar",
   EXPAND_SIDE_BAR: "expandSidebar",
   RENDER_SIDE_BAR: "renderSidebar",
+  CHANGE_SIDEBAR_TAB: "changeSidebarTab",
   ACTIVATE_CHAT_LOG: "activateChatLog",
   ACTIVATE_CHAT_LOG_5E: "activateChatLog5e",
 

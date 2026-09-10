@@ -56,6 +56,7 @@
         "hint": "Tracks the last displayed update notification"
       },
       "toggleChatBox": "Toggle Chat Box",
+      "moreSidebarTabs": "More tabs",
       "carouselWelcome": {
         "title": "New feature: Combat Encounter Carousel",
         "message": "Carolingian UI has a new draggable and dockable Combat Encounter Carousel. Would you like to enable this feature?",
@@ -395,6 +396,10 @@
           "useHorizontalSidebarTabs": {
             "label": "Use Horizontal Sidebar Tabs",
             "hint": "When enabled, changes the sidebar tabs to horizontal orientation, at the top of the sidebar, instead of vertically on the side. (v12 style)"
+          },
+          "horizontalTabsSingleRow": {
+            "label": "Keep Horizontal Tabs in a Single Row",
+            "hint": "When horizontal sidebar tabs are enabled, keeps the tab icons in one row. Tabs that don't fit are moved behind a '...' button on either side of the row. Disable to let the tabs wrap into multiple rows instead."
           },
           "showChatNotificationsOnTop": {
             "label": "Show Chat Notifications From the Top",
