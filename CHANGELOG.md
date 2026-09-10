@@ -3,6 +3,30 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## 4.1.3 — 2026-09-09
+
+### Added
+
+- **Keep Horizontal Tabs in a Single Row** (Sidebar & Chat, client setting,
+  on by default). With horizontal sidebar tabs enabled, the tab icons stay on
+  one row: the collapse arrow keeps its fixed spot, the row shows as many tabs
+  as fit, and a "…" button on the right jumps to the last tabs that fit, with
+  the "…" then on the left to jump back. Activating a tab that sits at the
+  other end jumps there automatically, and the "…" shows a notification pip
+  when a hidden tab has one. The option only appears while horizontal tabs are
+  enabled; untick it to let the tabs wrap into two rows as before.
+
+### Fixed
+
+- Horizontal sidebar tabs no longer push part of the sidebar content off
+  screen when the tabs wrap into more than one row: the content area now
+  fills whatever height remains below the tab row instead of assuming a
+  single row.
+
+### Changed
+
+- Tooltips on horizontal sidebar tabs open downward instead of to the left.
+
 ## 4.1.2 — 2026-09-05
 
 ### Added

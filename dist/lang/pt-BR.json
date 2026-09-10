@@ -52,6 +52,7 @@
         "hint": "Rastreia a última notificação de atualização exibida"
       },
       "toggleChatBox": "Caixa de Mensagens",
+      "moreSidebarTabs": "Mais abas",
       "journalToggle": {
         "enable": "Ativar Estilos de Diário Carolingian",
         "disable": "Desativar Estilos de Diário Carolingian"
@@ -446,6 +447,10 @@
           "useHorizontalSidebarTabs": {
             "label": "Usar Abas Horizontais na Barra Lateral",
             "hint": "Quando ativado, altera as abas da barra lateral para orientação horizontal, no topo da barra lateral, em vez de verticalmente na lateral. (estilo v12)"
+          },
+          "horizontalTabsSingleRow": {
+            "label": "Manter Abas Horizontais em uma Única Linha",
+            "hint": "Quando as abas horizontais da barra lateral estão ativadas, mantém os ícones das abas em uma única linha. As abas que não couberem ficam atrás de um botão '...' em um dos lados da linha. Desative para permitir que as abas quebrem em várias linhas."
           },
           "showChatNotificationsOnTop": {
             "label": "Mostrar Notificações de Chat do Topo",

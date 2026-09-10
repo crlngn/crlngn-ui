@@ -404,8 +404,52 @@ body.crlngn-ui{
       justify-content: flex-start;
     }
 
+    #sidebar-content {
+      flex: 1 1 0;
+      min-height: 0;
+      height: auto;
+    }
+
     .sidebar-tab {
-      max-height: calc(100% - 22px - 0.5rem);
+      max-height: 100%;
+    }
+
+    &.crlngn-sidebar-tabs-single-row {
+      #sidebar-tabs > menu {
+        --crlngn-htab-min: 26px;
+        flex-wrap: nowrap;
+      }
+
+      #sidebar .tabs li {
+        order: 2;
+        flex: 1 1 var(--crlngn-htab-min);
+        min-width: var(--crlngn-htab-min);
+        max-width: calc(var(--crlngn-htab-min) * 2);
+      }
+
+      #sidebar .tabs li:has(button.collapse) {
+        order: 0;
+      }
+
+      #sidebar .tabs li.crlngn-tab-overflow-left {
+        order: 1;
+      }
+
+      #sidebar .tabs li.crlngn-tab-overflow-right {
+        order: 3;
+      }
+
+      #sidebar .tabs li.crlngn-tab-paged-out {
+        display: none;
+      }
+
+      #sidebar .tabs li .ui-control {
+        width: 100%;
+      }
+
+      #sidebar .tabs li.crlngn-tab-overflow .notification-pip {
+        pointer-events: none;
+      }
     }
 
     &.crlngn-tabs #ui-right .tabs .ui-control,

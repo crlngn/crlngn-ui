@@ -52,6 +52,7 @@
         "hint": "Traccia l'ultima notifica di aggiornamento visualizzata"
       },
       "toggleChatBox": "Pulsante Chat",
+      "moreSidebarTabs": "Altre schede",
       "journalToggle": {
         "enable": "Abilita Stili Diario Carolingian",
         "disable": "Disabilita Stili Diario Carolingian"
@@ -429,6 +430,10 @@
           "useHorizontalSidebarTabs": {
             "label": "Usa Schede Barra Laterale Orizzontali",
             "hint": "Quando abilitato, cambia le schede della barra laterale in orientamento orizzontale, nella parte superiore della barra laterale, invece di verticalmente sul lato. (stile v12)"
+          },
+          "horizontalTabsSingleRow": {
+            "label": "Mantieni le Schede Orizzontali su una Sola Riga",
+            "hint": "Quando le schede orizzontali della barra laterale sono abilitate, mantiene le icone delle schede su una sola riga. Le schede che non entrano vengono spostate dietro un pulsante '...' su uno dei lati della riga. Disabilita per lasciare che le schede vadano a capo su più righe."
           },
           "showChatNotificationsOnTop": {
             "label": "Mostra Notifiche Chat dall'Alto",
