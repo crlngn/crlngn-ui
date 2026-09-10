@@ -47,16 +47,16 @@
         "preloadScene": "Preload scene",
         "sceneConfig": "Scene Configuration"
       },
+      "journalToggle": {
+        "enable": "Ativar Estilos de Diário Carolingian",
+        "disable": "Desativar Estilos de Diário Carolingian"
+      },
       "updates": {
         "label": "Último ID de Atualização",
         "hint": "Rastreia a última notificação de atualização exibida"
       },
       "toggleChatBox": "Caixa de Mensagens",
       "moreSidebarTabs": "Mais abas",
-      "journalToggle": {
-        "enable": "Ativar Estilos de Diário Carolingian",
-        "disable": "Desativar Estilos de Diário Carolingian"
-      },
       "carouselWelcome": {
         "title": "Novo recurso: Carrossel de Combate",
         "message": "Carolingian UI tem um novo Carrossel de Combate arrastável e acoplável. Gostaria de ativar este recurso?",
@@ -116,8 +116,8 @@
           "scenes": "Navegação de Cenas",
           "players": "Lista de Jogadores",
           "camera": "Câmeras",
-          "system": "Sistema & Módulos",
-          "combat": "Rastreador de Combate"
+          "combat": "Rastreador de Combate",
+          "system": "Sistema & Módulos"
         },
         "reset": "Redefinir",
         "save": "Salvar"
@@ -129,6 +129,14 @@
       "toggleSidebar": {
         "label": "Expandir/Recolher a Barra Lateral",
         "hint": "Expande ou recolhe a barra lateral direita via atalho de teclado"
+      },
+      "combatPrev": {
+        "label": "Combate: Turno Anterior",
+        "hint": "Volta para o turno anterior em combate. Funciona apenas quando você é dono do combatente atual."
+      },
+      "combatNext": {
+        "label": "Combate: Próximo Turno",
+        "hint": "Avança para o próximo turno em combate. Funciona apenas quando você é dono do combatente atual."
       },
       "sidebarTabs": {
         "ChatLog": "Mensagens do Chat",
@@ -184,6 +192,15 @@
             "label": "Deslocamento do Carrossel Ancorado",
             "hint": "Deslocamento em pixels quando o carrossel está ancorado. Aplicado como margem superior quando ancorado no topo, ou margem inferior quando ancorado na parte inferior."
           },
+          "carouselDockOnLoad": {
+            "label": "Encaixe do Carrossel ao Iniciar",
+            "hint": "Controla onde o carrossel é encaixado quando o Foundry é carregado.",
+            "options": {
+              "preserve": "Manter última configuração",
+              "top": "Sempre encaixar no topo",
+              "bottom": "Sempre encaixar embaixo"
+            }
+          },
           "combatTrackerTakeFullWidth": {
             "label": "Expandir Carrossel quando Barra Lateral Recolhida",
             "hint": "Quando ativado, o carrossel ocupa toda a largura disponível quando a barra lateral está recolhida, e se ajusta quando a barra lateral é expandida."
@@ -196,6 +213,14 @@
               "actor": "Retrato do Ator"
             }
           },
+          "combatTrackerLayout": {
+            "label": "Layout do Rastreador de Combate",
+            "hint": "Escolha como o rastreador de combate se comporta. O modo carrossel centraliza no combatente ativo e dá voltas. O modo lista simples fica alinhado à esquerda e rola para mostrar o combatente ativo quando necessário.",
+            "options": {
+              "carousel": "Carrossel (centralizado, dá voltas)",
+              "simple": "Lista simples (sem carrossel)"
+            }
+          },
           "carouselShowAllHP": {
             "label": "Mostrar Barra de HP para Todos os Combatentes",
             "hint": "Quando ativado, o carrossel mostra barras de HP para todos os combatentes, mesmo aqueles para os quais o jogador não tem permissão de Observador. Esta é uma configuração de mundo (apenas GM).",
@@ -205,6 +230,10 @@
               "disabled": "Desativado"
             }
           },
+          "carouselTrackedResource": {
+            "label": "Recurso Rastreado",
+            "hint": "O atributo do recurso a exibir nos cartões dos combatentes (ex.: HP). Esta é uma configuração de mundo (GM)."
+          },
           "carouselHideDefeated": {
             "label": "Ocultar Combatentes Derrotados",
             "hint": "Quando ativado, combatentes derrotados são removidos do carrossel e as posições restantes são recalculadas."
@@ -213,32 +242,11 @@
             "label": "Agrupar Combatentes (D&D 5e)",
             "hint": "Quando ativado, combatentes que o rastreador do D&D 5e agrupa (mesmo ator, disposição e iniciativa) são recolhidos em um único cartão com um marcador indicando o tamanho do grupo. Clique no marcador para expandir o grupo para a direita ou recolhê-lo novamente. O grupo com o turno atual sempre mostra o combatente ativo."
           },
-          "combatFieldset": "Rastreador de Combate",
-          "carouselDockOnLoad": {
-            "label": "Encaixe do Carrossel ao Iniciar",
-            "hint": "Controla onde o carrossel é encaixado quando o Foundry é carregado.",
-            "options": {
-              "preserve": "Manter última configuração",
-              "top": "Sempre encaixar no topo",
-              "bottom": "Sempre encaixar embaixo"
-            }
-          },
-          "combatTrackerLayout": {
-            "label": "Layout do Rastreador de Combate",
-            "hint": "Escolha como o rastreador de combate se comporta. O modo carrossel centraliza no combatente ativo e dá voltas. O modo lista simples fica alinhado à esquerda e rola para mostrar o combatente ativo quando necessário.",
-            "options": {
-              "carousel": "Carrossel (centralizado, dá voltas)",
-              "simple": "Lista simples (sem carrossel)"
-            }
-          },
-          "carouselTrackedResource": {
-            "label": "Recurso Rastreado",
-            "hint": "O atributo do recurso a exibir nos cartões dos combatentes (ex.: HP). Esta é uma configuração de mundo (GM)."
-          },
           "carouselRequirePlayerOwner": {
             "label": "Exigir Personagem de Jogador",
             "hint": "Quando ativado, o carrossel abre automaticamente apenas quando um personagem de jogador é adicionado ao combate. Quando desativado, abre para qualquer combatente."
-          }
+          },
+          "combatFieldset": "Rastreador de Combate"
         },
         "reset": "Redefinir",
         "save": "Salvar"
@@ -311,6 +319,10 @@
             "label": "Nível do Efeito Translúcido",
             "hint": "Controla a translucidez das janelas. 0 = totalmente opaco com desfoque mínimo, 1 = altamente translúcido com desfoque máximo. Opacidade e desfoque se ajustam inversamente para legibilidade."
           },
+          "enableJournalStyles": {
+            "label": "Aplicar estilos às fichas de Diário",
+            "hint": "Ative para aplicar o estilo Carolingian UI às fichas de diário. Desative se módulos de diário de terceiros tiverem conflitos de estilo."
+          },
           "customizeColors": "Personalizar Cores",
           "customizeHint": "Clique para abrir o seletor de cores e criar cores de tema personalizadas",
           "adjustOtherModules": {
@@ -336,39 +348,10 @@
           "enforceDarkMode": {
             "label": "Forçar Modo Escuro",
             "hint": "<b>Não habilite se usar Force Client Settings ou módulos semelhantes.</b> Define o tema da interface do Foundry para o jogador como Escuro caso o tema atual seja 'Padrão do Navegador'. Se o jogador selecionar modo claro, sua opção será respeitada"
-          },
-          "enableJournalStyles": {
-            "label": "Aplicar estilos às fichas de Diário",
-            "hint": "Ative para aplicar o estilo Carolingian UI às fichas de diário. Desative se módulos de diário de terceiros tiverem conflitos de estilo."
           }
-        },
-        "dockDHResources": {
-          "label": "Acoplar Rastreador de Recursos Daggerheart",
-          "hint": "Ativa a funcionalidade de acoplamento para o rastreador (medo) do Daggerheart. Arraste a janela perto da barra de macros para acoplá-la na parte inferior da tela."
         },
         "reset": "Redefinir",
-        "save": "Salvar",
-        "colorPicker": {
-          "hint": "Lembre-se de cuidar das suas retinas: para a cor de destaque, use cores com pelo menos uma classificação de contraste 'média' para melhor legibilidade.",
-          "title": "Cores de Tema Personalizadas",
-          "presets": "Temas Predefinidos",
-          "accentColor": "Cor de Destaque",
-          "secondaryColor": "Cor Secundária",
-          "hue": "Matiz",
-          "saturation": "Saturação",
-          "lightness": "Luminosidade",
-          "accentOnBackground": "Destaque no Fundo",
-          "textOnAccent": "Texto no Destaque",
-          "secondaryPreview": "Visualização da Cor Secundária",
-          "contrastGood": "Contraste: Bom",
-          "contrastMedium": "Contraste: Médio",
-          "contrastPoor": "Contraste: Ruim",
-          "apply": "Salvar",
-          "applySecondaryColorToBg": {
-            "label": "Aplicar cor secundária aos fundos da interface do Foundry",
-            "hint": "Quando habilitado, a cor secundária será aplicada aos fundos da interface como barra lateral e controles. Isso cria um tema de cores mais unificado."
-          }
-        }
+        "save": "Salvar"
       },
       "sidebarMenu": {
         "label": "Opções de Mensagens de Chat",
@@ -426,15 +409,15 @@
             "label": "Mostrar Notificações de Chat do Topo",
             "hint": "Quando ativado, as notificações de cartão de chat aparecem do topo da área de entrada de chat em vez da parte inferior."
           },
+          "useFolderStyle": {
+            "label": "Cores discretas para pastas na barra lateral",
+            "hint": "Ativa cores mais discretas nas pastas do diretório da barra lateral, exibindo a cor selecionada apenas nas bordas, para um visual mais agradável."
+          },
           "hiddenSidebarTabs": {
             "label": "Visibilidade e Ordem das Abas",
             "hint": "Controle quais abas da barra lateral são visíveis para mestres e jogadores. Abas ocultas não aparecerão na barra lateral.",
             "hideForGM": "Ocultar para Mestre",
             "hideForPlayer": "Ocultar para Jogador"
-          },
-          "useFolderStyle": {
-            "label": "Cores discretas para pastas na barra lateral",
-            "hint": "Ativa cores mais discretas nas pastas do diretório da barra lateral, exibindo a cor selecionada apenas nas bordas, para um visual mais agradável."
           }
         },
         "reset": "Redefinir",
@@ -528,182 +511,6 @@
         "reset": "Redefinir",
         "save": "Salvar"
       },
-      "sceneNavMenu": {
-        "label": "Navegação Entre Cenas",
-        "title": "Configurar Navegação",
-        "hint": "Altere as opções para a barra de navegação entre cenas, no topo",
-        "fields": {
-          "hideLoadingSceneName": {
-            "label": "Ocultar nome da cena na barra de carregamento",
-            "hint": "A barra de carregamento mostra o nome da cena, o que pode estragar o conteúdo para os jogadores. Marque esta opção para mostrar apenas uma barra de carregamento fina."
-          },
-          "disableActiveSceneSeparation": {
-            "label": "Desabilitar separação ativa/inativa de cenas",
-            "hint": "Quando ativado, as cenas ativas serão exibidas na mesma lista das cenas inativas, em vez de serem separadas no topo."
-          },
-          "sceneNavEnabled": {
-            "label": "Ativar navegação de cenas",
-            "hint": "Se você estiver enfrentando problemas de layout com um módulo incompatível, pode desativar meus estilos personalizados para Navegação de Cenas."
-          },
-          "showNavOnHover": {
-            "label": "Alternar visibilidades",
-            "hint": "Se a navegação de cenas estiver recolhida, você pode exibi-la passando o mouse sobre a parte superior da tela."
-          },
-          "useSceneFolders": {
-            "label": "Ativar pastas na barra de navegação",
-            "hint": "Se a navegação de cenas customizada estiver ativada, esta opção inclui uma lista de diretórios e busca de cenas na barra do topo."
-          },
-          "useSceneLookup": {
-            "label": "Ativar busca de cenas na barra de navegação",
-            "hint": "Se a navegação de cenas customizada estiver ativa, esta opção adiciona um botão para buscar cenas na barra de navegação."
-          },
-          "navFoldersForPlayers": {
-            "label": "Mostrar pastas para os jogadores",
-            "hint": "Ative para permitir que a lista de pastas seja exibida aos jogadores. Se o jogador não tem permissão para ver uma past, ela não será exibida."
-          },
-          "navStartCollapsed": {
-            "label": "Recolher navegação ao iniciar",
-            "hint": "Ative esta opção para recolher a navegação de cenas ao carregar o Foundry, independentemente do estado anterior."
-          },
-          "sceneClickToView": {
-            "label": "Ativar Clique e Duplo Clique",
-            "hint": "Quando ativado, um clique na cena a abre para visualização. Um duplo clique a ativa para os jogadores."
-          },
-          "useSceneIcons": {
-            "label": "Usar ícones de cena",
-            "hint": "Mostra ícones próximos ao nome da cena: <i class='fas fa-lock'></i> Invisível para jogadores até ser ativada; <i class='fas fa-crown'></i> Atualmente visualizada pelo GM; <i class='fas fa-bullseye'></i> Atualmente ativa para os jogadores;"
-          },
-          "useSceneBackButton": {
-            "label": "Habilitar Botão Voltar",
-            "hint": "<b>'Voltar para Cena Anterior'</b>: ao clicar, retorna para a cena anteriormente visualizada, <b>'Voltar para Cenas Padrão'</b>: somente aparece na vista de pasta, ao clicar abre a navegação de cena padrão, <b>'Desabilitado'</b>: Nenhum botão Voltar"
-          },
-          "useScenePreview": {
-            "label": "Usar Previsualização de Cena",
-            "hint": "Quando ativado, a miniatura da cena será exibida quando passar o mouse sobre o item na barra de navegação"
-          },
-          "navShowRootFolders": {
-            "label": "Mostrar pastas na navegação de cena",
-            "hint": "Pastas serão mostradas na navegação de cena inicial. Se você tiver muitas pastas na raiz do diretório de cenas, pode querer desabilitar esta opção."
-          },
-          "hideInactiveOnFolderToggle": {
-            "label": "Ocultar cenas inativas ao mostrar pastas",
-            "hint": "A lista de cenas padrão será ocultada quando as pastas estiverem visíveis, e aparecerá novamente quando você ocultar as pastas. Isso visa evitar a duplicação de cenas na navegação."
-          },
-          "subFoldersLayout": {
-            "label": "Alinhamento das cenas em subpastas",
-            "hint": "Escolha como as cenas dentro de subpastas são posicionadas quando a pasta é expandida.",
-            "options": {
-              "parent": "Alinhado com a pasta pai",
-              "rowStart": "Alinhado no início da linha",
-              "vertical": "Menu suspenso vertical"
-            }
-          },
-          "expandScrimToSubfolders": {
-            "label": "Expandir fundo atrás das subpastas",
-            "hint": "Quando ativado, o fundo da navegação se expande para cobrir as linhas de subpastas quando as pastas estão abertas."
-          },
-          "autoCloseSubmenuOnSceneChange": {
-            "label": "Fechar submenu ao trocar de cena",
-            "hint": "Quando ativado, qualquer submenu de pasta aberto fecha após uma cena ser selecionada ou ativada. Quando desativado, as pastas permanecem abertas até serem fechadas manualmente."
-          },
-          "sceneItemWidth": {
-            "label": "Largura do item de navegação",
-            "hint": "Deixe vazio para usar a largura padrão, ou defina um novo número. O mínimo é 100px"
-          },
-          "collapseNavDuringCombat": {
-            "label": "Recolher durante combate",
-            "hint": "Recolhe automaticamente a navegação de cenas quando o combate começa. A navegação será restaurada ao seu estado anterior quando o combate terminar."
-          }
-        },
-        "reset": "Redefinir",
-        "save": "Salvar"
-      },
-      "systemsMenu": {
-        "label": "Sistema",
-        "title": "Configurar opções para sistemas específicos",
-        "hint": "",
-        "currentSystem": "Sistema Atual",
-        "noSettingsForSystem": "Nenhuma configuração específica para o sistema atual",
-        "modulesLabel": "Outros Módulos",
-        "fields": {
-          "applyThemeToSheets": {
-            "label": "Aplicar estilos a fichas de personagem (DnD5e, Daggerheart)",
-            "hint": "Ative para aplicar o tema de cores global e ajustes de estilo às fichas de personagens de DnD5e or Daggerheart"
-          },
-          "useHorizontalSheetTabs": {
-            "label": "Usar abas horizontais com rótulos",
-            "hint": "Funciona apenas quando temas estiverem aplicados às fichas. Ative para usar abas horizontais com rótulos nas fichas de personagens de DnD5e em vez das abas laterais com ícones"
-          },
-          "enableIconsOnSheets": {
-            "label": "Habilitar ícones de chat e tooltip nas fichas",
-            "hint": "Mostrar sobreposição 'Exibir no Chat' nas imagens de itens e ícones de pergaminho para tooltips nas fichas de personagem"
-          },
-          "applyBladeRunnerTweaks": {
-            "label": "Aplicar ajustes de UI ao sistema Blade Runner",
-            "hint": "Ative para aplicar ajustes de UI e mudanças de estilo às fichas e janelas do Blade Runner"
-          }
-        },
-        "reset": "Redefinir",
-        "save": "Salvar"
-      },
-      "enforceGMSettings": {
-        "label": "Aplicar Configurações do GM aos Jogadores",
-        "hint": "Quando ativado, todos os jogadores usarão as configurações de interface do GM ao se conectarem. Isso garante uma experiência consistente para todos os jogadores.",
-        "conflictWarning": "Carolingian UI: 'Aplicar Configurações do GM aos Jogadores' está desativado porque o módulo Force Client Settings está ativo. Use um ou outro, não ambos."
-      },
-      "defaultSettings": {
-        "label": "Configurações Padrão do GM",
-        "hint": "Armazena as configurações preferidas do GM para aplicar aos jogadores"
-      },
-      "controlIconSize": {
-        "label": "Tamanho dos ícones de controle",
-        "hint": "Se você usa uma tela muito grande, pode querer alterar o tamanho dos ícones nos controles à esquerda. Isso pode afetar alguns outros elementos da interface",
-        "options": {
-          "small": "pequeno",
-          "regular": "normal",
-          "large": "grande"
-        }
-      },
-      "sceneNavCollapsed": {
-        "label": "Estado da Navegação de Cena",
-        "hint": "Estado atual do botão de navegação de cena. Está recolhido?"
-      },
-      "sceneNavPos": {
-        "label": "Posição da Navegação de Cena",
-        "hint": "Armazena a posição atual da navegação para redefinição ao ser renderizada novamente"
-      },
-      "enableMacroLayout": {
-        "label": "Ativar layout de macros",
-        "hint": "O módulo reduz o tamanho dos slots de macro na barra de atalhos e aumenta os números. Desative essa configuração para usar o layout padrão do Foundry."
-      },
-      "autoHideLeftControls": {
-        "label": "Ocultar os controles secundários",
-        "hint": "Ative para manter a barra secundária nos controles à esquerda oculta, a menos que você passe o mouse sobre a região ou clique em um item."
-      },
-      "collapseMacroBar": {
-        "label": "Ocultar barra de macros",
-        "hint": "Ative para manter a barra de macros minimizada, exceto quando quando passar o mouse sobre ela."
-      },
-      "useFolderStyle": {
-        "label": "Usar cores discretas nos diretórios",
-        "hint": "Ative para usar cores mais discretas nos diretórios do painel lateral, com a cor selecionada apenas nas bordas."
-      },
-      "debugMode": {
-        "label": "Modo de Depuração",
-        "hint": "Ative ou desative mensagens de depuração no console do navegador. Utilize apenas para debug."
-      },
-      "disableUI": {
-        "label": "Desativar Interface neste Cliente",
-        "hint": "Se um jogador não quiser usar a interface de Carolingian UI, pode desativá-la. Nenhuma outra funcionalidade do módulo funcionará, exceto o estilo escuro nos cartões de chat - que pode ser desativado separadamente."
-      },
-      "combatPrev": {
-        "label": "Combate: Turno Anterior",
-        "hint": "Volta para o turno anterior em combate. Funciona apenas quando você é dono do combatente atual."
-      },
-      "combatNext": {
-        "label": "Combate: Próximo Turno",
-        "hint": "Avança para o próximo turno em combate. Funciona apenas quando você é dono do combatente atual."
-      },
       "combatTrackerMenu": {
         "label": "Rastreador de Combate",
         "title": "Configurar Rastreador de Combate",
@@ -791,6 +598,169 @@
         "reset": "Restaurar",
         "save": "Salvar"
       },
+      "sceneNavMenu": {
+        "label": "Navegação Entre Cenas",
+        "title": "Configurar Navegação",
+        "hint": "Altere as opções para a barra de navegação entre cenas, no topo",
+        "fields": {
+          "hideLoadingSceneName": {
+            "label": "Ocultar nome da cena na barra de carregamento",
+            "hint": "A barra de carregamento mostra o nome da cena, o que pode estragar o conteúdo para os jogadores. Marque esta opção para mostrar apenas uma barra de carregamento fina."
+          },
+          "disableActiveSceneSeparation": {
+            "label": "Desabilitar separação ativa/inativa de cenas",
+            "hint": "Quando ativado, as cenas ativas serão exibidas na mesma lista das cenas inativas, em vez de serem separadas no topo."
+          },
+          "sceneNavEnabled": {
+            "label": "Ativar navegação de cenas",
+            "hint": "Se você estiver enfrentando problemas de layout com um módulo incompatível, pode desativar meus estilos personalizados para Navegação de Cenas."
+          },
+          "showNavOnHover": {
+            "label": "Alternar visibilidades",
+            "hint": "Se a navegação de cenas estiver recolhida, você pode exibi-la passando o mouse sobre a parte superior da tela."
+          },
+          "useSceneFolders": {
+            "label": "Ativar pastas na barra de navegação",
+            "hint": "Se a navegação de cenas customizada estiver ativada, esta opção inclui uma lista de diretórios e busca de cenas na barra do topo."
+          },
+          "useSceneLookup": {
+            "label": "Ativar busca de cenas na barra de navegação",
+            "hint": "Se a navegação de cenas customizada estiver ativa, esta opção adiciona um botão para buscar cenas na barra de navegação."
+          },
+          "navFoldersForPlayers": {
+            "label": "Mostrar pastas para os jogadores",
+            "hint": "Ative para permitir que a lista de pastas seja exibida aos jogadores. Se o jogador não tem permissão para ver uma past, ela não será exibida."
+          },
+          "navStartCollapsed": {
+            "label": "Recolher navegação ao iniciar",
+            "hint": "Ative esta opção para recolher a navegação de cenas ao carregar o Foundry, independentemente do estado anterior."
+          },
+          "collapseNavDuringCombat": {
+            "label": "Recolher durante combate",
+            "hint": "Recolhe automaticamente a navegação de cenas quando o combate começa. A navegação será restaurada ao seu estado anterior quando o combate terminar."
+          },
+          "sceneClickToView": {
+            "label": "Ativar Clique e Duplo Clique",
+            "hint": "Quando ativado, um clique na cena a abre para visualização. Um duplo clique a ativa para os jogadores."
+          },
+          "useSceneIcons": {
+            "label": "Usar ícones de cena",
+            "hint": "Mostra ícones próximos ao nome da cena: <i class='fas fa-lock'></i> Invisível para jogadores até ser ativada; <i class='fas fa-crown'></i> Atualmente visualizada pelo GM; <i class='fas fa-bullseye'></i> Atualmente ativa para os jogadores;"
+          },
+          "useSceneBackButton": {
+            "label": "Habilitar Botão Voltar",
+            "hint": "<b>'Voltar para Cena Anterior'</b>: ao clicar, retorna para a cena anteriormente visualizada, <b>'Voltar para Cenas Padrão'</b>: somente aparece na vista de pasta, ao clicar abre a navegação de cena padrão, <b>'Desabilitado'</b>: Nenhum botão Voltar"
+          },
+          "useScenePreview": {
+            "label": "Usar Previsualização de Cena",
+            "hint": "Quando ativado, a miniatura da cena será exibida quando passar o mouse sobre o item na barra de navegação"
+          },
+          "navShowRootFolders": {
+            "label": "Mostrar pastas na navegação de cena",
+            "hint": "Pastas serão mostradas na navegação de cena inicial. Se você tiver muitas pastas na raiz do diretório de cenas, pode querer desabilitar esta opção."
+          },
+          "hideInactiveOnFolderToggle": {
+            "label": "Ocultar cenas inativas ao mostrar pastas",
+            "hint": "A lista de cenas padrão será ocultada quando as pastas estiverem visíveis, e aparecerá novamente quando você ocultar as pastas. Isso visa evitar a duplicação de cenas na navegação."
+          },
+          "subFoldersLayout": {
+            "label": "Alinhamento das cenas em subpastas",
+            "hint": "Escolha como as cenas dentro de subpastas são posicionadas quando a pasta é expandida.",
+            "options": {
+              "parent": "Alinhado com a pasta pai",
+              "rowStart": "Alinhado no início da linha",
+              "vertical": "Menu suspenso vertical"
+            }
+          },
+          "expandScrimToSubfolders": {
+            "label": "Expandir fundo atrás das subpastas",
+            "hint": "Quando ativado, o fundo da navegação se expande para cobrir as linhas de subpastas quando as pastas estão abertas."
+          },
+          "autoCloseSubmenuOnSceneChange": {
+            "label": "Fechar submenu ao trocar de cena",
+            "hint": "Quando ativado, qualquer submenu de pasta aberto fecha após uma cena ser selecionada ou ativada. Quando desativado, as pastas permanecem abertas até serem fechadas manualmente."
+          },
+          "sceneItemWidth": {
+            "label": "Largura do item de navegação",
+            "hint": "Deixe vazio para usar a largura padrão, ou defina um novo número. O mínimo é 100px"
+          }
+        },
+        "reset": "Redefinir",
+        "save": "Salvar"
+      },
+      "systemsMenu": {
+        "label": "Sistema",
+        "title": "Configurar opções para sistemas específicos",
+        "hint": "",
+        "currentSystem": "Sistema Atual",
+        "noSettingsForSystem": "Nenhuma configuração específica para o sistema atual",
+        "modulesLabel": "Outros Módulos",
+        "fields": {
+          "applyThemeToSheets": {
+            "label": "Aplicar estilos a fichas de personagem (DnD5e, Daggerheart)",
+            "hint": "Ative para aplicar o tema de cores global e ajustes de estilo às fichas de personagens de DnD5e or Daggerheart"
+          },
+          "useHorizontalSheetTabs": {
+            "label": "Usar abas horizontais com rótulos",
+            "hint": "Funciona apenas quando temas estiverem aplicados às fichas. Ative para usar abas horizontais com rótulos nas fichas de personagens de DnD5e em vez das abas laterais com ícones"
+          },
+          "enableIconsOnSheets": {
+            "label": "Habilitar ícones de chat e tooltip nas fichas",
+            "hint": "Mostrar sobreposição 'Exibir no Chat' nas imagens de itens e ícones de pergaminho para tooltips nas fichas de personagem"
+          },
+          "applyBladeRunnerTweaks": {
+            "label": "Aplicar ajustes de UI ao sistema Blade Runner",
+            "hint": "Ative para aplicar ajustes de UI e mudanças de estilo às fichas e janelas do Blade Runner"
+          }
+        },
+        "reset": "Redefinir",
+        "save": "Salvar"
+      },
+      "enforceGMSettings": {
+        "label": "Aplicar Configurações do GM aos Jogadores",
+        "hint": "Quando ativado, todos os jogadores usarão as configurações de interface do GM ao se conectarem. Isso garante uma experiência consistente para todos os jogadores."
+      },
+      "defaultSettings": {
+        "label": "Configurações Padrão do GM",
+        "hint": "Armazena as configurações preferidas do GM para aplicar aos jogadores"
+      },
+      "controlIconSize": {
+        "label": "Tamanho dos ícones de controle",
+        "hint": "Se você usa uma tela muito grande, pode querer alterar o tamanho dos ícones nos controles à esquerda. Isso pode afetar alguns outros elementos da interface",
+        "options": {
+          "small": "pequeno",
+          "regular": "normal",
+          "large": "grande"
+        }
+      },
+      "sceneNavCollapsed": {
+        "label": "Estado da Navegação de Cena",
+        "hint": "Estado atual do botão de navegação de cena. Está recolhido?"
+      },
+      "sceneNavPos": {
+        "label": "Posição da Navegação de Cena",
+        "hint": "Armazena a posição atual da navegação para redefinição ao ser renderizada novamente"
+      },
+      "enableMacroLayout": {
+        "label": "Ativar layout de macros",
+        "hint": "O módulo reduz o tamanho dos slots de macro na barra de atalhos e aumenta os números. Desative essa configuração para usar o layout padrão do Foundry."
+      },
+      "autoHideLeftControls": {
+        "label": "Ocultar os controles secundários",
+        "hint": "Ative para manter a barra secundária nos controles à esquerda oculta, a menos que você passe o mouse sobre a região ou clique em um item."
+      },
+      "collapseMacroBar": {
+        "label": "Ocultar barra de macros",
+        "hint": "Ative para manter a barra de macros minimizada, exceto quando quando passar o mouse sobre ela."
+      },
+      "debugMode": {
+        "label": "Modo de Depuração",
+        "hint": "Ative ou desative mensagens de depuração no console do navegador. Utilize apenas para debug."
+      },
+      "disableUI": {
+        "label": "Desativar Interface neste Cliente",
+        "hint": "Se um jogador não quiser usar a interface de Carolingian UI, pode desativá-la. Nenhuma outra funcionalidade do módulo funcionará, exceto o estilo escuro nos cartões de chat - que pode ser desativado separadamente."
+      },
       "dockDHResources": {
         "label": "Encaixar Rastreador de Medo do Daggerheart",
         "hint": "Ativa a funcionalidade de encaixe para o rastreador de recurso (medo) do Daggerheart. Arraste a janela próxima à barra de macros para encaixá-la na parte inferior da tela."
@@ -839,13 +809,13 @@
       "noCombatants": "Nenhum combatente no encontro",
       "closedNotice": "Quando quiser o carrossel de volta, clique com o botão direito na aba de combate na barra lateral",
       "noTrackedResource": "Mostrar Barra de HP para Todos está ativado, mas nenhum Recurso Rastreado está configurado nas configurações do Rastreador de Combate.",
+      "configureResourceTitle": "Configurar Barra de Recurso",
+      "configureResourceMessage": "O carrossel está configurado para mostrar barras de recurso/HP para todos os combatentes, mas nenhum recurso rastreado está configurado. Selecione um recurso para rastrear abaixo:",
+      "trackedResource": "Recurso Rastreado",
       "startCombatShort": "Iniciar",
       "endCombatShort": "Fim",
       "groupExpand": "Mostrar todos",
-      "groupCollapse": "Ocultar todos",
-      "configureResourceTitle": "Configurar Barra de Recurso",
-      "configureResourceMessage": "O carrossel está configurado para mostrar barras de recurso/HP para todos os combatentes, mas nenhum recurso rastreado está configurado. Selecione um recurso para rastrear abaixo:",
-      "trackedResource": "Recurso Rastreado"
+      "groupCollapse": "Ocultar todos"
     },
     "dnd5e": {
       "chatCard": {
