@@ -47,15 +47,16 @@
         "preloadScene": "预加载场景",
         "sceneConfig": "场景配置"
       },
+      "journalToggle": {
+        "enable": "启用卡洛林日志样式",
+        "disable": "禁用卡洛林日志样式"
+      },
       "updates": {
         "label": "最新更新ID",
         "hint": "跟踪最后显示的更新通知"
       },
       "toggleChatBox": "切换聊天框",
-      "journalToggle": {
-        "enable": "启用卡洛林日志样式",
-        "disable": "禁用卡洛林日志样式"
-      },
+      "moreSidebarTabs": "更多标签",
       "carouselWelcome": {
         "title": "新功能：战斗轮播",
         "message": "Carolingian UI 有一个新的可拖拽和可停靠的战斗轮播。您想启用此功能吗？",
@@ -115,8 +116,8 @@
           "scenes": "场景",
           "players": "玩家列表",
           "camera": "摄像机停靠栏",
-          "system": "系统和模块",
-          "combat": "战斗追踪器"
+          "combat": "战斗追踪器",
+          "system": "系统和模块"
         },
         "reset": "重置",
         "save": "保存"
@@ -128,6 +129,14 @@
       "toggleSidebar": {
         "label": "切换侧边栏展开/折叠",
         "hint": "展开或折叠右侧边栏"
+      },
+      "combatPrev": {
+        "label": "战斗：上一回合",
+        "hint": "返回战斗中的上一个回合。仅当你拥有当前战斗者时有效。"
+      },
+      "combatNext": {
+        "label": "战斗：下一回合",
+        "hint": "推进到战斗中的下一个回合。仅当你拥有当前战斗者时有效。"
       },
       "sidebarTabs": {
         "ChatLog": "聊天记录",
@@ -183,6 +192,15 @@
             "label": "停靠轮播偏移",
             "hint": "轮播停靠时的偏移量（像素）。停靠在顶部时作为上边距，停靠在底部时作为下边距。"
           },
+          "carouselDockOnLoad": {
+            "label": "启动时停靠轮播条",
+            "hint": "控制 Foundry 加载时轮播条的停靠位置。",
+            "options": {
+              "preserve": "保留上次设置",
+              "top": "始终停靠在顶部",
+              "bottom": "始终停靠在底部"
+            }
+          },
           "combatTrackerTakeFullWidth": {
             "label": "侧边栏收起时展开轮播",
             "hint": "启用后，当侧边栏收起时，轮播将占据全部可用宽度，并在侧边栏展开时进行调整。"
@@ -195,6 +213,14 @@
               "actor": "角色肖像"
             }
           },
+          "combatTrackerLayout": {
+            "label": "战斗追踪器布局",
+            "hint": "选择战斗追踪器的行为方式。轮播模式以当前战斗者为中心并循环显示。简单列表模式靠左对齐，必要时滚动以显示当前战斗者。",
+            "options": {
+              "carousel": "轮播（居中、循环）",
+              "simple": "简单列表（无轮播）"
+            }
+          },
           "carouselShowAllHP": {
             "label": "显示所有参战者的生命值条",
             "hint": "启用后，轮播将显示所有参战者的生命值条，即使玩家没有观察者权限。这是一个世界设置（仅限GM）。",
@@ -204,36 +230,23 @@
               "disabled": "已禁用"
             }
           },
-          "carouselHideDefeated": {
-            "label": "隐藏已击败的参战者",
-            "hint": "启用后，已击败的参战者将从轮播中移除，剩余位置将重新计算。"
-          },
-          "combatFieldset": "战斗追踪器",
-          "carouselDockOnLoad": {
-            "label": "启动时停靠轮播条",
-            "hint": "控制 Foundry 加载时轮播条的停靠位置。",
-            "options": {
-              "preserve": "保留上次设置",
-              "top": "始终停靠在顶部",
-              "bottom": "始终停靠在底部"
-            }
-          },
-          "combatTrackerLayout": {
-            "label": "战斗追踪器布局",
-            "hint": "选择战斗追踪器的行为方式。轮播模式以当前战斗者为中心并循环显示。简单列表模式靠左对齐，必要时滚动以显示当前战斗者。",
-            "options": {
-              "carousel": "轮播（居中、循环）",
-              "simple": "简单列表（无轮播）"
-            }
-          },
           "carouselTrackedResource": {
             "label": "追踪资源",
             "hint": "在战斗者卡片上显示的资源属性（例如 HP）。此为世界设置（GM）。"
           },
+          "carouselHideDefeated": {
+            "label": "隐藏已击败的参战者",
+            "hint": "启用后，已击败的参战者将从轮播中移除，剩余位置将重新计算。"
+          },
+          "carouselGroupCombatants": {
+            "label": "合并显示战斗者（D&D 5e）",
+            "hint": "启用后，D&D 5e 战斗追踪器归为一组的战斗者（相同角色、阵营和先攻）会折叠为一张卡片，并以徽章显示组内人数。点击徽章可向右展开该组，再次点击可折叠。轮到该组行动时始终显示当前行动的战斗者。"
+          },
           "carouselRequirePlayerOwner": {
             "label": "需要玩家角色",
             "hint": "启用后，仅当玩家角色加入战斗时，轮播条才会自动打开。禁用后，对任何战斗者都会打开。"
-          }
+          },
+          "combatFieldset": "战斗追踪器"
         },
         "reset": "重置",
         "save": "保存"
@@ -306,6 +319,10 @@
             "label": "玻璃透明度",
             "hint": "控制窗口的透明度。0 = 完全不透明且模糊效果最小，1 = 高度透明且模糊效果最大。透明度和模糊度反向调节以确保可读性。"
           },
+          "enableJournalStyles": {
+            "label": "对日志条目应用样式",
+            "hint": "启用后，将 Carolingian UI 样式应用于日志条目卡片。如果第三方日志模块有样式冲突，请禁用。"
+          },
           "customizeColors": "自定义颜色",
           "customizeHint": "点击打开颜色选择器并创建自定义主题颜色",
           "adjustOtherModules": {
@@ -331,39 +348,10 @@
           "enforceDarkMode": {
             "label": "强制暗色模式",
             "hint": "在玩家客户端上将Foundry UI主题设置为暗色。如果你使用任何模块如'强制客户端设置'，你可能需要关闭此选项。"
-          },
-          "enableJournalStyles": {
-            "label": "对日志条目应用样式",
-            "hint": "启用后，将 Carolingian UI 样式应用于日志条目卡片。如果第三方日志模块有样式冲突，请禁用。"
           }
-        },
-        "dockDHResources": {
-          "label": "停靠Daggerheart资源追踪器",
-          "hint": "启用Daggerheart（恐惧）追踪器的停靠功能。将窗口拖到宏热栏附近即可将其停靠在屏幕底部。"
         },
         "reset": "重置",
-        "save": "保存",
-        "colorPicker": {
-          "hint": "请记住保护您的视网膜：对于强调色，请使用至少'中等'对比度等级的颜色以获得更好的可读性。",
-          "title": "自定义主题颜色",
-          "presets": "预设主题",
-          "accentColor": "强调色",
-          "secondaryColor": "次要颜色",
-          "hue": "色调",
-          "saturation": "饱和度",
-          "lightness": "亮度",
-          "accentOnBackground": "背景上的强调色",
-          "textOnAccent": "强调色上的文本",
-          "secondaryPreview": "次要颜色预览",
-          "contrastGood": "对比度：良好",
-          "contrastMedium": "对比度：中等",
-          "contrastPoor": "对比度：较差",
-          "apply": "保存",
-          "applySecondaryColorToBg": {
-            "label": "将次要颜色应用到Foundry界面背景",
-            "hint": "启用后，次要颜色将应用到侧边栏和控件等界面背景。这会创建更统一的颜色主题。"
-          }
-        }
+        "save": "保存"
       },
       "sidebarMenu": {
         "label": "聊天消息选项",
@@ -413,19 +401,36 @@
             "label": "使用水平侧边栏标签",
             "hint": "启用后，将侧边栏标签更改为水平方向，位于侧边栏顶部，而不是垂直放置在侧面。（v12样式）"
           },
+          "horizontalTabsSingleRow": {
+            "label": "水平标签保持单行显示",
+            "hint": "启用水平侧边栏标签时，将标签图标保持在一行内。放不下的标签会收纳到该行两侧的“…”按钮中。禁用后标签将换行显示为多行。"
+          },
           "showChatNotificationsOnTop": {
             "label": "从顶部显示聊天通知",
             "hint": "启用后，聊天卡片通知从聊天输入区域的顶部显示，而不是底部。"
+          },
+          "useFolderStyle": {
+            "label": "侧边栏文件夹使用低调颜色",
+            "hint": "为侧边栏目录文件夹启用更低调的颜色，仅在边框上显示所选颜色，以获得更美观的外观。"
           },
           "hiddenSidebarTabs": {
             "label": "侧边栏标签可见性和顺序",
             "hint": "控制哪些侧边栏标签对GM和玩家可见。隐藏的标签将不会出现在侧边栏中。",
             "hideForGM": "对GM隐藏",
             "hideForPlayer": "对玩家隐藏"
-          },
-          "useFolderStyle": {
-            "label": "侧边栏文件夹使用低调颜色",
-            "hint": "为侧边栏目录文件夹启用更低调的颜色，仅在边框上显示所选颜色，以获得更美观的外观。"
+          }
+        },
+        "reset": "重置",
+        "save": "保存"
+      },
+      "leftControlsMenu": {
+        "label": "左侧控制栏",
+        "title": "配置控件",
+        "hint": "修改场景控制按钮的外观和行为，位于屏幕左侧",
+        "fields": {
+          "autoHideSecondary": {
+            "label": "自动隐藏次要控件",
+            "hint": "启用后，左侧的次要控制栏将保持隐藏，直到您将鼠标悬停在该区域或单击某个项目。"
           }
         },
         "reset": "重置",
@@ -452,19 +457,6 @@
               "medium": "中",
               "large": "大"
             }
-          }
-        },
-        "reset": "重置",
-        "save": "保存"
-      },
-      "leftControlsMenu": {
-        "label": "左侧控制栏",
-        "title": "配置控件",
-        "hint": "修改场景控制按钮的外观和行为，位于屏幕左侧",
-        "fields": {
-          "autoHideSecondary": {
-            "label": "自动隐藏次要控件",
-            "hint": "启用后，左侧的次要控制栏将保持隐藏，直到您将鼠标悬停在该区域或单击某个项目。"
           }
         },
         "reset": "重置",
@@ -518,182 +510,6 @@
         },
         "reset": "重置",
         "save": "保存"
-      },
-      "sceneNavMenu": {
-        "label": "场景导航",
-        "title": "配置导航",
-        "hint": "更改顶部栏中场景导航菜单的选项",
-        "fields": {
-          "hideLoadingSceneName": {
-            "label": "隐藏加载栏中的场景名称",
-            "hint": "加载栏会显示场景名称，这可能会向玩家剧透内容。勾选此选项将只显示一个细长的加载条。"
-          },
-          "disableActiveSceneSeparation": {
-            "label": "禁用活跃/非活跃场景分离",
-            "hint": "启用后，活跃场景将与非活跃场景显示在同一列表中，而不是分开显示在顶部。"
-          },
-          "sceneNavEnabled": {
-            "label": "启用水平场景导航",
-            "hint": "[需要重新加载] 如果您与非兼容模块存在布局问题，可以尝试禁用我对场景导航的自定义样式。"
-          },
-          "showNavOnHover": {
-            "label": "悬停时显示导航",
-            "hint": "如果场景导航已折叠，您可以通过将鼠标悬停在屏幕顶部来显示它。"
-          },
-          "useSceneFolders": {
-            "label": "在导航栏启用场景文件夹",
-            "hint": "如果启用了自定义场景导航，此选项将在场景导航栏中添加带有场景搜索功能的文件夹列表。"
-          },
-          "useSceneLookup": {
-            "label": "在导航栏启用场景搜索",
-            "hint": "如果启用了自定义场景导航，此选项将在场景导航栏中添加一个按钮，用于搜索场景。"
-          },
-          "navFoldersForPlayers": {
-            "label": "为玩家启用场景文件夹",
-            "hint": "启用此选项允许玩家查看文件夹列表。如果他们没有文件夹的查看权限，该文件夹将不会出现在列表中。"
-          },
-          "navStartCollapsed": {
-            "label": "启动时折叠",
-            "hint": "启用此选项可在加载 Foundry 时折叠场景导航，无论之前保存的状态如何。"
-          },
-          "sceneClickToView": {
-            "label": "启用单击和双击",
-            "hint": "启用后，单击场景将打开该场景。双击则激活它。"
-          },
-          "useSceneIcons": {
-            "label": "使用场景图标",
-            "hint": "在场景名称旁显示图标：<i class='fas fa-lock'></i> 激活前对玩家不可见；<i class='fas fa-crown'></i> GM当前正在查看；<i class='fas fa-bullseye'></i> 当前对玩家激活；"
-          },
-          "useSceneBackButton": {
-            "label": "启用返回按钮",
-            "hint": "<b>'返回到上一个场景'</b>: 点击返回到之前查看的场景，<b>'返回到默认场景'</b>: 只在文件夹视图中出现，点击打开默认场景导航，<b>禁用</b>: 无返回按钮"
-          },
-          "useScenePreview": {
-            "label": "使用场景预览",
-            "hint": "启用后，悬停在场景导航上时将显示场景的缩略图预览"
-          },
-          "navShowRootFolders": {
-            "label": "在场景导航中显示根文件夹",
-            "hint": "从场景目录的根文件夹将显示在默认场景导航中。如果你有很多根文件夹，你可能希望禁用此选项。"
-          },
-          "hideInactiveOnFolderToggle": {
-            "label": "在文件夹切换时隐藏非激活场景",
-            "hint": "启用后，当文件夹视图打开时，未激活的场景列表将被隐藏。列表会在你隐藏文件夹时重新显示。这旨在避免导航中的场景重复。"
-          },
-          "subFoldersLayout": {
-            "label": "子文件夹场景对齐",
-            "hint": "选择展开文件夹时子文件夹中的场景如何定位。",
-            "options": {
-              "parent": "与父文件夹对齐",
-              "rowStart": "对齐到行首",
-              "vertical": "垂直下拉菜单"
-            }
-          },
-          "expandScrimToSubfolders": {
-            "label": "在子文件夹后面扩展背景",
-            "hint": "启用后，导航背景会扩展以覆盖文件夹打开时的子文件夹行。"
-          },
-          "autoCloseSubmenuOnSceneChange": {
-            "label": "切换场景时自动关闭子菜单",
-            "hint": "启用后，选择或激活场景后，任何已打开的文件夹子菜单都会关闭。禁用时，文件夹会保持打开状态，直到手动关闭。"
-          },
-          "sceneItemWidth": {
-            "label": "导航项目宽度",
-            "hint": "留空以使用默认宽度，或定义一个新数值。最小为100px"
-          },
-          "collapseNavDuringCombat": {
-            "label": "战斗时收起",
-            "hint": "战斗开始时自动收起场景导航。战斗结束后导航将恢复到先前状态。"
-          }
-        },
-        "reset": "重置",
-        "save": "保存"
-      },
-      "systemsMenu": {
-        "label": "系统",
-        "title": "配置特定系统选项",
-        "hint": "",
-        "currentSystem": "当前系统",
-        "noSettingsForSystem": "当前系统没有特定设置",
-        "modulesLabel": "其他模块",
-        "fields": {
-          "applyThemeToSheets": {
-            "label": "将颜色和样式应用于DnD5e/Daggerheart角色表",
-            "hint": "启用以应用全局颜色主题和样式到DnD5e/Daggerheart 角色表"
-          },
-          "useHorizontalSheetTabs": {
-            "label": "使用带有标签的水平标签",
-            "hint": "仅在启用角色表自定义样式时有效。这会在5e角色表上应用带标签的水平标签页，而不是侧边图标标签页"
-          },
-          "enableIconsOnSheets": {
-            "label": "启用角色表上的聊天和提示图标",
-            "hint": "在物品图片上显示'在聊天中显示'覆盖层，并在角色表上显示卷轴图标用于物品提示"
-          },
-          "applyBladeRunnerTweaks": {
-            "label": "对 Blade Runner 系统应用 UI 调整",
-            "hint": "启用后，对 Blade Runner 角色卡和窗口应用 UI 调整和样式微调"
-          }
-        },
-        "reset": "重置",
-        "save": "保存"
-      },
-      "enforceGMSettings": {
-        "label": "强制应用GM设置到玩家",
-        "hint": "启用后，所有玩家连接时将使用GM的UI设置。这确保了所有玩家的UI体验一致。",
-        "conflictWarning": "Carolingian UI: '强制应用GM设置到玩家' 已禁用，因为 Force Client Settings 模块处于活动状态。请只使用其中一个，不要同时使用两者。"
-      },
-      "defaultSettings": {
-        "label": "默认GM设置",
-        "hint": "存储GM的首选设置以强制应用到玩家"
-      },
-      "controlIconSize": {
-        "label": "控制图标大小",
-        "hint": "如果您使用非常大的屏幕，您可能希望更改左侧控制栏上图标的大小。这可能会影响其他一些 UI 元素。",
-        "options": {
-          "small": "小",
-          "regular": "正常",
-          "large": "大"
-        }
-      },
-      "sceneNavCollapsed": {
-        "label": "场景导航已折叠",
-        "hint": "场景导航切换的当前状态。是否已折叠？"
-      },
-      "sceneNavPos": {
-        "label": "场景导航位置",
-        "hint": "存储导航的当前位置，以便在重新渲染时重置"
-      },
-      "enableMacroLayout": {
-        "label": "启用宏调整大小",
-        "hint": "该模块减小了快捷栏上宏槽的大小，并放大了数字。禁用此设置以使用默认的 Foundry 布局。"
-      },
-      "autoHideLeftControls": {
-        "label": "自动隐藏左侧次要控件",
-        "hint": "启用后，左侧的次要控制栏将保持隐藏，除非您将鼠标悬停在该区域或单击某个项目。"
-      },
-      "collapseMacroBar": {
-        "label": "自动隐藏宏快捷栏",
-        "hint": "启用后，宏快捷栏将默认折叠，并在悬停时显示。"
-      },
-      "useFolderStyle": {
-        "label": "侧边栏文件夹使用简洁颜色",
-        "hint": "启用后，侧边栏文件夹将使用更简洁的颜色，只在边框上显示选中的颜色。"
-      },
-      "debugMode": {
-        "label": "调试模式",
-        "hint": "启用或禁用浏览器控制台上的调试消息。"
-      },
-      "disableUI": {
-        "label": "在此客户端禁用界面",
-        "hint": "如果玩家不想使用卡罗琳界面，可以禁用它。除了聊天卡片中的深色样式（可以单独禁用）外，模组的其他功能将不会生效。"
-      },
-      "combatPrev": {
-        "label": "战斗：上一回合",
-        "hint": "返回战斗中的上一个回合。仅当你拥有当前战斗者时有效。"
-      },
-      "combatNext": {
-        "label": "战斗：下一回合",
-        "hint": "推进到战斗中的下一个回合。仅当你拥有当前战斗者时有效。"
       },
       "combatTrackerMenu": {
         "label": "战斗追踪器",
@@ -749,6 +565,10 @@
             "label": "隐藏已被击败的战斗者",
             "hint": "启用后，已被击败的战斗者将从轮播条中移除，剩余位置将被重新计算。"
           },
+          "carouselGroupCombatants": {
+            "label": "合并显示战斗者（D&D 5e）",
+            "hint": "启用后，D&D 5e 战斗追踪器归为一组的战斗者（相同角色、阵营和先攻）会折叠为一张卡片，并以徽章显示组内人数。点击徽章可向右展开该组，再次点击可折叠。轮到该组行动时始终显示当前行动的战斗者。"
+          },
           "carouselRequirePlayerOwner": {
             "label": "需要玩家角色",
             "hint": "启用后，仅当玩家角色加入战斗时，轮播条才会自动打开。禁用后，对任何战斗者都会打开。"
@@ -777,6 +597,169 @@
         },
         "reset": "重置",
         "save": "保存"
+      },
+      "sceneNavMenu": {
+        "label": "场景导航",
+        "title": "配置导航",
+        "hint": "更改顶部栏中场景导航菜单的选项",
+        "fields": {
+          "hideLoadingSceneName": {
+            "label": "隐藏加载栏中的场景名称",
+            "hint": "加载栏会显示场景名称，这可能会向玩家剧透内容。勾选此选项将只显示一个细长的加载条。"
+          },
+          "disableActiveSceneSeparation": {
+            "label": "禁用活跃/非活跃场景分离",
+            "hint": "启用后，活跃场景将与非活跃场景显示在同一列表中，而不是分开显示在顶部。"
+          },
+          "sceneNavEnabled": {
+            "label": "启用水平场景导航",
+            "hint": "[需要重新加载] 如果您与非兼容模块存在布局问题，可以尝试禁用我对场景导航的自定义样式。"
+          },
+          "showNavOnHover": {
+            "label": "悬停时显示导航",
+            "hint": "如果场景导航已折叠，您可以通过将鼠标悬停在屏幕顶部来显示它。"
+          },
+          "useSceneFolders": {
+            "label": "在导航栏启用场景文件夹",
+            "hint": "如果启用了自定义场景导航，此选项将在场景导航栏中添加带有场景搜索功能的文件夹列表。"
+          },
+          "useSceneLookup": {
+            "label": "在导航栏启用场景搜索",
+            "hint": "如果启用了自定义场景导航，此选项将在场景导航栏中添加一个按钮，用于搜索场景。"
+          },
+          "navFoldersForPlayers": {
+            "label": "为玩家启用场景文件夹",
+            "hint": "启用此选项允许玩家查看文件夹列表。如果他们没有文件夹的查看权限，该文件夹将不会出现在列表中。"
+          },
+          "navStartCollapsed": {
+            "label": "启动时折叠",
+            "hint": "启用此选项可在加载 Foundry 时折叠场景导航，无论之前保存的状态如何。"
+          },
+          "collapseNavDuringCombat": {
+            "label": "战斗时收起",
+            "hint": "战斗开始时自动收起场景导航。战斗结束后导航将恢复到先前状态。"
+          },
+          "sceneClickToView": {
+            "label": "启用单击和双击",
+            "hint": "启用后，单击场景将打开该场景。双击则激活它。"
+          },
+          "useSceneIcons": {
+            "label": "使用场景图标",
+            "hint": "在场景名称旁显示图标：<i class='fas fa-lock'></i> 激活前对玩家不可见；<i class='fas fa-crown'></i> GM当前正在查看；<i class='fas fa-bullseye'></i> 当前对玩家激活；"
+          },
+          "useSceneBackButton": {
+            "label": "启用返回按钮",
+            "hint": "<b>'返回到上一个场景'</b>: 点击返回到之前查看的场景，<b>'返回到默认场景'</b>: 只在文件夹视图中出现，点击打开默认场景导航，<b>禁用</b>: 无返回按钮"
+          },
+          "useScenePreview": {
+            "label": "使用场景预览",
+            "hint": "启用后，悬停在场景导航上时将显示场景的缩略图预览"
+          },
+          "navShowRootFolders": {
+            "label": "在场景导航中显示根文件夹",
+            "hint": "从场景目录的根文件夹将显示在默认场景导航中。如果你有很多根文件夹，你可能希望禁用此选项。"
+          },
+          "hideInactiveOnFolderToggle": {
+            "label": "在文件夹切换时隐藏非激活场景",
+            "hint": "启用后，当文件夹视图打开时，未激活的场景列表将被隐藏。列表会在你隐藏文件夹时重新显示。这旨在避免导航中的场景重复。"
+          },
+          "subFoldersLayout": {
+            "label": "子文件夹场景对齐",
+            "hint": "选择展开文件夹时子文件夹中的场景如何定位。",
+            "options": {
+              "parent": "与父文件夹对齐",
+              "rowStart": "对齐到行首",
+              "vertical": "垂直下拉菜单"
+            }
+          },
+          "expandScrimToSubfolders": {
+            "label": "在子文件夹后面扩展背景",
+            "hint": "启用后，导航背景会扩展以覆盖文件夹打开时的子文件夹行。"
+          },
+          "autoCloseSubmenuOnSceneChange": {
+            "label": "切换场景时自动关闭子菜单",
+            "hint": "启用后，选择或激活场景后，任何已打开的文件夹子菜单都会关闭。禁用时，文件夹会保持打开状态，直到手动关闭。"
+          },
+          "sceneItemWidth": {
+            "label": "导航项目宽度",
+            "hint": "留空以使用默认宽度，或定义一个新数值。最小为100px"
+          }
+        },
+        "reset": "重置",
+        "save": "保存"
+      },
+      "systemsMenu": {
+        "label": "系统",
+        "title": "配置特定系统选项",
+        "hint": "",
+        "currentSystem": "当前系统",
+        "noSettingsForSystem": "当前系统没有特定设置",
+        "modulesLabel": "其他模块",
+        "fields": {
+          "applyThemeToSheets": {
+            "label": "将颜色和样式应用于DnD5e/Daggerheart角色表",
+            "hint": "启用以应用全局颜色主题和样式到DnD5e/Daggerheart 角色表"
+          },
+          "useHorizontalSheetTabs": {
+            "label": "使用带有标签的水平标签",
+            "hint": "仅在启用角色表自定义样式时有效。这会在5e角色表上应用带标签的水平标签页，而不是侧边图标标签页"
+          },
+          "enableIconsOnSheets": {
+            "label": "启用角色表上的聊天和提示图标",
+            "hint": "在物品图片上显示'在聊天中显示'覆盖层，并在角色表上显示卷轴图标用于物品提示"
+          },
+          "applyBladeRunnerTweaks": {
+            "label": "对 Blade Runner 系统应用 UI 调整",
+            "hint": "启用后，对 Blade Runner 角色卡和窗口应用 UI 调整和样式微调"
+          }
+        },
+        "reset": "重置",
+        "save": "保存"
+      },
+      "enforceGMSettings": {
+        "label": "强制应用GM设置到玩家",
+        "hint": "启用后，所有玩家连接时将使用GM的UI设置。这确保了所有玩家的UI体验一致。"
+      },
+      "defaultSettings": {
+        "label": "默认GM设置",
+        "hint": "存储GM的首选设置以强制应用到玩家"
+      },
+      "controlIconSize": {
+        "label": "控制图标大小",
+        "hint": "如果您使用非常大的屏幕，您可能希望更改左侧控制栏上图标的大小。这可能会影响其他一些 UI 元素。",
+        "options": {
+          "small": "小",
+          "regular": "正常",
+          "large": "大"
+        }
+      },
+      "sceneNavCollapsed": {
+        "label": "场景导航已折叠",
+        "hint": "场景导航切换的当前状态。是否已折叠？"
+      },
+      "sceneNavPos": {
+        "label": "场景导航位置",
+        "hint": "存储导航的当前位置，以便在重新渲染时重置"
+      },
+      "enableMacroLayout": {
+        "label": "启用宏调整大小",
+        "hint": "该模块减小了快捷栏上宏槽的大小，并放大了数字。禁用此设置以使用默认的 Foundry 布局。"
+      },
+      "autoHideLeftControls": {
+        "label": "自动隐藏左侧次要控件",
+        "hint": "启用后，左侧的次要控制栏将保持隐藏，除非您将鼠标悬停在该区域或单击某个项目。"
+      },
+      "collapseMacroBar": {
+        "label": "自动隐藏宏快捷栏",
+        "hint": "启用后，宏快捷栏将默认折叠，并在悬停时显示。"
+      },
+      "debugMode": {
+        "label": "调试模式",
+        "hint": "启用或禁用浏览器控制台上的调试消息。"
+      },
+      "disableUI": {
+        "label": "在此客户端禁用界面",
+        "hint": "如果玩家不想使用卡罗琳界面，可以禁用它。除了聊天卡片中的深色样式（可以单独禁用）外，模组的其他功能将不会生效。"
       },
       "dockDHResources": {
         "label": "停靠 Daggerheart 恐惧追踪器",
@@ -826,11 +809,13 @@
       "noCombatants": "战斗中没有参战者",
       "closedNotice": "如需恢复轮播，请右键点击侧边栏的战斗标签",
       "noTrackedResource": "显示所有参战者的生命值条已启用，但战斗追踪器设置中未配置追踪资源。",
-      "startCombatShort": "开始",
-      "endCombatShort": "结束",
       "configureResourceTitle": "配置资源条",
       "configureResourceMessage": "战斗轮播条已设为为所有战斗者显示资源/生命值条，但尚未配置追踪资源。请在下方选择要追踪的资源：",
-      "trackedResource": "追踪资源"
+      "trackedResource": "追踪资源",
+      "startCombatShort": "开始",
+      "endCombatShort": "结束",
+      "groupExpand": "全部显示",
+      "groupCollapse": "全部隐藏"
     },
     "dnd5e": {
       "chatCard": {

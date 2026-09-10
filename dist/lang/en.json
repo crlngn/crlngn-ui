@@ -56,6 +56,7 @@
         "hint": "Tracks the last displayed update notification"
       },
       "toggleChatBox": "Toggle Chat Box",
+      "moreSidebarTabs": "More tabs",
       "carouselWelcome": {
         "title": "New feature: Combat Encounter Carousel",
         "message": "Carolingian UI has a new draggable and dockable Combat Encounter Carousel. Would you like to enable this feature?",
@@ -237,6 +238,10 @@
             "label": "Hide Defeated Combatants",
             "hint": "When enabled, defeated combatants are removed from the carousel so remaining positions are recalculated."
           },
+          "carouselGroupCombatants": {
+            "label": "Group Combatants (D&D 5e)",
+            "hint": "When enabled, combatants that the D&D 5e tracker groups together (same actor, disposition and initiative) collapse into a single card with a badge showing the group size. Click the badge to expand the group to the right, or collapse it again. The group with the current turn always shows the active combatant."
+          },
           "carouselRequirePlayerOwner": {
             "label": "Require Player Character",
             "hint": "When enabled, the carousel only opens automatically when a player character is added to combat. When disabled, it opens for any combatant."
@@ -395,6 +400,10 @@
           "useHorizontalSidebarTabs": {
             "label": "Use Horizontal Sidebar Tabs",
             "hint": "When enabled, changes the sidebar tabs to horizontal orientation, at the top of the sidebar, instead of vertically on the side. (v12 style)"
+          },
+          "horizontalTabsSingleRow": {
+            "label": "Keep Horizontal Tabs in a Single Row",
+            "hint": "When horizontal sidebar tabs are enabled, keeps the tab icons in one row. Tabs that don't fit are moved behind a '...' button on either side of the row. Disable to let the tabs wrap into multiple rows instead."
           },
           "showChatNotificationsOnTop": {
             "label": "Show Chat Notifications From the Top",
@@ -555,6 +564,10 @@
           "carouselHideDefeated": {
             "label": "Hide Defeated Combatants",
             "hint": "When enabled, defeated combatants are removed from the carousel so remaining positions are recalculated."
+          },
+          "carouselGroupCombatants": {
+            "label": "Group Combatants (D&D 5e)",
+            "hint": "When enabled, combatants that the D&D 5e tracker groups together (same actor, disposition and initiative) collapse into a single card with a badge showing the group size. Click the badge to expand the group to the right, or collapse it again. The group with the current turn always shows the active combatant."
           },
           "carouselRequirePlayerOwner": {
             "label": "Require Player Character",
@@ -800,7 +813,9 @@
       "configureResourceMessage": "The carousel is set to show resource/HP bars for all combatants, but no tracked resource is configured. Select a resource to track below:",
       "trackedResource": "Tracked Resource",
       "startCombatShort": "Start",
-      "endCombatShort": "End"
+      "endCombatShort": "End",
+      "groupExpand": "Show all",
+      "groupCollapse": "Hide all"
     },
     "dnd5e": {
       "chatCard": {

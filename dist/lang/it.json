@@ -1,6 +1,6 @@
 {
-  "CRLNGN_UI": { 
-    "ui": { 
+  "CRLNGN_UI": {
+    "ui": {
       "generalSettingsLabel": "Impostazioni generali",
       "clientSettingsLabel": "Impostazioni del Giocatore (Client)",
       "worldSettingsLabel": "Impostazioni del Mondo (GM)",
@@ -47,15 +47,16 @@
         "preloadScene": "Carica scena per i giocatori",
         "sceneConfig": "Configurazione scena"
       },
+      "journalToggle": {
+        "enable": "Abilita Stili Diario Carolingian",
+        "disable": "Disabilita Stili Diario Carolingian"
+      },
       "updates": {
         "label": "Ultimo ID Aggiornamento",
         "hint": "Traccia l'ultima notifica di aggiornamento visualizzata"
       },
       "toggleChatBox": "Pulsante Chat",
-      "journalToggle": {
-        "enable": "Abilita Stili Diario Carolingian",
-        "disable": "Disabilita Stili Diario Carolingian"
-      },
+      "moreSidebarTabs": "Altre schede",
       "carouselWelcome": {
         "title": "Nuova funzionalità: Carosello di Combattimento",
         "message": "Carolingian UI ha un nuovo Carosello di Combattimento trascinabile e agganciabile. Vuoi abilitare questa funzionalità?",
@@ -115,6 +116,7 @@
           "scenes": "Navigazione Scena",
           "players": "Lista Giocatori",
           "camera": "Dock Camera",
+          "combat": "Combat Tracker",
           "system": "Sistema & Moduli"
         },
         "reset": "Ripristina",
@@ -127,6 +129,14 @@
       "toggleSidebar": {
         "label": "Espandi/Comprimi Barra Laterale",
         "hint": "Espande o comprime la barra laterale destra"
+      },
+      "combatPrev": {
+        "label": "Combattimento: Turno Precedente",
+        "hint": "Vai al turno precedente in combattimento. Funziona solo se possiedi il combattente attuale."
+      },
+      "combatNext": {
+        "label": "Combattimento: Turno Successivo",
+        "hint": "Passa al turno successivo in combattimento. Funziona solo se controlli il combattente attuale."
       },
       "sidebarTabs": {
         "ChatLog": "Messaggi del Chat",
@@ -182,6 +192,15 @@
             "label": "Offset Carosello Ancorato",
             "hint": "Offset in pixel quando il carosello è ancorato. Applicato come margine superiore quando ancorato in alto, o margine inferiore quando ancorato in basso."
           },
+          "carouselDockOnLoad": {
+            "label": "Posizionamento Carosello all'avvio",
+            "hint": "Controlla dove viene posizionato il carosello quando Foundry si avvia.",
+            "options": {
+              "preserve": "Mantieni ultima impostazione",
+              "top": "Posiziona sempre in alto",
+              "bottom": "Posiziona sempre in basso"
+            }
+          },
           "combatTrackerTakeFullWidth": {
             "label": "Espandi Carosello quando Barra Laterale Compressa",
             "hint": "Quando abilitato, il carosello occupa tutta la larghezza disponibile quando la barra laterale è compressa, e si adatta quando la barra laterale è espansa."
@@ -194,13 +213,38 @@
               "actor": "Ritratto Attore"
             }
           },
+          "combatTrackerLayout": {
+            "label": "Layout dell'iniziativa",
+            "hint": "Scegli il comportamento dell'iniziativa. La modalità carosello centra il combattente attivo e scorre in ciclo. La modalità lista semplice è allineata a sinistra e scorre per mostrare il combattente attivo quando necessario.",
+            "options": {
+              "carousel": "Carosello (centrato, scorre in ciclo)",
+              "simple": "Lista semplice (senza carosello)"
+            }
+          },
           "carouselShowAllHP": {
             "label": "Mostra Barra HP per Tutti i Combattenti",
-            "hint": "Quando abilitato, il carosello mostra le barre HP per tutti i combattenti, anche quelli per cui il giocatore non ha il permesso Osservatore. Questa è un'impostazione mondiale (solo GM)."
+            "hint": "Quando abilitato, il carosello mostra le barre HP per tutti i combattenti, anche quelli per cui il giocatore non ha il permesso Osservatore. Questa è un'impostazione mondiale (solo GM).",
+            "options": {
+              "gmOnly": "Solo GM (i giocatori vedono i propri)",
+              "all": "Tutti vedono tutto",
+              "disabled": "Disattivato"
+            }
+          },
+          "carouselTrackedResource": {
+            "label": "Risorsa tracciata",
+            "hint": "L'attributo della risorsa da mostrare sulle schede dei combattenti (es. PV). Questa è un'impostazione globale del mondo (GM)."
           },
           "carouselHideDefeated": {
             "label": "Nascondi Combattenti Sconfitti",
             "hint": "Quando abilitato, i combattenti sconfitti vengono rimossi dal carosello e le posizioni rimanenti vengono ricalcolate."
+          },
+          "carouselGroupCombatants": {
+            "label": "Raggruppa Combattenti (D&D 5e)",
+            "hint": "Quando abilitato, i combattenti che il tracker di D&D 5e raggruppa (stesso attore, disposizione e iniziativa) vengono compressi in una singola carta con un badge che indica la dimensione del gruppo. Clicca sul badge per espandere il gruppo verso destra o per comprimerlo di nuovo. Il gruppo con il turno corrente mostra sempre il combattente attivo."
+          },
+          "carouselRequirePlayerOwner": {
+            "label": "Richiedi personaggio giocatore",
+            "hint": "Se attivato, il carosello si apre automaticamente solo quando un personaggio giocatore entra in combattimento. Se disattivato, si apre per qualsiasi combattente."
           },
           "combatFieldset": "Tracker di Combattimento"
         },
@@ -275,6 +319,10 @@
             "label": "Trasparenza del vetro",
             "hint": "Controlla la trasparenza delle finestre. 0 = completamente opaco con sfocatura minima, 1 = altamente trasparente con sfocatura massima. Opacità e sfocatura si regolano inversamente per migliorare la leggibilità."
           },
+          "enableJournalStyles": {
+            "label": "Applica stili ai fogli Diario",
+            "hint": "Abilita questa opzione per applicare lo stile dell'UI Carolingian alle pagine delle voci del giornale. Disabilita questa opzione se i moduli di terze parti presentano conflitti di stile."
+          },
           "customizeColors": "Personalizza Colori",
           "customizeHint": "Fai clic per aprire il selettore colori e creare colori del tema personalizzati",
           "adjustOtherModules": {
@@ -296,7 +344,7 @@
           "customStyles": {
             "label": "CSS Personalizzato",
             "hint": "Questi stili saranno caricati al prossimo avvio di Foundry. Puoi includere Google Fonts incollando il link @import, e il font sarà elencato nelle impostazioni dei Font Personalizzati. Digita o id o classe degli elementi, separati da virgola. Esempio: #element-id, .element-class"
-          }, 
+          },
           "enforceDarkMode": {
             "label": "Forza Modalità Scura",
             "hint": "<b>Non abilitare questo se si utilizza Force Client Settings o moduli simili.</b> Imposta il tema dell'interfaccia Foundry sul client del giocatore su Scuro se il giocatore l'ha impostato su 'Predefinito Browser'. Se l'hanno specificamente impostato su 'Chiaro', la loro scelta sarà comunque rispettata."
@@ -304,7 +352,7 @@
         },
         "reset": "Ripristina",
         "save": "Salva"
-      },        
+      },
       "sidebarMenu": {
         "label": "Opzioni Messaggi Chat",
         "title": "Configura Chat",
@@ -353,9 +401,17 @@
             "label": "Usa Schede Barra Laterale Orizzontali",
             "hint": "Quando abilitato, cambia le schede della barra laterale in orientamento orizzontale, nella parte superiore della barra laterale, invece di verticalmente sul lato. (stile v12)"
           },
+          "horizontalTabsSingleRow": {
+            "label": "Mantieni le Schede Orizzontali su una Sola Riga",
+            "hint": "Quando le schede orizzontali della barra laterale sono abilitate, mantiene le icone delle schede su una sola riga. Le schede che non entrano vengono spostate dietro un pulsante '...' su uno dei lati della riga. Disabilita per lasciare che le schede vadano a capo su più righe."
+          },
           "showChatNotificationsOnTop": {
             "label": "Mostra Notifiche Chat dall'Alto",
             "hint": "Quando abilitato, le notifiche dei messaggi chat appaiono dall'alto dell'area di input della chat invece che dal basso."
+          },
+          "useFolderStyle": {
+            "label": "Colori discreti per cartelle nella barra laterale",
+            "hint": "Attiva colori più discreti per le cartelle della directory nella barra laterale, mostrando il colore selezionato solo sui bordi, per un aspetto più pulito."
           },
           "hiddenSidebarTabs": {
             "label": "Visibilità e Ordine delle Schede",
@@ -414,19 +470,19 @@
           "enableFloatingDock": {
             "label": "Abilita Gruppo Camera fluttuante",
             "hint": "<b>[Richiede ricaricamento]</b> Permette al gruppo del lettore video di essere trascinato e posizionato ovunque sullo schermo"
-          }, 
+          },
           "dockPosX": {
             "label": "Posizione orizzontale Gruppo Camera",
             "hint": "Posizione del Gruppo Camera quando impostato per fluttuare. Dal basso a sinistra dello schermo, in pixel"
-          }, 
+          },
           "dockPosY": {
             "label": "Posizione verticale Gruppo Camera",
             "hint": "Posizione del Gruppo Camera quando impostato per fluttuare. Dal basso a sinistra dello schermo, in pixel"
-          }, 
+          },
           "dockWidth": {
             "label": "Larghezza del Gruppo Camera",
             "hint": "Dimensioni del Gruppo Camera non minimizzato quando impostato per fluttuare, in pixel"
-          }, 
+          },
           "dockHeight": {
             "label": "Altezza del Gruppo Camera",
             "hint": "Dimensioni del Gruppo Camera non minimizzato quando impostato per fluttuare, in pixel"
@@ -455,6 +511,93 @@
         "reset": "Ripristina",
         "save": "Salva"
       },
+      "combatTrackerMenu": {
+        "label": "Combat Tracker",
+        "title": "Configura Combat Tracker",
+        "hint": "Configura l'aspetto e il comportamento del carosello del combat tracker.",
+        "fields": {
+          "enableCombatTrackerCarousel": {
+            "label": "Usa il carosello di combattimento trascinabile",
+            "hint": "Quando attivato, il tracker di combattimento si apre automaticamente quando sono presenti combattenti e si chiude quando il combattimento termina. Abilita anche uno stile personalizzato per il tracker in modalità pop-out."
+          },
+          "autoPopoutOnCombatStart": {
+            "label": "Tracker Combattimento a comparsa automatica",
+            "hint": "Quando abilitato, il tracker di combattimento compare automaticamente quando viene avviato un combattimento o vengono aggiunti combattenti. Spegni se preferisci aprirlo manualmente."
+          },
+          "combatCarouselScale": {
+            "label": "Scala del carosello agganciato",
+            "hint": "Scala del carosello di combattimento quando è agganciato alla parte superiore dello schermo. Intervallo: 0.7 (70%) a 1.5 (150%)."
+          },
+          "dockedCarouselOffset": {
+            "label": "Offset del carosello agganciato",
+            "hint": "Offset in pixel quando il carosello è agganciato. Viene applicato come margin-top se agganciato in alto, o margin-bottom se agganciato in basso."
+          },
+          "carouselDockOnLoad": {
+            "label": "Aggancio del carosello all'avvio",
+            "hint": "Controlla dove viene agganciato il carosello quando Foundry si avvia.",
+            "options": {
+              "preserve": "Mantieni l'ultima impostazione",
+              "top": "Aggancia sempre in alto",
+              "bottom": "Aggancia sempre in basso"
+            }
+          },
+          "combatTrackerTakeFullWidth": {
+            "label": "Il carosello si adatta alla sidebar",
+            "hint": "Quando attivato, il carosello occupa tutta la larghezza disponibile se necessario quando la sidebar è chiusa, e si riadatta quando la sidebar viene riaperta."
+          },
+          "carouselImageSource": {
+            "label": "Sorgente immagini del carosello",
+            "hint": "Scegli se mostrare le immagini dei token oppure i ritratti di attori/personaggi nel carosello di combattimento.",
+            "options": {
+              "token": "Immagine Token",
+              "actor": "Ritratto Personaggio"
+            }
+          },
+          "combatTrackerLayout": {
+            "label": "Layout del tracker di combattimento",
+            "hint": "Scegli il comportamento del tracker di combattimento. La modalità carosello centra il combattente attivo e scorre in ciclo. La modalità lista semplice è allineata a sinistra e scorre per mostrare il combattente attivo quando necessario.",
+            "options": {
+              "carousel": "Carosello (centrato, scorre in ciclo)",
+              "simple": "Lista semplice (senza carosello)"
+            }
+          },
+          "carouselHideDefeated": {
+            "label": "Nascondi combattenti sconfitti",
+            "hint": "Se attivato, i combattenti sconfitti vengono rimossi dal carosello e le posizioni rimanenti vengono ricalcolate."
+          },
+          "carouselGroupCombatants": {
+            "label": "Raggruppa Combattenti (D&D 5e)",
+            "hint": "Quando abilitato, i combattenti che il tracker di D&D 5e raggruppa (stesso attore, disposizione e iniziativa) vengono compressi in una singola carta con un badge che indica la dimensione del gruppo. Clicca sul badge per espandere il gruppo verso destra o per comprimerlo di nuovo. Il gruppo con il turno corrente mostra sempre il combattente attivo."
+          },
+          "carouselRequirePlayerOwner": {
+            "label": "Richiedi personaggio giocatore",
+            "hint": "Se attivato, il carosello si apre automaticamente solo quando un personaggio giocatore entra in combattimento. Se disattivato, si apre per qualsiasi combattente."
+          },
+          "carouselShowAllHP": {
+            "label": "Visibilità barra risorse",
+            "hint": "Controlla chi può vedere le barre delle risorse/PV dei combattenti. Richiede una risorsa tracciata configurata. Questa è un'impostazione globale del mondo (GM).",
+            "options": {
+              "gmOnly": "Solo GM (i giocatori vedono i propri)",
+              "all": "Tutti vedono tutto",
+              "disabled": "Disattivato"
+            }
+          },
+          "carouselTrackedResource": {
+            "label": "Risorsa tracciata",
+            "hint": "L'attributo della risorsa da mostrare sulle schede dei combattenti (es. PV). Questa è un'impostazione globale del mondo (GM)."
+          },
+          "showCombatRoundButtons": {
+            "label": "Mostra pulsanti di navigazione dei round",
+            "hint": "Se attivato, i pulsanti Round precedente e Round successivo sono visibili nei controlli del combattimento. Questa è un'impostazione globale del mondo (GM)."
+          },
+          "autoRollNPCsOnCombatStart": {
+            "label": "Tiro automatico per PNG quando si avvia il combattimento",
+            "hint": "Quando abilitata, l'iniziativa PNG viene lanciata automaticamente non appena inizia il combattimento, saltando la finestra di dialogo. Questa è un'impostazione del Mondo (GM)."
+          }
+        },
+        "reset": "Ripristina",
+        "save": "Salva"
+      },
       "sceneNavMenu": {
         "label": "Navigazione Scena",
         "title": "Configura Navigazione",
@@ -471,7 +614,7 @@
           "sceneNavEnabled": {
             "label": "Abilita Navigazione Scena Orizzontale",
             "hint": "[Richiede ricaricamento] Se stai avendo problemi di layout con un modulo non compatibile, puoi provare a disabilitare i miei stili personalizzati per la Navigazione Scena."
-          }, 
+          },
           "showNavOnHover": {
             "label": "Mostra navigazione scena al passaggio del mouse",
             "hint": "Se la navigazione scena è compressa, puoi mostrarla passando il mouse sulla parte superiore dello schermo."
@@ -491,6 +634,10 @@
           "navStartCollapsed": {
             "label": "Avvia compresso",
             "hint": "Abilita questa opzione per comprimere la navigazione scena durante il caricamento di Foundry, indipendentemente dallo stato precedentemente salvato."
+          },
+          "collapseNavDuringCombat": {
+            "label": "Riduci durante combattimento",
+            "hint": "Comprimi automaticamente la navigazione delle scene quando inizia il combattimento. La navigazione verrà ripristinata al suo stato precedente quando il combattimento termina."
           },
           "sceneClickToView": {
             "label": "Abilita Click e Doppio Click",
@@ -521,7 +668,8 @@
             "hint": "Scegli come posizionare le scene all'interno delle sottocartelle quando la cartella è espansa.",
             "options": {
               "parent": "Allineato con la cartella padre",
-              "rowStart": "Allineato all'inizio della riga"
+              "rowStart": "Allineato all'inizio della riga",
+              "vertical": "Menu a tendina verticale"
             }
           },
           "expandScrimToSubfolders": {
@@ -559,6 +707,10 @@
           "enableIconsOnSheets": {
             "label": "Abilita icone chat e tooltip sulle schede",
             "hint": "Mostra sovrapposizione 'Visualizza in Chat' sulle immagini degli oggetti e icone pergamena per i tooltip sulle schede dei personaggi"
+          },
+          "applyBladeRunnerTweaks": {
+            "label": "Applica modifiche all'UI del sistema Blade Runner",
+            "hint": "Abilita per applicare regolazioni dell'UI e modifiche di stile alle pagine e alle finestre di Blade Runner"
           }
         },
         "reset": "Ripristina",
@@ -601,68 +753,69 @@
         "label": "Nascondi la barra delle macro",
         "hint": "Abilita per avere la barra delle macro inizialmente compressa per impostazione predefinita e mostrarla al passaggio del mouse."
       },
-      "useFolderStyle": {
-        "label": "Usa colori assegnati",
-        "hint": "Abilita per avere colori assegnati sulle cartelle del pannello laterale, mostrando solo il colore selezionato sui bordi."
-      },
       "debugMode": {
         "label": "Modalità Debug",
         "hint": "Abilita o disabilita i messaggi di debug sulla console del browser."
       },
-      "disableUI":{
+      "disableUI": {
         "label": "Disabilita UI in questo client",
         "hint": "Se un giocatore non vuole utilizzare l'interfaccia Carolingian, può disabilitarla. Nessun'altra funzionalità del modulo funzionerà eccetto lo stile scuro nei messaggi chat che può essere disabilitato separatamente."
       },
       "dockDHResources": {
-          "label": "Dock Tracker Risorse Daggerheart",
-          "hint": "Abilita la funzionalità di docking per il tracker (paura) di Daggerheart. Trascina la finestra vicino alla barra macro per agganciarla in fondo allo schermo."
+        "label": "Dock Tracker Risorse Daggerheart",
+        "hint": "Abilita la funzionalità di docking per il tracker (paura) di Daggerheart. Trascina la finestra vicino alla barra macro per agganciarla in fondo allo schermo."
       },
       "colorPicker": {
-          "hint": "Ricorda di prenderti cura delle tue retine: per il colore di accento, usa colori con almeno un rating di contrasto 'medio' per una migliore leggibilità.",
-          "title": "Colori Tema Personalizzati",
-          "presets": "Temi Preimpostati",
-          "accentColor": "Colore di Accento",
-          "secondaryColor": "Colore Secondario",
-          "hue": "Tonalità",
-          "saturation": "Saturazione",
-          "lightness": "Luminosità",
-          "accentOnBackground": "Accento su Sfondo",
-          "textOnAccent": "Testo su Accento",
-          "secondaryPreview": "Anteprima Colore Secondario",
-          "contrastGood": "Contrasto: Buono",
-          "contrastMedium": "Contrasto: Medio",
-          "contrastPoor": "Contrasto: Scarso",
-          "apply": "Salva",
-          "applySecondaryColorToBg": {
-            "label": "Applica colore secondario agli sfondi dell'interfaccia Foundry",
-            "hint": "Quando abilitato, il colore secondario sarà applicato agli sfondi dell'interfaccia come barra laterale e controlli. Questo crea un tema colore più unificato."
-          },
-          "actorOverrides": {
-            "title": "Accento Per Classe / Per Razza (DnD5e)",
-            "hint": "Sovrascrivi il colore di accento sulle singole schede personaggio in base alla classe di livello più alto O alla razza. Lascia il colore di una riga vuoto per ricadere sull'accento del tema.",
-            "modeClass": "Per Classe",
-            "modeRace": "Per Razza",
-            "addRowClass": "Aggiungi colore classe",
-            "addRowRace": "Aggiungi colore razza",
-            "removeRow": "Rimuovi",
-            "pickColor": "Scegli un colore",
-            "clearColor": "Usa colore del tema",
-            "namePlaceholderClass": "Nome classe",
-            "namePlaceholderRace": "Nome razza",
-            "perActorMenuLabel": "Cambia Tema Colore",
-            "perActorDialogTitle": "Tema Colore — {name}",
-            "perActorHint": "Imposta un colore di accento solo per questo personaggio. Sovrascrive le regole di classe/razza e il tema globale. Usa il pulsante qui sotto per rimuovere la sovrascrittura e tornare a quelle.",
-            "perActorColorLabel": "Colore di Accento",
-            "perActorResetTooltip": "Ripristina predefinito"
-          }
-       }
+        "hint": "Ricorda di prenderti cura delle tue retine: per il colore di accento, usa colori con almeno un rating di contrasto 'medio' per una migliore leggibilità.",
+        "title": "Colori Tema Personalizzati",
+        "presets": "Temi Preimpostati",
+        "accentColor": "Colore di Accento",
+        "secondaryColor": "Colore Secondario",
+        "hue": "Tonalità",
+        "saturation": "Saturazione",
+        "lightness": "Luminosità",
+        "accentOnBackground": "Accento su Sfondo",
+        "textOnAccent": "Testo su Accento",
+        "secondaryPreview": "Anteprima Colore Secondario",
+        "contrastGood": "Contrasto: Buono",
+        "contrastMedium": "Contrasto: Medio",
+        "contrastPoor": "Contrasto: Scarso",
+        "apply": "Salva",
+        "applySecondaryColorToBg": {
+          "label": "Applica colore secondario agli sfondi dell'interfaccia Foundry",
+          "hint": "Quando abilitato, il colore secondario sarà applicato agli sfondi dell'interfaccia come barra laterale e controlli. Questo crea un tema colore più unificato."
+        },
+        "actorOverrides": {
+          "title": "Accento Per Classe / Per Razza (DnD5e)",
+          "hint": "Sovrascrivi il colore di accento sulle singole schede personaggio in base alla classe di livello più alto O alla razza. Lascia il colore di una riga vuoto per ricadere sull'accento del tema.",
+          "modeClass": "Per Classe",
+          "modeRace": "Per Razza",
+          "addRowClass": "Aggiungi colore classe",
+          "addRowRace": "Aggiungi colore razza",
+          "removeRow": "Rimuovi",
+          "pickColor": "Scegli un colore",
+          "clearColor": "Usa colore del tema",
+          "namePlaceholderClass": "Nome classe",
+          "namePlaceholderRace": "Nome razza",
+          "perActorMenuLabel": "Cambia Tema Colore",
+          "perActorDialogTitle": "Tema Colore — {name}",
+          "perActorHint": "Imposta un colore di accento solo per questo personaggio. Sovrascrive le regole di classe/razza e il tema globale. Usa il pulsante qui sotto per rimuovere la sovrascrittura e tornare a quelle.",
+          "perActorColorLabel": "Colore di Accento",
+          "perActorResetTooltip": "Ripristina predefinito"
+        }
+      }
     },
     "combat": {
       "noCombatants": "Nessun combattente nell'incontro",
       "closedNotice": "Quando vuoi ripristinare il carosello, fai clic destro sulla scheda combattimento nella barra laterale",
       "noTrackedResource": "Mostra Barra HP per Tutti è abilitato, ma nessuna Risorsa Tracciata è configurata nelle impostazioni del Tracker di Combattimento.",
+      "configureResourceTitle": "Configura Barra Risorse",
+      "configureResourceMessage": "Il carosello è impostato per mostrare le barre delle risorse/PF per tutti i combattenti, ma non è configurata alcuna risorsa da tracciare. Seleziona una risorsa da tracciare qui sotto:",
+      "trackedResource": "Risorsa Tracciata",
       "startCombatShort": "Inizio",
-      "endCombatShort": "Fine"
+      "endCombatShort": "Fine",
+      "groupExpand": "Mostra tutti",
+      "groupCollapse": "Nascondi tutti"
     },
     "dnd5e": {
       "chatCard": {
