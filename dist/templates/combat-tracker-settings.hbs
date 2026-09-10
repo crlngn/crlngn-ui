@@ -77,6 +77,12 @@
   </div>
 
   <div class="form-group">
+    <label for="carouselGroupCombatants">{{fields.carouselGroupCombatants.label}}</label>
+    <input type="checkbox" name="carouselGroupCombatants" {{#if carouselGroupCombatants}}checked{{/if}} {{#if fields.carouselGroupCombatants.isLocked}}disabled{{/if}} />
+    <p class="hint">{{fields.carouselGroupCombatants.hint}}</p>
+  </div>
+
+  <div class="form-group">
     <label for="carouselRequirePlayerOwner">{{fields.carouselRequirePlayerOwner.label}}</label>
     <input type="checkbox" name="carouselRequirePlayerOwner" {{#if carouselRequirePlayerOwner}}checked{{/if}} {{#if fields.carouselRequirePlayerOwner.isLocked}}disabled{{/if}} />
     <p class="hint">{{fields.carouselRequirePlayerOwner.hint}}</p>

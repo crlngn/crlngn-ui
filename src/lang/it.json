@@ -272,6 +272,10 @@
             "label": "Nascondi combattenti sconfitti",
             "hint": "Se attivato, i combattenti sconfitti vengono rimossi dal carosello e le posizioni rimanenti vengono ricalcolate."
           },
+          "carouselGroupCombatants": {
+            "label": "Raggruppa Combattenti (D&D 5e)",
+            "hint": "Quando abilitato, i combattenti che il tracker di D&D 5e raggruppa (stesso attore, disposizione e iniziativa) vengono compressi in una singola carta con un badge che indica la dimensione del gruppo. Clicca sul badge per espandere il gruppo verso destra o per comprimerlo di nuovo. Il gruppo con il turno corrente mostra sempre il combattente attivo."
+          },
           "carouselRequirePlayerOwner": {
             "label": "Richiedi personaggio giocatore",
             "hint": "Se attivato, il carosello si apre automaticamente solo quando un personaggio giocatore entra in combattimento. Se disattivato, si apre per qualsiasi combattente."
@@ -595,6 +599,10 @@
             "label": "Nascondi combattenti sconfitti",
             "hint": "Se attivato, i combattenti sconfitti vengono rimossi dal carosello e le posizioni rimanenti vengono ricalcolate."
           },
+          "carouselGroupCombatants": {
+            "label": "Raggruppa Combattenti (D&D 5e)",
+            "hint": "Quando abilitato, i combattenti che il tracker di D&D 5e raggruppa (stesso attore, disposizione e iniziativa) vengono compressi in una singola carta con un badge che indica la dimensione del gruppo. Clicca sul badge per espandere il gruppo verso destra o per comprimerlo di nuovo. Il gruppo con il turno corrente mostra sempre il combattente attivo."
+          },
           "carouselRequirePlayerOwner": {
             "label": "Richiedi personaggio giocatore",
             "hint": "Se attivato, il carosello si apre automaticamente solo quando un personaggio giocatore entra in combattimento. Se disattivato, si apre per qualsiasi combattente."
@@ -839,7 +847,9 @@
       "configureResourceMessage": "Il carosello è impostato per mostrare le barre delle risorse/PF per tutti i combattenti, ma non è configurata alcuna risorsa da tracciare. Seleziona una risorsa da tracciare qui sotto:",
       "trackedResource": "Risorsa Tracciata",
       "startCombatShort": "Inizio",
-      "endCombatShort": "Fine"
+      "endCombatShort": "Fine",
+      "groupExpand": "Mostra tutti",
+      "groupCollapse": "Nascondi tutti"
     },
     "dnd5e": {
       "chatCard": {

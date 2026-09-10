@@ -19,6 +19,7 @@ export class CombatTrackerManager {
   static carouselImageSource = "actor";
   static combatTrackerLayout = "carousel";
   static carouselHideDefeated = false;
+  static carouselGroupCombatants = false;
   static carouselShowAllHP = "gmOnly";
   static carouselRequirePlayerOwner = false;
   static showCombatRoundButtons = false;
@@ -93,6 +94,7 @@ export class CombatTrackerManager {
     CombatTrackerManager.carouselImageSource = SettingsUtil.get(SETTINGS.carouselImageSource.tag) ?? "token";
     CombatTrackerManager.combatTrackerLayout = SettingsUtil.get(SETTINGS.combatTrackerLayout.tag) ?? "carousel";
     CombatTrackerManager.carouselHideDefeated = SettingsUtil.get(SETTINGS.carouselHideDefeated.tag) ?? false;
+    CombatTrackerManager.carouselGroupCombatants = SettingsUtil.get(SETTINGS.carouselGroupCombatants.tag) ?? false;
     CombatTrackerManager.carouselShowAllHP = SettingsUtil.get(SETTINGS.carouselShowAllHP.tag) ?? "gmOnly";
     CombatTrackerManager.carouselRequirePlayerOwner = SettingsUtil.get(SETTINGS.carouselRequirePlayerOwner.tag) ?? false;
     CombatTrackerManager.showCombatRoundButtons = SettingsUtil.get(SETTINGS.showCombatRoundButtons.tag) ?? false;
@@ -384,6 +386,28 @@ export class CombatTrackerManager {
         }, 50);
       }
     }
+  }
+
+  /**
+   * Apply a change of the combat tracker layout mode (carousel vs simple list).
+   * The two modes position cards differently, so the carousel is rebuilt from
+   * scratch instead of refreshed in place
+   * @param {string} layout - The new layout value
+   */
+  static applyLayoutChange = (layout) => {
+    CombatTrackerManager.combatTrackerLayout = layout;
+
+    const combatPopout = document.querySelector('#combat-popout');
+    if (!combatPopout) return;
+
+    const tracker = combatPopout.querySelector('.combat-tracker');
+    tracker?.querySelector('.crlngn-clone')?.remove();
+    tracker?.querySelector('.crlngn-turn-indicator')?.remove();
+    CombatCarousel.resetInitialization();
+
+    setTimeout(() => {
+      ui.combat?.popout?.render(true);
+    }, 50);
   }
 
   /**
@@ -733,6 +757,8 @@ export class CombatTrackerManager {
       if (CombatTrackerManager.carouselHideDefeated && tracker) {
         tracker.querySelectorAll(':scope > li.combatant.defeated').forEach(el => el.remove());
       }
+
+      CombatCarousel.applyCombatantGroups(tracker, CombatTrackerManager.carouselGroupCombatants);
 
       if (CombatTrackerManager.carouselShowAllHP !== 'disabled' && tracker) {
         CombatCarousel.ensureResourceBars(tracker);

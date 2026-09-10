@@ -3,6 +3,27 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## 4.1.4 — 2026-09-09
+
+### Added
+
+- **Group Combatants (D&D 5e)** (Combat Tracker, client setting, off by
+  default). Combatants that the D&D 5e tracker groups together collapse into
+  a single card in the carousel with a badge showing the group size, or the
+  current member as "2/3" while the group has the turn. Click the badge to
+  unfold the group to the right, or fold it again; the sidebar tracker and the
+  carousel share the same expanded state. Folded members stay loaded behind
+  the scenes so unfolding does not blink, and turn navigation walks through a
+  folded group in place. Closes #248.
+
+### Fixed
+
+- Changing the Combat Tracker Layout between carousel and simple list with a
+  combat open rebuilds the carousel from scratch, instead of leaving cards
+  positioned for the previous mode.
+- Grouped combatants no longer blink on re-render: the image cache now also
+  covers cards nested inside system group rows.
+
 ## 4.1.3 — 2026-09-09
 
 ### Added

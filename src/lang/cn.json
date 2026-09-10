@@ -243,6 +243,10 @@
             "label": "隐藏已击败的参战者",
             "hint": "启用后，已击败的参战者将从轮播中移除，剩余位置将重新计算。"
           },
+          "carouselGroupCombatants": {
+            "label": "合并显示战斗者（D&D 5e）",
+            "hint": "启用后，D&D 5e 战斗追踪器归为一组的战斗者（相同角色、阵营和先攻）会折叠为一张卡片，并以徽章显示组内人数。点击徽章可向右展开该组，再次点击可折叠。轮到该组行动时始终显示当前行动的战斗者。"
+          },
           "combatFieldset": "战斗追踪器",
           "carouselDockOnLoad": {
             "label": "启动时停靠轮播条",
@@ -758,6 +762,10 @@
             "label": "隐藏已被击败的战斗者",
             "hint": "启用后，已被击败的战斗者将从轮播条中移除，剩余位置将被重新计算。"
           },
+          "carouselGroupCombatants": {
+            "label": "合并显示战斗者（D&D 5e）",
+            "hint": "启用后，D&D 5e 战斗追踪器归为一组的战斗者（相同角色、阵营和先攻）会折叠为一张卡片，并以徽章显示组内人数。点击徽章可向右展开该组，再次点击可折叠。轮到该组行动时始终显示当前行动的战斗者。"
+          },
           "carouselRequirePlayerOwner": {
             "label": "需要玩家角色",
             "hint": "启用后，仅当玩家角色加入战斗时，轮播条才会自动打开。禁用后，对任何战斗者都会打开。"
@@ -837,6 +845,8 @@
       "noTrackedResource": "显示所有参战者的生命值条已启用，但战斗追踪器设置中未配置追踪资源。",
       "startCombatShort": "开始",
       "endCombatShort": "结束",
+      "groupExpand": "全部显示",
+      "groupCollapse": "全部隐藏",
       "configureResourceTitle": "配置资源条",
       "configureResourceMessage": "战斗轮播条已设为为所有战斗者显示资源/生命值条，但尚未配置追踪资源。请在下方选择要追踪的资源：",
       "trackedResource": "追踪资源"

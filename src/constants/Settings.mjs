@@ -519,6 +519,7 @@ export function getSettings() {
         "carouselImageSource",
         "combatTrackerLayout",
         "carouselHideDefeated",
+        "carouselGroupCombatants",
         "carouselRequirePlayerOwner"
       ],
       default: {
@@ -531,6 +532,7 @@ export function getSettings() {
         carouselImageSource: "actor",
         combatTrackerLayout: "carousel",
         carouselHideDefeated: false,
+        carouselGroupCombatants: false,
         carouselRequirePlayerOwner: false
       },
       scope: SETTING_SCOPE.client,
@@ -1935,6 +1937,16 @@ export function getSettings() {
       tag: "v2-carousel-hide-defeated",
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselHideDefeated.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselHideDefeated.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    carouselGroupCombatants: {
+      tag: "v2-carousel-group-combatants",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselGroupCombatants.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselGroupCombatants.hint"),
       propType: Boolean,
       default: false,
       scope: SETTING_SCOPE.client,

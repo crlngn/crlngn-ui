@@ -682,8 +682,13 @@ export class SettingsUtil {
       case SETTINGS.carouselShowAllHP.tag:
         CombatTrackerManager.carouselShowAllHP = value;
         ui.combat?.popout?.render(); break;
+      case SETTINGS.combatTrackerLayout.tag:
+        CombatTrackerManager.applyLayoutChange(value); break;
       case SETTINGS.carouselHideDefeated.tag:
         CombatTrackerManager.carouselHideDefeated = value;
+        ui.combat?.popout?.render(); break;
+      case SETTINGS.carouselGroupCombatants.tag:
+        CombatTrackerManager.carouselGroupCombatants = value;
         ui.combat?.popout?.render(); break;
       case SETTINGS.showCombatRoundButtons.tag:
         CombatTrackerManager.showCombatRoundButtons = value;
