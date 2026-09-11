@@ -51,6 +51,16 @@ body.crlngn-ui.crlngn-chat {
   --cui-chat-table-bg: var(--dnd5e-background-card, #e8e8ef);
 }
 
+/* The defaults above are declared on <body>, so any var() they reference is resolved
+   against the APPLICATIONS theme. With Applications: Dark + Interface: Light that bakes
+   the dark card color into a light sidebar. Re-declare the dnd5e-derived tokens inside
+   the light chat regions so they resolve against the interface theme instead. */
+body.crlngn-ui.crlngn-chat #interface.theme-light :is(.sidebar-content, #sidebar-content),
+body.crlngn-ui.crlngn-chat .chat-log.themed.theme-light {
+  --cui-chat-card-bg: var(--dnd5e-background-card, rgba(244, 239, 237, 0.8));
+  --cui-chat-table-bg: var(--dnd5e-background-card, #e8e8ef);
+}
+
 /* ============================================
    DARK MODE TOKENS
    Single unified definition for ALL dark contexts

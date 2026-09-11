@@ -90,7 +90,7 @@
     .dnd5e2.theme-light{
       --filigree-border-color: rgba(255, 255, 255, 0.5);
     }
-    &.crlngn-chat .sidebar-content{
+    &.crlngn-chat :is(.sidebar-content, #sidebar-content){
       --dnd5e-background-card: rgba(244, 239, 237,0.8);
       --dnd5e-color-parchment: rgb(244, 239, 237);
     }
@@ -284,11 +284,6 @@
       --dnd5e-tabs-bg: transparent;
       --sidebar-background: var(--control-bg-color, var(--color-cool-5-90));
       --background: rgba(11, 10, 19, var(--background-opacity, 0.95));
-      
-      &.crlngn-chat .sidebar-content{
-        --dnd5e-color-parchment: rgb(32, 37, 43);
-        --dnd5e-background-card: rgb(32, 37, 43); 
-      }
 
       --color-text-gray-blue: rgb(168, 180, 188, 1);
       --color-text-gray-blue-b: rgb(138, 155, 168, 1);
@@ -419,7 +414,7 @@
        not the applications (body) theme. Keying these on body.theme-* broke mixed core
        setups (e.g. Applications: Dark + Interface: Light), painting dark cards into the
        light sidebar with unreadable dark text. Scope to #interface so it matches its region. */
-    &.crlngn-chat #interface.theme-dark .sidebar-content{
+    &.crlngn-chat #interface.theme-dark :is(.sidebar-content, #sidebar-content){
       --dnd5e-background-card: rgb(32, 37, 43);
       --dnd5e-color-parchment: rgb(32, 37, 43);
       --crlngn-button-bg: rgba(15, 15, 15, 0.15);
@@ -427,7 +422,7 @@
       --chat-dark-blue: rgba(24, 32, 38, 1);
       --color-hover-bg: inherit;
     }
-    &.crlngn-chat #interface.theme-light .sidebar-content{
+    &.crlngn-chat #interface.theme-light :is(.sidebar-content, #sidebar-content){
       --dnd5e-background-card: rgba(244, 239, 237,0.8);
       --dnd5e-color-parchment: rgb(244, 239, 237);
       --crlngn-button-bg: rgba(250, 250, 250, 0.15);

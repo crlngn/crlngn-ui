@@ -3,6 +3,18 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## 4.2.1 — 2026-09-10
+
+### Fixed
+
+- Chat cards follow the interface theme again when Applications and Interface
+  use different themes (for example Applications: Dark with Interface: Light).
+  Foundry v14 renamed the sidebar body from `.sidebar-content` to
+  `#sidebar-content`, which left the interface-scoped chat color overrides
+  inert, and a body-theme-scoped override was painting dark cards with dark
+  text into the light sidebar. The chat tokens derived from dnd5e variables
+  are now also re-resolved inside the light interface region.
+
 ## 4.2.0 — 2026-09-10
 
 ### Fixed
