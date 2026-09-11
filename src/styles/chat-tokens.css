@@ -12,6 +12,8 @@
 body.crlngn-ui.crlngn-chat {
   /* Card backgrounds */
   --cui-chat-card-bg: var(--dnd5e-background-card, rgba(244, 239, 237, 0.8));
+  --cui-chat-card-bg-blind: color-mix(in srgb, var(--cui-chat-card-bg) 80%, var(--color-warm-2) 20%);
+  --cui-chat-card-bg-whisper: color-mix(in srgb, var(--cui-chat-card-bg) 90%, #ffffff 10%);
   --cui-chat-card-shadow: 0 0 0px var(--dnd5e-shadow-45);
 
   /* Text colors */
@@ -27,6 +29,8 @@ body.crlngn-ui.crlngn-chat {
 
   /* Button styling */
   --cui-chat-button-bg: rgba(32, 37, 43, 0.15);
+  --cui-chat-button-bg-blind: color-mix(in srgb, var(--cui-chat-button-bg) 92%, var(--color-warm-1) 8%);
+  --cui-chat-button-bg-whisper: var(--cui-chat-button-bg);
   --cui-chat-button-border: var(--color-dark-bg-10);
   --cui-chat-button-text: var(--color-text-dark);
   --cui-chat-button-hover-bg: var(--color-dark-bg-75);
@@ -40,6 +44,8 @@ body.crlngn-ui.crlngn-chat {
   --cui-chat-description-bg: rgba(255, 255, 255, 0.35);
   --cui-chat-separator-color: var(--color-dark-bg-50);
   --cui-chat-dice-bg: var(--color-dark-bg-10);
+  --cui-chat-dice-bg-blind: var(--cui-chat-button-bg-blind);
+  --cui-chat-dice-bg-whisper: var(--cui-chat-button-bg-whisper);
   --cui-chat-dice-color: inherit;
   --cui-chat-pill-bg: var(--chat-button-bg-15);
 
@@ -58,6 +64,8 @@ body.crlngn-ui.crlngn-chat {
 body.crlngn-ui.crlngn-chat #interface.theme-light :is(.sidebar-content, #sidebar-content),
 body.crlngn-ui.crlngn-chat .chat-log.themed.theme-light {
   --cui-chat-card-bg: var(--dnd5e-background-card, rgba(244, 239, 237, 0.8));
+  --cui-chat-card-bg-blind: color-mix(in srgb, var(--cui-chat-card-bg) 80%, var(--color-warm-2) 20%);
+  --cui-chat-card-bg-whisper: color-mix(in srgb, var(--cui-chat-card-bg) 90%, #ffffff 10%);
   --cui-chat-table-bg: var(--dnd5e-background-card, #e8e8ef);
 }
 

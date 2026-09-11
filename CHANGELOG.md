@@ -3,6 +3,16 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## 4.2.2 — 2026-09-10
+
+### Fixed
+
+- Whisper and blind chat cards had no background in light mode (visible in
+  the chat notifications overlay and the sidebar alike): their background
+  tokens were only defined for dark mode, so the `!important` background
+  resolved to nothing. Light-mode whisper and blind tokens for cards,
+  buttons and dice are now defined and derived from the light card color.
+
 ## 4.2.1 — 2026-09-10
 
 ### Fixed
