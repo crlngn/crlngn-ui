@@ -3,7 +3,7 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
-## Unreleased
+## 4.2.0 — 2026-09-10
 
 ### Fixed
 
