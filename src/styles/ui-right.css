@@ -192,7 +192,7 @@ body.crlngn-ui{
 
   .sidebar-tab .header-actions,
   .sidebar-tab .settings,
-  .sidebar-tab.settings-sidebar section,
+  .sidebar-tab.settings-sidebar,
   .sidebar-tab.combat-sidebar,
   .sidebar-tab .documentation,
   .sidebar-tab .access {
@@ -243,6 +243,16 @@ body.crlngn-ui{
     .unlist a {
       text-decoration: none;
     }
+    /* dnd5e paints its Notes / Issues / Wiki / Discord links with --sidebar-info-link-color
+       (orange); follow the theme's primary text color instead. */
+    &.sidebar-info ul.links {
+      color: var(--color-text-primary);
+    }
+    /* dnd5e pulls the next block up with a negative margin, sized for core's larger
+       section gap; with our tighter gap it drags the Welcome Screen button over the links */
+    &.sidebar-info {
+      margin-bottom: 0;
+    }
   }
   #settings.settings-sidebar button {
     margin: 0;
@@ -252,6 +262,9 @@ body.crlngn-ui{
     align-items: center;
     cursor: pointer;
     justify-content: center;
+  }
+  #settings.settings-sidebar > button {
+    margin-top: 8px;
   }
   #settings.settings-sidebar div {
     margin: 0;

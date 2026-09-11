@@ -3,6 +3,35 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## Unreleased
+
+### Fixed
+
+- **D&D 5e 6.0 compatibility.** The body now carries a `crlngn-<system>-v<major>`
+  class (for example `crlngn-dnd5e-v6`) so styles can be gated per system
+  version while 5.x and 6.0 worlds coexist. Sheet tooltips no longer force
+  the light parchment palette on dnd5e 6.0, which themes tooltips from their
+  context and left dark text on a dark tooltip. The item tooltip scroll icon
+  works again: 6.0 moves the tooltip into `data-tooltip-html`, which is now
+  carried over to the icon along with `data-tooltip`. The "Welcome Screen"
+  button dnd5e 6.0 adds to the Settings sidebar picks up the same styling as
+  the other sidebar buttons and no longer overlaps the system links, which
+  now use the primary text color. Chat cards created under dnd5e 5.x and
+  re-rendered by 6.0 (which adds its new compact layout to them without the
+  legacy header styles) get their icon / name / chevron row restored, and
+  the transparent-background rule for non-system content no longer strips
+  the pill backgrounds on 6.0 cards. Compact cards get the chat title
+  treatment on the sender name, a little spacing around the card header,
+  narrower damage-tray multiplier buttons, and expanded collapsible content
+  gets some outer margin. Roll-type chat classes now fall back to the 6.0
+  message `system` data when the legacy `flags.dnd5e` are absent.
+
+### Changed
+
+- The chat sender / title line (`.name-stacked .title`) now uses the UI font
+  instead of the titles font when the custom title font is enabled; chat
+  headings keep the titles font.
+
 ## 4.1.4 — 2026-09-09
 
 ### Added

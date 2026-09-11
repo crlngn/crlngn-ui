@@ -63,8 +63,14 @@ export class ChatUtil {
     }
 
 
-    if(chatMessage.flags?.dnd5e){
-      const rollType = chatMessage.flags.dnd5e.activity?.type || chatMessage.flags?.dnd5e?.roll?.type || "custom";
+    const dnd5eFlags = chatMessage.flags?.dnd5e;
+    const dnd5eSystem = game.system?.id === "dnd5e" ? chatMessage.system : null;
+    if(dnd5eFlags || dnd5eSystem?.activity?.type || dnd5eSystem?.item?.type){
+      const rollType = dnd5eFlags?.activity?.type
+        || dnd5eFlags?.roll?.type
+        || dnd5eSystem?.activity?.type
+        || (chatMessage.type !== "base" ? chatMessage.type : null)
+        || "custom";
       chatItem.classList.add(rollType);
     }else{
       chatItem.classList.add('custom');

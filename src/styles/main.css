@@ -110,10 +110,20 @@ body.crlngn-ui {
     margin: 1rem 0;
     gap: 2px;
   }
-  .dnd5e-tooltip:not(.bg3-tooltip) {
+  /* dnd5e 3.x-5.x always rendered its tooltips light-themed, so we forced a parchment
+     palette. dnd5e 6.0+ themes tooltips from their context (dark mode included), so the
+     override is gated to the older majors and the system's own colors are used on 6+. */
+  &:is(.crlngn-dnd5e-v3, .crlngn-dnd5e-v4, .crlngn-dnd5e-v5) .dnd5e-tooltip:not(.bg3-tooltip) {
     --dnd5e-color-parchment: rgb(244, 239, 237);
     --color-text-primary: var(--color-dark-1);
     --color-text-secondary: var(--color-dark-3);
+  }
+
+  /* dnd5e 6.0 expands collapsible blocks (item descriptions, effect details, chat descriptions,
+     combatant groups) with no outer spacing; give the open content some breathing room. */
+  &.crlngn-dnd5e-v6 .dnd5e2 .collapsible:not(.collapsed) > .collapsible-content,
+  &.crlngn-dnd5e-v6 .dnd5e2-collapsible.collapsible:not(.collapsed) > .collapsible-content {
+    margin: 12px 0;
   }
 
 

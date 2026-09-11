@@ -401,18 +401,18 @@ export class SheetsUtil {
     // Find all item-name elements that have item-tooltip class (already-converted items won't match since the class is removed)
     const itemNames = html.querySelectorAll(".items-section .item .item-row .item-name.item-tooltip");
 
+    // dnd5e 5.x carried the tooltip in data-tooltip; dnd5e 6.0 (Foundry v14) moved rich
+    // content to data-tooltip-html, so both are moved onto the scroll button
+    const tooltipAttrs = ["data-tooltip", "data-tooltip-html", "data-tooltip-class", "data-tooltip-direction"];
+
     itemNames.forEach(itemName => {
-      // Store the tooltip data before removing it
-      const tooltipContent = itemName.getAttribute("data-tooltip");
-      const tooltipClass = itemName.getAttribute("data-tooltip-class");
-      const tooltipDirection = itemName.getAttribute("data-tooltip-direction");
-      const itemUuid = itemName.querySelector("section.loading")?.getAttribute("data-uuid");
+      const tooltipData = tooltipAttrs
+        .filter(attr => itemName.hasAttribute(attr))
+        .map(attr => [attr, itemName.getAttribute(attr)]);
 
       // Remove tooltip attributes and class from the item name
       itemName.classList.remove("item-tooltip");
-      itemName.removeAttribute("data-tooltip");
-      itemName.removeAttribute("data-tooltip-class");
-      itemName.removeAttribute("data-tooltip-direction");
+      tooltipAttrs.forEach(attr => itemName.removeAttribute(attr));
 
       // Create the scroll icon button
       const scrollBtn = document.createElement("a");
@@ -420,9 +420,7 @@ export class SheetsUtil {
       scrollBtn.innerHTML = '<i class="fa-solid fa-scroll"></i>';
 
       // Re-apply tooltip attributes to the scroll button
-      if(tooltipContent) scrollBtn.setAttribute("data-tooltip", tooltipContent);
-      if(tooltipClass) scrollBtn.setAttribute("data-tooltip-class", tooltipClass);
-      if(tooltipDirection) scrollBtn.setAttribute("data-tooltip-direction", tooltipDirection);
+      tooltipData.forEach(([attr, value]) => scrollBtn.setAttribute(attr, value));
 
       // Append scroll button to the end of item-name so it's always last
       itemName.appendChild(scrollBtn);

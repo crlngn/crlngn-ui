@@ -284,9 +284,14 @@ body.crlngn-ui.crlngn-chat {
   
   /* card headers */
   .chat-message .message-header .name-stacked .title,
-  &.system-dnd5e .chat-message .name-stacked .title {
+  &.system-dnd5e .chat-message .name-stacked .title,
+  &.crlngn-dnd5e-v6 .chat-message.compact .message-header .message-sender {
     letter-spacing: 0.015em;
     font-weight: 600;
+  }
+  /* dnd5e 6.0 compact cards set the sender in Roboto Slab small caps; match the other cards */
+  &.crlngn-dnd5e-v6 .chat-message.compact .message-header .message-sender {
+    font-variant: normal;
   }
 
   .crlngn.ddbgl .chat-card .card-header.collapsed{
@@ -729,7 +734,8 @@ body.crlngn-ui.crlngn-chat {
     }
 
     .chat-message .message-header .name-stacked .title,
-    &.system-dnd5e .chat-message .name-stacked .title {
+    &.system-dnd5e .chat-message .name-stacked .title,
+    .chat-message.compact .message-header .message-sender {
       color: var(--cui-chat-text-primary);
     }
 
@@ -980,7 +986,7 @@ body.crlngn-ui.crlngn-chat {
     }
 
     .sidebar-tab {
-      .chat-message .message-content:not(.dnd5e2) {
+      .chat-message:not(.dnd5e2) .message-content:not(.dnd5e2) {
         p, ul, ol, li, a, b, strong {
           background-color: transparent;
         }
@@ -1320,7 +1326,58 @@ body.crlngn-ui.crlngn-chat.cui-font-t {
   }
 
   .chat-message .message-header .name-stacked .title,
-  &.system-dnd5e .chat-message .name-stacked .title {
-    font-family: var(--crlngn-font-titles);
+  &.system-dnd5e .chat-message .name-stacked .title,
+  &.crlngn-dnd5e-v6 .chat-message.compact .message-header .message-sender {
+    font-family: var(--crlngn-font-family);
+  }
+}
+
+/*****************
+dnd5e 6.0+ compatibility
+Gated on the body class added by GeneralUtil.applySystemVersionClass().
+******************/
+body.crlngn-ui.crlngn-chat.crlngn-dnd5e-v6 {
+  /* Compact card headers sit flush against the message header; give them a little room */
+  .chat-message.compact .chat-card .card-header {
+    margin: 6px 0;
+  }
+
+  /* Damage tray multiplier buttons (-1, 0, ¼, ½, 1, 2) are split controls in 6.0; keep them narrow */
+  .chat-message button.multiplier-button.split-control {
+    width: 1.6rem;
+  }
+
+  /* Messages created under dnd5e 5.x keep their stored card HTML (header.summary inside
+     section.card-header.description). dnd5e 6.0 still adds its new "compact" class to them but
+     only styles that legacy markup under .dnd5e2:not(.compact), so the header falls into the
+     new flex row and its summary loses its layout. Restore it here until the system does. */
+  .chat-message.compact .chat-card > .card-header.description {
+    display: block;
+
+    > header.summary {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: var(--cursor-pointer);
+
+      > img {
+        width: 32px;
+        height: 32px;
+        flex: 0 0 32px;
+      }
+
+      .name-stacked {
+        flex: 1;
+        min-width: 0;
+      }
+
+      > i {
+        transition: transform 250ms ease;
+      }
+    }
+
+    &.collapsed > header.summary > i {
+      transform: rotate(-90deg);
+    }
   }
 }
