@@ -119,6 +119,28 @@ export class CombatTrackerManager {
   }
 
   /**
+   * Daggerheart renders its spotlight request button on every combatant card
+   * for non-GM users. Remove it from cards whose token or actor the current
+   * user does not own, so players can only request the spotlight for their
+   * own combatants. GMs keep the button everywhere
+   * @param {HTMLElement} combatPopout - The combat popout element
+   */
+  static #restrictDaggerheartSpotlight = (combatPopout) => {
+    if (game.system.id !== 'daggerheart') return;
+    if (game.user?.isGM) return;
+
+    const combat = game.combat;
+    const buttons = combatPopout.querySelectorAll('li.combatant .spotlight-control');
+    buttons.forEach(button => {
+      const li = button.closest('li.combatant');
+      const combatantId = button.dataset.combatantId || li?.dataset.combatantId;
+      const combatant = combat?.combatants.get(combatantId);
+      const isOwner = combatant?.token?.isOwner || combatant?.actor?.isOwner || false;
+      if (!isOwner) button.remove();
+    });
+  }
+
+  /**
    * Apply body classes based on current settings
    */
   static #applyBodyClasses = () => {
@@ -716,6 +738,7 @@ export class CombatTrackerManager {
       if (!combatPopout) return;
 
       CombatTrackerManager.#applySystemOverrides(combatPopout);
+      CombatTrackerManager.#restrictDaggerheartSpotlight(combatPopout);
       CombatCarousel.applyScale(combatPopout, CombatTrackerManager.combatCarouselScale);
       CombatCarousel.flattenCombatantGroups(combatPopout);
 

@@ -144,6 +144,14 @@ export class CombatCarousel {
 
   /**
    * Disable external Sortable.js drag behavior on the combat popout.
+   * Native drag starts are blocked once per popout. Systems such as PF2e also
+   * attach a Sortable instance to the tracker list on every GM render, and
+   * Sortable clears the inline transform of any card that receives a
+   * mousedown/mouseup, which throws the card out of its carousel position.
+   * Sortable stores its instance on the list element under an expando key
+   * prefixed with "Sortable", so it is looked up there and switched off after
+   * each render instead of destroyed, because the system destroys it itself
+   * before creating the next one
    */
   static #disableSortable = (combatPopout) => {
     if (!combatPopout.dataset.crlngnDragDisabled) {
@@ -153,6 +161,15 @@ export class CombatCarousel {
           e.preventDefault();
         }
       }, true);
+    }
+
+    const tracker = combatPopout.querySelector('.combat-tracker');
+    if (!tracker) return;
+    const sortableKey = Object.keys(tracker).find(key => key.startsWith('Sortable'));
+    const sortable = sortableKey ? tracker[sortableKey] : null;
+    if (typeof sortable?.option === 'function' && !sortable.option('disabled')) {
+      sortable.option('disabled', true);
+      LogUtil.log("CombatCarousel - disabled system Sortable instance on tracker");
     }
   }
 

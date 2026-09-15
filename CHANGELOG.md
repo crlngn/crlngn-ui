@@ -3,6 +3,27 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## Unreleased
+
+### Fixed
+
+- Pathfinder 2e: clicking a card in the combat carousel, including the
+  end-turn button on the active card, threw that card out of position. On GM
+  clients PF2e attaches a SortableJS instance to the tracker list for drag
+  reordering, and Sortable clears the inline transform of any card that is
+  pressed and released, so the card snapped to its natural place before the
+  turn animation ran. The Sortable instance is now disabled on the carousel
+  after every render.
+- Daggerheart: the spotlight request button on the carousel is only shown to
+  players for combatants whose token or actor they own. GMs keep it on every
+  card.
+
+### Added
+
+- Daggerheart: a combatant requesting the spotlight gets a thin animated
+  outline on its carousel card, a conic gradient swirling around the frame,
+  and the sparkling-hand button glows.
+
 ## 4.2.2 — 2026-09-10
 
 ### Fixed

@@ -13,6 +13,19 @@
   }
 }
 
+/* Swirling outline for combatants requesting the spotlight in the carousel */
+@property --crlngn-spotlight-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes crlngn-spotlight-swirl {
+  to {
+    --crlngn-spotlight-angle: 360deg;
+  }
+}
+
 body.crlngn-ui.system-daggerheart {
   /* Golden family - already done */
   --golden: var(--color-warm-2);
@@ -765,6 +778,30 @@ body.crlngn-ui.system-daggerheart {
   }
   &.crlngn-combat-tracker #combat-popout .spotlight-control:hover {
     border-color: transparent;
+  }
+
+  /* The card image covers the padding box, so a conic gradient painted on the
+     border box shows only as a thin ring inside the transparent border */
+  &.crlngn-combat-tracker #combat-popout li.combatant:has(.spotlight-control.requesting) {
+    border-width: 2px;
+    border-color: transparent;
+    background: conic-gradient(
+      from var(--crlngn-spotlight-angle),
+      var(--color-warm-2) 0deg,
+      #ffffff 90deg,
+      #c084fc 180deg,
+      var(--color-warm-2) 270deg,
+      #ffffff 360deg
+    ) border-box;
+    animation: crlngn-spotlight-swirl 2.5s linear infinite;
+  }
+  &.crlngn-combat-tracker #combat-popout li.combatant:has(.spotlight-control.requesting) > .token-image {
+    border-radius: inherit;
+    background: var(--background);
+  }
+  &.crlngn-combat-tracker #combat-popout .spotlight-control.requesting {
+    color: #ffffff;
+    text-shadow: 0 0 6px var(--color-warm-2), 0 1px 4px rgba(0, 0, 0, 0.75);
   }
 
   .daggerheart.dialog section.window-content {
