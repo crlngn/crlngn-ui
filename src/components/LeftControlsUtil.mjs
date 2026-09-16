@@ -73,26 +73,6 @@ export class LeftControls {
   }
 
   /**
-     * Preloads the Handlebars templates used by this component
-     * @returns {Promise<boolean>} True when templates are successfully loaded
-     */
-    static preloadTemplates = async () => {
-      try {
-        const templatePaths = [
-          `modules/${MODULE_ID}/templates/chat-toggle-button.hbs`
-        ];
-        
-        // Load the templates
-        await GeneralUtil.loadTemplates(templatePaths);
-        
-        return true;
-      } catch (error) {
-        LogUtil.log("Error loading navigation button templates:", [error]);
-        return false;
-      }
-    }
-
-  /**
    * Resets and updates the local DOM element references
    * @static
    * @private
