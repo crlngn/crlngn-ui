@@ -28,7 +28,8 @@ body.crlngn-ui.crlngn-chat {
   --cui-chat-color-failure-bg: rgba(209, 83, 83, 0.35);
 
   /* Button styling */
-  --cui-chat-button-bg: rgba(32, 37, 43, 0.15);
+  --cui-chat-button-min-height: 2.5em;
+  --cui-chat-button-bg: var(--color-alt-bg);
   --cui-chat-button-bg-blind: color-mix(in srgb, var(--cui-chat-button-bg) 92%, var(--color-warm-1) 8%);
   --cui-chat-button-bg-whisper: var(--cui-chat-button-bg);
   --cui-chat-button-border: var(--color-dark-bg-10);
@@ -47,7 +48,10 @@ body.crlngn-ui.crlngn-chat {
   --cui-chat-dice-bg-blind: var(--cui-chat-button-bg-blind);
   --cui-chat-dice-bg-whisper: var(--cui-chat-button-bg-whisper);
   --cui-chat-dice-color: inherit;
-  --cui-chat-pill-bg: var(--chat-button-bg-15);
+  --cui-chat-pill-bg: var(--color-alt-bg);
+  /* Pill text: the accent/hyperlink color, darkened for light cards and lightened for dark cards
+     so it stays readable whatever accent the user picks */
+  --cui-chat-pill-text: color-mix(in srgb, var(--color-text-hyperlink) 70%, #000000 30%);
 
   /* Metadata (time, whisper labels) */
   --cui-chat-metadata-color: inherit;
@@ -102,7 +106,7 @@ body.crlngn-ui.crlngn-chat {
     --cui-chat-text-muted: var(--color-light-4);
 
     /* Button styling */
-    --cui-chat-button-bg: color-mix(in srgb, var(--background) 90%, #ffffff 10%);
+    --cui-chat-button-bg: var(--color-alt-bg);
     --cui-chat-button-bg-blind: color-mix(in srgb, var(--background) 92%, var(--color-warm-1) 8%);
     --cui-chat-button-bg-whisper: color-mix(in srgb, var(--background) 85%, #ffffff 15%);
     --cui-chat-button-border: var(--color-dark-bg-50);
@@ -121,7 +125,8 @@ body.crlngn-ui.crlngn-chat {
     --cui-chat-dice-bg-blind: var(--cui-chat-button-bg-blind);
     --cui-chat-dice-bg-whisper: var(--cui-chat-button-bg-whisper);
     --cui-chat-dice-color: var(--color-light-1);
-    --cui-chat-pill-bg: var(--chat-dark-bg);
+    --cui-chat-pill-bg: var(--color-alt-bg);
+    --cui-chat-pill-text: color-mix(in srgb, var(--color-text-hyperlink) 70%, #ffffff 30%);
 
     /* Metadata */
     --cui-chat-metadata-color: rgba(255,255,255,0.4);

@@ -5,6 +5,36 @@ described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases)
 
 ## Unreleased
 
+### Changed
+
+- dnd5e 6.0: the action buttons on activity cards (attack, damage, save,
+  template, consume and so on) were bare 24px icons that were hard to find.
+  Each one now shows a short label next to its icon, using the same
+  localized strings as the 5.x card buttons and falling back to the button's
+  own accessible name for anything else. The buttons are laid out two per
+  row across the card width, and an odd last button spans the full row.
+- dnd5e 6.0: pill rows, target rows and action buttons on compact cards are
+  aligned to the left edge of the card, and the leading icon of every row
+  sits in the same 24px column as the targets row's toggle button.
+- dnd5e 6.0: the damage tray "Apply" button label no longer renders in
+  small caps; it uses the same typography as the action button labels.
+- dnd5e 6.0: chat card pills are outlined with the theme's alternate
+  background color instead of filled, so they read as tags rather than
+  buttons, with slightly larger text, padding and spacing and a text color
+  derived from the hyperlink color. Target pills keep a highlight fill. Card
+  buttons size by content with a shared 2.5em minimum, and card tray headers
+  and damage multiplier buttons are bolder. dnd5e 5.x cards are unchanged.
+- Chat card buttons use the theme's alternate background color (all systems).
+- The sender name in the chat message header uses the titles font when the
+  chat titles font setting is on; card titles keep the body font.
+- dnd5e 6.0: the dark-mode rules that forced the module's text color onto
+  every element inside a chat message are no longer applied. dnd5e 6.0
+  themes its own cards in dark mode, and the blanket override was flattening
+  colors that other modules put in their chat cards. Other systems keep the
+  override, since some system and core markup (for example the whisper
+  recipients label) still depends on it there; that label now also has its
+  own explicit color everywhere.
+
 ### Fixed
 
 - Foundry 14: the scene directory context menu showed "Edit" twice. Core now

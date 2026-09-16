@@ -700,47 +700,52 @@ body.crlngn-ui.crlngn-chat {
   #chat-pins.theme-dark {
     color: var(--cui-chat-text-primary);
 
-    /* Force text colors on all message elements */
-    .chat-message div:not(.target-dc-result, .result, .target-dc) span:not(.tag, .degree, .die),
-    .chat-message div:not(.roll, .success, .critical-success, .failure, .critical-failure, .icons),
-    .chat-message p,
-    .chat-message table,
-    .chat-message ul,
-    .chat-message ol,
-    .chat-message li:not(.die),
-    .chat-message header,
-    .chat-message .message-header {
-      color: var(--cui-chat-text-primary);
-    }
-
-    .chat-message h1,
-    .chat-message h2,
-    .chat-message h3 {
-      color: var(--cui-chat-text-primary);
-      &:hover {
-        color: var(--color-text-light);
+    /* Blanket text-color overrides for dark mode. dnd5e 6.0 themes its own chat cards in dark
+       mode, so they are skipped there and module-colored text is left alone; other systems
+       still rely on them to keep system and core markup readable on dark cards. */
+    &:where(:not(.crlngn-dnd5e-v6, .crlngn-dnd5e-v6 *)) {
+      .chat-message div:not(.target-dc-result, .result, .target-dc) span:not(.tag, .degree, .die, .pill .label),
+      .chat-message div:not(.roll, .success, .critical-success, .failure, .critical-failure, .icons),
+      .chat-message p,
+      .chat-message table,
+      .chat-message ul,
+      .chat-message ol,
+      .chat-message li:not(.die),
+      .chat-message header,
+      .chat-message .message-header {
+        color: var(--cui-chat-text-primary);
       }
-    }
 
-    .chat-message,
-    .chat-message h4,
-    .chat-message h5,
-    .chat-message h6,
-    .chat-message .card-header {
-      color: var(--cui-chat-text-primary);
-      &:hover {
-        color: var(--color-text-light);
+      .chat-message h1,
+      .chat-message h2,
+      .chat-message h3 {
+        color: var(--cui-chat-text-primary);
+        &:hover {
+          color: var(--color-text-light);
+        }
+      }
+
+      .chat-message,
+      .chat-message h4,
+      .chat-message h5,
+      .chat-message h6,
+      .chat-message .card-header {
+        color: var(--cui-chat-text-primary);
+        &:hover {
+          color: var(--color-text-light);
+        }
+      }
+
+
+      .chat-message .message-content,
+      .chat-message .message-content > * {
+        color: var(--cui-chat-text-primary);
       }
     }
 
     .chat-message .message-header .name-stacked .title,
     &.system-dnd5e .chat-message .name-stacked .title,
     .chat-message.compact .message-header .message-sender {
-      color: var(--cui-chat-text-primary);
-    }
-
-    .chat-message .message-content,
-    .chat-message .message-content > * {
       color: var(--cui-chat-text-primary);
     }
 
@@ -758,6 +763,7 @@ body.crlngn-ui.crlngn-chat {
     }
 
     :is(.chat-popout, #chat-log, .chat-log) .message .message-header .subtitle,
+    :is(.chat-popout, #chat-log, .chat-log) .message .message-header .whisper-to,
     :is(.chat-popout, #chat-log, .chat-log) .message .flavor-text,
     :is(.chat-popout, #chat-log, .chat-log) .message .user {
       color: var(--color-light-3);
@@ -821,7 +827,7 @@ body.crlngn-ui.crlngn-chat {
       border-bottom: 1px solid var(--color-border-dark-1);
     }
 
-    .chat-message .pills .pill {
+    &:where(:not(.crlngn-dnd5e-v6, .crlngn-dnd5e-v6 *)) .chat-message .pills .pill {
       background: var(--cui-chat-pill-bg);
       color: var(--color-text-gray-blue);
     }
@@ -1326,9 +1332,14 @@ body.crlngn-ui.crlngn-chat.cui-font-t {
   }
 
   .chat-message .message-header .name-stacked .title,
-  &.system-dnd5e .chat-message .name-stacked .title,
-  &.crlngn-dnd5e-v6 .chat-message.compact .message-header .message-sender {
+  &.system-dnd5e .chat-message .name-stacked .title {
     font-family: var(--crlngn-font-family);
+  }
+
+  /* Only the sender name in the message header uses the titles font */
+  .chat-message .message-header h4.message-sender {
+    font-family: var(--crlngn-font-titles);
+    font-weight: 600;
   }
 }
 
@@ -1345,6 +1356,40 @@ body.crlngn-ui.crlngn-chat.crlngn-dnd5e-v6 {
   /* Damage tray multiplier buttons (-1, 0, ¼, ½, 1, 2) are split controls in 6.0; keep them narrow */
   .chat-message button.multiplier-button.split-control {
     width: 1.6rem;
+    font-weight: 600;
+  }
+
+  /* Foundry sets height: var(--input-height) on chat buttons, which would ignore any smaller
+     min-height; size card buttons by content so the shared minimum is what governs */
+  :is(.card-tray, .effects-tray) button:not(.unbutton),
+  .chat-card button:not(.unbutton) {
+    height: auto;
+    min-height: var(--cui-chat-button-min-height, 2.5em);
+  }
+
+  /* Card tray headers (effects, damage, targets) */
+  .chat-message .card-tray > label > span {
+    font-weight: 600;
+  }
+
+  /* Pills are outlined rather than filled so they read as tags, not as buttons */
+  .chat-card .pills .pill {
+    border: 1px solid var(--cui-chat-pill-bg);
+    font-size: var(--font-size-11);
+    background-color: transparent;
+    padding: 0.35em 0.5em;
+  }
+  .chat-card .pills .pill:not(.target, target-pill),
+  .chat-card .pills .pill:not(.target, target-pill) span {
+    color: var(--cui-chat-pill-text);
+  }
+  .chat-message .pills target-pill.target {
+    background-color: var(--color-highlights-25);
+    border-color: var(--color-highlights-25);
+    color: var(--color-text-primary);
+  }
+  .chat-card .pills {
+    gap: 0.35em;
   }
 
   /* Messages created under dnd5e 5.x keep their stored card HTML (header.summary inside
@@ -1379,5 +1424,93 @@ body.crlngn-ui.crlngn-chat.crlngn-dnd5e-v6 {
     &.collapsed > header.summary > i {
       transform: rotate(-90deg);
     }
+  }
+
+  /* The damage tray "Apply" button is set in all-small-caps by the system, which reads tiny.
+     Give it the same typography as the action button labels. */
+  .chat-message .card-tray .apply-button {
+    font-variant: normal;
+
+    > span {
+      font-family: var(--crlngn-font-family);
+      font-size: var(--font-size-11);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      line-height: 1;
+      text-transform: uppercase;
+      font-variant: normal;
+    }
+  }
+
+  /* Activity card rows (pills, targets, action buttons) hug the left edge instead of the right */
+  .chat-message.compact .icon-row > ul {
+    justify-content: flex-start;
+    margin-inline-start: 0;
+  }
+
+  /* The leading icon of every row sits in a box the size of the targets row's toggle button,
+     so the icons line up in one column and every list starts at the same x */
+  .chat-message.compact .icon-row > i {
+    flex: 0 0 var(--button-size, 24px);
+    width: var(--button-size, 24px);
+    padding: 0;
+    text-align: center;
+    line-height: var(--button-size, 24px);
+  }
+  .chat-message.compact .icon-row > button.target-source-toggle {
+    flex: 0 0 var(--button-size, 24px);
+    width: var(--button-size, 24px);
+    min-height: var(--cui-chat-button-min-height, 2.5em);
+    height: auto;
+    block-size: auto;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* 6.0 compacts every card action into a bare 24px icon. Show a short label next to the icon
+     so the buttons can be found without hovering, and lay the buttons out two per row filling
+     the card width; an odd last button stretches across the full row. */
+  .chat-message.compact .icon-row > ul.unlist:not(.pills) {
+    flex: 1 1 auto;
+    gap: 4px;
+
+    > li {
+      flex: 1 1 calc(50% - 4px);
+      min-width: calc(50% - 4px);
+    }
+  }
+  .chat-message.compact .icon-row > ul.unlist:not(.pills) > li > button.icon {
+    width: 100%;
+    inline-size: 100%;
+    min-height: var(--cui-chat-button-min-height, 2.5em);
+    height: auto;
+    block-size: auto;
+    margin: 0;
+    padding: 0 7px 0 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    line-height: 1;
+
+    &::after {
+      content: attr(aria-label);
+      font-family: var(--crlngn-font-family);
+      font-size: 0.9em;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      line-height: 1;
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+    &:is([data-action=rollAttack], [data-forward-action=rollAttack])::after { content: var(--crlngn-i18n-attack); }
+    &:is([data-action=rollDamage], [data-forward-action=rollDamage])::after { content: var(--crlngn-i18n-damage); }
+    &:is([data-action=rollHealing], [data-forward-action=rollHealing])::after { content: var(--crlngn-i18n-healing); }
+    &:is([data-action=rollSave], [data-forward-action=rollSave])::after { content: var(--crlngn-i18n-save); }
+    &:is([data-action=placeTemplate], [data-forward-action=placeTemplate])::after { content: var(--crlngn-i18n-template); }
+    &:is([data-action=placeSummons], [data-forward-action=placeSummons])::after { content: var(--crlngn-i18n-summons); }
+    &:is([data-action=consumeResource], [data-forward-action=consumeResource])::after { content: var(--crlngn-i18n-consume); }
+    &:is([data-action=refundResource], [data-forward-action=refundResource])::after { content: var(--crlngn-i18n-refund); }
+    &:is([data-action=executeMacro], [data-forward-action=executeMacro])::after { content: var(--crlngn-i18n-macro); }
   }
 }
