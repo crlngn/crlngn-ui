@@ -837,10 +837,6 @@
           "perActorColorLabel": "Tono Colore",
           "perActorResetTooltip": "Reimposta a predefinito"
         }
-      },
-      "useFolderStyle": {
-        "label": "Usa colori assegnati",
-        "hint": "Abilita per avere colori assegnati sulle cartelle del pannello laterale, mostrando solo il colore selezionato sui bordi."
       }
     },
     "combat": {

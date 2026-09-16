@@ -15,6 +15,7 @@ import { SettingsUtil } from "./SettingsUtil.mjs";
  * Handles scene navigation, folder organization, and UI state
  */
 export class TopNavigation {
+  static #EDIT_OPTION_FLAG = "crlngnSceneEdit";
   static #navElem;
   static #scenesList;
   static #navTimeout;
@@ -162,15 +163,8 @@ export class TopNavigation {
     Hooks.on(HOOKS_CORE.GET_SCENE_CONTEXT, (app, entryOptions) => {
       const SceneDirectory = foundry.applications?.sidebar?.tabs?.SceneDirectory;
       if(!SceneDirectory || !(app instanceof SceneDirectory)){ return; }
-      entryOptions.unshift({
-        name: "SIDEBAR.Edit",
-        icon: '<i class="fa-solid fa-pen-to-square"></i>',
-        condition: () => game.user.isGM,
-        callback: li => {
-          const scene = game.scenes.get(li?.dataset?.entryId);
-          scene?.sheet.render(true);
-        }
-      });
+      if(!Array.isArray(entryOptions)){ return; }
+      TopNavigation.addSceneEditContextOption(entryOptions);
     });
 
     Hooks.on(HOOKS_CORE.RENDER_SCENE_DIRECTORY, (directory) => {
@@ -186,10 +180,12 @@ export class TopNavigation {
           sc.addEventListener("click", TopNavigation.onSelectScene);
         }
         
+        sc.querySelectorAll(":scope > i.icon.crlngn-scene-icon").forEach(el => el.remove());
         if(TopNavigation.useSceneIcons && scene && game.user?.isGM){
           let iconElem = document.createElement('i');
           iconElem.classList.add('fas');
           iconElem.classList.add('icon');
+          iconElem.classList.add('crlngn-scene-icon');
           if(scene.ownership.default!==0){
             if(scene.active){
               iconElem.classList.add('fa-bullseye');
@@ -208,6 +204,45 @@ export class TopNavigation {
     });
 
     TopNavigation.handleHide();
+  }
+
+  /**
+   * Adds an "Edit" shortcut at the top of the scene directory context menu.
+   * Foundry 13 only offers "Configure" further down the list, but Foundry 14 already ships
+   * its own "Edit" entry, and other modules may add one too. Any existing edit entry,
+   * including one this module added on a previous pass, means nothing is added
+   * @param {object[]} entryOptions
+   */
+  static addSceneEditContextOption(entryOptions){
+    const editLabel = game.i18n.localize("SIDEBAR.Edit");
+    const isEditEntry = (opt) => {
+      if(!opt || typeof opt !== "object"){ return false; }
+      if(opt[TopNavigation.#EDIT_OPTION_FLAG]){ return true; }
+      const label = opt.name ?? opt.label ?? "";
+      return label === "SIDEBAR.Edit"
+        || label === "SCENE.Edit"
+        || game.i18n.localize(label) === editLabel;
+    };
+    for(let i = entryOptions.length - 1; i >= 0; i--){
+      if(entryOptions[i]?.[TopNavigation.#EDIT_OPTION_FLAG]){ entryOptions.splice(i, 1); }
+    }
+    if(entryOptions.some(isEditEntry)){ return; }
+
+    const openSheet = (li) => {
+      const entry = li?.closest?.("[data-entry-id]") ?? li;
+      const scene = game.scenes.get(entry?.dataset?.entryId);
+      scene?.sheet.render(true);
+    };
+    entryOptions.unshift({
+      [TopNavigation.#EDIT_OPTION_FLAG]: true,
+      name: "SIDEBAR.Edit",
+      label: "SIDEBAR.Edit",
+      icon: '<i class="fa-solid fa-pen-to-square"></i>',
+      condition: () => game.user.isGM,
+      visible: () => game.user.isGM,
+      callback: li => openSheet(li),
+      onClick: (event, li) => openSheet(li)
+    });
   }
 
   static applyFadeOut(useFadeOut){

@@ -1834,11 +1834,11 @@ body.crlngn-ui {
     width: 1.2em;
     height: 1.2em;
     margin-left: 0.35em;
-    font-size: 0.75em;
+    font-size: 0.9em;
     font-weight: 700;
     line-height: 1;
     border-radius: 50%;
-    background: var(--color-alt-bg);
+    background: var(--color-secondary);
     color: var(--color-text-primary);
     cursor: help;
     opacity: 0.65;

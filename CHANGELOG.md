@@ -7,6 +7,24 @@ described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases)
 
 ### Fixed
 
+- Foundry 14: the scene directory context menu showed "Edit" twice. Core now
+  ships its own "Edit" entry, and the module added another one on top. The
+  module's shortcut is only added when no edit entry exists yet, whoever
+  provided it, and any copy it added itself on an earlier pass is removed
+  first.
+- The "Toggle Chat Box" button in the roll-mode strip could appear twice
+  (most visible on Foundry 14, where the strip is laid out vertically
+  whenever chat is not the active tab). The button was built from an async
+  template, so two sidebar hooks firing back to back both passed the
+  "already exists" check before either had inserted anything. The button is
+  now created synchronously, and every render pass removes any extra copies
+  wherever they ended up, so a single button is guaranteed regardless of
+  how many times or from where the hooks fire.
+- Scene directory status icons (active, current, hidden) are replaced instead
+  of prepended on every render, so they can no longer stack up.
+
+### Fixed
+
 - Pathfinder 2e: clicking a card in the combat carousel, including the
   end-turn button on the active card, threw that card out of position. On GM
   clients PF2e attaches a SortableJS instance to the tracker list for drag

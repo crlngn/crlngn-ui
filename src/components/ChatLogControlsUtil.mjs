@@ -1,8 +1,8 @@
 import { getSettings } from "../constants/Settings.mjs";
 import { HOOKS_CORE } from "../constants/Hooks.mjs";
 import { LogUtil } from "./LogUtil.mjs";
-import { GeneralUtil } from "./GeneralUtil.mjs";
 import { MODULE_ID } from "../constants/General.mjs";
+import { SettingsUtil } from "./SettingsUtil.mjs";
 
 export class ChatLogControls {
   static useFadeOut = true;
@@ -33,10 +33,8 @@ export class ChatLogControls {
   }
 
   static onRender(component, html, data){
-    const root = html && (typeof html === HTMLElement) ? html : document;
-    const existingToggle = root.querySelector("#roll-privacy button[data-action='toggleChat']")
-      || root.querySelector("#message-modes button[data-action='toggleChat']");
-    if(!existingToggle){ ChatLogControls.addChatToggle(root); }
+    const root = html instanceof HTMLElement ? html : document;
+    ChatLogControls.addChatToggle(root);
     ChatLogControls.handleFadeOut(component, root, data);
     ChatLogControls.handleHide(component, root, data);
   }
@@ -63,54 +61,109 @@ export class ChatLogControls {
     }
   }
 
-  static addChatToggle = async(html) => {
-    const existingBtn = html.querySelector("button[data-action=toggleChat]");
-    if(!ChatLogControls.customStylesEnabled || existingBtn){ return; }
-    
-    const buttonTemplate = await GeneralUtil.renderTemplate(
-      `modules/${MODULE_ID}/templates/chat-toggle-button.hbs`, 
-      {}
-    );
-    const rollModeBox = document.querySelector("#ui-right #roll-privacy")
-      || document.querySelector("#ui-right #message-modes");
-    if (!rollModeBox) return;
-    rollModeBox.insertAdjacentHTML('afterbegin', buttonTemplate);
+  /**
+   * Finds the roll-mode / message-mode button strip the chat toggle lives in.
+   * The chat controls move between the chat tab and the notifications area in core,
+   * so the lookup is done fresh on every call instead of being cached
+   * @returns {HTMLElement|null}
+   */
+  static getRollModeBox = () => {
+    return document.querySelector("#ui-right #roll-privacy")
+      || document.querySelector("#ui-right #message-modes")
+      || document.querySelector("#roll-privacy")
+      || document.querySelector("#message-modes");
+  }
 
-    // Get the toggle button
-    const toggleButton = rollModeBox.querySelector("button[data-action=toggleChat]");
-    toggleButton.addEventListener("click", ChatLogControls.onToggleChatBox);
-    
-    // Apply saved state from flag, default to hidden
-    const chatBoxHidden = game.user.getFlag(MODULE_ID, "chatBoxHidden") ?? true;
-    {
-      LogUtil.log("Applying saved chat box state", [chatBoxHidden]);
-      const chatBox = document.querySelector("#chat-notifications");
-      const SETTINGS = getSettings();
-      const preventMacroBarReposition = game.settings.get(MODULE_ID, SETTINGS.preventMacroBarReposition.tag);
+  /**
+   * Builds the chat toggle button synchronously, so there is never an async gap
+   * between checking for an existing button and inserting a new one
+   * @returns {HTMLButtonElement}
+   */
+  static createChatToggleButton = () => {
+    const button = document.createElement("button");
+    const label = game.i18n.localize("CRLNGN_UI.ui.toggleChatBox");
+    button.type = "button";
+    button.className = "ui-control icon fa-solid fa-comment-slash";
+    button.dataset.action = "toggleChat";
+    button.dataset.tooltip = label;
+    button.setAttribute("aria-pressed", "false");
+    button.setAttribute("aria-label", label);
+    button.addEventListener("click", ChatLogControls.onToggleChatBox);
+    return button;
+  }
 
-      if (chatBoxHidden) {
-        toggleButton.classList.remove("fa-comment-slash");
-        toggleButton.classList.add("fa-comment");
-        chatBox.classList.add("input-hidden");
-        if(preventMacroBarReposition) {
-          document.body.classList.add("chat-input-hidden");
-        }
-      } else {
-        toggleButton.classList.add("fa-comment-slash");
-        toggleButton.classList.remove("fa-comment");
-        chatBox.classList.remove("input-hidden");
-        if(preventMacroBarReposition) {
-          document.body.classList.remove("chat-input-hidden");
-        }
+  /**
+   * Guarantees exactly one chat toggle button exists in the current roll-mode box.
+   * Any extra copies, wherever they ended up (re-rendered controls, double hook calls,
+   * a stale container another module kept around), are removed. Returns the surviving button
+   * @param {HTMLElement} rollModeBox
+   * @returns {HTMLButtonElement|null}
+   */
+  static dedupeChatToggle = (rollModeBox) => {
+    const allToggles = Array.from(document.querySelectorAll("button[data-action=toggleChat]"));
+    let keep = allToggles.find(btn => rollModeBox?.contains(btn)) || null;
+    allToggles.forEach(btn => {
+      if(btn !== keep){ btn.remove(); }
+    });
+    if(keep && rollModeBox && keep !== rollModeBox.firstElementChild){
+      rollModeBox.prepend(keep);
+    }
+    return keep;
+  }
+
+  static addChatToggle = (html) => {
+    const rollModeBox = ChatLogControls.getRollModeBox();
+    if(!ChatLogControls.customStylesEnabled){
+      ChatLogControls.dedupeChatToggle(null);
+      return;
+    }
+    if(!rollModeBox){ return; }
+
+    let toggleButton = ChatLogControls.dedupeChatToggle(rollModeBox);
+    if(!toggleButton){
+      toggleButton = ChatLogControls.createChatToggleButton();
+      rollModeBox.prepend(toggleButton);
+    }
+
+    ChatLogControls.applyChatBoxState(toggleButton);
+  }
+
+  /**
+   * Applies the saved chat box visibility (user flag, hidden by default) to the toggle button and chat box
+   * @param {HTMLButtonElement} toggleButton
+   */
+  static applyChatBoxState = (toggleButton) => {
+    const chatBoxHidden = game.user?.getFlag(MODULE_ID, "chatBoxHidden") ?? true;
+    const chatBox = document.querySelector("#chat-notifications");
+    const SETTINGS = getSettings();
+    const preventMacroBarReposition = SettingsUtil.get(SETTINGS.preventMacroBarReposition.tag);
+    LogUtil.log("Applying saved chat box state", [chatBoxHidden]);
+
+    if (chatBoxHidden) {
+      toggleButton.classList.remove("fa-comment-slash");
+      toggleButton.classList.add("fa-comment");
+      chatBox?.classList.add("input-hidden");
+      if(preventMacroBarReposition) {
+        document.body.classList.add("chat-input-hidden");
+      }
+    } else {
+      toggleButton.classList.add("fa-comment-slash");
+      toggleButton.classList.remove("fa-comment");
+      chatBox?.classList.remove("input-hidden");
+      if(preventMacroBarReposition) {
+        document.body.classList.remove("chat-input-hidden");
       }
     }
   }
 
   static onToggleChatBox = (evt) => {
-    const toggleButton = document.querySelector("#ui-right button[data-action=toggleChat]");
+    const toggleButton = evt?.currentTarget instanceof HTMLElement
+      ? evt.currentTarget
+      : document.querySelector("button[data-action=toggleChat]");
     const chatBox = document.querySelector("#chat-notifications");
     const SETTINGS = getSettings();
-    const preventMacroBarReposition = game.settings.get(MODULE_ID, SETTINGS.preventMacroBarReposition.tag);
+    const preventMacroBarReposition = SettingsUtil.get(SETTINGS.preventMacroBarReposition.tag);
+    if(!toggleButton || !chatBox){ return; }
     let hidden = false;
 
     if(toggleButton.classList.contains("fa-comment-slash")){
