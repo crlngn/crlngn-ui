@@ -555,7 +555,11 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
 
   #onHexInput(input, section) {
     const rgb = ColorPickerUtil.hexToRgb(input.value);
-    if (!rgb) {
+    const isValidRgb = rgb
+      && Number.isInteger(rgb.r) && rgb.r >= 0 && rgb.r <= 255
+      && Number.isInteger(rgb.g) && rgb.g >= 0 && rgb.g <= 255
+      && Number.isInteger(rgb.b) && rgb.b >= 0 && rgb.b <= 255;
+    if (!isValidRgb) {
       input.classList.add('invalid');
       const currentColor = section === 'accent'
         ? this.currentColors.accent
