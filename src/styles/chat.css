@@ -49,46 +49,46 @@ body.crlngn-ui.crlngn-chat {
     --ddb-color-ability-roll: #b55dff;
     --ddb-color-heal-roll: #6cbf5b;
 
-    &.system-dnd5e :is(.chat-popout, #chat-log) li.message:is(.roll),
-    &.system-dnd5e :is(.chat-popout, #chat-log) li.message:is(.custom) {
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) li.message:is(.roll),
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) li.message:is(.custom) {
       border: 1px solid var(--ddb-color-custom-roll);
     }
-    &.system-dnd5e :is(.chat-popout, #chat-log) li.message:is(.attack) {
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) li.message:is(.attack) {
       border: 1px solid var(--ddb-color-attack-roll);
     }
-    &.system-dnd5e :is(.chat-popout, #chat-log) li.message:is(.damage) {
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) li.message:is(.damage) {
       border: 1px solid var(--ddb-color-damage-roll);
     }
-    &.system-dnd5e :is(.chat-popout, #chat-log) li.message:is(.check),
-    &.system-dnd5e :is(.chat-popout, #chat-log) li.message:is(.skill),
-    &.system-dnd5e :is(.chat-popout, #chat-log) li.message:is(.ability),
-    &.system-dnd5e :is(.chat-popout, #chat-log) li.message:is(.tool) {
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) li.message:is(.check),
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) li.message:is(.skill),
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) li.message:is(.ability),
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) li.message:is(.tool) {
       border: 1px solid var(--ddb-color-ability-roll);
     }
-    &.system-dnd5e :is(.chat-popout, #chat-log) li.message:is(.heal), 
-    &.system-dnd5e :is(.chat-popout, #chat-log) li.message:is(.healing),
-    &.system-dnd5e :is(.chat-popout, #chat-log) li.message:is(.save) {
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) li.message:is(.heal), 
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) li.message:is(.healing),
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) li.message:is(.save) {
       border: 1px solid var(--ddb-color-heal-roll);
     }
     
     /* flavor text - roll type */
-    &.system-dnd5e :is(.chat-popout, #chat-log) .chat-message.crlngn span.roll {
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) .chat-message.crlngn span.roll {
       color: var(--ddb-color-custom-roll);
     }
-    &.system-dnd5e :is(.chat-popout, #chat-log) .chat-message.crlngn span.tohit {
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) .chat-message.crlngn span.tohit {
       color: var(--ddb-color-attack-roll);
     }
-    &.system-dnd5e :is(.chat-popout, #chat-log) .chat-message.crlngn span.damage {
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) .chat-message.crlngn span.damage {
       color: var(--ddb-color-damage-roll);
     }
-    &.system-dnd5e :is(.chat-popout, #chat-log) .chat-message.crlngn span.check {
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) .chat-message.crlngn span.check {
       color: var(--ddb-color-ability-roll);
     }
-    &.system-dnd5e :is(.chat-popout, #chat-log) .chat-message.crlngn span.heal, 
-    &.system-dnd5e :is(.chat-popout, #chat-log) .chat-message.crlngn span.save {
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) .chat-message.crlngn span.heal, 
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) .chat-message.crlngn span.save {
       color: var(--ddb-color-heal-roll);
     }
-    &.system-dnd5e :is(.chat-popout, #chat-log) .chat-message.left-border {
+    &.system-dnd5e :is(.chat-popout, #chat-popout, #chat-log) .chat-message.left-border {
       border-width: 0;
       border-left-width: 3px;
     }
@@ -110,8 +110,11 @@ body.crlngn-ui.crlngn-chat {
   --crlngn-i18n-save-dc: " save DC ";
   --crlngn-i18n-save: " save ";
 
+  /* The sidebar, a single popped-out message (.chat-popout) and the popped-out Chat Log tab
+     (#chat-popout, a sidebar-popout window) all take the theme accent in place of dnd5e's gold */
   #ui-right,
-  .chat-popout {
+  .chat-popout,
+  #chat-popout {
     --dnd5e-color-gold: var(--color-warm-2);
     --checkbox-fill-color: var(--color-warm-2);
     --checkbox-border-color: var(--color-warm-2);
@@ -328,7 +331,7 @@ body.crlngn-ui.crlngn-chat {
     line-height: 1.4;
     margin: 0.5em 0;
   }
-  :is(.chat-popout, #chat-log) .message .message-header .message-sender img {
+  :is(.chat-popout, #chat-popout, #chat-log) .message .message-header .message-sender img {
     background: var(--color-dark-bg-25);
     box-shadow: 0 0 4px var(--color-dark-bg-50);
   }
@@ -362,7 +365,7 @@ body.crlngn-ui.crlngn-chat {
   
   /* content */
   .chat-card,
-  :is(.chat-popout, #chat-log) .message-content {
+  :is(.chat-popout, #chat-popout, #chat-log) .message-content {
     line-height: 1.25;
   }
 
@@ -944,18 +947,18 @@ body.crlngn-ui.crlngn-chat {
       border-bottom: 1px solid var(--color-dark-1);
     }
 
-    :is(.chat-popout, #chat-log) .message .evaluation .target {
+    :is(.chat-popout, #chat-popout, #chat-log) .message .evaluation .target {
       color: var(--cui-chat-text-primary);
       padding: 6px 8px;
     }
 
-    :is(.chat-popout, #chat-log) .message .evaluation .target.hit,
-    :is(.chat-popout, #chat-log) .message .evaluation .target.success {
+    :is(.chat-popout, #chat-popout, #chat-log) .message .evaluation .target.hit,
+    :is(.chat-popout, #chat-popout, #chat-log) .message .evaluation .target.success {
       border: 0;
     }
 
-    :is(.chat-popout, #chat-log) .message .evaluation .target.miss,
-    :is(.chat-popout, #chat-log) .message .evaluation .target.failure {
+    :is(.chat-popout, #chat-popout, #chat-log) .message .evaluation .target.miss,
+    :is(.chat-popout, #chat-popout, #chat-log) .message .evaluation .target.failure {
       border: 0;
     }
 
@@ -1356,7 +1359,7 @@ body.crlngn-ui.crlngn-chat.crlngn-dnd5e-v6 {
   /* Roll results in card summaries (saves and checks folded into an activity card) are meant to
      be bare: the system makes them transparent and borderless through its button custom
      properties, which the theme's direct background and border on chat buttons would override */
-  :is(#interface, .chat-popout, #chat-notifications) .chat-message.compact .card-summary button.dice-roll {
+  :is(#interface, .chat-popout, #chat-popout, #chat-notifications) .chat-message.compact .card-summary button.dice-roll {
     background: transparent;
     border-color: transparent;
     box-shadow: none;
