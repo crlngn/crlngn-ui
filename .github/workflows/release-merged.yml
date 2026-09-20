@@ -47,16 +47,25 @@ jobs:
           npm ci --ignore-scripts
           WATCH_MODE=true CRLNGN_BUILD_TARGET=v13 npx vite build
 
+      # dist/templates and dist/assets ship from main only. A file that exists
+      # only on main is harmless to the v13 bundle, which never references it.
+      # A file that exists only on the v13 branch would be missing from the
+      # package, and a file present on both with different content would break
+      # one generation, so those two cases fail the release.
       - name: Verify shared files match between branches
         run: |
-          if ! diff -rq dist/templates v13-src/dist/templates; then
-            echo "::error::Templates differ between main and $V13_BRANCH. Shared dist/templates would break one build - namespace them per generation before releasing."
-            exit 1
-          fi
-          if ! diff -rq dist/assets v13-src/dist/assets; then
-            echo "::error::Assets differ between main and $V13_BRANCH. Shared dist/assets would break one build - namespace them per generation before releasing."
-            exit 1
-          fi
+          check_shared() {
+            local dir="$1"
+            local problems
+            problems=$(diff -rq "dist/$dir" "v13-src/dist/$dir" | grep -v "^Only in dist/$dir" || true)
+            if [ -n "$problems" ]; then
+              echo "$problems"
+              echo "::error::dist/$dir differs between main and $V13_BRANCH. Files only on $V13_BRANCH or with different content on both branches would break one build - align them or namespace them per generation before releasing."
+              exit 1
+            fi
+          }
+          check_shared templates
+          check_shared assets
 
       - name: Merge v13 build into package
         run: |
