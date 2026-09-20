@@ -1863,7 +1863,8 @@ export function getSettings() {
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false,
-      system: ["dnd5e"]
+      system: ["dnd5e"],
+      systemMinVersion: "6.0.0"
     },
     collapseCardTags: {
       tag: "v2-collapse-card-tags",
@@ -1874,7 +1875,8 @@ export function getSettings() {
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false,
-      system: ["dnd5e"]
+      system: ["dnd5e"],
+      systemMinVersion: "6.0.0"
     },
     labeledCardButtons: {
       tag: "v2-labeled-card-buttons",
@@ -1885,7 +1887,8 @@ export function getSettings() {
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false,
-      system: ["dnd5e"]
+      system: ["dnd5e"],
+      systemMinVersion: "6.0.0"
     },
 
     applyBladeRunnerTweaks: {

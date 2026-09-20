@@ -441,10 +441,12 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       if (menuKey === "systemsMenu") {
         if (fieldName === "otherModulesList" || fieldName === "adjustOtherModules") return true;
         if (!setting.system) return false;
-        if (Array.isArray(setting.system)) {
-          return setting.system.includes(currentSystem);
-        }
-        return setting.system === currentSystem;
+        const matchesSystem = Array.isArray(setting.system)
+          ? setting.system.includes(currentSystem)
+          : setting.system === currentSystem;
+        if (!matchesSystem) return false;
+        if (setting.systemMinVersion && foundry.utils.isNewerVersion(setting.systemMinVersion, game.system?.version ?? "0")) return false;
+        return true;
       }
       // For other menus, include all settings
       return true;

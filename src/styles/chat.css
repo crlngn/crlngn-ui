@@ -1533,15 +1533,3 @@ body.crlngn-ui.crlngn-chat.crlngn-dnd5e-v6 {
     &:is([data-action=executeMacro], [data-forward-action=executeMacro])::after { content: var(--crlngn-i18n-macro); }
   }
 }
-
-/* Icon-only card buttons on dnd5e 5.x cards, whose labels the module draws with a pseudo-element.
-   The body class is toggled by the shared compact cards package (shared/dnd5e-compact-cards) */
-body.crlngn-ui.crlngn-chat.dnd5e-icon-card-buttons.system-dnd5e .chat-card .card-buttons > button {
-  span:before,
-  &[data-action=rollSave]:after {
-    content: none;
-  }
-  span {
-    font-size: 0;
-  }
-}
