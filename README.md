@@ -54,7 +54,7 @@ https://github.com/user-attachments/assets/0c72bc15-e266-48e0-9181-053b5273b36f
 - **Chat Border Colors** - Select if you want the borders to show player color, roll type (5e), or none;
 - **Custom CSS Field** to load your own style modifications to your world
 
-**Carolingian UI** is free to use and distribute under MIT License. If you reuse my code, please add mention to the original repo. 
+**Carolingian UI** is licensed under [Creative Commons Attribution-NonCommercial 4.0](https://creativecommons.org/licenses/by-nc/4.0/): you may use, share and adapt it for non-commercial purposes with credit to the original repo. Commercial use requires permission. Releases before this change remain under the MIT License. See the LICENSE file for third-party notices.
 
 I am very opinionated about this module's look and feel, as it was created for my own use, and I overwrite some other modules' fonts and colors to look more uniform with mine. My setup of modules is relatively lean, with only ~40 quality of life modules. If the aesthetics are too off or the module is too niche, I might not be interested in working on compatibility for it. That being said, I've specifically tested some modules by user request, and adapted their styling, and you may request support for specific modules if you are a member on Patreon.
 

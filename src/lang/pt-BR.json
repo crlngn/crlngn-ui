@@ -647,6 +647,18 @@
             "label": "Habilitar ícones de chat e tooltip nas fichas",
             "hint": "Mostrar sobreposição 'Exibir no Chat' nas imagens de itens e ícones de pergaminho para tooltips nas fichas de personagem"
           },
+          "compactActivityCards": {
+            "label": "Cartões de atividade compactos",
+            "hint": "Agrupa rolagens de ataque, dano e cura no cartão da atividade que as criou, como linhas com o total à direita e uma gaveta com o detalhamento dos dados. Requer dnd5e 6.0 e a opção 'Resumir cartões de chat' do sistema."
+          },
+          "collapseCardTags": {
+            "label": "Recolher tags dos cartões por padrão",
+            "hint": "Mostra apenas as tags mais úteis (ativação, alcance, propriedades principais) nos cartões compactos, com um chip +N para revelar as demais."
+          },
+          "labeledCardButtons": {
+            "label": "Botões de cartão com rótulo",
+            "hint": "Mostra um rótulo curto ao lado do ícone nos botões dos cartões de atividade (ataque, dano, salvaguarda, template...). Desmarque para usar botões apenas com ícone."
+          },
           "applyBladeRunnerTweaks": {
             "label": "Aplicar ajustes de UI ao sistema Blade Runner",
             "hint": "Ative para aplicar ajustes de UI e mudanças de estilo às fichas e janelas do Blade Runner"
@@ -853,6 +865,21 @@
     },
     "dnd5e": {
       "chatCard": {
+        "enabledSummarySetting": "O Carolingian UI ativou a opção de cliente 'Resumir cartões de chat' do dnd5e, necessária para os cartões de atividade compactos.",
+        "needsSummarySetting": "Os cartões de atividade compactos precisam que a opção 'Resumir cartões de chat' do dnd5e esteja ativada.",
+        "pendingSave": "Ainda não rolou",
+        "addTargeted": "Adicionar tokens mirados como alvos",
+        "addSelected": "Adicionar tokens selecionados como alvos",
+        "noTargeted": "Você não tem tokens mirados.",
+        "noSelected": "Você não tem tokens selecionados.",
+        "details": "Detalhes da rolagem",
+        "hits": "acertos",
+        "misses": "erros",
+        "successes": "sucessos",
+        "failures": "falhas",
+        "targets": "alvos",
+        "showAllTags": "Mostrar todas as tags",
+        "showFewerTags": "Mostrar menos tags",
         "buttons": {
           "summons": "Invocações",
           "attack": "Ataque",
@@ -864,7 +891,10 @@
           "macro": "Macro",
           "savedc": "CD",
           "save": "Check"
-        }
+        },
+        "handledBy": "Os cartões compactos de atividade são controlados por {module} neste cliente. As configurações daquele módulo se aplicam e estas são ignoradas.",
+        "selectTargeted": "Selecionar os tokens alvo desta rolagem",
+        "noRecordedTargets": "Esta rolagem não registrou alvos na cena atual."
       }
     }
   }

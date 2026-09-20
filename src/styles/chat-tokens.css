@@ -35,6 +35,7 @@ body.crlngn-ui.crlngn-chat {
   --cui-chat-button-border: var(--color-dark-bg-10);
   --cui-chat-button-text: var(--color-text-dark);
   --cui-chat-button-hover-bg: var(--color-dark-bg-75);
+  --cui-chat-button-hover-text: var(--color-light-1);
 
   /* Links */
   --cui-chat-link-bg: transparent;
@@ -112,6 +113,7 @@ body.crlngn-ui.crlngn-chat {
     --cui-chat-button-border: var(--color-dark-bg-50);
     --cui-chat-button-text: var(--color-text-dark);
     --cui-chat-button-hover-bg: var(--color-dark-bg-75);
+    --cui-chat-button-hover-text: var(--color-light-1);
 
     /* Links */
     --cui-chat-link-bg: var(--chat-button-bg-50);

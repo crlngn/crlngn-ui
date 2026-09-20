@@ -5,6 +5,7 @@ import { BORDER_COLOR_TYPES, DOCK_RESIZE_OPTIONS, getSettings, ICON_SIZES, THEME
 import { CameraDockUtil } from "./CameraDockUtil.mjs";
 import { ChatLogControls } from "./ChatLogControlsUtil.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
+import { ChatCards5eUtil } from "./ChatCards5eUtil.mjs";
 import { CombatTrackerManager } from "./combat-tracker/CombatTrackerManager.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LeftControls } from "./LeftControlsUtil.mjs";
@@ -652,6 +653,12 @@ export class SettingsUtil {
         JournalUtil.applyJournalStyles(value); break;
       case SETTINGS.useHorizontalSheetTabs.tag:
         SheetsUtil.applyHorizontalSheetTabs(value); break;
+      case SETTINGS.compactActivityCards.tag:
+        ChatCards5eUtil.applyCompactCards(value); break;
+      case SETTINGS.collapseCardTags.tag:
+        ChatCards5eUtil.applyCollapseTags(value); break;
+      case SETTINGS.labeledCardButtons.tag:
+        ChatCards5eUtil.applyLabeledButtons(value); break;
       case SETTINGS.useGlassEffect.tag:
         SettingsAppliers.applyGlassEffect(value); break;
       case SETTINGS.glassTranslucence.tag:

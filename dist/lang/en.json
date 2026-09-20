@@ -742,6 +742,18 @@
             "label": "Enable chat and tooltip icons on sheets",
             "hint": "Show 'Display in Chat' overlay on item images and scroll icons for item tooltips on character sheets"
           },
+          "compactActivityCards": {
+            "label": "Compact activity cards",
+            "hint": "Fold attack, damage and healing rolls into the activity card that created them, as rows with a total on the right and a drawer with the dice breakdown. Requires dnd5e 6.0 and its own 'Summarize Chat Cards' setting."
+          },
+          "collapseCardTags": {
+            "label": "Collapse card tags by default",
+            "hint": "Show only the most useful tags (activation, range, key properties) on compact activity cards, with a +N chip to reveal the rest."
+          },
+          "labeledCardButtons": {
+            "label": "Labeled card buttons",
+            "hint": "Show a short text label next to the icon on activity card buttons (attack, damage, save, template...). Uncheck to use icon-only buttons."
+          },
           "applyBladeRunnerTweaks": {
             "label": "Apply UI tweaks to Blade Runner system",
             "hint": "Enable to apply UI adjustments and style tweaks to Blade Runner sheets and windows"
@@ -853,6 +865,21 @@
     },
     "dnd5e": {
       "chatCard": {
+        "enabledSummarySetting": "Carolingian UI turned on the dnd5e client setting 'Summarize Chat Cards', which compact activity cards need.",
+        "needsSummarySetting": "Compact activity cards need the dnd5e setting 'Summarize Chat Cards' to be enabled.",
+        "pendingSave": "Has not rolled yet",
+        "addTargeted": "Add targeted tokens as targets",
+        "addSelected": "Add selected tokens as targets",
+        "noTargeted": "You have no targeted tokens.",
+        "noSelected": "You have no selected tokens.",
+        "details": "Roll details",
+        "hits": "hits",
+        "misses": "misses",
+        "successes": "successes",
+        "failures": "failures",
+        "targets": "targets",
+        "showAllTags": "Show all tags",
+        "showFewerTags": "Show fewer tags",
         "buttons": {
           "summons": "Summons",
           "attack": "Attack",
@@ -864,7 +891,10 @@
           "macro": "Macro",
           "savedc": "Save DC",
           "save": "Save"
-        }
+        },
+        "handledBy": "Compact activity cards are handled by {module} on this client. Its settings apply and these ones are ignored.",
+        "selectTargeted": "Select the tokens this roll targeted",
+        "noRecordedTargets": "This roll recorded no targets on the current scene."
       }
     }
   }

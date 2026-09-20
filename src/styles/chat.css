@@ -1377,7 +1377,7 @@ body.crlngn-ui.crlngn-chat.crlngn-dnd5e-v6 {
     border: 1px solid var(--cui-chat-pill-bg);
     font-size: var(--font-size-11);
     background-color: transparent;
-    padding: 0.35em 0.5em;
+    padding: 0.25em 0.5em;
   }
   .chat-card .pills .pill:not(.target, target-pill),
   .chat-card .pills .pill:not(.target, target-pill) span {
@@ -1512,5 +1512,17 @@ body.crlngn-ui.crlngn-chat.crlngn-dnd5e-v6 {
     &:is([data-action=consumeResource], [data-forward-action=consumeResource])::after { content: var(--crlngn-i18n-consume); }
     &:is([data-action=refundResource], [data-forward-action=refundResource])::after { content: var(--crlngn-i18n-refund); }
     &:is([data-action=executeMacro], [data-forward-action=executeMacro])::after { content: var(--crlngn-i18n-macro); }
+  }
+}
+
+/* Icon-only card buttons on dnd5e 5.x cards, whose labels the module draws with a pseudo-element.
+   The body class is toggled by the shared compact cards package (shared/dnd5e-compact-cards) */
+body.crlngn-ui.crlngn-chat.dnd5e-icon-card-buttons.system-dnd5e .chat-card .card-buttons > button {
+  span:before,
+  &[data-action=rollSave]:after {
+    content: none;
+  }
+  span {
+    font-size: 0;
   }
 }

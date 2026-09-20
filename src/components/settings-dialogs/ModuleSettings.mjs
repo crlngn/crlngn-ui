@@ -8,6 +8,7 @@ import { GeneralUtil } from "../GeneralUtil.mjs";
 import { LeftControls } from "../LeftControlsUtil.mjs";
 import { ColorPickerDialog, ColorPickerUtil } from "../ColorPickerUtil.mjs";
 import { HintTooltipUtil } from "../HintTooltipUtil.mjs";
+import { ChatCards5eUtil } from "../ChatCards5eUtil.mjs";
 
 const { FormDataExtended } = foundry.utils;
 
@@ -265,6 +266,14 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
             const hasClientSettings = Object.values(partContext.fields || {}).some(field => field?.scope === SETTING_SCOPE.client);
 
             partContext.showNoSettings = !hasWorldSettings && !hasClientSettings;
+
+            const handledByHint = ChatCards5eUtil.getHandledByHint();
+            if(handledByHint){
+              for(const key of ChatCards5eUtil.SETTING_KEYS){
+                if(!partContext.fields?.[key]){ continue; }
+                partContext.fields[key] = { ...partContext.fields[key], hint: handledByHint };
+              }
+            }
           }
 
 

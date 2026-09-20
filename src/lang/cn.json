@@ -647,6 +647,18 @@
             "label": "启用角色表上的聊天和提示图标",
             "hint": "在物品图片上显示'在聊天中显示'覆盖层，并在角色表上显示卷轴图标用于物品提示"
           },
+          "compactActivityCards": {
+            "label": "紧凑活动卡片",
+            "hint": "将攻击、伤害和治疗掷骰折叠到生成它们的活动卡片中，以右侧显示总数的行呈现，并提供带骰子明细的抽屉。需要 dnd5e 6.0 及其自带的“汇总聊天卡片”设置。"
+          },
+          "collapseCardTags": {
+            "label": "默认折叠卡片标签",
+            "hint": "在紧凑活动卡片上仅显示最有用的标签（激活、射程、关键属性），并用 +N 标记展开其余标签。"
+          },
+          "labeledCardButtons": {
+            "label": "带文字的卡片按钮",
+            "hint": "在活动卡片按钮（攻击、伤害、豁免、模板等）的图标旁显示简短文字。取消勾选则仅使用图标按钮。"
+          },
           "applyBladeRunnerTweaks": {
             "label": "对 Blade Runner 系统应用 UI 调整",
             "hint": "启用后，对 Blade Runner 角色卡和窗口应用 UI 调整和样式微调"
@@ -853,6 +865,21 @@
     },
     "dnd5e": {
       "chatCard": {
+        "enabledSummarySetting": "Carolingian UI 已启用 dnd5e 客户端设置“汇总聊天卡片”，紧凑活动卡片需要该设置。",
+        "needsSummarySetting": "紧凑活动卡片需要启用 dnd5e 的“汇总聊天卡片”设置。",
+        "pendingSave": "尚未掷骰",
+        "addTargeted": "将已瞄准的标记加入目标",
+        "addSelected": "将已选中的标记加入目标",
+        "noTargeted": "你没有瞄准任何标记。",
+        "noSelected": "你没有选中任何标记。",
+        "details": "掷骰详情",
+        "hits": "命中",
+        "misses": "未命中",
+        "successes": "成功",
+        "failures": "失败",
+        "targets": "目标",
+        "showAllTags": "显示全部标签",
+        "showFewerTags": "收起标签",
         "buttons": {
           "summons": "召唤",
           "attack": "攻击",
@@ -864,7 +891,10 @@
           "macro": "宏",
           "savedc": "豁免DC",
           "save": "豁免"
-        }
+        },
+        "handledBy": "紧凑活动卡片在此客户端由 {module} 处理。以该模块的设置为准，这里的设置将被忽略。",
+        "selectTargeted": "选择此次掷骰的目标标记",
+        "noRecordedTargets": "此次掷骰在当前场景中没有记录目标。"
       }
     }
   }

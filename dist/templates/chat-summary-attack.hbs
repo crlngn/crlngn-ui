@@ -1,0 +1,49 @@
+<header class="dcc-row-title">
+    <span class="dcc-row-label">{{#if header.subtitle}}{{ header.subtitle }}{{else}}{{ localize "DND5E.Attack" }}{{/if}}</span>
+</header>
+<section class="dcc-roll-row" data-roll-type="attack">
+    <span class="dcc-row-icon"><i class="fa-fw fa-solid fa-sword" inert></i></span>
+    <div class="dcc-row-main">
+        <ul class="pills unlist dcc-row-pills">
+            {{#if mastery}}
+            <li class="pill transparent dcc-row-tag">
+                {{#if mastery.reference}}
+                <a class="content-link" draggable="true" data-link data-uuid="{{ mastery.reference }}"
+                   data-tooltip="{{ mastery.label }}">{{ mastery.label }}</a>
+                {{else}}
+                <span class="label">{{ mastery.label }}</span>
+                {{/if}}
+            </li>
+            {{/if}}
+        </ul>
+    </div>
+    <div class="dcc-row-total">
+        {{#each rolls}}{{{ this }}}{{/each}}
+    </div>
+</section>
+<section class="dcc-roll-drawer" hidden></section>
+{{#if targets.length}}
+<section class="icon-row dcc-row-targets">
+    <i class="fa-fw fa-solid fa-bullseye" aria-label="{{ localize "DND5E.CHATMESSAGE.Row.Targets" }}"></i>
+    <ul class="unlist targets pills">
+        {{#each targets}}
+        <li>
+            <target-pill {{#if showResult}}{{ ifThen isMiss "data-miss" "data-hit" }}{{/if}}
+                {{#if showAC}}data-value="{{ ifThen hasAC ac "∞" }}"{{/if}}>
+                <label>{{ name }}</label>
+                <datalist>
+                    <option value="{{ token }}">{{ name }}</option>
+                </datalist>
+            </target-pill>
+        </li>
+        {{/each}}
+    </ul>
+</section>
+{{/if}}
+{{#if rows.properties.entries.length}}
+<ul class="dcc-row-props" hidden>
+    {{#each rows.properties.entries}}
+    <li>{{ label }}</li>
+    {{/each}}
+</ul>
+{{/if}}

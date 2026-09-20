@@ -5,6 +5,47 @@ described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases)
 
 ## Unreleased
 
+### Changed
+
+- License changed from MIT to Creative Commons Attribution-NonCommercial 4.0.
+  Earlier releases remain under MIT; see the LICENSE file for third-party
+  notices.
+
+### Added
+
+- dnd5e 6.0: compact activity cards. Attack, damage and healing rolls made
+  from an activity card are folded into that card instead of posting their
+  own cards, using the system's chat card summary mechanism. Each roll is a
+  row with its total in a fixed column on the right and a chevron that opens
+  a drawer with the dice result and formula, one line per damage type; the
+  damage tray keeps its place under the damage row. Attacks against three or
+  more targets show hit and miss counts on the row and list the targets in
+  the drawer. Saving throws rolled from the card are grouped into one row per
+  ability with success and failure counts, and the DC is only shown when the
+  system's challenge visibility setting allows it for the current user.
+  Buttons whose roll already exists shrink to their icon. Client setting
+  "Compact activity cards" under Systems and Modules, enabled by default;
+  it requires the system's own "Summarize Chat Cards" setting and is skipped
+  when Midi-QOL is active.
+- dnd5e 6.0: the tags of a compact activity card and of its rolls are merged
+  into one deduplicated row, ordered by usefulness (activation, range or
+  reach, area, properties, duration, then the rest) and collapsed to the
+  first three behind a "+N" chip. Client setting "Collapse card tags by
+  default" under Systems and Modules, enabled by default.
+- dnd5e 6.0: client setting "Labeled card buttons" under Systems and Modules
+  chooses between the text-labeled action buttons (default) and icon-only
+  buttons on activity cards.
+- dnd5e 6.0: the compact activity cards now live in a shared package
+  (`shared/dnd5e-compact-cards`, a git submodule) that Flash Token Bar 5e
+  bundles as well, so users of either module get the same cards. When both
+  modules are active only one copy runs: the one bundling the newer package
+  version, Carolingian UI on ties. The other module's compact card settings
+  say which module handles the feature. Integrations can listen to
+  `dnd5e-compact-cards.renderRoll` and `dnd5e-compact-cards.renderCard`;
+  the `crlngn-ui.renderCompactRoll` and `crlngn-ui.renderCompactCard` hooks
+  still fire when this module runs the feature. The body classes are now
+  `dnd5e-compact-cards` and `dnd5e-icon-card-buttons`.
+
 ### Fixed
 
 - Saving the Systems and Modules settings tab without touching any module

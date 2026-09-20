@@ -80,6 +80,7 @@ export default defineConfig({
       { src: "src/module.json", dest: "dist" },
       { src: "src/loader/crlngn-ui-loader.js", dest: "dist/scripts", rename: "crlngn-ui.js" },
       { src: "src/templates", dest: "dist" },
+      { src: "shared/dnd5e-compact-cards/templates/*", dest: "dist/templates" },
       { src: "src/lang", dest: "dist" },
       { src: "src/assets", dest: "dist" }
     ],

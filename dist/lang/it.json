@@ -742,6 +742,18 @@
             "label": "Abilita icone chat e tooltip sulle schede",
             "hint": "Mostra sovrapposizione 'Visualizza in Chat' sulle immagini degli oggetti e icone pergamena per i tooltip sulle schede dei personaggi"
           },
+          "compactActivityCards": {
+            "label": "Schede attività compatte",
+            "hint": "Raggruppa i tiri di attacco, danno e cura nella scheda dell'attività che li ha generati, come righe con il totale a destra e un cassetto con il dettaglio dei dadi. Richiede dnd5e 6.0 e la sua opzione 'Riassumi schede chat'."
+          },
+          "collapseCardTags": {
+            "label": "Comprimi i tag delle schede per impostazione predefinita",
+            "hint": "Mostra solo i tag più utili (attivazione, gittata, proprietà principali) nelle schede compatte, con un chip +N per rivelare gli altri."
+          },
+          "labeledCardButtons": {
+            "label": "Pulsanti delle schede con etichetta",
+            "hint": "Mostra una breve etichetta accanto all'icona sui pulsanti delle schede attività (attacco, danno, tiro salvezza, template...). Deseleziona per usare pulsanti con sola icona."
+          },
           "applyBladeRunnerTweaks": {
             "label": "Applica modifiche all'UI del sistema Blade Runner",
             "hint": "Abilita per applicare regolazioni dell'UI e modifiche di stile alle pagine e alle finestre di Blade Runner"
@@ -853,6 +865,21 @@
     },
     "dnd5e": {
       "chatCard": {
+        "enabledSummarySetting": "Carolingian UI ha attivato l'opzione client dnd5e 'Riassumi schede chat', necessaria per le schede attività compatte.",
+        "needsSummarySetting": "Le schede attività compatte richiedono che l'opzione dnd5e 'Riassumi schede chat' sia attiva.",
+        "pendingSave": "Non ha ancora tirato",
+        "addTargeted": "Aggiungi i token bersagliati come bersagli",
+        "addSelected": "Aggiungi i token selezionati come bersagli",
+        "noTargeted": "Non hai token bersagliati.",
+        "noSelected": "Non hai token selezionati.",
+        "details": "Dettagli del tiro",
+        "hits": "colpiti",
+        "misses": "mancati",
+        "successes": "successi",
+        "failures": "fallimenti",
+        "targets": "bersagli",
+        "showAllTags": "Mostra tutti i tag",
+        "showFewerTags": "Mostra meno tag",
         "buttons": {
           "summons": "Evocazioni",
           "attack": "Attacco",
@@ -864,7 +891,10 @@
           "macro": "Macro",
           "savedc": "CD Tiro Salvezza",
           "save": "Tiro Salvezza"
-        }
+        },
+        "handledBy": "Le carte attività compatte sono gestite da {module} su questo client. Valgono le impostazioni di quel modulo e queste vengono ignorate.",
+        "selectTargeted": "Seleziona i token bersaglio di questo tiro",
+        "noRecordedTargets": "Questo tiro non ha registrato bersagli nella scena corrente."
       }
     }
   }

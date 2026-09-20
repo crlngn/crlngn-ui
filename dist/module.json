@@ -8,7 +8,7 @@
   "download": "https://github.com/crlngn/crlngn-ui/releases/download/v4.2.4/module.zip",
   "bugs": "https://github.com/crlngn/crlngn-ui/issues",
   "readme": "https://github.com/crlngn/crlngn-ui/main/README.md",
-  "license": "https://mit-license.org/",
+  "license": "https://creativecommons.org/licenses/by-nc/4.0/",
   "compatibility": {
     "minimum": "13.339",
     "verified": "14.367",

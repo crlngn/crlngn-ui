@@ -1,0 +1,47 @@
+<header class="dcc-row-title">
+    <span class="dcc-row-label">{{ localize "DND5E.Damage" }}</span>
+</header>
+<section class="dcc-roll-row" data-roll-type="damage">
+    <span class="dcc-row-icon"><i class="fa-fw fa-solid fa-burst" inert></i></span>
+    <div class="dcc-row-main">
+        <ul class="pills unlist dcc-row-pills">
+            {{#each rows.properties.entries}}
+            {{#if css}}
+            <li class="pill transparent {{ css }}"><span class="label">{{ label }}</span></li>
+            {{/if}}
+            {{/each}}
+            {{#each parts}}
+            <li class="pill transparent dcc-damage-part" data-damage-type="{{ type }}">
+                {{#if config.icon}}<img src="{{ config.icon }}" alt="{{ config.label }}">{{/if}}
+                <span class="label">{{#unless ../isPrivate}}{{ total }} {{/unless}}{{ label }}</span>
+            </li>
+            {{/each}}
+            {{#if onSave}}
+            <li class="pill transparent dcc-on-save"><span class="label">{{ onSave }}</span></li>
+            {{/if}}
+        </ul>
+    </div>
+    <div class="dcc-row-total">
+        <button type="button" class="dice-roll" {{ disabled isPrivate }}>
+            <span class="result">
+                <strong class="total">{{ ifThen isPrivate "?" total }}</strong>
+            </span>
+        </button>
+        {{#unless isPrivate}}
+        <div class="roll-breakdown" popover>{{> "dnd5e.damage-breakdown" }}</div>
+        {{/unless}}
+    </div>
+</section>
+<section class="dcc-roll-drawer" hidden></section>
+{{#if showTray}}
+<damage-application class="dnd5e2"></damage-application>
+{{/if}}
+{{#if rows.properties.entries.length}}
+<ul class="dcc-row-props" hidden>
+    {{#each rows.properties.entries}}
+    {{#unless css}}
+    <li>{{ label }}</li>
+    {{/unless}}
+    {{/each}}
+</ul>
+{{/if}}

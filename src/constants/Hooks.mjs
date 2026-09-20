@@ -149,5 +149,9 @@ export const HOOKS_CRLNGN = {
   /** Fired after scene nav offset CSS variable is applied */
   SCENE_NAV_OFFSET_APPLIED: "crlngn.sceneNavOffsetApplied",
   /** Fired when a UI element visibility setting changes (fade, enable, hide) */
-  ELEMENT_VISIBILITY_CHANGED: "crlngn-ui.elementVisibilityChanged"
+  ELEMENT_VISIBILITY_CHANGED: "crlngn-ui.elementVisibilityChanged",
+  /** Fired for each roll folded into a compact dnd5e activity card, after its row and drawer are built */
+  RENDER_COMPACT_ROLL: "crlngn-ui.renderCompactRoll",
+  /** Fired after a compact dnd5e activity card has been fully enriched */
+  RENDER_COMPACT_CARD: "crlngn-ui.renderCompactCard"
 }

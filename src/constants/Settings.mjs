@@ -592,11 +592,17 @@ export function getSettings() {
       fields: [
         "useHorizontalSheetTabs",
         "enableIconsOnSheets",
+        "compactActivityCards",
+        "collapseCardTags",
+        "labeledCardButtons",
         "dockDHResources"
       ],
       default: {
         useHorizontalSheetTabs: true,
         enableIconsOnSheets: false,
+        compactActivityCards: true,
+        collapseCardTags: true,
+        labeledCardButtons: true,
         dockDHResources: true
       },
       scope: SETTING_SCOPE.client,
@@ -1843,6 +1849,39 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.enableIconsOnSheets.hint"),
       propType: Boolean,
       default: false,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false,
+      system: ["dnd5e"]
+    },
+    compactActivityCards: {
+      tag: "v2-compact-activity-cards",
+      label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.compactActivityCards.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.compactActivityCards.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false,
+      system: ["dnd5e"]
+    },
+    collapseCardTags: {
+      tag: "v2-collapse-card-tags",
+      label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.collapseCardTags.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.collapseCardTags.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false,
+      system: ["dnd5e"]
+    },
+    labeledCardButtons: {
+      tag: "v2-labeled-card-buttons",
+      label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.labeledCardButtons.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.labeledCardButtons.hint"),
+      propType: Boolean,
+      default: true,
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false,
