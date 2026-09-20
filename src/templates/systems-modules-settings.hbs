@@ -43,7 +43,7 @@
   <div class="form-group">
     <label for="otherModulesList">{{modulesField.label}}</label>
     <input type="checkbox" class="adjustOtherModules" name="adjustOtherModules" {{#if adjustOtherModules}}checked{{/if}} />
-    <input type="hidden" class="otherModulesList" name="otherModulesList" value="{{{otherModulesListJson}}}" />
+    <input type="hidden" class="otherModulesList" name="otherModulesList" value="{{otherModulesListJson}}" />
     <p class="hint">{{{modulesField.hint}}}</p>
     <ul class="multiple-select other-modules">
       {{#each modulesField.options}}

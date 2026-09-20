@@ -263,8 +263,11 @@ body.crlngn-ui{
     cursor: pointer;
     justify-content: center;
   }
+  /* dnd5e appends its Welcome Screen button directly to the tab, outside any section;
+     without this it inherits flex: 1 1 auto and stretches to fill the spare column height */
   #settings.settings-sidebar > button {
     margin-top: 8px;
+    flex: 0 0 auto;
   }
   #settings.settings-sidebar div {
     margin: 0;

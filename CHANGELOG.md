@@ -3,6 +3,22 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## Unreleased
+
+### Fixed
+
+- Saving the Systems and Modules settings tab without touching any module
+  checkbox logged "otherModulesList is malformed string" and fell back to
+  the stored list. The hidden input carrying the list was rendered without
+  HTML escaping, so the first quote inside the JSON ended the attribute and
+  the form only submitted `[{`. The value is now escaped, so the submitted
+  list is read correctly.
+- dnd5e 6.0: the Welcome Screen button in the Settings sidebar tab grew to
+  fill all spare vertical space, most visible on tall windows and on the
+  player side. The system appends that button directly to the tab rather
+  than inside a section, so it picked up the shared sidebar button rule's
+  flex grow; direct children of the tab no longer grow.
+
 ## 4.2.4 — 2026-09-15
 
 ### Changed
