@@ -1353,6 +1353,22 @@ body.crlngn-ui.crlngn-chat.crlngn-dnd5e-v6 {
     margin: 6px 0;
   }
 
+  /* Roll results in card summaries (saves and checks folded into an activity card) are meant to
+     be bare: the system makes them transparent and borderless through its button custom
+     properties, which the theme's direct background and border on chat buttons would override */
+  :is(#interface, .chat-popout, #chat-notifications) .chat-message.compact .card-summary button.dice-roll {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+
+    &:hover:not(:disabled),
+    &:focus {
+      background: transparent;
+      border-color: transparent;
+      color: inherit;
+    }
+  }
+
   /* Damage tray multiplier buttons (-1, 0, ¼, ½, 1, 2) are split controls in 6.0; keep them narrow */
   .chat-message button.multiplier-button.split-control {
     width: 1.6rem;
