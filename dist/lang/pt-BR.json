@@ -865,7 +865,8 @@
     },
     "dnd5e": {
       "chatCard": {
-        "enabledSummarySetting": "O Carolingian UI ativou a opção de cliente 'Resumir cartões de chat' do dnd5e, necessária para os cartões de atividade compactos.",
+        "enabledSummarySetting": "O Carolingian UI ativou a opção de cliente 'Resumir cartões de chat' do dnd5e para acompanhar sua opção Cartões de atividade compactos.",
+        "disabledSummarySetting": "O Carolingian UI desativou a opção de cliente 'Resumir cartões de chat' do dnd5e para acompanhar sua opção Cartões de atividade compactos.",
         "needsSummarySetting": "Os cartões de atividade compactos precisam que a opção 'Resumir cartões de chat' do dnd5e esteja ativada.",
         "pendingSave": "Ainda não rolou",
         "addTargeted": "Adicionar tokens mirados como alvos",

@@ -1372,10 +1372,45 @@ body.crlngn-ui.crlngn-chat.crlngn-dnd5e-v6 {
     }
   }
 
-  /* Damage tray multiplier buttons (-1, 0, ¼, ½, 1, 2) are split controls in 6.0; keep them narrow */
+  /* Damage tray multiplier buttons (-1, 0, ¼, ½, 1, 2) are split controls in 6.0; they share the
+     row's width evenly */
   .chat-message button.multiplier-button.split-control {
-    width: 1.6rem;
+    width: auto;
+    flex: 1 1 auto;
     font-weight: 600;
+  }
+
+  /* Damage tray: the multipliers start right after the row's sliders icon, in the same column as
+     every other row, and the Apply button ends that row instead of taking a full line of its own.
+     The recorded targets keep the row below. */
+  .chat-message .card-tray.damage-tray .collapsible-content > .wrapper {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "multipliers apply"
+      "targets targets";
+    align-items: center;
+    column-gap: 8px;
+
+    > .multiplier-row {
+      grid-area: multipliers;
+      min-width: 0;
+    }
+    > recorded-targets {
+      grid-area: targets;
+    }
+    > .apply-button {
+      grid-area: apply;
+      margin: 0;
+
+      > i {
+        display: none;
+      }
+    }
+  }
+  .chat-message .card-tray.damage-tray .damage-multipliers {
+    margin-inline-start: 0;
+    flex: 1 1 100%;
   }
 
   /* Foundry sets height: var(--input-height) on chat buttons, which would ignore any smaller

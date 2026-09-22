@@ -3,6 +3,18 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## Unreleased
+
+### Changed
+
+- dnd5e 6.0: the "Compact activity cards" setting and the system's "Summary
+  Chat Cards" client setting now stay in sync. On load Carolingian UI's setting
+  wins and the dnd5e setting is changed to match it, with a notification.
+  After that, turning either one on or off applies to both.
+- dnd5e 6.0: in the damage tray, the Apply button sits at the end of the
+  multiplier row instead of on its own line, and the multipliers start next
+  to their icon rather than being pushed to the right.
+
 ## 4.3.0 — 2026-09-20
 
 ### Changed

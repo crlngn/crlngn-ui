@@ -10,7 +10,9 @@ import { SettingsUtil } from "./SettingsUtil.mjs";
  * the shared package under `shared/dnd5e-compact-cards` and is also bundled by Flash Token Bar 5e.
  * Registers this module's copy at init; the shared registry activates exactly one copy at setup,
  * preferring the newest package version and this module on ties. When the other module wins, the
- * compact card settings show a hint pointing at it.
+ * compact card settings show a hint pointing at it. The compact cards setting is kept in sync
+ * with the dnd5e "Summary Chat Cards" client setting: this module's value wins at load, and
+ * afterwards whichever of the two the user changed last applies to both.
  */
 export class ChatCards5eUtil {
   /** @type {import("../../shared/dnd5e-compact-cards/src/CompactCards5e.mjs").CompactCards5e|null} */
@@ -32,6 +34,7 @@ export class ChatCards5eUtil {
       i18nPrefix: "CRLNGN_UI.dnd5e.chatCard",
       settings: {
         compactCards: () => SettingsUtil.get(SETTINGS.compactActivityCards.tag) ?? true,
+        setCompactCards: (value) => ChatCards5eUtil.setCompactCards(value),
         collapseTags: () => SettingsUtil.get(SETTINGS.collapseCardTags.tag) ?? true,
         labeledButtons: () => SettingsUtil.get(SETTINGS.labeledCardButtons.tag) ?? true
       },
@@ -89,6 +92,19 @@ export class ChatCards5eUtil {
   static onResolved(activeId){
     if(activeId === MODULE_ID){ return; }
     LogUtil.log("ChatCards5eUtil.onResolved - handled by another module", [activeId]);
+  }
+
+  /**
+   * Writes the compact cards setting when the dnd5e "Summary Chat Cards" setting changed, and
+   * updates the checkbox in this module's settings dialog if it is open, since that form does not
+   * re-render and would otherwise save its stale value back.
+   * @param {boolean} value
+   */
+  static async setCompactCards(value){
+    const SETTINGS = getSettings();
+    await SettingsUtil.set(SETTINGS.compactActivityCards.tag, value);
+    const inputs = document.querySelectorAll('#crlngn-ui-settings input[type="checkbox"][name="compactActivityCards"]');
+    for(const input of inputs){ input.checked = value; }
   }
 
   /**

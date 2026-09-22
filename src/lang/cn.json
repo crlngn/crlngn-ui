@@ -865,7 +865,8 @@
     },
     "dnd5e": {
       "chatCard": {
-        "enabledSummarySetting": "Carolingian UI 已启用 dnd5e 客户端设置“汇总聊天卡片”，紧凑活动卡片需要该设置。",
+        "enabledSummarySetting": "Carolingian UI 已开启 dnd5e 客户端设置“汇总聊天卡片”，以与其“紧凑活动卡片”设置保持一致。",
+        "disabledSummarySetting": "Carolingian UI 已关闭 dnd5e 客户端设置“汇总聊天卡片”，以与其“紧凑活动卡片”设置保持一致。",
         "needsSummarySetting": "紧凑活动卡片需要启用 dnd5e 的“汇总聊天卡片”设置。",
         "pendingSave": "尚未掷骰",
         "addTargeted": "将已瞄准的标记加入目标",

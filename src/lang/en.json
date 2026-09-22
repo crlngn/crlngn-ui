@@ -744,7 +744,7 @@
           },
           "compactActivityCards": {
             "label": "Compact activity cards",
-            "hint": "Fold attack, damage and healing rolls into the activity card that created them, as rows with a total on the right and a drawer with the dice breakdown. Requires dnd5e 6.0 and its own 'Summarize Chat Cards' setting."
+            "hint": "Fold attack, damage and healing rolls into the activity card that created them, as rows with a total on the right and a drawer with the dice breakdown. Requires dnd5e 6.0. Kept in sync with the system's 'Summary Chat Cards' client setting: changing either one changes both."
           },
           "collapseCardTags": {
             "label": "Collapse card tags by default",
@@ -865,8 +865,9 @@
     },
     "dnd5e": {
       "chatCard": {
-        "enabledSummarySetting": "Carolingian UI turned on the dnd5e client setting 'Summarize Chat Cards', which compact activity cards need.",
-        "needsSummarySetting": "Compact activity cards need the dnd5e setting 'Summarize Chat Cards' to be enabled.",
+        "enabledSummarySetting": "Carolingian UI turned on the dnd5e client setting 'Summary Chat Cards' to match its Compact activity cards setting.",
+        "disabledSummarySetting": "Carolingian UI turned off the dnd5e client setting 'Summary Chat Cards' to match its Compact activity cards setting.",
+        "needsSummarySetting": "Compact activity cards need the dnd5e setting 'Summary Chat Cards' to be enabled.",
         "pendingSave": "Has not rolled yet",
         "addTargeted": "Add targeted tokens as targets",
         "addSelected": "Add selected tokens as targets",

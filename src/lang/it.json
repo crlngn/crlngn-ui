@@ -865,7 +865,8 @@
     },
     "dnd5e": {
       "chatCard": {
-        "enabledSummarySetting": "Carolingian UI ha attivato l'opzione client dnd5e 'Riassumi schede chat', necessaria per le schede attività compatte.",
+        "enabledSummarySetting": "Carolingian UI ha attivato l'opzione client dnd5e 'Riassumi schede chat' per allinearla alla sua opzione Schede attività compatte.",
+        "disabledSummarySetting": "Carolingian UI ha disattivato l'opzione client dnd5e 'Riassumi schede chat' per allinearla alla sua opzione Schede attività compatte.",
         "needsSummarySetting": "Le schede attività compatte richiedono che l'opzione dnd5e 'Riassumi schede chat' sia attiva.",
         "pendingSave": "Non ha ancora tirato",
         "addTargeted": "Aggiungi i token bersagliati come bersagli",
