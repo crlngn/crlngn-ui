@@ -19,7 +19,7 @@ export class ChatCards5eUtil {
   static instance = null;
 
   /** Setting keys whose hint points at the other module when it handles the feature */
-  static SETTING_KEYS = ["compactActivityCards", "collapseCardTags", "labeledCardButtons"];
+  static SETTING_KEYS = ["compactActivityCards", "collapseCardTags", "labeledCardButtons", "retroAdvantageButtons"];
 
   /**
    * Registers this module's copy of the feature. Must run during the init hook, after settings
@@ -36,7 +36,8 @@ export class ChatCards5eUtil {
         compactCards: () => SettingsUtil.get(SETTINGS.compactActivityCards.tag) ?? true,
         setCompactCards: (value) => ChatCards5eUtil.setCompactCards(value),
         collapseTags: () => SettingsUtil.get(SETTINGS.collapseCardTags.tag) ?? true,
-        labeledButtons: () => SettingsUtil.get(SETTINGS.labeledCardButtons.tag) ?? true
+        labeledButtons: () => SettingsUtil.get(SETTINGS.labeledCardButtons.tag) ?? true,
+        retroAdvantage: () => SettingsUtil.get(SETTINGS.retroAdvantageButtons.tag) ?? true
       },
       hooks: {
         renderRoll: HOOKS_CRLNGN.RENDER_COMPACT_ROLL,
@@ -129,5 +130,13 @@ export class ChatCards5eUtil {
    */
   static applyLabeledButtons(value){
     ChatCards5eUtil.instance?.applyLabeledButtons(value);
+  }
+
+  /**
+   * Applies the retroactive advantage buttons setting
+   * @param {boolean} [value]
+   */
+  static applyRetroAdvantage(value){
+    ChatCards5eUtil.instance?.applyRetroAdvantage(value);
   }
 }

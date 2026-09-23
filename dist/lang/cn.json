@@ -659,6 +659,10 @@
             "label": "带文字的卡片按钮",
             "hint": "在活动卡片按钮（攻击、伤害、豁免、模板等）的图标旁显示简短文字。取消勾选则仅使用图标按钮。"
           },
+          "retroAdvantageButtons": {
+            "label": "事后优势按钮",
+            "hint": "在攻击、检定和豁免掷骰的结果两侧显示按钮，可在掷骰后应用优势或劣势：再掷一个 d20，取较高或较低值。仅掷骰者和 GM 可见。"
+          },
           "applyBladeRunnerTweaks": {
             "label": "对 Blade Runner 系统应用 UI 调整",
             "hint": "启用后，对 Blade Runner 角色卡和窗口应用 UI 调整和样式微调"
@@ -895,6 +899,12 @@
         },
         "handledBy": "紧凑活动卡片在此客户端由 {module} 处理。以该模块的设置为准，这里的设置将被忽略。",
         "selectTargeted": "选择此次掷骰的目标标记",
+        "retroAdvantage": "应用优势",
+        "retroDisadvantage": "应用劣势",
+        "retroNormal": "恢复为普通掷骰",
+        "retroChanged": "掷骰后更改",
+        "retroFailed": "无法更改此掷骰。",
+        "normalRoll": "普通",
         "noRecordedTargets": "此次掷骰在当前场景中没有记录目标。"
       }
     }

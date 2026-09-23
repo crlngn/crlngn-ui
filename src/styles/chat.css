@@ -1361,13 +1361,13 @@ body.crlngn-ui.crlngn-chat.crlngn-dnd5e-v6 {
      properties, which the theme's direct background and border on chat buttons would override */
   :is(#interface, .chat-popout, #chat-popout, #chat-notifications) .chat-message.compact .card-summary button.dice-roll {
     background: transparent;
-    border-color: transparent;
+    border-color: var(--dcc-pill-border);
     box-shadow: none;
 
     &:hover:not(:disabled),
     &:focus {
       background: transparent;
-      border-color: transparent;
+      border-color: var(--dcc-pill-border);
       color: inherit;
     }
   }

@@ -3,6 +3,21 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## 4.3.2 — 2026-09-22
+
+### Added
+
+- dnd5e 6.0: retroactive advantage on d20 rolls. The roll's author and the
+  GM get angles-up and angles-down buttons flanking the total of attack rows,
+  save entries, check summaries and standalone check and save cards, which
+  apply advantage or disadvantage after the roll, or return it to normal.
+  One extra d20 is rolled (two with Elven Accuracy) and shown through Dice So
+  Nice, the kept die follows the new mode, and hit, miss, critical and fumble
+  follow the new total. Dice rolled this way are remembered on the message,
+  so toggling back and forth reuses them, and a changed roll shows a marked
+  pill. Not shown when Ready Set Roll is active, and the GM can turn the
+  buttons off with the new world setting "Retroactive advantage buttons".
+
 ## 4.3.1 — 2026-09-21
 
 ### Changed

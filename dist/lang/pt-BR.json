@@ -659,6 +659,10 @@
             "label": "Botões de cartão com rótulo",
             "hint": "Mostra um rótulo curto ao lado do ícone nos botões dos cartões de atividade (ataque, dano, salvaguarda, template...). Desmarque para usar botões apenas com ícone."
           },
+          "retroAdvantageButtons": {
+            "label": "Botões de vantagem retroativa",
+            "hint": "Mostra, ao lado do total das rolagens de ataque, teste e salvaguarda, botões que aplicam vantagem ou desvantagem depois da rolagem, rolando mais um d20 e mantendo o maior ou o menor. Só o autor da rolagem e o GM os veem."
+          },
           "applyBladeRunnerTweaks": {
             "label": "Aplicar ajustes de UI ao sistema Blade Runner",
             "hint": "Ative para aplicar ajustes de UI e mudanças de estilo às fichas e janelas do Blade Runner"
@@ -895,6 +899,12 @@
         },
         "handledBy": "Os cartões compactos de atividade são controlados por {module} neste cliente. As configurações daquele módulo se aplicam e estas são ignoradas.",
         "selectTargeted": "Selecionar os tokens alvo desta rolagem",
+        "retroAdvantage": "Aplicar vantagem",
+        "retroDisadvantage": "Aplicar desvantagem",
+        "retroNormal": "Voltar a uma rolagem normal",
+        "retroChanged": "Alterado depois da rolagem",
+        "retroFailed": "Não foi possível alterar a rolagem.",
+        "normalRoll": "Normal",
         "noRecordedTargets": "Esta rolagem não registrou alvos na cena atual."
       }
     }

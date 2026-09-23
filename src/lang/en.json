@@ -754,6 +754,10 @@
             "label": "Labeled card buttons",
             "hint": "Show a short text label next to the icon on activity card buttons (attack, damage, save, template...). Uncheck to use icon-only buttons."
           },
+          "retroAdvantageButtons": {
+            "label": "Retroactive advantage buttons",
+            "hint": "Show buttons flanking the total of attack, check and save rolls that apply advantage or disadvantage after the roll, rolling one more d20 and keeping the highest or lowest. Only the roll's author and the GM see them."
+          },
           "applyBladeRunnerTweaks": {
             "label": "Apply UI tweaks to Blade Runner system",
             "hint": "Enable to apply UI adjustments and style tweaks to Blade Runner sheets and windows"
@@ -895,6 +899,12 @@
         },
         "handledBy": "Compact activity cards are handled by {module} on this client. Its settings apply and these ones are ignored.",
         "selectTargeted": "Select the tokens this roll targeted",
+        "retroAdvantage": "Apply advantage",
+        "retroDisadvantage": "Apply disadvantage",
+        "retroNormal": "Back to a normal roll",
+        "retroChanged": "Changed after the roll",
+        "retroFailed": "The roll could not be changed.",
+        "normalRoll": "Normal",
         "noRecordedTargets": "This roll recorded no targets on the current scene."
       }
     }

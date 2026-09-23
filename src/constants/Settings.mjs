@@ -595,6 +595,7 @@ export function getSettings() {
         "compactActivityCards",
         "collapseCardTags",
         "labeledCardButtons",
+        "retroAdvantageButtons",
         "dockDHResources"
       ],
       default: {
@@ -603,6 +604,7 @@ export function getSettings() {
         compactActivityCards: true,
         collapseCardTags: true,
         labeledCardButtons: true,
+        retroAdvantageButtons: true,
         dockDHResources: true
       },
       scope: SETTING_SCOPE.client,
@@ -1885,6 +1887,18 @@ export function getSettings() {
       propType: Boolean,
       default: true,
       scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false,
+      system: ["dnd5e"],
+      systemMinVersion: "6.0.0"
+    },
+    retroAdvantageButtons: {
+      tag: "v2-retro-advantage-buttons",
+      label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.retroAdvantageButtons.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.retroAdvantageButtons.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.world,
       config: false,
       requiresReload: false,
       system: ["dnd5e"],
