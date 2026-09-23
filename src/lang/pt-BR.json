@@ -5,6 +5,8 @@
       "clientSettingsLabel": "Configurações do Jogador (Cliente)",
       "worldSettingsLabel": "Configurações do Mundo (GM)",
       "toggleHints": "Alternar Ajuda",
+      "detachWindow": "Desanexar janela",
+      "attachWindow": "Anexar janela",
       "navDisabled": "A navegação de cenas está desativada na aba 'Elementos'. As configurações abaixo só terão efeito se o Layout Personalizado estiver ativado para a Navegação de Cenas.",
       "reloadRequiredTitle": "Recarregar Foundry",
       "reloadRequiredLabel": "É necessário recarregar. Recarregar agora?",

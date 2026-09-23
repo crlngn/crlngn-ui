@@ -5,6 +5,8 @@
       "clientSettingsLabel": "Player Settings (Client)",
       "worldSettingsLabel": "World Settings (GM)",
       "toggleHints": "Toggle Hints",
+      "detachWindow": "Detach Window",
+      "attachWindow": "Attach Window",
       "navDisabled": "Scene Navigation is disabled in the 'Elements' tab. The settings below will only have effect if Custom Layout is enabled for Scene Navigation.",
       "reloadRequiredTitle": "Reload Foundry",
       "reloadRequiredLabel": "A reload is required. Reload now?",

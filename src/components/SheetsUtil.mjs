@@ -4,6 +4,7 @@ import { getSettings } from "../constants/Settings.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 import { ColorPickerUtil } from "./ColorPickerUtil.mjs";
+import { SheetDetachUtil } from "./SheetDetachUtil.mjs";
 
 /**
  * DnD5e style sheets initialization and setup
@@ -32,6 +33,7 @@ export class SheetsUtil {
       if(brTweaksEnabled){
         document.body.classList.add("crlngn-br-ui");
         Hooks.on(HOOKS_CORE.RENDER_ACTOR_SHEET, SheetsUtil.#onRenderBladeRunnerSheet);
+        SheetDetachUtil.init();
       } else {
         document.body.classList.remove("crlngn-br-ui");
       }

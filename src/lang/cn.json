@@ -5,6 +5,8 @@
       "clientSettingsLabel": "玩家设置 (客户端)",
       "worldSettingsLabel": "世界设置 (游戏主持人)",
       "toggleHints": "切换帮助",
+      "detachWindow": "分离窗口",
+      "attachWindow": "附加窗口",
       "navDisabled": "场景导航已在\"元素\"选项卡中禁用。以下设置将在自定义布局为场景导航时生效。",
       "reloadRequiredTitle": "重新加载Foundry",
       "reloadRequiredLabel": "需要重新加载。现在重新加载？",

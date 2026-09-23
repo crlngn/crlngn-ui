@@ -1,4 +1,23 @@
 body.crlngn-ui.crlngn-br-ui.system-blade-runner{
+  /* A legacy sheet moved into its own browser window fills it; the position the main window gave
+     it and the drag and resize handles no longer apply there */
+  &.detached .window-app.crlngn-detached-app {
+    position: fixed !important;
+    inset: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0 !important;
+    transform: none !important;
+    border-radius: 0;
+    box-shadow: none;
+
+    > .window-resizable-handle {
+      display: none;
+    }
+  }
+
   .app.window-app.blade-runner .window-header a.header-button,
   .application.window-app.blade-runner .window-header a.header-button,
   .window-app.blade-runner .window-header .popout-module-button {

@@ -3,6 +3,16 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## Unreleased
+
+### Added
+
+- Blade Runner on Foundry v14: a "Detach Window" button in the header of
+  actor and item sheets moves the sheet into its own browser window, and
+  brings it back on a second click. Foundry only offers detaching to sheets
+  built on its new application framework, which the system's sheets are not
+  yet. Dragging, resizing and minimizing are inert while a sheet is detached.
+
 ## 4.3.2 — 2026-09-22
 
 ### Added

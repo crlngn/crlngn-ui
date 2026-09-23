@@ -5,6 +5,8 @@
       "clientSettingsLabel": "Impostazioni del Giocatore (Client)",
       "worldSettingsLabel": "Impostazioni del Mondo (GM)",
       "toggleHints": "Attiva/Disattiva Aiuto",
+      "detachWindow": "Stacca finestra",
+      "attachWindow": "Riattacca finestra",
       "navDisabled": "La navigazione della scena è disabilitata nella scheda 'Elementi'. Le impostazioni seguenti avranno effetto solo se il Layout Personalizzato è abilitato per la Navigazione Scena.",
       "reloadRequiredTitle": "Ricarica Foundry",
       "reloadRequiredLabel": "È necessario un ricaricamento. Ricaricare ora?",
