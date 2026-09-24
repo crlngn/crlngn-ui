@@ -34,6 +34,17 @@ body.crlngn-ui.crlngn-br-ui.system-blade-runner{
   .application.window-app.blade-runner .dialog-button {
     color: #fff;
     background-color: color-mix(in srgb, var(--color-blue-darker) 40%, transparent);
+
+    /* Disabled buttons (e.g. Roll and Disadvantage while the roll dialog forces advantage) read as
+       inert: muted text, no fill, no hover change */
+    &:disabled,
+    &.disabled {
+      color: rgba(255, 255, 255, 0.35);
+      border-color: rgba(255, 255, 255, 0.08);
+      background-color: color-mix(in srgb, var(--color-blue-darker) 18%, rgba(0, 0, 0, 0.35));
+      cursor: default;
+      pointer-events: none;
+    }
   }
 
   .app.window-app.dialog .window-content, 
@@ -52,7 +63,7 @@ body.crlngn-ui.crlngn-br-ui.system-blade-runner{
     border-bottom: 2px solid var(--color-green);
   }
 
-  .application.window-app.blade-runner .dialog-button#roll {
+  .application.window-app.blade-runner .dialog-button#roll:not(:disabled, .disabled) {
     background-color: color-mix(in srgb, var(--color-blue-darker) 40%, rgba(255,255,255,0.25));
   }
 
