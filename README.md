@@ -65,7 +65,7 @@ I am very opinionated about this module's look and feel, as it was created for m
 - Localization: English, Brazilian Portuguese, Chinese, Italian. Thanks to [yyzitai](https://github.com/yyzitai) for contributions to the Chinese language files.
 
 
-### MODULE COMPATIBILITY (A-Z):
+### MODULE COMPATIBILITY:
 I've adapted or adjusted many modules to go well with Carolngian UI - mostly those that might be particularly affected by changes in the UI. Check the  compatibility tracker.
 I have verified PF2e HUD to work, but I do not play PF2e so there might be issues I haven't noticed.
 
@@ -73,7 +73,7 @@ I have verified PF2e HUD to work, but I do not play PF2e so there might be issue
 If you want to use **Monk's Scene Navigation** you need to disable my horizontal navigation, as Monk's is not compatible with it. You'll find the option in settings.
 
 ### NOTES:
-- The module was tested mostly on Foundry v12, v13, v14 and DnD 4.x. The overall UI styles are system agnostic, but chat card styles are mostly for DnD5e and PF2e. Each system may have overrides that I may not be able to accoun for. If you would like to request support for a different system (and help with info and screenshots), please add a feature request on Github issue tracker (subject to evaluation);
+- The module was tested mostly on Foundry v12, v13, v14 and DnD5e. The overall UI styles are system agnostic, but chat card styles were tested for DnD5e and PF2e. Each system may have overrides that I may not be able to account for. If you would like to request support for a different system (and help with info and screenshots), please add a feature request on Github issue tracker (subject to evaluation);
 - Carolingian UI works best for DMs with a somewhat lean list of modules. Modules which modify the UI are likely to have conflicts.
 - Feel free to report compatibility status with other modules (subject to evaluation);
 - If you use a non-compatible module, play with the settings and disable the parts that might be affecting it before reporting.
