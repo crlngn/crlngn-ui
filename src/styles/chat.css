@@ -1568,3 +1568,34 @@ body.crlngn-ui.crlngn-chat.crlngn-dnd5e-v6 {
     &:is([data-action=executeMacro], [data-forward-action=executeMacro])::after { content: var(--crlngn-i18n-macro); }
   }
 }
+
+/*****************
+dnd5e 5.x compatibility for compact activity cards
+Gated on the body class added by GeneralUtil.applySystemVersionClass().
+******************/
+body.crlngn-ui.crlngn-chat.crlngn-dnd5e-v5 {
+  /* Compact activity cards pack the card face tighter: rows sit 2px apart and the description
+     keeps only its top padding, since the tag row below carries its own spacing. The :is() with
+     the interface id matches the specificity of the theme's description rule above */
+  :is(#interface, .chat-popout, #chat-popout, #chat-notifications) .chat-message.dcc-legacy .chat-card.activation-card {
+    gap: 2px;
+
+    > .description {
+      padding: 0.5rem 0 0;
+    }
+  }
+
+  /* Roll results folded into an activity card are meant to be bare, as on 6.0 */
+  :is(#interface, .chat-popout, #chat-popout, #chat-notifications) .chat-message.dcc-legacy .card-summary button.dice-roll {
+    background: transparent;
+    border-color: var(--dcc-pill-border);
+    box-shadow: none;
+
+    &:hover:not(:disabled),
+    &:focus {
+      background: transparent;
+      border-color: var(--dcc-pill-border);
+      color: inherit;
+    }
+  }
+}

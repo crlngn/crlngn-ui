@@ -27,9 +27,9 @@
                 <strong class="total">{{ ifThen isPrivate "?" total }}</strong>
             </span>
         </button>
-        {{#unless isPrivate}}
+        {{#unless isPrivate}}{{#unless legacy}}
         <div class="roll-breakdown" popover>{{> "dnd5e.damage-breakdown" }}</div>
-        {{/unless}}
+        {{/unless}}{{/unless}}
     </div>
 </section>
 <section class="dcc-roll-drawer" hidden></section>

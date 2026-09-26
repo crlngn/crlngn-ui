@@ -601,10 +601,10 @@ export function getSettings() {
       default: {
         useHorizontalSheetTabs: true,
         enableIconsOnSheets: false,
-        compactActivityCards: true,
+        compactActivityCards: !foundry.utils.isNewerVersion("6.0.0", game.system?.version ?? "0"),
         collapseCardTags: true,
         labeledCardButtons: true,
-        retroAdvantageButtons: true,
+        retroAdvantageButtons: !game.modules?.get("midi-qol")?.active,
         dockDHResources: true
       },
       scope: SETTING_SCOPE.client,
@@ -1861,12 +1861,12 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.compactActivityCards.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.compactActivityCards.hint"),
       propType: Boolean,
-      default: true,
+      default: !foundry.utils.isNewerVersion("6.0.0", game.system?.version ?? "0"),
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false,
       system: ["dnd5e"],
-      systemMinVersion: "6.0.0"
+      systemMinVersion: "5.3.0"
     },
     collapseCardTags: {
       tag: "v2-collapse-card-tags",
@@ -1878,7 +1878,7 @@ export function getSettings() {
       config: false,
       requiresReload: false,
       system: ["dnd5e"],
-      systemMinVersion: "6.0.0"
+      systemMinVersion: "5.3.0"
     },
     labeledCardButtons: {
       tag: "v2-labeled-card-buttons",
@@ -1890,19 +1890,19 @@ export function getSettings() {
       config: false,
       requiresReload: false,
       system: ["dnd5e"],
-      systemMinVersion: "6.0.0"
+      systemMinVersion: "5.3.0"
     },
     retroAdvantageButtons: {
       tag: "v2-retro-advantage-buttons",
       label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.retroAdvantageButtons.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.retroAdvantageButtons.hint"),
       propType: Boolean,
-      default: true,
+      default: !game.modules?.get("midi-qol")?.active,
       scope: SETTING_SCOPE.world,
       config: false,
       requiresReload: false,
       system: ["dnd5e"],
-      systemMinVersion: "6.0.0"
+      systemMinVersion: "5.3.0"
     },
 
     applyBladeRunnerTweaks: {
