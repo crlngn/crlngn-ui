@@ -553,6 +553,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       });
     });
 
+    ModuleSettings.setupTabSelect(this);
     ModuleSettings.handleCustomFontFields();
     ModuleSettings.handleThemeAndStyleFields();
     ModuleSettings.handleSheetFields();
@@ -1163,10 +1164,41 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     return confirmReload;
   }
 
+  /**
+   * Mirrors the tab navigation into a select box, shown instead of the tabs on narrow (mobile) widths
+   * @static
+   * @param {ModuleSettings} app - The rendered settings application
+   */
+  static setupTabSelect(app) {
+    const nav = app.element?.querySelector('.window-content > nav.tabs');
+    const tabLinks = nav?.querySelectorAll('[data-action="tab"][data-tab]') || [];
+    if (!tabLinks.length) return;
+    const group = tabLinks[0].dataset.group;
+
+    let select = app.element.querySelector('select.crlngn-tab-select');
+    if (!select) {
+      select = document.createElement('select');
+      select.classList.add('crlngn-tab-select');
+      select.setAttribute('aria-label', game.i18n.localize('CRLNGN_UI.settings.moduleSettingsMenu.title'));
+      select.addEventListener('change', () => app.changeTab(select.value, group));
+      nav.after(select);
+    }
+
+    select.replaceChildren(...Array.from(tabLinks).map(link => {
+      const option = document.createElement('option');
+      option.value = link.dataset.tab;
+      option.textContent = link.textContent.trim();
+      return option;
+    }));
+    select.value = nav.querySelector('[data-tab].active')?.dataset.tab || app.tabGroups?.[group] || tabLinks[0].dataset.tab;
+  }
+
   /** @inheritDoc */
   changeTab(tab, group, options) {
     super.changeTab(tab, group, options);
     ModuleSettings.#activeTab = tab;
+    const tabSelect = ModuleSettings.#element?.querySelector('select.crlngn-tab-select');
+    if (tabSelect && tabSelect.value !== tab) tabSelect.value = tab;
 
     // Inject enforcement icons for the newly rendered tab
     // Use requestAnimationFrame to wait for tab content to render

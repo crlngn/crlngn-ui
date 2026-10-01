@@ -1215,15 +1215,16 @@ export class ColorPickerUtil {
       // Text color - should have good contrast with the secondary color
       // For text that appears ON secondary backgrounds, we need to ensure readability
       const hsl = this.rgbToHsl(baseColor);
-      
+      const textSaturation = hsl.s * 0.4;
+
       if (isLightTheme) {
         // Darker version of the same hue
         const textLightness = Math.min(30, hsl.l - 65);
-        vars['--color-text-secondary'] = this.hslToRgb(hsl.h, hsl.s, textLightness).replace('rgb(', 'rgba(').replace(')', ', 0.75)');
+        vars['--color-text-secondary'] = this.hslToRgb(hsl.h, textSaturation, textLightness).replace('rgb(', 'rgba(').replace(')', ', 0.75)');
       } else {
         // Lighter version of the same hue
         const textLightness = Math.max(70, hsl.l + 65);
-        vars['--color-text-secondary'] = this.hslToRgb(hsl.h, hsl.s, textLightness).replace('rgb(', 'rgba(').replace(')', ', 0.75)');
+        vars['--color-text-secondary'] = this.hslToRgb(hsl.h, textSaturation, textLightness).replace('rgb(', 'rgba(').replace(')', ', 0.75)');
       }
       vars['--color-ownership-none'] = baseColor;
       // vars['--toggle-active-bg-color'] = `rgba(${r}, ${g}, ${b}, 0.5)`;

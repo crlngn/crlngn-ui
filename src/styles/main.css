@@ -973,6 +973,87 @@ body.crlngn-ui{
   }
 }
 
+/* Tab select box - replaces the horizontal tabs on narrow (mobile / Swipe VTT phone) widths */
+.standard-form.crlngn select.crlngn-tab-select {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  #crlngn-ui-settings {
+    max-height: 80dvh;
+  }
+  #crlngn-ui-settings .standard-form.crlngn.tabbed-settings {
+    min-height: 0;
+    padding: 1em;
+
+    nav.tabs {
+      display: none;
+    }
+    select.crlngn-tab-select {
+      display: block;
+      width: 100%;
+      min-height: calc(var(--input-height) * 1.25);
+      flex: 0 0 auto;
+      margin-bottom: 0.75em;
+      font-size: var(--font-size-16);
+      font-weight: 600;
+    }
+
+    h4 {
+      flex-wrap: wrap;
+      gap: 0.5em;
+      font-size: var(--font-size-16);
+    }
+
+    .form-content {
+      max-height: none;
+      padding-right: 4px;
+    }
+    .form-content.active {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+
+    &:after {
+      height: 60px;
+    }
+
+    .form-group, fieldset .form-group {
+      margin: 0;
+      padding: 0.85em 0;
+      gap: 0.5em;
+      border-bottom: 1px solid var(--color-dark-bg-10, rgba(0,0,0,0.1));
+
+      > label {
+        min-width: 0;
+        min-height: 0;
+        flex: 1 1 0;
+        line-height: 1.2;
+      }
+
+      &.range > label,
+      &:has(> select, > .form-fields, > .custom-color-section, > input[type="text"]) > label {
+        flex: 1 1 100%;
+      }
+      &.range input[type="range"] {
+        width: auto;
+        flex: 1 1 auto;
+      }
+    }
+
+    .custom-color-section {
+      flex: 1 1 100%;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .hint {
+      line-height: 1.3;
+    }
+  }
+}
+
 
 .standard-form.crlngn {
   .multiple-select {
