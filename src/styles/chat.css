@@ -1316,9 +1316,9 @@ body.crlngn-ui.crlngn-chat.cui-font-ui {
     font-family: var(--crlngn-font-family);
   }
 
+  /* Elements under an inline font (e.g. Polyglot's scrambled text) keep the font they inherit */
   .chat-message .message-content:not(.dnd5e2) {
-    p, ul, ol, li, span, a, b, strong,
-    h3, h4, h5, h6 {
+    :is(p, ul, ol, li, span, a, b, strong, h3, h4, h5, h6):not([style*="font-family"] *, [style*="font:"] *) {
       font-family: var(--crlngn-font-family);
     }
   }
