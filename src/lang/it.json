@@ -1,6 +1,13 @@
 {
   "CRLNGN_UI": {
     "ui": {
+      "compactNotifications": {
+        "fromOne": "{count} da {name}",
+        "fromMany": "{count} da {sources} origini",
+        "count": "{count} notifiche",
+        "originCore": "Foundry VTT",
+        "originScript": "Script"
+      },
       "generalSettingsLabel": "Impostazioni generali",
       "clientSettingsLabel": "Impostazioni del Giocatore (Client)",
       "worldSettingsLabel": "Impostazioni del Mondo (GM)",
