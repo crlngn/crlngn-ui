@@ -99,15 +99,19 @@ export class CompactNotifications {
 
   /**
    * Numbers the stacked notifications in display order, newest first, and records their count
-   * on the list and on the newest one, which shows it as a chip. A stack of one needs no
+   * on the list and on the newest one, which shows it as a chip. Each pill also learns how far
+   * below the newest one it sits in the column, which the stylesheet uses to pull it up onto the
+   * newest one while folded, so that folding and spreading animate. A stack of one needs no
    * spreading, so it folds back.
    */
   static #onListChange = () => {
     const list = CompactNotifications.#list;
     if (!list) return;
     const stacked = Array.from(list.querySelectorAll(`:scope > ${STACK_SELECTOR}`));
+    const top = stacked[0]?.offsetTop ?? 0;
     stacked.forEach((element, index) => {
       element.dataset.stackIndex = String(index);
+      element.style.setProperty("--crlngn-stack-offset", `${element.offsetTop - top}px`);
       if (index === 0) element.dataset.stackCount = String(stacked.length);
       else delete element.dataset.stackCount;
     });
