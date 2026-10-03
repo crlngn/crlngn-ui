@@ -10,8 +10,10 @@
 
 /* Light mode defaults */
 body.crlngn-ui.crlngn-chat {
-  /* Card backgrounds */
-  --cui-chat-card-bg: var(--dnd5e-background-card, rgba(244, 239, 237, 0.8));
+  /* Card backgrounds. These use dnd5e's theme-independent card color rather than its
+     --dnd5e-background-card: dnd5e 6.0 scopes that one to the applications theme, so under
+     Applications: Dark + Interface: Light it would paint dark cards into a light chat */
+  --cui-chat-card-bg: color-mix(in srgb, var(--dnd5e-color-card, rgb(244, 239, 237)) 80%, transparent);
   --cui-chat-card-bg-blind: color-mix(in srgb, var(--cui-chat-card-bg) 80%, var(--color-warm-2) 20%);
   --cui-chat-card-bg-whisper: color-mix(in srgb, var(--cui-chat-card-bg) 90%, #ffffff 10%);
   --cui-chat-card-shadow: 0 0 0px var(--dnd5e-shadow-45);
@@ -59,19 +61,7 @@ body.crlngn-ui.crlngn-chat {
   --cui-chat-metadata-opacity: 0.5;
 
   /* Table styling */
-  --cui-chat-table-bg: var(--dnd5e-background-card, #e8e8ef);
-}
-
-/* The defaults above are declared on <body>, so any var() they reference is resolved
-   against the APPLICATIONS theme. With Applications: Dark + Interface: Light that bakes
-   the dark card color into a light sidebar. Re-declare the dnd5e-derived tokens inside
-   the light chat regions so they resolve against the interface theme instead. */
-body.crlngn-ui.crlngn-chat #interface.theme-light :is(.sidebar-content, #sidebar-content),
-body.crlngn-ui.crlngn-chat .chat-log.themed.theme-light {
-  --cui-chat-card-bg: var(--dnd5e-background-card, rgba(244, 239, 237, 0.8));
-  --cui-chat-card-bg-blind: color-mix(in srgb, var(--cui-chat-card-bg) 80%, var(--color-warm-2) 20%);
-  --cui-chat-card-bg-whisper: color-mix(in srgb, var(--cui-chat-card-bg) 90%, #ffffff 10%);
-  --cui-chat-table-bg: var(--dnd5e-background-card, #e8e8ef);
+  --cui-chat-table-bg: var(--dnd5e-color-card, #e8e8ef);
 }
 
 /* ============================================
@@ -96,9 +86,9 @@ body.crlngn-ui.crlngn-chat {
   &.theme-dark .chat-popout.theme-light,
   &.theme-dark .chat-popout.theme-light .dnd5e2.chat-message {
     /* Card backgrounds */
-    --cui-chat-card-bg: color-mix(in srgb, var(--background) 95%, #ffffff 5%);
-    --cui-chat-card-bg-blind: color-mix(in srgb, var(--background) 70%, var(--color-warm-2) 20%);
-    --cui-chat-card-bg-whisper: color-mix(in srgb, var(--background) 90%, #fff 10%);
+    --cui-chat-card-bg: color-mix(in srgb, var(--background) 80%, #000000 20%);
+    --cui-chat-card-bg-blind: color-mix(in srgb, var(--cui-chat-card-bg) 80%, var(--color-warm-2) 20%);
+    --cui-chat-card-bg-whisper: color-mix(in srgb, var(--cui-chat-card-bg) 92%, #ffffff 8%);
     /*var(--chat-dark-blue, rgba(24, 32, 38, 1));*/
 
     /* Text colors */
