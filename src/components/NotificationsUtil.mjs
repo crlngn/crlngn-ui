@@ -1,4 +1,6 @@
+import { MODULE_ID } from "../constants/General.mjs";
 import { getSettings } from "../constants/Settings.mjs";
+import { LibWrapperUtil } from "./LibWrapperUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 
@@ -6,13 +8,32 @@ import { SettingsUtil } from "./SettingsUtil.mjs";
 const BODY_CLASS = "crlngn-compact-notifications";
 /** Class on the notification list while the stack is spread out */
 const EXPANDED_CLASS = "crlngn-expanded";
+/** Class on the notification list while positions are applied without animating */
+const STILL_CLASS = "crlngn-still";
 /** Notifications that take part in the stack: everything but progress bars */
 const STACK_SELECTOR = ".notification:not(.progress)";
+/** Core method every notification goes through */
+const NOTIFY_TARGET = "foundry.applications.ui.Notifications.prototype.notify";
+/** Script paths of the frames at the top of every stack trace taken from the wrapper: this module and the wrapper library */
+const WRAPPER_PATHS = [`/modules/${MODULE_ID}/`, "/modules/lib-wrapper/"];
+/** Most notification origins remembered at once */
+const MAX_ORIGINS = 100;
+/** Distance, in pixels, a pill already in the stack settles from when the stack changes */
+const SETTLE_DISTANCE = 4;
+
+/**
+ * @typedef {Object} NotificationOrigin
+ * @property {"module"|"system"|"core"|"script"} kind
+ * @property {string} id - Package id, or the kind for core and scripts
+ * @property {string} label - Name shown to the user
+ */
 
 /**
  * Compact notifications. Core shows notifications as a full-width column; with this option on
  * they become small pills at the top center of the screen, stacked behind the newest one when
- * there are several. Clicking the stack spreads it into a column, where each pill can be
+ * there are several. The newest pill then names where the stack came from, which is found by
+ * wrapping core's notify method and reading the calling script off the stack trace. Clicking the
+ * stack spreads it into a column, where each pill shows its own message and origin and can be
  * dismissed as usual; clicking elsewhere or pressing Escape folds it back. Progress bars, such as
  * scene loading, stay out of the stack and keep their own row.
  */
@@ -25,14 +46,17 @@ export class CompactNotifications {
   static #observer = null;
   /** @type {boolean} Whether the document listeners are in place */
   static #bound = false;
+  /** @type {Map<number, NotificationOrigin>} Origin of each notification, by its id */
+  static #origins = new Map();
 
   /**
-   * Reads the setting and attaches to core's notification list
+   * Reads the setting, wraps core's notify method and attaches to the notification list
    * @static
    */
   static init() {
     const SETTINGS = getSettings();
     CompactNotifications.enabled = SettingsUtil.get(SETTINGS.compactNotifications.tag) === true;
+    CompactNotifications.#wrapNotify();
     CompactNotifications.#attach();
     CompactNotifications.#applyBodyClass();
     LogUtil.log("CompactNotifications - init", [CompactNotifications.enabled]);
@@ -54,6 +78,67 @@ export class CompactNotifications {
    */
   static #applyBodyClass() {
     document.body.classList.toggle(BODY_CLASS, CompactNotifications.enabled);
+  }
+
+  /**
+   * Wraps core's notify method so the origin of every notification is recorded against its id
+   */
+  static #wrapNotify() {
+    LibWrapperUtil.register(NOTIFY_TARGET, function(wrapped, ...args) {
+      const origin = CompactNotifications.#detectOrigin();
+      const result = wrapped(...args);
+      if (origin && Number.isFinite(result?.id)) CompactNotifications.#rememberOrigin(result.id, origin);
+      return result;
+    }, "WRAPPER");
+  }
+
+  /**
+   * Works out who raised a notification from the stack trace. The frames of this module and of
+   * the wrapper library at the top are skipped; after them, the first frame inside a module or
+   * system names the origin, an evaluated frame means a macro or script, and only core frames
+   * mean Foundry itself.
+   * @returns {NotificationOrigin}
+   */
+  static #detectOrigin() {
+    const frames = (new Error().stack ?? "").split("\n");
+    let leading = true;
+    for (const frame of frames) {
+      const url = frame.match(/(?:https?|file):\/\/[^\s()]+/)?.[0] ?? "";
+      if (leading && (!url || WRAPPER_PATHS.some(path => url.includes(path)))) continue;
+      leading = false;
+      if (/<anonymous>|> eval/.test(frame)) return CompactNotifications.#origin("script", "script");
+      const pkg = url.match(/\/(modules|systems)\/([^/]+)\//);
+      if (pkg) return CompactNotifications.#origin(pkg[1] === "modules" ? "module" : "system", pkg[2]);
+    }
+    return CompactNotifications.#origin("core", "core");
+  }
+
+  /**
+   * Builds an origin with its display name
+   * @param {"module"|"system"|"core"|"script"} kind
+   * @param {string} id
+   * @returns {NotificationOrigin}
+   */
+  static #origin(kind, id) {
+    let label = id;
+    if (kind === "module") label = game.modules?.get(id)?.title ?? id;
+    else if (kind === "system") label = game.system?.title ?? id;
+    else if (kind === "core") label = game.i18n.localize("CRLNGN_UI.ui.compactNotifications.originCore");
+    else label = game.i18n.localize("CRLNGN_UI.ui.compactNotifications.originScript");
+    return { kind, id, label };
+  }
+
+  /**
+   * Remembers an origin, forgetting the oldest once the map is full
+   * @param {number} id
+   * @param {NotificationOrigin} origin
+   */
+  static #rememberOrigin(id, origin) {
+    CompactNotifications.#origins.set(id, origin);
+    if (CompactNotifications.#origins.size > MAX_ORIGINS) {
+      const oldest = CompactNotifications.#origins.keys().next().value;
+      CompactNotifications.#origins.delete(oldest);
+    }
   }
 
   /**
@@ -98,12 +183,16 @@ export class CompactNotifications {
   }
 
   /**
-   * Numbers the stacked notifications in display order, newest first, and records their count
-   * on the list and on the newest one, which shows it as a chip. Each pill also learns how far
-   * its bottom edge sits below the newest one's in the column, which the stylesheet uses to pull
-   * it up behind the newest one while folded, so that folding and spreading animate. Bottom
-   * edges are used so a short pill behind a tall one still peeks out below it. A stack of one
-   * needs no spreading, so it folds back.
+   * Numbers the stacked notifications in display order, newest first, records their count on
+   * the list and on the newest one, and labels each with its origin. Each pill also learns how
+   * far its bottom edge sits below the newest one's in the column, which the stylesheet uses to
+   * pull it up behind the newest one while folded, so that folding and spreading animate; bottom
+   * edges are used so a short pill behind a tall one still peeks out below it. The newest pill
+   * gets the summary shown while folded. A stack of one needs no spreading, so it folds back.
+   *
+   * A change of the list moves the column in layout at once, which the transform transition
+   * would then visibly chase, so the new positions are applied with transitions off and the
+   * pills already in the stack settle into place from a few pixels down instead.
    */
   static #onListChange = () => {
     const list = CompactNotifications.#list;
@@ -111,15 +200,84 @@ export class CompactNotifications {
     const stacked = Array.from(list.querySelectorAll(`:scope > ${STACK_SELECTOR}`));
     const first = stacked[0];
     const bottom = first ? first.offsetTop + first.offsetHeight : 0;
+    const settling = [];
+    list.classList.add(STILL_CLASS);
     stacked.forEach((element, index) => {
+      if (element.dataset.stackIndex !== undefined) settling.push(element);
       element.dataset.stackIndex = String(index);
       element.style.setProperty("--crlngn-stack-offset", `${element.offsetTop + element.offsetHeight - bottom}px`);
       if (index === 0) element.dataset.stackCount = String(stacked.length);
       else delete element.dataset.stackCount;
+      CompactNotifications.#labelOrigin(element);
     });
+    CompactNotifications.#updateSummary(stacked);
     list.dataset.count = String(stacked.length);
     if (stacked.length <= 1) CompactNotifications.#collapse();
+    CompactNotifications.#settle(list, settling);
   };
+
+  /**
+   * Lets the given pills take their new positions without animating, then eases them in from a
+   * few pixels below, which reads as a nudge rather than a slide
+   * @param {HTMLOListElement} list
+   * @param {HTMLElement[]} elements
+   */
+  static #settle(list, elements) {
+    for (const element of elements) element.style.translate = `0 ${SETTLE_DISTANCE}px`;
+    void list.offsetHeight;
+    list.classList.remove(STILL_CLASS);
+    for (const element of elements) element.style.translate = "";
+  }
+
+  /**
+   * Writes a notification's origin onto its element, as data and as a small label shown when the
+   * stack is spread out
+   * @param {HTMLElement} element
+   */
+  static #labelOrigin(element) {
+    if (element.dataset.originKey) return;
+    const origin = CompactNotifications.#origins.get(Number(element.dataset.id));
+    if (!origin) return;
+    element.dataset.originKey = `${origin.kind}:${origin.id}`;
+    const label = document.createElement("small");
+    label.className = "crlngn-origin";
+    label.textContent = origin.label;
+    element.appendChild(label);
+  }
+
+  /**
+   * Gives the newest pill the text shown while folded: the count and where the notifications
+   * came from, naming the origin when they all share one and counting the origins otherwise
+   * @param {HTMLElement[]} stacked - The stacked notifications, newest first
+   */
+  static #updateSummary(stacked) {
+    for (const element of stacked.slice(1)) element.querySelector(":scope > .crlngn-stack-summary")?.remove();
+    const first = stacked[0];
+    if (!first) return;
+    let summary = first.querySelector(":scope > .crlngn-stack-summary");
+    if (stacked.length <= 1) {
+      summary?.remove();
+      return;
+    }
+    if (!summary) {
+      summary = document.createElement("span");
+      summary.className = "crlngn-stack-summary";
+      first.appendChild(summary);
+    }
+    const keys = stacked.map(element => element.dataset.originKey);
+    const known = new Set(keys.filter(Boolean));
+    const count = stacked.length;
+    let text;
+    if (known.size === 1 && keys.every(Boolean)) {
+      const name = first.querySelector(":scope > .crlngn-origin")?.textContent ?? "";
+      text = game.i18n.format("CRLNGN_UI.ui.compactNotifications.fromOne", { count, name });
+    } else if (known.size > 1) {
+      text = game.i18n.format("CRLNGN_UI.ui.compactNotifications.fromMany", { count, sources: known.size });
+    } else {
+      text = game.i18n.format("CRLNGN_UI.ui.compactNotifications.count", { count });
+    }
+    summary.textContent = text;
+  }
 
   /**
    * While folded, a click on the stack spreads it instead of dismissing the notification that
