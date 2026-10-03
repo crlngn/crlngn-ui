@@ -8,7 +8,7 @@
 ----------------- */
 body.crlngn-ui.crlngn-compact-notifications {
   --crlngn-pill-shift: calc(8px - 8vh);
-  --crlngn-pill-max-width: min(440px, calc(100vw - 32px));
+  --crlngn-pill-width: 440px;
   --crlngn-pill-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 
   ol#notifications {
@@ -25,7 +25,8 @@ body.crlngn-ui.crlngn-compact-notifications {
     > .notification:not(.progress) {
       --crlngn-stack-offset: 0px;
       grid-column: 1;
-      width: var(--crlngn-pill-max-width);
+      width: var(--crlngn-pill-width);
+      max-width: calc(100vw - 32px);
       padding: 1rem 1.5rem;
       border-radius: 999px;
       font-size: var(--font-size-12);
