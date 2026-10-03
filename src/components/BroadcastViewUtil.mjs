@@ -51,7 +51,7 @@ export class BroadcastView {
   static #lastSent = 0;
   /** @type {number|null} Timer repeating the current view while broadcasting */
   static #heartbeat = null;
-  /** @type {{x: number, y: number, scale: number, sceneId: string}|null} Latest view received */
+  /** @type {{x: number, y: number, scale: number, height: number, sceneId: string}|null} Latest view received */
   static #received = null;
   /** @type {number} Time the latest view was received */
   static #receivedAt = 0;
@@ -334,20 +334,31 @@ export class BroadcastView {
   }
 
   /**
-   * Sends a view to the other clients
+   * Sends a view to the other clients, with the height of the viewport in map units so that a
+   * follower can show the same stretch of map whatever the size of their window
    * @param {{x: number, y: number, scale: number}|null} view
    */
   static #send(view) {
     if (!view || !BroadcastView.active || !canvas?.scene) return;
     BroadcastView.#lastSent = Date.now();
+    const screenHeight = BroadcastView.#screenHeight();
     game.socket.emit(SOCKET_NAME, {
       type: "view",
       userId: game.user.id,
       sceneId: canvas.scene.id,
       x: view.x,
       y: view.y,
-      scale: view.scale
+      scale: view.scale,
+      height: screenHeight && view.scale ? screenHeight / view.scale : null
     });
+  }
+
+  /**
+   * Height of the canvas viewport in screen pixels
+   * @returns {number}
+   */
+  static #screenHeight() {
+    return canvas?.app?.renderer?.screen?.height || window.innerHeight || 0;
   }
 
   /**
@@ -366,7 +377,7 @@ export class BroadcastView {
     }
     if (data.type !== "view") return;
     if (!BroadcastView.enabled || !BroadcastView.follow || BroadcastView.active) return;
-    BroadcastView.#received = { x: data.x, y: data.y, scale: data.scale, sceneId: data.sceneId };
+    BroadcastView.#received = { x: data.x, y: data.y, scale: data.scale, height: data.height, sceneId: data.sceneId };
     BroadcastView.#receivedAt = Date.now();
     if (BroadcastView.#dragging || Date.now() < BroadcastView.#holdUntil) return;
     BroadcastView.#applyReceived(SEND_INTERVAL * 2);
@@ -384,14 +395,20 @@ export class BroadcastView {
   }
 
   /**
-   * Pans to the latest received view, when it is for the viewed scene
+   * Pans to the latest received view, when it is for the viewed scene. With zoom included, the
+   * scale is the one that fits the broadcast map height into this viewport, so the follower sees
+   * the same stretch of map top to bottom; the GM's own scale is the fallback.
    * @param {number} duration - Duration of the pan, in milliseconds
    */
   static #applyReceived(duration) {
     const received = BroadcastView.#received;
     if (!received || !canvas?.ready || canvas.scene?.id !== received.sceneId) return;
     const target = { x: received.x, y: received.y, duration };
-    if (BroadcastView.includeZoom && Number.isFinite(received.scale)) target.scale = received.scale;
+    if (BroadcastView.includeZoom) {
+      const screenHeight = BroadcastView.#screenHeight();
+      if (received.height > 0 && screenHeight > 0) target.scale = screenHeight / received.height;
+      else if (Number.isFinite(received.scale)) target.scale = received.scale;
+    }
     BroadcastView.#applyView(target);
   }
 

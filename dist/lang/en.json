@@ -234,7 +234,7 @@
           },
           "broadcastViewZoom": {
             "label": "Include Zoom in Broadcast",
-            "hint": "Include the zoom level in the broadcast view. When disabled, players keep their own zoom and only follow the position."
+            "hint": "Match the players' zoom to the GM's view: each player sees the same height of map as the GM, whatever the size of their window. When disabled, players keep their own zoom and only follow the position."
           },
           "followBroadcastView": {
             "label": "Follow GM Broadcast View",

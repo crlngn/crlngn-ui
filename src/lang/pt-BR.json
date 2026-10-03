@@ -222,7 +222,7 @@
           },
           "broadcastViewZoom": {
             "label": "Incluir Zoom na Transmissão",
-            "hint": "Inclui o nível de zoom na visão transmitida. Quando desativado, os jogadores mantêm o próprio zoom e seguem apenas a posição."
+            "hint": "Ajusta o zoom dos jogadores à visão do Mestre: cada jogador vê a mesma altura de mapa que o Mestre, qualquer que seja o tamanho da janela. Quando desativado, os jogadores mantêm o próprio zoom e seguem apenas a posição."
           },
           "followBroadcastView": {
             "label": "Seguir Visão Transmitida pelo Mestre",
