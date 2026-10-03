@@ -24,7 +24,7 @@ body.crlngn-ui.crlngn-compact-notifications {
       grid-column: 1;
       width: fit-content;
       max-width: var(--crlngn-pill-max-width);
-      padding: 6px 14px;
+      padding: 10px 20px;
       border-radius: 999px;
       font-size: var(--font-size-12);
       line-height: 1.3;
