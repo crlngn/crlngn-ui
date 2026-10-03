@@ -48,9 +48,13 @@ body.crlngn-ui.crlngn-compact-notifications {
       }
     }
 
-    /* Folded: each pill is pulled up onto the newest one by its measured distance, the second and
-       third peeking out behind it. The newest pill shows the count in place of the close glyph */
+    /* Folded: each pill is pulled up behind the newest one by the measured distance between their
+       bottom edges, the second and third peeking out below it. They scale from their bottom edge
+       so the peek stays the same whatever their heights. The newest pill shows the count in place
+       of the close glyph */
     &:not(.crlngn-expanded) > .notification:not(.progress) {
+      transform-origin: 50% 100%;
+
       &[data-stack-index="0"] {
         z-index: 3;
       }
