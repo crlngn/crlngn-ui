@@ -22,6 +22,7 @@ import { JournalUtil } from "./JournalUtil.mjs";
 import { SidebarTabs } from "./SidebarUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
 import { ColorPickerUtil } from "./ColorPickerUtil.mjs";
+import { CompactNotifications } from "./NotificationsUtil.mjs";
 
 /**
  * Core settings management utility for the Carolingian UI module
@@ -472,6 +473,9 @@ export class SettingsUtil {
         break;
       case SETTINGS.controlsAutoHide.tag:
         SettingsAppliers.applyLeftControlsSettings(settingTag, value);
+        break;
+      case SETTINGS.compactNotifications.tag:
+        CompactNotifications.applySetting(value);
         break;
       case SETTINGS.dockHeight.tag:
         CameraDockUtil.currSettings.dockHeight = value;

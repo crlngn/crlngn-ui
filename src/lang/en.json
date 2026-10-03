@@ -180,6 +180,10 @@
             "label": "Prevent Macro Bar Reposition",
             "hint": "When enabled, hiding the chat input box also prevents the macro hotbar from being repositioned when sidebar tab changes. Keeps the macro hotbar in its original position regardless of sidebar state."
           },
+          "compactNotifications": {
+            "label": "Compact Notifications",
+            "hint": "Show notifications as small pills at the top center of the screen. Several stack behind the newest one; click the stack to spread them out. Loading progress bars are left as they are."
+          },
           "enableCombatTrackerCarousel": {
             "label": "Use Draggable Combat Carousel",
             "hint": "When enabled, the combat tracker will automatically pop out when combat has combatants and close when combat ends. Also enables custom styling for the popped out tracker."

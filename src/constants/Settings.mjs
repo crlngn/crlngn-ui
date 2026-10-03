@@ -187,7 +187,8 @@ export function getSettings() {
         "collapseMacroBar",
         "preventMacroBarReposition",
         "controlsAutoHide",
-        "hoverableSettingsHints"
+        "hoverableSettingsHints",
+        "compactNotifications"
       ],
       default: {
         // Fade out
@@ -218,7 +219,8 @@ export function getSettings() {
         collapseMacroBar: false,
         preventMacroBarReposition: true,
         controlsAutoHide: false,
-        hoverableSettingsHints: true
+        hoverableSettingsHints: true,
+        compactNotifications: false
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -1441,6 +1443,17 @@ export function getSettings() {
       scope: SETTING_SCOPE.client,
       config: false, 
       requiresReload: false 
+    },
+
+    compactNotifications: {
+      tag: "v2-compact-notifications",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.compactNotifications.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.compactNotifications.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
     },
 
     /* CAMERA DOCK */

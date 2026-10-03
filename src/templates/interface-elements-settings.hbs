@@ -86,4 +86,10 @@
     <p class="hint">{{fields.preventMacroBarReposition.hint}}</p>
   </div>
 
+  <div class="form-group">
+    <label for="compactNotifications">{{fields.compactNotifications.label}}</label>
+    <input type="checkbox" name="compactNotifications" {{#if compactNotifications}}checked{{/if}} {{#if fields.compactNotifications.isLocked}}disabled{{/if}} />
+    <p class="hint">{{fields.compactNotifications.hint}}</p>
+  </div>
+
 </section>

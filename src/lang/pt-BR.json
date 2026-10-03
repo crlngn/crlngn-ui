@@ -180,6 +180,10 @@
             "label": "Evitar Reposicionamento da Barra de Macros",
             "hint": "Quando ativado, ocultar a caixa de entrada de bate-papo também impede que a barra de macros seja reposicionada quando a aba da barra lateral muda. Mantém a barra de macros em sua posição original, independentemente do estado da barra lateral."
           },
+          "compactNotifications": {
+            "label": "Notificações Compactas",
+            "hint": "Mostra as notificações como pequenas pílulas no topo central da tela. Várias se empilham atrás da mais recente; clique na pilha para abri-las. Barras de progresso de carregamento não são afetadas."
+          },
           "enableCombatTrackerCarousel": {
             "label": "Usar Carrossel de Combate Arrastável",
             "hint": "Quando ativado, o rastreador de combate aparecerá automaticamente quando o combate tiver combatentes e fechará quando o combate terminar. Também ativa o estilo personalizado para o rastreador destacado."

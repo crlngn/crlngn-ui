@@ -180,6 +180,10 @@
             "label": "Impedisci Riposizionamento Barra Macro",
             "hint": "Quando abilitato, nascondere la casella di input della chat impedisce anche alla barra macro di essere riposizionata quando cambia la scheda della barra laterale. Mantiene la barra macro nella sua posizione originale indipendentemente dallo stato della barra laterale."
           },
+          "compactNotifications": {
+            "label": "Notifiche Compatte",
+            "hint": "Mostra le notifiche come piccole pillole in alto al centro dello schermo. Più notifiche si impilano dietro la più recente; clicca sulla pila per aprirle. Le barre di avanzamento del caricamento restano invariate."
+          },
           "enableCombatTrackerCarousel": {
             "label": "Usa Carosello di Combattimento Trascinabile",
             "hint": "Quando abilitato, il tracker di combattimento apparirà automaticamente quando il combattimento ha combattenti e si chiuderà quando il combattimento termina. Abilita anche lo stile personalizzato per il tracker evidenziato."

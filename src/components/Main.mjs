@@ -26,6 +26,7 @@ import { HintTooltipUtil } from "./HintTooltipUtil.mjs";
 import { BottomDockUtil } from "./BottomDockUtil.mjs";
 import { JournalUtil } from "./JournalUtil.mjs";
 import { JournalPageUtil } from "./JournalPageUtil.mjs";
+import { CompactNotifications } from "./NotificationsUtil.mjs";
 
 /**
  * Main class handling core module initialization and setup
@@ -194,6 +195,7 @@ export class Main {
     PlayersList.init();
     TopNavigation.init();
     LeftControls.init();
+    CompactNotifications.init();
     SidebarTabs.init();
     MacroHotbar.init();
     // TokenWheel.init();
