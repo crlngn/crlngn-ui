@@ -1,6 +1,9 @@
 {
   "CRLNGN_UI": {
     "ui": {
+      "broadcastView": {
+        "toolTitle": "Trasmetti Vista ai Giocatori"
+      },
       "generalSettingsLabel": "Impostazioni generali",
       "clientSettingsLabel": "Impostazioni del Giocatore (Client)",
       "worldSettingsLabel": "Impostazioni del Mondo (GM)",
@@ -174,6 +177,10 @@
         "label": "Combattimento: Turno Successivo",
         "hint": "Passa al turno successivo in combattimento. Funziona solo se controlli il combattente attuale."
       },
+      "broadcastView": {
+        "label": "Attiva/Disattiva Trasmissione Vista",
+        "hint": "Avvia o interrompe la condivisione della tua vista della mappa con i giocatori. Solo GM."
+      },
       "sidebarTabs": {
         "ChatLog": "Messaggi del Chat",
         "CombatTracker": "Combattimento",
@@ -215,6 +222,23 @@
           "preventMacroBarReposition": {
             "label": "Impedisci Riposizionamento Barra Macro",
             "hint": "Quando abilitato, nascondere la casella di input della chat impedisce anche alla barra macro di essere riposizionata quando cambia la scheda della barra laterale. Mantiene la barra macro nella sua posizione originale indipendentemente dallo stato della barra laterale."
+          },
+          "broadcastViewMode": {
+            "label": "Trasmissione Vista",
+            "hint": "Permette al GM di condividere la propria vista della mappa: finché la trasmissione è attiva, ogni spostamento o zoom della mappa del GM muove la vista dei giocatori nella stessa scena. Scegli se avviarla solo con la scorciatoia (Z per impostazione predefinita, configurabile in Controlli) o anche con un interruttore nei controlli dei token.",
+            "options": {
+              "off": "Disabilitata",
+              "keybinding": "Solo scorciatoia",
+              "toggle": "Scorciatoia e interruttore nei controlli"
+            }
+          },
+          "broadcastViewZoom": {
+            "label": "Includi lo Zoom nella Trasmissione",
+            "hint": "Include il livello di zoom nella vista trasmessa. Se disabilitato, i giocatori mantengono il proprio zoom e seguono solo la posizione."
+          },
+          "followBroadcastView": {
+            "label": "Segui la Vista Trasmessa dal GM",
+            "hint": "Quando un GM trasmette la propria vista, sposta anche la mappa di questo client. Disabilita per mantenere il controllo della tua vista."
           },
           "enableCombatTrackerCarousel": {
             "label": "Usa Carosello di Combattimento Trascinabile",

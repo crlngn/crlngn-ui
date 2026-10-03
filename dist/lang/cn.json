@@ -1,6 +1,9 @@
 {
   "CRLNGN_UI": {
     "ui": {
+      "broadcastView": {
+        "toolTitle": "向玩家广播视图"
+      },
       "generalSettingsLabel": "通用设置",
       "clientSettingsLabel": "玩家设置 (客户端)",
       "worldSettingsLabel": "世界设置 (游戏主持人)",
@@ -207,6 +210,23 @@
           "preventMacroBarReposition": {
             "label": "防止宏栏重新定位",
             "hint": "启用后，隐藏聊天输入框时也会防止宏快捷栏在侧边栏标签更改时被重新定位。无论侧边栏状态如何，都保持宏快捷栏在其原始位置。"
+          },
+          "broadcastViewMode": {
+            "label": "视图广播",
+            "hint": "让GM共享自己的地图视图：广播开启时，GM地图的每次平移或缩放都会移动同一场景中玩家的视图。选择仅通过快捷键（默认为Z，可在控制设置中更改）启动，还是同时在标记控件中提供开关。",
+            "options": {
+              "off": "禁用",
+              "keybinding": "仅快捷键",
+              "toggle": "快捷键和控件开关"
+            }
+          },
+          "broadcastViewZoom": {
+            "label": "在广播中包含缩放",
+            "hint": "在广播的视图中包含缩放级别。禁用后，玩家保持自己的缩放，仅跟随位置。"
+          },
+          "followBroadcastView": {
+            "label": "跟随GM广播视图",
+            "hint": "当GM广播视图时，同步移动此客户端的地图。禁用以保持对自己视图的控制。"
           },
           "enableCombatTrackerCarousel": {
             "label": "使用可拖拽战斗轮播",
@@ -725,6 +745,10 @@
       "combatNext": {
         "label": "战斗：下一回合",
         "hint": "推进到战斗中的下一个回合。仅当你拥有当前战斗者时有效。"
+      },
+      "broadcastView": {
+        "label": "切换视图广播",
+        "hint": "开始或停止与玩家共享你的地图视图。仅限GM。"
       },
       "combatTrackerMenu": {
         "label": "战斗追踪器",

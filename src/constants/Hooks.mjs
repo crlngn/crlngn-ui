@@ -8,6 +8,7 @@ export const HOOKS_CORE = {
   READY: "ready", 
   CANVAS_READY: "canvasReady",
   CANVAS_INIT: "canvasInit",
+  CANVAS_PAN: "canvasPan",
 
   /* Chat Messages */
   RENDER_CHAT_MESSAGE: "renderChatMessageHTML" ,

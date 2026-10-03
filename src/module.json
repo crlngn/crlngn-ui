@@ -27,7 +27,7 @@
     "requires": [],
     "recommends": []
   },
-  "socket": false,
+  "socket": true,
   "esmodules": [
     "scripts/crlngn-ui.js"
   ],

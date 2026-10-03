@@ -1,6 +1,9 @@
 {
   "CRLNGN_UI": {
     "ui": {
+      "broadcastView": {
+        "toolTitle": "Transmitir Visão aos Jogadores"
+      },
       "generalSettingsLabel": "Configurações Gerais",
       "clientSettingsLabel": "Configurações do Jogador (Cliente)",
       "worldSettingsLabel": "Configurações do Mundo (GM)",
@@ -207,6 +210,23 @@
           "preventMacroBarReposition": {
             "label": "Evitar Reposicionamento da Barra de Macros",
             "hint": "Quando ativado, ocultar a caixa de entrada de bate-papo também impede que a barra de macros seja reposicionada quando a aba da barra lateral muda. Mantém a barra de macros em sua posição original, independentemente do estado da barra lateral."
+          },
+          "broadcastViewMode": {
+            "label": "Transmissão de Visão",
+            "hint": "Permite ao Mestre compartilhar sua visão do mapa: enquanto a transmissão está ativa, cada movimento ou zoom do mapa do Mestre move a visão dos jogadores na mesma cena. Escolha se ela é iniciada apenas pela tecla de atalho (Z por padrão, configurável em Controles) ou também por um botão nos controles de token.",
+            "options": {
+              "off": "Desativada",
+              "keybinding": "Apenas tecla de atalho",
+              "toggle": "Tecla de atalho e botão nos controles"
+            }
+          },
+          "broadcastViewZoom": {
+            "label": "Incluir Zoom na Transmissão",
+            "hint": "Inclui o nível de zoom na visão transmitida. Quando desativado, os jogadores mantêm o próprio zoom e seguem apenas a posição."
+          },
+          "followBroadcastView": {
+            "label": "Seguir Visão Transmitida pelo Mestre",
+            "hint": "Quando um Mestre transmite sua visão, move o mapa deste cliente junto. Desative para manter o controle da sua própria visão."
           },
           "enableCombatTrackerCarousel": {
             "label": "Usar Carrossel de Combate Arrastável",
@@ -725,6 +745,10 @@
       "combatNext": {
         "label": "Combate: Próximo Turno",
         "hint": "Avança para o próximo turno em combate. Funciona apenas quando você é dono do combatente atual."
+      },
+      "broadcastView": {
+        "label": "Alternar Transmissão de Visão",
+        "hint": "Inicia ou interrompe o compartilhamento da sua visão do mapa com os jogadores. Apenas Mestre."
       },
       "combatTrackerMenu": {
         "label": "Rastreador de Combate",

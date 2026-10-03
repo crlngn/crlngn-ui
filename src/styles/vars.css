@@ -183,9 +183,9 @@
 
     .ui-control, .placeable-hud, #measurement .waypoint-label {
       --toggle-bg-color: var(--control-striped-bg);
-      --toggle-border-color: var(--color-secondary-b);
-      --toggle-active-bg-color: var(--control-striped-bg-2);
-      --toggle-active-border-color: var(--color-highlights-75);
+      --toggle-border-color: var(--color-secondary-bright);
+      --toggle-active-bg-color: var(--color-secondary-b);
+      --toggle-active-border-color: var(--color-highlights);
     }
     
     &.stream.theme-light, #interface.theme-light, .sidebar-popout.theme-light, #chat-popout.theme-light, #chat-pins.theme-light{

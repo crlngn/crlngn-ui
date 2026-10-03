@@ -187,7 +187,11 @@ export function getSettings() {
         "collapseMacroBar",
         "preventMacroBarReposition",
         "controlsAutoHide",
-        "hoverableSettingsHints"
+        "hoverableSettingsHints",
+
+        "followBroadcastView",
+        "broadcastViewMode",
+        "broadcastViewZoom"
       ],
       default: {
         // Fade out
@@ -218,7 +222,11 @@ export function getSettings() {
         collapseMacroBar: false,
         preventMacroBarReposition: true,
         controlsAutoHide: false,
-        hoverableSettingsHints: true
+        hoverableSettingsHints: true,
+
+        followBroadcastView: true,
+        broadcastViewMode: "toggle",
+        broadcastViewZoom: true
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -1461,6 +1469,45 @@ export function getSettings() {
       scope: SETTING_SCOPE.client,
       config: false, 
       requiresReload: false 
+    },
+
+    /* BROADCAST VIEW */
+    broadcastViewMode: {
+      tag: "v2-broadcast-view-mode",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.broadcastViewMode.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.broadcastViewMode.hint"),
+      options: {
+        off: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.broadcastViewMode.options.off"),
+        keybinding: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.broadcastViewMode.options.keybinding"),
+        toggle: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.broadcastViewMode.options.toggle")
+      },
+      propType: String,
+      default: "toggle",
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+
+    broadcastViewZoom: {
+      tag: "v2-broadcast-view-zoom",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.broadcastViewZoom.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.broadcastViewZoom.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false
+    },
+
+    followBroadcastView: {
+      tag: "v2-follow-broadcast-view",
+      label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.followBroadcastView.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.followBroadcastView.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
     },
 
     /* CAMERA DOCK */
