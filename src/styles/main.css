@@ -1253,7 +1253,7 @@ body.crlngn-ui{
   
       &.info {
         background: var(--color-secondary);
-        border: 1px solid rgba(0,0,0);
+        border: 1px solid transparent;
         color: var(--color-dark-1);
         text-shadow: none;
       } 
