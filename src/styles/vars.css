@@ -643,7 +643,7 @@
     }
 
     #interface.theme-dark{
-      --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-50) 0px, var(--color-secondary-50) 1px, var(--color-secondary-75) 2px, var(--color-secondary-75) 3px);
+      --striped-bg: repeating-linear-gradient( -45deg, var(--color-secondary-25) 0px, var(--color-secondary-25) 1px, color-mix(in srgb, var(--color-secondary) 40%, transparent) 2px, color-mix(in srgb, var(--color-secondary) 40%, transparent) 3px);
       --striped-bg-2: repeating-linear-gradient( -45deg, rgba(0,0,0,0.5) 0px, rgba(0,0,0,0.5) 1px, rgba(0, 0, 0, 0.75) 2px, rgba(0, 0, 0, 0.75) 3px);
     }
 

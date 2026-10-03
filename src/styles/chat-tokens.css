@@ -88,7 +88,7 @@ body.crlngn-ui.crlngn-chat {
     /* Card backgrounds */
     --cui-chat-card-bg: color-mix(in srgb, var(--background) 80%, #000000 20%);
     --cui-chat-card-bg-blind: color-mix(in srgb, var(--cui-chat-card-bg) 80%, var(--color-warm-2) 20%);
-    --cui-chat-card-bg-whisper: color-mix(in srgb, var(--cui-chat-card-bg) 92%, #ffffff 8%);
+    --cui-chat-card-bg-whisper: color-mix(in srgb, var(--cui-chat-card-bg) 96%, #ffffff 4%);
     /*var(--chat-dark-blue, rgba(24, 32, 38, 1));*/
 
     /* Text colors */
