@@ -28,6 +28,7 @@ import { BottomDockUtil } from "./BottomDockUtil.mjs";
 import { JournalUtil } from "./JournalUtil.mjs";
 import { JournalPageUtil } from "./JournalPageUtil.mjs";
 import { BroadcastView } from "./BroadcastViewUtil.mjs";
+import { CompactNotifications } from "./NotificationsUtil.mjs";
 
 /**
  * Main class handling core module initialization and setup
@@ -200,6 +201,7 @@ export class Main {
     TopNavigation.init();
     LeftControls.init();
     BroadcastView.init();
+    CompactNotifications.init();
     SidebarTabs.init();
     MacroHotbar.init();
     // TokenWheel.init();

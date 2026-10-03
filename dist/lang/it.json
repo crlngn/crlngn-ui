@@ -223,6 +223,10 @@
             "label": "Impedisci Riposizionamento Barra Macro",
             "hint": "Quando abilitato, nascondere la casella di input della chat impedisce anche alla barra macro di essere riposizionata quando cambia la scheda della barra laterale. Mantiene la barra macro nella sua posizione originale indipendentemente dallo stato della barra laterale."
           },
+          "compactNotifications": {
+            "label": "Notifiche Compatte",
+            "hint": "Mostra le notifiche come piccole pillole in alto al centro dello schermo. Più notifiche si impilano dietro la più recente; clicca sulla pila per aprirle. Le barre di avanzamento del caricamento restano invariate."
+          },
           "broadcastViewMode": {
             "label": "Trasmissione Vista",
             "hint": "Permette al GM di condividere la propria vista della mappa: finché la trasmissione è attiva, ogni spostamento o zoom della mappa del GM muove la vista dei giocatori nella stessa scena. Scegli se avviarla solo con la scorciatoia (Z per impostazione predefinita, configurabile in Controlli) o anche con un interruttore nei controlli dei token.",

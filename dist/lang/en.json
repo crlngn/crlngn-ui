@@ -223,6 +223,10 @@
             "label": "Prevent Macro Bar Reposition",
             "hint": "When enabled, hiding the chat input box also prevents the macro hotbar from being repositioned when sidebar tab changes. Keeps the macro hotbar in its original position regardless of sidebar state."
           },
+          "compactNotifications": {
+            "label": "Compact Notifications",
+            "hint": "Show notifications as small pills at the top center of the screen. Several stack behind the newest one; click the stack to spread them out. Loading progress bars are left as they are."
+          },
           "broadcastViewMode": {
             "label": "View Broadcast",
             "hint": "Lets a GM share their canvas view: while a broadcast is on, every pan or zoom of the GM's canvas moves the view of players on the same scene. Choose whether it is started with the keybinding only (Z by default, configurable in Controls) or also with a toggle on the token controls.",
