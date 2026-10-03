@@ -96,10 +96,25 @@ body.crlngn-ui.crlngn-compact-notifications {
       }
     }
 
-    /* Spread out: the plain column, each pill dismissed by its own click as in core */
+    /* Spread out: the plain column, each pill dismissed by its own click as in core, over a dark
+       scrim that radiates from the top center and fades out. The scrim is a pseudo-element of the
+       list, kept behind its pills by a negative z-index inside the list's own stacking context */
     &.crlngn-expanded > .notification:not(.progress) {
       opacity: 1;
       pointer-events: all;
+    }
+    &::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0;
+      background: radial-gradient(ellipse 70% 65% at 50% 0%, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.35) 45%, rgba(0, 0, 0, 0) 100%);
+      transition: opacity 0.4s var(--crlngn-pill-ease);
+    }
+    &.crlngn-expanded::before {
+      opacity: 1;
     }
   }
 }
