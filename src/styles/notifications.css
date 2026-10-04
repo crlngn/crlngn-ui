@@ -32,7 +32,7 @@ body.crlngn-ui.crlngn-compact-notifications {
     > .notification:not(.progress) {
       --crlngn-stack-index: 0;
       --crlngn-pill-height: calc(1.25rem + 1.3em);
-      --crlngn-pill-height-open: calc(2rem + 2 * 1.3em);
+      --crlngn-pill-height-open: calc(1.6rem + 2.6em);
       grid-column: 1;
       box-sizing: border-box;
       width: var(--crlngn-pill-width);
