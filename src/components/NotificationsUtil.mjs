@@ -20,6 +20,8 @@ const WRAPPER_PATHS = [`/modules/${MODULE_ID}/`, "/modules/lib-wrapper/"];
 const MAX_ORIGINS = 100;
 /** Distance, in pixels, a pill already in the stack settles from when the stack changes */
 const SETTLE_DISTANCE = 4;
+/** Notification types from most to least urgent; the folded stack shows the icon of the most urgent one it holds */
+const URGENCY = ["error", "warning", "success", "info"];
 
 /**
  * @typedef {Object} NotificationOrigin
@@ -59,7 +61,34 @@ export class CompactNotifications {
     CompactNotifications.#wrapNotify();
     CompactNotifications.#attach();
     CompactNotifications.#applyBodyClass();
+    CompactNotifications.#exposeApi();
     LogUtil.log("CompactNotifications - init", [CompactNotifications.enabled]);
+  }
+
+  /**
+   * Raises a notification from this module's own code, so that it is attributed to Carolingian
+   * UI. Exposed on the module's API for macros that want to try the compact layout. It goes
+   * through core's typed methods rather than notify itself: the origin detection skips the
+   * wrapper's own frames at the top of the trace, and a core frame in between is what separates
+   * them from this one.
+   * @static
+   * @param {string} message
+   * @param {string} [type="info"] - info, warning, error or success
+   * @param {object} [options] - Core notification options
+   * @returns {object} The notification
+   */
+  static notify(message, type = "info", options = {}) {
+    const method = { info: "info", warning: "warn", warn: "warn", error: "error", success: "success" }[type] ?? "info";
+    return ui.notifications[method](message, options);
+  }
+
+  /**
+   * Publishes the notify helper on the module's API object
+   */
+  static #exposeApi() {
+    const module = game.modules?.get(MODULE_ID);
+    if (!module) return;
+    module.api = { ...(module.api ?? {}), notify: CompactNotifications.notify };
   }
 
   /**
@@ -209,6 +238,7 @@ export class CompactNotifications {
       CompactNotifications.#labelOrigin(element);
     });
     CompactNotifications.#updateSummary(stacked);
+    CompactNotifications.#updateLevel(stacked);
     list.dataset.count = String(stacked.length);
     if (!stacked.length) CompactNotifications.#collapse();
     CompactNotifications.#settle(list, settling);
@@ -245,7 +275,9 @@ export class CompactNotifications {
 
   /**
    * Gives the newest pill the text shown while folded: the count and where the notifications
-   * came from, naming the origin when they all share one and counting the origins otherwise
+   * came from. One shared origin is named as is. With several, the origin of the most urgent
+   * notification is named, or of the most recent one when they are equally urgent, followed by
+   * how many other origins there are.
    * @param {HTMLElement[]} stacked - The stacked notifications, newest first
    */
   static #updateSummary(stacked) {
@@ -262,19 +294,47 @@ export class CompactNotifications {
       summary.className = "crlngn-stack-summary";
       first.appendChild(summary);
     }
-    const keys = stacked.map(element => element.dataset.originKey);
-    const known = new Set(keys.filter(Boolean));
+    const known = new Set(stacked.map(element => element.dataset.originKey).filter(Boolean));
     const count = stacked.length;
+    const lead = CompactNotifications.#leadOrigin(stacked);
     let text;
-    if (known.size === 1 && keys.every(Boolean)) {
-      const name = first.querySelector(":scope > .crlngn-origin")?.textContent ?? "";
-      text = game.i18n.format("CRLNGN_UI.ui.compactNotifications.fromOne", { count, name });
-    } else if (known.size > 1) {
-      text = game.i18n.format("CRLNGN_UI.ui.compactNotifications.fromMany", { count, sources: known.size });
-    } else {
+    if (!known.size || !lead) {
       text = game.i18n.format("CRLNGN_UI.ui.compactNotifications.count", { count });
+    } else if (known.size === 1) {
+      text = game.i18n.format("CRLNGN_UI.ui.compactNotifications.fromOne", { count, name: lead });
+    } else if (known.size === 2) {
+      text = game.i18n.format("CRLNGN_UI.ui.compactNotifications.fromOneOther", { count, name: lead });
+    } else {
+      text = game.i18n.format("CRLNGN_UI.ui.compactNotifications.fromMany", { count, name: lead, others: known.size - 1 });
     }
     summary.textContent = text;
+  }
+
+  /**
+   * Name of the origin to lead the summary with: that of the most urgent notification with a
+   * known origin, the most recent one among equals
+   * @param {HTMLElement[]} stacked - The stacked notifications, newest first
+   * @returns {string}
+   */
+  static #leadOrigin(stacked) {
+    const labeled = stacked.filter(element => element.dataset.originKey);
+    const level = URGENCY.find(type => labeled.some(element => element.classList.contains(type)));
+    const lead = labeled.find(element => !level || element.classList.contains(level)) ?? labeled[0];
+    return lead?.querySelector(":scope > .crlngn-origin")?.textContent ?? "";
+  }
+
+  /**
+   * Marks the newest pill with the most urgent type found in the stack, so the folded stack's
+   * icon warns of an error further down
+   * @param {HTMLElement[]} stacked - The stacked notifications, newest first
+   */
+  static #updateLevel(stacked) {
+    for (const element of stacked.slice(1)) delete element.dataset.stackLevel;
+    const first = stacked[0];
+    if (!first) return;
+    const level = URGENCY.find(type => stacked.some(element => element.classList.contains(type)));
+    if (level) first.dataset.stackLevel = level;
+    else delete first.dataset.stackLevel;
   }
 
   /**
