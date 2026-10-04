@@ -23,6 +23,7 @@ import { SidebarTabs } from "./SidebarUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
 import { ColorPickerUtil } from "./ColorPickerUtil.mjs";
 import { CompactNotifications } from "./NotificationsUtil.mjs";
+import { BroadcastView } from "./BroadcastViewUtil.mjs";
 
 /**
  * Core settings management utility for the Carolingian UI module
@@ -221,6 +222,23 @@ export class SettingsUtil {
       },
       repeat: false,
       restricted: false,
+    });
+
+    game.keybindings.register(MODULE_ID, "broadcastView", {
+      name: game.i18n.localize("CRLNGN_UI.settings.broadcastView.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.broadcastView.hint"),
+      editable: [
+        {
+          key: "KeyZ",
+          modifiers: []
+        }
+      ],
+      onDown: () => {
+        BroadcastView.toggle();
+        return true;
+      },
+      repeat: false,
+      restricted: true,
     });
 
     /**
@@ -476,6 +494,11 @@ export class SettingsUtil {
         break;
       case SETTINGS.compactNotifications.tag:
         CompactNotifications.applySetting(value);
+        break;
+      case SETTINGS.broadcastViewMode.tag:
+      case SETTINGS.broadcastViewZoom.tag:
+      case SETTINGS.followBroadcastView.tag:
+        BroadcastView.applySetting(settingTag, value);
         break;
       case SETTINGS.dockHeight.tag:
         CameraDockUtil.currSettings.dockHeight = value;

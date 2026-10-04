@@ -1,6 +1,9 @@
 {
   "CRLNGN_UI": { 
     "ui": { 
+      "broadcastView": {
+        "toolTitle": "Broadcast View to Players"
+      },
       "compactNotifications": {
         "fromOne": "{name} ({count})",
         "fromOneOther": "{name} and 1 other ({count})",
@@ -146,6 +149,10 @@
         "label": "Combat: Next Turn",
         "hint": "Advance to the next turn in combat. Only works when you own the current combatant."
       },
+      "broadcastView": {
+        "label": "Toggle View Broadcast",
+        "hint": "Starts or stops sharing your canvas view with the players. GM only."
+      },
       "sidebarTabs": {
         "ChatLog": "Chat Messages",
         "CombatTracker": "Combat Encounters",
@@ -191,6 +198,23 @@
           "compactNotifications": {
             "label": "Compact Notifications",
             "hint": "Show notifications as small pills at the top center of the screen. Several stack behind the newest one; click the stack to spread them out. Loading progress bars are left as they are."
+          },
+          "broadcastViewMode": {
+            "label": "View Broadcast",
+            "hint": "Lets a GM share their canvas view: while a broadcast is on, every pan or zoom of the GM's canvas moves the view of players on the same scene. Choose whether it is started with the keybinding only (Z by default, configurable in Controls) or also with a toggle on the token controls.",
+            "options": {
+              "off": "Disabled",
+              "keybinding": "Keybinding only",
+              "toggle": "Keybinding and controls toggle"
+            }
+          },
+          "broadcastViewZoom": {
+            "label": "Include Zoom in Broadcast",
+            "hint": "Match the players' zoom to the GM's view: each player sees the same height of map as the GM, whatever the size of their window. When disabled, players keep their own zoom and only follow the position."
+          },
+          "followBroadcastView": {
+            "label": "Follow GM Broadcast View",
+            "hint": "When a GM broadcasts their view, move this client's canvas along with it. Disable to keep control of your own view."
           },
           "enableCombatTrackerCarousel": {
             "label": "Use Draggable Combat Carousel",

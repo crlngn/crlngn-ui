@@ -1,6 +1,9 @@
 {
   "CRLNGN_UI": {
     "ui": {
+      "broadcastView": {
+        "toolTitle": "Transmitir Visão aos Jogadores"
+      },
       "compactNotifications": {
         "fromOne": "{name} ({count})",
         "fromOneOther": "{name} e mais 1 ({count})",
@@ -146,6 +149,10 @@
         "label": "Combate: Próximo Turno",
         "hint": "Avança para o próximo turno em combate. Funciona apenas quando você é dono do combatente atual."
       },
+      "broadcastView": {
+        "label": "Alternar Transmissão de Visão",
+        "hint": "Inicia ou interrompe o compartilhamento da sua visão do mapa com os jogadores. Apenas Mestre."
+      },
       "sidebarTabs": {
         "ChatLog": "Mensagens do Chat",
         "CombatTracker": "Combate",
@@ -191,6 +198,23 @@
           "compactNotifications": {
             "label": "Notificações Compactas",
             "hint": "Mostra as notificações como pequenas pílulas no topo central da tela. Várias se empilham atrás da mais recente; clique na pilha para abri-las. Barras de progresso de carregamento não são afetadas."
+          },
+          "broadcastViewMode": {
+            "label": "Transmissão de Visão",
+            "hint": "Permite ao Mestre compartilhar sua visão do mapa: enquanto a transmissão está ativa, cada movimento ou zoom do mapa do Mestre move a visão dos jogadores na mesma cena. Escolha se ela é iniciada apenas pela tecla de atalho (Z por padrão, configurável em Controles) ou também por um botão nos controles de token.",
+            "options": {
+              "off": "Desativada",
+              "keybinding": "Apenas tecla de atalho",
+              "toggle": "Tecla de atalho e botão nos controles"
+            }
+          },
+          "broadcastViewZoom": {
+            "label": "Incluir Zoom na Transmissão",
+            "hint": "Ajusta o zoom dos jogadores à visão do Mestre: cada jogador vê a mesma altura de mapa que o Mestre, qualquer que seja o tamanho da janela. Quando desativado, os jogadores mantêm o próprio zoom e seguem apenas a posição."
+          },
+          "followBroadcastView": {
+            "label": "Seguir Visão Transmitida pelo Mestre",
+            "hint": "Quando um Mestre transmite sua visão, move o mapa deste cliente junto. Desative para manter o controle da sua própria visão."
           },
           "enableCombatTrackerCarousel": {
             "label": "Usar Carrossel de Combate Arrastável",
