@@ -217,6 +217,12 @@ body.crlngn-ui.crlngn-combat-tracker {
       pointer-events: all;
     }
 
+    /* Until combat starts, the control bar stays visible so the roll and start buttons are at hand */
+    &.crlngn-combat-pending nav.combat-controls {
+      opacity: 1;
+      pointer-events: all;
+    }
+
     &:hover .window-content {
       background: var(--background) !important;
     }

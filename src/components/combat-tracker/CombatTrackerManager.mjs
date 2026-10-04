@@ -719,6 +719,7 @@ export class CombatTrackerManager {
       CombatTrackerManager.#applySystemOverrides(combatPopout);
       CombatCarousel.applyScale(combatPopout, CombatTrackerManager.combatCarouselScale);
       CombatCarousel.flattenCombatantGroups(combatPopout);
+      combatPopout.classList.toggle('crlngn-combat-pending', !game.combat?.started);
 
       const tracker = combatPopout.querySelector('.combat-tracker');
       const windowHeader = combatPopout.querySelector('.window-header');
