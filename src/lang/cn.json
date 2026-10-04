@@ -2,8 +2,8 @@
   "CRLNGN_UI": {
     "ui": {
       "compactNotifications": {
-        "fromOne": "来自 {name} 的 {count} 条",
-        "fromMany": "来自 {sources} 个来源的 {count} 条",
+        "fromOne": "来自 {name} 的 {count} 条通知",
+        "fromMany": "来自 {sources} 个来源的 {count} 条通知",
         "count": "{count} 条通知",
         "originCore": "Foundry VTT",
         "originScript": "脚本"
