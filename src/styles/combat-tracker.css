@@ -156,6 +156,7 @@ body.crlngn-ui.crlngn-combat-tracker {
     button.combat-control[data-action="startCombat"],
     button.combat-control[data-action="endCombat"] {
       margin: 0 0 0 0.5rem;
+      font-family: var(--crlngn-font-family);
     }
 
     button.combat-control[data-action="startCombat"] i,
@@ -213,6 +214,12 @@ body.crlngn-ui.crlngn-combat-tracker {
 
     &:has(.window-content:hover) nav.combat-controls,
     nav.combat-controls:hover {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Until combat starts, the control bar stays visible so the roll and start buttons are at hand */
+    &.crlngn-combat-pending nav.combat-controls {
       opacity: 1;
       pointer-events: all;
     }
