@@ -8,7 +8,7 @@
 ----------------- */
 body.crlngn-ui.crlngn-compact-notifications {
   --crlngn-pill-shift: calc(8px - 8vh);
-  --crlngn-pill-width: 440px;
+  --crlngn-pill-width: 320px;
   --crlngn-pill-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 
   ol#notifications {
