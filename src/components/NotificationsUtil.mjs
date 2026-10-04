@@ -30,11 +30,11 @@ const SETTLE_DISTANCE = 4;
 
 /**
  * Compact notifications. Core shows notifications as a full-width column; with this option on
- * they become small pills at the top center of the screen, stacked behind the newest one when
+ * they become one-line pills at the top center of the screen, stacked behind the newest one when
  * there are several. The newest pill then names where the stack came from, which is found by
- * wrapping core's notify method and reading the calling script off the stack trace. Clicking the
- * stack spreads it into a column, where each pill shows its own message and origin and can be
- * dismissed as usual; clicking elsewhere or pressing Escape folds it back. Progress bars, such as
+ * wrapping core's notify method and reading the calling script off the stack trace. Clicking a
+ * pill spreads the stack into a column of two-line pills, each showing its full message and its
+ * origin and dismissed by a click as usual; clicking elsewhere or pressing Escape folds it back. Progress bars, such as
  * scene loading, stay out of the stack and keep their own row.
  */
 export class CompactNotifications {
@@ -184,11 +184,10 @@ export class CompactNotifications {
 
   /**
    * Numbers the stacked notifications in display order, newest first, records their count on
-   * the list and on the newest one, and labels each with its origin. Each pill also learns how
-   * far its bottom edge sits below the newest one's in the column, which the stylesheet uses to
-   * pull it up behind the newest one while folded, so that folding and spreading animate; bottom
-   * edges are used so a short pill behind a tall one still peeks out below it. The newest pill
-   * gets the summary shown while folded. A stack of one needs no spreading, so it folds back.
+   * the list and on the newest one, and labels each with its origin. The index doubles as a
+   * custom property, from which the stylesheet works out how far to pull each pill up behind the
+   * newest one while folded, since folded pills all share one height. The newest pill gets the
+   * summary shown while folded. A stack of one needs no spreading, so it folds back.
    *
    * A change of the list moves the column in layout at once, which the transform transition
    * would then visibly chase, so the new positions are applied with transitions off and the
@@ -198,14 +197,12 @@ export class CompactNotifications {
     const list = CompactNotifications.#list;
     if (!list) return;
     const stacked = Array.from(list.querySelectorAll(`:scope > ${STACK_SELECTOR}`));
-    const first = stacked[0];
-    const bottom = first ? first.offsetTop + first.offsetHeight : 0;
     const settling = [];
     list.classList.add(STILL_CLASS);
     stacked.forEach((element, index) => {
       if (element.dataset.stackIndex !== undefined) settling.push(element);
       element.dataset.stackIndex = String(index);
-      element.style.setProperty("--crlngn-stack-offset", `${element.offsetTop + element.offsetHeight - bottom}px`);
+      element.style.setProperty("--crlngn-stack-index", String(index));
       if (index === 0) element.dataset.stackCount = String(stacked.length);
       else delete element.dataset.stackCount;
       CompactNotifications.#labelOrigin(element);
@@ -281,15 +278,16 @@ export class CompactNotifications {
 
   /**
    * While folded, a click on the stack spreads it instead of dismissing the notification that
-   * was hit. Core's own click handler sits on the notification itself, so the event is stopped
-   * here, in the capture phase, before it gets there. A lone pill is dismissed as usual.
+   * was hit, so the full messages can be read. Core's own click handler sits on the notification
+   * itself, so the event is stopped here, in the capture phase, before it gets there. A lone pill
+   * opens the same way, since folded pills show a single line; the next click dismisses it.
    * @param {MouseEvent} event
    */
   static #onListClick = (event) => {
     if (!CompactNotifications.enabled || CompactNotifications.#isExpanded()) return;
     const list = CompactNotifications.#list;
     const target = event.target instanceof Element ? event.target.closest(STACK_SELECTOR) : null;
-    if (!list || !target || Number(list.dataset.count) <= 1) return;
+    if (!list || !target) return;
     event.preventDefault();
     event.stopPropagation();
     list.classList.add(EXPANDED_CLASS);
