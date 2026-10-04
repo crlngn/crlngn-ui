@@ -8,7 +8,7 @@
 ----------------- */
 body.crlngn-ui.crlngn-compact-notifications {
   --crlngn-pill-shift: calc(8px - 8vh);
-  --crlngn-pill-width: 320px;
+  --crlngn-pill-width: 360px;
   --crlngn-pill-gap: 6px;
   --crlngn-pill-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 
@@ -53,7 +53,7 @@ body.crlngn-ui.crlngn-compact-notifications {
       animation: crlngn-pill-in 0.4s var(--crlngn-pill-ease);
 
       &::before {
-        margin-right: 6px;
+        margin-right: 12px;
       }
       > p {
         display: -webkit-box;
@@ -73,13 +73,9 @@ body.crlngn-ui.crlngn-compact-notifications {
       }
       > .crlngn-origin {
         display: none;
-        order: 2;
-        margin-inline-start: auto;
-        padding-inline-start: 12px;
         font-size: var(--font-size-10);
         letter-spacing: 0.03em;
         text-transform: uppercase;
-        white-space: nowrap;
         opacity: 0.65;
       }
     }
@@ -127,19 +123,39 @@ body.crlngn-ui.crlngn-compact-notifications {
        radiates from the top center and fades out. The scrim is a pseudo-element of the list, kept
        behind its pills by a negative z-index inside the list's own stacking context */
     &.crlngn-expanded > .notification:not(.progress) {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto auto;
+      column-gap: 12px;
+      row-gap: 2px;
       height: auto;
       min-height: var(--crlngn-pill-height-open);
       padding-block: 0.75rem;
       opacity: 1;
       pointer-events: all;
 
+      /* The icon spans both rows; the origin sits on its own row above the message, since some
+         packages have long names */
+      &::before {
+        grid-row: 1 / span 2;
+        grid-column: 1;
+        margin-right: 0;
+      }
+      > .crlngn-origin {
+        display: block;
+        grid-row: 1;
+        grid-column: 2;
+      }
       > p {
         display: block;
+        grid-row: 2;
+        grid-column: 2;
         -webkit-line-clamp: unset;
         overflow: visible;
       }
-      > .crlngn-origin {
-        display: inline;
+      > .pct,
+      > .crlngn-stack-summary {
+        display: none;
       }
     }
     &::before {
