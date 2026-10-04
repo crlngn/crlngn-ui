@@ -156,6 +156,7 @@ body.crlngn-ui.crlngn-combat-tracker {
     button.combat-control[data-action="startCombat"],
     button.combat-control[data-action="endCombat"] {
       margin: 0 0 0 0.5rem;
+      font-family: var(--crlngn-font-family);
     }
 
     button.combat-control[data-action="startCombat"] i,
