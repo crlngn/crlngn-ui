@@ -20,6 +20,8 @@ const WRAPPER_PATHS = [`/modules/${MODULE_ID}/`, "/modules/lib-wrapper/"];
 const MAX_ORIGINS = 100;
 /** Distance, in pixels, a pill already in the stack settles from when the stack changes */
 const SETTLE_DISTANCE = 4;
+/** Notification types from most to least urgent; the folded stack shows the icon of the most urgent one it holds */
+const URGENCY = ["error", "warning", "success", "info"];
 
 /**
  * @typedef {Object} NotificationOrigin
@@ -236,6 +238,7 @@ export class CompactNotifications {
       CompactNotifications.#labelOrigin(element);
     });
     CompactNotifications.#updateSummary(stacked);
+    CompactNotifications.#updateLevel(stacked);
     list.dataset.count = String(stacked.length);
     if (!stacked.length) CompactNotifications.#collapse();
     CompactNotifications.#settle(list, settling);
@@ -302,6 +305,20 @@ export class CompactNotifications {
       text = game.i18n.format("CRLNGN_UI.ui.compactNotifications.count", { count });
     }
     summary.textContent = text;
+  }
+
+  /**
+   * Marks the newest pill with the most urgent type found in the stack, so the folded stack's
+   * icon warns of an error further down
+   * @param {HTMLElement[]} stacked - The stacked notifications, newest first
+   */
+  static #updateLevel(stacked) {
+    for (const element of stacked.slice(1)) delete element.dataset.stackLevel;
+    const first = stacked[0];
+    if (!first) return;
+    const level = URGENCY.find(type => stacked.some(element => element.classList.contains(type)));
+    if (level) first.dataset.stackLevel = level;
+    else delete first.dataset.stackLevel;
   }
 
   /**

@@ -67,7 +67,7 @@ body.crlngn-ui.crlngn-compact-notifications {
         color: var(--color-level-error);
       }
       transform: translateY(var(--crlngn-pill-shift));
-      transition: transform 0.4s var(--crlngn-pill-ease), translate 0.35s var(--crlngn-pill-ease), height 0.4s var(--crlngn-pill-ease), width 0.4s var(--crlngn-pill-ease), opacity 0.3s ease;
+      transition: transform 0.4s var(--crlngn-pill-ease), translate 0.35s var(--crlngn-pill-ease), height 0.4s var(--crlngn-pill-ease), width 0.4s var(--crlngn-pill-ease), border-radius 0.4s var(--crlngn-pill-ease), opacity 0.3s ease;
       animation: crlngn-pill-in 0.4s var(--crlngn-pill-ease);
 
       &::before {
@@ -143,6 +143,23 @@ body.crlngn-ui.crlngn-compact-notifications {
         > .crlngn-stack-summary {
           display: block;
         }
+        /* The icon of the most urgent notification in the stack, whichever pill it is on */
+        &[data-stack-level="error"] {
+          --icon-glyph: "\f06a";
+          &::before { color: var(--color-level-error); }
+        }
+        &[data-stack-level="warning"] {
+          --icon-glyph: "\f071";
+          &::before { color: var(--color-level-warning); }
+        }
+        &[data-stack-level="success"] {
+          --icon-glyph: "\f00c";
+          &::before { color: var(--color-level-success); }
+        }
+        &[data-stack-level="info"] {
+          --icon-glyph: "\f05a";
+          &::before { color: inherit; }
+        }
       }
     }
 
@@ -158,6 +175,7 @@ body.crlngn-ui.crlngn-compact-notifications {
       row-gap: 2px;
       width: var(--crlngn-pill-width-open);
       height: auto;
+      border-radius: 1.25rem;
       min-height: var(--crlngn-pill-height-open);
       padding-block: 0.75rem;
       opacity: 1;
