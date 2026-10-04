@@ -188,10 +188,12 @@ body.crlngn-ui.crlngn-compact-notifications {
         grid-column: 1;
         margin-right: 0;
       }
+      /* The text waits for the pill to finish growing, then fades in */
       > .crlngn-origin {
         display: block;
         grid-row: 1;
         grid-column: 2;
+        animation: crlngn-text-in 0.25s ease 0.35s both;
       }
       > p {
         display: block;
@@ -199,6 +201,7 @@ body.crlngn-ui.crlngn-compact-notifications {
         grid-column: 2;
         -webkit-line-clamp: unset;
         overflow: visible;
+        animation: crlngn-text-in 0.25s ease 0.35s both;
       }
       > .pct,
       > .crlngn-stack-summary {
@@ -218,6 +221,15 @@ body.crlngn-ui.crlngn-compact-notifications {
     &.crlngn-expanded::before {
       opacity: 1;
     }
+  }
+}
+
+@keyframes crlngn-text-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
