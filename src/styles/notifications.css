@@ -41,7 +41,7 @@ body.crlngn-ui.crlngn-compact-notifications {
       width: var(--crlngn-pill-width);
       max-width: calc(100vw - 32px);
       height: var(--crlngn-pill-height);
-      padding: 0 1.5rem;
+      padding: 0 calc(1.5rem + 20px) 0 1.5rem;
       align-items: center;
       border-radius: 999px;
       font-size: var(--font-size-12);
@@ -54,6 +54,12 @@ body.crlngn-ui.crlngn-compact-notifications {
 
       &::before {
         margin-right: 12px;
+      }
+      /* Core's close glyph moves inside the pill, centered on the icon's line */
+      &::after {
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
       }
       > p {
         display: -webkit-box;
