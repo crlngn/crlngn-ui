@@ -30,9 +30,14 @@ body.crlngn-ui.crlngn-compact-notifications {
     > .notification:not(.progress) {
       --crlngn-stack-offset: 0px;
       grid-column: 1;
+      box-sizing: border-box;
       width: var(--crlngn-pill-width);
       max-width: calc(100vw - 32px);
-      padding: 1rem 1.5rem;
+      /* Every pill is two lines tall, so the stack lines up and nothing of the pills behind shows
+         through the peek; shorter messages sit centered */
+      height: calc(2rem + 2 * 1.3em);
+      padding: 0 1.5rem;
+      align-items: center;
       border-radius: 999px;
       font-size: var(--font-size-12);
       line-height: 1.3;
