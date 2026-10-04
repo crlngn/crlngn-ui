@@ -59,7 +59,30 @@ export class CompactNotifications {
     CompactNotifications.#wrapNotify();
     CompactNotifications.#attach();
     CompactNotifications.#applyBodyClass();
+    CompactNotifications.#exposeApi();
     LogUtil.log("CompactNotifications - init", [CompactNotifications.enabled]);
+  }
+
+  /**
+   * Raises a notification from this module's own code, so that it is attributed to Carolingian
+   * UI. Exposed on the module's API for macros that want to try the compact layout.
+   * @static
+   * @param {string} message
+   * @param {string} [type="info"] - info, warning, error or success
+   * @param {object} [options] - Core notification options
+   * @returns {object} The notification
+   */
+  static notify(message, type = "info", options = {}) {
+    return ui.notifications.notify(message, type, options);
+  }
+
+  /**
+   * Publishes the notify helper on the module's API object
+   */
+  static #exposeApi() {
+    const module = game.modules?.get(MODULE_ID);
+    if (!module) return;
+    module.api = { ...(module.api ?? {}), notify: CompactNotifications.notify };
   }
 
   /**
