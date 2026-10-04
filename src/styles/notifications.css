@@ -17,6 +17,9 @@ body.crlngn-ui.crlngn-compact-notifications {
     grid-template-columns: 1fr;
     justify-items: center;
     gap: var(--crlngn-pill-gap);
+    /* Lets the pill height animate from its fixed folded value to auto when spread out, in
+       browsers that support it; others switch at once */
+    interpolate-size: allow-keywords;
 
     > .notification.progress {
       justify-self: stretch;
@@ -32,7 +35,7 @@ body.crlngn-ui.crlngn-compact-notifications {
     > .notification:not(.progress) {
       --crlngn-stack-index: 0;
       --crlngn-pill-height: calc(1.25rem + 1.3em);
-      --crlngn-pill-height-open: calc(1.6rem + 2.6em);
+      --crlngn-pill-height-open: calc(2rem + 2 * 1.3em);
       grid-column: 1;
       box-sizing: border-box;
       width: var(--crlngn-pill-width);
@@ -119,17 +122,21 @@ body.crlngn-ui.crlngn-compact-notifications {
       }
     }
 
-    /* Spread out: a column of two-line pills with their full messages and origins, each dismissed
-       by its own click as in core, over a dark scrim that radiates from the top center and fades
-       out. The scrim is a pseudo-element of the list, kept behind its pills by a negative z-index
-       inside the list's own stacking context */
+    /* Spread out: a column of pills at least two lines tall that grow to fit their full messages,
+       with their origins, each dismissed by its own click as in core, over a dark scrim that
+       radiates from the top center and fades out. The scrim is a pseudo-element of the list, kept
+       behind its pills by a negative z-index inside the list's own stacking context */
     &.crlngn-expanded > .notification:not(.progress) {
-      height: var(--crlngn-pill-height-open);
+      height: auto;
+      min-height: var(--crlngn-pill-height-open);
+      padding-block: 0.75rem;
       opacity: 1;
       pointer-events: all;
 
       > p {
-        -webkit-line-clamp: 2;
+        display: block;
+        -webkit-line-clamp: unset;
+        overflow: visible;
       }
       > .crlngn-origin {
         display: inline;
