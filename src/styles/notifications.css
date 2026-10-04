@@ -34,7 +34,7 @@ body.crlngn-ui.crlngn-compact-notifications {
        its state, so the stack lines up and nothing of the pills behind shows through the peek */
     > .notification:not(.progress) {
       --crlngn-stack-index: 0;
-      --crlngn-pill-height: calc(1.25rem + 1.3em);
+      --crlngn-pill-height: calc(1.25rem + 2em);
       --crlngn-pill-height-open: calc(2rem + 2 * 1.3em);
       grid-column: 1;
       box-sizing: border-box;
