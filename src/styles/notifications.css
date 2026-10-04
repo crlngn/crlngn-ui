@@ -8,7 +8,8 @@
 ----------------- */
 body.crlngn-ui.crlngn-compact-notifications {
   --crlngn-pill-shift: calc(8px - 8vh);
-  --crlngn-pill-width: 360px;
+  --crlngn-pill-width: 260px;
+  --crlngn-pill-width-open: 420px;
   --crlngn-pill-gap: 6px;
   --crlngn-pill-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 
@@ -65,7 +66,7 @@ body.crlngn-ui.crlngn-compact-notifications {
         color: var(--color-level-error);
       }
       transform: translateY(var(--crlngn-pill-shift));
-      transition: transform 0.4s var(--crlngn-pill-ease), translate 0.35s var(--crlngn-pill-ease), height 0.4s var(--crlngn-pill-ease), opacity 0.3s ease;
+      transition: transform 0.4s var(--crlngn-pill-ease), translate 0.35s var(--crlngn-pill-ease), height 0.4s var(--crlngn-pill-ease), width 0.4s var(--crlngn-pill-ease), opacity 0.3s ease;
       animation: crlngn-pill-in 0.4s var(--crlngn-pill-ease);
 
       &::before {
@@ -154,6 +155,7 @@ body.crlngn-ui.crlngn-compact-notifications {
       grid-template-rows: auto auto;
       column-gap: 12px;
       row-gap: 2px;
+      width: var(--crlngn-pill-width-open);
       height: auto;
       min-height: var(--crlngn-pill-height-open);
       padding-block: 0.75rem;
