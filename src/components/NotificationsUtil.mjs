@@ -65,7 +65,10 @@ export class CompactNotifications {
 
   /**
    * Raises a notification from this module's own code, so that it is attributed to Carolingian
-   * UI. Exposed on the module's API for macros that want to try the compact layout.
+   * UI. Exposed on the module's API for macros that want to try the compact layout. It goes
+   * through core's typed methods rather than notify itself: the origin detection skips the
+   * wrapper's own frames at the top of the trace, and a core frame in between is what separates
+   * them from this one.
    * @static
    * @param {string} message
    * @param {string} [type="info"] - info, warning, error or success
@@ -73,7 +76,8 @@ export class CompactNotifications {
    * @returns {object} The notification
    */
   static notify(message, type = "info", options = {}) {
-    return ui.notifications.notify(message, type, options);
+    const method = { info: "info", warning: "warn", warn: "warn", error: "error", success: "success" }[type] ?? "info";
+    return ui.notifications[method](message, options);
   }
 
   /**

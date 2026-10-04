@@ -49,7 +49,7 @@ body.crlngn-ui.crlngn-compact-notifications {
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
       cursor: pointer;
       /* One solid background for every type, so stacked pills never show through each other;
-         the type shows in the icon color and, for warnings and errors, a thin border */
+         the type shows in the icon color */
       background: var(--color-secondary);
       border: 1px solid transparent;
       color: var(--color-text-primary);
@@ -58,19 +58,11 @@ body.crlngn-ui.crlngn-compact-notifications {
       &.success::before {
         color: var(--color-level-success);
       }
-      &.warning {
-        border-color: var(--color-level-warning);
-
-        &::before {
-          color: var(--color-level-warning);
-        }
+      &.warning::before {
+        color: var(--color-level-warning);
       }
-      &.error {
-        border-color: var(--color-level-error);
-
-        &::before {
-          color: var(--color-level-error);
-        }
+      &.error::before {
+        color: var(--color-level-error);
       }
       transform: translateY(var(--crlngn-pill-shift));
       transition: transform 0.4s var(--crlngn-pill-ease), translate 0.35s var(--crlngn-pill-ease), height 0.4s var(--crlngn-pill-ease), opacity 0.3s ease;
