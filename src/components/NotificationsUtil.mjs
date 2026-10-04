@@ -275,7 +275,9 @@ export class CompactNotifications {
 
   /**
    * Gives the newest pill the text shown while folded: the count and where the notifications
-   * came from, naming the origin when they all share one and counting the origins otherwise
+   * came from. One shared origin is named as is. With several, the origin of the most urgent
+   * notification is named, or of the most recent one when they are equally urgent, followed by
+   * how many other origins there are.
    * @param {HTMLElement[]} stacked - The stacked notifications, newest first
    */
   static #updateSummary(stacked) {
@@ -292,19 +294,33 @@ export class CompactNotifications {
       summary.className = "crlngn-stack-summary";
       first.appendChild(summary);
     }
-    const keys = stacked.map(element => element.dataset.originKey);
-    const known = new Set(keys.filter(Boolean));
+    const known = new Set(stacked.map(element => element.dataset.originKey).filter(Boolean));
     const count = stacked.length;
+    const lead = CompactNotifications.#leadOrigin(stacked);
     let text;
-    if (known.size === 1 && keys.every(Boolean)) {
-      const name = first.querySelector(":scope > .crlngn-origin")?.textContent ?? "";
-      text = game.i18n.format("CRLNGN_UI.ui.compactNotifications.fromOne", { count, name });
-    } else if (known.size > 1) {
-      text = game.i18n.format("CRLNGN_UI.ui.compactNotifications.fromMany", { count, sources: known.size });
-    } else {
+    if (!known.size || !lead) {
       text = game.i18n.format("CRLNGN_UI.ui.compactNotifications.count", { count });
+    } else if (known.size === 1) {
+      text = game.i18n.format("CRLNGN_UI.ui.compactNotifications.fromOne", { count, name: lead });
+    } else if (known.size === 2) {
+      text = game.i18n.format("CRLNGN_UI.ui.compactNotifications.fromOneOther", { count, name: lead });
+    } else {
+      text = game.i18n.format("CRLNGN_UI.ui.compactNotifications.fromMany", { count, name: lead, others: known.size - 1 });
     }
     summary.textContent = text;
+  }
+
+  /**
+   * Name of the origin to lead the summary with: that of the most urgent notification with a
+   * known origin, the most recent one among equals
+   * @param {HTMLElement[]} stacked - The stacked notifications, newest first
+   * @returns {string}
+   */
+  static #leadOrigin(stacked) {
+    const labeled = stacked.filter(element => element.dataset.originKey);
+    const level = URGENCY.find(type => labeled.some(element => element.classList.contains(type)));
+    const lead = labeled.find(element => !level || element.classList.contains(level)) ?? labeled[0];
+    return lead?.querySelector(":scope > .crlngn-origin")?.textContent ?? "";
   }
 
   /**

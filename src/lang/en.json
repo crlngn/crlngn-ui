@@ -3,7 +3,8 @@
     "ui": { 
       "compactNotifications": {
         "fromOne": "{name} ({count})",
-        "fromMany": "{sources} sources ({count})",
+        "fromOneOther": "{name} and 1 other ({count})",
+        "fromMany": "{name} and {others} others ({count})",
         "count": "Notifications ({count})",
         "originCore": "Foundry VTT",
         "originScript": "Script"

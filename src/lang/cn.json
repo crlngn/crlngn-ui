@@ -3,7 +3,8 @@
     "ui": {
       "compactNotifications": {
         "fromOne": "{name}（{count}）",
-        "fromMany": "{sources} 个来源（{count}）",
+        "fromOneOther": "{name} 及另 1 个来源（{count}）",
+        "fromMany": "{name} 及另 {others} 个来源（{count}）",
         "count": "通知（{count}）",
         "originCore": "Foundry VTT",
         "originScript": "脚本"
