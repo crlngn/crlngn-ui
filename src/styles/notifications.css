@@ -8,8 +8,9 @@
 ----------------- */
 body.crlngn-ui.crlngn-compact-notifications {
   --crlngn-pill-shift: calc(8px - 8vh);
-  --crlngn-pill-width: 260px;
-  --crlngn-pill-width-open: 420px;
+  /* Widths in rem, so pills grow with Foundry's font size setting: 260px and 420px at 16px */
+  --crlngn-pill-width: 16.25rem;
+  --crlngn-pill-width-open: 26.25rem;
   --crlngn-pill-gap: 6px;
   --crlngn-pill-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 
