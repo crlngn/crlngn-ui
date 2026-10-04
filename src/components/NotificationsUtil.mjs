@@ -187,7 +187,8 @@ export class CompactNotifications {
    * the list and on the newest one, and labels each with its origin. The index doubles as a
    * custom property, from which the stylesheet works out how far to pull each pill up behind the
    * newest one while folded, since folded pills all share one height. The newest pill gets the
-   * summary shown while folded. A stack of one needs no spreading, so it folds back.
+   * summary shown while folded. An open stack stays open while pills are dismissed from it, so
+   * the last one goes with a single click; it folds back once empty.
    *
    * A change of the list moves the column in layout at once, which the transform transition
    * would then visibly chase, so the new positions are applied with transitions off and the
@@ -209,7 +210,7 @@ export class CompactNotifications {
     });
     CompactNotifications.#updateSummary(stacked);
     list.dataset.count = String(stacked.length);
-    if (stacked.length <= 1) CompactNotifications.#collapse();
+    if (!stacked.length) CompactNotifications.#collapse();
     CompactNotifications.#settle(list, settling);
   };
 
