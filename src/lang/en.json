@@ -1,6 +1,13 @@
 {
   "CRLNGN_UI": {
     "ui": {
+      "compactNotifications": {
+        "fromOne": "{count} Notifications from {name}",
+        "fromMany": "{count} Notifications from {sources} sources",
+        "count": "{count} Notifications",
+        "originCore": "Foundry VTT",
+        "originScript": "Script"
+      },
       "broadcastView": {
         "toolTitle": "Broadcast View to Players"
       },

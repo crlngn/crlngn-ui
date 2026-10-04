@@ -1,6 +1,13 @@
 {
   "CRLNGN_UI": {
     "ui": {
+      "compactNotifications": {
+        "fromOne": "{count} Notifiche da {name}",
+        "fromMany": "{count} Notifiche da {sources} origini",
+        "count": "{count} Notifiche",
+        "originCore": "Foundry VTT",
+        "originScript": "Script"
+      },
       "broadcastView": {
         "toolTitle": "Trasmetti Vista ai Giocatori"
       },

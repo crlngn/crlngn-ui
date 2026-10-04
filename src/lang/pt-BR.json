@@ -1,6 +1,13 @@
 {
   "CRLNGN_UI": {
     "ui": {
+      "compactNotifications": {
+        "fromOne": "{count} Notificações de {name}",
+        "fromMany": "{count} Notificações de {sources} origens",
+        "count": "{count} Notificações",
+        "originCore": "Foundry VTT",
+        "originScript": "Script"
+      },
       "broadcastView": {
         "toolTitle": "Transmitir Visão aos Jogadores"
       },
