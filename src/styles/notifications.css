@@ -27,11 +27,6 @@ body.crlngn-ui.crlngn-compact-notifications {
       justify-self: stretch;
     }
 
-    /* While new positions are applied after the list changed, nothing animates */
-    &.crlngn-still > .notification {
-      transition: none;
-    }
-
     /* Pills: one line tall while folded, two while spread out. Every pill shares the height of
        its state, so the stack lines up and nothing of the pills behind shows through the peek */
     > .notification:not(.progress) {
@@ -106,6 +101,12 @@ body.crlngn-ui.crlngn-compact-notifications {
         text-transform: uppercase;
         opacity: 0.65;
       }
+    }
+
+    /* While new positions are applied after the list changed, nothing transitions. Declared after
+       the pill rule, which it matches in specificity, so it wins */
+    &.crlngn-still > .notification:not(.progress) {
+      transition: none;
     }
 
     /* Folded: each pill is pulled up behind the newest one by its place in the column, the second
