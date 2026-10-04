@@ -76,6 +76,10 @@ body.crlngn-ui.crlngn-compact-notifications {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        font-size: var(--font-size-10);
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        opacity: 0.85;
       }
       > .crlngn-origin {
         display: none;

@@ -2,9 +2,9 @@
   "CRLNGN_UI": {
     "ui": {
       "compactNotifications": {
-        "fromOne": "{count} Notifiche da {name}",
-        "fromMany": "{count} Notifiche da {sources} origini",
-        "count": "{count} Notifiche",
+        "fromOne": "{name} ({count})",
+        "fromMany": "{sources} origini ({count})",
+        "count": "Notifiche ({count})",
         "originCore": "Foundry VTT",
         "originScript": "Script"
       },
