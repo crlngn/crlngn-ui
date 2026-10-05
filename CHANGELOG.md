@@ -3,7 +3,93 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
-## Unreleased
+## 4.5.1 — 2026-10-04
+
+### Added
+
+- A notice the first time the broadcast view is turned on, saying that scene
+  position and zoom are being shared with players. It shows once per client.
+
+### Changed
+
+- The broadcast view button sits in the primary column of the scene controls,
+  after the layer buttons, instead of among the token tools.
+- Foundry v14 renders its own status icons on scene navigation entries. Where
+  it does, Carolingian UI's drawn markers stand down and core's eye and
+  bullseye show at full strength, with the hidden-scene mark drawn as a
+  crossed-out user labelled "Hidden from players". Scenes inside the module's
+  navigation folders take the same marks.
+- Scene navigation menu icons keep full opacity on Foundry v14.
+
+### Fixed
+
+- Compact notifications no longer expire while the stack is open; their
+  lifetime pauses and starts over when it folds. A lone pill whose message
+  already fits dismisses on click, and the close glyph always dismisses.
+- With Foundry's default left controls, the scene navigation toggle lands on
+  the controls column at core's button size. With Foundry's default sidebar,
+  the navigation bar and its scroll carets run to the edge of the screen.
+- The scene navigation toggle could be added several times when renders
+  overlapped. It is now added only when none exists.
+
+## 4.5.0 — 2026-10-03
+
+### Added
+
+- Broadcast GM view: a GM shares their canvas view with the players by
+  pressing Z (rebindable under Configure Controls) or with a toggle on the
+  scene controls. Players on the same scene pan along, with their zoom matched
+  so they see the same height of map whatever their window size. A player who
+  moves their own view keeps it, and eases back to the GM's view two seconds
+  after letting go. The GM's screen is outlined while broadcasting, and the
+  broadcast ends on a scene change. Settings on the Interface Elements tab
+  choose the mode, whether zoom is included, and let players opt out.
+- Compact notifications, an optional layout showing notifications as small
+  pills at the top center of the screen, stacked behind the newest one. The
+  folded pill names the source of the notifications, such as a module, the
+  system or Foundry itself, with the count and the icon of the most urgent
+  one. Clicking the stack spreads it out with the full messages. Progress bars
+  such as scene loading are unaffected.
+- dnd5e 5.x: compact activity cards work alongside midi-qol. Midi keeps its
+  roll buttons, while its attack and damage results are shown as compact rows
+  with hit and miss per target. Retroactive advantage is off for rolls midi
+  made.
+
+### Changed
+
+- The combat carousel keeps its control bar visible until combat starts, so
+  the roll and Start buttons are at hand.
+- Dark-mode chat cards and whispers are darker and read better against the
+  chat log.
+- The module declares a socket for the broadcast feature. Updating through
+  Setup handles it; a server running since before the update needs a return to
+  Setup, or a restart, before broadcasting works.
+
+### Fixed
+
+- dnd5e 6.0: chat cards no longer turn dark under a light interface when the
+  applications theme is dark.
+
+## 4.4.2 — 2026-09-30
+
+### Changed
+
+- Module settings show a tab select instead of the tab bar on narrow screens,
+  and secondary text is a softer color.
+- Chat message text under an inline font keeps that font.
+
+## 4.4.0 — 2026-09-25
+
+### Added
+
+- dnd5e 5.x: compact activity cards and retroactive advantage, through a
+  system adapter in the shared compact cards package.
+
+### Fixed
+
+- dnd5e 6.0: recorded targets stay off the card face.
+
+## 4.3.3 — 2026-09-23
 
 ### Added
 
@@ -12,6 +98,10 @@ described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases)
   brings it back on a second click. Foundry only offers detaching to sheets
   built on its new application framework, which the system's sheets are not
   yet. Dragging, resizing and minimizing are inert while a sheet is detached.
+
+### Fixed
+
+- Blade Runner: disabled buttons style.
 
 ## 4.3.2 — 2026-09-22
 
