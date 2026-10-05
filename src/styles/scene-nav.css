@@ -1131,8 +1131,9 @@
         top: 4px;
         margin-left: 0;
         width: var(--control-size);
-        /* Pulled back over the controls column: its width, the column gap, and the 20px margin above */
-        left: calc(-1 * var(--controls-column-width) - 36px);
+        /* Pulled back over the controls column: its width plus the 20px margin above, which lands
+           the toggle on core's 16px left padding */
+        left: calc(-1 * var(--controls-column-width) - 20px);
         z-index: 10;
       }
 
