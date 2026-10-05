@@ -245,6 +245,12 @@
               content: '\f521   \f140';
             }
 
+            /* Foundry v14 also renders an eye for the scene being viewed; the crown already says
+               so, so the eye is dropped wherever the crown is drawn */
+            &.view.crlngn > .icons > .fa-eye {
+              display: none;
+            }
+
             &:hover {
               z-index: 101;
             }
