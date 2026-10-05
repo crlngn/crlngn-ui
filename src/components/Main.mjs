@@ -154,6 +154,7 @@ export class Main {
 
     document.querySelector("body").classList.add(MODULE_ID);
     document.querySelector("#ui-middle")?.classList.add(MODULE_ID);
+    GeneralUtil.applyFoundryGenerationClass();
     GeneralUtil.applySystemVersionClass();
 
     // Add notification if Foundry version is incompatible

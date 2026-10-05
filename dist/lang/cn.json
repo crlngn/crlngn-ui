@@ -1,6 +1,7 @@
 {
   "CRLNGN_UI": {
     "ui": {
+      "sceneHiddenFromPlayers": "对玩家隐藏",
       "compactNotifications": {
         "fromOne": "{name}（{count}）",
         "fromOneOther": "{name} 及另 1 个来源（{count}）",

@@ -450,6 +450,16 @@ export class TopNavigation {
   }
 
   /**
+   * Relabels the hidden-scene icon Foundry v14 renders on a nav scene, whose glyph the
+   * stylesheet swaps for a crossed-out user, so its tooltip says "Hidden from players"
+   * @param {HTMLElement} li - The scene item element
+   */
+  static #relabelHiddenIcon = (li) => {
+    const label = game.i18n.localize("CRLNGN_UI.ui.sceneHiddenFromPlayers");
+    li.querySelectorAll(":scope > .icons > .fa-eye-slash").forEach(icon => icon.setAttribute("aria-label", label));
+  }
+
+  /**
    * Add scene preview to nav, if the setting is enabled
    */
   static handleSceneList = async (nav, navHtml, navData) =>{
@@ -462,6 +472,7 @@ export class TopNavigation {
     for(const li of allSceneLi){
       const id = li.dataset.sceneId;
       TopNavigation.getSceneNameElem(li);
+      TopNavigation.#relabelHiddenIcon(li);
 
       // add scene preview
       if(TopNavigation.useScenePreview && game.user?.isGM){
@@ -494,20 +505,21 @@ export class TopNavigation {
 
     if(TopNavigation.sceneNavEnabled){
       const column2 = document.querySelector("#ui-left-column-2");
-      const existingToggle = document.querySelector("#crlngn-scene-navigation-expand");
-
       if(!column2){ return; }
-      if(existingToggle){ existingToggle.remove(); }
-      
-      // Create toggle element from template
+
+      // The toggle is added once and kept current by updateToggleButton. Renders can overlap
+      // while the template is awaited, so the check is repeated after it
+      if(document.querySelector("#crlngn-scene-navigation-expand")){
+        TopNavigation.updateToggleButton(ui.nav?.expanded || false);
+        return;
+      }
       const toggleHtml = await GeneralUtil.renderTemplate(
         `modules/${MODULE_ID}/templates/scene-nav-toggle.hbs`,
         {
           isExpanded: ui.nav?.expanded || false
         }
       );
-      
-      // Insert the template HTML
+      if(!column2.isConnected || document.querySelector("#crlngn-scene-navigation-expand")){ return; }
       column2.insertAdjacentHTML('afterbegin', toggleHtml);
       
       // Get the newly inserted element and add click listener

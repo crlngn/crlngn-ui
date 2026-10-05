@@ -29,6 +29,12 @@
       --crlngn-sidebar-tabs-width: 0px;
     }
 
+    /* With Foundry's own sidebar there is no tabs column at the right edge, so the nav bar runs
+       all the way to it */
+    &:not(.crlngn-tabs) {
+      --crlngn-sidebar-tabs-width: 0px;
+    }
+
     /* Increment extra buttons count based on active features */
     &.crlngn-back-btn {
       --crlngn-extra-btns-count: 1;
@@ -340,6 +346,8 @@
               align-items: flex-end;
               padding: 0px;
               gap: 0px;
+              /* Foundry v14 fades the menu icons to half opacity; keep them solid */
+              opacity: 1;
 
               >i {
                 width: 20px;
@@ -350,7 +358,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 0.75em;
+                font-size: 0.9em;
                 transform: scale(1);
                 opacity: 0.85;
                 margin: 0;
@@ -509,6 +517,21 @@
 
           &.ui-nav-left {
             right: calc(var(--control-item-size) * 3);
+          }
+        }
+      }
+
+      /* With Foundry's own sidebar its tab column starts below the nav bar, so the bar runs to the
+         viewport edge and the carets sit at that edge rather than a module tab column's width
+         short of it */
+      &:not(.crlngn-tabs) {
+        --crlngn-core-tabs-extra: calc(0px - var(--control-item-size));
+
+        #ui-left-column-2 button.crlngn-btn {
+          right: calc(var(--control-item-size) * 2 + var(--crlngn-core-tabs-extra));
+
+          &.ui-nav-left {
+            right: calc(var(--control-item-size) * 3 + var(--crlngn-core-tabs-extra));
           }
         }
       }
@@ -995,9 +1018,9 @@
                   content: '\f521  \f140';
                 }
 
-                /* fa-eye-slash - hidden from players (only when not active/view) */
+                /* fa-user-slash - hidden from players (only when not active/view) */
                 &.gm.crlngn:not(.active):not(.view):after {
-                  content: '\f070';
+                  content: '\f506';
                 }
 
                 &.gm {
@@ -1193,6 +1216,11 @@
       }
     }
     &.crlngn-scene-nav #interface:not(.crlngn-controls) {
+      /* Foundry's own controls are sized by core, so the column width the toggle is placed
+         against must come from core's control size rather than the module's */
+      #ui-left {
+        --crlngn-control-size: var(--control-size, 32px);
+      }
       #ui-left-column-2 {
         margin: 0 0 0 20px !important;
       }
@@ -1207,7 +1235,11 @@
         flex: 0 0 var(--control-size);
         height: var(--control-size);
         top: 4px;
-        margin-left: 2px;
+        margin-left: 0;
+        width: var(--control-size);
+        /* Pulled back over the controls column: its width plus the 20px margin above, which lands
+           the toggle on core's 16px left padding */
+        left: calc(-1 * var(--controls-column-width) - 20px);
         z-index: 10;
       }
 
@@ -1223,4 +1255,32 @@ body.crlngn-ui:not(.crlngn-is-gm) #scene-navigation .scene.view.crlngn:after {
 }
 body.crlngn-ui:not(.crlngn-is-gm) #scene-navigation .scene.active.view.crlngn:after {
   content: '\f007   \f140';
+}
+
+/* Foundry v14 renders its own icon row on nav scenes (eye for the viewed scene, bullseye for the
+   active one, eye-slash for hidden ones). Where that row exists the module's drawn markers stand
+   down and core's icons are shown at full strength; v13 renders no such row and keeps the markers.
+   The override needs to beat every marker rule above, hence the importance. */
+body.crlngn-ui #scene-navigation .scene.crlngn:has(> .icons):after {
+  content: none !important;
+}
+body.crlngn-ui #scene-navigation .scene-navigation-menu .scene > .icons {
+  opacity: 1;
+}
+body.crlngn-ui #scene-navigation .scene-navigation-menu .scene > .icons > i.icon {
+  opacity: 0.6;
+}
+/* Foundry v14 marks the viewed scene with an eye in its own nav row; scenes inside the module's
+   folders are drawn by the module, so they take the same mark there to match. These must beat
+   the GM and player marker rules above, hence the importance. */
+body.crlngn-ui.crlngn-foundry-v14 #scene-navigation .contents .scene.view.crlngn:after {
+  content: '\f06e' !important;
+}
+body.crlngn-ui.crlngn-foundry-v14 #scene-navigation .contents .scene.active.view.crlngn:after {
+  content: '\f06e  \f140' !important;
+}
+/* Core's "hidden from players" eye-slash sits next to the "viewing" eye and reads as a pair;
+   a crossed-out user says hidden from players without echoing the eye */
+body.crlngn-ui #scene-navigation .scene-navigation-menu .scene > .icons > .fa-eye-slash::before {
+  content: '\f506';
 }

@@ -1,6 +1,7 @@
 {
   "CRLNGN_UI": {
     "ui": {
+      "sceneHiddenFromPlayers": "Hidden from players",
       "compactNotifications": {
         "fromOne": "{name} ({count})",
         "fromOneOther": "{name} and 1 other ({count})",
