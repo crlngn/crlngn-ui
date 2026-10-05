@@ -433,6 +433,16 @@ export class TopNavigation {
   }
 
   /**
+   * Relabels the hidden-scene icon Foundry v14 renders on a nav scene, whose glyph the
+   * stylesheet swaps for a crossed-out user, so its tooltip says "Hidden from players"
+   * @param {HTMLElement} li - The scene item element
+   */
+  static #relabelHiddenIcon = (li) => {
+    const label = game.i18n.localize("CRLNGN_UI.ui.sceneHiddenFromPlayers");
+    li.querySelectorAll(":scope > .icons > .fa-eye-slash").forEach(icon => icon.setAttribute("aria-label", label));
+  }
+
+  /**
    * Add scene preview to nav, if the setting is enabled
    */
   static handleSceneList = async (nav, navHtml, navData) =>{
@@ -444,6 +454,7 @@ export class TopNavigation {
 
     for(const li of allSceneLi){
       const id = li.dataset.sceneId;
+      TopNavigation.#relabelHiddenIcon(li);
 
       // add scene preview
       if(TopNavigation.useScenePreview && game.user?.isGM){

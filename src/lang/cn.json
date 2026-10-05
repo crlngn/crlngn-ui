@@ -1,6 +1,7 @@
 {
   "CRLNGN_UI": {
     "ui": {
+      "sceneHiddenFromPlayers": "对玩家隐藏",
       "broadcastView": {
         "toolTitle": "向玩家广播视图"
       },

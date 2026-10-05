@@ -1,6 +1,7 @@
 {
   "CRLNGN_UI": { 
     "ui": { 
+      "sceneHiddenFromPlayers": "Hidden from players",
       "broadcastView": {
         "toolTitle": "Broadcast View to Players"
       },
