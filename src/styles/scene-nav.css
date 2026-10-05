@@ -917,6 +917,11 @@
                   content: '\f070';
                 }
 
+                /* Foundry v14's own eye for the viewed scene is redundant next to the marker */
+                &.view.crlngn > .icons > .fa-eye {
+                  display: none;
+                }
+
                 &.gm {
                   .scene-name {
                     opacity: 0.7;
