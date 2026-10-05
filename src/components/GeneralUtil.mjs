@@ -19,6 +19,19 @@ export class GeneralUtil {
   }
 
   /**
+   * Adds a body class marking the Foundry generation, e.g. `crlngn-foundry-v14`, so styles can
+   * follow what core renders in each version
+   * @returns {string|null} The class that was added, or null if unavailable
+   */
+  static applyFoundryGenerationClass(){
+    const generation = game.release?.generation ?? parseInt(String(game.version ?? "").split(".")[0], 10);
+    if(!Number.isFinite(generation)) return null;
+    const className = `crlngn-foundry-v${generation}`;
+    document.body.classList.add(className);
+    return className;
+  }
+
+  /**
    * Finds and returns the first element matching the selector within the parent element
    * @param {HTMLElement} parent - The parent element to search within
    * @param {string} selector - CSS selector string

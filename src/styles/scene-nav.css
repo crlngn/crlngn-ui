@@ -906,9 +906,9 @@
                   content: '\f521  \f140';
                 }
 
-                /* fa-eye-slash - hidden from players (only when not active/view) */
+                /* fa-user-slash - hidden from players (only when not active/view) */
                 &.gm.crlngn:not(.active):not(.view):after {
-                  content: '\f070';
+                  content: '\f506';
                 }
 
                 &.gm {
@@ -1148,6 +1148,15 @@ body.crlngn-ui #scene-navigation .scene-navigation-menu .scene > .icons {
 }
 body.crlngn-ui #scene-navigation .scene-navigation-menu .scene > .icons > i.icon {
   opacity: 0.6;
+}
+/* Foundry v14 marks the viewed scene with an eye in its own nav row; scenes inside the module's
+   folders are drawn by the module, so they take the same mark there to match. These must beat
+   the GM and player marker rules above, hence the importance. */
+body.crlngn-ui.crlngn-foundry-v14 #scene-navigation .contents .scene.view.crlngn:after {
+  content: '\f06e' !important;
+}
+body.crlngn-ui.crlngn-foundry-v14 #scene-navigation .contents .scene.active.view.crlngn:after {
+  content: '\f06e  \f140' !important;
 }
 /* Core's "hidden from players" eye-slash sits next to the "viewing" eye and reads as a pair;
    a crossed-out user says hidden from players without echoing the eye */
