@@ -305,6 +305,8 @@
               align-items: flex-end;
               padding: 0px;
               gap: 0px;
+              /* Foundry v14 fades the menu icons to half opacity; keep them solid */
+              opacity: 1;
 
               >i {
                 width: 20px;
