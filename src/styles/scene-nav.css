@@ -317,7 +317,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 0.75em;
+                font-size: 0.9em;
                 transform: scale(1);
                 opacity: 0.85;
                 margin: 0;
@@ -1145,6 +1145,9 @@ body.crlngn-ui #scene-navigation .scene.crlngn:has(> .icons):after {
 }
 body.crlngn-ui #scene-navigation .scene-navigation-menu .scene > .icons {
   opacity: 1;
+}
+body.crlngn-ui #scene-navigation .scene-navigation-menu .scene > .icons > i.icon {
+  opacity: 0.6;
 }
 /* Core's "hidden from players" eye-slash sits next to the "viewing" eye and reads as a pair;
    a crossed-out user says hidden from players without echoing the eye */
