@@ -655,6 +655,17 @@ export function getSettings() {
       requiresReload: false
     },
 
+    broadcastViewHintShown: {
+      tag: "v2-broadcast-view-hint-shown",
+      label: "Broadcast View Hint Shown",
+      hint: "Remembers that this client was told what the broadcast view does",
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+
     bulkLockAction: {
       tag: "v2-bulk-lock-action",
       label: game.i18n.localize("CRLNGN_UI.settings.bulkLockAction.label"),

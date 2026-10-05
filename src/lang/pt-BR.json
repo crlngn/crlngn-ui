@@ -11,7 +11,8 @@
         "originScript": "Script"
       },
       "broadcastView": {
-        "toolTitle": "Transmitir Visão aos Jogadores"
+        "toolTitle": "Transmitir Visão aos Jogadores",
+        "firstHint": "Compartilhando posição e zoom da cena com os jogadores"
       },
       "generalSettingsLabel": "Configurações Gerais",
       "clientSettingsLabel": "Configurações do Jogador (Cliente)",

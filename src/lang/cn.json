@@ -11,7 +11,8 @@
         "originScript": "脚本"
       },
       "broadcastView": {
-        "toolTitle": "向玩家广播视图"
+        "toolTitle": "向玩家广播视图",
+        "firstHint": "正在与玩家共享场景位置和缩放"
       },
       "generalSettingsLabel": "通用设置",
       "clientSettingsLabel": "玩家设置 (客户端)",

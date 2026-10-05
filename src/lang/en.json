@@ -11,7 +11,8 @@
         "originScript": "Script"
       },
       "broadcastView": {
-        "toolTitle": "Broadcast View to Players"
+        "toolTitle": "Broadcast View to Players",
+        "firstHint": "Sharing scene position and zoom with players"
       },
       "generalSettingsLabel": "General Settings",
       "clientSettingsLabel": "Player Settings (Client)",

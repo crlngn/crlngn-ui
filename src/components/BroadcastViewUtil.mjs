@@ -165,6 +165,7 @@ export class BroadcastView {
     BroadcastView.#syncButton();
 
     if (active) {
+      BroadcastView.#showFirstHint();
       BroadcastView.#send(BroadcastView.#currentView());
       BroadcastView.#heartbeat = window.setInterval(() => BroadcastView.#send(BroadcastView.#currentView()), HEARTBEAT_INTERVAL);
     } else {
@@ -174,6 +175,17 @@ export class BroadcastView {
       game.socket?.emit(SOCKET_NAME, { type: "stop", userId: game.user.id });
     }
     LogUtil.log("BroadcastView.setActive", [active]);
+  }
+
+  /**
+   * Tells the GM what broadcasting does the first time they turn it on. A client setting
+   * remembers that the notice was shown, so it appears once per client.
+   */
+  static #showFirstHint() {
+    const SETTINGS = getSettings();
+    if (SettingsUtil.get(SETTINGS.broadcastViewHintShown.tag) === true) return;
+    ui.notifications?.info(game.i18n.localize("CRLNGN_UI.ui.broadcastView.firstHint"));
+    game.settings.set(MODULE_ID, SETTINGS.broadcastViewHintShown.tag, true);
   }
 
   /**

@@ -11,7 +11,8 @@
         "originScript": "Script"
       },
       "broadcastView": {
-        "toolTitle": "Trasmetti Vista ai Giocatori"
+        "toolTitle": "Trasmetti Vista ai Giocatori",
+        "firstHint": "Condivisione di posizione e zoom della scena con i giocatori"
       },
       "generalSettingsLabel": "Impostazioni generali",
       "clientSettingsLabel": "Impostazioni del Giocatore (Client)",
