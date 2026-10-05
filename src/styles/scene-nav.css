@@ -29,6 +29,12 @@
       --crlngn-sidebar-tabs-width: 0px;
     }
 
+    /* With Foundry's own sidebar there is no tabs column at the right edge, so the nav bar runs
+       all the way to it */
+    &:not(.crlngn-tabs) {
+      --crlngn-sidebar-tabs-width: 0px;
+    }
+
     /* Increment extra buttons count based on active features */
     &.crlngn-back-btn {
       --crlngn-extra-btns-count: 1;
@@ -1104,6 +1110,11 @@
       }
     }
     &.crlngn-scene-nav #interface:not(.crlngn-controls) {
+      /* Foundry's own controls are sized by core, so the column width the toggle is placed
+         against must come from core's control size rather than the module's */
+      #ui-left {
+        --crlngn-control-size: var(--control-size, 32px);
+      }
       #ui-left-column-2 {
         margin: 0 0 0 20px !important;
       }
@@ -1118,7 +1129,10 @@
         flex: 0 0 var(--control-size);
         height: var(--control-size);
         top: 4px;
-        margin-left: 2px;
+        margin-left: 0;
+        width: var(--control-size);
+        /* Pulled back over the controls column: its width, the column gap, and the 20px margin above */
+        left: calc(-1 * var(--controls-column-width) - 36px);
         z-index: 10;
       }
 
