@@ -245,12 +245,6 @@
               content: '\f521   \f140';
             }
 
-            /* Foundry v14 also renders an eye for the scene being viewed; the crown already says
-               so, so the eye is dropped wherever the crown is drawn */
-            &.view.crlngn > .icons > .fa-eye {
-              display: none;
-            }
-
             &:hover {
               z-index: 101;
             }
@@ -917,11 +911,6 @@
                   content: '\f070';
                 }
 
-                /* Foundry v14's own eye for the viewed scene is redundant next to the marker */
-                &.view.crlngn > .icons > .fa-eye {
-                  display: none;
-                }
-
                 &.gm {
                   .scene-name {
                     opacity: 0.7;
@@ -1145,4 +1134,15 @@ body.crlngn-ui:not(.crlngn-is-gm) #scene-navigation .scene.view.crlngn:after {
 }
 body.crlngn-ui:not(.crlngn-is-gm) #scene-navigation .scene.active.view.crlngn:after {
   content: '\f007   \f140';
+}
+
+/* Foundry v14 renders its own icon row on nav scenes (eye for the viewed scene, bullseye for the
+   active one, eye-slash for hidden ones). Where that row exists the module's drawn markers stand
+   down and core's icons are shown at full strength; v13 renders no such row and keeps the markers.
+   The override needs to beat every marker rule above, hence the importance. */
+body.crlngn-ui #scene-navigation .scene.crlngn:has(> .icons):after {
+  content: none !important;
+}
+body.crlngn-ui #scene-navigation .scene-navigation-menu .scene > .icons {
+  opacity: 1;
 }
