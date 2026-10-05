@@ -1146,3 +1146,8 @@ body.crlngn-ui #scene-navigation .scene.crlngn:has(> .icons):after {
 body.crlngn-ui #scene-navigation .scene-navigation-menu .scene > .icons {
   opacity: 1;
 }
+/* Core's "hidden from players" eye-slash sits next to the "viewing" eye and reads as a pair;
+   a crossed-out user says hidden-from-players without echoing the eye */
+body.crlngn-ui #scene-navigation .scene-navigation-menu .scene > .icons > .fa-eye-slash::before {
+  content: '\f506';
+}
