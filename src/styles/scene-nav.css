@@ -485,10 +485,11 @@
         }
       }
 
-      /* With Foundry's own sidebar the carets stop at its tab column, which is a 32px button plus
-         16px padding, 48px, wider than the module's 38px column the offsets above assume */
+      /* With Foundry's own sidebar its tab column starts below the nav bar, so the bar runs to the
+         viewport edge and the carets sit at that edge rather than a module tab column's width
+         short of it */
       &:not(.crlngn-tabs) {
-        --crlngn-core-tabs-extra: calc(48px - var(--control-item-size));
+        --crlngn-core-tabs-extra: calc(0px - var(--control-item-size));
 
         #ui-left-column-2 button.crlngn-btn {
           right: calc(var(--control-item-size) * 2 + var(--crlngn-core-tabs-extra));
