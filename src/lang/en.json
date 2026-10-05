@@ -3,7 +3,8 @@
     "ui": { 
       "sceneHiddenFromPlayers": "Hidden from players",
       "broadcastView": {
-        "toolTitle": "Broadcast View to Players"
+        "toolTitle": "Broadcast View to Players",
+        "firstHint": "Sharing scene position and zoom with players"
       },
       "compactNotifications": {
         "fromOne": "{name} ({count})",

@@ -3,7 +3,8 @@
     "ui": {
       "sceneHiddenFromPlayers": "对玩家隐藏",
       "broadcastView": {
-        "toolTitle": "向玩家广播视图"
+        "toolTitle": "向玩家广播视图",
+        "firstHint": "正在与玩家共享场景位置和缩放"
       },
       "compactNotifications": {
         "fromOne": "{name}（{count}）",

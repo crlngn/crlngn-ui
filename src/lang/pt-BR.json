@@ -3,7 +3,8 @@
     "ui": {
       "sceneHiddenFromPlayers": "Oculta dos jogadores",
       "broadcastView": {
-        "toolTitle": "Transmitir Visão aos Jogadores"
+        "toolTitle": "Transmitir Visão aos Jogadores",
+        "firstHint": "Compartilhando posição e zoom da cena com os jogadores"
       },
       "compactNotifications": {
         "fromOne": "{name} ({count})",
