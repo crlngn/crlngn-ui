@@ -20,6 +20,8 @@ const WRAPPER_PATHS = [`/modules/${MODULE_ID}/`, "/modules/lib-wrapper/"];
 const MAX_ORIGINS = 100;
 /** Distance, in pixels, a pill already in the stack settles from when the stack changes */
 const SETTLE_DISTANCE = 4;
+/** Width, in pixels, of the zone at a pill's right end that holds core's close glyph */
+const CLOSE_GLYPH_ZONE = 48;
 /** Notification types from most to least urgent; the folded stack shows the icon of the most urgent one it holds */
 const URGENCY = ["error", "warning", "success", "info"];
 
@@ -50,6 +52,8 @@ export class CompactNotifications {
   static #bound = false;
   /** @type {Map<number, NotificationOrigin>} Origin of each notification, by its id */
   static #origins = new Map();
+  /** @type {Map<number, number>} Removal timers of the notifications whose lifetime this class runs, by id */
+  static #timers = new Map();
 
   /**
    * Reads the setting, wraps core's notify method and attaches to the notification list
@@ -110,15 +114,68 @@ export class CompactNotifications {
   }
 
   /**
-   * Wraps core's notify method so the origin of every notification is recorded against its id
+   * Wraps core's notify method so the origin of every notification is recorded against its id.
+   * While the compact layout is on, notifications that would expire on their own are made
+   * permanent for core and given a lifetime here instead, which can pause while the stack is
+   * open to be read. Progress bars and notifications asked to be permanent are left to core.
    */
   static #wrapNotify() {
     LibWrapperUtil.register(NOTIFY_TARGET, function(wrapped, ...args) {
       const origin = CompactNotifications.#detectOrigin();
+      const options = args[2] ?? {};
+      const managed = CompactNotifications.enabled && !options.permanent && !options.progress;
+      if (managed) args[2] = { ...options, permanent: true };
       const result = wrapped(...args);
-      if (origin && Number.isFinite(result?.id)) CompactNotifications.#rememberOrigin(result.id, origin);
+      if (Number.isFinite(result?.id)) {
+        if (origin) CompactNotifications.#rememberOrigin(result.id, origin);
+        if (managed && !CompactNotifications.#isExpanded()) CompactNotifications.#startTimer(result.id);
+        else if (managed) CompactNotifications.#timers.set(result.id, 0);
+      }
       return result;
     }, "WRAPPER");
+  }
+
+  /**
+   * Gives a notification the lifetime core would have, counted from now
+   * @param {number} id
+   */
+  static #startTimer(id) {
+    CompactNotifications.#stopTimer(id);
+    const lifetime = foundry.applications?.ui?.Notifications?.LIFETIME_MS ?? 5000;
+    const timer = window.setTimeout(() => {
+      CompactNotifications.#timers.delete(id);
+      ui.notifications?.remove(id);
+    }, lifetime);
+    CompactNotifications.#timers.set(id, timer);
+  }
+
+  /**
+   * Stops a notification's timer, keeping it listed so it can be restarted
+   * @param {number} id
+   */
+  static #stopTimer(id) {
+    const timer = CompactNotifications.#timers.get(id);
+    if (timer) window.clearTimeout(timer);
+    CompactNotifications.#timers.set(id, 0);
+  }
+
+  /**
+   * Pauses every lifetime while the stack is open, so nothing disappears while it is being read
+   */
+  static #pauseTimers() {
+    for (const id of CompactNotifications.#timers.keys()) CompactNotifications.#stopTimer(id);
+  }
+
+  /**
+   * Gives every notification still shown a full lifetime again once the stack folds, and forgets
+   * the ones already gone
+   */
+  static #resumeTimers() {
+    const list = CompactNotifications.#list;
+    for (const id of Array.from(CompactNotifications.#timers.keys())) {
+      if (list?.querySelector(`.notification[data-id="${id}"]`)) CompactNotifications.#startTimer(id);
+      else CompactNotifications.#timers.delete(id);
+    }
   }
 
   /**
@@ -341,7 +398,8 @@ export class CompactNotifications {
    * While folded, a click on the stack spreads it instead of dismissing the notification that
    * was hit, so the full messages can be read. Core's own click handler sits on the notification
    * itself, so the event is stopped here, in the capture phase, before it gets there. A lone pill
-   * opens the same way, since folded pills show a single line; the next click dismisses it.
+   * opens the same way when its message is cut short; when the whole message already fits on its
+   * single line, or the click lands on its close glyph, the click dismisses it as in core.
    * @param {MouseEvent} event
    */
   static #onListClick = (event) => {
@@ -349,10 +407,34 @@ export class CompactNotifications {
     const list = CompactNotifications.#list;
     const target = event.target instanceof Element ? event.target.closest(STACK_SELECTOR) : null;
     if (!list || !target) return;
+    if (Number(list.dataset.count) <= 1 && (!CompactNotifications.#isTruncated(target) || CompactNotifications.#onCloseGlyph(event, target))) return;
     event.preventDefault();
     event.stopPropagation();
     list.classList.add(EXPANDED_CLASS);
+    CompactNotifications.#pauseTimers();
   };
+
+  /**
+   * Whether a click landed on the close glyph core draws at the right end of a pill
+   * @param {MouseEvent} event
+   * @param {HTMLElement} element
+   * @returns {boolean}
+   */
+  static #onCloseGlyph(event, element) {
+    const rect = element.getBoundingClientRect();
+    return event.clientX >= rect.right - CLOSE_GLYPH_ZONE;
+  }
+
+  /**
+   * Whether a folded pill's message is cut short by its single-line clamp
+   * @param {HTMLElement} element
+   * @returns {boolean}
+   */
+  static #isTruncated(element) {
+    const text = element.querySelector(":scope > p");
+    if (!text) return false;
+    return text.scrollHeight > text.clientHeight + 1 || text.scrollWidth > text.clientWidth + 1;
+  }
 
   /**
    * Whether the stack is spread out
@@ -363,9 +445,11 @@ export class CompactNotifications {
   }
 
   /**
-   * Folds the stack
+   * Folds the stack and lets the lifetimes run again
    */
   static #collapse() {
+    const wasExpanded = CompactNotifications.#isExpanded();
     CompactNotifications.#list?.classList.remove(EXPANDED_CLASS);
+    if (wasExpanded) CompactNotifications.#resumeTimers();
   }
 }
