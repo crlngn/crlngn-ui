@@ -476,17 +476,19 @@ export class TopNavigation {
       const column2 = document.querySelector("#ui-left-column-2");
       if(!column2){ return; }
 
+      // The toggle is added once and kept current by updateToggleButton. Renders can overlap
+      // while the template is awaited, so the check is repeated after it
+      if(document.querySelector("#crlngn-scene-navigation-expand")){
+        TopNavigation.updateToggleButton(ui.nav?.expanded || false);
+        return;
+      }
       const toggleHtml = await GeneralUtil.renderTemplate(
         `modules/${MODULE_ID}/templates/scene-nav-toggle.hbs`,
         {
           isExpanded: ui.nav?.expanded || false
         }
       );
-
-      // Renders can overlap while the template is awaited, so existing toggles are cleared
-      // right before inserting, not before the await, or each overlapping render adds one
-      if(!column2.isConnected){ return; }
-      document.querySelectorAll("#crlngn-scene-navigation-expand").forEach(el => el.remove());
+      if(!column2.isConnected || document.querySelector("#crlngn-scene-navigation-expand")){ return; }
       column2.insertAdjacentHTML('afterbegin', toggleHtml);
       
       // Get the newly inserted element and add click listener
