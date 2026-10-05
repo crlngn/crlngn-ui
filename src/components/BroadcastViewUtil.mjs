@@ -6,8 +6,8 @@ import { SettingsUtil } from "./SettingsUtil.mjs";
 
 /** Name of the module's socket channel */
 const SOCKET_NAME = `module.${MODULE_ID}`;
-/** Name of the toggle on the token controls */
-const TOOL_NAME = "crlngnBroadcastView";
+/** Class of the module's button on the primary scene controls */
+const BUTTON_CLASS = "crlngn-broadcast-view";
 /** Body class set while this client is broadcasting its view */
 const BODY_CLASS = "crlngn-broadcasting-view";
 /** Id of the outline drawn around the GM's screen while broadcasting */
@@ -26,7 +26,7 @@ const RETURN_DURATION = 500;
 /**
  * Lets a GM share their canvas view with the players. While broadcasting, every pan or zoom of
  * the GM's canvas is sent over the module socket and the players on the same scene pan along.
- * Broadcasting is switched with a toggle on the token controls or with a keybinding, starts by
+ * Broadcasting is switched with a button on the primary scene controls or with a keybinding, starts by
  * sending the current view so players line up at once, outlines the GM's screen while it is on,
  * and ends by itself when the GM changes scene. A follower who moves their own view keeps it
  * until shortly after they let go, then eases back to the broadcast view. Players can opt out of
@@ -78,7 +78,7 @@ export class BroadcastView {
     BroadcastView.includeZoom = SettingsUtil.get(SETTINGS.broadcastViewZoom.tag) !== false;
     BroadcastView.follow = SettingsUtil.get(SETTINGS.followBroadcastView.tag) !== false;
     game.socket?.on(SOCKET_NAME, BroadcastView.#onSocketMessage);
-    Hooks.on(HOOKS_CORE.GET_SCENE_CONTROLS, BroadcastView.#onGetSceneControls);
+    Hooks.on(HOOKS_CORE.RENDER_SCENE_CONTROLS, BroadcastView.#onRenderSceneControls);
     Hooks.on(HOOKS_CORE.CANVAS_PAN, BroadcastView.#onCanvasPan);
     Hooks.on(HOOKS_CORE.CANVAS_READY, BroadcastView.#onCanvasReady);
     Hooks.on("closeControlsConfig", BroadcastView.#onCloseControlsConfig);
@@ -148,7 +148,7 @@ export class BroadcastView {
   }
 
   /**
-   * Starts or stops broadcasting, keeping the token controls toggle in step. Starting sends the
+   * Starts or stops broadcasting, keeping the scene controls button in step. Starting sends the
    * current view and repeats it every few seconds, so followers know the broadcast is still on
    * while the GM holds still; stopping tells them it is over.
    * @static
@@ -162,11 +162,7 @@ export class BroadcastView {
     document.body.classList.toggle(BODY_CLASS, active);
     BroadcastView.#toggleFrame(active);
 
-    const tool = ui.controls?.controls?.tokens?.tools?.[TOOL_NAME];
-    if (tool && tool.active !== active) {
-      tool.active = active;
-      ui.controls.render();
-    }
+    BroadcastView.#syncButton();
 
     if (active) {
       BroadcastView.#send(BroadcastView.#currentView());
@@ -209,24 +205,45 @@ export class BroadcastView {
   }
 
   /**
-   * Adds the broadcast toggle to the token controls, unless the GM chose to hide it and work
-   * from the keybinding alone
-   * @param {Record<string, any>} controls
+   * Adds the broadcast button to the primary column of the scene controls, after the layer
+   * buttons, unless the GM chose to work from the keybinding alone. Core rebuilds that column on
+   * every render, so the button is added again each time and its label kept current.
+   * @param {object} app - The scene controls application
+   * @param {HTMLElement} html - The rendered element
    */
-  static #onGetSceneControls = (controls) => {
-    const tools = controls?.tokens?.tools;
-    if (!tools) return;
-    tools[TOOL_NAME] = {
-      name: TOOL_NAME,
-      order: 100,
-      title: BroadcastView.#toolTitle(),
-      icon: "fa-solid fa-screencast",
-      toggle: true,
-      visible: BroadcastView.canBroadcast && BroadcastView.showToggle,
-      active: BroadcastView.active,
-      onChange: (event, toggled) => BroadcastView.setActive(toggled)
-    };
+  static #onRenderSceneControls = (app, html) => {
+    const root = html instanceof HTMLElement ? html : document;
+    const menu = root.querySelector("#scene-controls-layers") ?? document.querySelector("#scene-controls-layers");
+    if (!menu) return;
+    let button = menu.querySelector(`.${BUTTON_CLASS}`);
+    if (!BroadcastView.canBroadcast || !BroadcastView.showToggle) {
+      button?.closest("li")?.remove();
+      return;
+    }
+    if (!button) {
+      const item = document.createElement("li");
+      button = document.createElement("button");
+      button.type = "button";
+      button.className = `control ui-control layer icon toggle fa-solid fa-screencast ${BUTTON_CLASS}`;
+      button.setAttribute("data-tooltip", "");
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        BroadcastView.toggle();
+      });
+      item.appendChild(button);
+      menu.appendChild(item);
+    }
+    button.setAttribute("aria-label", BroadcastView.#toolTitle());
+    button.setAttribute("aria-pressed", String(BroadcastView.active));
   };
+
+  /**
+   * Reflects the broadcast state on the button
+   */
+  static #syncButton() {
+    document.querySelectorAll(`.${BUTTON_CLASS}`).forEach(button => button.setAttribute("aria-pressed", String(BroadcastView.active)));
+  }
 
   /**
    * Title of the toggle, naming the key currently bound to the broadcast action
