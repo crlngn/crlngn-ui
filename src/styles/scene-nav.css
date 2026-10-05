@@ -485,6 +485,20 @@
         }
       }
 
+      /* With Foundry's own sidebar the carets stop at its tab column, which is a 32px button plus
+         16px padding, 48px, wider than the module's 38px column the offsets above assume */
+      &:not(.crlngn-tabs) {
+        --crlngn-core-tabs-extra: calc(48px - var(--control-item-size));
+
+        #ui-left-column-2 button.crlngn-btn {
+          right: calc(var(--control-item-size) * 2 + var(--crlngn-core-tabs-extra));
+
+          &.ui-nav-left {
+            right: calc(var(--control-item-size) * 3 + var(--crlngn-core-tabs-extra));
+          }
+        }
+      }
+
       /* active scenes behavior when scene nav is expanded */
       #scene-navigation {
 
