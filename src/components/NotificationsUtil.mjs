@@ -14,8 +14,8 @@ const STILL_CLASS = "crlngn-still";
 const STACK_SELECTOR = ".notification:not(.progress)";
 /** Core method every notification goes through */
 const NOTIFY_TARGET = "foundry.applications.ui.Notifications.prototype.notify";
-/** Script paths of the frames at the top of every stack trace taken from the wrapper: this module and the wrapper library */
-const WRAPPER_PATHS = [`/modules/${MODULE_ID}/`, "/modules/lib-wrapper/"];
+/** Script path of the wrapper library, whose frames surround every wrapper's own */
+const LIBWRAPPER_PATH = "/modules/lib-wrapper/";
 /** Most notification origins remembered at once */
 const MAX_ORIGINS = 100;
 /** Distance, in pixels, a pill already in the stack settles from when the stack changes */
@@ -54,6 +54,8 @@ export class CompactNotifications {
   static #origins = new Map();
   /** @type {Map<number, number>} Removal timers of the notifications whose lifetime this class runs, by id */
   static #timers = new Map();
+  /** @type {Set<string>} Ids of modules seen wrapping core's notify method, whose frames a call passes through */
+  static #notifyWrappers = new Set();
 
   /**
    * Reads the setting, wraps core's notify method and attaches to the notification list
@@ -179,22 +181,44 @@ export class CompactNotifications {
   }
 
   /**
-   * Works out who raised a notification from the stack trace. The frames of this module and of
-   * the wrapper library at the top are skipped; after them, the first frame inside a module or
-   * system names the origin, an evaluated frame means a macro or script, and only core frames
-   * mean Foundry itself.
+   * Works out who raised a notification from the stack trace. Frames of this module and of the
+   * wrapper library at the top belong to this wrapper and are skipped. Core's own notification
+   * method, info, warn and the like, is the first core frame: whatever module frames come before
+   * it belong to other modules that wrap notify, which the call only passed through, and they are
+   * remembered as such. The frame right after that core frame names the origin: a module or
+   * system frame is the caller, an evaluated frame means a macro or script, and another core
+   * frame means core raised it itself. When no core frame exists the caller used notify
+   * directly, and the first module frame not known as a wrapper is taken.
    * @returns {NotificationOrigin}
    */
   static #detectOrigin() {
-    const frames = (new Error().stack ?? "").split("\n");
-    let leading = true;
-    for (const frame of frames) {
-      const url = frame.match(/(?:https?|file):\/\/[^\s()]+/)?.[0] ?? "";
-      if (leading && (!url || WRAPPER_PATHS.some(path => url.includes(path)))) continue;
-      leading = false;
-      if (/<anonymous>|> eval/.test(frame)) return CompactNotifications.#origin("script", "script");
+    const frames = (new Error().stack ?? "").split("\n").map(line => {
+      const url = line.match(/(?:https?|file):\/\/[^\s()]+/)?.[0] ?? "";
       const pkg = url.match(/\/(modules|systems)\/([^/]+)\//);
-      if (pkg) return CompactNotifications.#origin(pkg[1] === "modules" ? "module" : "system", pkg[2]);
+      return {
+        isScript: /\beval at\b|> eval/.test(line),
+        isLib: url.includes(LIBWRAPPER_PATH),
+        isOurs: url.includes(`/modules/${MODULE_ID}/`),
+        isCore: Boolean(url) && !pkg,
+        pkg: pkg ? { kind: pkg[1] === "modules" ? "module" : "system", id: pkg[2] } : null
+      };
+    }).filter(frame => frame.isScript || frame.isLib || frame.isOurs || frame.isCore || frame.pkg);
+    let start = 0;
+    while (start < frames.length && (frames[start].isOurs || frames[start].isLib)) start++;
+    const firstCore = frames.findIndex((frame, i) => i >= start && frame.isCore);
+    if (firstCore >= 0) {
+      for (let i = start; i < firstCore; i++) {
+        if (frames[i].pkg) CompactNotifications.#notifyWrappers.add(frames[i].pkg.id);
+      }
+      const next = frames.slice(firstCore + 1).find(frame => !frame.isLib);
+      if (next?.isScript) return CompactNotifications.#origin("script", "script");
+      if (next?.pkg) return CompactNotifications.#origin(next.pkg.kind, next.pkg.id);
+      return CompactNotifications.#origin("core", "core");
+    }
+    for (let i = start; i < frames.length; i++) {
+      const frame = frames[i];
+      if (frame.isScript) return CompactNotifications.#origin("script", "script");
+      if (frame.pkg && !CompactNotifications.#notifyWrappers.has(frame.pkg.id)) return CompactNotifications.#origin(frame.pkg.kind, frame.pkg.id);
     }
     return CompactNotifications.#origin("core", "core");
   }
