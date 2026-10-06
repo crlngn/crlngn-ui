@@ -722,7 +722,8 @@ export class CombatTrackerManager {
     if (closeBtn && !closeBtn.dataset.crlngnCloseNotice) {
       closeBtn.dataset.crlngnCloseNotice = 'true';
       closeBtn.addEventListener('click', () => {
-        if (!CombatTrackerManager.#programmaticClose) {
+        const sidebarHidden = document.body.classList.contains('swipe-vtt-phone');
+        if (!CombatTrackerManager.#programmaticClose && !sidebarHidden) {
           ui.notifications?.info(game.i18n.localize('CRLNGN_UI.combat.closedNotice'));
         }
       });
