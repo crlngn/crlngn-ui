@@ -873,10 +873,37 @@ body.crlngn-ui{
   }
 }
 
+@property --crlngn-tabs-fade-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --crlngn-tabs-fade-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@keyframes crlngn-tabs-fade {
+  0% {
+    --crlngn-tabs-fade-start: 0px;
+    --crlngn-tabs-fade-end: 2rem;
+  }
+  10%, 90% {
+    --crlngn-tabs-fade-start: 2rem;
+    --crlngn-tabs-fade-end: 2rem;
+  }
+  100% {
+    --crlngn-tabs-fade-start: 2rem;
+    --crlngn-tabs-fade-end: 0px;
+  }
+}
+
 .scene-config .standard-form,
 .standard-form.crlngn,
 #crlngn-color-picker {
-  nav.tabs { 
+  nav.tabs {
     display: flex; 
     border-bottom: 1px solid var(--color-tabs-border);
     margin-bottom: 10px;
@@ -904,6 +931,23 @@ body.crlngn-ui{
         height: 6px;
       }
     }
+
+    @supports (animation-timeline: scroll()) {
+      mask-image:
+        linear-gradient(
+          to right,
+          transparent,
+          black var(--crlngn-tabs-fade-start),
+          black calc(100% - var(--crlngn-tabs-fade-end)),
+          transparent
+        ),
+        linear-gradient(black, black);
+      mask-size: 100% 100%, 100% 1px;
+      mask-position: 0 0, 0 100%;
+      mask-repeat: no-repeat;
+      animation: crlngn-tabs-fade linear both;
+      animation-timeline: scroll(self inline);
+    }
   }
 
   nav.tabs a[data-action=tab] {
@@ -919,7 +963,7 @@ body.crlngn-ui{
     display: flex;
     color: inherit;
     width: auto;
-    min-width: min-content;
+    min-width: 7rem;
     flex: 1 1 min-content;
 
     i{
