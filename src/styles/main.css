@@ -335,6 +335,11 @@ body.crlngn-ui{
   #settings-config .form-group > label {
     min-width: 190px;
   }
+  /* wod5e grows form labels to flex-grow 2 in dark mode, squeezing the fields; back to core's 1.
+     Icon labels keep their fixed width */
+  &.system-wod5e .standard-form .form-group > label:not(.icon) {
+    flex-grow: 1;
+  }
 
   /*
   .standard-form input[type=checkbox]:checked:before,
