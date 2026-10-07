@@ -224,7 +224,7 @@ export function getSettings() {
         preventMacroBarReposition: true,
         controlsAutoHide: false,
         hoverableSettingsHints: true,
-        compactNotifications: false,
+        compactNotifications: true,
 
         followBroadcastView: true,
         broadcastViewMode: "toggle",
@@ -1489,7 +1489,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.compactNotifications.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.compactNotifications.hint"),
       propType: Boolean,
-      default: false,
+      default: true,
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false
