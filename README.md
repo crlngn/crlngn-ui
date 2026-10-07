@@ -9,22 +9,10 @@
 ![GitHub Downloads (specific asset, all releases)](https://img.shields.io/github/downloads/crlngn/crlngn-ui/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge)
 
 ## Carolingian UI
-A UI overhaul, focusing on removing clutter from screen and improving overall look and feel of Foundry VTT, but also offering many quality of life features to the UI panels.
+A highly configurable UI overhaul, focusing on removing clutter from screen and improving overall look and feel of Foundry VTT, but also offering many quality of life features to the UI panels.
 
-https://github.com/user-attachments/assets/0c72bc15-e266-48e0-9181-053b5273b36f
+https://github.com/user-attachments/assets/b9a03f08-4219-4fb4-a44e-479f841f7992
 
-
-<div style="display: flex; flex-direction: row;">
-  <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/crlngn-ui-1.x-sheet-themes.png?raw=true" width="100%" height="auto" />
-
-  <!--<video src="https://github.com/user-attachments/assets/9cc3b4fb-9f9e-45a4-9367-1bc6d255679c" width="100%" height="auto">
-  </video>-->
-</div>
-  
-<div style="display: flex; flex-wrap: wrap; flex-direction: row; gap:2%">
-  <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-1.webp?raw=true" width="49%" height="auto" />
-  <img src="https://github.com/crlngn/crlngn-ui/blob/main/demo/carolingian-ui-2.webp?raw=true" width="49%" height="auto" />
-</div>
 
 ### EXTRA FEATURES ON V13/V14:
 - **Fade out:** ability to disable fade out behavior of interface elements individually
@@ -33,6 +21,7 @@ https://github.com/user-attachments/assets/0c72bc15-e266-48e0-9181-053b5273b36f
 - **Scene Preview Shortcuts:** which allow user to view and toggle global illumination, token vision, scene sound and open config
 - **Toggle floating chat log:** button to hide/show the chat input box if you don't use it often
 - **Players List:** Avatar miniatures
+- **Sidebar Tab control** Hide sidebar tabs for you or for players
 - **Combat Carousel:** horizontal combat tracker built from the regular Foundry popout
 - Most of the options present in v12 (below) are also available
 
