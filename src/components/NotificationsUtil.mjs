@@ -20,8 +20,10 @@ const LIBWRAPPER_PATH = "/modules/lib-wrapper/";
 const MAX_ORIGINS = 100;
 /** Distance, in pixels, a pill already in the stack settles from when the stack changes */
 const SETTLE_DISTANCE = 4;
-/** Width, in pixels, of the zone at a pill's right end that holds core's close glyph */
-const CLOSE_GLYPH_ZONE = 48;
+/** Origin kinds not named on a pill, since they say nothing a user can act on */
+const UNNAMED_ORIGINS = ["core", "script"];
+/** Time, in milliseconds, added to every lifetime when the stack is spread out to be read */
+const EXPANDED_EXTRA_MS = 3000;
 /** Notification types from most to least urgent; the folded stack shows the icon of the most urgent one it holds */
 const URGENCY = ["error", "warning", "success", "info"];
 
@@ -35,11 +37,12 @@ const URGENCY = ["error", "warning", "success", "info"];
 /**
  * Compact notifications. Core shows notifications as a full-width column; with this option on
  * they become one-line pills at the top center of the screen, stacked behind the newest one when
- * there are several. The newest pill then names where the stack came from, which is found by
- * wrapping core's notify method and reading the calling script off the stack trace. Clicking a
- * pill spreads the stack into a column of two-line pills, each showing its full message and its
- * origin and dismissed by a click as usual; clicking elsewhere or pressing Escape folds it back. Progress bars, such as
- * scene loading, stay out of the stack and keep their own row.
+ * there are several. A lone notification shows its full message in a wider pill instead. The
+ * newest pill of a stack names where the stack came from, which is found by wrapping core's
+ * notify method and reading the calling script off the stack trace; core and macros are not
+ * named. Clicking a stack spreads it into a column of two-line pills, each showing its full
+ * message and its origin and dismissed by a click as usual; clicking elsewhere or pressing Escape
+ * folds it back. Progress bars, such as scene loading, stay out of the stack and keep their own row.
  */
 export class CompactNotifications {
   /** @type {boolean} Whether the compact layout is on */
@@ -52,7 +55,7 @@ export class CompactNotifications {
   static #bound = false;
   /** @type {Map<number, NotificationOrigin>} Origin of each notification, by its id */
   static #origins = new Map();
-  /** @type {Map<number, number>} Removal timers of the notifications whose lifetime this class runs, by id */
+  /** @type {Map<number, {timer: number, deadline: number}>} Removal timers of the notifications whose lifetime this class runs, by id */
   static #timers = new Map();
   /** @type {Set<string>} Ids of modules seen wrapping core's notify method, whose frames a call passes through */
   static #notifyWrappers = new Set();
@@ -106,6 +109,7 @@ export class CompactNotifications {
     CompactNotifications.enabled = value === true;
     CompactNotifications.#applyBodyClass();
     CompactNotifications.#collapse();
+    CompactNotifications.#onListChange();
   }
 
   /**
@@ -118,7 +122,7 @@ export class CompactNotifications {
   /**
    * Wraps core's notify method so the origin of every notification is recorded against its id.
    * While the compact layout is on, notifications that would expire on their own are made
-   * permanent for core and given a lifetime here instead, which can pause while the stack is
+   * permanent for core and given a lifetime here instead, which is lengthened while the stack is
    * open to be read. Progress bars and notifications asked to be permanent are left to core.
    */
   static #wrapNotify() {
@@ -130,53 +134,48 @@ export class CompactNotifications {
       const result = wrapped(...args);
       if (Number.isFinite(result?.id)) {
         if (origin) CompactNotifications.#rememberOrigin(result.id, origin);
-        if (managed && !CompactNotifications.#isExpanded()) CompactNotifications.#startTimer(result.id);
-        else if (managed) CompactNotifications.#timers.set(result.id, 0);
+        if (managed) CompactNotifications.#startTimer(result.id, CompactNotifications.#lifetime() + (CompactNotifications.#isExpanded() ? EXPANDED_EXTRA_MS : 0));
       }
       return result;
     }, "WRAPPER");
   }
 
   /**
-   * Gives a notification the lifetime core would have, counted from now
-   * @param {number} id
+   * Lifetime core gives a notification
+   * @returns {number}
    */
-  static #startTimer(id) {
-    CompactNotifications.#stopTimer(id);
-    const lifetime = foundry.applications?.ui?.Notifications?.LIFETIME_MS ?? 5000;
+  static #lifetime() {
+    return foundry.applications?.ui?.Notifications?.LIFETIME_MS ?? 5000;
+  }
+
+  /**
+   * Removes a notification once the given time has passed, replacing any timer it had
+   * @param {number} id
+   * @param {number} delay - Milliseconds from now
+   */
+  static #startTimer(id, delay) {
+    const current = CompactNotifications.#timers.get(id);
+    if (current) window.clearTimeout(current.timer);
     const timer = window.setTimeout(() => {
       CompactNotifications.#timers.delete(id);
       ui.notifications?.remove(id);
-    }, lifetime);
-    CompactNotifications.#timers.set(id, timer);
+    }, delay);
+    CompactNotifications.#timers.set(id, { timer, deadline: Date.now() + delay });
   }
 
   /**
-   * Stops a notification's timer, keeping it listed so it can be restarted
-   * @param {number} id
+   * Gives every notification still shown some extra time when the stack is spread out, so the
+   * messages can be read while their lifetimes keep running, and forgets the ones already gone
    */
-  static #stopTimer(id) {
-    const timer = CompactNotifications.#timers.get(id);
-    if (timer) window.clearTimeout(timer);
-    CompactNotifications.#timers.set(id, 0);
-  }
-
-  /**
-   * Pauses every lifetime while the stack is open, so nothing disappears while it is being read
-   */
-  static #pauseTimers() {
-    for (const id of CompactNotifications.#timers.keys()) CompactNotifications.#stopTimer(id);
-  }
-
-  /**
-   * Gives every notification still shown a full lifetime again once the stack folds, and forgets
-   * the ones already gone
-   */
-  static #resumeTimers() {
+  static #extendTimers() {
     const list = CompactNotifications.#list;
-    for (const id of Array.from(CompactNotifications.#timers.keys())) {
-      if (list?.querySelector(`.notification[data-id="${id}"]`)) CompactNotifications.#startTimer(id);
-      else CompactNotifications.#timers.delete(id);
+    const now = Date.now();
+    for (const [id, { deadline }] of Array.from(CompactNotifications.#timers.entries())) {
+      if (list?.querySelector(`.notification[data-id="${id}"]`)) {
+        CompactNotifications.#startTimer(id, Math.max(deadline - now, 0) + EXPANDED_EXTRA_MS);
+      } else {
+        CompactNotifications.#timers.delete(id);
+      }
     }
   }
 
@@ -297,8 +296,8 @@ export class CompactNotifications {
    * the list and on the newest one, and labels each with its origin. The index doubles as a
    * custom property, from which the stylesheet works out how far to pull each pill up behind the
    * newest one while folded, since folded pills all share one height. The newest pill gets the
-   * summary shown while folded. An open stack stays open while pills are dismissed from it, so
-   * the last one goes with a single click; it folds back once empty.
+   * summary shown while folded. An open stack stays open while pills are dismissed from it, and
+   * folds back once a single pill is left, which then shows its full message.
    *
    * A change of the list moves the column in layout at once, which the transform transition
    * would then visibly chase, so the new positions are applied with transitions off and the
@@ -321,7 +320,7 @@ export class CompactNotifications {
     CompactNotifications.#updateSummary(stacked);
     CompactNotifications.#updateLevel(stacked);
     list.dataset.count = String(stacked.length);
-    if (!stacked.length) CompactNotifications.#collapse();
+    if (stacked.length <= 1) CompactNotifications.#collapse();
     CompactNotifications.#settle(list, settling);
   };
 
@@ -340,13 +339,19 @@ export class CompactNotifications {
 
   /**
    * Writes a notification's origin onto its element, as data and as a small label shown when the
-   * stack is spread out
+   * stack is spread out. Core and macro origins are not labeled. With the compact layout off, any
+   * label is taken away again, since core's own layout would show it as part of the message.
    * @param {HTMLElement} element
    */
   static #labelOrigin(element) {
+    if (!CompactNotifications.enabled) {
+      element.querySelector(":scope > .crlngn-origin")?.remove();
+      delete element.dataset.originKey;
+      return;
+    }
     if (element.dataset.originKey) return;
     const origin = CompactNotifications.#origins.get(Number(element.dataset.id));
-    if (!origin) return;
+    if (!origin || UNNAMED_ORIGINS.includes(origin.kind)) return;
     element.dataset.originKey = `${origin.kind}:${origin.id}`;
     const label = document.createElement("small");
     label.className = "crlngn-origin";
@@ -358,7 +363,7 @@ export class CompactNotifications {
    * Gives the newest pill the text shown while folded: the count and where the notifications
    * came from. One shared origin is named as is. With several, the origin of the most urgent
    * notification is named, or of the most recent one when they are equally urgent, followed by
-   * how many other origins there are.
+   * how many other named origins there are. Nothing is shown with the compact layout off.
    * @param {HTMLElement[]} stacked - The stacked notifications, newest first
    */
   static #updateSummary(stacked) {
@@ -366,7 +371,7 @@ export class CompactNotifications {
     const first = stacked[0];
     if (!first) return;
     let summary = first.querySelector(":scope > .crlngn-stack-summary");
-    if (stacked.length <= 1) {
+    if (stacked.length <= 1 || !CompactNotifications.enabled) {
       summary?.remove();
       return;
     }
@@ -422,8 +427,7 @@ export class CompactNotifications {
    * While folded, a click on the stack spreads it instead of dismissing the notification that
    * was hit, so the full messages can be read. Core's own click handler sits on the notification
    * itself, so the event is stopped here, in the capture phase, before it gets there. A lone pill
-   * opens the same way when its message is cut short; when the whole message already fits on its
-   * single line, or the click lands on its close glyph, the click dismisses it as in core.
+   * already shows its full message, so a click dismisses it as in core.
    * @param {MouseEvent} event
    */
   static #onListClick = (event) => {
@@ -431,34 +435,12 @@ export class CompactNotifications {
     const list = CompactNotifications.#list;
     const target = event.target instanceof Element ? event.target.closest(STACK_SELECTOR) : null;
     if (!list || !target) return;
-    if (Number(list.dataset.count) <= 1 && (!CompactNotifications.#isTruncated(target) || CompactNotifications.#onCloseGlyph(event, target))) return;
+    if (Number(list.dataset.count) <= 1) return;
     event.preventDefault();
     event.stopPropagation();
     list.classList.add(EXPANDED_CLASS);
-    CompactNotifications.#pauseTimers();
+    CompactNotifications.#extendTimers();
   };
-
-  /**
-   * Whether a click landed on the close glyph core draws at the right end of a pill
-   * @param {MouseEvent} event
-   * @param {HTMLElement} element
-   * @returns {boolean}
-   */
-  static #onCloseGlyph(event, element) {
-    const rect = element.getBoundingClientRect();
-    return event.clientX >= rect.right - CLOSE_GLYPH_ZONE;
-  }
-
-  /**
-   * Whether a folded pill's message is cut short by its single-line clamp
-   * @param {HTMLElement} element
-   * @returns {boolean}
-   */
-  static #isTruncated(element) {
-    const text = element.querySelector(":scope > p");
-    if (!text) return false;
-    return text.scrollHeight > text.clientHeight + 1 || text.scrollWidth > text.clientWidth + 1;
-  }
 
   /**
    * Whether the stack is spread out
@@ -469,11 +451,9 @@ export class CompactNotifications {
   }
 
   /**
-   * Folds the stack and lets the lifetimes run again
+   * Folds the stack
    */
   static #collapse() {
-    const wasExpanded = CompactNotifications.#isExpanded();
     CompactNotifications.#list?.classList.remove(EXPANDED_CLASS);
-    if (wasExpanded) CompactNotifications.#resumeTimers();
   }
 }

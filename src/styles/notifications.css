@@ -1,7 +1,8 @@
 /* -----------------
   COMPACT NOTIFICATIONS
   One-line pills at the top center of the screen, stacked behind the newest one, spread out on
-  click into two-line pills showing the full messages. Core's list keeps its own geometry so
+  click into two-line pills showing the full messages. A lone notification shows its full message
+  in a wider pill. Core's list keeps its own geometry so
   progress bars (scene loading) are left exactly as they are: the pills are moved up from the
   list's position with a transform instead. The list is always laid out as the spread column;
   folding is done with transforms, so folding, spreading and reflow all animate.
@@ -164,6 +165,21 @@ body.crlngn-ui.crlngn-compact-notifications {
       }
     }
 
+    /* A lone pill shows its full message, wrapping as needed in the wider pill, and no origin */
+    &[data-count="1"]:not(.crlngn-expanded) > .notification:not(.progress) {
+      width: var(--crlngn-pill-width-open);
+      height: auto;
+      min-height: var(--crlngn-pill-height);
+      padding-block: 0.625rem;
+      border-radius: 1.25rem;
+
+      > p {
+        display: block;
+        -webkit-line-clamp: unset;
+        overflow: visible;
+      }
+    }
+
     /* Spread out: a column of pills at least two lines tall that grow to fit their full messages,
        with their origins, each dismissed by its own click as in core, over a dark scrim that
        radiates from the top center and fades out. The scrim is a pseudo-element of the list, kept
@@ -172,6 +188,7 @@ body.crlngn-ui.crlngn-compact-notifications {
       display: grid;
       grid-template-columns: auto 1fr;
       grid-template-rows: auto auto;
+      align-content: center;
       column-gap: 12px;
       row-gap: 2px;
       width: var(--crlngn-pill-width-open);
@@ -203,6 +220,18 @@ body.crlngn-ui.crlngn-compact-notifications {
         -webkit-line-clamp: unset;
         overflow: visible;
         animation: crlngn-text-in 0.25s ease 0.35s both;
+      }
+      /* Pills from core or a macro carry no origin, so the message takes the only row, centered
+         in the pill's minimum height */
+      &:not(:has(> .crlngn-origin)) {
+        grid-template-rows: auto;
+
+        &::before {
+          grid-row: 1;
+        }
+        > p {
+          grid-row: 1;
+        }
       }
       > .pct,
       > .crlngn-stack-summary {
