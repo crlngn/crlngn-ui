@@ -111,7 +111,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       justify-content: center;
       flex: 0 0 auto;
       letter-spacing: 0.03em;
-      font-size: calc(1.35em * var(--carousel-scale));
+      font-size: 1.25em;
       width: calc(2.5rem * var(--carousel-scale, 1));
       height: calc(1.5rem * var(--carousel-scale, 1));
       margin: 0;
