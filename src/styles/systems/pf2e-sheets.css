@@ -199,6 +199,11 @@ body.crlngn-ui.crlngn-sheets.system-pf2e {
     letter-spacing: 0;
   }
 
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.crafting ol.formula-list li.formula-level-header,
+  .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active.crafting ol.formula-list li.formula-item {
+    grid: "name dc price quantity button controls" 1fr / 1fr 2rem 5rem 5.125rem min-content max-content;
+  }
+
   &.theme-dark .actor.sheet.character section.window-content .crb-style .sheet-body .sheet-content > .tab.active ul.option-toggles:before {
     filter: brightness(4);
   }
