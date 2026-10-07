@@ -913,7 +913,11 @@ body.crlngn-ui.crlngn-combat-tracker {
         flex-direction: column;
         width: var(--header-width);
         max-width: var(--header-width);
-        height: 100%;
+        /* Stretched to the popout's height, as on desktop, so the menu button sits at the bottom.
+           A 100% height resolved against the auto-height popout and left the column only as tall
+           as its buttons, with the hover bridge (::after) lying over the menu button */
+        height: auto;
+        align-self: stretch;
       }
 
       &.docked-top {
@@ -944,8 +948,12 @@ body.crlngn-ui.crlngn-combat-tracker {
         overflow: hidden;
       }
 
+      /* Sized to its content: positioned at left 50% of the narrow popout, an auto width would
+         only get half the popout to lay out in and wrap the start/end button below the rest.
+         It still wraps once the content is wider than the screen */
       nav.combat-controls {
         flex-wrap: wrap;
+        width: max-content;
         max-width: 100dvw;
       }
     }
@@ -954,6 +962,10 @@ body.crlngn-ui.crlngn-combat-tracker {
     @media (hover: none) and (pointer: coarse) {
       .window-header {
         opacity: 1;
+      }
+      /* The hover bridge has no use without hover, and must never take taps meant for the buttons */
+      .window-header:after {
+        pointer-events: none;
       }
       nav.combat-controls {
         opacity: 1;
