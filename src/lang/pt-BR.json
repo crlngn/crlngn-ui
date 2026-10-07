@@ -749,6 +749,22 @@
           "applyBladeRunnerTweaks": {
             "label": "Aplicar ajustes de UI ao sistema Blade Runner",
             "hint": "Ative para aplicar ajustes de UI e mudanças de estilo às fichas e janelas do Blade Runner"
+          },
+          "compactActivityCards": {
+            "label": "Cartões de atividade compactos",
+            "hint": "Agrupa rolagens de ataque, dano e cura no cartão da atividade que as criou, como linhas com o total à direita e uma gaveta com o detalhamento dos dados. Requer dnd5e 6.0 e a opção 'Resumir cartões de chat' do sistema."
+          },
+          "collapseCardTags": {
+            "label": "Recolher tags dos cartões por padrão",
+            "hint": "Mostra apenas as tags mais úteis (ativação, alcance, propriedades principais) nos cartões compactos, com um chip +N para revelar as demais."
+          },
+          "labeledCardButtons": {
+            "label": "Botões de cartão com rótulo",
+            "hint": "Mostra um rótulo curto ao lado do ícone nos botões dos cartões de atividade (ataque, dano, salvaguarda, template...). Desmarque para usar botões apenas com ícone."
+          },
+          "retroAdvantageButtons": {
+            "label": "Botões de vantagem retroativa",
+            "hint": "Mostra, ao lado do total das rolagens de ataque, teste e salvaguarda, botões que aplicam vantagem ou desvantagem depois da rolagem, rolando mais um d20 e mantendo o maior ou o menor. Só o autor da rolagem e o GM os veem."
           }
         },
         "reset": "Redefinir",
@@ -868,7 +884,32 @@
           "macro": "Macro",
           "savedc": "CD",
           "save": "Check"
-        }
+        },
+        "enabledSummarySetting": "O Carolingian UI ativou a opção de cliente 'Resumir cartões de chat' do dnd5e para acompanhar sua opção Cartões de atividade compactos.",
+        "disabledSummarySetting": "O Carolingian UI desativou a opção de cliente 'Resumir cartões de chat' do dnd5e para acompanhar sua opção Cartões de atividade compactos.",
+        "needsSummarySetting": "Os cartões de atividade compactos precisam que a opção 'Resumir cartões de chat' do dnd5e esteja ativada.",
+        "pendingSave": "Ainda não rolou",
+        "addTargeted": "Adicionar tokens mirados como alvos",
+        "addSelected": "Adicionar tokens selecionados como alvos",
+        "noTargeted": "Você não tem tokens mirados.",
+        "noSelected": "Você não tem tokens selecionados.",
+        "details": "Detalhes da rolagem",
+        "hits": "acertos",
+        "misses": "erros",
+        "successes": "sucessos",
+        "failures": "falhas",
+        "targets": "alvos",
+        "showAllTags": "Mostrar todas as tags",
+        "showFewerTags": "Mostrar menos tags",
+        "handledBy": "Os cartões compactos de atividade são controlados por {module} neste cliente. As configurações daquele módulo se aplicam e estas são ignoradas.",
+        "selectTargeted": "Selecionar os tokens alvo desta rolagem",
+        "retroAdvantage": "Aplicar vantagem",
+        "retroDisadvantage": "Aplicar desvantagem",
+        "retroNormal": "Voltar a uma rolagem normal",
+        "retroChanged": "Alterado depois da rolagem",
+        "retroFailed": "Não foi possível alterar a rolagem.",
+        "normalRoll": "Normal",
+        "noRecordedTargets": "Esta rolagem não registrou alvos na cena atual."
       }
     }
   }

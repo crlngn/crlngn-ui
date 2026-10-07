@@ -1,0 +1,3 @@
+[submodule "shared/dnd5e-compact-cards"]
+	path = shared/dnd5e-compact-cards
+	url = ../dnd5e-compact-cards.git

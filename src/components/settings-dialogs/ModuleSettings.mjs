@@ -5,6 +5,7 @@ import { SettingsAppliers } from "../SettingsAppliers.mjs";
 import { SettingsEnforcement } from "../SettingsEnforcement.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
 import { GeneralUtil } from "../GeneralUtil.mjs";
+import { ChatCards5eUtil } from "../ChatCards5eUtil.mjs";
 import { LeftControls } from "../LeftControlsUtil.mjs";
 import { ColorPickerDialog, ColorPickerUtil } from "../ColorPickerUtil.mjs";
 import { HintTooltipUtil } from "../HintTooltipUtil.mjs";
@@ -265,6 +266,14 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
             const hasClientSettings = Object.values(partContext.fields || {}).some(field => field?.scope === SETTING_SCOPE.client);
 
             partContext.showNoSettings = !hasWorldSettings && !hasClientSettings;
+
+            const handledByHint = ChatCards5eUtil.getHandledByHint();
+            if(handledByHint){
+              for(const key of ChatCards5eUtil.SETTING_KEYS){
+                if(!partContext.fields?.[key]){ continue; }
+                partContext.fields[key] = { ...partContext.fields[key], hint: handledByHint };
+              }
+            }
           }
 
 
@@ -432,10 +441,12 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       if (menuKey === "systemsMenu") {
         if (fieldName === "otherModulesList" || fieldName === "adjustOtherModules") return true;
         if (!setting.system) return false;
-        if (Array.isArray(setting.system)) {
-          return setting.system.includes(currentSystem);
-        }
-        return setting.system === currentSystem;
+        const matchesSystem = Array.isArray(setting.system)
+          ? setting.system.includes(currentSystem)
+          : setting.system === currentSystem;
+        if (!matchesSystem) return false;
+        if (setting.systemMinVersion && foundry.utils.isNewerVersion(setting.systemMinVersion, game.system?.version ?? "0")) return false;
+        return true;
       }
       // For other menus, include all settings
       return true;

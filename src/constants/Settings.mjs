@@ -603,11 +603,19 @@ export function getSettings() {
       fields: [
         "useHorizontalSheetTabs",
         "enableIconsOnSheets",
+        "compactActivityCards",
+        "collapseCardTags",
+        "labeledCardButtons",
+        "retroAdvantageButtons",
         "dockDHResources"
       ],
       default: {
         useHorizontalSheetTabs: true,
         enableIconsOnSheets: false,
+        compactActivityCards: false,
+        collapseCardTags: false,
+        labeledCardButtons: true,
+        retroAdvantageButtons: !game.modules?.get("midi-qol")?.active,
         dockDHResources: true
       },
       scope: SETTING_SCOPE.client,
@@ -1906,6 +1914,54 @@ export function getSettings() {
       config: false,
       requiresReload: false,
       system: ["dnd5e"]
+    },
+    compactActivityCards: {
+      tag: "v2-compact-activity-cards",
+      label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.compactActivityCards.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.compactActivityCards.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false,
+      system: ["dnd5e"],
+      systemMinVersion: "5.3.0"
+    },
+    collapseCardTags: {
+      tag: "v2-collapse-card-tags",
+      label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.collapseCardTags.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.collapseCardTags.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false,
+      system: ["dnd5e"],
+      systemMinVersion: "5.3.0"
+    },
+    labeledCardButtons: {
+      tag: "v2-labeled-card-buttons",
+      label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.labeledCardButtons.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.labeledCardButtons.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false,
+      system: ["dnd5e"],
+      systemMinVersion: "5.3.0"
+    },
+    retroAdvantageButtons: {
+      tag: "v2-retro-advantage-buttons",
+      label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.retroAdvantageButtons.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.retroAdvantageButtons.hint"),
+      propType: Boolean,
+      default: !game.modules?.get("midi-qol")?.active,
+      scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false,
+      system: ["dnd5e"],
+      systemMinVersion: "5.3.0"
     },
 
     applyBladeRunnerTweaks: {

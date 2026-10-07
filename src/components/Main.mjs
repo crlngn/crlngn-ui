@@ -7,6 +7,7 @@ import { SettingsThemes } from "./SettingsThemes.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
 import { CombatTrackerManager } from "./combat-tracker/CombatTrackerManager.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
+import { ChatCards5eUtil } from "./ChatCards5eUtil.mjs";
 import { PlayersList } from "./PlayersListUtil.mjs";
 import { getSettings } from "../constants/Settings.mjs";
 import { LeftControls } from "./LeftControlsUtil.mjs";
@@ -153,6 +154,7 @@ export class Main {
     document.querySelector("body").classList.add(MODULE_ID);
     document.querySelector("#ui-middle")?.classList.add(MODULE_ID);
     GeneralUtil.applyFoundryGenerationClass();
+    GeneralUtil.applySystemVersionClass();
 
     // Add notification if Foundry version is incompatible
     const foundryVersion = game.data.version;
@@ -182,6 +184,7 @@ export class Main {
 
     // Always initialize these essential utilities
     ChatUtil.init();
+    ChatCards5eUtil.init();
     LogUtil.init?.();
     CameraDockUtil.init();
     BottomDockUtil.init();

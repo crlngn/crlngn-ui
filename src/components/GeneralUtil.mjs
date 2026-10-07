@@ -19,6 +19,21 @@ export class GeneralUtil {
   }
 
   /**
+   * Adds a body class marking the active game system's major version,
+   * e.g. `crlngn-dnd5e-v6`, so styles can be gated per system version
+   * while multiple versions of a system remain in use.
+   * @returns {string|null} The class that was added, or null if unavailable
+   */
+  static applySystemVersionClass(){
+    const systemId = game.system?.id;
+    const major = parseInt(String(game.system?.version ?? "").split(".")[0], 10);
+    if(!systemId || Number.isNaN(major)) return null;
+    const className = `crlngn-${systemId}-v${major}`;
+    document.body.classList.add(className);
+    return className;
+  }
+
+  /**
    * Adds a body class marking the Foundry generation, e.g. `crlngn-foundry-v14`, so styles can
    * follow what core renders in each version
    * @returns {string|null} The class that was added, or null if unavailable
