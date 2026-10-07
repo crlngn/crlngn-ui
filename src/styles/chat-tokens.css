@@ -52,6 +52,7 @@ body.crlngn-ui.crlngn-chat {
   --cui-chat-dice-bg-whisper: var(--cui-chat-button-bg-whisper);
   --cui-chat-dice-color: inherit;
   --cui-chat-pill-bg: var(--color-alt-bg);
+  --cui-chat-result-border: rgba(255, 255, 255, 0.1);
   /* Pill text: the accent/hyperlink color, darkened for light cards and lightened for dark cards
      so it stays readable whatever accent the user picks */
   --cui-chat-pill-text: color-mix(in srgb, var(--color-text-hyperlink) 70%, #000000 30%);
@@ -118,6 +119,7 @@ body.crlngn-ui.crlngn-chat {
     --cui-chat-dice-bg-whisper: var(--cui-chat-button-bg-whisper);
     --cui-chat-dice-color: var(--color-light-1);
     --cui-chat-pill-bg: var(--color-alt-bg);
+    --cui-chat-result-border: var(--cui-chat-pill-bg);
     --cui-chat-pill-text: color-mix(in srgb, var(--color-text-hyperlink) 70%, #ffffff 30%);
 
     /* Metadata */
