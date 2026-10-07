@@ -17,9 +17,14 @@ body.crlngn-ui.crlngn-compact-notifications {
 
   ol#notifications {
     display: grid;
-    grid-template-columns: 1fr;
+    /* minmax(0, …) keeps the track from growing to a pill's fixed width, so pills that don't fit
+       shrink to the track instead of overflowing it, which pins them to its left edge */
+    grid-template-columns: minmax(0, 1fr);
     justify-items: center;
     gap: var(--crlngn-pill-gap);
+    /* Core's 20% side padding leaves too narrow a column on phones; shrink it only when a full
+       pill would not fit, down to 16px, so wider screens keep core's geometry */
+    padding-inline: max(16px, min(20%, calc((100% - var(--crlngn-pill-width-open)) / 2)));
     /* Lets the pill height animate from its fixed folded value to auto when spread out, in
        browsers that support it; others switch at once */
     interpolate-size: allow-keywords;
@@ -37,7 +42,7 @@ body.crlngn-ui.crlngn-compact-notifications {
       grid-column: 1;
       box-sizing: border-box;
       width: var(--crlngn-pill-width);
-      max-width: calc(100vw - 32px);
+      max-width: 100%;
       height: var(--crlngn-pill-height);
       padding: 0 calc(1.5rem + 20px) 0 1.5rem;
       align-items: center;
