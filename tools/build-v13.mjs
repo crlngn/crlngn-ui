@@ -27,6 +27,7 @@ function run(cmd, cwd = root) {
 
 if (existsSync(worktree)) run(`git worktree remove --force "${worktree}"`);
 run(`git worktree add "${worktree}" "${branch}"`);
+run('git submodule update --init', worktree);
 
 try {
   symlinkSync(path.join(root, 'node_modules'), path.join(worktree, 'node_modules'));

@@ -30,6 +30,7 @@ jobs:
         with:
           ref: v2
           path: v13-src
+          submodules: true
 
       - name: Setup Node
         uses: actions/setup-node@v4
