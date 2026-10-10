@@ -11,7 +11,7 @@
 ## Carolingian UI
 A highly configurable UI overhaul, focusing on removing clutter from screen and improving overall look and feel of Foundry VTT, but also offering many quality of life features to the UI panels.
 
-https://github.com/user-attachments/assets/b9a03f08-4219-4fb4-a44e-479f841f7992
+https://github.com/user-attachments/assets/ebd47223-3bef-48a0-8294-9fe59b8ab9c8
 
 
 ### EXTRA FEATURES ON V13/V14:
