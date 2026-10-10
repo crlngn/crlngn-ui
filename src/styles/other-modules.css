@@ -1413,6 +1413,22 @@ body.crlngn-ui{
     }
   }
 
+  &.crlngn-multi-token-edit,
+  &.crlngn-baileywiki-content {
+    [style*="darkorange"] {
+      color: var(--color-highlights) !important;
+    }
+  }
+
+  &.crlngn-multi-token-edit .preset-browser {
+    .item.item-s.selected {
+      background: var(--color-highlights-25);
+    }
+    .preset-header .window-controls .header-control {
+      width: 24px;
+    }
+  }
+
   #interface.crlngn-controls .mass-edit-scene-control-macro {
     pointer-events: initial;
 

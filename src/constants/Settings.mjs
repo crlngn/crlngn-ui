@@ -572,6 +572,7 @@ export function getSettings() {
         otherModulesList: [
           { id: 'levels-3d-preview', enabled: true },
           { id: 'autoanimations', enabled: true },
+          { id: 'baileywiki-content', enabled: true },
           { id: 'beneos-module', enabled: true },
           { id: 'bg3-inspired-hotbar', enabled: true },
           { id: 'breaktime', enabled: true },
@@ -579,11 +580,13 @@ export function getSettings() {
           { id: 'dice-calculator', enabled: true },
           { id: 'hurry-up', enabled: true },
           { id: 'item-piles', enabled: true },
+          { id: 'multi-token-edit', enabled: true },
           { id: 'monks-enhanced-journal', enabled: true },
           { id: 'rest-recovery', enabled: true },
           { id: 'simultaneous-cards', enabled: true },
           { id: 'simple-timekeeping', enabled: true },
           { id: 'smalltime', enabled: true },
+          { id: 'tokenmagic', enabled: true },
           { id: 'touch-vtt', enabled: true },
           { id: 'fvtt-youtube-player', enabled: true }
         ]
@@ -1272,6 +1275,7 @@ export function getSettings() {
       default: [
         { id: 'levels-3d-preview', enabled: true },
         { id: 'autoanimations', enabled: true },
+        { id: 'baileywiki-content', enabled: true },
         { id: 'beneos-module', enabled: true },
         { id: 'bg3-inspired-hotbar', enabled: true },
         { id: 'breaktime', enabled: true },
@@ -1279,17 +1283,21 @@ export function getSettings() {
         { id: 'dice-calculator', enabled: true },
         { id: 'hurry-up', enabled: true },
         { id: 'item-piles', enabled: true },
+        { id: 'multi-token-edit', enabled: true },
         { id: 'monks-enhanced-journal', enabled: true },
         { id: 'rest-recovery', enabled: true },
         { id: 'simultaneous-cards', enabled: true },
         { id: 'simple-timekeeping', enabled: true },
         { id: 'smalltime', enabled: true },
+        { id: 'tokenmagic', enabled: true },
         { id: 'touch-vtt', enabled: true },
         { id: 'fvtt-youtube-player', enabled: true }
       ],
       options: {
         "3D Canvas Mapmaking": "levels-3d-preview",
         "Automated Animations": "autoanimations",
+        "Baileywiki Content": "baileywiki-content",
+        "Baileywiki's Mass Edit": "multi-token-edit",
         "Beneos Module": "beneos-module",
         "BG3 Inspired Hotbar": "bg3-inspired-hotbar",
         "Breaktime": "breaktime",
@@ -1302,6 +1310,7 @@ export function getSettings() {
         "Simultaneous Cards": "simultaneous-cards",
         "Simple Timekeeping & Calendar": "simple-timekeeping",
         "Small Time": "smalltime",
+        "Token Magic FX": "tokenmagic",
         "Touch VTT": "touch-vtt",
         "Youtube Player": "fvtt-youtube-player"
       },
