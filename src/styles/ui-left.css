@@ -128,7 +128,7 @@ body.crlngn-ui{
             height: var(--control-item-size);
             left: var(--control-item-size);
             top: 0;
-            z-index: 0;
+            z-index: -1;
           }
         }
         .ui-control{
