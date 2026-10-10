@@ -1413,7 +1413,7 @@ body.crlngn-ui{
     }
   }
 
-  .mass-edit-scene-control-macro {
+  #interface.crlngn-controls .mass-edit-scene-control-macro {
     pointer-events: initial;
 
     .macros.active {
