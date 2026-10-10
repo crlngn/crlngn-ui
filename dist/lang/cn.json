@@ -2,6 +2,10 @@
   "CRLNGN_UI": {
     "ui": {
       "sceneHiddenFromPlayers": "对玩家隐藏",
+      "sidebar": {
+        "resizeDrag": "拖动以调整宽度",
+        "resizeReset": "双击恢复默认"
+      },
       "compactNotifications": {
         "fromOne": "{name}（{count}）",
         "fromOneOther": "{name} 及另 1 个来源（{count}）",

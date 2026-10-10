@@ -154,5 +154,7 @@ export const HOOKS_CRLNGN = {
   /** Fired for each roll folded into a compact dnd5e activity card, after its row and drawer are built */
   RENDER_COMPACT_ROLL: "crlngn-ui.renderCompactRoll",
   /** Fired after a compact dnd5e activity card has been fully enriched */
-  RENDER_COMPACT_CARD: "crlngn-ui.renderCompactCard"
+  RENDER_COMPACT_CARD: "crlngn-ui.renderCompactCard",
+  /** Fired after the sidebar width CSS variable is applied from the saved setting */
+  SIDEBAR_WIDTH_CHANGED: "crlngn-ui.sidebarWidthChanged"
 }

@@ -2,6 +2,10 @@
   "CRLNGN_UI": {
     "ui": {
       "sceneHiddenFromPlayers": "Nascosta ai giocatori",
+      "sidebar": {
+        "resizeDrag": "Trascina per ridimensionare",
+        "resizeReset": "Doppio clic per ripristinare"
+      },
       "compactNotifications": {
         "fromOne": "{name} ({count})",
         "fromOneOther": "{name} e 1 altra ({count})",
