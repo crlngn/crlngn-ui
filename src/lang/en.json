@@ -1,6 +1,10 @@
 {
   "CRLNGN_UI": {
     "ui": {
+      "sidebar": {
+        "resizeDrag": "Drag to resize",
+        "resizeReset": "Double-click to reset"
+      },
       "sceneHiddenFromPlayers": "Hidden from players",
       "broadcastView": {
         "toolTitle": "Broadcast View to Players",

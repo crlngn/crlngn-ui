@@ -1,6 +1,10 @@
 {
   "CRLNGN_UI": {
     "ui": {
+      "sidebar": {
+        "resizeDrag": "拖动以调整宽度",
+        "resizeReset": "双击恢复默认"
+      },
       "sceneHiddenFromPlayers": "对玩家隐藏",
       "broadcastView": {
         "toolTitle": "向玩家广播视图",

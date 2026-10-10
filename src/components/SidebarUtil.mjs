@@ -1,9 +1,10 @@
 import { getSettings } from "../constants/Settings.mjs";
-import { HOOKS_CORE } from "../constants/Hooks.mjs";
+import { HOOKS_CORE, HOOKS_CRLNGN } from "../constants/Hooks.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { MODULE_ID } from "../constants/General.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
+import { SettingsEnforcement } from "./SettingsEnforcement.mjs";
 
 export class SidebarTabs {
   static useFadeOut = true;
@@ -21,6 +22,12 @@ export class SidebarTabs {
   static #followActiveTab = true;
   static #menuResizeObserver = null;
   static #observedMenu = null;
+  static #resizeDrag = null;
+  static #resizeTooltipTimeout = null;
+  static #resizeTooltipY = 0;
+  static RESIZE_TOOLTIP_DELAY = 2000;
+  static SIDEBAR_WIDTH_MIN = 280;
+  static SIDEBAR_WIDTH_MAX = 420;
 
   static init(){
     const SETTINGS = getSettings();
@@ -79,6 +86,7 @@ export class SidebarTabs {
     SidebarTabs.handleHide(component, html, data);
     SidebarTabs.applyFolderStyles(SidebarTabs.folderStylesEnabled);
     SidebarTabs.applyHiddenTabs();
+    SidebarTabs.updateResizeHandle();
 
     // Reapply horizontal tabs if enabled
     if(SidebarTabs.useHorizontalSidebarTabs){
@@ -116,11 +124,203 @@ export class SidebarTabs {
   static applySideBarWidth = () => {
     const SETTINGS = getSettings();
     const currWidth = SettingsUtil.get(SETTINGS.sideBarWidth.tag) || 300;
-    GeneralUtil.addCSSVars("--sidebar-width", `${currWidth}px`);
+    SidebarTabs.setLiveSidebarWidth(currWidth);
+    document.querySelector(".crlngn-sidebar-resize-handle")?.setAttribute("aria-label", SidebarTabs.getResizeTooltipText());
 
     if(SidebarTabs.useHorizontalSidebarTabs){
       SidebarTabs.debouncedUpdateOverflow();
     }
+    Hooks.callAll(HOOKS_CRLNGN.SIDEBAR_WIDTH_CHANGED, currWidth);
+  }
+
+  /**
+   * Applies a sidebar width to the CSS variable and mirrors it in the module settings window, if open,
+   * without saving the setting
+   * @param {number} width - width in pixels
+   */
+  static setLiveSidebarWidth = (width) => {
+    GeneralUtil.addCSSVars("--sidebar-width", `${width}px`);
+
+    const form = document.querySelector("#crlngn-ui-settings");
+    const rangeInput = form?.querySelector('input[type="range"][name="sideBarWidth"]');
+    const valueInput = form?.querySelector('input.range-value-input[name="sideBarWidth_value"]');
+    if(rangeInput) rangeInput.value = width;
+    if(valueInput) valueInput.value = width;
+  }
+
+  /**
+   * Whether the current user may resize the sidebar. Players cannot when the GM has locked the width setting
+   * @returns {boolean}
+   */
+  static canResizeSidebar = () => {
+    if(game.user?.isGM) return true;
+    const SETTINGS = getSettings();
+    const state = SettingsEnforcement.getEnforcementState(SETTINGS.sideBarWidth.tag);
+    return state !== "locked" && state !== "gate";
+  }
+
+  /**
+   * Adds the drag handle on the left edge of the sidebar tabs, or removes it when resizing is not allowed
+   */
+  static updateResizeHandle = () => {
+    const content = document.querySelector("#sidebar-content");
+    if(!content) return;
+    let handle = content.querySelector(":scope > .crlngn-sidebar-resize-handle");
+
+    if(!SidebarTabs.canResizeSidebar()){
+      handle?.remove();
+      return;
+    }
+    if(handle) return;
+
+    handle = document.createElement("div");
+    handle.className = "crlngn-sidebar-resize-handle";
+    handle.setAttribute("aria-label", SidebarTabs.getResizeTooltipText());
+    handle.addEventListener("pointerenter", SidebarTabs.onResizeHandleEnter);
+    handle.addEventListener("pointermove", SidebarTabs.onResizeHandleHover);
+    handle.addEventListener("pointerleave", SidebarTabs.clearResizeTooltip);
+    handle.addEventListener("pointerdown", SidebarTabs.onResizeStart);
+    handle.addEventListener("dblclick", SidebarTabs.onResizeReset);
+    content.prepend(handle);
+  }
+
+  /**
+   * Tooltip text for the resize handle: how to resize while at the default width, how to reset once resized
+   * @returns {string}
+   */
+  static getResizeTooltipText = () => {
+    const SETTINGS = getSettings();
+    const width = SettingsUtil.get(SETTINGS.sideBarWidth.tag) || SETTINGS.sideBarWidth.default;
+    const key = width === SETTINGS.sideBarWidth.default ? "resizeDrag" : "resizeReset";
+    return game.i18n.localize(`CRLNGN_UI.ui.sidebar.${key}`);
+  }
+
+  /**
+   * Shows the handle tooltip after the pointer rests on it for a while.
+   * Core tooltips use a fixed short delay, so this one is activated manually
+   * @param {PointerEvent} event
+   */
+  static onResizeHandleEnter = (event) => {
+    const handle = event.currentTarget;
+    SidebarTabs.clearResizeTooltip();
+    SidebarTabs.#resizeTooltipY = event.clientY;
+    SidebarTabs.#resizeTooltipTimeout = setTimeout(() => {
+      SidebarTabs.#resizeTooltipTimeout = null;
+      if(SidebarTabs.#resizeDrag || !handle.matches(":hover")) return;
+      const text = SidebarTabs.getResizeTooltipText();
+      handle.setAttribute("aria-label", text);
+      game.tooltip?.activate(handle, { text, direction: "LEFT" });
+      SidebarTabs.positionResizeTooltip();
+    }, SidebarTabs.RESIZE_TOOLTIP_DELAY);
+  }
+
+  /**
+   * Tracks the pointer over the handle so the tooltip follows it vertically
+   * @param {PointerEvent} event
+   */
+  static onResizeHandleHover = (event) => {
+    if(SidebarTabs.#resizeDrag) return;
+    SidebarTabs.#resizeTooltipY = event.clientY;
+    SidebarTabs.positionResizeTooltip();
+  }
+
+  /**
+   * Moves the active handle tooltip to the pointer height, kept inside the viewport
+   */
+  static positionResizeTooltip = () => {
+    const handle = document.querySelector(".crlngn-sidebar-resize-handle");
+    const tooltip = game.tooltip?.tooltip;
+    if(!handle || !tooltip || game.tooltip.element !== handle) return;
+    const height = tooltip.offsetHeight;
+    const top = Math.min(window.innerHeight - height, Math.max(0, SidebarTabs.#resizeTooltipY - (height / 2)));
+    tooltip.style.top = `${top}px`;
+  }
+
+  /**
+   * Cancels a pending handle tooltip and hides it if shown
+   */
+  static clearResizeTooltip = () => {
+    if(SidebarTabs.#resizeTooltipTimeout){
+      clearTimeout(SidebarTabs.#resizeTooltipTimeout);
+      SidebarTabs.#resizeTooltipTimeout = null;
+    }
+    const handle = document.querySelector(".crlngn-sidebar-resize-handle");
+    if(handle && game.tooltip?.element === handle) game.tooltip.deactivate();
+  }
+
+  /**
+   * Starts a sidebar resize drag from the handle
+   * @param {PointerEvent} event
+   */
+  static onResizeStart = (event) => {
+    if(event.button !== 0 || !SidebarTabs.canResizeSidebar()) return;
+    event.preventDefault();
+    event.stopPropagation();
+
+    const SETTINGS = getSettings();
+    const handle = event.currentTarget;
+    const startWidth = SettingsUtil.get(SETTINGS.sideBarWidth.tag) || 300;
+    SidebarTabs.#resizeDrag = { handle, pointerId: event.pointerId, startX: event.clientX, startWidth, width: startWidth, frame: null };
+
+    SidebarTabs.clearResizeTooltip();
+    handle.setPointerCapture(event.pointerId);
+    handle.addEventListener("pointermove", SidebarTabs.onResizeMove);
+    handle.addEventListener("pointerup", SidebarTabs.onResizeEnd);
+    handle.addEventListener("pointercancel", SidebarTabs.onResizeEnd);
+    document.body.classList.add("crlngn-sidebar-resizing");
+  }
+
+  /**
+   * Updates the sidebar width while dragging, once per animation frame
+   * @param {PointerEvent} event
+   */
+  static onResizeMove = (event) => {
+    const drag = SidebarTabs.#resizeDrag;
+    if(!drag || event.pointerId !== drag.pointerId) return;
+
+    const delta = drag.startX - event.clientX;
+    drag.width = Math.round(Math.min(SidebarTabs.SIDEBAR_WIDTH_MAX, Math.max(SidebarTabs.SIDEBAR_WIDTH_MIN, drag.startWidth + delta)));
+    if(drag.frame) return;
+
+    drag.frame = requestAnimationFrame(() => {
+      drag.frame = null;
+      SidebarTabs.setLiveSidebarWidth(drag.width);
+    });
+  }
+
+  /**
+   * Ends a sidebar resize drag and saves the final width
+   * @param {PointerEvent} event
+   */
+  static onResizeEnd = (event) => {
+    const drag = SidebarTabs.#resizeDrag;
+    if(!drag || event.pointerId !== drag.pointerId) return;
+    SidebarTabs.#resizeDrag = null;
+
+    if(drag.frame) cancelAnimationFrame(drag.frame);
+    const { handle } = drag;
+    if(handle.hasPointerCapture(drag.pointerId)) handle.releasePointerCapture(drag.pointerId);
+    handle.removeEventListener("pointermove", SidebarTabs.onResizeMove);
+    handle.removeEventListener("pointerup", SidebarTabs.onResizeEnd);
+    handle.removeEventListener("pointercancel", SidebarTabs.onResizeEnd);
+    document.body.classList.remove("crlngn-sidebar-resizing");
+
+    SidebarTabs.setLiveSidebarWidth(drag.width);
+    if(drag.width !== drag.startWidth){
+      const SETTINGS = getSettings();
+      SettingsUtil.set(SETTINGS.sideBarWidth.tag, drag.width);
+    }
+  }
+
+  /**
+   * Restores the default sidebar width when the handle is double-clicked
+   * @param {MouseEvent} event
+   */
+  static onResizeReset = (event) => {
+    event.preventDefault();
+    if(!SidebarTabs.canResizeSidebar()) return;
+    const SETTINGS = getSettings();
+    SettingsUtil.set(SETTINGS.sideBarWidth.tag, SETTINGS.sideBarWidth.default);
   }
 
   static onReady = () => {

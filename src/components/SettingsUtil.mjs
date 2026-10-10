@@ -729,6 +729,8 @@ export class SettingsUtil {
         CombatTrackerManager.updateRoundButtonsVisibility(); break;
       case SETTINGS.autoRollNPCsOnCombatStart.tag:
         CombatTrackerManager.autoRollNPCsOnCombatStart = value; break;
+      case SETTINGS.settingEnforcement.tag:
+        SidebarTabs.updateResizeHandle(); break;
       default:
         // do nothing
     }

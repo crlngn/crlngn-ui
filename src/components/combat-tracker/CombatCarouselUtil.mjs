@@ -3,6 +3,7 @@ import { LogUtil } from "../LogUtil.mjs";
 import { SettingsUtil } from "../SettingsUtil.mjs";
 import { getSettings } from "../../constants/Settings.mjs";
 import { MODULE_ID } from "../../constants/General.mjs";
+import { HOOKS_CRLNGN } from "../../constants/Hooks.mjs";
 import { CarouselTransforms } from "./CarouselTransforms.mjs";
 import { CarouselInteraction } from "./CarouselInteraction.mjs";
 import { CarouselCombatWrappers } from "./CarouselCombatWrappers.mjs";
@@ -37,6 +38,7 @@ export class CombatCarousel {
   static #skipNextCenter = false;
   static #boundWindowResize = null;
   static #sidebarHookId = null;
+  static #sidebarWidthHookId = null;
   static #previousCombatantIds = [];
   static #imageCache = new Map();
   static #noTrackedResourceWarned = false;
@@ -1035,7 +1037,7 @@ export class CombatCarousel {
 
     if (isDocked) {
       const screenWidth = window.innerWidth;
-      const styles = getComputedStyle(document.documentElement);
+      const styles = getComputedStyle(document.body);
       const sidebarWidth = parseFloat(styles.getPropertyValue('--sidebar-width')) || 300;
       const controlItemSize = parseFloat(styles.getPropertyValue('--control-item-size')) || 44;
 
@@ -1155,6 +1157,11 @@ export class CombatCarousel {
       CombatCarousel.#sidebarHookId = null;
     }
 
+    if (CombatCarousel.#sidebarWidthHookId !== null) {
+      Hooks.off(HOOKS_CRLNGN.SIDEBAR_WIDTH_CHANGED, CombatCarousel.#sidebarWidthHookId);
+      CombatCarousel.#sidebarWidthHookId = null;
+    }
+
     const windowContent = combatPopout.querySelector('.window-content');
     if (!windowContent) return;
 
@@ -1183,6 +1190,7 @@ export class CombatCarousel {
     window.addEventListener('resize', CombatCarousel.#boundWindowResize);
 
     CombatCarousel.#sidebarHookId = Hooks.on('collapseSidebar', debouncedResize);
+    CombatCarousel.#sidebarWidthHookId = Hooks.on(HOOKS_CRLNGN.SIDEBAR_WIDTH_CHANGED, debouncedResize);
   }
 
   /**
@@ -1202,6 +1210,11 @@ export class CombatCarousel {
     if (CombatCarousel.#sidebarHookId !== null) {
       Hooks.off('collapseSidebar', CombatCarousel.#sidebarHookId);
       CombatCarousel.#sidebarHookId = null;
+    }
+
+    if (CombatCarousel.#sidebarWidthHookId !== null) {
+      Hooks.off(HOOKS_CRLNGN.SIDEBAR_WIDTH_CHANGED, CombatCarousel.#sidebarWidthHookId);
+      CombatCarousel.#sidebarWidthHookId = null;
     }
   }
 }
