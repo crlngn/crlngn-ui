@@ -274,6 +274,10 @@ body.crlngn-ui{
     padding: 1px;
   }
 
+  .tags.input-element-tags .tag {
+    padding: 0.25em 0.5em;
+  }
+
   .application#crlngn-color-picker .window-content {
     z-index: 1001;
   }
