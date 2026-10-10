@@ -166,8 +166,104 @@ export class ModuleCompatUtil {
       ModuleCompatUtil.#addModuleClassesInterval = null;
     }
 
+    ModuleCompatUtil.syncAccentRecolor(moduleList);
+
     // Emit hook so other components know module classes are ready
     Hooks.callAll(HOOKS_CRLNGN.MODULE_CLASSES_READY);
+  }
+
+  /**
+   * Modules whose stylesheets hardcode an accent color that should follow the theme accent
+   * @type {string[]}
+   */
+  static ACCENT_RECOLOR_MODULES = ['multi-token-edit', 'baileywiki-content', 'tokenmagic'];
+
+  /**
+   * Hardcoded accent colors replaced by the theme accent: the orange keywords and
+   * their rgb/rgba serializations (hex values are serialized by the CSSOM as rgb/rgba)
+   */
+  static #ACCENT_KEYWORDS = /(?<![-\w])(?:dark)?orange(?![-\w])|rgba?\(255,\s*(?:140|165),\s*0(?:,\s*([\d.]+))?\)/gi;
+
+  /**
+   * Builds the theme accent replacement for a matched color, keeping its alpha
+   * @param {string} match
+   * @param {string} [alpha]
+   * @returns {string}
+   */
+  static #accentReplacement = (match, alpha) => {
+    if (alpha === undefined || Number(alpha) >= 1) return 'var(--color-highlights)';
+    return `color-mix(in srgb, var(--color-highlights) ${Math.round(Number(alpha) * 100)}%, transparent)`;
+  }
+
+  /**
+   * Original declarations per module, kept so recoloring can be reverted live
+   * @type {Map<string, Array<{style: CSSStyleDeclaration, prop: string, value: string, priority: string}>>}
+   */
+  static #accentRecolored = new Map();
+
+  /**
+   * Recolors or restores hardcoded accent colors in supported modules' stylesheets,
+   * depending on whether each module is checked in the Other Modules list and active
+   * @param {Array<{id: string, enabled: boolean}>} moduleList
+   */
+  static syncAccentRecolor = (moduleList) => {
+    const enabledIds = new Set((moduleList || []).filter(m => m?.enabled).map(m => m.id?.trim()));
+
+    ModuleCompatUtil.ACCENT_RECOLOR_MODULES.forEach(moduleId => {
+      const shouldRecolor = enabledIds.has(moduleId) && GeneralUtil.isModuleOn(moduleId);
+      const isRecolored = ModuleCompatUtil.#accentRecolored.has(moduleId);
+
+      if (shouldRecolor && !isRecolored) {
+        ModuleCompatUtil.#recolorModuleSheets(moduleId);
+      } else if (!shouldRecolor && isRecolored) {
+        ModuleCompatUtil.#accentRecolored.get(moduleId).forEach(({ style, prop, value, priority }) => {
+          style.setProperty(prop, value, priority);
+        });
+        ModuleCompatUtil.#accentRecolored.delete(moduleId);
+      }
+    });
+  }
+
+  /**
+   * Replaces hardcoded accent keywords with the theme accent in every stylesheet
+   * (including nested @import sheets) served from the given module's folder
+   * @param {string} moduleId
+   */
+  static #recolorModuleSheets = (moduleId) => {
+    const modulePath = `/modules/${moduleId}/`;
+    const changed = [];
+
+    const visitRules = (rules, isModuleSheet) => {
+      for (const rule of rules) {
+        if (rule instanceof CSSImportRule) {
+          if (rule.styleSheet) visitSheet(rule.styleSheet);
+          continue;
+        }
+        if (isModuleSheet && rule.style) {
+          for (const prop of [...rule.style]) {
+            const value = rule.style.getPropertyValue(prop);
+            ModuleCompatUtil.#ACCENT_KEYWORDS.lastIndex = 0;
+            if (!ModuleCompatUtil.#ACCENT_KEYWORDS.test(value)) continue;
+            const priority = rule.style.getPropertyPriority(prop);
+            changed.push({ style: rule.style, prop, value, priority });
+            rule.style.setProperty(prop, value.replace(ModuleCompatUtil.#ACCENT_KEYWORDS, ModuleCompatUtil.#accentReplacement), priority);
+          }
+        }
+        if (rule.cssRules) visitRules(rule.cssRules, isModuleSheet);
+      }
+    };
+
+    const visitSheet = (sheet) => {
+      let rules;
+      try { rules = sheet.cssRules; } catch (e) { return; }
+      visitRules(rules, !!sheet.href?.includes(modulePath));
+    };
+
+    for (const sheet of document.styleSheets) visitSheet(sheet);
+
+    if (!changed.length) return;
+    ModuleCompatUtil.#accentRecolored.set(moduleId, changed);
+    LogUtil.log("syncAccentRecolor", [moduleId, changed.length]);
   }
 
   /**
