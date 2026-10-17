@@ -530,6 +530,8 @@ export class SettingsUtil {
         TopNavigation.sideBarWidth = value;
         SidebarTabs.applySideBarWidth();
         break;
+      case SETTINGS.enableSidebarDragResize.tag:
+        SidebarTabs.updateResizeHandle(); break;
       case SETTINGS.useLeftChatBorder.tag:
         ChatUtil.useLeftChatBorder = value;
       case SETTINGS.enableChatStyles.tag:

@@ -431,6 +431,10 @@
             "label": "Largura do painel lateral",
             "hint": "Largura do painel ao lado direito da tela."
           },
+          "enableSidebarDragResize": {
+            "label": "Ativar redimensionamento por arraste",
+            "hint": "Redimensione o painel lateral arrastando sua borda esquerda. Clique duas vezes na borda para restaurar a largura."
+          },
           "openChatLogOnLoad": {
             "label": "Abrir Log de Chat ao Carregar",
             "hint": "Quando ativado, a barra lateral se expandirá automaticamente para mostrar o Log de Chat quando o módulo for carregado."

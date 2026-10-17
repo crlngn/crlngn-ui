@@ -324,6 +324,7 @@ export function getSettings() {
       propType: Object,
       fields: [
         "sideBarWidth",
+        "enableSidebarDragResize",
         "enableChatStyles",
         "chatBorderColor",
         "useLeftChatBorder",
@@ -338,6 +339,7 @@ export function getSettings() {
       ],
       default: {
         sideBarWidth: 300,
+        enableSidebarDragResize: true,
         enableChatStyles: true,
         chatBorderColor: BORDER_COLOR_TYPES.playerColor.name,
         useLeftChatBorder: true,
@@ -1402,6 +1404,16 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sidebarMenu.fields.sideBarWidth.hint"),
       propType: Number,
       default: 300,
+      scope: SETTING_SCOPE.client,
+      config: false,
+      requiresReload: false
+    },
+    enableSidebarDragResize: {
+      tag: "v2-enable-sidebar-drag-resize",
+      label: game.i18n.localize("CRLNGN_UI.settings.sidebarMenu.fields.enableSidebarDragResize.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.sidebarMenu.fields.enableSidebarDragResize.hint"),
+      propType: Boolean,
+      default: true,
       scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false
