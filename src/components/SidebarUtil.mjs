@@ -149,12 +149,14 @@ export class SidebarTabs {
   }
 
   /**
-   * Whether the current user may resize the sidebar. Players cannot when the GM has locked the width setting
+   * Whether the current user may resize the sidebar by dragging. Not when drag resize is turned off,
+   * or for players when the GM has locked the width setting
    * @returns {boolean}
    */
   static canResizeSidebar = () => {
-    if(game.user?.isGM) return true;
     const SETTINGS = getSettings();
+    if(!SettingsUtil.get(SETTINGS.enableSidebarDragResize.tag)) return false;
+    if(game.user?.isGM) return true;
     const state = SettingsEnforcement.getEnforcementState(SETTINGS.sideBarWidth.tag);
     return state !== "locked" && state !== "gate";
   }

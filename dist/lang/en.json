@@ -467,6 +467,10 @@
             "label": "Sidebar width",
             "hint": "Width of the sidebar panel on the right side of the screen."
           },
+          "enableSidebarDragResize": {
+            "label": "Enable drag resize",
+            "hint": "Resize the sidebar by dragging its left edge. Double-click the edge to reset the width."
+          },
           "openChatLogOnLoad": {
             "label": "Open Chat Log on Load",
             "hint": "When enabled, the sidebar will automatically expand to show the Chat Log when the module loads."

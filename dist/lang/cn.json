@@ -455,6 +455,10 @@
             "label": "右侧侧面板宽度",
             "hint": "右侧侧面板的宽度。"
           },
+          "enableSidebarDragResize": {
+            "label": "启用拖动调整宽度",
+            "hint": "拖动侧面板左侧边缘以调整其宽度。双击边缘可恢复默认宽度。"
+          },
           "openChatLogOnLoad": {
             "label": "加载时打开聊天记录",
             "hint": "启用后，模块加载时侧边栏将自动展开以显示聊天记录。"
