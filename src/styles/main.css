@@ -2029,6 +2029,9 @@ body.crlngn-ui {
   /* Setting Enforcement Lock Icons */
   .crlngn-enforce-icon {
     cursor: pointer;
+    flex-shrink: 0;
+    width: 1.25em;
+    text-align: center;
     margin-right: 0.5rem;
     font-size: 0.9em;
     opacity: 0.7;
@@ -2040,6 +2043,9 @@ body.crlngn-ui {
   }
 
   .crlngn-locked-icon {
+    flex-shrink: 0;
+    width: 1.25em;
+    text-align: center;
     margin-right: 0.5rem;
     font-size: 0.9em;
     opacity: 0.6;
