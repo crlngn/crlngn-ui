@@ -923,6 +923,12 @@ body.crlngn-ui.crlngn-combat-tracker {
       &.docked-top {
         transform: translate(calc(-50% - var(--header-width) / 2)) !important;
       }
+
+      /* 20% shorter than the sidebar-tab button min-height these inherit */
+      nav.combat-controls button[data-action="startCombat"],
+      nav.combat-controls button[data-action="endCombat"] {
+        min-height: calc(var(--input-height) * 1.3 * 0.8);
+      }
     }
 
     /* Small mobile screens - remove constraints so content can fit */

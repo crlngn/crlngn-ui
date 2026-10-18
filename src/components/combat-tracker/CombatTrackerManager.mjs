@@ -404,7 +404,7 @@ export class CombatTrackerManager {
     if (!combatPopout) return;
 
     const tracker = combatPopout.querySelector('.combat-tracker');
-    tracker?.querySelector('.crlngn-clone')?.remove();
+    tracker?.querySelectorAll(':scope > .crlngn-clone').forEach(el => el.remove());
     tracker?.querySelector('.crlngn-turn-indicator')?.remove();
     CombatCarousel.resetInitialization();
 
