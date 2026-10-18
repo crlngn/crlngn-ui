@@ -1,4 +1,4 @@
-import { getSettings, THEMES, SETTING_SCOPE } from "../../constants/Settings.mjs";
+import { getSettings, THEMES, SETTING_SCOPE, isPlayerScope } from "../../constants/Settings.mjs";
 import { getSettingMenus } from "../../constants/SettingMenus.mjs";
 import { LogUtil } from "../LogUtil.mjs";
 import { SettingsAppliers } from "../SettingsAppliers.mjs";
@@ -263,7 +263,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
               return field?.scope === SETTING_SCOPE.world &&
                      !['otherModulesList', 'adjustOtherModules'].includes(Object.keys(partContext.fields || {}).find(key => partContext.fields[key] === field));
             });
-            const hasClientSettings = Object.values(partContext.fields || {}).some(field => field?.scope === SETTING_SCOPE.client);
+            const hasClientSettings = Object.values(partContext.fields || {}).some(field => isPlayerScope(field?.scope));
 
             partContext.showNoSettings = !hasWorldSettings && !hasClientSettings;
 
@@ -457,8 +457,8 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         const value = SettingsUtil.get(SETTINGS[fieldName].tag);
         const fieldData = { ...SETTINGS[fieldName] };
 
-        // Add enforcement state for client-scoped settings with config: false
-        if (fieldData.scope === 'client' && fieldData.config === false) {
+        // Add enforcement state for player settings (client or user scope) with config: false
+        if (isPlayerScope(fieldData.scope) && fieldData.config === false) {
           const state = SettingsEnforcement.getEnforcementState(fieldData.tag);
           fieldData.enforcementState = state;
           // For players, mark if setting is locked (locked or gate mode)
@@ -478,8 +478,8 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         const value = SettingsUtil.get(SETTINGS[fieldName].tag);
         const fieldData = { ...SETTINGS[fieldName] };
 
-        // Add enforcement state for client-scoped settings with config: false
-        if (fieldData.scope === 'client' && fieldData.config === false) {
+        // Add enforcement state for player settings (client or user scope) with config: false
+        if (isPlayerScope(fieldData.scope) && fieldData.config === false) {
           const state = SettingsEnforcement.getEnforcementState(fieldData.tag);
           fieldData.enforcementState = state;
           // For players, mark if setting is locked (locked or gate mode)
@@ -800,7 +800,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         const allInputs = parent.querySelectorAll('input[name], select[name]');
         allInputs.forEach(input => {
           const name = input.getAttribute('name');
-          if (name && SETTINGS[name] && SETTINGS[name].scope === 'client' && SETTINGS[name].config === false) {
+          if (name && SETTINGS[name] && isPlayerScope(SETTINGS[name].scope) && SETTINGS[name].config === false) {
             fieldNames.push(name);
             settingTags.push(SETTINGS[name].tag);
             // Use the most restrictive enforcement state from all settings in the row
@@ -831,7 +831,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         }
 
         const setting = SETTINGS[fieldName];
-        if (setting.scope !== 'client' || setting.config !== false) {
+        if (!isPlayerScope(setting.scope) || setting.config !== false) {
           LogUtil.log(`Skipping ${fieldName} - not client/config:false`, [{ scope: setting.scope, config: setting.config }]);
           return;
         }
@@ -1142,7 +1142,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       if(settings[fieldName] !== undefined && SETTINGS[fieldName]) {
         const currSetting = SettingsUtil.get(SETTINGS[fieldName].tag);
 
-        const isClientSetting = SETTINGS[fieldName].scope === SETTING_SCOPE.client;
+        const isClientSetting = isPlayerScope(SETTINGS[fieldName].scope);
         const isWorldSetting = SETTINGS[fieldName].scope === SETTING_SCOPE.world;
 
         if (isClientSetting || (isWorldSetting && game.user.isGM)) {

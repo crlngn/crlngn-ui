@@ -1,5 +1,5 @@
 import { MODULE_ID } from "../constants/General.mjs";
-import { getSettings } from "../constants/Settings.mjs";
+import { getSettings, isPlayerScope } from "../constants/Settings.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
@@ -222,7 +222,7 @@ export class SettingsEnforcement {
         }
 
         const setting = Object.values(SETTINGS).find(s => s.tag === settingTag);
-        if (setting && setting.scope === 'client') {
+        if (setting && isPlayerScope(setting.scope)) {
           const currentValue = SettingsUtil.get(settingTag);
           const enforcementState = SettingsEnforcement.getEnforcementState(settingTag);
 
@@ -280,7 +280,7 @@ export class SettingsEnforcement {
     };
 
     for (const [key, setting] of Object.entries(SETTINGS)) {
-      if (setting.tag && setting.scope === 'client' && !setting.isMenu && setting.tag !== SETTINGS.appliedSoftDefaults.tag) {
+      if (setting.tag && isPlayerScope(setting.scope) && !setting.isMenu && setting.tag !== SETTINGS.appliedSoftDefaults.tag) {
         const enforcementState = SettingsEnforcement.getEnforcementState(setting.tag);
 
         if (enforcementState === 'unlocked') {

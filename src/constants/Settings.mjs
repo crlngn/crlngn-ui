@@ -9,8 +9,16 @@ export const SETTING_INPUT = {
 
 export const SETTING_SCOPE = {
   client: "client",
+  user: "user",
   world: "world"
 }
+
+/**
+ * Whether a scope holds a player's own value (per device or per user), as opposed to the world's
+ * @param {string} scope
+ * @returns {boolean}
+ */
+export const isPlayerScope = (scope) => scope === SETTING_SCOPE.client || scope === SETTING_SCOPE.user;
 
 export const MODULE_SETTINGS = {
   lastUpdateId: "lastUpdateId"
@@ -655,7 +663,7 @@ export function getSettings() {
       hint: "Tracks which GM soft defaults have been applied to this client",
       propType: Object,
       default: {},
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -666,7 +674,7 @@ export function getSettings() {
       hint: "Remembers that this client was told what the broadcast view does",
       propType: Boolean,
       default: false,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -710,7 +718,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.dockDHResources.label"),
       hint: game.i18n.localize("CRLNGN_UI.settings.dockDHResources.hint"),
       propType: Boolean,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       default: true,
       requiresReload: false,
@@ -745,7 +753,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navStartCollapsed.hint"),
       propType: Boolean,
       default: false,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -756,7 +764,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.collapseNavDuringCombat.hint"),
       propType: Boolean,
       default: false,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -767,7 +775,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.navShowRootFolders.hint"), 
       propType: Boolean, 
       default: false, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false, 
       requiresReload: false 
     },
@@ -850,7 +858,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.showNavOnHover.hint"), 
       propType: Boolean, 
       default: false, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false, 
       requiresReload: false 
     },
@@ -874,7 +882,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.disableActiveSceneSeparation.hint"),
       propType: Boolean,
       default: false,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -976,7 +984,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sidebarMenu.fields.useFolderStyle.hint"),
       propType: Boolean,
       default: true,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -1021,7 +1029,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.autoHidePlayerList.hint"), 
       propType: Boolean,
       default: false, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false, 
       requiresReload: false 
     },
@@ -1032,7 +1040,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.playersListMenu.fields.playerListAvatars.hint"),
       propType: Boolean,
       default: true,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -1190,7 +1198,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.colorPicker.applySecondaryColorToBg.hint"),
       propType: Boolean,
       default: false,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: true
     },
@@ -1201,7 +1209,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.playerColorTheme.hint"),
       propType: String,
       default: "",
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false, 
       requiresReload: false 
     },
@@ -1212,7 +1220,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.playerCustomThemeColors.hint"),
       propType: Object,
       default: null,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -1230,7 +1238,7 @@ export function getSettings() {
       tag: "v2-player-actor-accent-overrides",
       propType: Object,
       default: { mode: "class", class: [], race: [] },
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -1378,7 +1386,7 @@ export function getSettings() {
       }, 
       propType: String,  
       default: BORDER_COLOR_TYPES.playerColor.name, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false, 
       requiresReload: true 
     },
@@ -1394,7 +1402,7 @@ export function getSettings() {
       }, 
       propType: String,  
       default: BORDER_COLOR_POSITIONS.left.name, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false, 
       requiresReload: true 
     },
@@ -1406,7 +1414,7 @@ export function getSettings() {
       propType: Boolean, 
       inputType: SETTING_INPUT.checkbox, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false, 
       requiresReload: true 
     },
@@ -1417,7 +1425,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sidebarMenu.fields.enableChatStyles.hint"), 
       propType: Boolean, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false,
       requiresReload: true 
     },
@@ -1437,7 +1445,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sidebarMenu.fields.enableSidebarDragResize.hint"),
       propType: Boolean,
       default: true,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -1447,7 +1455,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sidebarMenu.fields.openChatLogOnLoad.hint"),
       propType: Boolean,
       default: false,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -1457,7 +1465,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sidebarMenu.fields.closeSidebarWhenIdle.hint"),
       propType: Boolean,
       default: false,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -1467,7 +1475,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sidebarMenu.fields.useHorizontalSidebarTabs.hint"),
       propType: Boolean,
       default: false,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -1477,7 +1485,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sidebarMenu.fields.horizontalTabsSingleRow.hint"),
       propType: Boolean,
       default: true,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -1487,7 +1495,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sidebarMenu.fields.showChatNotificationsOnTop.hint"),
       propType: Boolean,
       default: false,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -1511,7 +1519,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.leftControlsMenu.fields.autoHideSecondary.hint"), 
       propType: Boolean,
       default: false,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false, 
       requiresReload: false 
     },
@@ -1522,7 +1530,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.compactNotifications.hint"),
       propType: Boolean,
       default: true,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -1669,7 +1677,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sceneControls"),
       propType: Boolean, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false , 
       requiresReload: false 
     },
@@ -1680,7 +1688,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sidebarTabs"),
       propType: Boolean, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false, 
       requiresReload: false  
     },
@@ -1690,7 +1698,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.chatLogControls"),
       propType: Boolean, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false , 
       requiresReload: false 
     },
@@ -1701,7 +1709,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.playerList"), 
       propType: Boolean, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false , 
       requiresReload: false 
     },
@@ -1712,7 +1720,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.cameraDock"),
       propType: Boolean, 
       default: false, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false , 
       requiresReload: false 
     },
@@ -1723,7 +1731,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.macroHotbar"),
       propType: Boolean, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false , 
       requiresReload: false 
     },
@@ -1734,7 +1742,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sceneNav"),
       propType: Boolean, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false , 
       requiresReload: false 
     },
@@ -1746,7 +1754,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sceneControls"), 
       propType: Boolean, 
       default: false, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false, 
       requiresReload: false  
     },
@@ -1757,7 +1765,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sidebarTabs"), 
       propType: Boolean, 
       default: false, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false , 
       requiresReload: false 
     },
@@ -1768,7 +1776,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.chatLogControls"),
       propType: Boolean, 
       default: false, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false , 
       requiresReload: false 
     },
@@ -1779,7 +1787,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.playerList"), 
       propType: Boolean, 
       default: false, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false , 
       requiresReload: false 
     },
@@ -1790,7 +1798,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.cameraDock"), 
       propType: Boolean, 
       default: false, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false , 
       requiresReload: false 
     },
@@ -1801,7 +1809,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.macroHotbar"),
       propType: Boolean, 
       default: false, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false , 
       requiresReload: false 
     },
@@ -1812,7 +1820,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sceneNav"),
       propType: Boolean,
       default: false,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false ,
       requiresReload: false
     },
@@ -1823,7 +1831,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.hoverableSettingsHints.hint"),
       propType: Boolean,
       default: true,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: true
     },
@@ -1834,7 +1842,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.preventMacroBarReposition.hint"),
       propType: Boolean,
       default: true,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: true
     },
@@ -1847,7 +1855,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.sceneNavMenu.fields.sceneNavEnabled.hint"), 
       propType: Boolean, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false,
       requiresReload: true
     },
@@ -1857,7 +1865,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sceneControls"), 
       propType: Boolean, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false , 
       requiresReload: false 
     },
@@ -1867,7 +1875,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.sidebarTabs"), 
       propType: Boolean, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false, 
       requiresReload: false 
     },
@@ -1877,7 +1885,7 @@ export function getSettings() {
       label: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.chatLogControls"),
       propType: Boolean, 
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false, 
       requiresReload: false 
     },
@@ -1888,7 +1896,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.enableMacroLayout.hint"), 
       propType: Boolean,
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false, 
       requiresReload: false 
     },
@@ -1899,7 +1907,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.enablePlayerList.hint"), 
       propType: Boolean,
       default: true, 
-      scope: SETTING_SCOPE.client, 
+      scope: SETTING_SCOPE.user, 
       config: false, 
       requiresReload: false 
     },
@@ -1933,7 +1941,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.enableJournalStyles.hint"),
       propType: Boolean,
       default: true,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -1943,7 +1951,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.useHorizontalSheetTabs.hint"),
       propType: Boolean,
       default: true,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false,
       system: ["dnd5e"]
@@ -1954,7 +1962,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.enableIconsOnSheets.hint"),
       propType: Boolean,
       default: false,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false,
       system: ["dnd5e"]
@@ -1965,7 +1973,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.compactActivityCards.hint"),
       propType: Boolean,
       default: !foundry.utils.isNewerVersion("6.0.0", game.system?.version ?? "0"),
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false,
       system: ["dnd5e"],
@@ -1977,7 +1985,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.collapseCardTags.hint"),
       propType: Boolean,
       default: true,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false,
       system: ["dnd5e"],
@@ -1989,7 +1997,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.labeledCardButtons.hint"),
       propType: Boolean,
       default: true,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false,
       system: ["dnd5e"],
@@ -2027,7 +2035,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.enableCombatTrackerCarousel.hint"),
       propType: Boolean,
       default: true,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -2037,7 +2045,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.fields.autoPopoutOnCombatStart.hint"),
       propType: Boolean,
       default: true,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -2068,7 +2076,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.combatTrackerMenu.fields.carouselDockOnLoad.hint"),
       propType: String,
       default: "preserve",
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -2078,7 +2086,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.combatTrackerTakeFullWidth.hint"),
       propType: Boolean,
       default: false,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -2088,7 +2096,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselImageSource.hint"),
       propType: String,
       default: "actor",
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -2098,7 +2106,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselHideDefeated.hint"),
       propType: Boolean,
       default: false,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -2108,7 +2116,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselGroupCombatants.hint"),
       propType: Boolean,
       default: false,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -2118,7 +2126,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.carouselRequirePlayerOwner.hint"),
       propType: Boolean,
       default: false,
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },
@@ -2173,7 +2181,7 @@ export function getSettings() {
       hint: game.i18n.localize("CRLNGN_UI.settings.interfaceOptionsMenu.fields.combatTrackerLayout.hint"),
       propType: String,
       default: "carousel",
-      scope: SETTING_SCOPE.client,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false
     },

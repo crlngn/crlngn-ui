@@ -1,7 +1,7 @@
 import { DARK_MODE_RULES, MODULE_ID } from "../constants/General.mjs";
 import { HOOKS_CORE, HOOKS_CRLNGN } from "../constants/Hooks.mjs";
 import { getSettingMenus } from "../constants/SettingMenus.mjs";
-import { BORDER_COLOR_TYPES, DOCK_RESIZE_OPTIONS, getSettings, ICON_SIZES, THEMES, UI_SCALE } from "../constants/Settings.mjs";
+import { BORDER_COLOR_TYPES, DOCK_RESIZE_OPTIONS, getSettings, ICON_SIZES, isPlayerScope, THEMES, UI_SCALE } from "../constants/Settings.mjs";
 import { CameraDockUtil } from "./CameraDockUtil.mjs";
 import { ChatLogControls } from "./ChatLogControlsUtil.mjs";
 import { ChatUtil } from "./ChatUtil.mjs";
@@ -59,6 +59,69 @@ export class SettingsUtil {
     'v2-scene-nav-hide'
   ];
 
+  /** Operation option marking the Setting documents created by migrateClientToUser */
+  static MIGRATION_OPTION = "crlngnClientToUser";
+
+  static #clientValuesMigrated = false;
+
+  /**
+   * A user-scoped setting's value from when it was client-scoped, stored in this device's
+   * localStorage, while this user has no value of their own yet.
+   * @param {string} tag
+   * @returns {{raw: string, value: *}|undefined}
+   */
+  static #legacyClientEntry(tag){
+    const id = `${MODULE_ID}.${tag}`;
+    const config = game.settings.settings.get(id);
+    if(config?.scope !== CONST.SETTING_SCOPES.USER) return undefined;
+    const raw = game.settings.storage.get("client").getItem(id);
+    if(raw === null || raw === undefined) return undefined;
+    if(game.settings.storage.get("world").getSetting(id, game.userId)) return undefined;
+    try{
+      const value = new CONFIG.Setting.documentClass({ key: id, value: raw }).value;
+      return { raw, value };
+    }catch(e){
+      return undefined;
+    }
+  }
+
+  /**
+   * @param {string} tag
+   * @returns {*} The value, or undefined
+   */
+  static #legacyClientValue(tag){
+    return SettingsUtil.#legacyClientEntry(tag)?.value;
+  }
+
+  /**
+   * Copies the values this device kept for settings that moved from client to user scope into the
+   * user's own settings, once, where the user has no value yet. The first device to load after the
+   * update wins; the localStorage copies are left in place, so going back to a client-scoped build
+   * keeps them. Until this runs, `get` reads the localStorage values, since user-scoped settings
+   * can't be written before ready.
+   * @returns {Promise<void>}
+   */
+  static async migrateClientToUser(){
+    const data = [];
+    for(const config of game.settings.settings.values()){
+      if(config.namespace !== MODULE_ID || config.scope !== CONST.SETTING_SCOPES.USER) continue;
+      const entry = SettingsUtil.#legacyClientEntry(config.key);
+      if(!entry) continue;
+      if(JSON.stringify(entry.value) === JSON.stringify(config.default ?? null)) continue;
+      data.push({ key: config.id, user: game.userId, value: entry.raw });
+    }
+    if(data.length){
+      try{
+        await CONFIG.Setting.documentClass.createDocuments(data, { [SettingsUtil.MIGRATION_OPTION]: true });
+        LogUtil.log("Moved client settings to user scope", [data.map(d => d.key)]);
+      }catch(e){
+        console.warn(`${MODULE_ID} | Could not move client settings to user scope:`, e);
+        return;
+      }
+    }
+    SettingsUtil.#clientValuesMigrated = true;
+  }
+
   /**
    * Registers all module settings with Foundry VTT
    * Initializes settings, registers menus, and sets up hooks for settings changes
@@ -83,7 +146,9 @@ export class SettingsUtil {
           scope: setting.scope,
           config: setting.config,
           requiresReload: setting.requiresReload || false,
-          onChange: value => {
+          onChange: (value, options, userId) => {
+            if (options?.[SettingsUtil.MIGRATION_OPTION]) return;
+            if (setting.scope === 'user' && userId && userId !== game.userId) return;
             const SETTINGS = getSettings();
 
             // Check if this setting is enforced and user is not GM
@@ -91,7 +156,7 @@ export class SettingsUtil {
             // Soft mode only applies defaults on first load, then allows player changes
             const enforcementState = SettingsEnforcement.getEnforcementState(setting.tag);
             const shouldBlock = !game.user.isGM &&
-                                setting.scope === 'client' &&
+                                isPlayerScope(setting.scope) &&
                                 (enforcementState === 'locked' || enforcementState === 'gate');
 
             if (shouldBlock) {
@@ -109,7 +174,7 @@ export class SettingsUtil {
 
             // If GM changes a locked/soft setting, update the enforced default
             // (but NOT in gate mode - gate mode allows GM to have different value)
-            if (game.user.isGM && setting.scope === 'client') {
+            if (game.user.isGM && isPlayerScope(setting.scope)) {
               const state = SettingsEnforcement.getEnforcementState(setting.tag);
               if (state === 'soft' || state === 'locked') {
                 const defaultSettings = SettingsUtil.get(SETTINGS.defaultSettings.tag) || {};
@@ -392,6 +457,10 @@ export class SettingsUtil {
 
     if(moduleName===MODULE_ID){
       setting = game.settings.get(moduleName, settingName);
+      if(!SettingsUtil.#clientValuesMigrated){
+        const legacy = SettingsUtil.#legacyClientValue(settingName);
+        if(legacy !== undefined) setting = legacy;
+      }
     }else{
       const client = game.settings.storage.get("client");
       let selectedSetting = client[`${moduleName}.${settingName}`];

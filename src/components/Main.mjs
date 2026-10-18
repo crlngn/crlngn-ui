@@ -56,12 +56,14 @@ export class Main {
       }, 500);
     });
 
-    Hooks.once(HOOKS_CORE.READY, () => {
+    Hooks.once(HOOKS_CORE.READY, async () => {
       LogUtil.log("Core Ready", [game]);
       if(Main.isIncompatible){
         ui.notifications.error(game.i18n.localize("CRLNGN_UI.notifications.incompatibleVersion"), {permanent: true});
         return;
       }
+
+      await SettingsUtil.migrateClientToUser();
 
       document.body.classList.toggle("crlngn-is-gm", !!game.user?.isGM);
 

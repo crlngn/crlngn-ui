@@ -1,4 +1,5 @@
 import { LogUtil } from "./LogUtil.mjs";
+import { isPlayerScope } from "../constants/Settings.mjs";
 
 export class CustomHandlebarsHelpers {
   /**
@@ -47,9 +48,9 @@ export class CustomHandlebarsHelpers {
       return field?.propType === Boolean;
     });
 
-    // Helper to check if a setting is client scope
+    // Helper to check if a setting is a player setting (client or user scope)
     Handlebars.registerHelper('isClientScope', function(field) {
-      return field?.scope === 'client';
+      return isPlayerScope(field?.scope);
     });
 
     // Helper to check if a setting is world scope
@@ -57,9 +58,9 @@ export class CustomHandlebarsHelpers {
       return field?.scope === 'world';
     });
 
-    // Helper to check if there are any client settings
+    // Helper to check if there are any player settings (client or user scope)
     Handlebars.registerHelper('hasClientSettings', function(fields) {
-      return Object.values(fields || {}).some(field => field?.scope === 'client');
+      return Object.values(fields || {}).some(field => isPlayerScope(field?.scope));
     });
 
     // Helper to check if there are any world settings (excluding modules-related fields)
