@@ -69,7 +69,7 @@ If you want to use **Monk's Scene Navigation** instead of mine you need to disab
 - If you would like to contribute with translation to your language please send a PR or copy the en language file, translate and post as enhancement.
 
 ### FOR MODULE DEVELOPERS: SETTINGS LOCKS API
-With *Enable client settings lock for core and other modules* on, the GM can lock other modules' player settings that appear in Configure Settings. If your module keeps player settings in its own settings window (`config: false`), you can make those lockable too, whether or not that option is on. The GM's locks and values are stored in Carolingian UI's world settings, so your module doesn't bundle anything or register extra settings. Nothing happens if Carolingian UI isn't active.
+There is a setting on root module configuration, *Enable client settings lock for core and other modules*. If that setting is checked, the GM can lock other modules' player settings that appear in Configure Settings. If your module keeps player settings in its own settings window (`config: false`), you can make those lockable too, whether or not that option is on. The GM's locks and values are stored in Carolingian UI's world settings, so your module doesn't bundle anything or register extra settings. Nothing happens if Carolingian UI isn't active.
 
 Lock states: `unlocked` (players choose), `soft` (the GM's value is applied once, then players can change it), `locked` (the GM's value is applied on every load and player changes revert), `gate` (locked for players, while the GM keeps their own value).
 
