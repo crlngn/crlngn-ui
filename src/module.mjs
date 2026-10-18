@@ -25,6 +25,7 @@ import "./styles/systems/mosh-unofficial.css";
 import "./styles/systems/blade-runner.css";
 import "./styles/systems/swade.css";
 import "./styles/systems/ose.css";
+import "./styles/systems/coc7.css";
 
 import { Main } from "./components/Main.mjs";
 

@@ -1,0 +1,10 @@
+/* Call of Cthulhu 7th Edition chat card adjustments */
+body.crlngn-ui.crlngn-chat.system-CoC7 {
+  .chat-message .message-content .coc7-card-buttons {
+    padding: 0.35em 0;
+
+    button {
+      padding: 0.5em;
+    }
+  }
+}
