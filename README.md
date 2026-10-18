@@ -25,8 +25,8 @@ https://github.com/user-attachments/assets/ebd47223-3bef-48a0-8294-9fe59b8ab9c8
 - **Combat Carousel:** horizontal combat tracker built from the regular Foundry popout
 - Most of the options present in v12 (below) are also available
 
-### FEATURES ON V12:
-- **Scene Navigation** have folders and scene search. It can be scrolled horizontally, saving space, and there's improved icons and markers for players and GM;
+### FEATURES ON V12/V13/V14:
+- **Scene Navigation** has folders and scene search. It can be scrolled horizontally, saving space, and there's improved icons and markers for players and GM;
 - **Custom Fonts** for UI and journals;
 - **Custom Color Themes** for highlights, inputs, secondary controls and actor sheets for some systems;
 - **Horizontal Tabs for 5e Actor Sheets** - many people get confused with the lateral icon tabs in 5e sheets. I've added an option to use horizontal tabs with labels;
@@ -41,25 +41,25 @@ https://github.com/user-attachments/assets/ebd47223-3bef-48a0-8294-9fe59b8ab9c8
 - **Dark style for chat messages** - applied if the selected Foundry theme is Dark (tested on DnD5e 4.x/5.x and Pathfinder2e, partial support for other systems); 
 - **Compact chat messages** (DnD5e) compact usage buttons to save some space on chat log;
 - **Chat Border Colors** - Select if you want the borders to show player color, roll type (5e), or none;
-- **Custom CSS Field** to load your own style modifications to your world
+- **Custom CSS Field** to load your own style modifications to your world or to specific players
 
-**Carolingian UI** is licensed under [Creative Commons Attribution-NonCommercial 4.0](https://creativecommons.org/licenses/by-nc/4.0/): you may use, share and adapt it for non-commercial purposes with credit to the original repo. Commercial use requires permission. See the LICENSE file for third-party notices.
+**Carolingian UI** is licensed under [Creative Commons Attribution-NonCommercial 4.0](https://creativecommons.org/licenses/by-nc/4.0/): you may use, share and adapt it for non-commercial purposes with credit to the original repo. Commercial use is not allowed. See the LICENSE file for third-party notices.
 
-I am very opinionated about this module's look and feel, as it was created for my own use, and I overwrite some other modules' fonts and colors to look more uniform with mine. My setup of modules is relatively lean, with only ~40 quality of life modules. If the aesthetics are too off or the module is too niche, I might not be interested in working on compatibility for it. That being said, I've specifically tested some modules by user request, and adapted their styling, and you may request support for specific modules if you are a member on Patreon.
+I am very opinionated about this module's look and feel, and I may override some other modules' fonts and colors to look more uniform with mine. This behavior can be unchecked per module in settings. My setup of modules is relatively lean, with only ~40 quality of life modules. If the aesthetics are too off or the module is too niche, I might not be interested in working on compatibility for it. That being said, I've specifically tested some modules by user request, and adapted their styling, and you may request support for specific modules.
 
 **Compatibility:** 
 - v1.x: Foundry VTT version 12.328+
 - v4.x: Foundry VTT version 13.339 to 14.368
-- Mostly tested with DnD5e 4.x - 6.x. Should work with other systems, but modules for those systems remain untested. 
+- Mostly tested with DnD5e 4.x - 6.x. Should work with most other systems, but modules for those systems remain untested. 
 - Localization: English, Brazilian Portuguese, Chinese, Italian. Thanks to [yyzitai](https://github.com/yyzitai) for contributions to the Chinese language files.
 
 
 ### MODULE COMPATIBILITY:
-I've adapted or adjusted many modules to go well with Carolngian UI - mostly those that might be particularly affected by changes in the UI. Check the  compatibility tracker.
-I have verified PF2e HUD to work, but I do not play PF2e so there might be issues I haven't noticed.
+I've adapted or adjusted many modules to go well with Carolingian UI - mostly those that might be particularly affected by changes in the UI. Check the compatibility tracker in issues tab.
+I have verified PF2e HUD to work, but I do not play PF2e so there might be issues I haven't noticed. Feel free to report.
 
 **Note:**
-If you want to use **Monk's Scene Navigation** you need to disable my horizontal navigation, as Monk's is not compatible with it. You'll find the option in settings.
+If you want to use **Monk's Scene Navigation** instead of mine you need to disable my horizontal navigation, as Monk's is not compatible with it. You'll find the option in settings ("Custom layout").
 
 ### NOTES:
 - The module was tested mostly on Foundry v12, v13, v14 and DnD5e. The overall UI styles are system agnostic, but chat card styles were tested for DnD5e and PF2e. Each system may have overrides that I may not be able to account for. If you would like to request support for a different system (and help with info and screenshots), please add a feature request on Github issue tracker (subject to evaluation);
