@@ -136,7 +136,7 @@ export const CarouselTransforms = {
       CarouselTransforms.updateTurnIndicator(tracker, containerCenter, cardWidth, state, config, wrapThreshold);
     } else {
       tracker.querySelector('.crlngn-turn-indicator')?.remove();
-      tracker.querySelector('.crlngn-clone')?.remove();
+      CarouselTransforms.removeClones(tracker);
     }
   },
 
@@ -149,7 +149,7 @@ export const CarouselTransforms = {
     const tracker = document.querySelector('#combat-popout .combat-tracker');
     if (!tracker) return;
 
-    tracker.querySelector('.crlngn-clone')?.remove();
+    CarouselTransforms.removeClones(tracker);
 
     if (!CarouselTransforms.shouldUseInfiniteWrap(state)) {
       return;
@@ -176,7 +176,19 @@ export const CarouselTransforms = {
   },
 
   /**
-   * Update edge clones to fill gaps on both sides of the carousel
+   * Remove all edge clones from the tracker
+   * @param {HTMLElement} tracker - The tracker element
+   */
+  removeClones(tracker) {
+    tracker?.querySelectorAll(':scope > .crlngn-clone').forEach(el => el.remove());
+  },
+
+  /**
+   * Update edge clones to fill gaps on both sides of the carousel.
+   * Real cards wrap from one end to the other only once they cross the wrap threshold, so the
+   * slots beyond the leftmost and rightmost real cards are filled with clones of the cards that
+   * come next in initiative order. At least one clone sits on each side, more when the tracker
+   * is wider than the whole track. Clones are kept per slot and only rebuilt when their source changes.
    * @param {HTMLElement} tracker - The tracker element
    * @param {number} containerCenter - Center X of the container
    * @param {number} cardWidth - Width of a card
@@ -185,16 +197,23 @@ export const CarouselTransforms = {
    * @param {number} wrapThreshold - The wrap threshold for positioning
    */
   updateEdgeClones(tracker, containerCenter, cardWidth, STEP, state, wrapThreshold) {
-    const totalCount = state.allCombatantIds.length;
-    if (totalCount < 2) return;
+    const ids = state.allCombatantIds;
+    const totalCount = ids.length;
+    if (totalCount < 2 || !(STEP > 0)) {
+      CarouselTransforms.removeClones(tracker);
+      return;
+    }
 
     const TRACK = totalCount * STEP;
+    const trackerWidth = containerCenter * 2;
+    const MAX_CLONES_PER_SIDE = 20;
 
     let leftmostIndex = 0;
+    let rightmostIndex = 0;
     let leftmostScreenX = Infinity;
     let rightmostScreenX = -Infinity;
 
-    state.allCombatantIds.forEach((id, index) => {
+    ids.forEach((id, index) => {
       const pos = CarouselTransforms.getWrappedPosition(index, state, STEP, TRACK, wrapThreshold);
       const screenX = Math.round(containerCenter + pos - (cardWidth / 2));
       if (screenX < leftmostScreenX) {
@@ -203,36 +222,52 @@ export const CarouselTransforms = {
       }
       if (screenX > rightmostScreenX) {
         rightmostScreenX = screenX;
+        rightmostIndex = index;
       }
     });
 
-    const sourceId = state.allCombatantIds[leftmostIndex];
-    const cloneScreenX = Math.round(rightmostScreenX + STEP);
-
-    let existingClone = tracker.querySelector('.crlngn-clone');
-
-    if (existingClone && existingClone.dataset.cloneSourceId === sourceId) {
-      existingClone.style.transform = `translateX(${cloneScreenX}px)`;
-      return;
+    const slots = [];
+    for (let k = 1; k <= MAX_CLONES_PER_SIDE; k++) {
+      const x = Math.round(leftmostScreenX - k * STEP);
+      if (k > 1 && x + cardWidth <= 0) break;
+      slots.push({ slot: `l${k}`, sourceId: ids[CarouselTransforms.mod(leftmostIndex - k, totalCount)], x });
+    }
+    for (let k = 1; k <= MAX_CLONES_PER_SIDE; k++) {
+      const x = Math.round(rightmostScreenX + k * STEP);
+      if (k > 1 && x >= trackerWidth) break;
+      slots.push({ slot: `r${k}`, sourceId: ids[CarouselTransforms.mod(rightmostIndex + k, totalCount)], x });
     }
 
-    if (existingClone) {
-      existingClone.remove();
-    }
+    const existing = new Map();
+    tracker.querySelectorAll(':scope > .crlngn-clone').forEach(el => existing.set(el.dataset.cloneSlot, el));
 
-    const sourceEl = tracker.querySelector(`li.combatant[data-combatant-id="${sourceId}"]:not(.crlngn-clone)`);
-    if (sourceEl) {
+    slots.forEach(({ slot, sourceId, x }) => {
+      const current = existing.get(slot);
+      existing.delete(slot);
+
+      if (current && current.dataset.cloneSourceId === sourceId) {
+        current.style.transform = `translateX(${x}px)`;
+        return;
+      }
+      current?.remove();
+
+      const sourceEl = tracker.querySelector(`li.combatant[data-combatant-id="${sourceId}"]:not(.crlngn-clone)`);
+      if (!sourceEl) return;
+
       const clone = sourceEl.cloneNode(true);
       clone.classList.add('crlngn-clone');
       clone.removeAttribute('data-combatant-id');
       clone.dataset.cloneSourceId = sourceId;
+      clone.dataset.cloneSlot = slot;
       clone.style.pointerEvents = 'none';
       clone.style.position = 'absolute';
       clone.style.left = '0';
-      clone.style.transform = `translateX(${cloneScreenX}px)`;
+      clone.style.transform = `translateX(${x}px)`;
       clone.classList.add('crlngn-positioned');
       tracker.appendChild(clone);
-    }
+    });
+
+    existing.forEach(el => el.remove());
   },
 
   /**
