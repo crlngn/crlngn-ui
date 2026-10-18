@@ -143,6 +143,15 @@ body.crlngn-ui.crlngn-chat {
       --dnd5e-text-color-failure: #c15d5d;
       --dnd5e-color-success: #719f50;
       --dnd5e-color-failure: #c15d5d;
+
+      /* Foundry core message-type colors, declared on .chat-message and reused by systems
+         (e.g. CoC7 keeper-only blocks) for inner panels */
+      --color-whisper-background: var(--cui-chat-card-bg-whisper);
+      --color-whisper-border: color-mix(in srgb, var(--color-light-1) 20%, transparent);
+      --color-blind-background: var(--cui-chat-card-bg-blind);
+      --color-blind-border: color-mix(in srgb, var(--color-light-1) 20%, transparent);
+      --color-emote-background: var(--cui-chat-card-bg);
+      --color-emote-border: color-mix(in srgb, var(--color-light-1) 20%, transparent);
     }
   }
 }
