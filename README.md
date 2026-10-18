@@ -68,6 +68,30 @@ If you want to use **Monk's Scene Navigation** instead of mine you need to disab
 - If you use a non-compatible module, play with the settings and disable the parts that might be affecting it before reporting.
 - If you would like to contribute with translation to your language please send a PR or copy the en language file, translate and post as enhancement.
 
+### FOR MODULE DEVELOPERS: SETTINGS LOCKS API
+With *Enable client settings lock for core and other modules* on, the GM can lock other modules' player settings that appear in Configure Settings. If your module keeps player settings in its own settings window (`config: false`), you can make those lockable too, whether or not that option is on. The GM's locks and values are stored in Carolingian UI's world settings, so your module doesn't bundle anything or register extra settings. Nothing happens if Carolingian UI isn't active.
+
+Lock states: `unlocked` (players choose), `soft` (the GM's value is applied once, then players can change it), `locked` (the GM's value is applied on every load and player changes revert), `gate` (locked for players, while the GM keeps their own value).
+
+**1. Register your client or user settings.** Listen for the hook during `init` or earlier. It fires at `setup`, once every module has registered its settings:
+```js
+let locks;
+Hooks.once("crlngn-ui.settingsLocksReady", (api) => {
+  locks = api.register("my-module", ["compactMode", "fontSize"]);
+});
+```
+After `setup`, the same API is at `game.modules.get("crlngn-ui").api.settingsLocks`. Registering wraps each setting's `onChange` in place. For a setting you register later, pass its handler through `locks.wrapOnChange(key, onChange)`.
+
+**2. Draw the lock icons in your settings form**, e.g. in your ApplicationV2's `_onRender`:
+```js
+_onRender(context, options) {
+  game.modules.get("crlngn-ui")?.api?.settingsLocks?.render(this.element, "my-module", { scope: `#${this.id}` });
+}
+```
+Fields are matched by their input's `name` (the setting key). Options: `fieldPrefix` when names look like `"my-module.key"`, `fieldKeys` to map other field names to keys (`{ fieldName: "key" }`), and `scope` (a CSS selector for your window) to keep the injected styles local. The GM gets a clickable icon that cycles the state (right-click or Alt+click for gate). Players see a lock on fields locked for them, and those inputs are disabled.
+
+**3. Read the state if you need it:** `locks.getState(key)` returns one of `api.LOCK_STATES`, and `locks.lockedValue(key)` returns the GM's value when the setting is locked for the current player (otherwise `undefined`).
+
 ### BUGS AND FEATURE REQUESTS:
 - Please use the issue tracker to report any bugs and requests for enhancements using the appropriate labels.
 - When reporting bugs, please first try to disable modules one by one to see which one might cause the issue. Take screenshots of any errors and provide as much information as possible on your issue (Foundry version, game system, active modules). 
