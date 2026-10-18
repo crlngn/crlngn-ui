@@ -30,6 +30,7 @@
       "macroBarTooltipKeepOpen": "Keep open",
       "macroBarTooltipAutoHide": "Hide",
       "enforcementTooltip": "Click to cycle lock state. Right-click (or Alt+Click) to toggle GM mode",
+      "lockedByGM": "Locked by GM",
       "reset": "Reset",
       "save": "Save",
       "reloadButton": "Reload",
@@ -854,6 +855,10 @@
       "debugMode": {
         "label": "Debug Mode",
         "hint": "Enable or disable debug messages on browser console. This should be turned off unless the module developer asks you to turn it on for verification."
+      },
+      "lockOtherModules": {
+        "label": "Enable client settings lock for core and other modules",
+        "hint": "Adds GM lock icons to Foundry core's and other modules' client settings in Configure Settings, so you can set them for everyone (soft), keep them fixed (locked), or fix them for players only (right-click)."
       },
       "disableUI": {
         "label": "Disable UI in this client",
