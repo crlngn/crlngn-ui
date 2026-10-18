@@ -5,10 +5,10 @@ import { getSettings } from "../constants/Settings.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
 
 /**
- * Settings locks for other modules, through the Carolingian Settings Kit.
+ * Settings locks for Foundry core and other modules, through the Carolingian Settings Kit.
  * - API: other modules lock the settings of their custom menus with Carolingian UI's lock states,
  *   stored in Carolingian UI's world settings, without bundling the kit.
- * - Opt-in (GM world setting): lock icons on other modules' client settings in Configure Settings.
+ * - Opt-in (GM world setting): lock icons on core's and other modules' client settings in Configure Settings.
  * Carolingian UI's own settings keep using SettingsEnforcement.
  */
 export class SettingsLocksHost {
@@ -37,7 +37,7 @@ export class SettingsLocksHost {
     if (SettingsLocksHost.#configLocks) host.watchSettingsConfig({ titles: SettingsLocksHost.#titles() });
 
     Hooks.once(HOOKS_CORE.SETUP, () => {
-      if (SettingsLocksHost.#configLocks) host.lockConfigSettings();
+      if (SettingsLocksHost.#configLocks) host.lockConfigSettings({ core: true });
       Hooks.callAll(HOOKS_CRLNGN.SETTINGS_LOCKS_READY, SettingsLocksHost.api);
     });
     Hooks.once(HOOKS_CORE.READY, () => host.apply());
@@ -51,7 +51,7 @@ export class SettingsLocksHost {
     const host = SettingsLocksHost.#host;
     return {
       LOCK_STATES,
-      /** Whether the GM turned on locks for other modules' settings in Configure Settings */
+      /** Whether the GM turned on locks for core's and other modules' settings in Configure Settings */
       get configLocks() { return SettingsLocksHost.#configLocks; },
       /**
        * Make a module's client settings lockable. Call once the settings are registered; for one
