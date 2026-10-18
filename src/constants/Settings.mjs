@@ -991,6 +991,17 @@ export function getSettings() {
     //   config: true 
     // },
 
+    lockOtherModules: {
+      tag: "v2-lock-other-modules",
+      label: game.i18n.localize("CRLNGN_UI.settings.lockOtherModules.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.lockOtherModules.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.world,
+      config: true,
+      requiresReload: true
+    },
+
     debugMode: { 
       tag: "v2-debug-mode", 
       label: game.i18n.localize("CRLNGN_UI.settings.debugMode.label"), 

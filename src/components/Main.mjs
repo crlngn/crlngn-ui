@@ -29,6 +29,7 @@ import { JournalUtil } from "./JournalUtil.mjs";
 import { JournalPageUtil } from "./JournalPageUtil.mjs";
 import { BroadcastView } from "./BroadcastViewUtil.mjs";
 import { CompactNotifications } from "./NotificationsUtil.mjs";
+import { SettingsLocksHost } from "./SettingsLocksHost.mjs";
 
 /**
  * Main class handling core module initialization and setup
@@ -169,6 +170,7 @@ export class Main {
     window.crlngnUI = window.crlngnUI || {};
 
     SettingsUtil.registerSettings();
+    SettingsLocksHost.init();
     const SETTINGS = getSettings();
     const uiDisabled = SettingsUtil.get(SETTINGS.disableUI.tag);
     LogUtil.log(HOOKS_CORE.INIT,[uiDisabled]);

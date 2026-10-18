@@ -5,6 +5,7 @@
  * */ 
 export const HOOKS_CORE = {
   INIT: "init", 
+  SETUP: "setup",
   READY: "ready", 
   CANVAS_READY: "canvasReady",
   CANVAS_INIT: "canvasInit",
@@ -156,5 +157,7 @@ export const HOOKS_CRLNGN = {
   /** Fired after a compact dnd5e activity card has been fully enriched */
   RENDER_COMPACT_CARD: "crlngn-ui.renderCompactCard",
   /** Fired after the sidebar width CSS variable is applied from the saved setting */
-  SIDEBAR_WIDTH_CHANGED: "crlngn-ui.sidebarWidthChanged"
+  SIDEBAR_WIDTH_CHANGED: "crlngn-ui.sidebarWidthChanged",
+  /** Fired at setup with the settings locks API, once every module has registered its settings */
+  SETTINGS_LOCKS_READY: "crlngn-ui.settingsLocksReady"
 }

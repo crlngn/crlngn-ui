@@ -34,6 +34,7 @@
     "watch": "^1.0.2"
   },
   "dependencies": {
+    "@crlngn/settings-kit": "github:crlngn/crlngn-settings-kit#cloud/lock-host",
     "postcss-custom-properties": "^14.0.4",
     "postcss-discard-duplicates": "^7.0.1",
     "postcss-nesting": "^13.0.1",
