@@ -1599,3 +1599,10 @@ body.crlngn-ui.crlngn-chat.crlngn-dnd5e-v5 {
     }
   }
 }
+
+/* Effect rows in the apply-effects tray are borderless unbuttons: the generic button hover rules
+   would otherwise animate a border and shadow onto them */
+body.crlngn-ui .chat-message :is(.card-tray, .effects-tray) .effects .effect > button.unbutton:is(:hover, :focus, :focus-visible) {
+  border: none;
+  box-shadow: none;
+}
