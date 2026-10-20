@@ -707,6 +707,10 @@
             "label": "事后优势按钮",
             "hint": "在攻击、检定和豁免掷骰的结果两侧显示按钮，可在掷骰后应用优势或劣势：再掷一个 d20，取较高或较低值。仅掷骰者和 GM 可见。"
           },
+          "collapseRepeatedRolls": {
+            "label": "折叠重复掷骰",
+            "hint": "同一张卡片上多次掷出同一活动（如疾风连击）时，只完整显示最新的攻击和伤害。较早的掷骰折叠为带编号的标题和总值；点击标题展开。"
+          },
           "applyBladeRunnerTweaks": {
             "label": "对 Blade Runner 系统应用 UI 调整",
             "hint": "启用后，对 Blade Runner 角色卡和窗口应用 UI 调整和样式微调"
@@ -953,7 +957,15 @@
         "retroChanged": "掷骰后更改",
         "retroFailed": "无法更改此掷骰。",
         "normalRoll": "普通",
-        "noRecordedTargets": "此次掷骰在当前场景中没有记录目标。"
+        "noRecordedTargets": "此次掷骰在当前场景中没有记录目标。",
+        "toggleRoll": "显示或隐藏此次掷骰",
+        "addBonus": "添加加值",
+        "bonusFormula": "掷骰公式",
+        "bonusPlaceholder": "输入公式或在下方选择",
+        "applyBonus": "添加加值",
+        "bonusInvalid": "加值公式无效。",
+        "bonusFailed": "无法添加加值。",
+        "bonusAdded": "掷骰后加值"
       }
     }
   }

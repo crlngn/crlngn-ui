@@ -807,6 +807,10 @@
             "label": "Retroactive advantage buttons",
             "hint": "Show buttons flanking the total of attack, check and save rolls that apply advantage or disadvantage after the roll, rolling one more d20 and keeping the highest or lowest. Only the roll's author and the GM see them."
           },
+          "collapseRepeatedRolls": {
+            "label": "Collapse repeated rolls",
+            "hint": "When an activity is rolled more than once from the same card, such as Flurry of Blows, show only the newest attack and damage in full. Earlier ones collapse to their numbered title and total; click the title to expand."
+          },
           "applyBladeRunnerTweaks": {
             "label": "Apply UI tweaks to Blade Runner system",
             "hint": "Enable to apply UI adjustments and style tweaks to Blade Runner sheets and windows"
@@ -958,7 +962,15 @@
         "retroChanged": "Changed after the roll",
         "retroFailed": "The roll could not be changed.",
         "normalRoll": "Normal",
-        "noRecordedTargets": "This roll recorded no targets on the current scene."
+        "noRecordedTargets": "This roll recorded no targets on the current scene.",
+        "toggleRoll": "Show or hide this roll",
+        "addBonus": "Add a bonus",
+        "bonusFormula": "Roll formula",
+        "bonusPlaceholder": "type formula or select below",
+        "applyBonus": "Add bonus",
+        "bonusInvalid": "The bonus formula is not valid.",
+        "bonusFailed": "The bonus could not be added.",
+        "bonusAdded": "Bonus after roll"
       }
     }
   }

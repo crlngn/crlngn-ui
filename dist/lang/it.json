@@ -806,6 +806,10 @@
             "label": "Pulsanti di vantaggio retroattivo",
             "hint": "Mostra ai lati del totale dei tiri di attacco, prova e salvezza dei pulsanti che applicano vantaggio o svantaggio dopo il tiro, tirando un altro d20 e tenendo il più alto o il più basso. Li vedono solo l'autore del tiro e il GM."
           },
+          "collapseRepeatedRolls": {
+            "label": "Comprimi i tiri ripetuti",
+            "hint": "Quando un'attività viene tirata più volte dalla stessa scheda, come Raffica di Colpi, mostra per intero solo l'attacco e il danno più recenti. Quelli precedenti si riducono al titolo numerato e al totale; clicca il titolo per espanderli."
+          },
           "applyBladeRunnerTweaks": {
             "label": "Applica modifiche all'UI del sistema Blade Runner",
             "hint": "Abilita per applicare regolazioni dell'UI e modifiche di stile alle pagine e alle finestre di Blade Runner"
@@ -953,7 +957,15 @@
         "retroChanged": "Modificato dopo il tiro",
         "retroFailed": "Impossibile modificare il tiro.",
         "normalRoll": "Normale",
-        "noRecordedTargets": "Questo tiro non ha registrato bersagli nella scena corrente."
+        "noRecordedTargets": "Questo tiro non ha registrato bersagli nella scena corrente.",
+        "toggleRoll": "Mostra o nascondi questo tiro",
+        "addBonus": "Aggiungi un bonus",
+        "bonusFormula": "Formula del tiro",
+        "bonusPlaceholder": "scrivi una formula o scegli qui sotto",
+        "applyBonus": "Aggiungi bonus",
+        "bonusInvalid": "La formula del bonus non è valida.",
+        "bonusFailed": "Non è stato possibile aggiungere il bonus.",
+        "bonusAdded": "Bonus dopo il tiro"
       }
     }
   }

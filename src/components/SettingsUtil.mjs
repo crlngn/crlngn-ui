@@ -759,6 +759,8 @@ export class SettingsUtil {
         ChatCards5eUtil.applyLabeledButtons(value); break;
       case SETTINGS.retroAdvantageButtons.tag:
         ChatCards5eUtil.applyRetroAdvantage(value); break;
+      case SETTINGS.collapseRepeatedRolls.tag:
+        ChatCards5eUtil.applyCollapseRepeatedRolls(value); break;
       case SETTINGS.useGlassEffect.tag:
         SettingsAppliers.applyGlassEffect(value); break;
       case SETTINGS.glassTranslucence.tag:

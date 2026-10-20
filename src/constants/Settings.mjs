@@ -619,6 +619,7 @@ export function getSettings() {
         "collapseCardTags",
         "labeledCardButtons",
         "retroAdvantageButtons",
+        "collapseRepeatedRolls",
         "dockDHResources"
       ],
       default: {
@@ -628,6 +629,7 @@ export function getSettings() {
         collapseCardTags: true,
         labeledCardButtons: true,
         retroAdvantageButtons: !game.modules?.get("midi-qol")?.active,
+        collapseRepeatedRolls: true,
         dockDHResources: true
       },
       scope: SETTING_SCOPE.client,
@@ -2010,6 +2012,18 @@ export function getSettings() {
       propType: Boolean,
       default: !game.modules?.get("midi-qol")?.active,
       scope: SETTING_SCOPE.world,
+      config: false,
+      requiresReload: false,
+      system: ["dnd5e"],
+      systemMinVersion: "5.3.0"
+    },
+    collapseRepeatedRolls: {
+      tag: "v2-collapse-repeated-rolls",
+      label: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.collapseRepeatedRolls.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.systemsMenu.fields.collapseRepeatedRolls.hint"),
+      propType: Boolean,
+      default: true,
+      scope: SETTING_SCOPE.user,
       config: false,
       requiresReload: false,
       system: ["dnd5e"],

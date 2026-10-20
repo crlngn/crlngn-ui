@@ -707,6 +707,10 @@
             "label": "Botões de vantagem retroativa",
             "hint": "Mostra, ao lado do total das rolagens de ataque, teste e salvaguarda, botões que aplicam vantagem ou desvantagem depois da rolagem, rolando mais um d20 e mantendo o maior ou o menor. Só o autor da rolagem e o GM os veem."
           },
+          "collapseRepeatedRolls": {
+            "label": "Recolher rolagens repetidas",
+            "hint": "Quando uma atividade é rolada mais de uma vez no mesmo cartão, como Rajada de Golpes, mostra por completo apenas o ataque e o dano mais recentes. Os anteriores ficam recolhidos ao título numerado e ao total; clique no título para expandir."
+          },
           "applyBladeRunnerTweaks": {
             "label": "Aplicar ajustes de UI ao sistema Blade Runner",
             "hint": "Ative para aplicar ajustes de UI e mudanças de estilo às fichas e janelas do Blade Runner"
@@ -953,7 +957,15 @@
         "retroChanged": "Alterado depois da rolagem",
         "retroFailed": "Não foi possível alterar a rolagem.",
         "normalRoll": "Normal",
-        "noRecordedTargets": "Esta rolagem não registrou alvos na cena atual."
+        "noRecordedTargets": "Esta rolagem não registrou alvos na cena atual.",
+        "toggleRoll": "Mostrar ou ocultar esta rolagem",
+        "addBonus": "Adicionar um bônus",
+        "bonusFormula": "Fórmula da rolagem",
+        "bonusPlaceholder": "digite uma fórmula ou selecione abaixo",
+        "applyBonus": "Adicionar bônus",
+        "bonusInvalid": "A fórmula do bônus não é válida.",
+        "bonusFailed": "Não foi possível adicionar o bônus.",
+        "bonusAdded": "Bônus após a rolagem"
       }
     }
   }
