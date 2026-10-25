@@ -344,12 +344,30 @@ body.crlngn-ui{
   /*
   .standard-form input[type=checkbox]:checked:before,
   .standard-form input[type=radio]:checked:before,*/
-  /* A ticked box keeps core's duotone glyphs, the box in warm-2 with the check in the text colour
-     on top, so it has the same size and place as the unticked box at any --checkbox-size */
-  input[type=checkbox]:checked {
+  /* A ticked box is the unticked box's solid square glyph in warm-2 with a solid check centred on
+     it, so it keeps the same size and place at any --checkbox-size (core's duotone square-check
+     is drawn smaller than the square on v13). Disabled and read-only boxes keep core's colour */
+  input[type=checkbox]:checked:not(:disabled, [readonly]) {
     --checkbox-checked-color: var(--color-warm-2);
+  }
+  input[type=checkbox]:checked {
     &::after {
+      content: "\f0c8";
+      font-family: var(--font-awesome);
+      font-weight: var(--checkbox-font-weight);
       font-size: var(--checkbox-size);
+      color: var(--checkbox-checked-color);
+    }
+    &::before {
+      content: "\f00c";
+      font-family: var(--font-awesome);
+      font-weight: var(--checkbox-font-weight);
+      font-size: calc(var(--checkbox-size) * 0.55);
+      line-height: var(--checkbox-size);
+      width: calc(var(--checkbox-size) * 0.875);
+      text-align: center;
+      color: var(--color-text-primary);
+      z-index: 1;
     }
   }
 
