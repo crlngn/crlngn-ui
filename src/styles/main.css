@@ -2390,3 +2390,17 @@ body.crlngn-ui #sidebar-tabs menu li.crlngn-hidden-tab {
 #crlngn-color-picker .crlngn-override-add:hover {
   background: var(--color-secondary-25);
 }
+
+/* Shared window styles (@crlngn/window-styles): on each window the kit styles, its surfaces and
+   text follow Carolingian UI's theme background (the custom secondary colour when it is applied to
+   backgrounds), in light and dark. Unlayered, so this wins over Swipe's mapping */
+body.crlngn-ui .application.cws {
+  --cws-ground: var(--background);
+  --cws-surface: color-mix(in srgb, var(--background) 94%, var(--color-text-primary));
+  --cws-field: color-mix(in srgb, var(--background) 88%, var(--color-text-primary));
+  --cws-pressed: color-mix(in srgb, var(--background) 80%, var(--color-text-primary));
+  --cws-hairline: color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+  --cws-text: var(--color-text-primary);
+  --cws-text-2: color-mix(in srgb, var(--color-text-primary) 70%, var(--background));
+  --cws-text-3: color-mix(in srgb, var(--color-text-primary) 55%, var(--background));
+}
