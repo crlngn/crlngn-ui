@@ -39,6 +39,37 @@
   --cws-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
+/* Light theme: Foundry's applications set to light (body.theme-light), or a window Foundry themes
+   light itself. A window themed dark inside a light page gets the dark palette back */
+:where(body.crlngn-ws.theme-light),
+:where(body.crlngn-ws .application.themed.theme-light) {
+  --cws-ground: #f4f3f6;
+  --cws-surface: #ffffff;
+  --cws-field: #e8e6ec;
+  --cws-pressed: #d9d6df;
+  --cws-hairline: rgba(0, 0, 0, 0.08);
+
+  --cws-text: #1e1d21;
+  --cws-text-2: #4d4a54;
+  --cws-text-3: #6e6a76;
+
+  --cws-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+:where(body.crlngn-ws.theme-light .application.themed.theme-dark) {
+  --cws-ground: #1e1d21;
+  --cws-surface: #252428;
+  --cws-field: #302f33;
+  --cws-pressed: #403f42;
+  --cws-hairline: rgba(255, 255, 255, 0.05);
+
+  --cws-text: #ffffff;
+  --cws-text-2: #aaaaaa;
+  --cws-text-3: #888888;
+
+  --cws-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
 /* Tablets and desktops (at least 768px wide and 600px tall): a compact scale; the defaults above
    are sized for touch on phones */
 @media (min-width: 768px) and (min-height: 600px) {
