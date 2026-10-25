@@ -936,6 +936,7 @@ body.crlngn-ui{
     overflow: auto;
     min-height: 2.25rem;
     padding: 0.5rem 0;
+    flex: 0 0 auto;
     
     &::-webkit-scrollbar {
       display: none !important;
