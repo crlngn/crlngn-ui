@@ -122,7 +122,7 @@ body.crlngn-ws .application.cws:not(.crlngn-ws-off) fieldset > legend {
   font: 600 var(--font-size-14)/1.2 var(--cws-font);
   letter-spacing: 0.06em;
   text-transform: none;
-  color: var(--cws-accent);
+  color: var(--cws-link);
 }
 
 body.crlngn-ws .application.cws:not(.crlngn-ws-off) .form-group > label {
@@ -583,7 +583,7 @@ body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .form-field
     padding: 0;
     justify-content: flex-start;
     background: transparent;
-    color: var(--cws-accent);
+    color: var(--cws-link);
     font: 500 13px/1.4 var(--cws-font);
     text-decoration: underline;
     text-underline-offset: 2px;

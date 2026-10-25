@@ -18,6 +18,7 @@
   --cws-accent: var(--color-warm-2, #4e8b9e);
   --cws-on-accent: #ffffff;
   --cws-accent-40: color-mix(in srgb, var(--cws-accent) 40%, transparent);
+  --cws-link: var(--color-text-hyperlink, var(--cws-accent));
 
   --cws-radius-window: 12px;
   --cws-radius-field: 8px;
