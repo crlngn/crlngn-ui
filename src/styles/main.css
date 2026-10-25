@@ -2404,3 +2404,19 @@ body.crlngn-ui .application.cws {
   --cws-text-2: color-mix(in srgb, var(--color-text-primary) 70%, var(--background));
   --cws-text-3: color-mix(in srgb, var(--color-text-primary) 55%, var(--background));
 }
+
+/* Foundry keeps window headers dark in the light theme (--color-header-background is
+   --color-dark-3); light sidebar popouts (#journal-popout and the other directories) take a header
+   in their own colours instead */
+body.crlngn-ui .application.sidebar-popout.theme-light > .window-header {
+  background: transparent;
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-border-light-2, rgba(0, 0, 0, 0.1));
+
+  & .window-title, & .header-control {
+    color: inherit;
+  }
+  &, & > *, & .window-title > * {
+    text-shadow: none;
+  }
+}
