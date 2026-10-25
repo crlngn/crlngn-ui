@@ -20,6 +20,7 @@ import { SettingsOtherModules } from "./SettingsOtherModules.mjs";
 import { SettingsThemes } from "./SettingsThemes.mjs";
 import { SheetsUtil } from "./SheetsUtil.mjs";
 import { JournalUtil } from "./JournalUtil.mjs";
+import { WindowStylesUtil } from "./WindowStylesUtil.mjs";
 import { SidebarTabs } from "./SidebarUtil.mjs";
 import { TopNavigation } from "./TopNavUtil.mjs";
 import { ColorPickerUtil } from "./ColorPickerUtil.mjs";
@@ -749,6 +750,8 @@ export class SettingsUtil {
         SheetsUtil.applyThemeToSheets(value); break;
       case SETTINGS.enableJournalStyles.tag:
         JournalUtil.applyJournalStyles(value); break;
+      case SETTINGS.windowStyles.tag:
+        WindowStylesUtil.apply(value); break;
       case SETTINGS.useHorizontalSheetTabs.tag:
         SheetsUtil.applyHorizontalSheetTabs(value); break;
       case SETTINGS.compactActivityCards.tag:

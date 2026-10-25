@@ -1,0 +1,32 @@
+/*
+ * Window styles: must-win rules. Imported into the cascade layer layouts.crlngn-ws. For
+ * !important declarations the earlier layer wins, so these beat a game system's (system layer),
+ * a module's (modules layer) and an unlayered stylesheet's !important, whatever their
+ * specificity. Only !important declarations belong here; a normal declaration in this layer
+ * loses to every system and module. Add a rule only for a property something else is seen
+ * forcing on the allowlisted windows.
+ */
+
+/* Narrow category browsers rely on display: contents for aside and .main (base.css) */
+@container cws-window (max-width: 599px) {
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) > .window-content > :is(aside, .main) {
+    display: contents !important;
+  }
+
+  /* The category band bleeds into the window's gutters and pads its rows back in line; Carolingian
+     UI sets width and padding on .tabs.vertical with selectors that outrank base.css */
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside > nav.tabs {
+    width: auto !important;
+    margin-left: calc(-1 * var(--cws-gutter)) !important;
+    margin-right: calc(-1 * var(--cws-gutter)) !important;
+    padding-left: var(--cws-gutter) !important;
+    padding-right: var(--cws-gutter) !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+  }
+
+  /* More than five categories: room for the last row to scroll clear of the bottom fade */
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside > nav.tabs:focus-within:has(> button:nth-child(6)) {
+    padding-bottom: 36px !important;
+  }
+}

@@ -1,0 +1,635 @@
+/*
+ * Window styles: frame, header, fields, hints and footers for allowlisted ApplicationV2 windows
+ * (the kit adds .cws to them) while body.crlngn-ws is set. Imported unlayered. Every selector
+ * starts with `body.crlngn-ws .application.cws:not(.crlngn-ws-off)` (specificity 0,4,1) so it
+ * wins over Foundry's layered styles and over a host's unlayered `body.x .application:not(...)`
+ * rules. Markup is never assumed beyond Foundry's own templates: only display, grid placement
+ * and order change; nothing is moved in the DOM. Must-win !important rules live in priority.css.
+ */
+
+/* Frame */
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) {
+  background: var(--cws-ground);
+  color: var(--cws-text);
+  border: 0;
+  border-radius: var(--cws-radius-window);
+  box-shadow: var(--cws-shadow);
+  font-family: var(--cws-font);
+}
+
+body.crlngn-ws .application.cws.dialog:not(.crlngn-ws-off) {
+  background: var(--cws-surface);
+}
+
+/* Header: small inert icon, centred one-line title over an accent hairline, then the controls */
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) > .window-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 56px;
+  margin: 0 var(--cws-gutter);
+  padding: 6px 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--cws-accent-40);
+  color: var(--cws-text);
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) > .window-header .window-icon {
+  flex: none;
+  font-size: 14px;
+  color: var(--cws-text-3);
+  pointer-events: none;
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) > .window-header .window-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+  font: 600 1.15rem/1.25 var(--cws-font);
+  letter-spacing: 0.01em;
+  color: var(--cws-text);
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) > .window-header .header-control {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  border-radius: var(--cws-radius-field);
+  box-shadow: none;
+  color: var(--cws-text-2);
+  font-size: 16px;
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) > .window-header .header-control:hover {
+  background: var(--cws-field);
+  color: var(--cws-text);
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) > .window-header .header-control[data-action="close"] {
+  color: var(--cws-text);
+}
+
+/* Content */
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) > .window-content {
+  background: transparent;
+  color: var(--cws-text);
+  padding: var(--cws-gutter);
+}
+
+/* Fields */
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) :is(input:is([type="text"], [type="search"], [type="number"], [type="password"], [type="email"], [type="url"], :not([type])), select, textarea) {
+  min-height: var(--cws-control);
+  padding: 0 12px;
+  background: var(--cws-field);
+  color: var(--cws-text);
+  border: 0;
+  border-radius: var(--cws-radius-field);
+  box-shadow: none;
+  font: 400 15px/1.3 var(--cws-font);
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) textarea {
+  padding: 10px 12px;
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) :is(input, select, textarea, button):focus-visible {
+  outline: 2px solid var(--cws-accent);
+  outline-offset: 1px;
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) fieldset {
+  margin: 1rem 0 var(--cws-gutter) 0;
+  padding: 0.5rem 1rem 1rem 1rem;
+  border: 1px solid var(--cws-accent-40);
+  min-width: 0;
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) fieldset > legend {
+  margin: 0 0 8px;
+  padding: 0;
+  font: 600 var(--font-size-14)/1.2 var(--cws-font);
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: var(--cws-accent);
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) .form-group > label {
+  font: 500 15px/1.25 var(--cws-font);
+  color: var(--cws-text);
+}
+
+/* Hints: two lines, then a caret; the kit marks long ones and toggles them open. Skipped in
+   windows where Carolingian UI shows hints as tooltips (.crlngn-hints). */
+body.crlngn-ws .application.cws:not(.crlngn-ws-off, .crlngn-hints) p.hint {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin: 4px 0 0;
+  font: 400 13px/1.4 var(--cws-font);
+  color: var(--cws-text-2);
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off, .crlngn-hints) p.hint.cws-hint-long {
+  position: relative;
+  padding-right: 22px;
+  cursor: pointer;
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off, .crlngn-hints) p.hint.cws-hint-long::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 14px;
+  height: 14px;
+  background-color: var(--cws-text-2);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: transform 150ms ease;
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off, .crlngn-hints) p.hint.cws-hint-open {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off, .crlngn-hints) p.hint.cws-hint-open::after {
+  transform: rotate(180deg);
+}
+
+/* Footers: uppercase text buttons, no icons (icon-only buttons, flagged .cws-icon-only by the kit,
+   keep theirs); the default action takes the accent */
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) .form-footer {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 12px 0 0;
+  border: 0;
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) .form-footer > button {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: var(--cws-control);
+  margin: 0;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cws-field);
+  color: var(--cws-text);
+  border: 0;
+  border-radius: var(--cws-radius-field);
+  box-shadow: none;
+  font: 600 13px/1.2 var(--cws-font);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) .form-footer > button:not(.cws-icon-only) > i {
+  display: none;
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) .form-footer > button:hover {
+  background: var(--cws-pressed);
+  color: var(--cws-text);
+}
+
+body.crlngn-ws .application.cws.dialog:not(.crlngn-ws-off) .form-footer > button[autofocus],
+body.crlngn-ws .application.cws:not(.dialog, .crlngn-ws-off) .form-footer > button[type="submit"] {
+  background: var(--cws-accent);
+  color: var(--cws-on-accent);
+}
+
+body.crlngn-ws .application.cws:not(.crlngn-ws-off) .form-footer > button:disabled {
+  opacity: 0.5;
+}
+
+/* DialogV2 body text */
+body.crlngn-ws .application.cws.dialog:not(.crlngn-ws-off) .dialog-content {
+  font: 400 16px/1.5 var(--cws-font);
+  color: var(--cws-text);
+}
+
+body.crlngn-ws .application.cws.dialog:not(.crlngn-ws-off) .dialog-content > p {
+  margin: 0 0 8px;
+}
+
+/* Category browsers (Game Settings, Configure Controls): sized by the window, not the screen */
+body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) {
+  container: cws-window / inline-size;
+}
+
+body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) > .window-content {
+  gap: var(--cws-gutter);
+  padding-bottom: var(--cws-gutter);
+}
+
+body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside {
+  gap: 8px;
+  border: 0;
+  background: transparent;
+}
+
+body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside search input {
+  width: 100%;
+}
+
+body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) nav.tabs {
+  gap: 4px;
+  border: 0;
+}
+
+body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) nav.tabs > button {
+  min-height: var(--cws-control);
+  margin: 0;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: transparent;
+  color: var(--cws-text);
+  border: 0;
+  border-radius: var(--cws-radius-field);
+  box-shadow: none;
+  text-align: left;
+  font: 500 14px/1.25 var(--cws-font);
+}
+
+body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) nav.tabs > button.active {
+  background: var(--cws-accent);
+  color: var(--cws-on-accent);
+}
+
+body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) nav.tabs > button .count {
+  flex: none;
+  font-weight: 400;
+  color: var(--cws-text-2);
+}
+
+body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) nav.tabs > button.active .count {
+  color: inherit;
+  opacity: 0.8;
+}
+
+body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group {
+  margin: 0;
+}
+
+body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .form-fields > button {
+  width: 100%;
+  min-height: var(--cws-control);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--cws-field);
+  color: var(--cws-text);
+  border: 0;
+  border-radius: var(--cws-radius-field);
+  box-shadow: none;
+  font: 500 14px/1.25 var(--cws-font);
+}
+
+/* Wide window: category list beside rows of label + hint (5 parts) and control (4 parts) */
+@container cws-window (min-width: 600px) {
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside {
+    flex: 0 0 25%;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 4fr);
+    grid-template-rows: minmax(min-content, 1fr) auto;
+    column-gap: var(--cws-gutter);
+    row-gap: 2px;
+    align-content: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--cws-hairline);
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group > label {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group > .form-fields {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    justify-content: flex-end;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group > p.hint {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+  }
+}
+
+/* Narrow window: search, a collapsible category list, cards and tiles, then both footers */
+@container cws-window (max-width: 599px) {
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) > .window-content {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: auto minmax(0, auto) auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "search search search search"
+      "nav nav nav nav"
+      "filters filters filters filters"
+      "main main main main"
+      "reset reset save save";
+    column-gap: 12px;
+    row-gap: 12px;
+    overflow: hidden;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) > .window-content > aside,
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) > .window-content > .main {
+    display: contents;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside > search {
+    grid-area: search;
+  }
+
+  /* Category list: a full-width band (bleeds into the window's gutters, padded back so the rows
+     line up with the rest of the window) holding a column that shows only the active category
+     and a caret; tapping it moves focus into the list (:focus-within) and opens it, and it closes
+     once focus leaves */
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside > nav.tabs {
+    grid-area: nav;
+    flex-direction: column;
+    gap: 4px;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    margin: 0 calc(-1 * var(--cws-gutter));
+    padding: 8px var(--cws-gutter);
+    background: var(--cws-field);
+    overflow: visible;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside > nav.tabs > button {
+    width: 100%;
+    background: transparent;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside > nav.tabs > button.active {
+    background: var(--cws-accent);
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside > nav.tabs:not(:focus-within) > button:not(.active) {
+    display: none;
+  }
+
+  /* Open list: at most five rows, or less when the window has less room (its grid row can shrink),
+     then it scrolls. With more than five rows the bottom fades and a little extra space (priority.css) lets
+     the last row scroll clear of the fade; where scroll-driven animations exist, the fade instead
+     follows the scroll (below), so it also shows when a short window makes fewer rows scroll */
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside > nav.tabs:focus-within {
+    max-height: calc(5 * var(--cws-control) + 4 * 4px + 16px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside > nav.tabs:focus-within::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside > nav.tabs:focus-within:has(> button:nth-child(6)) {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 36px), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 36px), transparent);
+  }
+
+  @supports (animation-timeline: scroll()) {
+    body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside > nav.tabs:focus-within {
+      -webkit-mask-image: none;
+      mask-image: none;
+      animation: cws-scroll-fade linear both;
+      animation-timeline: scroll(self);
+    }
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside > nav.tabs > button.no-matches {
+    opacity: 0.5;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside > nav.tabs > button.active::after {
+    content: "";
+    flex: none;
+    width: 14px;
+    height: 14px;
+    background-color: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+    transition: transform 150ms ease;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside > nav.tabs:focus-within > button.active::after {
+    transform: rotate(180deg);
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside > nav.tabs > button > span:first-child {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside > .form-footer {
+    grid-area: reset;
+    padding: 0;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .main > nav.filters {
+    grid-area: filters;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .main > .categories {
+    grid-area: main;
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .main > .form-footer {
+    grid-area: save;
+    padding: 0;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside:not(:has(> .form-footer)) ~ .main > .form-footer {
+    grid-column: 1 / -1;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories > .tab.active {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    align-content: start;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 12px;
+    row-gap: 4px;
+    padding: 12px;
+    background: var(--cws-surface);
+    border: 0;
+    border-radius: var(--cws-radius-field);
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group > label {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group > p.hint {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group > .form-fields {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    margin-top: 4px;
+  }
+
+  /* Checkbox rows: label and hint on the left, the box on the right */
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group:has(> .form-fields > input[type="checkbox"]) > label,
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group:has(> .form-fields > input[type="checkbox"]) > p.hint {
+    grid-column: 1;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group:has(> .form-fields > input[type="checkbox"]) > .form-fields {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    margin-top: 0;
+  }
+
+  /* Submenus: a full-width card with the setting's name, the button's text as an accent link
+     under it and a caret on the right. The button's ::before covers the card, so a tap anywhere
+     on it opens the submenu; the hint stays in the DOM, hidden visually */
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group:has(> .form-fields > button[data-action="openSubmenu"]) {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr) 20px;
+    min-height: 60px;
+    align-content: center;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group:has(> .form-fields > button[data-action="openSubmenu"])::after {
+    content: "";
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    width: 20px;
+    height: 20px;
+    background-color: var(--cws-text-2);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+    pointer-events: none;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group:has(> .form-fields > button[data-action="openSubmenu"]) > label {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group:has(> .form-fields > button[data-action="openSubmenu"]) > p.hint {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group:has(> .form-fields > button[data-action="openSubmenu"]) > .form-fields {
+    position: static;
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: 0;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .form-fields > button[data-action="openSubmenu"] {
+    position: static;
+    width: auto;
+    min-height: 0;
+    padding: 0;
+    justify-content: flex-start;
+    background: transparent;
+    color: var(--cws-accent);
+    font: 500 13px/1.4 var(--cws-font);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .form-fields > button[data-action="openSubmenu"]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--cws-radius-field);
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .form-fields > button[data-action="openSubmenu"] > i {
+    display: none;
+  }
+
+  /* The button repeats the setting's name (the kit sets .cws-submenu-same): show the name once.
+     The text stays for screen readers and the button keeps covering the card */
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group.cws-submenu-same > .form-fields {
+    grid-row: 1;
+    height: 0;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group.cws-submenu-same > .form-fields > button > span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* Scroll fade for the open category list: bottom edge at the start, both edges while scrolling,
+   top edge at the end. A scroll timeline is inactive without overflow, so nothing fades then */
+@keyframes cws-scroll-fade {
+  0% {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 36px), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 36px), transparent);
+  }
+  2%, 98% {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 36px, #000 calc(100% - 36px), transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 36px, #000 calc(100% - 36px), transparent);
+  }
+  100% {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 36px);
+    mask-image: linear-gradient(to bottom, transparent, #000 36px);
+  }
+}

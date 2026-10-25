@@ -309,13 +309,15 @@ export function getSettings() {
         "playerColorTheme",
         "useGlassEffect",
         "glassTranslucence",
-        "enableJournalStyles"
+        "enableJournalStyles",
+        "windowStyles"
       ],
       default: {
         playerColorTheme: "",
         useGlassEffect: false,
         glassTranslucence: 0.7,
-        enableJournalStyles: true
+        enableJournalStyles: true,
+        windowStyles: false
       },
       scope: SETTING_SCOPE.client,
       config: false,
@@ -1944,6 +1946,16 @@ export function getSettings() {
       propType: Boolean,
       default: true,
       scope: SETTING_SCOPE.user,
+      config: false,
+      requiresReload: false
+    },
+    windowStyles: {
+      tag: "v2-window-styles",
+      label: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.windowStyles.label"),
+      hint: game.i18n.localize("CRLNGN_UI.settings.themeAndStylesMenu.fields.windowStyles.hint"),
+      propType: Boolean,
+      default: false,
+      scope: SETTING_SCOPE.client,
       config: false,
       requiresReload: false
     },

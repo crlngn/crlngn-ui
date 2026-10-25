@@ -82,7 +82,8 @@ export default defineConfig({
       { src: "src/templates", dest: "dist" },
       { src: "shared/dnd5e-compact-cards/templates/*", dest: "dist/templates" },
       { src: "src/lang", dest: "dist" },
-      { src: "src/assets", dest: "dist" }
+      { src: "src/assets", dest: "dist" },
+      { src: "node_modules/@crlngn/window-styles/styles/*", dest: "dist/window-styles" }
     ],
     hook: "writeBundle",
   })

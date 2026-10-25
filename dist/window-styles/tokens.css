@@ -1,0 +1,30 @@
+/*
+ * Window styles tokens. Defaults come from the Swipe VTT design system. Imported into the
+ * sublayer modules.crlngn-ws and kept at zero specificity with :where(), so a host module maps
+ * its own theme by redefining them on body, from the modules layer or unlayered
+ * (e.g. body.swipe-vtt { --cws-accent: var(--mobile-accent); }).
+ */
+:where(body.crlngn-ws) {
+  --cws-ground: #1e1d21;
+  --cws-surface: #252428;
+  --cws-field: #302f33;
+  --cws-pressed: #403f42;
+  --cws-hairline: rgba(255, 255, 255, 0.05);
+
+  --cws-text: #ffffff;
+  --cws-text-2: #aaaaaa;
+  --cws-text-3: #888888;
+
+  --cws-accent: var(--color-warm-2, #4e8b9e);
+  --cws-on-accent: #ffffff;
+  --cws-accent-40: color-mix(in srgb, var(--cws-accent) 40%, transparent);
+
+  --cws-radius-window: 12px;
+  --cws-radius-field: 8px;
+  --cws-radius-pill: 18px;
+  --cws-control: 44px;
+  --cws-gutter: 16px;
+
+  --cws-font: var(--crlngn-font-family, "Work Sans"), Arial, sans-serif;
+  --cws-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
