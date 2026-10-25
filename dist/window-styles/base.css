@@ -311,6 +311,11 @@ body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .form-field
 @container cws-window (min-width: 600px) {
   body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside {
     flex: 0 0 25%;
+    padding-right: 0;
+  }
+
+  body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) aside nav.tabs {
+    padding: 1rem var(--scroll-margin) 1rem 0;
   }
 
   body.crlngn-ws .application.cws.category-browser:not(.crlngn-ws-off) .categories .form-group {
