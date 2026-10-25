@@ -34,7 +34,7 @@
     "watch": "^1.0.2"
   },
   "dependencies": {
-    "@crlngn/window-styles": "github:crlngn/crlngn-window-styles#v0.2.1",
+    "@crlngn/window-styles": "github:crlngn/crlngn-window-styles#v0.2.2",
     "postcss-custom-properties": "^14.0.4",
     "postcss-discard-duplicates": "^7.0.1",
     "postcss-nesting": "^13.0.1",
