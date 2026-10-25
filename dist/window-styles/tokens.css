@@ -24,8 +24,34 @@
   --cws-radius-field: 8px;
   --cws-radius-pill: 18px;
   --cws-control: 44px;
+  --cws-header: 56px;
+
+  --cws-size-title: 1.15rem;
+  --cws-size-body: 16px;
+  --cws-size-label: 15px;
+  --cws-size-field: 15px;
+  --cws-size-nav: 14px;
+  --cws-size-button: 13px;
+  --cws-size-hint: 13px;
   --cws-gutter: 16px;
 
   --cws-font: var(--crlngn-font-family, "Work Sans"), Arial, sans-serif;
   --cws-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Tablets and desktops (at least 768px wide and 600px tall): a compact scale; the defaults above
+   are sized for touch on phones */
+@media (min-width: 768px) and (min-height: 600px) {
+  :where(body.crlngn-ws) {
+    --cws-control: 36px;
+    --cws-header: 44px;
+
+    --cws-size-title: 1rem;
+    --cws-size-body: 14px;
+    --cws-size-label: 14px;
+    --cws-size-field: 14px;
+    --cws-size-nav: 13px;
+    --cws-size-button: 12px;
+    --cws-size-hint: 12px;
+  }
 }
