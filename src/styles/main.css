@@ -94,10 +94,6 @@ body.crlngn-ui {
     color: unset;
   }
 
-  input[type="checkbox"]:checked::after {
-    content: "";
-  }
-
   .sidebar-tab {
     h4.dice-total{
       font-weight: 600;
@@ -338,15 +334,13 @@ body.crlngn-ui{
   /*
   .standard-form input[type=checkbox]:checked:before,
   .standard-form input[type=radio]:checked:before,*/
-  input[type=checkbox]:checked:before {
-    color: var(--color-text-primary);
-    background: var(--color-warm-2);
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 1.1rem;
-    height: 1.1rem;
-    position: absolute;
+  /* A ticked box keeps core's duotone glyphs, the box in warm-2 with the check in the text colour
+     on top, so it has the same size and place as the unticked box at any --checkbox-size */
+  input[type=checkbox]:checked {
+    --checkbox-checked-color: var(--color-warm-2);
+    &::after {
+      font-size: var(--checkbox-size);
+    }
   }
 
   input[type=radio]:checked:before {
