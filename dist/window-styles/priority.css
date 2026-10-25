@@ -30,3 +30,12 @@
     padding-bottom: 36px !important;
   }
 }
+
+/* A window marked after Foundry has already styled it would animate from core's look to the kit's;
+   the kit sets .cws-settling for its first two frames */
+body.crlngn-ws .application.cws.cws-settling,
+body.crlngn-ws .application.cws.cws-settling *,
+body.crlngn-ws .application.cws.cws-settling *::before,
+body.crlngn-ws .application.cws.cws-settling *::after {
+  transition: none !important;
+}
