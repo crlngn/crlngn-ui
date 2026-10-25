@@ -365,6 +365,10 @@
             "label": "Apply styles to journal sheets",
             "hint": "Enable to apply Carolingian UI styling to journal entry sheets. Disable if third-party journal modules have styling conflicts."
           },
+          "windowStyles": {
+            "label": "Swipe Window Styles",
+            "hint": "Give Foundry's dialogs and settings windows the Swipe VTT look: centred titles, filled fields and hints that expand on tap. Actor, item and journal sheets keep their own style. With Swipe VTT installed, the look stays on until its Swipe Window Styles setting is off too."
+          },
           "customizeColors": "Customize Colors",
           "customizeHint": "Click to open the color picker and create custom theme colors",
           "adjustOtherModules": {

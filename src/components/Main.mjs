@@ -26,6 +26,7 @@ import { SheetsUtil } from "./SheetsUtil.mjs";
 import { HintTooltipUtil } from "./HintTooltipUtil.mjs";
 import { BottomDockUtil } from "./BottomDockUtil.mjs";
 import { JournalUtil } from "./JournalUtil.mjs";
+import { WindowStylesUtil } from "./WindowStylesUtil.mjs";
 import { JournalPageUtil } from "./JournalPageUtil.mjs";
 import { CompactNotifications } from "./NotificationsUtil.mjs";
 import { BroadcastView } from "./BroadcastViewUtil.mjs";
@@ -178,6 +179,8 @@ export class Main {
 
       return;
     }
+
+    WindowStylesUtil.init();
 
     // Check if we're in stream mode
     const isStreamMode = document.body.classList.contains('stream');

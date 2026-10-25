@@ -45,6 +45,12 @@
       <p class="hint">{{fields.enableJournalStyles.hint}}</p>
   </div>
 
+  <div class="form-group">
+      <label for="windowStyles">{{fields.windowStyles.label}}</label>
+      <input type="checkbox" name="windowStyles" {{#if windowStyles}}checked{{/if}} {{#if fields.windowStyles.isLocked}}disabled{{/if}} />
+      <p class="hint">{{fields.windowStyles.hint}}</p>
+  </div>
+
   {{#if isGM}}
   <p>&nbsp;</p>
   <h4><i class="fas fa-globe"></i> {{localize "CRLNGN_UI.ui.worldSettingsLabel"}}</h4>
