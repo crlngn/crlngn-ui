@@ -28,6 +28,7 @@
       "macroBarTooltipKeepOpen": "Keep open",
       "macroBarTooltipAutoHide": "Hide",
       "enforcementTooltip": "Click to cycle lock state. Right-click (or Alt+Click) to toggle GM mode",
+      "lockedByGM": "Locked by GM",
       "reset": "Reset",
       "save": "Save",
       "reloadButton": "Reload",
