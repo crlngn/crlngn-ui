@@ -4,18 +4,21 @@ set -euo pipefail
 BUMP_TYPE="patch"
 NOTES_ARG=""
 SKIP_BUMP=0
+SKIP_PARITY=0
 while [ $# -gt 0 ]; do
   case "$1" in
     patch|minor|major) BUMP_TYPE="$1"; shift ;;
+    --skip-parity) SKIP_PARITY=1; shift ;;
     -m|--msg|--message)
       if [ $# -lt 2 ]; then echo "Error: $1 requires a value"; exit 1; fi
       NOTES_ARG="$2"; shift 2 ;;
     --msg=*|--message=*) NOTES_ARG="${1#*=}"; shift ;;
     --no-bump|--skip-bump) SKIP_BUMP=1; shift ;;
     -h|--help)
-      echo "Usage: $0 [patch|minor|major] [--msg \"release notes\"] [--no-bump]"
+      echo "Usage: $0 [patch|minor|major] [--msg \"release notes\"] [--no-bump] [--skip-parity]"
+      echo "  --skip-parity  release from main even if the v2 branch is out of sync (the merged release will fail unless v2 is fixed first)"
       exit 0 ;;
-    *) echo "Unknown argument: $1"; echo "Usage: $0 [patch|minor|major] [--msg \"release notes\"] [--no-bump]"; exit 1 ;;
+    *) echo "Unknown argument: $1"; echo "Usage: $0 [patch|minor|major] [--msg \"release notes\"] [--no-bump] [--skip-parity]"; exit 1 ;;
   esac
 done
 
@@ -49,6 +52,23 @@ BASE=$(git merge-base HEAD "origin/$BRANCH")
 if [ "$LOCAL" != "$REMOTE" ] && [ "$REMOTE" != "$BASE" ]; then
   echo "Error: $BRANCH is behind origin/$BRANCH. Pull first."
   exit 1
+fi
+
+# A main release packages the v13 bundle from the v2 branch and ships templates
+# and assets from main only, so v2 must carry the same templates and assets.
+# Catch that here, before anything is bumped, tagged or pushed.
+if [ "$BRANCH" = "main" ]; then
+  if [ "$SKIP_PARITY" -eq 1 ]; then
+    echo "WARNING: skipping the v2 parity check (--skip-parity)."
+  else
+    echo "Checking that v2 is in sync with main..."
+    git fetch origin "+refs/heads/v2:refs/remotes/origin/v2"
+    if ! ./tools/check-branch-parity.sh; then
+      echo
+      echo "Error: the v2 branch is not ready for this release. Port the changes listed above to v2 and push, then run the release again."
+      exit 1
+    fi
+  fi
 fi
 
 if [ "$SKIP_BUMP" -eq 1 ]; then

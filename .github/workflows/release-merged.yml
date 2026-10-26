@@ -32,6 +32,10 @@ jobs:
           path: v13-src
           submodules: true
 
+      # Fail fast, before building anything, if v2 has not been ported.
+      - name: Verify v13 branch is in sync with main (source)
+        run: tools/check-branch-parity.sh . v13-src src/templates src/assets shared/dnd5e-compact-cards/templates
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -53,20 +57,8 @@ jobs:
       # A file that exists only on the v13 branch would be missing from the
       # package, and a file present on both with different content would break
       # one generation, so those two cases fail the release.
-      - name: Verify shared files match between branches
-        run: |
-          check_shared() {
-            local dir="$1"
-            local problems
-            problems=$(diff -rq "dist/$dir" "v13-src/dist/$dir" | grep -v "^Only in dist/$dir" || true)
-            if [ -n "$problems" ]; then
-              echo "$problems"
-              echo "::error::dist/$dir differs between main and $V13_BRANCH. Files only on $V13_BRANCH or with different content on both branches would break one build - align them or namespace them per generation before releasing."
-              exit 1
-            fi
-          }
-          check_shared templates
-          check_shared assets
+      - name: Verify shared files match between branches (dist)
+        run: tools/check-branch-parity.sh dist v13-src/dist templates assets
 
       - name: Merge v13 build into package
         run: |
@@ -126,6 +118,28 @@ jobs:
               }
             }')
           echo "Release API Response: $API_RESPONSE"
+
+      # A failed run leaves a release page with notes but no package. Mark it
+      # so nobody installs from it, and say how to recover.
+      - name: Flag the release as failed
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          gh release edit "$TAG" --prerelease --title "$TAG (release failed - do not install)"
+          echo "::error::Release $TAG was marked as a failed prerelease. Fix the cause (usually: port the change to the v2 branch, then run tools/check-branch-parity.sh), then re-run this workflow run. A successful run restores the title and clears the prerelease flag."
+
+      - name: Clear the failed-release flag
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          if gh release view "$TAG" --json name -q .name | grep -q "release failed"; then
+            gh release edit "$TAG" --prerelease=false --latest --title "$TAG"
+            echo "Restored $TAG after a previously failed run."
+          fi
 
   notify_discord:
     runs-on: ubuntu-latest
