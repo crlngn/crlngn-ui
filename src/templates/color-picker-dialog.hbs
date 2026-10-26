@@ -22,7 +22,8 @@
     <!-- Background Color Option (client setting, shown in both world and player color pickers) -->
     <div class="form-group">
       <label>
-        <input type="checkbox" name="applySecondaryColorToBg" {{#if applySecondaryColorToBg}}checked{{/if}} />
+        {{#if secondaryBgLocked}}<i class="fas fa-lock crlngn-locked-icon" data-tooltip="{{localize 'CRLNGN_UI.ui.lockedByGM'}}"></i>{{/if}}
+        <input type="checkbox" name="applySecondaryColorToBg" {{#if applySecondaryColorToBg}}checked{{/if}} {{#if secondaryBgLocked}}disabled{{/if}} />
         {{localize "CRLNGN_UI.settings.colorPicker.applySecondaryColorToBg.label"}}
       </label>
       <p class="hint">{{localize "CRLNGN_UI.settings.colorPicker.applySecondaryColorToBg.hint"}}</p>

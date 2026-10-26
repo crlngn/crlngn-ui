@@ -767,6 +767,11 @@ export class CombatTrackerManager {
         CombatCarousel.ensureResourceBars(tracker);
       }
 
+      if (!game.combat?.combatants?.size) {
+        CombatTrackerManager.#closeEmptyPopout(combatPopout);
+        return;
+      }
+
       const combatants = tracker?.querySelectorAll(':scope > li.combatant:not(.crlngn-clone)');
       const hasCombatants = combatants && combatants.length > 0;
 
@@ -1389,6 +1394,27 @@ export class CombatTrackerManager {
     state.isDocked = false;
 
     LogUtil.log("Combat tracker undocked", ["parent:", combatPopout.parentElement?.tagName]);
+  }
+
+  /**
+   * Close a popout that has no combatants to show and tell the user why,
+   * instead of leaving an empty carousel on screen
+   * @param {HTMLElement} combatPopout - The combat popout element
+   */
+  static #closeEmptyPopout = (combatPopout) => {
+    if (!CombatTrackerManager.enableCombatTrackerCarousel) return;
+
+    CombatCarousel.cleanup();
+    CombatTrackerManager.#programmaticClose = true;
+    const closeBtn = combatPopout.querySelector('[data-action="close"]');
+    if (closeBtn) {
+      closeBtn.click();
+    } else {
+      ui.combat?.popout?.close();
+    }
+    CombatTrackerManager.#combatTrackerPoppedOut = false;
+    CombatTrackerManager.#programmaticClose = false;
+    ui.notifications?.info(game.i18n.localize('CRLNGN_UI.combat.noCombatants'));
   }
 
   /**

@@ -231,7 +231,7 @@ export class SettingsEnforcement {
             const gmDefaultChanged = lastApplied === undefined || JSON.stringify(lastApplied) !== JSON.stringify(value);
 
             if (gmDefaultChanged) {
-              if (currentValue !== value) {
+              if (JSON.stringify(currentValue) !== JSON.stringify(value)) {
                 SettingsUtil.set(settingTag, value);
                 LogUtil.log(`Applied soft-enforced GM setting: ${settingTag}`, [value]);
                 settingsApplied = true;
@@ -242,7 +242,7 @@ export class SettingsEnforcement {
               LogUtil.log(`Skipping soft-enforced setting (player override preserved): ${settingTag}`, [currentValue]);
             }
           } else if (enforcementState === 'locked' || enforcementState === 'gate') {
-            if (currentValue !== value) {
+            if (JSON.stringify(currentValue) !== JSON.stringify(value)) {
               SettingsUtil.set(settingTag, value);
               LogUtil.log(`Applied ${enforcementState}-enforced GM setting: ${settingTag}`, [value]);
               settingsApplied = true;
