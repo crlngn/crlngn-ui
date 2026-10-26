@@ -1633,9 +1633,14 @@ body.crlngn-ui tags.tagify:is(.pf2e-tagify, .sf2e-tagify) {
   transition: all 0.2s;
 }
 
-#crlngn-ui-settings .open-color-picker:hover {
+#crlngn-ui-settings .open-color-picker:hover:not(:disabled) {
   background: var(--color-warm-2);
   color: var(--color-light-1);
+}
+
+#crlngn-ui-settings .open-color-picker:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* Color Picker Dialog Styles */

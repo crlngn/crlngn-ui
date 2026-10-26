@@ -21,6 +21,15 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
  */ 
 export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   static #element;
+
+  /**
+   * Settings that share a lock icon with another setting's row, keyed by the
+   * row's field name. Locking the row applies the same state to every linked setting
+   * @type {Object<string, string[]>}
+   */
+  static #LINKED_ENFORCEMENT = {
+    playerColorTheme: ['playerCustomThemeColors', 'playerApplySecondaryColorToBg']
+  };
   static #activeTab;
   static #requireReload;
   static selectedTheme;
@@ -836,8 +845,9 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
           return;
         }
 
-        fieldNames = [fieldName];
-        settingTags = [setting.tag];
+        const linkedFields = (ModuleSettings.#LINKED_ENFORCEMENT[fieldName] || []).filter(name => SETTINGS[name]);
+        fieldNames = [fieldName, ...linkedFields];
+        settingTags = [setting.tag, ...linkedFields.map(name => SETTINGS[name].tag)];
         enforcementState = SettingsEnforcement.getEnforcementState(setting.tag) || 'unlocked';
         LogUtil.log(`Processing ${fieldName}`, [{ tag: setting.tag, enforcementState }]);
       }
@@ -889,6 +899,9 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
           if (input) {
             input.disabled = true;
           }
+        });
+        parent.querySelectorAll('.open-color-picker').forEach(btn => {
+          btn.disabled = true;
         });
       }
     });

@@ -1,6 +1,7 @@
 import { MODULE_ID } from "../constants/General.mjs";
 import { LogUtil } from "./LogUtil.mjs";
 import { SettingsUtil } from "./SettingsUtil.mjs";
+import { SettingsEnforcement } from "./SettingsEnforcement.mjs";
 import { getSettings, THEMES, SETTING_SCOPE } from "../constants/Settings.mjs";
 import { GeneralUtil } from "./GeneralUtil.mjs";
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
@@ -86,6 +87,21 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     }
   }
 
+  /**
+   * Whether the player's "apply secondary color to backgrounds" option is locked by the GM.
+   * It follows the lock on the player Color Theme row, so worlds locked before the two
+   * were linked still disable it
+   * @returns {boolean}
+   */
+  #isSecondaryBgLocked() {
+    if (this.scope !== 'player' || game.user?.isGM) return false;
+    const SETTINGS = getSettings();
+    return [SETTINGS.playerColorTheme.tag, SETTINGS.playerApplySecondaryColorToBg.tag].some(tag => {
+      const state = SettingsEnforcement.getEnforcementState(tag);
+      return state === 'locked' || state === 'gate';
+    });
+  }
+
   /** @inheritDoc */
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
@@ -100,6 +116,7 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     
     // Add checkbox states - use local state to preserve unsaved changes
     context.applySecondaryColorToBg = this.applySecondaryColorToBg;
+    context.secondaryBgLocked = this.#isSecondaryBgLocked();
 
     // Add scope so template can conditionally show player-only options
     context.isPlayerScope = this.scope === 'player';
@@ -258,7 +275,7 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
     
     let confirmReload = false;
     // Save applySecondaryColorToBg FIRST so it's available when the color save triggers theme reapply
-    if (data.applySecondaryColorToBg !== undefined) {
+    if (data.applySecondaryColorToBg !== undefined && !this.#isSecondaryBgLocked()) {
       const bgSettingTag = this.scope === 'player'
         ? SETTINGS.playerApplySecondaryColorToBg.tag
         : SETTINGS.applySecondaryColorToBg.tag;

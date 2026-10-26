@@ -198,7 +198,7 @@ body.crlngn-ui.crlngn-combat-tracker {
       border-radius: 6px;
       max-width: calc(100dvw - (2 * var(--sidebar-width)) - (var(--control-item-size)*4));
       .crlngn-no-combatants {
-        color: var(--color-text-light-5);
+        color: var(--color-text-secondary);
         font-size: var(--font-size-12);
         margin: 0;
         padding: 1rem 2rem;
