@@ -3,6 +3,133 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## 4.6.2 — 2026-10-25
+
+### Changed
+
+- An encounter with no combatants closes the combat carousel and shows a
+  "No combatants in encounter" notification, instead of leaving an empty
+  tracker on screen. This applies only with the carousel combat tracker on.
+- The GM's lock on the player Color Theme also covers players' custom colors
+  and the "Apply Secondary color to Foundry interface backgrounds" option.
+  Under a hard lock, Customize Colors and that checkbox are disabled for
+  players. Under a soft lock, players get the GM's choice and can still
+  change it.
+
+### Fixed
+
+- The "No combatants" message in the combat tracker is readable in light mode.
+- Locked settings that hold an object, such as custom colors, are no longer
+  written again for players on every load.
+
+## 4.6.1 — 2026-10-19
+
+### Added
+
+- dnd5e 5.x: compact cards keep every roll when an activity is rolled more
+  than once from the same card, such as Flurry of Blows. A new Collapse
+  repeated rolls setting shows only the newest attack and damage in full, with
+  earlier ones folded to their numbered title and total.
+- dnd5e 5.x: the GM can add a bonus to a compact card's roll after it is made,
+  from a typed formula or a list.
+
+### Fixed
+
+- Effect rows in the apply-effects tray no longer show a border on hover.
+
+## 4.6.0 — 2026-10-18
+
+### Added
+
+- A settings locks API. Other modules can lock the settings of their own
+  menus through `api.settingsLocks` or the `crlngn-ui.settingsLocksReady`
+  hook, with the locks stored in Carolingian UI's world settings.
+- A GM setting, off by default, that adds lock icons to Foundry core's and
+  other modules' client settings in Configure Settings.
+
+### Changed
+
+- 64 personal preferences moved from client to user scope, so they follow the
+  player across devices. Device-specific settings, such as sizes, positions,
+  the camera dock, glass effect and broadcast follow, stay per client. Each
+  player's existing values are copied over once, the first time they load the
+  new version.
+
+## 4.5.5 — 2026-10-17
+
+### Added
+
+- A client setting to turn off resizing the sidebar by dragging its edge. It
+  is on by default and applies without a reload.
+- Call of Cthulhu 7e: roomier padding around chat card buttons, and keeper-only
+  blocks and other whisper, blind and emote panels follow the chat card theme.
+
+### Changed
+
+- The combat carousel fills the whole tracker width with copies of the next
+  combatants in initiative order on both sides, instead of a single copy
+  after the last card.
+- Start and end combat buttons in the docked tracker are 20% shorter.
+
+### Fixed
+
+- Locked and unlocked settings lock icons share a fixed width, so the label no
+  longer shifts when the state changes.
+
+## 4.5.4 — 2026-10-10
+
+### Added
+
+- The sidebar can be resized by dragging its left edge, between 280px and
+  420px. Double-click the edge to restore the default width. The handle is
+  hidden for players when the GM locks the width setting.
+- Other Modules: Baileywiki Content, Baileywiki's Mass Edit and Token Magic FX
+  take the theme accent in place of their orange.
+
+### Changed
+
+- The sidebar width slider goes up to 420px.
+- The docked combat carousel re-fits when the sidebar width changes.
+- Tag inputs have roomier padding.
+
+### Fixed
+
+- The left controls hover area no longer covers module flyouts. Mass Edit's
+  macro bar adjustments only apply with the custom left controls layout.
+
+## 4.5.3 — 2026-10-07
+
+### Changed
+
+- Combat tracker control buttons use a fixed font size.
+- Compact notification pills fit narrow screens.
+- PF2e: the DC and price columns in the crafting formula list are wider.
+
+### Fixed
+
+- Docked combat tracker layout on touch screens.
+- World of Darkness 5e: settings form labels no longer squeeze their fields.
+
+## 4.5.2 — 2026-10-06
+
+### Changed
+
+- Compact notifications are on by default on Foundry v14.
+- A single compact notification shows its whole message in a wider pill.
+  Core and macro notifications, which have no source label, are vertically
+  centered when the stack is spread out. Spreading the stack adds time to each
+  notification instead of pausing it.
+- Settings tabs in module forms fade at whichever edge has more to scroll, and
+  each tab keeps a minimum width.
+- Module settings forms have slightly tighter padding, and chat card buttons
+  smaller text.
+
+### Fixed
+
+- Compact cards have a visible result box border in light mode.
+- The notice about reopening the closed combat carousel is skipped in Swipe
+  VTT phone mode, where the combat tab it points to is hidden.
+
 ## 4.5.1 — 2026-10-04
 
 ### Added
