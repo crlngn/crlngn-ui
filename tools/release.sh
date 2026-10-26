@@ -121,15 +121,26 @@ fi
 git tag -a "$TAG" -m "$TAG"
 git push origin "$BRANCH" "$TAG"
 
-LATEST_FLAG="false"
 if [ "$BRANCH" = "main" ]; then
-  LATEST_FLAG="true"
+  gh release create "$TAG" \
+    --title "$TAG" \
+    --notes "$NOTES" \
+    --target "$BRANCH" \
+    --draft
+
+  gh workflow run release-merged.yml --ref "$BRANCH" -f "tag=$TAG"
+  echo "Draft $TAG created on $BRANCH; the merged release workflow will publish it after verification."
+else
+  LATEST_FLAG="false"
+  if [ "$BRANCH" = "v3" ]; then
+    LATEST_FLAG="true"
+  fi
+
+  gh release create "$TAG" \
+    --title "$TAG" \
+    --notes "$NOTES" \
+    --target "$BRANCH" \
+    --latest="$LATEST_FLAG"
+
+  echo "Done: $TAG released on $BRANCH."
 fi
-
-gh release create "$TAG" \
-  --title "$TAG" \
-  --notes "$NOTES" \
-  --target "$BRANCH" \
-  --latest="$LATEST_FLAG"
-
-echo "Done: $TAG released on $BRANCH."

@@ -5,8 +5,12 @@ name: Release Merged Package (v13 + v14)
 # publishes one release that installs on Foundry v13 and v14+ alike.
 
 on:
-  release:
-    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Draft release tag to build and publish
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -16,26 +20,48 @@ env:
 
 jobs:
   release:
-    if: github.event.release.target_commitish == 'main'
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout main
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7.0.1
         with:
+          ref: ${{ inputs.tag }}
           submodules: true
 
       - name: Checkout v13 source branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7.0.1
         with:
           ref: v2
           path: v13-src
           submodules: true
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7.1.0
         with:
-          node-version: 20
+          node-version: 24
+
+      - name: Verify draft release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Invalid release tag: $TAG"
+            exit 1
+          fi
+
+          RELEASE=$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG")
+          if [ "$(jq -r .draft <<< "$RELEASE")" != "true" ]; then
+            echo "::error::Release $TAG must remain a draft until its assets are built and verified."
+            exit 1
+          fi
+
+          TARGET_BRANCH=$(jq -r .target_commitish <<< "$RELEASE")
+          if [ "$TARGET_BRANCH" != "main" ]; then
+            echo "::error::Merged releases must target main, but $TAG targets $TARGET_BRANCH."
+            exit 1
+          fi
 
       - name: Build v14 bundle and loader
         run: |
@@ -95,8 +121,11 @@ jobs:
           mv "$REPO_NAME" dist
 
       - name: Upload Release Assets
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3.0.3
         with:
+          tag_name: ${{ inputs.tag }}
+          draft: true
+          fail_on_unmatched_files: true
           files: |
             module.zip
             dist/module.json
@@ -104,12 +133,49 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Verify release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          RELEASE=$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG")
+          for asset in module.zip module.json module-updates.json; do
+            if ! jq -e --arg asset "$asset" \
+              '[.assets[] | select(.name == $asset and .size > 0)] | length == 1' \
+              <<< "$RELEASE" >/dev/null; then
+              echo "::error::Release $TAG is missing a non-empty $asset asset."
+              exit 1
+            fi
+          done
+
+      - name: Publish GitHub Release
+        uses: actions/github-script@v9.0.0
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+        with:
+          script: |
+            const release = await github.rest.repos.getReleaseByTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: process.env.RELEASE_TAG
+            });
+            if (!release.data.draft) {
+              throw new Error(`Release ${process.env.RELEASE_TAG} is no longer a draft.`);
+            }
+            await github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: release.data.id,
+              draft: false,
+              make_latest: "true"
+            });
+
       - name: Publish Release to FoundryVTT
         env:
           FOUNDRY_PACKAGE_API_KEY: ${{ secrets.FOUNDRY_PACKAGE_API_KEY }}
         run: |
           echo "Publishing merged release ($VERSION) to FoundryVTT..."
-          API_RESPONSE=$(curl -s -X POST "https://foundryvtt.com/_api/packages/release_version/" \
+          API_RESPONSE=$(curl --fail-with-body --silent --show-error -X POST "https://foundryvtt.com/_api/packages/release_version/" \
             -H "Content-Type: application/json" \
             -H "Authorization: $FOUNDRY_PACKAGE_API_KEY" \
             -d '{
@@ -132,17 +198,19 @@ jobs:
     needs: release
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7.0.1
 
       - name: Get Release Info
         id: get_release
-        uses: actions/github-script@v6
+        uses: actions/github-script@v9.0.0
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
         with:
           script: |
-            const release = await github.rest.repos.getRelease({
+            const release = await github.rest.repos.getReleaseByTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              release_id: context.payload.release.id
+              tag: process.env.RELEASE_TAG
             });
             const releaseData = {
               body: release.data.body || "No release notes provided"
@@ -159,9 +227,9 @@ jobs:
             **New Release for Carolingian UI**
 
             **Repository:** ${{ github.repository }}
-            **Version:** ${{ github.ref_name }}
+            **Version:** ${{ inputs.tag }}
 
             ${{ fromJson(steps.get_release.outputs.result).body }}
 
-            **Release:** https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}
-            **Manifest URL:** https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/module.json
+            **Release:** https://github.com/${{ github.repository }}/releases/tag/${{ inputs.tag }}
+            **Manifest URL:** https://github.com/${{ github.repository }}/releases/download/${{ inputs.tag }}/module.json
