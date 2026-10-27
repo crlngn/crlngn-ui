@@ -1,0 +1,33 @@
+name: Branch Parity (main vs v2)
+
+# The merged release ships templates and assets from main only and requires
+# the v13 branch (v2) to carry the same files. This check runs on every push
+# to either branch so drift shows up as a red check right away, instead of
+# halfway through a release.
+
+on:
+  push:
+    branches: [main, v2]
+  pull_request:
+    branches: [main, v2]
+  workflow_dispatch:
+
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: main
+          submodules: true
+
+      - name: Checkout v2
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: v2
+          path: v13-src
+          submodules: true
+
+      - name: Verify templates and assets match between main and v2
+        run: tools/check-branch-parity.sh . v13-src src/templates src/assets shared/dnd5e-compact-cards/templates

@@ -3,39 +3,104 @@ name: Release Merged Package (v13 + v14)
 # Builds the main branch (v14 bundle + generation loader) together with
 # the v13 bundle from the legacy branch, merges both into a single dist, and
 # publishes one release that installs on Foundry v13 and v14+ alike.
+#
+# Two ways in:
+#
+# 1. Draft flow (tools/release.sh on main). The release is created as a
+#    draft and this workflow is dispatched with its tag. Nothing becomes
+#    public until both bundles build, the shared files match between main
+#    and v2, and all three assets are confirmed attached. Only then is the
+#    GitHub release published and the version sent to FoundryVTT.
+#
+# 2. A release published by hand in the GitHub UI. The workflow still runs
+#    on the published event and packages it in place. Because the page is
+#    already public, a failure marks the release as a failed prerelease.
+#
+# Publishing the draft in flow 1 fires a published event too; that run sees
+# the assets already attached and stops.
 
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag of the draft release to build and publish (e.g. v4.6.3)
+        required: true
+        type: string
 
 permissions:
   contents: write
 
 env:
   V13_BRANCH: v2
+  TAG: ${{ inputs.tag || github.event.release.tag_name }}
 
 jobs:
+  check:
+    if: github.event_name == 'workflow_dispatch' || github.event.release.target_commitish == 'main'
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.inspect.outputs.skip }}
+      draft: ${{ steps.inspect.outputs.draft }}
+    steps:
+      - name: Inspect the release
+        id: inspect
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Invalid release tag: $TAG"
+            exit 1
+          fi
+          # gh release view resolves drafts too; the REST releases/tags endpoint does not.
+          RELEASE=$(gh release view "$TAG" --json isDraft,targetCommitish,assets)
+          DRAFT=$(jq -r .isDraft <<< "$RELEASE")
+          TARGET=$(jq -r .targetCommitish <<< "$RELEASE")
+          ASSETS=$(jq -r '[.assets[] | select(.size > 0) | .name] | sort | join(" ")' <<< "$RELEASE")
+          echo "draft=$DRAFT" >> "$GITHUB_OUTPUT"
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
+          if [ "$TARGET" != "main" ]; then
+            echo "::error::Merged releases must target main, but $TAG targets $TARGET."
+            exit 1
+          fi
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ] && [ "$DRAFT" != "true" ]; then
+            echo "::error::Release $TAG is already published. The dispatch flow only packages drafts; to rebuild a published release, re-run the workflow run that the published event started."
+            exit 1
+          fi
+          if [ "$GITHUB_EVENT_NAME" = "release" ] && [ "$ASSETS" = "module-updates.json module.json module.zip" ]; then
+            echo "Release $TAG already carries its package (published by the draft flow). Nothing to do."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
   release:
-    if: github.event.release.target_commitish == 'main'
+    needs: check
+    if: needs.check.outputs.skip != 'true'
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout main
-        uses: actions/checkout@v3
+      - name: Checkout main at the release tag
+        uses: actions/checkout@v7.0.1
         with:
+          ref: ${{ env.TAG }}
           submodules: true
 
       - name: Checkout v13 source branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7.0.1
         with:
           ref: v2
           path: v13-src
           submodules: true
 
+      # Fail fast, before building anything, if v2 has not been ported.
+      - name: Verify v13 branch is in sync with main (source)
+        run: tools/check-branch-parity.sh . v13-src src/templates src/assets shared/dnd5e-compact-cards/templates
+
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7.1.0
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Build v14 bundle and loader
         run: |
@@ -53,20 +118,8 @@ jobs:
       # A file that exists only on the v13 branch would be missing from the
       # package, and a file present on both with different content would break
       # one generation, so those two cases fail the release.
-      - name: Verify shared files match between branches
-        run: |
-          check_shared() {
-            local dir="$1"
-            local problems
-            problems=$(diff -rq "dist/$dir" "v13-src/dist/$dir" | grep -v "^Only in dist/$dir" || true)
-            if [ -n "$problems" ]; then
-              echo "$problems"
-              echo "::error::dist/$dir differs between main and $V13_BRANCH. Files only on $V13_BRANCH or with different content on both branches would break one build - align them or namespace them per generation before releasing."
-              exit 1
-            fi
-          }
-          check_shared templates
-          check_shared assets
+      - name: Verify shared files match between branches (dist)
+        run: tools/check-branch-parity.sh dist v13-src/dist templates assets
 
       - name: Merge v13 build into package
         run: |
@@ -79,6 +132,10 @@ jobs:
         run: |
           REPO_NAME=$(basename $GITHUB_REPOSITORY)
           VERSION=$(jq -r .version dist/module.json)
+          if [ "v$VERSION" != "$TAG" ]; then
+            echo "::error::dist/module.json says version $VERSION but the release tag is $TAG."
+            exit 1
+          fi
           MIN_VERSION=$(jq -r .compatibility.minimum dist/module.json)
           VERIFIED_VERSION=$(jq -r .compatibility.verified dist/module.json)
           MAX_VERSION=$(jq -r .compatibility.maximum dist/module.json)
@@ -95,21 +152,38 @@ jobs:
           mv "$REPO_NAME" dist
 
       - name: Upload Release Assets
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            module.zip
-            dist/module.json
-            news/module-updates.json
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "$TAG" module.zip dist/module.json news/module-updates.json --clobber
+
+      - name: Verify release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RELEASE=$(gh release view "$TAG" --json assets)
+          for asset in module.zip module.json module-updates.json; do
+            if ! jq -e --arg asset "$asset" \
+              '[.assets[] | select(.name == $asset and .size > 0)] | length == 1' \
+              <<< "$RELEASE" >/dev/null; then
+              echo "::error::Release $TAG is missing a non-empty $asset asset."
+              exit 1
+            fi
+          done
+          echo "All three assets are attached to $TAG."
+
+      # Only now, with the package verified, does a draft become public.
+      - name: Publish GitHub Release
+        if: needs.check.outputs.draft == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release edit "$TAG" --draft=false --latest
 
       - name: Publish Release to FoundryVTT
         env:
           FOUNDRY_PACKAGE_API_KEY: ${{ secrets.FOUNDRY_PACKAGE_API_KEY }}
         run: |
           echo "Publishing merged release ($VERSION) to FoundryVTT..."
-          API_RESPONSE=$(curl -s -X POST "https://foundryvtt.com/_api/packages/release_version/" \
+          API_RESPONSE=$(curl --fail-with-body --silent --show-error -X POST "https://foundryvtt.com/_api/packages/release_version/" \
             -H "Content-Type: application/json" \
             -H "Authorization: $FOUNDRY_PACKAGE_API_KEY" \
             -d '{
@@ -127,22 +201,43 @@ jobs:
             }')
           echo "Release API Response: $API_RESPONSE"
 
+      # A draft that failed simply stays a draft. A release that was already
+      # public is marked so nobody installs from it, with recovery steps.
+      - name: Flag the release as failed
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "$(gh release view "$TAG" --json isDraft -q .isDraft)" = "true" ]; then
+            echo "::error::Release $TAG stays a draft. Fix the cause (usually: port the change to the v2 branch, then run tools/check-branch-parity.sh) and dispatch this workflow again with tag=$TAG."
+          else
+            gh release edit "$TAG" --prerelease --title "$TAG (release failed - do not install)"
+            echo "::error::Release $TAG was marked as a failed prerelease. Fix the cause (usually: port the change to the v2 branch, then run tools/check-branch-parity.sh), then re-run this workflow run. A successful run restores the title and clears the prerelease flag."
+          fi
+
+      - name: Clear the failed-release flag
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view "$TAG" --json name -q .name | grep -q "release failed"; then
+            gh release edit "$TAG" --prerelease=false --latest --title "$TAG"
+            echo "Restored $TAG after a previously failed run."
+          fi
+
   notify_discord:
     runs-on: ubuntu-latest
-    needs: release
+    needs: [check, release]
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
       - name: Get Release Info
         id: get_release
-        uses: actions/github-script@v6
+        uses: actions/github-script@v9.0.0
         with:
           script: |
-            const release = await github.rest.repos.getRelease({
+            const release = await github.rest.repos.getReleaseByTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              release_id: context.payload.release.id
+              tag: process.env.TAG
             });
             const releaseData = {
               body: release.data.body || "No release notes provided"
@@ -159,9 +254,9 @@ jobs:
             **New Release for Carolingian UI**
 
             **Repository:** ${{ github.repository }}
-            **Version:** ${{ github.ref_name }}
+            **Version:** ${{ env.TAG }}
 
             ${{ fromJson(steps.get_release.outputs.result).body }}
 
-            **Release:** https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}
-            **Manifest URL:** https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/module.json
+            **Release:** https://github.com/${{ github.repository }}/releases/tag/${{ env.TAG }}
+            **Manifest URL:** https://github.com/${{ github.repository }}/releases/download/${{ env.TAG }}/module.json
