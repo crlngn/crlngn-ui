@@ -141,15 +141,25 @@ fi
 git tag -a "$TAG" -m "$TAG"
 git push origin "$BRANCH" "$TAG"
 
-LATEST_FLAG="false"
 if [ "$BRANCH" = "main" ]; then
-  LATEST_FLAG="true"
+  # Main releases are packaged by the merged workflow. The release starts as a
+  # draft and only goes public once both bundles build, v2 matches main and
+  # all assets are attached. See .github/workflows/release-merged.yml.
+  gh release create "$TAG" \
+    --title "$TAG" \
+    --notes "$NOTES" \
+    --target "$BRANCH" \
+    --draft
+
+  gh workflow run release-merged.yml --ref "$BRANCH" -f "tag=$TAG"
+  echo "Draft $TAG created on $BRANCH. The merged release workflow will publish it once the package is built and verified:"
+  echo "  https://github.com/$(gh repo view --json nameWithOwner -q .nameWithOwner)/actions/workflows/release-merged.yml"
+else
+  gh release create "$TAG" \
+    --title "$TAG" \
+    --notes "$NOTES" \
+    --target "$BRANCH" \
+    --latest=false
+
+  echo "Done: $TAG released on $BRANCH."
 fi
-
-gh release create "$TAG" \
-  --title "$TAG" \
-  --notes "$NOTES" \
-  --target "$BRANCH" \
-  --latest="$LATEST_FLAG"
-
-echo "Done: $TAG released on $BRANCH."

@@ -17,13 +17,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
         with:
           ref: main
           submodules: true
 
       - name: Checkout v2
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
         with:
           ref: v2
           path: v13-src
