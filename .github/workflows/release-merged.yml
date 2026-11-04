@@ -35,6 +35,8 @@ permissions:
 env:
   V13_BRANCH: v2
   TAG: ${{ inputs.tag || github.event.release.tag_name }}
+  # The check job has no checkout, so gh cannot infer the repository from .git.
+  GH_REPO: ${{ github.repository }}
 
 jobs:
   check:
