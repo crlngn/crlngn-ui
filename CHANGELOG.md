@@ -3,6 +3,18 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## 4.6.3 — 2026-11-03
+
+### Changed
+
+- Context menus opened from character sheets have tighter spacing between
+  items. Other context menus are unchanged.
+
+### Fixed
+
+- dnd5e 5.x with midi-qol: compact cards no longer add their own saves list
+  when midi-qol already shows the targets and their saves on the card.
+
 ## 4.6.2 — 2026-10-25
 
 ### Changed
