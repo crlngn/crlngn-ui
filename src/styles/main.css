@@ -639,6 +639,9 @@ body.crlngn-ui{
         color: var(--color-text-primary);
       }
     }
+    &.dnd5e2 .context-item{
+      padding: 0 .5em;
+    }
   }
 
   #interface.theme-dark {
@@ -660,6 +663,9 @@ body.crlngn-ui{
           background: var(--control-bg-color);
           color: var(--color-text-primary);
         }
+      }
+      &.dnd5e2 .context-item{
+        padding: 0 .5em;
       }
     }
   }
