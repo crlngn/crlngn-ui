@@ -19,7 +19,7 @@ export class ChatCards5eUtil {
   static instance = null;
 
   /** Setting keys whose hint points at the other module when it handles the feature */
-  static SETTING_KEYS = ["compactActivityCards", "collapseCardTags", "labeledCardButtons", "retroAdvantageButtons"];
+  static SETTING_KEYS = ["compactActivityCards", "collapseCardTags", "labeledCardButtons", "retroAdvantageButtons", "collapseRepeatedRolls"];
 
   /**
    * Registers this module's copy of the feature. Must run during the init hook, after settings
@@ -37,7 +37,8 @@ export class ChatCards5eUtil {
         setCompactCards: (value) => ChatCards5eUtil.setCompactCards(value),
         collapseTags: () => SettingsUtil.get(SETTINGS.collapseCardTags.tag) ?? true,
         labeledButtons: () => SettingsUtil.get(SETTINGS.labeledCardButtons.tag) ?? true,
-        retroAdvantage: () => SettingsUtil.get(SETTINGS.retroAdvantageButtons.tag) ?? true
+        retroAdvantage: () => SettingsUtil.get(SETTINGS.retroAdvantageButtons.tag) ?? true,
+        collapseRepeatedRolls: () => SettingsUtil.get(SETTINGS.collapseRepeatedRolls.tag) ?? true
       },
       hooks: {
         renderRoll: HOOKS_CRLNGN.RENDER_COMPACT_ROLL,
@@ -138,5 +139,13 @@ export class ChatCards5eUtil {
    */
   static applyRetroAdvantage(value){
     ChatCards5eUtil.instance?.applyRetroAdvantage(value);
+  }
+
+  /**
+   * Applies the collapse repeated rolls setting
+   * @param {boolean} [value]
+   */
+  static applyCollapseRepeatedRolls(value){
+    ChatCards5eUtil.instance?.applyCollapseRepeatedRolls(value);
   }
 }
