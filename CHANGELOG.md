@@ -3,6 +3,14 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## 4.6.4 — 2026-11-03
+
+### Fixed
+
+- Foundry v13: compact cards catch up with 4.6.1–4.6.3. The Collapse
+  repeated rolls setting, the GM roll bonus and the midi-qol saves fix were
+  missing from the v13 build.
+
 ## 4.6.3 — 2026-11-03
 
 ### Changed
