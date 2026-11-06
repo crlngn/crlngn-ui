@@ -738,7 +738,7 @@
         "label": "系统",
         "title": "配置特定系统选项",
         "hint": "",
-        "currentSystem": "当前系统",
+        "currentSystem": "系统：{system}",
         "noSettingsForSystem": "当前系统没有特定设置",
         "modulesLabel": "其他模块",
         "fields": {
