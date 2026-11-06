@@ -1,0 +1,79 @@
+<section
+  class="form-content tab {{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}"
+>
+  <p>{{localize "CRLNGN_UI.settings.systemsMenu.currentSystem" system=currentSystem}}</p>
+
+  {{#if showNoSettings}}
+  <div class="form-group">
+    <p class="hint on">
+      {{localize "CRLNGN_UI.settings.systemsMenu.noSettingsForSystem"}}
+    </p>
+  </div>
+  {{/if}}
+
+  {{#if canManageSettings}}
+  {{#if (hasWorldSettings fields)}}
+  <h4><i class="fas fa-globe"></i> {{localize "CRLNGN_UI.ui.worldSettingsLabel"}}</h4>
+  <hr/>
+
+  {{#each fields}}
+    {{!-- Skip modules-related fields, they have their own section below --}}
+    {{#unless (or (eq @key "otherModulesList") (eq @key "adjustOtherModules"))}}
+    {{#if (isWorldScope this)}}
+    <div class="form-group">
+      <label for="{{@key}}">{{this.label}}</label>
+      {{#if (isBoolean this)}}
+        <input type="checkbox" name="{{@key}}" {{#if (lookup ../fieldValues @key)}}checked{{/if}} />
+      {{/if}}
+      {{#if this.hint}}
+        <p class="hint">{{this.hint}}</p>
+      {{/if}}
+    </div>
+    {{/if}}
+    {{/unless}}
+  {{/each}}
+  {{/if}}
+  {{/if}}
+
+
+  {{#if canManageSettings}}
+  {{!-- <h4><i class="fas fa-cog"></i> {{localize "CRLNGN_UI.settings.systemsMenu.modulesLabel"}}</h4> --}}
+  {{!-- <hr/> --}}
+  <div class="form-group">
+    <label for="otherModulesList">{{modulesField.label}}</label>
+    <input type="checkbox" class="adjustOtherModules" name="adjustOtherModules" {{#if adjustOtherModules}}checked{{/if}} />
+    <input type="hidden" class="otherModulesList" name="otherModulesList" value="{{otherModulesListJson}}" />
+    <p class="hint">{{{modulesField.hint}}}</p>
+    <ul class="multiple-select other-modules">
+      {{#each modulesField.options}}
+      <li>
+        <label><input type="checkbox" value="{{this}}" {{#if (moduleEnabled ../otherModulesList this)}}checked{{/if}} />{{@key}}</label>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+  {{/if}}
+
+  {{#if (hasClientSettings fields)}}
+  <h4>
+    <i class="fas fa-user"></i> {{localize "CRLNGN_UI.ui.clientSettingsLabel"}}
+    <span class="toggle-hint">{{localize 'CRLNGN_UI.ui.toggleHints'}}</span>
+  </h4>
+  <hr/>
+
+  {{#each fields}}
+    {{#if (isClientScope this)}}
+    <div class="form-group">
+      <label for="{{@key}}">{{this.label}}</label>
+      {{#if (isBoolean this)}}
+        <input type="checkbox" name="{{@key}}" {{#if (lookup ../fieldValues @key)}}checked{{/if}} />
+      {{/if}}
+      {{#if this.hint}}
+        <p class="hint">{{this.hint}}</p>
+      {{/if}}
+    </div>
+    {{/if}}
+  {{/each}}
+  {{/if}}
+
+</section>
