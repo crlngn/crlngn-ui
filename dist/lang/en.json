@@ -779,7 +779,7 @@
         "label": "System",
         "title": "Configure options for specific systems",
         "hint": "",
-        "currentSystem": "Current System",
+        "currentSystem": "System: {system}",
         "noSettingsForSystem": "No specific settings for the current system",
         "modulesLabel": "Other Modules",
         "fields": {

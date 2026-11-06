@@ -675,7 +675,7 @@
         "label": "Sistema",
         "title": "Configurar opções para sistemas específicos",
         "hint": "",
-        "currentSystem": "Sistema Atual",
+        "currentSystem": "Sistema: {system}",
         "noSettingsForSystem": "Nenhuma configuração específica para o sistema atual",
         "modulesLabel": "Outros Módulos",
         "fields": {
