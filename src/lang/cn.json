@@ -677,6 +677,7 @@
         "hint": "",
         "currentSystem": "当前系统",
         "noSettingsForSystem": "当前系统没有特定设置",
+        "currentSystem": "系统：{system}",
         "modulesLabel": "其他模块",
         "fields": {
           "applyThemeToSheets": {

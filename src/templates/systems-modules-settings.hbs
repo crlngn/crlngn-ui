@@ -1,7 +1,7 @@
 <section
   class="form-content tab {{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}"
 >
-  <p>{{currentSystem}}</p>
+  <p>{{localize "CRLNGN_UI.settings.systemsMenu.currentSystem" system=currentSystem}}</p>
 
   {{#if showNoSettings}}
   <div class="form-group">
@@ -13,7 +13,6 @@
 
   {{#if isGM}}
   {{#if (hasWorldSettings fields)}}
-  <p>&nbsp;</p>
   <h4><i class="fas fa-globe"></i> {{localize "CRLNGN_UI.ui.worldSettingsLabel"}}</h4>
   <hr/>
 

@@ -776,6 +776,7 @@
         "hint": "",
         "currentSystem": "Sistema Attuale",
         "noSettingsForSystem": "Nessuna impostazione specifica per il sistema corrente",
+        "currentSystem": "Sistema: {system}",
         "modulesLabel": "Altri Moduli",
         "fields": {
           "applyThemeToSheets": {
