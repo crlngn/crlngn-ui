@@ -109,6 +109,17 @@ body.crlngn-ui.system-daggerheart:not(.crlngn-sheets) .application.sheet.daggerh
   --beige: var(--crlngn-dh-beige);
   --deep-black: var(--crlngn-dh-deep-black);
   --dark: var(--crlngn-dh-dark);
+
+  /* The system derives these on the theme element above the sheet, where the overrides already apply */
+  --dh-button-color-bg: light-dark(transparent, var(--golden));
+  --dh-button-color-border: var(--dark-blue);
+  --dh-button-color-text: var(--dark-blue);
+  --dh-card-trim-color: var(--golden);
+  --dh-input-color-border: light-dark(var(--dark), var(--beige));
+  --dh-input-color-text: light-dark(var(--dark), var(--beige));
+  --dh-warning-glow: light-dark(var(--dark-blue), var(--golden-90));
+  --dh-window-button-color-bg: light-dark(#e8e6e3, var(--deep-black));
+  --dh-window-button-color-text: light-dark(var(--dark-blue), var(--beige));
 }
 /* ========================================
    CHAT MESSAGES
@@ -230,7 +241,7 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets {
     gap: 0.75rem;
 
     li {
-      opacity: 0.7;
+      opacity: 0.8;
     }
     li:hover {
       opacity: 1;
