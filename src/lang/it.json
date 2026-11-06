@@ -743,7 +743,7 @@
         "modulesLabel": "Altri Moduli",
         "fields": {
           "applyThemeToSheets": {
-            "label": "Applica stili per le schede dei personaggi (DnD5e, Daggerheart)",
+            "label": "Applica stili alle schede degli attori",
             "hint": "Attiva per applicare il tema di colore globale e stili alle schede dei personaggi di DnD5e or Daggerheart"
           },
           "useHorizontalSheetTabs": {

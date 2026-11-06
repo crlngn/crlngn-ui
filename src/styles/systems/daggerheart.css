@@ -51,6 +51,52 @@ body.crlngn-ui.system-daggerheart {
     --golden-bg: initial;
   }
 }
+
+/* The system's own values, resolved on :root before the body overrides above,
+   so actor sheets can keep them when the sheet styles setting is off */
+:root {
+  --crlngn-dh-golden: var(--golden);
+  --crlngn-dh-golden-secondary: var(--golden-secondary);
+  --crlngn-dh-golden-10: var(--golden-10);
+  --crlngn-dh-golden-40: var(--golden-40);
+  --crlngn-dh-golden-90: var(--golden-90);
+  --crlngn-dh-golden-bg: var(--golden-bg);
+  --crlngn-dh-dark-golden: var(--dark-golden);
+  --crlngn-dh-dark-golden-40: var(--dark-golden-40);
+  --crlngn-dh-dark-golden-80: var(--dark-golden-80);
+  --crlngn-dh-dark-blue: var(--dark-blue);
+  --crlngn-dh-dark-blue-10: var(--dark-blue-10);
+  --crlngn-dh-dark-blue-40: var(--dark-blue-40);
+  --crlngn-dh-dark-blue-50: var(--dark-blue-50);
+  --crlngn-dh-dark-blue-60: var(--dark-blue-60);
+  --crlngn-dh-dark-blue-90: var(--dark-blue-90);
+  --crlngn-dh-semi-transparent-dark-blue: var(--semi-transparent-dark-blue);
+  --crlngn-dh-beige: var(--beige);
+  --crlngn-dh-deep-black: var(--deep-black);
+  --crlngn-dh-dark: var(--dark);
+}
+
+body.crlngn-ui.system-daggerheart:not(.crlngn-sheets) .application.sheet.daggerheart.actor {
+  --golden: var(--crlngn-dh-golden);
+  --golden-secondary: var(--crlngn-dh-golden-secondary);
+  --golden-10: var(--crlngn-dh-golden-10);
+  --golden-40: var(--crlngn-dh-golden-40);
+  --golden-90: var(--crlngn-dh-golden-90);
+  --golden-bg: var(--crlngn-dh-golden-bg);
+  --dark-golden: var(--crlngn-dh-dark-golden);
+  --dark-golden-40: var(--crlngn-dh-dark-golden-40);
+  --dark-golden-80: var(--crlngn-dh-dark-golden-80);
+  --dark-blue: var(--crlngn-dh-dark-blue);
+  --dark-blue-10: var(--crlngn-dh-dark-blue-10);
+  --dark-blue-40: var(--crlngn-dh-dark-blue-40);
+  --dark-blue-50: var(--crlngn-dh-dark-blue-50);
+  --dark-blue-60: var(--crlngn-dh-dark-blue-60);
+  --dark-blue-90: var(--crlngn-dh-dark-blue-90);
+  --semi-transparent-dark-blue: var(--crlngn-dh-semi-transparent-dark-blue);
+  --beige: var(--crlngn-dh-beige);
+  --deep-black: var(--crlngn-dh-deep-black);
+  --dark: var(--crlngn-dh-dark);
+}
 /* ========================================
    CHAT MESSAGES
    ======================================== */
@@ -165,7 +211,7 @@ body.crlngn-ui.crlngn-chat-dh.system-daggerheart {
    SCROLLBARS
    ======================================== */
 
-body.crlngn-ui.system-daggerheart {
+body.crlngn-ui.system-daggerheart.crlngn-sheets {
 
   .application.sheet.dh-style .character-sidebar-sheet .items-sidebar-list {
     gap: 0.75rem;

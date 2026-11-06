@@ -106,10 +106,12 @@ export class SheetsUtil {
 
     html.querySelector(".sheet-body .main-content")?.addEventListener("scroll", SheetsUtil.#onSheetBodyScroll);
 
-    const tabs = html.querySelectorAll("nav.tabs > a.item");
-    for (const tab of tabs) {
-      tab.removeAttribute("data-tooltip");
-      tab.removeAttribute("data-tooltip-delay");
+    if(SheetsUtil.themeStylesEnabled){
+      const tabs = html.querySelectorAll("nav.tabs > a.item");
+      for (const tab of tabs) {
+        tab.removeAttribute("data-tooltip");
+        tab.removeAttribute("data-tooltip-delay");
+      }
     }
 
     SheetsUtil.applyThemeToSheets(SheetsUtil.themeStylesEnabled);
