@@ -3,6 +3,36 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## 4.6.5 — 2026-11-05
+
+### Added
+
+- Players with Foundry's Modify Configuration Settings permission can manage
+  Carolingian UI like the GM: world settings, setting locks, the bulk lock
+  action and the world color theme
+  ([#300](https://github.com/crlngn/crlngn-ui/issues/300)).
+
+### Changed
+
+- The "Apply theme to actor sheets" setting is now "Apply styles to actor
+  sheets".
+- The System & Modules settings tab shows "System: <name>", without the
+  extra space below it.
+- Daggerheart: items in the character sheet sidebar are a little less faded
+  (0.8 opacity).
+
+### Fixed
+
+- Daggerheart: with Apply styles to actor sheets off, sheets are left as the
+  system draws them. Actor sheets keep the system's colors, buttons, inputs
+  and hover outlines, and the module's sheet fonts, glass effect and layout
+  tweaks no longer apply.
+- With Apply styles to actor sheets off, dnd5e and Daggerheart sheet tabs
+  keep their tooltips.
+- The Daggerheart info block in the Settings sidebar is stacked vertically.
+- The bulk lock action only prompts the user who changed it, not every GM
+  online.
+
 ## 4.6.4 — 2026-11-03
 
 ### Fixed
