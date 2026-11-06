@@ -137,7 +137,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const parts = super._configureRenderParts(options);
     const restrictedTabs = ModuleSettings.getRestrictedTabs();
 
-    if(!game.user.isGM){
+    if(!GeneralUtil.canManageSettings()){
       restrictedTabs.forEach(tab => {
         delete parts[tab];
       })
@@ -150,7 +150,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
     context.activeTab = options.activeTab || Object.keys(context.tabs)[0];
-    context.isGM = game.user.isGM;
+    context.canManageSettings = GeneralUtil.canManageSettings();
     const SETTINGS = getSettings();
     
     // context.selectedTheme = ModuleSettings.selectedTheme || {};
@@ -171,7 +171,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     const SETTINGS_MENUS = getSettingMenus();
     const restrictedTabs = ModuleSettings.getRestrictedTabs();
 
-    if(!game.user.isGM){
+    if(!GeneralUtil.canManageSettings()){
       restrictedTabs.forEach(tab => {
         delete partContext.tabs[tab];
       })
@@ -268,7 +268,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
               partContext.modulesField = partContext.fields.otherModulesList;
             }
 
-            const hasWorldSettings = game.user.isGM && Object.values(partContext.fields || {}).some(field => {
+            const hasWorldSettings = GeneralUtil.canManageSettings() && Object.values(partContext.fields || {}).some(field => {
               return field?.scope === SETTING_SCOPE.world &&
                      !['otherModulesList', 'adjustOtherModules'].includes(Object.keys(partContext.fields || {}).find(key => partContext.fields[key] === field));
             });
@@ -471,7 +471,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
           const state = SettingsEnforcement.getEnforcementState(fieldData.tag);
           fieldData.enforcementState = state;
           // For players, mark if setting is locked (locked or gate mode)
-          if (!game.user.isGM) {
+          if (!GeneralUtil.canManageSettings()) {
             fieldData.isLocked = (state === 'locked' || state === 'gate');
           }
         }
@@ -492,7 +492,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
           const state = SettingsEnforcement.getEnforcementState(fieldData.tag);
           fieldData.enforcementState = state;
           // For players, mark if setting is locked (locked or gate mode)
-          if (!game.user.isGM) {
+          if (!GeneralUtil.canManageSettings()) {
             fieldData.isLocked = (state === 'locked' || state === 'gate');
           }
         }
@@ -578,7 +578,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     // Add lock icon click handlers for enforcement
-    if (game.user.isGM) {
+    if (GeneralUtil.canManageSettings()) {
       const lockIcons = ModuleSettings.#element.querySelectorAll('.crlngn-enforce-icon');
       lockIcons.forEach(icon => {
         // Get fresh enforcement state from settings, not from stale dataset
@@ -854,14 +854,14 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
       // For GMs, always show icon (even if unlocked) so they can change it
       // For players, only show icon if locked
-      if (!game.user.isGM && enforcementState === 'unlocked') return;
+      if (!GeneralUtil.canManageSettings() && enforcementState === 'unlocked') return;
 
       // Determine if setting is locked for this user
       const isLocked = (enforcementState === 'locked' || enforcementState === 'gate');
 
       let icon;
 
-      if (game.user.isGM) {
+      if (GeneralUtil.canManageSettings()) {
         // Create clickable enforcement icon for GM
         icon = document.createElement('i');
         icon.className = 'fas crlngn-enforce-icon';
@@ -893,7 +893,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       }
 
       // Disable the corresponding inputs if locked for players
-      if (!game.user.isGM && isLocked) {
+      if (!GeneralUtil.canManageSettings() && isLocked) {
         fieldNames.forEach(fieldName => {
           const input = ModuleSettings.#element.querySelector(`[name="${fieldName}"]`);
           if (input) {
@@ -1158,7 +1158,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
         const isClientSetting = isPlayerScope(SETTINGS[fieldName].scope);
         const isWorldSetting = SETTINGS[fieldName].scope === SETTING_SCOPE.world;
 
-        if (isClientSetting || (isWorldSetting && game.user.isGM)) {
+        if (isClientSetting || (isWorldSetting && GeneralUtil.canManageSettings())) {
           if (fieldName === 'otherModulesList') {
             LogUtil.log('Saving otherModulesList', [settings[fieldName], 'Current:', currSetting]);
           }
@@ -1225,7 +1225,7 @@ export class ModuleSettings extends HandlebarsApplicationMixin(ApplicationV2) {
       }
 
       // Also set up click handlers for any new icons in the active tab
-      if (game.user.isGM && activeTabContent) {
+      if (GeneralUtil.canManageSettings() && activeTabContent) {
         const lockIcons = activeTabContent.querySelectorAll('.crlngn-enforce-icon');
         lockIcons.forEach(icon => {
           // Get fresh enforcement state from settings, not from stale dataset

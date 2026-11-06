@@ -8,7 +8,7 @@
 
   <p class="hint">{{localize "CRLNGN_UI.settings.playersListMenu.hint"}}</p>
 
-  {{#unless isGM}}
+  {{#unless canManageSettings}}
     <div class="form-group">
       <label for="applyThemeToSheets">{{fields.applyThemeToSheets.label}}</label>
       <input type="checkbox" name="applyThemeToSheets" {{#if applyThemeToSheets}}checked{{/if}} {{#if fields.applyThemeToSheets.isLocked}}disabled{{/if}} />

@@ -156,7 +156,7 @@ export class SettingsUtil {
             // Only block changes for 'locked' or 'gate' modes, NOT 'soft' mode
             // Soft mode only applies defaults on first load, then allows player changes
             const enforcementState = SettingsEnforcement.getEnforcementState(setting.tag);
-            const shouldBlock = !game.user.isGM &&
+            const shouldBlock = !GeneralUtil.canManageSettings() &&
                                 isPlayerScope(setting.scope) &&
                                 (enforcementState === 'locked' || enforcementState === 'gate');
 
@@ -175,7 +175,7 @@ export class SettingsUtil {
 
             // If GM changes a locked/soft setting, update the enforced default
             // (but NOT in gate mode - gate mode allows GM to have different value)
-            if (game.user.isGM && isPlayerScope(setting.scope)) {
+            if (GeneralUtil.canManageSettings() && isPlayerScope(setting.scope)) {
               const state = SettingsEnforcement.getEnforcementState(setting.tag);
               if (state === 'soft' || state === 'locked') {
                 const defaultSettings = SettingsUtil.get(SETTINGS.defaultSettings.tag) || {};
@@ -191,7 +191,7 @@ export class SettingsUtil {
 
             // Call custom onChange handler if defined in the setting
             if (typeof setting.onChange === 'function') {
-              setting.onChange(value);
+              setting.onChange(value, options, userId);
             }
           }
         }

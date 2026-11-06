@@ -1,4 +1,5 @@
 import { applyBulkLockState } from './SettingMenus.mjs';
+import { GeneralUtil } from '../components/GeneralUtil.mjs';
 
 export const SETTING_INPUT = {
   select: "select",
@@ -698,8 +699,8 @@ export function getSettings() {
       scope: SETTING_SCOPE.world,
       config: true,
       requiresReload: false,
-      onChange: (value) => {
-        if (value && game.user?.isGM) {
+      onChange: (value, options, userId) => {
+        if (value && (!userId || userId === game.userId) && GeneralUtil.canManageSettings()) {
           // Trigger the bulk lock action
           applyBulkLockState(value);
         }

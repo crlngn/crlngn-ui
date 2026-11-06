@@ -19,6 +19,15 @@ export class GeneralUtil {
   }
 
   /**
+   * Whether the current user can manage this module's world settings and locks:
+   * the GM, or a player with Foundry's Modify Configuration Settings permission
+   * @returns {boolean}
+   */
+  static canManageSettings(){
+    return Boolean(game.user?.isGM || game.user?.can("SETTINGS_MODIFY"));
+  }
+
+  /**
    * Adds a body class marking the active game system's major version,
    * e.g. `crlngn-dnd5e-v6`, so styles can be gated per system version
    * while multiple versions of a system remain in use.

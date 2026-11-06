@@ -11,7 +11,7 @@
   </div>
   {{/if}}
 
-  {{#if isGM}}
+  {{#if canManageSettings}}
   {{#if (hasWorldSettings fields)}}
   <h4><i class="fas fa-globe"></i> {{localize "CRLNGN_UI.ui.worldSettingsLabel"}}</h4>
   <hr/>
@@ -36,7 +36,7 @@
   {{/if}}
 
 
-  {{#if isGM}}
+  {{#if canManageSettings}}
   {{!-- <h4><i class="fas fa-cog"></i> {{localize "CRLNGN_UI.settings.systemsMenu.modulesLabel"}}</h4> --}}
   {{!-- <hr/> --}}
   <div class="form-group">
