@@ -67,11 +67,11 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
    */
   async #performMigrationIfNeeded() {
     const SETTINGS = getSettings();
-    const settingTag = game.user.isGM ? SETTINGS.customThemeColors.tag : SETTINGS.playerCustomThemeColors.tag;
+    const settingTag = GeneralUtil.canManageSettings() ? SETTINGS.customThemeColors.tag : SETTINGS.playerCustomThemeColors.tag;
     const customColors = SettingsUtil.get(settingTag);
     
     if (!customColors) {
-      const oldThemeTag = game.user.isGM ? SETTINGS.colorTheme.tag : SETTINGS.playerColorTheme.tag;
+      const oldThemeTag = GeneralUtil.canManageSettings() ? SETTINGS.colorTheme.tag : SETTINGS.playerColorTheme.tag;
       const oldThemeName = SettingsUtil.get(oldThemeTag);
       
       if (oldThemeName) {
@@ -94,7 +94,7 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
    * @returns {boolean}
    */
   #isSecondaryBgLocked() {
-    if (this.scope !== 'player' || game.user?.isGM) return false;
+    if (this.scope !== 'player' || GeneralUtil.canManageSettings()) return false;
     const SETTINGS = getSettings();
     return [SETTINGS.playerColorTheme.tag, SETTINGS.playerApplySecondaryColorToBg.tag].some(tag => {
       const state = SettingsEnforcement.getEnforcementState(tag);
@@ -239,7 +239,7 @@ export class ColorPickerDialog extends HandlebarsApplicationMixin(ApplicationV2)
   async _onSubmit(event) {
     event.preventDefault();
     const SETTINGS = getSettings();
-    const settingTag = game.user.isGM ? SETTINGS.customThemeColors.tag : SETTINGS.playerCustomThemeColors.tag;
+    const settingTag = GeneralUtil.canManageSettings() ? SETTINGS.customThemeColors.tag : SETTINGS.playerCustomThemeColors.tag;
     
     const form = this.element.querySelector('.color-picker-content');
     const formData = new FormData();

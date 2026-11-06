@@ -3,6 +3,7 @@ import { MODULE_ID } from './General.mjs';
 import { getSettings, SETTING_SCOPE } from './Settings.mjs';
 import { SettingsEnforcement } from '../components/SettingsEnforcement.mjs';
 import { SettingsUtil } from '../components/SettingsUtil.mjs';
+import { GeneralUtil } from '../components/GeneralUtil.mjs';
 // import * as lang from '../lang/en.json' assert { type: "json" };
 
 // Opens Patreon URL when instantiated
@@ -336,7 +337,7 @@ export function getSettingMenus() {
  * @param {string} state - The lock state to apply: 'unlocked', 'soft', or 'locked'
  */
 export async function applyBulkLockState(state) {
-  if (!game.user?.isGM || !state) return;
+  if (!GeneralUtil.canManageSettings() || !state) return;
 
   // Get state label for display
   const stateLabels = {

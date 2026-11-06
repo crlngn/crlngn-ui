@@ -150,7 +150,7 @@ export class SettingsEnforcement {
     const state = SettingsEnforcement.getEnforcementState(settingTag);
 
     if (state === 'unlocked') return false;
-    if (state === 'gate' && game.user?.isGM) return false;
+    if (state === 'gate' && GeneralUtil.canManageSettings()) return false;
 
     return true;
   }
@@ -172,7 +172,7 @@ export class SettingsEnforcement {
       LogUtil.log("Reset recursive appliedSoftDefaults tracker");
     }
 
-    if (game.user?.isGM) {
+    if (GeneralUtil.canManageSettings()) {
       const enforcement = SettingsUtil.get(SETTINGS.settingEnforcement.tag);
       if (enforcement && trackerTag in enforcement) {
         delete enforcement[trackerTag];
@@ -269,7 +269,7 @@ export class SettingsEnforcement {
   static saveDefaultSettings() {
     const SETTINGS = getSettings();
 
-    if (!game.user?.isGM) {
+    if (!GeneralUtil.canManageSettings()) {
       return;
     }
 
@@ -304,7 +304,7 @@ export class SettingsEnforcement {
    * Only saves if the changed setting is enforced (but not gate mode).
    */
   static onSettingChange(settingTag) {
-    if (game.user?.isGM) {
+    if (GeneralUtil.canManageSettings()) {
       const enforcementState = SettingsEnforcement.getEnforcementState(settingTag);
       if (enforcementState === 'soft' || enforcementState === 'locked') {
         SettingsEnforcement.saveDefaultSettings();
