@@ -70,43 +70,43 @@ body.crlngn-ui.cui-font-ui.crlngn-sheets.system-daggerheart .daggerheart.dh-styl
   font-family: var(--crlngn-font-family);
 }
 
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style h4 {
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) h4 {
   font-family: var(--crlngn-font-family);
 }
 
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style h5 {
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) h5 {
   font-family: var(--crlngn-font-family);
 }
 
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style li {
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) li {
   font-family: var(--crlngn-font-family);
 }
 
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style small {
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) small {
   font-family: var(--crlngn-font-family);
 }
 
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style nav a {
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) nav a {
   font-family: var(--crlngn-font-family);
 }
 
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style fieldset h4 {
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) fieldset h4 {
   font-family: var(--crlngn-font-family);
 }
 
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style fieldset h5 {
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) fieldset h5 {
   font-family: var(--crlngn-font-family);
 }
 
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style fieldset li {
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) fieldset li {
   font-family: var(--crlngn-font-family);
 }
 
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style fieldset small {
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) fieldset small {
   font-family: var(--crlngn-font-family);
 }
 
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style fieldset nav a {
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) fieldset nav a {
   font-family: var(--crlngn-font-family);
 }
 
@@ -118,7 +118,7 @@ body.crlngn-ui.cui-font-ui.system-daggerheart .application.dialog.dh-style .stan
   font-family: var(--crlngn-font-family);
 }
 
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style .artist-attribution {
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) .artist-attribution {
   font-family: var(--crlngn-font-family);
 }
 
@@ -135,18 +135,18 @@ body.crlngn-ui.cui-font-ui.system-daggerheart .autocomplete {
 }
 
 /* Comprehensive element overrides */
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style span,
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style textarea,
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style label,
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style select,
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style multi-select .tags .tag,
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style table,
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style fieldset legend,
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style input[type='text'],
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style input[type='number'],
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style input[type='search'],
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style .tagify__dropdown,
-body.crlngn-ui.cui-font-ui.system-daggerheart .dh-style li {
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) span,
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) textarea,
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) label,
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) select,
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) multi-select .tags .tag,
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) table,
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) fieldset legend,
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) input[type='text'],
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) input[type='number'],
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) input[type='search'],
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) .tagify__dropdown,
+body.crlngn-ui.cui-font-ui.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) li {
   font-family: var(--crlngn-font-family), sans-serif;
 }
 
@@ -188,27 +188,27 @@ body.crlngn-ui.cui-font-t.system-daggerheart .application.daggerheart.dialog.dh-
   font-family: var(--crlngn-font-titles);
 }
 
-body.crlngn-ui.cui-font-t.system-daggerheart .dh-style h1 {
+body.crlngn-ui.cui-font-t.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) h1 {
   font-family: var(--crlngn-font-titles);
 }
 
-body.crlngn-ui.cui-font-t.system-daggerheart .dh-style h1 input[type='text'] {
+body.crlngn-ui.cui-font-t.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) h1 input[type='text'] {
   font-family: var(--crlngn-font-titles);
 }
 
-body.crlngn-ui.cui-font-t.system-daggerheart .dh-style h3 {
+body.crlngn-ui.cui-font-t.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) h3 {
   font-family: var(--crlngn-font-titles);
 }
 
-body.crlngn-ui.cui-font-t.system-daggerheart .dh-style fieldset h1 {
+body.crlngn-ui.cui-font-t.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) fieldset h1 {
   font-family: var(--crlngn-font-titles);
 }
 
-body.crlngn-ui.cui-font-t.system-daggerheart .dh-style fieldset h1 input[type='text'] {
+body.crlngn-ui.cui-font-t.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) fieldset h1 input[type='text'] {
   font-family: var(--crlngn-font-titles);
 }
 
-body.crlngn-ui.cui-font-t.system-daggerheart .dh-style fieldset h3 {
+body.crlngn-ui.cui-font-t.system-daggerheart :is(.dh-style:not(.sheet, .sheet *), body.crlngn-sheets .dh-style) fieldset h3 {
   font-family: var(--crlngn-font-titles);
 }
 

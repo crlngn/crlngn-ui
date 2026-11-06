@@ -680,7 +680,7 @@
         "modulesLabel": "其他模块",
         "fields": {
           "applyThemeToSheets": {
-            "label": "将颜色和样式应用于DnD5e/Daggerheart角色表",
+            "label": "将样式应用于角色表",
             "hint": "启用以应用全局颜色主题和样式到DnD5e/Daggerheart 角色表"
           },
           "useHorizontalSheetTabs": {

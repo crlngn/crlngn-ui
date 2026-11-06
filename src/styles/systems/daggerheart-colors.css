@@ -1027,24 +1027,24 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets .application.sheet.daggerheart.d
   outline: 2px solid light-dark(var(--dark-blue), var(--color-warm-2));
 }
 
-body.crlngn-ui.system-daggerheart .sheet.daggerheart.dh-style.item .tab.features {
+body.crlngn-ui.system-daggerheart.crlngn-sheets .sheet.daggerheart.dh-style.item .tab.features {
   scrollbar-color: light-dark(var(--dark-blue), var(--color-warm-2)) transparent;
 }
 
-body.crlngn-ui.system-daggerheart .application.daggerheart.dh-style .inventory-item:not(.single-img):hover:has(.inventory-item-content.extensible) .inventory-item-content {
+body.crlngn-ui.system-daggerheart.crlngn-sheets .application.daggerheart.dh-style .inventory-item:not(.single-img):hover:has(.inventory-item-content.extensible) .inventory-item-content {
   background: light-dark(var(--dark-blue)40, var(--color-highlights-50));
 }
 
-body.crlngn-ui.system-daggerheart .application.daggerheart.dh-style .inventory-item .inventory-item-content .item-resources .item-dice-resource label {
+body.crlngn-ui.system-daggerheart.crlngn-sheets .application.daggerheart.dh-style .inventory-item .inventory-item-content .item-resources .item-dice-resource label {
   color: light-dark(white, black);
   filter: drop-shadow(0 0 1px light-dark(var(--dark-blue), var(--color-warm-2)));
 }
 
-body.crlngn-ui.system-daggerheart .application.daggerheart.dh-style .card-item {
+body.crlngn-ui.system-daggerheart.crlngn-sheets .application.daggerheart.dh-style .card-item {
   border: 1px solid light-dark(var(--dark-blue), var(--color-warm-2));
 }
 
-body.crlngn-ui.system-daggerheart .application.daggerheart.dh-style .card-item .item-resource .item-dice-resource label {
+body.crlngn-ui.system-daggerheart.crlngn-sheets .application.daggerheart.dh-style .card-item .item-resource .item-dice-resource label {
   color: light-dark(white, black);
   filter: drop-shadow(0 0 1px light-dark(var(--dark-blue), var(--color-warm-2)));
 }

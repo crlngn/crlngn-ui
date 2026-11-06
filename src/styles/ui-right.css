@@ -269,11 +269,13 @@ body.crlngn-ui{
     margin-top: 8px;
     flex: 0 0 auto;
   }
-  #settings.settings-sidebar div {
+  #settings.settings-sidebar > div {
     margin: 0;
     flex-direction: row;
+    width: 100%;
 
-    &.system-badge {
+    &.system-badge,
+    &.sidebar-settings-dh-info {
       flex-direction: column;
     }
   }

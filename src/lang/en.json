@@ -785,7 +785,7 @@
         "modulesLabel": "Other Modules",
         "fields": {
           "applyThemeToSheets": {
-            "label": "Apply theme to actor sheets",
+            "label": "Apply styles to actor sheets",
             "hint": "Enable to apply global color theme and styles to actor sheets (PC and NPC)"
           },
           "useHorizontalSheetTabs": {
