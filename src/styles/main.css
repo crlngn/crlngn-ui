@@ -84,7 +84,8 @@ body.crlngn-ui.cui-font-ui {
 }
 
 body.crlngn-ui {
-  a.button:hover, button:hover{
+  a.button:where(:not(body:not(.crlngn-sheets) .daggerheart.sheet.actor *)):hover,
+  button:where(:not(body:not(.crlngn-sheets) .daggerheart.sheet.actor *)):hover{
     border-color: var(--color-highlights);
   }
 
