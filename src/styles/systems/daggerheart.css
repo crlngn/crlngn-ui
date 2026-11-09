@@ -234,6 +234,15 @@ body.crlngn-ui.system-daggerheart.crlngn-sheets {
       opacity: 1;
     }
   }
+
+  /* Daggerheart Core Rulebook (.dh-c-style) lays the loadout out as a row of cards: give it the full sidebar width and the system gap */
+  .application.sheet.daggerheart.dh-c-style .shortcut-items-section .loadout-section {
+    margin-inline: -1rem;
+    padding-inline: 0;
+  }
+  .application.sheet.daggerheart.dh-c-style .character-sidebar-sheet .loadout-section .items-sidebar-list {
+    gap: 5px;
+  }
 }
 
 /* ========================================
