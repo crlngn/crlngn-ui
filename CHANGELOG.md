@@ -3,6 +3,20 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## 4.6.6 — 2026-11-08
+
+### Changed
+
+- Daggerheart: fear tokens are slightly smaller, with soft square corners.
+
+### Fixed
+
+- Daggerheart: with Daggerheart Core Rulebook, all loadout cards fit in the
+  character sheet sidebar again when Apply styles to actor sheets is on
+  ([#301](https://github.com/crlngn/crlngn-ui/issues/301)).
+- Daggerheart: a freely floating fear tracker can be resized wider even when
+  fear tracker docking is off.
+
 ## 4.6.5 — 2026-11-05
 
 ### Added
