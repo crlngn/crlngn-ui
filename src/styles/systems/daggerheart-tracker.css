@@ -25,6 +25,19 @@ body.crlngn-ui.system-daggerheart {
   #resources.fear-tracker.bottomCenter {
     transform: translateX(calc(var(--offset, 0px) + var(--crlngn-dh-fear-offset, 0px)));
   }
+
+  /* Floating freely, the system's resize handle owns the width, so the */
+  /* system's own 540px cap has to come off or it cannot be dragged wider. */
+  /* Independent of the dock setting. */
+  #resources.fear-tracker.free:not(.docked) {
+    max-width: none;
+  }
+
+  /* Slightly smaller fear tokens with soft square corners */
+  #resources.fear-tracker #resource-fear .fear-tokens .fear-token {
+    width: 2.25rem;
+    border-radius: 6px;
+  }
 }
 
 /* Only apply docking styles when setting is enabled and not on mobile */
@@ -173,12 +186,6 @@ body.crlngn-ui.system-daggerheart {
     /* Smooth snapping animation when docking */
     #resources.snapping {
       transition: all 0.3s ease-in-out !important;
-    }
-
-    /* Floating freely, the system's resize handle owns the width, so the */
-    /* system's own 540px cap has to come off or it cannot be dragged wider */
-    #resources.fear-tracker:not(.docked) {
-      max-width: unset;
     }
 
     /* Ensure docked resources window has proper spacing */
