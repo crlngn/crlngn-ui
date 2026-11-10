@@ -49,7 +49,7 @@ I am very opinionated about this module's look and feel, and I may override some
 
 **Compatibility:** 
 - v1.x: Foundry VTT version 12.328+
-- v4.x: Foundry VTT version 13.339 to 14.368
+- v4.x: Foundry VTT version 13.339 to 14.370
 - Mostly tested with DnD5e 4.x - 6.x. Should work with most other systems, but modules for those systems remain untested. 
 - Localization: English, Brazilian Portuguese, Chinese, Italian. Thanks to [yyzitai](https://github.com/yyzitai) for contributions to the Chinese language files.
 
