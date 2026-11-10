@@ -3,6 +3,17 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## 4.6.7 — 2026-11-09
+
+### Changed
+
+- Verified on Foundry 14.370.
+
+### Fixed
+
+- Calendaria: a HUD snapped to the top center, compact or fullsize, sits
+  below the scene navigation instead of behind it.
+
 ## 4.6.6 — 2026-11-08
 
 ### Changed
