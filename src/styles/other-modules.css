@@ -496,6 +496,14 @@ body.crlngn-ui{
     }
   }
 
+  /* Calendaria: a HUD snapped to top-center sits at top: 16px (compact/slice) or 80px (fullsize), under the top nav; push it below */
+  &.crlngn-calendaria {
+    #calendaria-hud[style*="top: 16px"],
+    #calendaria-hud[style*="top: 80px"] {
+      margin-top: var(--crlngn-top-offset, 0px);
+    }
+  }
+
   /* Combat Carousel */
   &.crlngn-combat-tracker-dock {
     &.navigation-collapsed{
