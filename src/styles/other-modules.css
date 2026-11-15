@@ -504,6 +504,18 @@ body.crlngn-ui{
     }
   }
 
+  /* Better Rolls 2 (SWADE): keep picked power modifiers lit */
+  .brsw-pp-dialog .pp-mod-selection button.pp-mod.selected {
+    background-color: var(--color-highlights);
+    border-color: var(--color-highlights);
+    color: var(--color-light-1, #fff);
+
+    &:hover {
+      background-color: var(--color-highlights);
+      filter: brightness(1.1);
+    }
+  }
+
   /* Combat Carousel */
   &.crlngn-combat-tracker-dock {
     &.navigation-collapsed{
