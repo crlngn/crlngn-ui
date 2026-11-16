@@ -3,6 +3,16 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## 4.6.8 — 2026-11-15
+
+### Fixed
+
+- Better Rolls 2 (SWADE): every picked power modifier in the PP Management
+  dialog stays lit, not just the last one clicked.
+- Forms that use core's standard layout no longer get triple spacing between
+  fieldsets, so footer-less forms such as Kingmaker's Edit Hex keep their
+  Save button in view.
+
 ## 4.6.7 — 2026-11-09
 
 ### Changed
