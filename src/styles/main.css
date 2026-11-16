@@ -107,6 +107,11 @@ body.crlngn-ui {
     margin: 1rem 0;
     gap: 2px;
   }
+  /* Core standard forms space fieldsets with flex gap; the margin above would stack on it
+     and push footer-less forms (e.g. Kingmaker's Edit Hex) past the window's max height */
+  .standard-form fieldset:not(.standard-form.crlngn fieldset) {
+    margin-block: 0;
+  }
   .dnd5e-tooltip:not(.bg3-tooltip) {
     --dnd5e-color-parchment: rgb(244, 239, 237);
     --color-text-primary: var(--color-dark-1);
