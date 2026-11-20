@@ -142,6 +142,11 @@ body.crlngn-ui{
         z-index: 1;
         opacity: var(--tools-visible-opacity);
 
+        /* Consecutive toggles overlap by 1px so they share one dashed line; a lone toggle keeps its bottom border */
+        li:has(> .ui-control.toggle) + li:has(> .ui-control.toggle) {
+          margin-top: -1px;
+        }
+
         .ui-control{
           --control-bg-color: var(--color-secondary-65);
 
@@ -163,8 +168,12 @@ body.crlngn-ui{
             cursor: pointer;
             background: var(--background);
             border: 1px dashed var(--toggle-border-color);
-            margin-bottom: -1px;
-      
+
+            &:is(:hover, [aria-pressed=true]) {
+              position: relative;
+              z-index: 1;
+            }
+
             &[aria-pressed=true]{
               /* background: var(--striped-bg); 
               border: 1px dashed var(--color-secondary-bright);*/
