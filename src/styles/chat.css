@@ -225,11 +225,13 @@ body.crlngn-ui.crlngn-chat {
     background-image: var(--striped-bg-2) !important;
   }
   .chat-message.whisper span.message-metadata,
-  .chat-message.blind span.message-metadata {
+  .chat-message.blind span.message-metadata,
+  .chat-message.cui-obscured span.message-metadata {
     position: relative;
   }
   .chat-message.whisper span.message-metadata:after,
-  .chat-message.blind span.message-metadata:after{
+  .chat-message.blind span.message-metadata:after,
+  .chat-message.cui-obscured span.message-metadata:after{
     content: 'whisper';
     display: inline-block;
     position: absolute;
@@ -247,6 +249,11 @@ body.crlngn-ui.crlngn-chat {
 
   .chat-message.blind span.message-metadata:after{
     content: 'blind';
+  }
+
+  /* Midi-QOL obscured roll (GM only): public card, result hidden from players */
+  .chat-message.cui-obscured span.message-metadata:after{
+    content: 'obscured';
   }
 
   .chat-card .gold-icon,

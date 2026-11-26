@@ -30,7 +30,9 @@ export class ChatUtil {
   }
 
   /**
-   * Enriches chat message cards with additional styling and functionality
+   * Enriches chat message cards with additional styling and functionality.
+   * Midi-QOL "obscured" blind rolls stay public (players see "??"), so Foundry adds no
+   * .blind/.whisper class; for the GM they get a `cui-obscured` class so the card still shows a badge.
    * @param {ChatMessage} chatMessage - The Foundry ChatMessage instance
    * @param {jQuery|HTMLElement} html - The chat message HTML element
    * @returns {Promise<void>}
@@ -59,7 +61,11 @@ export class ChatUtil {
     // add border color
     if(ChatUtil.chatBorderColor===BORDER_COLOR_TYPES.playerColor.name && chatMessage.author?.id){ 
       chatItem.style.setProperty('border-color', `var(--user-color-${chatMessage.author.id})`, `important`);
-      LogUtil.log("renderChatMessage #2", [ChatUtil.chatBorderColor, chatMessage.author?.id]); 
+      LogUtil.log("renderChatMessage #2", [ChatUtil.chatBorderColor, chatMessage.author?.id]);
+    }
+
+    if(game.user?.isGM && chatMessage.getFlag?.("midi-qol", "obscureRoll")){
+      chatItem.classList.add("cui-obscured");
     }
 
 
