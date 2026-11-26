@@ -3,6 +3,16 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## 4.6.9 — 2026-11-26
+
+### Fixed
+
+- Midi-QOL: skill, ability and save checks rolled blind with the "Obscured"
+  display stay public, so they lost their badge. The GM now sees an
+  OBSCURED badge on those cards; players still see the result as ??.
+- Scene controls: a lone toggle keeps its dashed bottom border instead of
+  being covered by the control below it.
+
 ## 4.6.8 — 2026-11-15
 
 ### Fixed
