@@ -64,7 +64,7 @@ export class ChatUtil {
       LogUtil.log("renderChatMessage #2", [ChatUtil.chatBorderColor, chatMessage.author?.id]);
     }
 
-    if(game.user?.isGM && chatMessage.getFlag?.("midi-qol", "obscureRoll")){
+    if(game.user?.isGM && chatMessage.flags?.["midi-qol"]?.obscureRoll){
       chatItem.classList.add("cui-obscured");
     }
 
