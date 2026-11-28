@@ -3,6 +3,13 @@
 Notable changes to Carolingian UI, starting at 4.0.0. Earlier releases are
 described in the [GitHub releases](https://github.com/crlngn/crlngn-ui/releases).
 
+## 4.6.10 — 2026-11-28
+
+### Fixed
+
+- Chat: without Midi-QOL active, GMs no longer get a "Flag scope midi-qol
+  is not valid" error on every chat message (introduced in 4.6.9).
+
 ## 4.6.9 — 2026-11-26
 
 ### Fixed
